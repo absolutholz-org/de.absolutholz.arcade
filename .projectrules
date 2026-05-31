@@ -1,0 +1,1 @@
+This project utilizes specialized agent rules. Please load the context files located in the `/ai-agents/` directory, starting with `git-agent.md` for any version control tasks.

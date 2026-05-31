@@ -1,0 +1,16 @@
+{
+  "name": "de-absolutholz-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "pnpm monorepo workspace for de-absolutholz",
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "scripts": {
+    "build": "pnpm -r build"
+  },
+  "devDependencies": {
+    "gitmoji-cli": "^9.7.0"
+  }
+}
