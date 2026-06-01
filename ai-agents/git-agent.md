@@ -10,3 +10,4 @@ Rules:
 1. Always analyze the code changes to determine the correct target folder scope (e.g., "root", "design-system").
 2. Capitalize the first letter of the description.
 3. Do not ask the user for the message; write the optimal semantic commit message based on your analysis and execute the commit command directly.
+4. Before executing a commit, ensure all lint-staged hooks have run and files are fully auto-fixed. If a pre-commit hook fails, analyze the terminal error output and fix the code patterns autonomously before trying to commit again.
