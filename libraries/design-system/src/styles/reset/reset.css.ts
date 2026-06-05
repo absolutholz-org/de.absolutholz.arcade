@@ -40,21 +40,16 @@ export const globals = css`
 			height: auto;
 			max-width: 100%;
 		}
-
 		img,
 		picture,
 		video {
-			/* Establish the dark container context natively */
-			background-color: #121212;
-			transition: opacity 0.3s ease;
-
-			/* Automatically apply the harmonization when the system is in Dark Mode */
+			/* Apply dimming and contrast enhancement in dark mode to prevent visual fatigue from bright assets. */
 			@media (prefers-color-scheme: dark) {
-				opacity: 0.85; /* Or 0.90 depending on your asset style guide */
+				filter: brightness(0.8) contrast(1.2);
 
-				/* Optional: Restore full opacity on hover so users can inspect details */
+				/* Restore original brightness and contrast on hover for detail inspection. */
 				&:hover {
-					opacity: 1;
+					filter: brightness(1) contrast(1);
 				}
 			}
 		}

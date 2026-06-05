@@ -57,7 +57,7 @@ body {
 
 ### 4. Media & Fluid Responsive Assets
 
-Forces media components to respect their container width and removes baseline alignment gaps. Additionally, it establishes a native dark container background for images/videos and applies a dark mode opacity harmonization (opacity reduced to `0.85`, restored on hover).
+Forces media components to respect their container width and removes baseline alignment gaps. Additionally, in dark mode it applies a dimming and contrast enhancement filter (`brightness(0.8) contrast(1.2)`) to prevent visual fatigue from bright assets, which is restored to normal (`brightness(1) contrast(1)`) on hover.
 
 ```css
 img,
@@ -73,17 +73,13 @@ svg {
 img,
 picture,
 video {
-	/* Establish the dark container context natively */
-	background-color: #121212;
-	transition: opacity 0.3s ease;
-
-	/* Automatically apply the harmonization when the system is in Dark Mode */
+	/* Apply dimming and contrast enhancement in dark mode to prevent visual fatigue from bright assets. */
 	@media (prefers-color-scheme: dark) {
-		opacity: 0.85;
+		filter: brightness(0.8) contrast(1.2);
 
-		/* Optional: Restore full opacity on hover so users can inspect details */
+		/* Restore original brightness and contrast on hover for detail inspection. */
 		&:hover {
-			opacity: 1;
+			filter: brightness(1) contrast(1);
 		}
 	}
 }
