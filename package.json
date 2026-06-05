@@ -9,7 +9,9 @@
   },
   "scripts": {
     "build": "pnpm -r build",
-    "prepare": "husky"
+    "prepare": "husky",
+    "storybook": "pnpm --filter @absolutholz/design-system storybook",
+    "build-storybook": "pnpm --filter @absolutholz/design-system build-storybook"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -19,6 +21,18 @@
     "husky": "^9.1.7",
     "lint-staged": "^17.0.7",
     "prettier": "^3.8.3",
-    "typescript-eslint": "^8.60.0"
+    "typescript-eslint": "^8.60.0",
+    "storybook": "^10.4.2",
+    "@storybook/react-vite": "^10.4.2",
+    "@chromatic-com/storybook": "^5.2.1",
+    "@storybook/addon-vitest": "^10.4.2",
+    "@storybook/addon-a11y": "^10.4.2",
+    "@storybook/addon-docs": "^10.4.2",
+    "@storybook/addon-mcp": "^0.6.0",
+    "eslint-plugin-storybook": "^10.4.2",
+    "vitest": "^4.1.8",
+    "playwright": "^1.60.0",
+    "@vitest/browser-playwright": "^4.1.8",
+    "@vitest/coverage-v8": "^4.1.8"
   }
 }
