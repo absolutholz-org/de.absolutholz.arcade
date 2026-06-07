@@ -38,6 +38,24 @@ Each component directory must be split into exactly the following six distinct f
   - `_SchemeSwitcher.types.ts`
   - `_SchemeSwitcher.stories.tsx`
 
+## Core React Rules
+
+- **Functional Components**: All components must be functional components using standard function declarations or arrow functions.
+- **Single Responsibility**: Each component should do one thing well. To enforce this, keep components under a **200-line limit**. If a component grows beyond 200 lines, it must be broken down.
+- **Exports**: Prefer **named exports** over default exports for better IDE autocomplete, searchability, and consistent naming across imports.
+  ```tsx
+  // Preferred
+  export const SchemeSwitcher = () => { ... };
+  // Avoid
+  export default SchemeSwitcher;
+  ```
+
+## Styling Architecture
+
+- **Emotion CSS-in-JS**: We strictly use Emotion CSS-in-JS (`@emotion/react` and `@emotion/styled`) for all component styling.
+- **Legacy Deletion**: All legacy references to Vanilla Extract, CSS modules, or `.css.ts` compilation extensions are obsolete and must not be used.
+- **No Inline Styles**: Avoid inline styles (`style={{ ... }}`) unless rendering truly dynamic values like runtime-calculated offsets, percentages, or absolute positions.
+
 ## Code Formatting & Style
 
 - Defer entirely to the workspace's root `.editorconfig`, `.prettierrc`, and `eslint.config.js` configuration scripts.
