@@ -144,3 +144,7 @@ vite.config.ts.timestamp-*
 
 *storybook.log
 storybook-static
+
+# macOS system files
+.DS_Store
+**/.DS_Store

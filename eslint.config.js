@@ -16,12 +16,69 @@ export default tseslint.config(
 			'**/coverage/**',
 			'.git/**',
 			'eslint.config.js',
+			'**/storybook-static/**',
+			'**/.storybook/**',
 		],
 	},
 	{
-		files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
+		files: ['**/*.ts', '**/*.tsx'],
+		languageOptions: {
+			parserOptions: {
+				project: './tsconfig.json',
+				tsconfigRootDir: import.meta.dirname,
+			},
+		},
 		rules: {
-			// Add custom workspace-wide rule overrides here
+			'@typescript-eslint/consistent-type-imports': [
+				'error',
+				{
+					prefer: 'type-imports',
+					fixStyle: 'separate-type-imports',
+				},
+			],
+			'no-restricted-imports': [
+				'error',
+				{
+					patterns: [
+						{
+							group: [
+								'*.ts',
+								'*.tsx',
+								'./**/*.ts',
+								'./**/*.tsx',
+								'../**/*.ts',
+								'../**/*.tsx',
+							],
+							message:
+								'NEVER use .ts or .tsx file extensions inside JavaScript/TypeScript import paths. Strip the extension or use .css/.js as appropriate.',
+						},
+					],
+				},
+			],
+		},
+	},
+	{
+		files: ['**/*.js', '**/*.jsx'],
+		rules: {
+			'no-restricted-imports': [
+				'error',
+				{
+					patterns: [
+						{
+							group: [
+								'*.ts',
+								'*.tsx',
+								'./**/*.ts',
+								'./**/*.tsx',
+								'../**/*.ts',
+								'../**/*.tsx',
+							],
+							message:
+								'NEVER use .ts or .tsx file extensions inside JavaScript/TypeScript import paths. Strip the extension or use .css/.js as appropriate.',
+						},
+					],
+				},
+			],
 		},
 	},
 );
