@@ -1,5 +1,10 @@
 import type { Preview } from '@storybook/react-vite';
-import '../src/styles/reset/reset.css.ts';
+
+// Import our clean theme configurations
+import { storybookLightTheme, storybookDarkTheme } from './StorybookThemes';
+
+// Import the relocated decorator wrapper
+import { themeDecorator } from './StorybookWrappers';
 
 const preview: Preview = {
 	parameters: {
@@ -9,14 +14,46 @@ const preview: Preview = {
 				date: /Date$/i,
 			},
 		},
-
 		a11y: {
-			// 'todo' - show a11y violations in the test UI only
-			// 'error' - fail CI on a11y violations
-			// 'off' - skip a11y checks entirely
 			test: 'todo',
 		},
+		docs: {
+			theme: window.matchMedia('(prefers-color-scheme: dark)').matches
+				? storybookDarkTheme
+				: storybookLightTheme,
+		},
 	},
+	globalTypes: {
+		themeset: {
+			description: 'Global White-Label Themeset',
+			defaultValue: 'standard',
+			toolbar: {
+				title: 'Themeset',
+				icon: 'paintbrush',
+				items: [
+					{ value: 'standard', title: 'Standard' },
+					{ value: 'christmas', title: 'Christmas' },
+					{ value: 'easter', title: 'Easter' },
+					{ value: 'client2', title: 'Client 2' },
+				],
+				dynamicTitle: true,
+			},
+		},
+		scheme: {
+			defaultValue: 'system',
+			description: 'Color scheme',
+			toolbar: {
+				icon: 'circlehollow',
+				items: [
+					{ icon: 'sun', title: 'Light', value: 'light' },
+					{ icon: 'moon', title: 'Dark', value: 'dark' },
+					{ icon: 'browser', title: 'System', value: 'system' },
+				],
+				dynamicTitle: true,
+			},
+		},
+	},
+	decorators: [themeDecorator],
 };
 
 export default preview;
