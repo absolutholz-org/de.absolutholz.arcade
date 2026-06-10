@@ -3,8 +3,7 @@ import { themesetToCssProperties, themesetToCssString } from './theme.utils.js';
 
 const themesetEaster: Themeset = {
 	primary: {
-		surface: 'light-dark(rebeccapurple, oklch(0.12 0.02 300))',
-		// surface: 'light-dark(oklch(0.98 0.01 300), oklch(0.12 0.02 300))',
+		surface: 'light-dark(oklch(0.98 0.01 300), oklch(0.12 0.02 300))',
 		'container-1': 'light-dark(oklch(0.95 0.02 300), oklch(0.17 0.03 300))',
 		'container-2': 'light-dark(oklch(0.9 0.03 300), oklch(0.22 0.04 300))',
 		'text-1': 'light-dark(oklch(0.2 0.02 300), oklch(0.95 0.01 300))',
@@ -22,13 +21,13 @@ const themesetEaster: Themeset = {
 		accent: 'light-dark(oklch(0.72 0.15 45), oklch(0.78 0.14 45))',
 	},
 	contrast: {
-		surface: 'light-dark(oklch(1 0 0), oklch(0.1 0.04 300))',
-		'container-1': 'light-dark(oklch(0.94 0.02 300), oklch(0.16 0.05 300))',
-		'container-2': 'light-dark(oklch(0.86 0.03 300), oklch(0.22 0.06 300))',
-		'text-1': 'light-dark(oklch(0.12 0.04 300), oklch(0.98 0.01 300))',
-		'text-2': 'light-dark(oklch(0.32 0.03 300), oklch(0.85 0.02 300))',
-		'text-3': 'light-dark(oklch(0.48 0.02 300), oklch(0.7 0.02 300))',
-		accent: 'light-dark(oklch(0.82 0.18 110), oklch(0.86 0.18 110))',
+		surface: 'light-dark(oklch(0.12 0.02 300), oklch(0.1 0.04 300))',
+		'container-1': 'light-dark(oklch(0.18 0.03 300), oklch(0.16 0.05 300))',
+		'container-2': 'light-dark(oklch(0.24 0.04 300), oklch(0.22 0.06 300))',
+		'text-1': 'light-dark(oklch(0.96 0.01 300), oklch(0.98 0.01 300))',
+		'text-2': 'light-dark(oklch(0.82 0.02 300), oklch(0.85 0.02 300))',
+		'text-3': 'light-dark(oklch(0.68 0.02 300), oklch(0.7 0.02 300))',
+		accent: 'light-dark(oklch(0.88 0.16 90), oklch(0.86 0.18 110))',
 	},
 	accent: {
 		surface: 'light-dark(oklch(0.97 0.02 350), oklch(0.12 0.02 350))',

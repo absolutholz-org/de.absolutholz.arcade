@@ -1,11 +1,9 @@
 import { css } from '@emotion/react';
 import { reset } from './reset/reset.css';
 import { getThemeMapping } from './theme/theme.utils';
-import { themesetStandardCss } from './theme/themeset-standard.css';
+import { themesetBaseCss } from './theme/themeset-base.css';
 
-export const getGlobalStyles = (
-	themesetCss: string = themesetStandardCss,
-) => css`
+export const getGlobalStyles = (themesetCss: string = themesetBaseCss) => css`
 	${reset}
 
 	:root {

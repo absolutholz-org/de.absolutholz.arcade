@@ -1,10 +1,9 @@
 import type { Themeset } from './theme.types.js';
 import { themesetToCssProperties, themesetToCssString } from './theme.utils.js';
 
-const themesetStandard: Themeset = {
+const themesetBase: Themeset = {
 	primary: {
-		surface: 'light-dark(firebrick, oklch(0.12 0.015 250))',
-		// surface: 'light-dark(oklch(0.98 0.005 250), oklch(0.12 0.015 250))',
+		surface: 'light-dark(oklch(0.98 0.005 250), oklch(0.12 0.015 250))',
 		'container-1': 'light-dark(oklch(0.95 0.01 250), oklch(0.18 0.02 250))',
 		'container-2': 'light-dark(oklch(0.9 0.015 250), oklch(0.24 0.02 250))',
 		'text-1': 'light-dark(oklch(0.2 0.01 250), oklch(0.95 0.005 250))',
@@ -22,13 +21,13 @@ const themesetStandard: Themeset = {
 		accent: 'light-dark(oklch(0.55 0.18 280), oklch(0.68 0.16 280))',
 	},
 	contrast: {
-		surface: 'light-dark(oklch(1 0 0), oklch(0.05 0 0))',
-		'container-1': 'light-dark(oklch(0.92 0 0), oklch(0.15 0 0))',
-		'container-2': 'light-dark(oklch(0.85 0 0), oklch(0.22 0 0))',
-		'text-1': 'light-dark(oklch(0 0 0), oklch(1 0 0))',
-		'text-2': 'light-dark(oklch(0.25 0 0), oklch(0.8 0 0))',
-		'text-3': 'light-dark(oklch(0.45 0 0), oklch(0.6 0 0))',
-		accent: 'light-dark(oklch(0.4 0.18 260), oklch(0.8 0.15 260))',
+		surface: 'light-dark(oklch(0.15 0.015 250), oklch(0.05 0 0))',
+		'container-1': 'light-dark(oklch(0.22 0.02 250), oklch(0.15 0 0))',
+		'container-2': 'light-dark(oklch(0.28 0.02 250), oklch(0.22 0 0))',
+		'text-1': 'light-dark(oklch(0.98 0.005 250), oklch(1 0 0))',
+		'text-2': 'light-dark(oklch(0.85 0.01 250), oklch(0.8 0 0))',
+		'text-3': 'light-dark(oklch(0.7 0.015 250), oklch(0.6 0 0))',
+		accent: 'light-dark(oklch(0.7 0.16 250), oklch(0.8 0.15 260))',
 	},
 	accent: {
 		surface: 'light-dark(oklch(0.94 0.03 250), oklch(0.1 0.04 250))',
@@ -41,5 +40,5 @@ const themesetStandard: Themeset = {
 	},
 };
 
-export const themesetStandardProps = themesetToCssProperties(themesetStandard);
-export const themesetStandardCss = themesetToCssString(themesetStandard);
+export const themesetBaseProps = themesetToCssProperties(themesetBase);
+export const themesetBaseCss = themesetToCssString(themesetBase);

@@ -6,13 +6,13 @@ import type { Decorator } from '@storybook/react-vite';
 import { getGlobalStyles } from '../src/styles/global.css';
 
 // Import all themeset CSS strings statically
-import { themesetStandardCss } from '../src/styles/theme/themeset-standard.css';
+import { themesetBaseCss } from '../src/styles/theme/themeset-base.css';
 import { themesetChristmasCss } from '../src/styles/theme/themeset-christmas.css';
 import { themesetEasterCss } from '../src/styles/theme/themeset-easter.css';
 import { themesetClient2Css } from '../src/styles/theme/themeset-client2.css';
 
 const themesets: Record<string, string> = {
-	standard: themesetStandardCss,
+	base: themesetBaseCss,
 	christmas: themesetChristmasCss,
 	easter: themesetEasterCss,
 	client2: themesetClient2Css,
@@ -64,9 +64,9 @@ const ThemeWrapper = ({
 };
 
 export const themeDecorator: Decorator = (Story, context) => {
-	const activeThemeset = context.globals.themeset || 'standard';
+	const activeThemeset = context.globals.themeset || 'base';
 	const activeScheme = context.globals.scheme || 'system';
-	const activeCss = themesets[activeThemeset] || themesetStandardCss;
+	const activeCss = themesets[activeThemeset] || themesetBaseCss;
 	console.log(
 		'Storybook themeDecorator activeThemeset:',
 		activeThemeset,

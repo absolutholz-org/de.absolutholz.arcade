@@ -3,8 +3,7 @@ import { themesetToCssProperties, themesetToCssString } from './theme.utils.js';
 
 const themesetChristmas: Themeset = {
 	primary: {
-		surface: 'light-dark(royalblue, oklch(0.15 0.03 140))',
-		// surface: 'light-dark(oklch(0.97 0.015 140), oklch(0.15 0.03 140))',
+		surface: 'light-dark(oklch(0.97 0.015 140), oklch(0.15 0.03 140))',
 		'container-1': 'light-dark(oklch(0.93 0.025 140), oklch(0.2 0.04 140))',
 		'container-2': 'light-dark(oklch(0.88 0.035 140), oklch(0.25 0.05 140))',
 		'text-1': 'light-dark(oklch(0.2 0.03 140), oklch(0.96 0.01 140))',
@@ -22,13 +21,13 @@ const themesetChristmas: Themeset = {
 		accent: 'light-dark(oklch(0.45 0.14 140), oklch(0.62 0.14 140))',
 	},
 	contrast: {
-		surface: 'light-dark(oklch(1 0 0), oklch(0.08 0.02 140))',
-		'container-1': 'light-dark(oklch(0.93 0.01 140), oklch(0.14 0.03 140))',
-		'container-2': 'light-dark(oklch(0.85 0.02 140), oklch(0.2 0.04 140))',
-		'text-1': 'light-dark(oklch(0.1 0.03 140), oklch(0.98 0.01 140))',
-		'text-2': 'light-dark(oklch(0.28 0.02 140), oklch(0.85 0.02 140))',
-		'text-3': 'light-dark(oklch(0.45 0.02 140), oklch(0.7 0.02 140))',
-		accent: 'light-dark(oklch(0.45 0.2 25), oklch(0.65 0.2 25))',
+		surface: 'light-dark(oklch(0.15 0.03 140), oklch(0.08 0.02 140))',
+		'container-1': 'light-dark(oklch(0.22 0.04 140), oklch(0.14 0.03 140))',
+		'container-2': 'light-dark(oklch(0.28 0.05 140), oklch(0.2 0.04 140))',
+		'text-1': 'light-dark(oklch(0.96 0.01 140), oklch(0.98 0.01 140))',
+		'text-2': 'light-dark(oklch(0.82 0.015 140), oklch(0.85 0.02 140))',
+		'text-3': 'light-dark(oklch(0.68 0.02 140), oklch(0.7 0.02 140))',
+		accent: 'light-dark(oklch(0.65 0.18 25), oklch(0.65 0.2 25))',
 	},
 	accent: {
 		surface: 'light-dark(oklch(0.94 0.05 25), oklch(0.15 0.06 25))',

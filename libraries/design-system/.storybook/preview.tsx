@@ -26,12 +26,12 @@ const preview: Preview = {
 	globalTypes: {
 		themeset: {
 			description: 'Global White-Label Themeset',
-			defaultValue: 'standard',
+			defaultValue: 'base',
 			toolbar: {
 				title: 'Themeset',
 				icon: 'paintbrush',
 				items: [
-					{ value: 'standard', title: 'Standard' },
+					{ value: 'base', title: 'Base' },
 					{ value: 'christmas', title: 'Christmas' },
 					{ value: 'easter', title: 'Easter' },
 					{ value: 'client2', title: 'Client 2' },

@@ -3,8 +3,7 @@ import { themesetToCssProperties, themesetToCssString } from './theme.utils.js';
 
 const themesetClient2: Themeset = {
 	primary: {
-		surface: 'light-dark(forestgreen, oklch(0.12 0.01 40))',
-		// surface: 'light-dark(oklch(0.97 0.005 40), oklch(0.12 0.01 40))',
+		surface: 'light-dark(oklch(0.97 0.005 40), oklch(0.12 0.01 40))',
 		'container-1': 'light-dark(oklch(0.93 0.01 40), oklch(0.17 0.015 40))',
 		'container-2': 'light-dark(oklch(0.88 0.015 40), oklch(0.23 0.02 40))',
 		'text-1': 'light-dark(oklch(0.18 0.01 40), oklch(0.95 0.005 40))',
@@ -22,13 +21,13 @@ const themesetClient2: Themeset = {
 		accent: 'light-dark(oklch(0.62 0.13 80), oklch(0.72 0.13 80))',
 	},
 	contrast: {
-		surface: 'light-dark(oklch(1 0 0), oklch(0.06 0.005 40))',
-		'container-1': 'light-dark(oklch(0.92 0.01 40), oklch(0.12 0.01 40))',
-		'container-2': 'light-dark(oklch(0.84 0.02 40), oklch(0.18 0.015 40))',
-		'text-1': 'light-dark(oklch(0.08 0.01 40), oklch(0.98 0.005 40))',
-		'text-2': 'light-dark(oklch(0.28 0.01 40), oklch(0.85 0.01 40))',
-		'text-3': 'light-dark(oklch(0.48 0.01 40), oklch(0.7 0.01 40))',
-		accent: 'light-dark(oklch(0.62 0.16 75), oklch(0.75 0.15 75))',
+		surface: 'light-dark(oklch(0.12 0.01 40), oklch(0.06 0.005 40))',
+		'container-1': 'light-dark(oklch(0.18 0.015 40), oklch(0.12 0.01 40))',
+		'container-2': 'light-dark(oklch(0.24 0.02 40), oklch(0.18 0.015 40))',
+		'text-1': 'light-dark(oklch(0.95 0.005 40), oklch(0.98 0.005 40))',
+		'text-2': 'light-dark(oklch(0.8 0.01 40), oklch(0.85 0.01 40))',
+		'text-3': 'light-dark(oklch(0.65 0.01 40), oklch(0.7 0.01 40))',
+		accent: 'light-dark(oklch(0.68 0.16 40), oklch(0.75 0.15 75))',
 	},
 	accent: {
 		surface: 'light-dark(oklch(0.95 0.04 45), oklch(0.14 0.04 45))',
