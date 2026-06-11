@@ -12,14 +12,13 @@ export function Text<C extends ElementType = 'span'>({
 	variant = 'base',
 	as,
 	children,
-	...props
 }: TextProps<C>) {
 	const Component = as || 'span';
 	const mapping = SEMANTIC_VARIANTS[variant];
 	const fontShorthand = generateFontShorthand(mapping.scale, mapping.weight);
 
 	return (
-		<S.Text as={Component} $fontShorthand={fontShorthand} {...props}>
+		<S.Text as={Component} $fontShorthand={fontShorthand}>
 			{children}
 		</S.Text>
 	);
