@@ -9,6 +9,8 @@ export * from './styles/theme/themeset-base.css';
 export * from './styles/theme/themeset-christmas.css';
 export * from './styles/theme/themeset-easter.css';
 export * from './styles/theme/themeset-client2.css';
+export * from './styles/spacing/spacing.constants';
+export * from './styles/spacing/spacing.utils';
 export * from './components/Theme';
 export * from './components/SchemeSwitcher';
 export * from './components/Text';

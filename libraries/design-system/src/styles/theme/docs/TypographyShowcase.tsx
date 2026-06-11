@@ -7,6 +7,7 @@ import {
 	typographyScale,
 	fontWeights,
 } from '../../../components/Text/_Text.constants';
+import { themesetBaseProps } from '../themeset-base.css';
 
 const TableContainer = styled.div`
 	display: flex;
@@ -77,24 +78,34 @@ const PreviewWrapper = styled.div`
 	word-break: break-word;
 `;
 
+const INTENDED_USES: Record<string, string> = {
+	display:
+		'High-impact marketing hero headers, highlight showcase figures, and main landing page titles.',
+	h1: 'Primary page-level headers (usually mapping to a single <h1> tag per page).',
+	h2: 'Major section headers that group blocks of content together.',
+	h3: 'Sub-section titles, dashboard module headers, and prominent card titles.',
+	base: 'Default paragraph text, forms input labels/values, and principal interactive controls.',
+	small:
+		'Secondary captions, product metadata labels, helper text, and copyright footers.',
+};
+
 export function TypographyShowcase() {
 	const variants = Object.keys(SEMANTIC_VARIANTS) as Array<
 		keyof typeof SEMANTIC_VARIANTS
 	>;
 
 	return (
-		<TableContainer>
+		<TableContainer style={themesetBaseProps as React.CSSProperties}>
 			{/* Base Theme Context Wrapper */}
 			<Theme name="primary">
 				<ShowcaseCard>
 					<TypographyTable>
 						<thead>
 							<tr>
-								<Th style={{ width: '20%' }}>Variant Name</Th>
-								<Th style={{ width: '30%' }}>Tokens & Font Specs</Th>
-								<Th style={{ width: '50%' }}>
-									Live Preview (Editable/Responsive)
-								</Th>
+								<Th style={{ width: '15%' }}>Variant</Th>
+								<Th style={{ width: '25%' }}>Tokens & Font Specs</Th>
+								<Th style={{ width: '30%' }}>Intended Use</Th>
+								<Th style={{ width: '30%' }}>Live Preview</Th>
 							</tr>
 						</thead>
 						<tbody>
@@ -129,12 +140,21 @@ export function TypographyShowcase() {
 												</SpecItem>
 											</SpecList>
 										</Td>
+										<Td
+											style={{
+												fontSize: '0.85rem',
+												color: 'var(--color-text-2)',
+												lineHeight: 1.4,
+											}}
+										>
+											{INTENDED_USES[vKey]}
+										</Td>
 										<Td>
 											<PreviewWrapper>
 												<Text variant={vKey} as="div">
 													{isHeading
 														? 'Premium Handcrafted Wood'
-														: 'The design system typography strategy utilizes a locked-pair scale dictionary to guarantee proportional size and line-height layouts.'}
+														: 'The design system typography strategy utilizes a locked-pair scale dictionary.'}
 												</Text>
 											</PreviewWrapper>
 										</Td>
