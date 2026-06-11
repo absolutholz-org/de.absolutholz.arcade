@@ -1,4 +1,8 @@
-import { typographyScale, fontWeights } from './_Text.constants';
+import {
+	typographyScale,
+	fontWeights,
+	DEFAULT_FONT_STACK,
+} from './_Text.constants';
 import type { TypographyScaleKey, TypographyWeightKey } from './_Text.types';
 
 /**
@@ -15,8 +19,8 @@ export function generateFontShorthand(
 	// Choose font family based on the typography scale category (headings vs body text)
 	const isHeading = ['h1', 'h2', 'h3', 'display'].includes(scaleKey);
 	const family = isHeading
-		? "'Outfit', 'Inter', sans-serif"
-		: "'Inter', sans-serif";
+		? `'Outfit', ${DEFAULT_FONT_STACK}`
+		: DEFAULT_FONT_STACK;
 
 	return `${weight} ${size}/${lineHeight} ${family}`;
 }

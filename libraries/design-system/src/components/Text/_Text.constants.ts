@@ -20,3 +20,6 @@ export const SEMANTIC_VARIANTS = {
 	h1: { scale: 'h1', weight: 'bold' },
 	display: { scale: 'display', weight: 'bold' },
 } as const;
+
+export const DEFAULT_FONT_STACK =
+	"system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
