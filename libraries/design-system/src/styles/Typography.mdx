@@ -1,0 +1,64 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { TypographyShowcase } from './theme/docs/TypographyShowcase';
+
+<Meta title="Foundations/Typography" />
+
+# Typography
+
+This document outlines our design system's typography strategy, the locked-pair scale system, font stacks, and components.
+
+---
+
+## Typography Strategy
+
+Our strategy is built upon a **unified scale contract** that pairs typography sizes and line-heights. This protects consumer layouts and preserves natural reading rhythms.
+
+### 1. Locked-Pair Scale Dictionary
+
+To prevent layout breakages and vertical spacing inconsistencies, font sizes and line heights are declared in locked pairs:
+
+- **display**: `3.75rem` (60px) / `1.1` line-height
+  - *Intended Use*: High-impact marketing hero headers, highlight showcase figures, and main landing page titles.
+- **h1**: `2.5rem` (40px) / `1.2` line-height
+  - *Intended Use*: Primary page-level headers (usually mapping to a single `<h1>` tag per page).
+- **h2**: `1.75rem` (28px) / `1.3` line-height
+  - *Intended Use*: Major section headers that group blocks of content together.
+- **h3**: `1.25rem` (20px) / `1.4` line-height
+  - *Intended Use*: Sub-section titles, dashboard module headers, and prominent card titles.
+- **base**: `1rem` (16px) / `1.5` line-height
+  - *Intended Use*: Default paragraph text, forms input labels/values, and principal interactive controls.
+- **small**: `0.875rem` (14px) / `1.5` line-height
+  - *Intended Use*: Secondary captions, product metadata labels, helper text, and copyright footers.
+
+### 2. Dual Font Stacks
+
+To support both distinct brand headers and readable body copies, the system implements two font stack tiers:
+
+- **Heading Stack**: Utilizes `'Outfit'` paired with native system sans-serif fallback fonts. This brand serif/sans-serif combination elevates primary titles, cards, and hero headings.
+- **Body Stack**: Utilizes standard `system-ui` sans-serif fonts to maximize clarity, render speeds, and accessibility for long-form reading.
+
+---
+
+## Semantic Component API
+
+Developers must always consume typography via the `<Text>` component's `variant` prop rather than writing raw tag sizes or inline pixel configurations.
+
+```tsx
+import { Text } from '@/components/Text';
+
+// Title Heading
+<Text variant="h1" as="h1">Premium Oak Woodcrafts</Text>
+
+// Body copy
+<Text variant="base" as="p">
+  Handcrafted with precision using sustainable local timber.
+</Text>
+```
+
+---
+
+## Typography Scale Showcase
+
+The table below renders each of the available variants in the design system using the `<Text>` component:
+
+<TypographyShowcase />
