@@ -11,3 +11,4 @@ export * from './styles/theme/themeset-easter.css';
 export * from './styles/theme/themeset-client2.css';
 export * from './components/Theme';
 export * from './components/SchemeSwitcher';
+export * from './components/Text';
