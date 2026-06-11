@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { Theme } from '../../../components/Theme';
+import { Text } from '../../../components/Text';
 import { themesetBaseProps } from '../themeset-base.css';
 import { themesetChristmasProps } from '../themeset-christmas.css';
 import { themesetEasterProps } from '../themeset-easter.css';
@@ -52,8 +53,6 @@ const DescriptionBlock = styled.div`
 	);
 	border-left: 5px solid oklch(0.6 0.18 250);
 	color: oklch(0.3 0.02 250);
-	font-size: 0.95rem;
-	line-height: 1.5;
 
 	/* Respect parent color-scheme if custom container */
 	@media (prefers-color-scheme: dark) {
@@ -96,11 +95,7 @@ const SchemeWrapper = styled.div<{ scheme: 'light' | 'dark' }>`
 	}
 `;
 
-const SchemeTitle = styled.h3`
-	margin: 0;
-	font-size: 1.3rem;
-	font-weight: 700;
-	letter-spacing: -0.02em;
+const SchemeTitle = styled.div`
 	border-bottom: 2px solid var(--color-container-2);
 	padding-bottom: 12px;
 	display: flex;
@@ -114,9 +109,8 @@ const ThemeSection = styled.div`
 	gap: 16px;
 `;
 
-const ThemeTitleLabel = styled.h4`
+const ThemeTitleLabel = styled.div`
 	margin: 0;
-	font-size: 0.9rem;
 	text-transform: uppercase;
 	letter-spacing: 0.08em;
 	color: var(--color-text-2);
@@ -172,15 +166,17 @@ const CardBadge = styled.span`
 	letter-spacing: 0.06em;
 `;
 
-const CardTitleText = styled.div`
-	font-weight: 600;
-	font-size: 1.05rem;
+const ActiveStatusLabel = styled.div`
+	color: var(--color-text-3);
+	font-size: 0.75rem;
 `;
 
-const CardBodyText = styled.div`
-	font-size: 0.85rem;
+const CardTitleWrapper = styled.div`
+	font-weight: 600;
+`;
+
+const CardBodyWrapper = styled.div`
 	color: var(--color-text-2);
-	line-height: 1.4;
 `;
 
 const CardFooter = styled.div`
@@ -192,16 +188,15 @@ const CardFooter = styled.div`
 	margin-top: 4px;
 `;
 
-const FooterText = styled.span`
-	font-size: 0.75rem;
+const FooterTextWrapper = styled.div`
 	color: var(--color-text-3);
+	font-size: 0.75rem;
 `;
 
-const FooterAction = styled.span`
-	font-size: 0.8rem;
-	font-weight: 600;
+const FooterActionWrapper = styled.div`
 	color: var(--color-accent);
 	cursor: pointer;
+	font-weight: 600;
 `;
 
 // Swatch Table
@@ -238,10 +233,9 @@ const TokenDetails = styled.div`
 	flex-grow: 1;
 `;
 
-const TokenLabel = styled.div`
+const TokenLabelWrapper = styled.div`
 	font-weight: 600;
 	color: var(--color-text-1);
-	font-size: 0.75rem;
 `;
 
 const TokenValueString = styled.div`
@@ -295,32 +289,60 @@ export function ThemesetShowcase({ themeset }: ThemesetShowcaseProps) {
 	return (
 		<ShowcaseContainer style={data.props as React.CSSProperties}>
 			<DescriptionBlock>
-				<strong>{data.title}</strong>: {data.desc}
+				<Text variant="base" as="div">
+					<strong>{data.title}</strong>: {data.desc}
+				</Text>
 			</DescriptionBlock>
 
 			<SideBySide>
 				{/* LIGHT SCHEME DISPLAY */}
 				<SchemeWrapper scheme="light">
-					<SchemeTitle>☀️ Light Variant</SchemeTitle>
+					<SchemeTitle>
+						<Text variant="h3" as="h3">
+							☀️ Light Variant
+						</Text>
+					</SchemeTitle>
 
 					{themes.map((themeName) => {
 						return (
 							<ThemeSection key={`light-${themeName}`}>
-								<ThemeTitleLabel>{themeName} theme</ThemeTitleLabel>
+								<ThemeTitleLabel>
+									<Text variant="small" as="h4">
+										{themeName} theme
+									</Text>
+								</ThemeTitleLabel>
 								<Theme name={themeName}>
 									<ThemeBlockGrid>
 										<DemoCard>
 											<CardTop>
 												<CardBadge>{themeName}</CardBadge>
-												<FooterText>Active</FooterText>
+												<ActiveStatusLabel>
+													<Text variant="small" as="span">
+														Active
+													</Text>
+												</ActiveStatusLabel>
 											</CardTop>
-											<CardTitleText>Design Aesthetics</CardTitleText>
-											<CardBodyText>
-												Dynamic previews built using contextual variables.
-											</CardBodyText>
+											<CardTitleWrapper>
+												<Text variant="base" as="div">
+													Design Aesthetics
+												</Text>
+											</CardTitleWrapper>
+											<CardBodyWrapper>
+												<Text variant="small" as="div">
+													Dynamic previews built using contextual variables.
+												</Text>
+											</CardBodyWrapper>
 											<CardFooter>
-												<FooterText>Tier 2 Context</FooterText>
-												<FooterAction>Select</FooterAction>
+												<FooterTextWrapper>
+													<Text variant="small" as="span">
+														Tier 2 Context
+													</Text>
+												</FooterTextWrapper>
+												<FooterActionWrapper>
+													<Text variant="small" as="span">
+														Select
+													</Text>
+												</FooterActionWrapper>
 											</CardFooter>
 										</DemoCard>
 
@@ -334,7 +356,11 @@ export function ThemesetShowcase({ themeset }: ThemesetShowcaseProps) {
 													<SwatchItem key={`light-${themeName}-${slot.name}`}>
 														<ColorPreview bgVar={`var(${slot.variable})`} />
 														<TokenDetails>
-															<TokenLabel>{slot.name}</TokenLabel>
+															<TokenLabelWrapper>
+																<Text variant="small" as="div">
+																	{slot.name}
+																</Text>
+															</TokenLabelWrapper>
 															<TokenValueString title={parsed.light}>
 																{parsed.light}
 															</TokenValueString>
@@ -352,26 +378,52 @@ export function ThemesetShowcase({ themeset }: ThemesetShowcaseProps) {
 
 				{/* DARK SCHEME DISPLAY */}
 				<SchemeWrapper scheme="dark">
-					<SchemeTitle>🌙 Dark Variant</SchemeTitle>
+					<SchemeTitle>
+						<Text variant="h3" as="h3">
+							🌙 Dark Variant
+						</Text>
+					</SchemeTitle>
 
 					{themes.map((themeName) => {
 						return (
 							<ThemeSection key={`dark-${themeName}`}>
-								<ThemeTitleLabel>{themeName} theme</ThemeTitleLabel>
+								<ThemeTitleLabel>
+									<Text variant="small" as="h4">
+										{themeName} theme
+									</Text>
+								</ThemeTitleLabel>
 								<Theme name={themeName}>
 									<ThemeBlockGrid>
 										<DemoCard>
 											<CardTop>
 												<CardBadge>{themeName}</CardBadge>
-												<FooterText>Active</FooterText>
+												<ActiveStatusLabel>
+													<Text variant="small" as="span">
+														Active
+													</Text>
+												</ActiveStatusLabel>
 											</CardTop>
-											<CardTitleText>Design Aesthetics</CardTitleText>
-											<CardBodyText>
-												Dynamic previews built using contextual variables.
-											</CardBodyText>
+											<CardTitleWrapper>
+												<Text variant="base" as="div">
+													Design Aesthetics
+												</Text>
+											</CardTitleWrapper>
+											<CardBodyWrapper>
+												<Text variant="small" as="div">
+													Dynamic previews built using contextual variables.
+												</Text>
+											</CardBodyWrapper>
 											<CardFooter>
-												<FooterText>Tier 2 Context</FooterText>
-												<FooterAction>Select</FooterAction>
+												<FooterTextWrapper>
+													<Text variant="small" as="span">
+														Tier 2 Context
+													</Text>
+												</FooterTextWrapper>
+												<FooterActionWrapper>
+													<Text variant="small" as="span">
+														Select
+													</Text>
+												</FooterActionWrapper>
 											</CardFooter>
 										</DemoCard>
 
@@ -385,7 +437,11 @@ export function ThemesetShowcase({ themeset }: ThemesetShowcaseProps) {
 													<SwatchItem key={`dark-${themeName}-${slot.name}`}>
 														<ColorPreview bgVar={`var(${slot.variable})`} />
 														<TokenDetails>
-															<TokenLabel>{slot.name}</TokenLabel>
+															<TokenLabelWrapper>
+																<Text variant="small" as="div">
+																	{slot.name}
+																</Text>
+															</TokenLabelWrapper>
 															<TokenValueString title={parsed.dark}>
 																{parsed.dark}
 															</TokenValueString>
