@@ -12,7 +12,7 @@ All components must live in an isolated directory under `src/components/Componen
 
 ## File Matrix
 
-Each component directory must be split into exactly the following six distinct files:
+Each component directory must be split into the following distinct files:
 
 1. `index.ts`
    - **Purpose:** Pure barrel export.
@@ -26,6 +26,8 @@ Each component directory must be split into exactly the following six distinct f
    - **Purpose:** TypeScript types.
 6. `_ComponentName.stories.tsx`
    - **Purpose:** Storybook documentation.
+7. `_ComponentName.styles.ts` (Optional)
+   - **Purpose:** Emotion CSS-in-JS styled definitions.
 
 ## Naming Convention
 
@@ -37,6 +39,7 @@ Each component directory must be split into exactly the following six distinct f
   - `_SchemeSwitcher.constants.ts`
   - `_SchemeSwitcher.types.ts`
   - `_SchemeSwitcher.stories.tsx`
+  - `_SchemeSwitcher.styles.ts` (if styling is needed)
 
 ## Core React Rules
 
@@ -53,8 +56,11 @@ Each component directory must be split into exactly the following six distinct f
 ## Styling Architecture
 
 - **Emotion CSS-in-JS**: We strictly use Emotion CSS-in-JS (`@emotion/react` and `@emotion/styled`) for all component styling.
-- **Legacy Deletion**: All legacy references to Vanilla Extract, CSS modules, or `.css.ts` compilation extensions are obsolete and must not be used.
 - **No Inline Styles**: Avoid inline styles (`style={{ ... }}`) unless rendering truly dynamic values like runtime-calculated offsets, percentages, or absolute positions.
+- **Styled Component Naming**: In `_ComponentName.styles.ts`, name the exported styled components to match the name of the corresponding component being styled (e.g., `export const Text = styled.span...`).
+- **Styled Import Convention**: In `_ComponentName.tsx`, import all styled definitions under the `S` namespace (`import * as S from './_ComponentName.styles'`) and render them as `<S.ComponentName ...>`.
+- **Restricting Overrides**: Protect components from layout-compromising overrides. Do not allow raw `style` props. In `_ComponentName.types.ts`, explicitly omit `'style'` from component props (e.g. `Omit<ComponentPropsWithoutRef<C>, 'style'>`).
+- **Legacy Deletion**: All legacy references to Vanilla Extract, CSS modules, or `.css.ts` compilation extensions are obsolete and must not be used.
 
 ## Code Formatting & Style
 
