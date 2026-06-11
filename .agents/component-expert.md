@@ -45,6 +45,7 @@ Each component directory must be split into the following distinct files:
 
 - **Functional Components**: All components must be functional components using standard function declarations or arrow functions.
 - **Single Responsibility**: Each component should do one thing well. To enforce this, keep components under a **200-line limit**. If a component grows beyond 200 lines, it must be broken down.
+- **No Initial Props Spread**: Do not initially add a `...props` or `...rest` spread to new components. Explicitly destruct and map only the props the component actually requires, keeping props explicit.
 - **Exports**: Prefer **named exports** over default exports for better IDE autocomplete, searchability, and consistent naming across imports.
   ```tsx
   // Preferred
