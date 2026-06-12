@@ -62,6 +62,7 @@ Each component directory must be split into the following distinct files:
 - **Styled Import Convention**: In `_ComponentName.tsx`, import all styled definitions under the `S` namespace (`import * as S from './_ComponentName.styles'`) and render them as `<S.ComponentName ...>`.
 - **Restricting Overrides**: Protect components from layout-compromising overrides. Do not allow raw `style` props. In `_ComponentName.types.ts`, explicitly omit `'style'` from component props (e.g. `Omit<ComponentPropsWithoutRef<C>, 'style'>`).
 - **Legacy Deletion**: All legacy references to Vanilla Extract, CSS modules, or `.css.ts` compilation extensions are obsolete and must not be used.
+- **Respect Global Reset & Styles**: Do not add redundant styles that are already defined in the global reset or global styles. For example, do not declare \`box-sizing: border-box;\` in styled components, as it is already handled globally by the reset layer.
 
 ## Code Formatting & Style
 
