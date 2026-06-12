@@ -6,6 +6,7 @@ export type Theme = {
 	'text-2'?: string;
 	'text-3'?: string;
 	accent?: string;
+	'accent-contrast'?: string;
 };
 
 export type Themeset = {

@@ -78,7 +78,7 @@ const CardMeta = styled.span`
 
 const AccentButton = styled.button`
 	background-color: var(--color-accent);
-	color: var(--color-surface);
+	color: var(--color-accent-contrast);
 	border: none;
 	border-radius: 8px;
 	padding: 10px 18px;

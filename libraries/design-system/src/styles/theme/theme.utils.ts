@@ -46,5 +46,6 @@ export function getThemeMapping(
 		'--color-text-2': `var(--theme-${themeName}-text-2)`,
 		'--color-text-3': `var(--theme-${themeName}-text-3)`,
 		'--color-accent': `var(--theme-${themeName}-accent)`,
+		'--color-accent-contrast': `var(--theme-${themeName}-accent-contrast)`,
 	};
 }

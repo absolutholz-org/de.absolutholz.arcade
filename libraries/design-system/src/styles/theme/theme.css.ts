@@ -12,5 +12,6 @@ export const theme = css`
 		--color-text-2: initial;
 		--color-text-3: initial;
 		--color-accent: initial;
+		--color-accent-contrast: initial;
 	}
 `;

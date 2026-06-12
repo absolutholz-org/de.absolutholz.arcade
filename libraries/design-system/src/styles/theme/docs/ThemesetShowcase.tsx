@@ -5,7 +5,12 @@ import { Text } from '../../../components/Text';
 import { themesetBaseProps } from '../themeset-base.css';
 import { themesetChristmasProps } from '../themeset-christmas.css';
 import { themesetEasterProps } from '../themeset-easter.css';
-import { themesetClient2Props } from '../themeset-client2.css';
+import { themesetMcDonaldsProps } from '../themeset-mcdonalds.css';
+import { themesetJuly4thProps } from '../themeset-july4th.css';
+import { themesetStPatricksProps } from '../themeset-stpatricks.css';
+import { themesetBrownsProps } from '../themeset-browns.css';
+import { themesetOsuProps } from '../themeset-osu.css';
+import { themesetGermanyProps } from '../themeset-germany.css';
 
 const themesetsData = {
 	base: {
@@ -23,10 +28,35 @@ const themesetsData = {
 		title: 'Easter Themeset',
 		desc: 'Soft pastel greens and pinks contrasted with deep rebeccapurple canvases.',
 	},
-	client2: {
-		props: themesetClient2Props,
-		title: 'Client 2 Themeset',
-		desc: 'Professional forestry green surfaces with high-energy bronze highlights.',
+	mcdonalds: {
+		props: themesetMcDonaldsProps,
+		title: "McDonald's Themeset",
+		desc: 'Golden arches yellow accents paired with restaurant brand red outlines.',
+	},
+	july4th: {
+		props: themesetJuly4thProps,
+		title: '4th of July Themeset',
+		desc: 'Patriotic red, white, and blue theme representing American heritage.',
+	},
+	stpatricks: {
+		props: themesetStPatricksProps,
+		title: "St. Patrick's Day Themeset",
+		desc: 'Lucky shamrock green paired with festive gold/orange outlines.',
+	},
+	browns: {
+		props: themesetBrownsProps,
+		title: 'Cleveland Browns Themeset',
+		desc: 'Classic Browns colors featuring bold orange and rich brown canvas tones.',
+	},
+	osu: {
+		props: themesetOsuProps,
+		title: 'Ohio State University Themeset',
+		desc: 'OSU brand-compliant scarlet red and athletics gray tokens.',
+	},
+	germany: {
+		props: themesetGermanyProps,
+		title: 'Germany Themeset',
+		desc: 'German national flag colors: gold, red, and deep charcoal black.',
 	},
 };
 
@@ -157,7 +187,7 @@ const CardTop = styled.div`
 
 const CardBadge = styled.span`
 	background-color: var(--color-accent);
-	color: var(--color-surface);
+	color: var(--color-accent-contrast);
 	font-size: 0.7rem;
 	font-weight: 700;
 	padding: 4px 8px;
@@ -281,6 +311,7 @@ export function ThemesetShowcase({ themeset }: ThemesetShowcaseProps) {
 		{ name: 'container-1', variable: '--color-container-1' },
 		{ name: 'container-2', variable: '--color-container-2' },
 		{ name: 'accent', variable: '--color-accent' },
+		{ name: 'accent-contrast', variable: '--color-accent-contrast' },
 		{ name: 'text-1', variable: '--color-text-1' },
 		{ name: 'text-2', variable: '--color-text-2' },
 		{ name: 'text-3', variable: '--color-text-3' },

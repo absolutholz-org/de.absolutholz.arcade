@@ -9,13 +9,23 @@ import { getGlobalStyles } from '../src/styles/global.css';
 import { themesetBaseCss } from '../src/styles/theme/themeset-base.css';
 import { themesetChristmasCss } from '../src/styles/theme/themeset-christmas.css';
 import { themesetEasterCss } from '../src/styles/theme/themeset-easter.css';
-import { themesetClient2Css } from '../src/styles/theme/themeset-client2.css';
+import { themesetMcDonaldsCss } from '../src/styles/theme/themeset-mcdonalds.css';
+import { themesetJuly4thCss } from '../src/styles/theme/themeset-july4th.css';
+import { themesetStPatricksCss } from '../src/styles/theme/themeset-stpatricks.css';
+import { themesetBrownsCss } from '../src/styles/theme/themeset-browns.css';
+import { themesetOsuCss } from '../src/styles/theme/themeset-osu.css';
+import { themesetGermanyCss } from '../src/styles/theme/themeset-germany.css';
 
 const themesets: Record<string, string> = {
 	base: themesetBaseCss,
 	christmas: themesetChristmasCss,
 	easter: themesetEasterCss,
-	client2: themesetClient2Css,
+	mcdonalds: themesetMcDonaldsCss,
+	july4th: themesetJuly4thCss,
+	stpatricks: themesetStPatricksCss,
+	browns: themesetBrownsCss,
+	osu: themesetOsuCss,
+	germany: themesetGermanyCss,
 };
 
 const storybookCanvasOverrides = css`
