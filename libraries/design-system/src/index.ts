@@ -19,3 +19,4 @@ export * from './styles/spacing/spacing.utils';
 export * from './components/Theme';
 export * from './components/SchemeSwitcher';
 export * from './components/Text';
+export * from './components/PageContainer';
