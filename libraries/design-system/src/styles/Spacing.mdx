@@ -11,7 +11,7 @@ This document outlines our design system's spacing scale strategy, layout tokens
 
 ## Spacing Strategy
 
-Our layout engine avoids CSS Custom Properties runtime costs, using a **zero-CSS-variable footprint** that resolves to raw `rem` values at compile/render time. This is achieved via a strict TypeScript dictionary and a type-safe compiler utility.
+Our layout engine utilizes **CSS Custom Properties** to dynamically scale spacing dimensions depending on screen size. This enables responsive scaling of major spacing tokens using multi-axis media queries. Under the hood, developers still consume a type-safe compiler utility.
 
 ### 1. Spacing Scale
 

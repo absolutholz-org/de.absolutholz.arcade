@@ -1,9 +1,34 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import { Global, css } from '@emotion/react';
 import { Text } from '../../../components/Text';
 import { Theme } from '../../../components/Theme';
-import { spacingScale } from '../../spacing/spacing.constants';
+import {
+	spacingScale,
+	spacingScaleCompact,
+	spacingScaleExpanded,
+	spacingCssTokensCompact,
+	spacingCssTokensExpanded,
+} from '../../spacing/spacing.constants';
+import {
+	typographyCssTokensCompact,
+	typographyCssTokensExpanded,
+} from '../../../components/Text/_Text.constants';
 import { themesetBaseProps } from '../themeset-base.css';
+
+const showcaseGlobalStyles = css`
+	:root {
+		${typographyCssTokensCompact}
+		${spacingCssTokensCompact}
+	}
+
+	@media (min-width: 1024px) and (min-height: 800px) {
+		:root {
+			${typographyCssTokensExpanded}
+			${spacingCssTokensExpanded}
+		}
+	}
+`;
 
 const TableContainer = styled.div`
 	display: flex;
@@ -54,18 +79,23 @@ const KeyBadge = styled.code`
 	font-weight: 600;
 `;
 
+const VarName = styled.code`
+	color: var(--color-text-2);
+	font-size: 0.8rem;
+`;
+
 const PixelVal = styled.span`
 	font-size: 0.85rem;
 	color: var(--color-text-2);
 	font-family: monospace;
 `;
 
-const PreviewBar = styled.div<{ widthVal: string }>`
+const PreviewBar = styled.div<{ widthVal: string; spacingKey: string }>`
 	height: 16px;
 	width: ${(props) => props.widthVal};
 	background-color: var(--color-accent);
 	border-radius: 4px;
-	min-width: ${(props) => (props.widthVal === '0rem' ? '0' : '2px')};
+	min-width: ${(props) => (props.spacingKey === 'none' ? '0' : '2px')};
 `;
 
 const RemVal = styled.span`
@@ -79,39 +109,54 @@ export function SpacingShowcase() {
 
 	return (
 		<TableContainer style={themesetBaseProps as React.CSSProperties}>
+			<Global styles={showcaseGlobalStyles} />
 			<Theme name="primary">
 				<ShowcaseCard>
 					<SpacingTable>
 						<thead>
 							<tr>
-								<Th style={{ width: '20%' }}>Token Key</Th>
-								<Th style={{ width: '20%' }}>REM Value</Th>
-								<Th style={{ width: '20%' }}>Pixel Equiv.</Th>
-								<Th style={{ width: '40%' }}>Visual Scale Width</Th>
+								<Th style={{ width: '15%' }}>Token Key</Th>
+								<Th style={{ width: '25%' }}>CSS Variable</Th>
+								<Th style={{ width: '20%' }}>Compact (Mobile)</Th>
+								<Th style={{ width: '20%' }}>Expanded (Desktop)</Th>
+								<Th style={{ width: '20%' }}>Visual Scale</Th>
 							</tr>
 						</thead>
 						<tbody>
 							{keys.map((key) => {
-								const remVal = spacingScale[key];
-								const pxVal = parseFloat(remVal) * 16;
+								const varName = spacingScale[key];
+								const remCompact = spacingScaleCompact[key];
+								const remExpanded = spacingScaleExpanded[key];
+								const pxCompact = parseFloat(remCompact) * 16;
+								const pxExpanded = parseFloat(remExpanded) * 16;
+
 								return (
 									<tr key={key}>
 										<Td>
 											<KeyBadge>{key}</KeyBadge>
 										</Td>
 										<Td>
-											<RemVal>{remVal}</RemVal>
+											<VarName>{varName}</VarName>
 										</Td>
 										<Td>
-											<PixelVal>{pxVal}px</PixelVal>
+											<RemVal>{remCompact}</RemVal>{' '}
+											<PixelVal>({pxCompact}px)</PixelVal>
 										</Td>
 										<Td>
-											{remVal === '0rem' ? (
+											<RemVal>{remExpanded}</RemVal>{' '}
+											<PixelVal>({pxExpanded}px)</PixelVal>
+										</Td>
+										<Td>
+											{remExpanded === '0rem' ? (
 												<span style={{ opacity: 0.5 }}>
-													<Text variant="small">0px (none)</Text>
+													<Text variant="small">0px</Text>
 												</span>
 											) : (
-												<PreviewBar widthVal={remVal} title={`${pxVal}px`} />
+												<PreviewBar
+													widthVal={varName}
+													spacingKey={key}
+													title={`Compact: ${pxCompact}px | Expanded: ${pxExpanded}px`}
+												/>
 											)}
 										</Td>
 									</tr>

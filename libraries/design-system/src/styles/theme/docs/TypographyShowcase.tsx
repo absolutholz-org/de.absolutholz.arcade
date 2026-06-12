@@ -2,12 +2,35 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { Text } from '../../../components/Text';
 import { Theme } from '../../../components/Theme';
+import { Global, css } from '@emotion/react';
 import {
 	SEMANTIC_VARIANTS,
 	typographyScale,
 	fontWeights,
+	typographyScaleCompact,
+	typographyScaleExpanded,
+	typographyCssTokensCompact,
+	typographyCssTokensExpanded,
 } from '../../../components/Text/_Text.constants';
+import {
+	spacingCssTokensCompact,
+	spacingCssTokensExpanded,
+} from '../../spacing/spacing.constants';
 import { themesetBaseProps } from '../themeset-base.css';
+
+const showcaseGlobalStyles = css`
+	:root {
+		${typographyCssTokensCompact}
+		${spacingCssTokensCompact}
+	}
+
+	@media (min-width: 1024px) and (min-height: 800px) {
+		:root {
+			${typographyCssTokensExpanded}
+			${spacingCssTokensExpanded}
+		}
+	}
+`;
 
 const TableContainer = styled.div`
 	display: flex;
@@ -96,6 +119,7 @@ export function TypographyShowcase() {
 
 	return (
 		<TableContainer style={themesetBaseProps as React.CSSProperties}>
+			<Global styles={showcaseGlobalStyles} />
 			{/* Base Theme Context Wrapper */}
 			<Theme name="primary">
 				<ShowcaseCard>
@@ -124,10 +148,25 @@ export function TypographyShowcase() {
 										<Td>
 											<SpecList>
 												<SpecItem>
-													Size: <span>{scaleInfo.size}</span>
+													CSS Var: <span>{scaleInfo.size}</span>
 												</SpecItem>
 												<SpecItem>
-													Line Height: <span>{scaleInfo.lineHeight}</span>
+													Compact:{' '}
+													<span>
+														{typographyScaleCompact[config.scale].size}
+													</span>
+												</SpecItem>
+												<SpecItem>
+													Expanded:{' '}
+													<span>
+														{typographyScaleExpanded[config.scale].size}
+													</span>
+												</SpecItem>
+												<SpecItem>
+													Line Height:{' '}
+													<span>
+														{typographyScaleCompact[config.scale].lineHeight}
+													</span>
 												</SpecItem>
 												<SpecItem>
 													Weight:{' '}
