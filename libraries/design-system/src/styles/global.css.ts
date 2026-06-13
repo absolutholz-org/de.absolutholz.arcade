@@ -9,7 +9,7 @@ import {
 import {
 	typographyCssTokensCompact,
 	typographyCssTokensExpanded,
-} from '../components/Text/_Text.constants';
+} from '../components/Text';
 
 export const getGlobalStyles = (themesetCss: string = themesetBaseCss) => css`
 	${reset}

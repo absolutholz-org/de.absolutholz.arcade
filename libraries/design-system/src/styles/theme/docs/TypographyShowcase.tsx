@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { Text } from '../../../components/Text';
-import { Theme } from '../../../components/Theme';
 import { Global, css } from '@emotion/react';
+import { Theme } from '../../../components/Theme';
 import {
+	Text,
 	SEMANTIC_VARIANTS,
 	typographyScale,
 	fontWeights,
@@ -11,7 +11,7 @@ import {
 	typographyScaleExpanded,
 	typographyCssTokensCompact,
 	typographyCssTokensExpanded,
-} from '../../../components/Text/_Text.constants';
+} from '../../../components/Text';
 import {
 	spacingCssTokensCompact,
 	spacingCssTokensExpanded,

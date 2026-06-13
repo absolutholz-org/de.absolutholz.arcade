@@ -3,8 +3,16 @@
 	"version": "0.1.0",
 	"private": true,
 	"description": "Design system package for de-absolutholz",
-	"main": "dist/index.js",
-	"types": "dist/index.d.ts",
+	"exports": {
+		"./components/*": {
+			"types": "./dist/components/*/index.d.ts",
+			"default": "./dist/components/*/index.js"
+		},
+		"./styles/*": {
+			"types": "./dist/styles/*.d.ts",
+			"default": "./dist/styles/*.js"
+		}
+	},
 	"scripts": {
 		"build": "tsc",
 		"storybook": "storybook dev -p 6006",

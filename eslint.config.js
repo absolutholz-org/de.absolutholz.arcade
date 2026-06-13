@@ -52,6 +52,11 @@ export default tseslint.config(
 							message:
 								'NEVER use .ts or .tsx file extensions inside JavaScript/TypeScript import paths. Strip the extension or use .css/.js as appropriate.',
 						},
+						{
+							group: ['**/_*', '!./_*'],
+							message:
+								'Importing private files prefixed with an underscore is forbidden outside their parent directory.',
+						},
 					],
 				},
 			],
@@ -75,6 +80,11 @@ export default tseslint.config(
 							],
 							message:
 								'NEVER use .ts or .tsx file extensions inside JavaScript/TypeScript import paths. Strip the extension or use .css/.js as appropriate.',
+						},
+						{
+							group: ['**/_*', '!./_*'],
+							message:
+								'Importing private files prefixed with an underscore is forbidden outside their parent directory.',
 						},
 					],
 				},

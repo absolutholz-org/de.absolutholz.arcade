@@ -1,8 +1,12 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { Global, css } from '@emotion/react';
-import { Text } from '../../../components/Text';
 import { Theme } from '../../../components/Theme';
+import {
+	Text,
+	typographyCssTokensCompact,
+	typographyCssTokensExpanded,
+} from '../../../components/Text';
 import {
 	spacingScale,
 	spacingScaleCompact,
@@ -10,10 +14,6 @@ import {
 	spacingCssTokensCompact,
 	spacingCssTokensExpanded,
 } from '../../spacing/spacing.constants';
-import {
-	typographyCssTokensCompact,
-	typographyCssTokensExpanded,
-} from '../../../components/Text/_Text.constants';
 import { themesetBaseProps } from '../themeset-base.css';
 
 const showcaseGlobalStyles = css`
