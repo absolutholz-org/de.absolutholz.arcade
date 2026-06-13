@@ -3,7 +3,7 @@ import type { ElementType, ComponentPropsWithoutRef, ReactNode } from 'react';
 export interface BasePageContainerProps<C extends ElementType = 'div'> {
 	/**
 	 * Custom max width for the page content.
-	 * @default '80rem' (1280px)
+	 * @default PAGE_MAX_WIDTH ('80rem')
 	 */
 	maxWidth?: string;
 	/**

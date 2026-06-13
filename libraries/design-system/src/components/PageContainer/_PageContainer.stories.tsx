@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import { PageContainer } from '.';
 import { Theme } from '../Theme';
 import { Text } from '../Text';
+import { PAGE_MAX_WIDTH } from '../../styles/constants';
 
 const meta = {
 	component: PageContainer,
@@ -23,7 +24,7 @@ const meta = {
 		},
 	},
 	args: {
-		maxWidth: '80rem',
+		maxWidth: PAGE_MAX_WIDTH,
 		as: 'div',
 	},
 } satisfies Meta<typeof PageContainer>;

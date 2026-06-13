@@ -16,6 +16,7 @@ export * from './styles/theme/themeset-osu.css';
 export * from './styles/theme/themeset-germany.css';
 export * from './styles/spacing/spacing.constants';
 export * from './styles/spacing/spacing.utils';
+export * from './styles/constants';
 export * from './components/Theme';
 export * from './components/SchemeSwitcher';
 export * from './components/Text';
