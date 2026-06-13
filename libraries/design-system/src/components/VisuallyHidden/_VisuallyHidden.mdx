@@ -1,0 +1,101 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { VisuallyHidden } from './_VisuallyHidden';
+
+<Meta title="Components/VisuallyHidden" />
+
+# Visually Hidden
+
+A utility component designed to visually hide content while keeping it accessible to screen readers and assistive technologies.
+
+---
+
+## Overview & Accessibility
+
+The `VisuallyHidden` component uses industry-standard CSS rules to crop elements to a 1x1 pixel area and hide overflow. This pattern is essential for complying with WCAG 2.2 Level AA and German BITV 2.0 regulations, ensuring icon-only links/buttons have descriptive text readable by screen readers.
+
+### Interactive Accessibility Demo
+
+The button below contains a search icon (🔍). To ensure accessibility, it wraps a `VisuallyHidden` element with a label.
+
+<div
+	style={{
+		border: '1px solid var(--color-container-2, #ccc)',
+		backgroundColor: 'var(--color-container-1, #f9f9f9)',
+		borderRadius: '12px',
+		padding: '24px',
+		display: 'flex',
+		flexDirection: 'column',
+		gap: '16px',
+		maxWidth: '600px',
+		fontFamily: 'Inter, system-ui, sans-serif',
+	}}
+>
+	<div>
+		<button
+			type="button"
+			style={{
+				backgroundColor: 'var(--color-accent, #0066cc)',
+				color: 'var(--color-surface, #ffffff)',
+				border: 'none',
+				borderRadius: '8px',
+				width: '44px',
+				height: '44px',
+				cursor: 'pointer',
+				display: 'inline-flex',
+				alignItems: 'center',
+				justifyContent: 'center',
+				fontSize: '1.25rem',
+			}}
+		>
+			🔍
+			<VisuallyHidden>Search database for oak tables</VisuallyHidden>
+		</button>
+	</div>
+
+    <div
+    	style={{
+    		backgroundColor: '#1e1e1e',
+    		color: '#a9ffb2',
+    		fontFamily: 'monospace',
+    		padding: '16px',
+    		borderRadius: '6px',
+    		borderLeft: '4px solid #4caf50',
+    		marginTop: '12px',
+    	}}
+    >
+    	<div style={{ fontSize: '0.875rem', color: '#888', display: 'block' }}>
+    		[Screen Reader Simulation Output]
+    	</div>
+    	<div style={{ fontSize: '1rem', display: 'block', marginTop: '4px' }}>
+    		"Button, Focus: <strong>Search database for oak tables</strong>"
+    	</div>
+    </div>
+
+</div>
+
+---
+
+## How to Use
+
+Import the component from the design system library:
+
+```tsx
+import { VisuallyHidden } from '@absolutholz/design-system';
+```
+
+Wrap accessibility labels within the component:
+
+```tsx
+<button type="button">
+	<Icon name="close" />
+	<VisuallyHidden>Close modal window</VisuallyHidden>
+</button>
+```
+
+You can also change the wrapper element using the `as` prop (default is `span`):
+
+```tsx
+<VisuallyHidden as="div">
+	This content will be rendered inside a visually hidden div tag.
+</VisuallyHidden>
+```

@@ -8,7 +8,7 @@ This document outlines the strict operational rules and standards for authoring 
 
 ## Core Responsibilities
 
-- Generate and update highly interactive Storybook stories (CSF 3) for design system components. Avoid creating custom companion MDX documentation sheets for individual components to prevent indexing conflicts and dependency overhead.
+- Generate and update highly interactive Storybook stories (CSF 3) or MDX documentation files as requested.
 - Leverage existing design system components (`Text`, `Theme`, `SchemeSwitcher`) to construct all custom story decorators, wrapper templates, documentation examples, and demo card structures inside MDX and story files.
 
 ## Interactive First
@@ -19,7 +19,8 @@ This document outlines the strict operational rules and standards for authoring 
 
 ## Existing Component Reuse
 
-- **Prefer Library Components**: When constructing demo layouts, cards, wrappers, lists, or headers within story CSF files and MDX documentation files, **always** prefer components from this library (like `<Text>` and `<Theme>`) over raw HTML elements (`<h3>`, `<p>`, `<span>`, `<div>`) or duplicate custom styled-components for layout/text.
+- **Prefer Library Components in Demos**: When constructing interactive showcases, demo layouts, cards, wrappers, lists, or headers within story CSF files and MDX documentation files, **always** prefer components from this library (like `<Text>` and `<Theme>`) over raw HTML elements (`<h3>`, `<p>`, `<span>`, `<div>`) or duplicate custom styled-components.
+- **Normal Markdown for Docs Text**: Standard MDX documentation text (such as article headings, lists, and body paragraphs) should be written in standard Markdown, without using system components or styled wrappers, to align with other MDX files in the workspace.
 - **Theming Integration**: For custom layout sections, cards, or story wrappers that showcase color combinations, wrap the layout in the `<Theme>` component, passing the appropriate `name` prop (e.g., `<Theme name="secondary">` or `<Theme name={args.themeName}>`). Avoid manual CSS variable binding or theme class names.
 - **Typography Integration**: For descriptive labels, titles, notes, descriptions, headers, or metadata in story examples, import and use the `<Text>` component with an appropriate semantic `variant` (e.g. `'display'`, `'h1'`, `'h2'`, `'h3'`, `'base'`, `'small'`) and optionally configure the wrapping element via the `as` prop (e.g. `<Text variant="h3" as="h3">`).
 - **Relative Imports**: Ensure existing library components are imported relatively from their respective folders.

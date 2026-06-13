@@ -20,3 +20,4 @@ export * from './components/Theme';
 export * from './components/SchemeSwitcher';
 export * from './components/Text';
 export * from './components/PageContainer';
+export * from './components/VisuallyHidden';
