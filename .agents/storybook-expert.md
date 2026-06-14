@@ -16,6 +16,8 @@ This document outlines the strict operational rules and standards for authoring 
 - Focus heavily on interactive play routines and complete `args` support over static code blocks.
 - Every story must be built so that the component can be dynamically manipulated live inside the Storybook UI controls panel.
 - Avoid creating static, non-interactive stories (e.g. Gallery or Nested Themes layouts) in the stories files. Instead, keep stories files focused purely on interactive controls. If static representation is needed, document it centrally in design system documentation (e.g., `Themes.mdx`) rather than component stories.
+- **Do not merge multiple prop variants into a single composite story**: Never render multiple variations of a component side-by-side with hardcoded props inside a single story's custom render function (as this renders the Storybook controls panel useless for that story). Instead, split each variant into its own dedicated story export using specific `args`. If a layout context (like a constrained container width) is required to showcase a state (e.g., truncation), wrap the story using a custom decorator.
+- **Story Descriptions**: Document the purpose of each individual story using the `parameters.docs.description.story` parameter. This renders explanatory text for that specific variant/state directly in the Storybook Docs panel.
 
 ## Existing Component Reuse
 

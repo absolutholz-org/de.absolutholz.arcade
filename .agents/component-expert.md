@@ -25,7 +25,7 @@ Each component directory must be split into the following distinct files:
 5. `_ComponentName.types.ts`
    - **Purpose:** TypeScript types.
 6. `_ComponentName.stories.tsx`
-   - **Purpose:** Storybook documentation.
+   - **Purpose:** Storybook documentation. Ensure every component state/prop variant is written as its own story export using `args` to keep Storybook's interactive controls functional. Avoid composite layouts that render multiple variations side-by-side inside a single story. Document each story's purpose using the `parameters.docs.description.story` parameter.
 7. `_ComponentName.styles.ts` (Optional)
    - **Purpose:** Emotion CSS-in-JS styled definitions.
 
@@ -58,7 +58,7 @@ Each component directory must be split into the following distinct files:
 
 - **Emotion CSS-in-JS**: We strictly use Emotion CSS-in-JS (`@emotion/react` and `@emotion/styled`) for all component styling.
 - **No Inline Styles**: Avoid inline styles (`style={{ ... }}`) unless rendering truly dynamic values like runtime-calculated offsets, percentages, or absolute positions.
-- **Styled Component Naming**: In `_ComponentName.styles.ts`, name the exported styled components to match the name of the corresponding component being styled (e.g., `export const Text = styled.span...`).
+- **Styled Component Naming**: In `_ComponentName.styles.ts`, name the exported styled components to match the name of the corresponding component being styled (e.g., `export const Text = styled.div...`).
 - **Styled Import Convention**: In `_ComponentName.tsx`, import all styled definitions under the `S` namespace (`import * as S from './_ComponentName.styles'`) and render them as `<S.ComponentName ...>`.
 - **Restricting Overrides**: Protect components from layout-compromising overrides. Do not allow raw `style` props. In `_ComponentName.types.ts`, explicitly omit `'style'` from component props (e.g. `Omit<ComponentPropsWithoutRef<C>, 'style'>`).
 - **Legacy Deletion**: All legacy references to Vanilla Extract, CSS modules, or `.css.ts` compilation extensions are obsolete and must not be used.
