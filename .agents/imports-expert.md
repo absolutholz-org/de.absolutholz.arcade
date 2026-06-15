@@ -35,6 +35,7 @@ To maintain transparency, improve bundle tree-shaking, and prevent circular depe
   import { Theme } from '../Theme';
   ```
 - **Style, Constant, & Utility imports:** When importing anything else, you must target the specific file directly. Never create or import from a style or utility barrel file.
+
   ```ts
   // Allowed (Direct File Target)
   import { space } from '../../styles/spacing/spacing.utils';
@@ -47,9 +48,10 @@ To maintain transparency, improve bundle tree-shaking, and prevent circular depe
 ### 4. Private File Import Restrictions (Enforced by Linter)
 
 - **Rule:** Files prefixed with an underscore (`_`) are considered **private** to their component/module directory.
-- **Restriction:** Importing any `_` prefixed file from *outside* its own folder is strictly forbidden and blocked by ESLint's `no-restricted-imports` rule.
+- **Restriction:** Importing any `_` prefixed file from _outside_ its own folder is strictly forbidden and blocked by ESLint's `no-restricted-imports` rule.
 - If you need to access variables, types, or utilities from a `_` prefixed file inside another component or style directory, you must first export them from the folder's public barrel file (`index.ts`) and import them from the parent folder path.
 - **Example:**
+
   ```ts
   // Allowed (local relative import inside the same folder)
   import { DEFAULT_THEME_NAME } from './_Theme.constants';

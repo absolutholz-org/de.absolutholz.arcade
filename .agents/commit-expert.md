@@ -36,7 +36,8 @@ This document outlines the strict guidelines and responsibilities for managing r
 ## Quality & Formatting Rules
 
 - Defer entirely to the workspace's root configuration rules, linting configurations, and pre-commit hooks (such as Husky or lint-staged).
-- Do not attempt to bypass hooks or invent custom formatting rules.
+- The pre-commit hook runs linting and formatting (via `lint-staged`), typescript type-checking (`pnpm typecheck`), and the test suite (`pnpm test`). Always verify that these quality checks pass before committing.
+- Do not attempt to bypass hooks (do not use `--no-verify` unless explicitly requested by the developer) or invent custom formatting rules.
 
 ## Safety & Confirmation Protocol
 

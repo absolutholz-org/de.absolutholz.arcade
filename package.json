@@ -14,7 +14,10 @@
 		"build-storybook": "pnpm --filter @absolutholz/design-system build-storybook",
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
-		"format:fix": "prettier --write ."
+		"format:fix": "prettier --write .",
+		"typecheck": "pnpm --filter @absolutholz/design-system typecheck",
+		"test": "pnpm --filter @absolutholz/design-system test",
+		"check-all": "pnpm lint && pnpm typecheck && pnpm test"
 	},
 	"devDependencies": {
 		"@eslint/js": "^10.0.1",
