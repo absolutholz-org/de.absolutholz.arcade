@@ -12,13 +12,14 @@ This document describes and explains the individual reset rules that establish c
 
 ### 1. Box Sizing, Margin, and Padding Reset
 
-Applies `border-box` layout calculations globally so that padding and border do not bloat specified widths. It also clears all default browser margins and paddings.
+Applies `border-box` layout calculations globally so that padding and border do not bloat specified widths, ensures font properties are inherited by default, and clears all default browser margins and paddings.
 
 ```css
 *,
 *::before,
 *::after {
 	box-sizing: border-box;
+	font: inherit;
 	margin: 0;
 	padding: 0;
 }
@@ -28,13 +29,20 @@ Applies `border-box` layout calculations globally so that padding and border do 
 
 ### 2. Document Base Height and Scroll
 
-Ensures full viewport heights can be calculated (useful for vertical centering and full-screen layouts) and enables smooth scrolling behavior by default.
+Ensures full viewport heights can be calculated (useful for vertical centering and full-screen layouts), enables smooth scrolling behavior by default, and preps the browser engine window by declaring light/dark scheme support, forcing advanced font legibility, and enabling anti-aliasing.
 
 ```css
 html,
 body {
 	height: 100%;
 	scroll-behavior: smooth;
+}
+
+html {
+	color-scheme: light dark;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 ```
 
