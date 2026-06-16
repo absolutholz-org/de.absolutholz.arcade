@@ -1,10 +1,9 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import React from 'react';
 import styled from '@emotion/styled';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Carousel } from '.';
 import { PageContainer } from '../PageContainer';
-import { Theme } from '../Theme';
 import { Text } from '../Text';
+import { Theme } from '../Theme';
 
 const meta = {
 	component: Carousel,

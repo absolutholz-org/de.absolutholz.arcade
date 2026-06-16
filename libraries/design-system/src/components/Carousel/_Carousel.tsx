@@ -1,10 +1,10 @@
 import type { ElementType } from 'react';
-import * as S from './_Carousel.styles';
-import type { CarouselProps } from './_Carousel.types';
 import {
 	DEFAULT_CAROUSEL_GAP,
 	DEFAULT_CAROUSEL_VARIANT,
 } from './_Carousel.constants';
+import * as S from './_Carousel.styles';
+import type { CarouselProps } from './_Carousel.types';
 
 /**
  * A responsive, CSS-only scroll-snapping carousel component.

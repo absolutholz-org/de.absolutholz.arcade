@@ -1,14 +1,17 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { space } from '../../styles/spacing/spacing.utils';
 import type { SpacingKey } from '../../styles/spacing/spacing.utils';
+import { space } from '../../styles/spacing/spacing.utils';
 
 const baseCarouselStyles = css`
 	display: flex;
 	overflow-x: auto;
+	overflow-y: hidden;
 	scroll-snap-type: x mandatory;
 	scroll-behavior: smooth;
 	scrollbar-width: none;
+	padding-block: ${space('lg')};
+	margin-block: calc(-1 * ${space('lg')});
 
 	&::-webkit-scrollbar {
 		display: none;
