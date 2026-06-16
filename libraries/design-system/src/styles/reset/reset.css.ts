@@ -7,6 +7,7 @@ export const reset = css`
 	*::before,
 	*::after {
 		box-sizing: border-box;
+		font: inherit;
 		margin: 0;
 		padding: 0;
 	}
