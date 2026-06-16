@@ -6,6 +6,6 @@ import type { PageContainerVariant } from './_PageContainer.types';
 export const PageContainer = styled.div<{ $variant: PageContainerVariant }>`
 	margin-inline: auto;
 	width: 100%;
-	max-width: ${(props) => PAGE_CONTAINER_VARIANTS[props.$variant]};
+	max-width: ${({ $variant }) => PAGE_CONTAINER_VARIANTS[$variant]};
 	padding-inline: ${space('xl')};
 `;

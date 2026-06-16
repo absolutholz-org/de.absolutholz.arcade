@@ -108,7 +108,7 @@ const SideBySide = styled.div`
 `;
 
 const SchemeWrapper = styled.div<{ scheme: 'light' | 'dark' }>`
-	color-scheme: ${(props) => props.scheme};
+	color-scheme: ${({ scheme }) => scheme};
 	background-color: var(--color-surface);
 	color: var(--color-text-1);
 	padding: 28px;
@@ -252,7 +252,7 @@ const ColorPreview = styled.div<{ bgVar: string }>`
 	height: 24px;
 	border-radius: 6px;
 	border: 1px solid var(--color-container-2);
-	background-color: ${(props) => props.bgVar};
+	background-color: ${({ bgVar }) => bgVar};
 	flex-shrink: 0;
 `;
 

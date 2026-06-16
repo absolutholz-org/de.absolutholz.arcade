@@ -92,10 +92,10 @@ const PixelVal = styled.span`
 
 const PreviewBar = styled.div<{ widthVal: string; spacingKey: string }>`
 	height: 16px;
-	width: ${(props) => props.widthVal};
+	width: ${({ widthVal }) => widthVal};
 	background-color: var(--color-accent);
 	border-radius: 4px;
-	min-width: ${(props) => (props.spacingKey === 'none' ? '0' : '2px')};
+	min-width: ${({ spacingKey }) => (spacingKey === 'none' ? '0' : '2px')};
 `;
 
 const RemVal = styled.span`
