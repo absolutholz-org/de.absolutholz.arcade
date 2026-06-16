@@ -6,14 +6,14 @@ import type { PageContainerProps } from './_PageContainer.types';
  * Responsive layout container that centrally spaces and pads page content.
  */
 export function PageContainer<C extends ElementType = 'div'>({
-	maxWidth,
+	variant = 'standard',
 	as,
 	children,
 }: PageContainerProps<C>) {
 	const Component = as || 'div';
 
 	return (
-		<S.PageContainer as={Component} $maxWidth={maxWidth}>
+		<S.PageContainer as={Component} $variant={variant}>
 			{children}
 		</S.PageContainer>
 	);

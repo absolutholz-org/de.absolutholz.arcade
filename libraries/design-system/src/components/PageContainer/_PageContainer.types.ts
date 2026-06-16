@@ -1,11 +1,14 @@
 import type { ElementType, ComponentPropsWithoutRef, ReactNode } from 'react';
+import type { PAGE_CONTAINER_VARIANTS } from './_PageContainer.constants';
+
+export type PageContainerVariant = keyof typeof PAGE_CONTAINER_VARIANTS;
 
 export interface BasePageContainerProps<C extends ElementType = 'div'> {
 	/**
-	 * Custom max width for the page content.
-	 * @default PAGE_MAX_WIDTH ('80rem')
+	 * The layout width variant constraint.
+	 * @default 'standard'
 	 */
-	maxWidth?: string;
+	variant?: PageContainerVariant;
 	/**
 	 * The HTML element or custom component to render.
 	 * @default 'div'
