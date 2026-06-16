@@ -5,6 +5,8 @@ import {
 	LOREM_MEDIUM,
 	LOREM_LONG,
 	LOREM_FULL,
+	SEMANTIC_VARIANTS,
+	TEXT_WRAP_OPTIONS,
 } from './_Text.constants';
 
 const meta = {
@@ -17,12 +19,12 @@ const meta = {
 	argTypes: {
 		variant: {
 			control: 'select',
-			options: ['small', 'base', 'h3', 'h2', 'h1', 'display'],
+			options: Object.keys(SEMANTIC_VARIANTS),
 			description: 'The high-level semantic typography variant',
 		},
 		wrap: {
 			control: 'select',
-			options: ['pretty', 'balance', 'truncate', 'normal'],
+			options: TEXT_WRAP_OPTIONS,
 			description: 'Control how text wraps or truncates',
 		},
 		as: {

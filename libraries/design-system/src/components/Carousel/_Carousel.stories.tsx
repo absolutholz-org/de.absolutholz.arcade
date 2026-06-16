@@ -4,6 +4,8 @@ import { Carousel } from '.';
 import { PageContainer } from '../PageContainer';
 import { Text } from '../Text';
 import { Theme } from '../Theme';
+import { CAROUSEL_VARIANTS } from './_Carousel.constants';
+import { spacingScale } from '../../styles/spacing/spacing.constants';
 
 const meta = {
 	component: Carousel,
@@ -15,23 +17,12 @@ const meta = {
 	argTypes: {
 		variant: {
 			control: 'select',
-			options: ['standard', 'full-bleed'],
+			options: CAROUSEL_VARIANTS,
 			description: 'The layout variant of the carousel',
 		},
 		gap: {
 			control: 'select',
-			options: [
-				'none',
-				'3xs',
-				'2xs',
-				'xs',
-				'sm',
-				'md',
-				'lg',
-				'xl',
-				'2xl',
-				'3xl',
-			],
+			options: Object.keys(spacingScale),
 			description: 'The space gap between each slide',
 		},
 		as: {

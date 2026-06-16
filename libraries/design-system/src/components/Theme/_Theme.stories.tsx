@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Theme } from '.';
+import { THEME_NAMES } from './_Theme.constants';
 
 const meta = {
 	component: Theme,
@@ -12,7 +13,7 @@ const meta = {
 	argTypes: {
 		name: {
 			control: 'select',
-			options: ['primary', 'secondary', 'contrast', 'accent'],
+			options: THEME_NAMES,
 			description:
 				'The name of the theme to apply (e.g., primary, secondary, contrast, accent)',
 		},

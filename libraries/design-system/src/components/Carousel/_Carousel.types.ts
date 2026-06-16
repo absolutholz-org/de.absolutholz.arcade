@@ -1,7 +1,8 @@
 import type { ElementType, ComponentPropsWithoutRef, ReactNode } from 'react';
 import type { SpacingKey } from '../../styles/spacing/spacing.utils';
+import type { CAROUSEL_VARIANTS } from './_Carousel.constants';
 
-export type CarouselVariant = 'standard' | 'full-bleed';
+export type CarouselVariant = (typeof CAROUSEL_VARIANTS)[number];
 
 export interface BaseCarouselProps<C extends ElementType = 'div'> {
 	/**

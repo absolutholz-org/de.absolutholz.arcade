@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import { PageContainer } from '.';
 import { Theme } from '../Theme';
 import { Text } from '../Text';
+import { PAGE_CONTAINER_VARIANTS } from './_PageContainer.constants';
 
 const meta = {
 	component: PageContainer,
@@ -15,7 +16,7 @@ const meta = {
 	argTypes: {
 		variant: {
 			control: 'select',
-			options: ['standard', 'wide', 'full'],
+			options: Object.keys(PAGE_CONTAINER_VARIANTS),
 			description: 'The layout width variant constraint',
 		},
 		as: {

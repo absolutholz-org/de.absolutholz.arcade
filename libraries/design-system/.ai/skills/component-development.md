@@ -54,3 +54,14 @@ Each component directory must be split into the following distinct files:
 - **Restricting Overrides**: Protect components from layout-compromising overrides. Do not allow raw `style` props. In `_ComponentName.types.ts`, explicitly omit `'style'` from component props (e.g. `Omit<ComponentPropsWithoutRef<C>, 'style'>`).
 - **Legacy Deletion**: All legacy references to Vanilla Extract, CSS modules, or `.css.ts` compilation extensions are obsolete and must not be used.
 - **Respect Global Reset & Styles**: Do not add redundant styles that are already defined in the global reset or global styles. For example, do not declare `box-sizing: border-box;` in styled components, as it is already handled globally by the reset layer.
+
+## 5. DRY Types & Component Constants
+
+To prevent duplication and enforce a single source of truth, follow this pattern when defining component options (such as layout variants, size keys, themes, or wrap styles):
+
+- **Define in Constants**: Define options as a readonly `const` array (using `as const`) or a mapping object in `_ComponentName.constants.ts`.
+  - Example: `export const WRAP_OPTIONS = ['pretty', 'balance', 'truncate', 'normal'] as const;`
+- **Derive in Types**: In `_ComponentName.types.ts`, derive the corresponding TypeScript union types from these constants.
+  - Example: `export type WrapOption = typeof WRAP_OPTIONS[number];`
+- **Import for Stories**: In `_ComponentName.stories.tsx`, import the constants or mapping keys directly and pass them to the control's `options` array.
+- **Type-Only Imports for Derivations**: When importing constants into type files (`.types.ts`) solely for type derivation (using `typeof CONSTANT`), always use a type-only import (`import type { CONSTANT }` or `import type { typographyScale }`) to prevent duplicate import errors and comply with strict type-import lint rules.

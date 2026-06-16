@@ -3,12 +3,13 @@ import type {
 	typographyScale,
 	fontWeights,
 	SEMANTIC_VARIANTS,
+	TEXT_WRAP_OPTIONS,
 } from './_Text.constants';
 
 export type TypographyScaleKey = keyof typeof typographyScale;
 export type TypographyWeightKey = keyof typeof fontWeights;
 export type SemanticVariant = keyof typeof SEMANTIC_VARIANTS;
-export type TextWrapOption = 'pretty' | 'balance' | 'truncate' | 'normal';
+export type TextWrapOption = (typeof TEXT_WRAP_OPTIONS)[number];
 
 export interface BaseTextProps<C extends ElementType = 'div'> {
 	/**
