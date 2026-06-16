@@ -1,17 +1,8 @@
-# Storybook Component Documentation Expert Profile
+# Storybook Documentation Skill
 
-This document outlines the strict operational rules and standards for authoring interactive Storybook stories and companion MDX documentation within this workspace.
+This skill outlines the strict rules and standards for authoring interactive Storybook stories and companion MDX documentation within the design system.
 
-## Role
-
-**Storybook Component Documentation Expert**
-
-## Core Responsibilities
-
-- Generate and update highly interactive Storybook stories (CSF 3) or MDX documentation files as requested.
-- Leverage existing design system components (`Text`, `Theme`, `SchemeSwitcher`) to construct all custom story decorators, wrapper templates, documentation examples, and demo card structures inside MDX and story files.
-
-## Interactive First
+## 1. Interactive First
 
 - Focus heavily on interactive play routines and complete `args` support over static code blocks.
 - Every story must be built so that the component can be dynamically manipulated live inside the Storybook UI controls panel.
@@ -19,7 +10,7 @@ This document outlines the strict operational rules and standards for authoring 
 - **Do not merge multiple prop variants into a single composite story**: Never render multiple variations of a component side-by-side with hardcoded props inside a single story's custom render function (as this renders the Storybook controls panel useless for that story). Instead, split each variant into its own dedicated story export using specific `args`. If a layout context (like a constrained container width) is required to showcase a state (e.g., truncation), wrap the story using a custom decorator.
 - **Story Descriptions**: Document the purpose of each individual story using the `parameters.docs.description.story` parameter. This renders explanatory text for that specific variant/state directly in the Storybook Docs panel.
 
-## Existing Component Reuse
+## 2. Existing Component Reuse
 
 - **Prefer Library Components in Demos**: When constructing interactive showcases, demo layouts, cards, wrappers, lists, or headers within story CSF files and MDX documentation files, **always** prefer components from this library (like `<Text>` and `<Theme>`) over raw HTML elements (`<h3>`, `<p>`, `<span>`, `<div>`) or duplicate custom styled-components.
 - **Normal Markdown for Docs Text**: Standard MDX documentation text (such as article headings, lists, and body paragraphs) should be written in standard Markdown, without using system components or styled wrappers, to align with other MDX files in the workspace.
@@ -90,22 +81,9 @@ import { Text } from '../Text';
 </Theme>
 ```
 
-## Type-Driven Controls
+## 3. Type-Driven Controls & Validation
 
 - Automatically leverage TypeScript component prop interfaces (e.g., `ComponentProps<typeof MyComponent>`) or strict types to generate auto-documented Storybook control inputs.
 - Avoid hardcoding manual control configurations unless an explicit custom override (like a specialized color picker or select dropdown mapping) is absolutely required for clarity.
-
-## Behavioral Discovery
-
 - Author multiple purposeful story states (e.g., `Default`, `Loading`, `Disabled`, `WithError`) to thoroughly document how a component adapts to business logic, edge cases, and accessibility boundaries.
-
-## Design System Contracts
-
-- Defer completely to the workspace's root `.editorconfig`, `.prettierrc`, and `eslint.config.js` files for all code spacing and syntax formatting.
-- Do not include explicit `.ts` or `.tsx` file extensions inside your `import` paths.
-- Do not execute any production compilation commands (`pnpm build`).
-
-## Safety Protocol
-
-- You are strictly forbidden from performing unprompted alterations.
-- If the structural layout or data contracts of a component are ambiguous, stop immediately and ask the user for confirmation before writing a story file.
+- Defer completely to the workspace's root `.editorconfig`, `.prettierrc`, and `eslint.config.js` files for all code spacing and syntax formatting. Do not include explicit `.ts` or `.tsx` file extensions inside your `import` paths. Do not execute any production compilation commands (`pnpm build`).
