@@ -5,13 +5,13 @@ import { space } from '../../styles/spacing/spacing.utils';
 
 const baseCarouselStyles = css`
 	display: flex;
+	margin-block: calc(-1 * ${space('lg')});
 	overflow-x: auto;
 	overflow-y: hidden;
-	scroll-snap-type: x mandatory;
-	scroll-behavior: smooth;
-	scrollbar-width: none;
 	padding-block: ${space('lg')};
-	margin-block: calc(-1 * ${space('lg')});
+	scroll-behavior: smooth;
+	scroll-snap-type: x mandatory;
+	scrollbar-width: none;
 
 	&::-webkit-scrollbar {
 		display: none;
@@ -26,14 +26,12 @@ const baseCarouselStyles = css`
 export const Carousel = styled.div<{ $gap: SpacingKey }>`
 	${baseCarouselStyles}
 	gap: ${({ $gap }) => space($gap)};
-	width: 100%;
 	scroll-padding-left: 0;
+	width: 100%;
 `;
 
 export const FullBleedCarousel = styled.div<{ $gap: SpacingKey }>`
 	${baseCarouselStyles}
-	gap: ${({ $gap }) => space($gap)};
-
 	--scrollable-container-margin: max(
 		var(--page-content-padding, var(--space-xl)),
 		calc(
@@ -42,9 +40,11 @@ export const FullBleedCarousel = styled.div<{ $gap: SpacingKey }>`
 		)
 	);
 
-	width: 100vw;
+	gap: ${({ $gap }) => space($gap)};
+
 	margin-inline: calc(50% - 50vw);
 	scroll-padding-left: var(--scrollable-container-margin);
+	width: 100vw;
 
 	> :first-of-type {
 		margin-left: var(--scrollable-container-margin);

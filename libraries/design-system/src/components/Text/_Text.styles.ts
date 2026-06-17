@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import type { TextWrapOption } from './_Text.types';
 
@@ -9,7 +10,7 @@ export const Text = styled.div<{
 
 	${({ $wrap }) => {
 		if ($wrap === 'truncate') {
-			return `
+			return css`
 				overflow: hidden;
 				text-overflow: ellipsis;
 				white-space: nowrap;

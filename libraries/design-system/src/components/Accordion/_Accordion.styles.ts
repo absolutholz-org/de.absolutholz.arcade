@@ -8,18 +8,18 @@ export const AccordionContainer = styled.div<{
 }>`
 	display: flex;
 	flex-direction: column;
-	width: 100%;
 	gap: ${({ $gap }) => space($gap)};
+	width: 100%;
 `;
 
 export const Details = styled.details<{
 	$variant: AccordionVariant;
 }>`
-	width: 100%;
 	overflow: hidden;
 	transition:
 		border-color 0.2s ease,
 		box-shadow 0.2s ease;
+	width: 100%;
 
 	/* Strip default browser details marker */
 	&::-webkit-details-marker {
@@ -55,15 +55,15 @@ export const Details = styled.details<{
 `;
 
 export const Summary = styled.summary`
-	display: flex;
-	justify-content: space-between;
 	align-items: center;
-	padding: ${space('md')} ${space('lg')};
-	font-weight: 600;
 	color: var(--color-text-1);
 	cursor: pointer;
-	user-select: none;
+	display: flex;
+	font-weight: 600;
+	justify-content: space-between;
+	padding: ${space('md')} ${space('lg')};
 	transition: background-color 0.2s ease;
+	user-select: none;
 
 	&::-webkit-details-marker {
 		display: none;
@@ -81,25 +81,25 @@ export const Summary = styled.summary`
 `;
 
 export const SummaryContent = styled.div`
-	display: flex;
 	align-items: center;
-	gap: ${space('sm')};
+	display: flex;
 	flex: 1;
+	gap: ${space('sm')};
 `;
 
 export const ChevronIcon = styled.svg`
-	flex-shrink: 0;
-	width: 1.25rem;
-	height: 1.25rem;
+	color: var(--color-text-2);
 	fill: none;
+	flex-shrink: 0;
+	height: 1.25rem;
 	stroke: currentColor;
-	stroke-width: 2;
 	stroke-linecap: round;
 	stroke-linejoin: round;
-	color: var(--color-text-2);
+	stroke-width: 2;
 	transition:
 		transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
 		color 0.2s ease;
+	width: 1.25rem;
 
 	summary:hover & {
 		color: var(--color-accent);
@@ -107,15 +107,15 @@ export const ChevronIcon = styled.svg`
 
 	/* Rotate chevron when parent details is open */
 	details[open] & {
-		transform: rotate(180deg);
 		color: var(--color-accent);
+		transform: rotate(180deg);
 	}
 `;
 
 export const ContentPanel = styled.div`
-	padding: ${space('md')} ${space('lg')};
-	color: var(--color-text-2);
-	line-height: 1.6;
 	background-color: var(--color-container-1);
 	border-top: 1px solid var(--color-container-2);
+	color: var(--color-text-2);
+	line-height: 1.6;
+	padding: ${space('md')} ${space('lg')};
 `;
