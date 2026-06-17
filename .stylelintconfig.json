@@ -1,0 +1,13 @@
+{
+	"plugins": ["stylelint-order"],
+	"rules": {},
+	"overrides": [
+		{
+			"files": ["**/*.styles.ts", "**/*.styled.ts"],
+			"customSyntax": "postcss-styled-syntax",
+			"rules": {
+				"order/properties-alphabetical-order": true
+			}
+		}
+	]
+}
