@@ -5,7 +5,7 @@ export interface BaseThemeProps<C extends ElementType = 'div'> {
 	/**
 	 * The name of the theme to apply (e.g. 'primary', 'secondary', 'contrast', 'accent')
 	 */
-	name: keyof Themeset;
+	name?: keyof Themeset;
 	/**
 	 * The HTML element or custom component to render as the wrapping element.
 	 * @default 'div'

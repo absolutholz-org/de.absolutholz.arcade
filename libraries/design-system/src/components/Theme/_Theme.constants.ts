@@ -4,4 +4,3 @@ export const THEME_NAMES = [
 	'contrast',
 	'accent',
 ] as const;
-export const DEFAULT_THEME_NAME: (typeof THEME_NAMES)[number] = 'primary';

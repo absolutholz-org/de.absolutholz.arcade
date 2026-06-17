@@ -1,8 +1,4 @@
 import type { ElementType } from 'react';
-import {
-	DEFAULT_CAROUSEL_GAP,
-	DEFAULT_CAROUSEL_VARIANT,
-} from './_Carousel.constants';
 import * as S from './_Carousel.styles';
 import type { CarouselProps } from './_Carousel.types';
 
@@ -11,8 +7,8 @@ import type { CarouselProps } from './_Carousel.types';
  * Supports standard container fitting and full-bleed edge-to-edge layouts.
  */
 export function Carousel<C extends ElementType = 'div'>({
-	variant = DEFAULT_CAROUSEL_VARIANT,
-	gap = DEFAULT_CAROUSEL_GAP,
+	variant = 'standard',
+	gap = 'md',
 	as,
 	children,
 }: CarouselProps<C>) {
