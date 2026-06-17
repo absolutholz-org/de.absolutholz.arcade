@@ -2,11 +2,12 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { Global, css } from '@emotion/react';
 import { Theme } from '../../../components/Theme';
+import { Text } from '../../../components/Text';
+// eslint-disable-next-line no-restricted-imports
 import {
-	Text,
 	typographyCssTokensCompact,
 	typographyCssTokensExpanded,
-} from '../../../components/Text';
+} from '../../../components/Text/_Text.constants';
 import {
 	spacingScale,
 	spacingScaleCompact,

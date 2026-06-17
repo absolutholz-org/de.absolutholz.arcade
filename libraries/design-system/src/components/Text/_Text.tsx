@@ -1,6 +1,6 @@
 import type { ElementType } from 'react';
 import { SEMANTIC_VARIANTS } from './_Text.constants';
-import { generateFontShorthand } from './_Text.hooks';
+import { generateFontShorthand } from './_Text.functions';
 import * as S from './_Text.styles';
 import type { TextProps } from './_Text.types';
 

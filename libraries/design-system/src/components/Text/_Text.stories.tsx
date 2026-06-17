@@ -1,13 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Text } from '.';
-import {
-	LOREM_SHORT,
-	LOREM_MEDIUM,
-	LOREM_LONG,
-	LOREM_FULL,
-	SEMANTIC_VARIANTS,
-	TEXT_WRAP_OPTIONS,
-} from './_Text.constants';
+import { SEMANTIC_VARIANTS, TEXT_WRAP_OPTIONS } from './_Text.constants';
+
+const LOREM_SHORT = 'Lorem ipsum dolor sit amet consectetur adipiscing elit.';
+
+const LOREM_MEDIUM =
+	'Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis.';
+
+const LOREM_LONG =
+	'Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas.';
+
+const LOREM_FULL =
+	'Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.';
 
 const meta = {
 	component: Text,

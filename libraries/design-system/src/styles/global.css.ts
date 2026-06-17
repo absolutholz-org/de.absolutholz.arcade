@@ -6,10 +6,11 @@ import {
 	spacingCssTokensCompact,
 	spacingCssTokensExpanded,
 } from './spacing/spacing.constants';
+// eslint-disable-next-line no-restricted-imports
 import {
 	typographyCssTokensCompact,
 	typographyCssTokensExpanded,
-} from '../components/Text';
+} from '../components/Text/_Text.constants';
 
 export const getGlobalStyles = (themesetCss: string = themesetBaseCss) => css`
 	${reset}
