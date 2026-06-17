@@ -14,6 +14,11 @@ const preview: Preview = {
 				date: /Date$/i,
 			},
 		},
+		options: {
+			storySort: {
+				order: ['General', 'Foundations', '*'],
+			},
+		},
 		a11y: {
 			test: 'todo',
 		},
