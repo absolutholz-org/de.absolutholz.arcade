@@ -10,6 +10,10 @@ Each component directory must be split into the following distinct files:
 
 1. `index.ts`
    - **Purpose:** Pure barrel export.
+     For a component named Accordion, the public index.ts barrel file must look exactly like this minimal setup, with absolutely zero type or internal sub-exports:
+     ```typescript
+     export { Accordion } from './_Accordion';
+     ```
 2. `_ComponentName.tsx`
    - **Purpose:** View layer only.
 3. `_ComponentName.hooks.ts`
@@ -22,6 +26,8 @@ Each component directory must be split into the following distinct files:
    - **Purpose:** Storybook documentation. Ensure every component state/prop variant is written as its own story export using `args` to keep Storybook's interactive controls functional. Avoid composite layouts that render multiple variations side-by-side inside a single story. Document each story's purpose using the `parameters.docs.description.story` parameter.
 7. `_ComponentName.styles.ts` (Optional)
    - **Purpose:** Emotion CSS-in-JS styled definitions.
+8. `_ComponentName.functions.ts` (Optional)
+   - **Purpose:** Pure utility and helper functions.
 
 ## 2. Naming Convention
 
@@ -34,6 +40,7 @@ Each component directory must be split into the following distinct files:
   - `_SchemeSwitcher.types.ts`
   - `_SchemeSwitcher.stories.tsx`
   - `_SchemeSwitcher.styles.ts` (if styling is needed)
+  - `_SchemeSwitcher.functions.ts` (if utility/helper functions are needed)
 
 ## 3. Core React Rules
 
@@ -65,3 +72,6 @@ To prevent duplication and enforce a single source of truth, follow this pattern
   - Example: `export type WrapOption = typeof WRAP_OPTIONS[number];`
 - **Import for Stories**: In `_ComponentName.stories.tsx`, import the constants or mapping keys directly and pass them to the control's `options` array.
 - **Type-Only Imports for Derivations**: When importing constants into type files (`.types.ts`) solely for type derivation (using `typeof CONSTANT`), always use a type-only import (`import type { CONSTANT }` or `import type { typographyScale }`) to prevent duplicate import errors and comply with strict type-import lint rules.
+- **Idiomatic Property Defaults**: Do not create separate, isolated constants for default component properties (such as DEFAULT_VARIANT). Assign fallback values directly within the component function's parameter destructuring signature. Never document default values inside JSDoc prop annotations, as this causes documentation drift when implementations change.
+- **Storybook-Only Data Isolation**: Keep all variables, mock strings, helper components, or utility functions that are used exclusively for Storybook stories and MDX documentation directly inside the `.stories.tsx` or `.mdx` files. Do not declare them in the component's core `_ComponentName.constants.ts`, `_ComponentName.tsx`, or implementation files to prevent polluting the production codebase with testing-only concerns (e.g., standard lorem ipsum test text blocks).
+

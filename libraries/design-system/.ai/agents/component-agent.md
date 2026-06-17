@@ -14,4 +14,6 @@ This profile outlines the strict operational standards, folder constraints, and 
 ## Component Architecture & Structure
 
 - To understand the mandatory component file matrix, naming conventions, React development rules, and styling architectures, follow the rules in [component-development.md](../skills/component-development.md).
+- **Styling Separation Constraint**: All Emotion CSS-in-JS styled components (`styled.div`, etc.) must live exclusively in the dedicated `_ComponentName.styles.ts` (or `_ComponentName.styled.ts`) file. Declaring styled components directly inside the main view layer `_ComponentName.tsx` file is strictly prohibited.
 - To preserve import boundaries and prevent circular dependencies, follow the import rules in [codebase-structure.md](../../../../.ai/skills/codebase-structure.md).
+- **Storybook-Only Isolation**: Do not place mock data, sample texts, or testing utilities inside the production component files (such as `_ComponentName.constants.ts` or `_ComponentName.tsx`). Isolate them entirely within the story files.

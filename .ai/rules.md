@@ -15,9 +15,10 @@ This document outlines the global rules and operational boundaries that all AI a
 ## 3. Core Architectural Principles (DRY & SOLID)
 
 All code generated, refactored, or organized across apps and libraries must strictly adhere to clean software engineering principles:
-* **DRY (Don't Repeat Yourself):** Actively audit the workspace for existing utilities, constants, or hooks before writing new ones. Abstract shared logic into common internal libraries rather than duplicating code across distinct package boundaries.
-* **SOLID Principles:** - *Single Responsibility:* Every function, hook, and component must have exactly one reason to change.
-	- *Open/Closed:* Design modules to be open for extension but closed for modification (e.g., utilize clean configuration objects or extensible token maps).
-	- *Interface Segregation:* Keep TypeScript prop types and argument interfaces lean and purposeful; do not force components to depend on fat interfaces containing unused properties.
-	- *Dependency Inversion:* High-level application logic must depend on abstractions (like generic functional token keys), never on hardcoded low-level implementation details.
-* **Scope Efficiency:** When assisting with new library or application scoping, always propose a minimal, modular architecture footprint. Break complex features into isolated, highly testable domains.
+
+- **DRY (Don't Repeat Yourself):** Actively audit the workspace for existing utilities, constants, or hooks before writing new ones. Abstract shared logic into common internal libraries rather than duplicating code across distinct package boundaries.
+- **SOLID Principles:** - _Single Responsibility:_ Every function, hook, and component must have exactly one reason to change.
+  - _Open/Closed:_ Design modules to be open for extension but closed for modification (e.g., utilize clean configuration objects or extensible token maps).
+  - _Interface Segregation:_ Keep TypeScript prop types and argument interfaces lean and purposeful; do not force components to depend on fat interfaces containing unused properties.
+  - _Dependency Inversion:_ High-level application logic must depend on abstractions (like generic functional token keys), never on hardcoded low-level implementation details.
+- **Scope Efficiency:** When assisting with new library or application scoping, always propose a minimal, modular architecture footprint. Break complex features into isolated, highly testable domains.
