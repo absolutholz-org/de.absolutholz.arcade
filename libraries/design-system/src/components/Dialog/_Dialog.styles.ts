@@ -117,9 +117,6 @@ export const DialogContent = styled.div`
 `;
 
 export const DialogFooter = styled.div`
-	display: flex;
-	gap: ${space('sm')};
-	justify-content: flex-end;
 	padding: 0 ${space('lg')} ${space('lg')} ${space('lg')};
 `;
 

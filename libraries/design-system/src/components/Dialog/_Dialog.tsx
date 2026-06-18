@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
+import { Stack } from '../Stack';
 import * as S from './_Dialog.styles';
 import type { IDialog } from './_Dialog.types';
 
@@ -101,7 +102,13 @@ export function Dialog({
 
 				<S.DialogContent>{children}</S.DialogContent>
 
-				{footer && <S.DialogFooter>{footer}</S.DialogFooter>}
+				{footer && (
+					<S.DialogFooter>
+						<Stack direction="row" justify="end" wrap spacing="sm">
+							{footer}
+						</Stack>
+					</S.DialogFooter>
+				)}
 			</S.DialogContainer>
 		</S.DialogBase>
 	);
