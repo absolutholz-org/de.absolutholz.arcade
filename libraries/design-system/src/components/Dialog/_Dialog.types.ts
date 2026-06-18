@@ -2,17 +2,13 @@ import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 
 export interface BaseDialogProps {
 	/**
-	 * Text for the cancel/secondary action button.
-	 */
-	cancelText?: string;
-	/**
 	 * Children nodes inside the dialog content area.
 	 */
 	children?: ReactNode;
 	/**
-	 * Text for the confirm/primary action button.
+	 * Optional custom footer content (typically action buttons).
 	 */
-	confirmText?: string;
+	footer?: ReactNode;
 	/**
 	 * Optional custom HTML ID.
 	 */
@@ -22,17 +18,9 @@ export interface BaseDialogProps {
 	 */
 	isOpen: boolean;
 	/**
-	 * Message paragraph displayed in the dialog body.
+	 * Callback handler fired when the top-right X button, escape, or backdrop is clicked.
 	 */
-	message?: string;
-	/**
-	 * Callback handler fired when the dialog is dismissed or cancelled.
-	 */
-	onCancel: () => void;
-	/**
-	 * Callback handler fired when the confirm button is clicked.
-	 */
-	onConfirm?: () => void;
+	onClose?: () => void;
 	/**
 	 * Main title header text of the dialog.
 	 */

@@ -7,10 +7,24 @@ const meta = {
 	component: Dialog,
 	parameters: {
 		layout: 'centered',
+		docs: {
+			description: {
+				component:
+					'The Dialog component is a native HTML5-based layout primitive that serves as a highly accessible modal foundation. It manages overlay focus trapping and escape gestures, exposing an open children slot and a flexible footer layout container.',
+			},
+		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/Dialog',
+	title: 'Components/Dialog/BaseDialog',
 	argTypes: {
+		children: {
+			control: 'text',
+			description: 'Children nodes inside the dialog content area',
+		},
+		footer: {
+			control: false,
+			description: 'Optional custom footer content (typically action buttons)',
+		},
 		isOpen: {
 			control: 'boolean',
 			description: 'Visibility state of the dialog overlay',
@@ -19,25 +33,11 @@ const meta = {
 			control: 'text',
 			description: 'Header text displayed at the top of the dialog',
 		},
-		message: {
-			control: 'text',
-			description: 'Brief message text to render in the dialog content',
-		},
-		cancelText: {
-			control: 'text',
-			description: 'Text label for the cancel/secondary button',
-		},
-		confirmText: {
-			control: 'text',
-			description: 'Text label for the confirm/primary button',
-		},
 	},
 	args: {
+		children: 'This is the main content area of the dialog primitive.',
 		isOpen: false,
-		title: 'Confirm Deletion',
-		message: 'Are you sure you want to permanently delete this item?',
-		cancelText: 'Cancel',
-		confirmText: 'Delete',
+		title: 'Dialog Title',
 	},
 } satisfies Meta<typeof Dialog>;
 
@@ -61,99 +61,52 @@ function DialogStoryWrapper({
 			<button
 				onClick={() => setIsOpen(true)}
 				style={{
-					padding: '12px 24px',
 					backgroundColor: 'var(--color-accent)',
-					color: 'var(--color-accent-contrast)',
 					border: 'none',
+					color: 'var(--color-accent-contrast)',
 					cursor: 'pointer',
 					fontWeight: 600,
+					padding: '12px 24px',
 				}}
 			>
 				{triggerText}
 			</button>
 
-			<Dialog
-				{...props}
-				isOpen={isOpen}
-				onCancel={() => setIsOpen(false)}
-				onConfirm={() => {
-					props.onConfirm?.();
-					setIsOpen(false);
-				}}
-			/>
+			<Dialog {...props} isOpen={isOpen} onClose={() => setIsOpen(false)} />
 		</div>
 	);
 }
 
 export const Default: Story = {
-	parameters: {
-		docs: {
-			description: {
-				story:
-					'The default Dialog displays a header title, descriptive body text, and a confirmation action footer. Click the trigger button to open.',
-			},
-		},
-	},
-	render: (args) => (
-		<Theme name="primary">
-			<DialogStoryWrapper {...args} triggerText="Open Confirm Dialog" />
-		</Theme>
-	),
-};
-
-export const CustomContent: Story = {
 	args: {
-		title: 'Newsletter Subscription',
-		message: 'Stay updated with our latest wooden furniture designs.',
-		cancelText: 'Not Now',
-		confirmText: 'Subscribe',
+		children: 'This is a clean base layout example of the Dialog component.',
+		footer: (
+			<button
+				onClick={() => alert('Footer button clicked!')}
+				style={{
+					backgroundColor: 'var(--color-accent)',
+					border: 'none',
+					color: 'var(--color-accent-contrast)',
+					cursor: 'pointer',
+					fontWeight: 500,
+					padding: '8px 16px',
+				}}
+			>
+				Close
+			</button>
+		),
 	},
 	parameters: {
 		docs: {
 			description: {
 				story:
-					'A Dialog can render custom child components (such as input forms or stacks) directly inside its main body. Click the trigger button to open.',
+					'The default Dialog displays a header title, custom children body, and a flexible footer slot. Click the trigger button to open.',
 			},
 		},
 	},
 	render: (args) => (
 		<Theme name="primary">
-			<DialogStoryWrapper {...args} triggerText="Open Subscription Dialog">
-				<div style={{ marginTop: '16px' }}>
-					<input
-						type="email"
-						placeholder="Enter your email"
-						style={{
-							width: '100%',
-							padding: '8px 12px',
-							border: '1px solid var(--color-container-2)',
-							backgroundColor: 'var(--color-container-1)',
-							color: 'var(--color-text-1)',
-							boxSizing: 'border-box',
-						}}
-					/>
-				</div>
-			</DialogStoryWrapper>
-		</Theme>
-	),
-};
-
-export const Interactive: Story = {
-	parameters: {
-		docs: {
-			description: {
-				story:
-					'Click the trigger button below to open the Dialog and test state syncing, escape dismiss, and backdrop clicks.',
-			},
-		},
-	},
-	render: (args) => (
-		<Theme name="primary">
-			<DialogStoryWrapper
-				{...args}
-				triggerText="Open Interactive Dialog"
-				onConfirm={() => alert('Confirmed deletion!')}
-			/>
+			<DialogStoryWrapper {...args} triggerText="Open Dialog" />
 		</Theme>
 	),
 };

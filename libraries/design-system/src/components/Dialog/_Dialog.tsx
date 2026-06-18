@@ -2,35 +2,15 @@ import React, { useRef, useEffect, useState } from 'react';
 import * as S from './_Dialog.styles';
 import type { IDialog } from './_Dialog.types';
 
-// Internal styled button component to support standard props mapping
-function Button({
-	variant,
-	onClick,
-	children,
-}: {
-	variant: 'primary' | 'secondary';
-	onClick?: () => void;
-	children: React.ReactNode;
-}) {
-	return (
-		<S.Button $variant={variant} onClick={onClick}>
-			{children}
-		</S.Button>
-	);
-}
-
 /**
  * Highly accessible, native-based modal Dialog component.
  */
 export function Dialog({
-	cancelText,
 	children,
-	confirmText,
+	footer,
 	id,
 	isOpen,
-	message,
-	onCancel,
-	onConfirm,
+	onClose,
 	title,
 }: IDialog) {
 	const dialogRef = useRef<HTMLDialogElement>(null);
@@ -54,10 +34,12 @@ export function Dialog({
 		}
 	}, [isOpen, isClosing]);
 
-	// Native Escape key press triggers standard onCancel event
+	// Native Escape key press triggers standard close event
 	const handleCancel = (e: React.SyntheticEvent<HTMLDialogElement>) => {
 		e.preventDefault(); // Control state manually
-		onCancel();
+		if (onClose) {
+			onClose();
+		}
 	};
 
 	const handleBackdropClick = (e: React.MouseEvent<HTMLDialogElement>) => {
@@ -78,7 +60,9 @@ export function Dialog({
 		if (isDialogContent) return;
 
 		// 3. Trigger close callback
-		onCancel();
+		if (onClose) {
+			onClose();
+		}
 	};
 
 	const handleAnimationEnd = (e: React.AnimationEvent<HTMLDialogElement>) => {
@@ -102,32 +86,22 @@ export function Dialog({
 			onClick={handleBackdropClick}
 			onAnimationEnd={handleAnimationEnd}
 			aria-labelledby="dialog-title"
-			aria-describedby={message ? 'dialog-message' : undefined}
 			data-closing={isClosing ? 'true' : undefined}
 			{...{ closedby: 'any' }}
 		>
 			<S.DialogContainer onClick={(e) => e.stopPropagation()}>
 				<S.DialogHeader>
 					<S.DialogTitle id="dialog-title">{title}</S.DialogTitle>
+					{onClose && (
+						<S.CloseButton onClick={onClose} aria-label="Close dialog">
+							X
+						</S.CloseButton>
+					)}
 				</S.DialogHeader>
 
-				<S.DialogContent id={message ? 'dialog-message' : undefined}>
-					{message && <p>{message}</p>}
-					{children}
-				</S.DialogContent>
+				<S.DialogContent>{children}</S.DialogContent>
 
-				<S.DialogFooter>
-					{onCancel && cancelText && (
-						<Button variant="secondary" onClick={onCancel}>
-							{cancelText}
-						</Button>
-					)}
-					{onConfirm && confirmText && (
-						<Button variant="primary" onClick={onConfirm}>
-							{confirmText}
-						</Button>
-					)}
-				</S.DialogFooter>
+				{footer && <S.DialogFooter>{footer}</S.DialogFooter>}
 			</S.DialogContainer>
 		</S.DialogBase>
 	);

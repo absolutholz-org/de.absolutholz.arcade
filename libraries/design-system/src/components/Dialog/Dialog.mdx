@@ -1,0 +1,43 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Components/Dialog/Documentation" />
+
+# Dialog Component System
+
+The Dialog component family provides a flexible, modular system for modal overlays. It is designed to maximize accessibility, maintain strict type boundaries, and prevent configuration pollution.
+
+---
+
+## The Dialog Architecture
+
+The base `<Dialog>` component is a pure, stateless layout primitive. Its responsibilities are restricted strictly to:
+
+- Managing native HTML5 `<dialog>` visibility (`showModal()` / `close()`).
+- Controlling entry and exit animations.
+- Ensuring keyboard focus trapping and handling backdrop clicks (light dismiss) natively.
+- Providing a standard header structure with an optional close ("X") button.
+- Exposing an open `children` slot for body content and an agnostic `footer` slot for actions.
+
+---
+
+## Why We Separate Variants
+
+Instead of creating a single "mega-component" that accepts dozens of optional props (such as alternative action button text or secondary callbacks), we split specialized dialog configurations into isolated sub-variants (`AlertDialog` and `ConfirmDialog`).
+
+This architecture guarantees:
+
+- **Strict Type Safety:** Props interfaces are minimal and require exactly what is needed for the specific use case, leaving no room for mismatched callbacks.
+- **Preventing Configuration Bugs:** Avoids the possibility of rendering incomplete button combinations or invalid state configurations at runtime.
+- **Clean Base Layout:** The core layout remains uncluttered by business logic or conditional variant wrappers, making it easily extendable.
+
+---
+
+## Usage Guidelines
+
+Choose the appropriate component for your workflow based on the following criteria:
+
+| Component           | Purpose                                                            | Interaction Pattern                                                                       |
+| :------------------ | :----------------------------------------------------------------- | :---------------------------------------------------------------------------------------- |
+| **`AlertDialog`**   | Informing the user of a critical event, warning, or status update. | Requires a single acknowledgment action to dismiss. Cannot be bypassed.                   |
+| **`ConfirmDialog`** | Securing destructive actions, changes, or workflow choices.        | Presents a binary choice (usually Confirm/Submit and Cancel) to explicitly verify intent. |
+| **`Dialog`**        | Custom modal flows, input wizard steps, or complex layout layouts. | Uses a fully custom layout via children and the footer slot.                              |
