@@ -9,4 +9,4 @@ This profile outlines the strict execution routing for local Git message staging
 
 ## Commit Message Generation
 
-- To generate and format the commit message text, strictly follow the rules in [semantic-commit.md](/.ai/skills/semantic-commit.md).
+- To generate and format the commit message text, strictly follow the rules in [SKILL.md](/.ai/skills/semantic-commit/SKILL.md).
