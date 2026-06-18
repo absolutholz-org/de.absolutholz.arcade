@@ -1,3 +1,10 @@
+---
+id: component-development
+name: Component Development
+description: Guidelines for creating and structuring UI component matrices in the design system
+targets: ["libraries/design-system/src/components/*"]
+---
+
 # Component Development Skill
 
 This skill defines the technical standards, folder constraints, naming conventions, and styling architectures required to build and maintain design system components in this workspace.

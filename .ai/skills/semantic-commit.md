@@ -1,3 +1,10 @@
+---
+id: semantic-commit
+name: Semantic Commit Formatting
+description: Standards for commit messages using validation emojis and conventional changelog messaging
+targets: ["git"]
+---
+
 # Semantic Commit Skill
 
 This skill defines the formatting rules and template for commit messages in this monorepo workspace.

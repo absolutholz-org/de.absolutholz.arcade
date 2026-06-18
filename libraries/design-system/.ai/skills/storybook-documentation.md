@@ -1,3 +1,10 @@
+---
+id: storybook-documentation
+name: Storybook Component Documentation
+description: Rules for authoring interactive Storybook stories and MDX documentation focusing on interactive-first args and layout decorators
+targets: ["**/*.stories.tsx", "**/*.mdx"]
+---
+
 # Storybook Documentation Skill
 
 This skill outlines the strict rules and standards for authoring interactive Storybook stories and companion MDX documentation within the design system.
