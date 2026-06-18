@@ -15,3 +15,4 @@ This profile outlines the strict operational rules and standards for authoring i
 
 - To understand the guidelines on interactive controls, decorators, typography/theme reuse, and typography mapping, follow the rules in [SKILL.md](../skills/storybook-documentation/SKILL.md).
 - To align with component architecture patterns, follow the rules in [SKILL.md](../skills/component-development/SKILL.md).
+- **MDX Meta Import Rule**: In all MDX (`.mdx`) files, always import `Meta` from `@storybook/addon-docs/blocks`. Do NOT import `Meta` from `@storybook/blocks`.

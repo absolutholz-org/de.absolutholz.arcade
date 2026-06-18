@@ -2,7 +2,7 @@
 id: accessibility-engineering
 name: Accessibility Engineering
 description: Technical implementation blueprints and coding patterns to satisfy WCAG 2.2 AA and BITV 2.0 standards
-targets: ["libraries/design-system/src/components/*"]
+targets: ['libraries/design-system/src/components/*']
 ---
 
 # Accessibility Engineering Skill

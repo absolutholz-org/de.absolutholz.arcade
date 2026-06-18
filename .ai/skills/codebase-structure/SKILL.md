@@ -2,7 +2,7 @@
 id: codebase-structure
 name: Codebase Structure and Imports
 description: Guidelines for codebase structure focusing on tree-shaking, private file constraints, and barrel file boundaries
-targets: ["**/*.ts", "**/*.tsx"]
+targets: ['**/*.ts', '**/*.tsx']
 ---
 
 # Codebase Structure & Imports Skill

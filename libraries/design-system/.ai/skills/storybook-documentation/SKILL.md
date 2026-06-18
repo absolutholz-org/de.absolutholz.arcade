@@ -2,7 +2,7 @@
 id: storybook-documentation
 name: Storybook Component Documentation
 description: Rules for authoring interactive Storybook stories and MDX documentation focusing on interactive-first args and layout decorators
-targets: ["**/*.stories.tsx", "**/*.mdx"]
+targets: ['**/*.stories.tsx', '**/*.mdx']
 ---
 
 # Storybook Documentation Skill
@@ -26,6 +26,7 @@ This skill outlines the strict rules and standards for authoring interactive Sto
 - **Relative Imports**: Ensure existing library components are imported relatively from their respective folders.
   - E.g., `import { Text } from '../Text';`
   - E.g., `import { Theme } from '../Theme';`
+- **Storybook MDX Imports**: When creating or updating MDX documentation files (`.mdx`), always import `Meta` from `@storybook/addon-docs/blocks` (e.g., `import { Meta } from '@storybook/addon-docs/blocks';`). Do NOT import `Meta` from `@storybook/blocks`.
 
 ### Code Example (Stories File)
 
@@ -69,7 +70,7 @@ export const ThemedExample: StoryObj<typeof meta> = {
 ### Code Example (MDX File)
 
 ```mdx
-import { Meta } from '@storybook/blocks';
+import { Meta } from '@storybook/addon-docs/blocks';
 import { Theme } from '../Theme';
 import { Text } from '../Text';
 

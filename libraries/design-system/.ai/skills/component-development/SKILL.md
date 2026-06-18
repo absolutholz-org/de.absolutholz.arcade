@@ -2,7 +2,7 @@
 id: component-development
 name: Component Development
 description: Guidelines for creating and structuring UI component matrices in the design system
-targets: ["libraries/design-system/src/components/*"]
+targets: ['libraries/design-system/src/components/*']
 ---
 
 # Component Development Skill
