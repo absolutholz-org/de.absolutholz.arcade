@@ -6,6 +6,7 @@ import {
 	spacingCssTokensCompact,
 	spacingCssTokensExpanded,
 } from './spacing/spacing.constants';
+import { radiusCssTokens } from './radius/radius.constants';
 // eslint-disable-next-line no-restricted-imports
 import {
 	typographyCssTokensCompact,
@@ -23,6 +24,9 @@ export const getGlobalStyles = (themesetCss: string = themesetBaseCss) => css`
 
 		/* Spacing base/compact tokens */
 		${spacingCssTokensCompact}
+
+		/* Border radius tokens */
+		${radiusCssTokens}
 
 		/* Default generic functional variables mapped to primary theme */
 		${Object.entries(getThemeMapping('primary'))
