@@ -8,6 +8,12 @@ const meta = {
 	component: Theme,
 	parameters: {
 		layout: 'centered',
+		docs: {
+			description: {
+				component:
+					"The Theme component is a layout context wrapper that maps generic CSS Custom Properties (e.g., `--color-surface`, `--color-text-1`) to concrete, brand-specific themeset variables (e.g., `var(--theme-secondary-surface)`).\n\nFor details on the system's two-tier branding strategy, see the [Theme Architecture documentation](?path=/docs/foundations-theme-logic-architecture--docs).",
+			},
+		},
 	},
 	tags: ['autodocs'],
 	title: 'Components/Theme',

@@ -35,3 +35,36 @@ Color schemes are resolved natively by the browser's engine.
 - **Native `light-dark()` Function**: Color tokens are declared using `light-dark(lightColor, darkColor)` (e.g. `light-dark(oklch(0.98 0.005 250), oklch(0.12 0.015 250))`).
 - **OKLCH Color Space**: Coordinates (Lightness, Chroma, Hue) are used to guarantee visual uniformity, ensuring accessible contrast ratios regardless of user preference.
 - **Zero-cost resolution**: System and user color scheme preferences are matched automatically without active runtime class selectors or state management.
+
+---
+
+## Component Usage & Type Safety
+
+To apply theme colors inside components, use the type-safe `themeColor` utility rather than writing hardcoded `var(--color-*)` strings. This ensures compile-time validation of theme keys and protects against typos.
+
+### 1. Usage in CSS-in-JS (Emotion)
+
+Import the `themeColor` helper from the theme utilities and interpolate it inside Emotion styled templates:
+
+```typescript
+import styled from '@emotion/styled';
+import { themeColor } from '../../styles/theme/theme.utils';
+
+export const Card = styled.div`
+	background-color: ${themeColor('surface')};
+	border: 1px solid ${themeColor('container-2')};
+	color: ${themeColor('text-1')};
+`;
+```
+
+### 2. Supported Color Keys
+
+The utility accepts keys defined in the `Theme` contract:
+- `surface`: The baseline background color of a container.
+- `container-1`: A secondary level background color.
+- `container-2`: A tertiary level background or border color.
+- `text-1`: Primary high-contrast body text.
+- `text-2`: Secondary body/muted text.
+- `text-3`: Tertiary placeholder/accented text.
+- `accent`: Active focus, outline, or highlight color.
+- `accent-contrast`: Foreground text color when overlaying elements styled with `accent`.
