@@ -2,6 +2,7 @@ import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 import { space } from '../../styles/spacing/spacing.utils';
 import { themeColor } from '../../styles/theme/theme.utils';
+import { radius } from '../../styles/radius/radius.utils';
 
 export const fadeIn = keyframes`
 	from { opacity: 0; }
@@ -58,6 +59,7 @@ export const DialogBase = styled.dialog`
 export const DialogContainer = styled.div`
 	background-color: ${themeColor('surface')};
 	border: 1px solid ${themeColor('container-2')};
+	border-radius: ${radius('lg')};
 	box-shadow:
 		0 10px 25px -5px rgba(0, 0, 0, 0.1),
 		0 8px 10px -6px rgba(0, 0, 0, 0.1);
@@ -88,6 +90,7 @@ export const CloseButton = styled.button`
 	align-items: center;
 	background: transparent;
 	border: none;
+	border-radius: ${radius('sm')};
 	color: ${themeColor('text-2')};
 	cursor: pointer;
 	display: flex;
@@ -126,6 +129,7 @@ export const Button = styled.button<{ $variant: 'primary' | 'secondary' }>`
 		$variant === 'primary' ? themeColor('accent') : 'transparent'};
 	border: ${({ $variant }) =>
 		$variant === 'primary' ? 'none' : `1px solid ${themeColor('container-2')}`};
+	border-radius: ${radius('md')};
 	color: ${({ $variant }) =>
 		$variant === 'primary'
 			? themeColor('accent-contrast')

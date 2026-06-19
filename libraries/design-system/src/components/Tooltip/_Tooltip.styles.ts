@@ -1,10 +1,12 @@
 import styled from '@emotion/styled';
 import { space } from '../../styles/spacing/spacing.utils';
 import { themeColor } from '../../styles/theme/theme.utils';
+import { radius } from '../../styles/radius/radius.utils';
 
 export const Tooltip = styled.div`
 	background-color: ${themeColor('text-1')};
 	border: none;
+	border-radius: ${radius('sm')};
 	color: ${themeColor('surface')};
 
 	/* Baseline hidden state */
