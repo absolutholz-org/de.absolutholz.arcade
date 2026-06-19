@@ -48,10 +48,10 @@ export const ThemedExample: StoryObj<typeof meta> = {
 		<Theme name="secondary">
 			<div
 				style={{
-					padding: '24px',
+					padding: '1.5rem',
 					display: 'flex',
 					flexDirection: 'column',
-					gap: '12px',
+					gap: '0.75rem',
 				}}
 			>
 				<Text variant="h3" as="h3">
@@ -77,7 +77,7 @@ import { Text } from '../Text';
 <Meta title="Foundations/Documentation Example" />
 
 <Theme name="contrast">
-	<div style={{ padding: '24px' }}>
+	<div style={{ padding: '1.5rem' }}>
 		<Text variant="h1" as="h1">
 			Documentation Header
 		</Text>

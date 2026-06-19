@@ -22,3 +22,9 @@ All code generated, refactored, or organized across apps and libraries must stri
   - _Interface Segregation:_ Keep TypeScript prop types and argument interfaces lean and purposeful; do not force components to depend on fat interfaces containing unused properties.
   - _Dependency Inversion:_ High-level application logic must depend on abstractions (like generic functional token keys), never on hardcoded low-level implementation details.
 - **Scope Efficiency:** When assisting with new library or application scoping, always propose a minimal, modular architecture footprint. Break complex features into isolated, highly testable domains.
+
+## 4. CSS and Styling Units Constraint
+
+- **Prefer REM Units**: When generating or modifying component styles or writing CSS declarations across the monorepo, always prefer `rem` units for typography, spacing, dimensions (width, height, max-width, max-height), margins, and paddings. Avoid using `px` units except for:
+  - Media queries (where `px` or `em` is appropriate).
+  - Border widths (e.g., `1px solid ...` is acceptable to preserve pixel-level crispness).

@@ -68,6 +68,7 @@ Each component directory must be split into the following distinct files:
 - **Restricting Overrides**: Protect components from layout-compromising overrides. Do not allow raw `style` props. In `_ComponentName.types.ts`, explicitly omit `'style'` from component props (e.g. `Omit<ComponentPropsWithoutRef<C>, 'style'>`).
 - **Legacy Deletion**: All legacy references to Vanilla Extract, CSS modules, or `.css.ts` compilation extensions are obsolete and must not be used.
 - **Respect Global Reset & Styles**: Do not add redundant styles that are already defined in the global reset or global styles. For example, do not declare `box-sizing: border-box;` in styled components, as it is already handled globally by the reset layer.
+- **Prefer REM Units**: Always prefer `rem` units for typography, spacing, dimensions (width, height, max-width, max-height), margins, and paddings. Avoid using `px` units unless defining media queries (where `px` or `em` is preferred) or border widths (e.g., `1px solid ...` to keep lines crisp).
 
 ## 5. DRY Types & Component Constants
 
