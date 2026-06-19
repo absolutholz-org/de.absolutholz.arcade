@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import React from 'react';
 import styled from '@emotion/styled';
+import { themeColor } from '../../styles/theme/theme.utils';
 import { Stack } from '.';
 import { Theme } from '../Theme';
 import { Text } from '../Text';
@@ -72,8 +73,8 @@ type Story = StoryObj<typeof meta>;
 
 // Decorative container mimicking page surroundings
 const Canvas = styled.div`
-	background-color: var(--color-surface);
-	border: 1px solid var(--color-container-2);
+	background-color: ${themeColor('surface')};
+	border: 1px solid ${themeColor('container-2')};
 	border-radius: 12px;
 	padding: 32px;
 	min-width: 480px;
@@ -83,11 +84,11 @@ const Canvas = styled.div`
 `;
 
 const DecorativeBlock = styled.div`
-	background-color: var(--color-container-1);
-	border: 2px dashed var(--color-accent);
+	background-color: ${themeColor('container-1')};
+	border: 2px dashed ${themeColor('accent')};
 	border-radius: 8px;
 	padding: 16px;
-	color: var(--color-text-1);
+	color: ${themeColor('text-1')};
 	font-weight: 600;
 	text-align: center;
 	min-width: 80px;
@@ -214,7 +215,7 @@ export const NestedCard: Story = {
 					<div
 						style={{
 							height: '1px',
-							backgroundColor: 'var(--color-container-2)',
+							backgroundColor: themeColor('container-2'),
 							width: '100%',
 						}}
 					/>
@@ -231,9 +232,9 @@ export const NestedCard: Story = {
 							style={{
 								padding: '8px 16px',
 								borderRadius: '6px',
-								border: '1px solid var(--color-container-2)',
+								border: `1px solid ${themeColor('container-2')}`,
 								backgroundColor: 'transparent',
-								color: 'var(--color-text-1)',
+								color: themeColor('text-1'),
 								cursor: 'pointer',
 								fontWeight: 500,
 							}}
@@ -245,8 +246,8 @@ export const NestedCard: Story = {
 								padding: '8px 16px',
 								borderRadius: '6px',
 								border: 'none',
-								backgroundColor: 'var(--color-accent)',
-								color: 'var(--color-surface)',
+								backgroundColor: themeColor('accent'),
+								color: themeColor('surface'),
 								cursor: 'pointer',
 								fontWeight: 500,
 							}}

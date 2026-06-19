@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useEffect, useState } from 'react';
 import { Theme } from '../../Theme';
+import { themeColor } from '../../../styles/theme/theme.utils';
 import { ConfirmDialog } from './_ConfirmDialog';
 import type { ConfirmDialogProps } from './_ConfirmDialog.types';
 
@@ -47,9 +48,9 @@ function ConfirmDialogStoryWrapper({
 			<button
 				onClick={() => setIsOpen(true)}
 				style={{
-					backgroundColor: 'var(--color-accent)',
+					backgroundColor: themeColor('accent'),
 					border: 'none',
-					color: 'var(--color-accent-contrast)',
+					color: themeColor('accent-contrast'),
 					cursor: 'pointer',
 					fontWeight: 600,
 					padding: '12px 24px',

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Dialog } from '.';
 import { Theme } from '../Theme';
+import { themeColor } from '../../styles/theme/theme.utils';
 
 const meta = {
 	component: Dialog,
@@ -61,9 +62,9 @@ function DialogStoryWrapper({
 			<button
 				onClick={() => setIsOpen(true)}
 				style={{
-					backgroundColor: 'var(--color-accent)',
+					backgroundColor: themeColor('accent'),
 					border: 'none',
-					color: 'var(--color-accent-contrast)',
+					color: themeColor('accent-contrast'),
 					cursor: 'pointer',
 					fontWeight: 600,
 					padding: '12px 24px',
@@ -84,9 +85,9 @@ export const Default: Story = {
 			<button
 				onClick={() => alert('Footer button clicked!')}
 				style={{
-					backgroundColor: 'var(--color-accent)',
+					backgroundColor: themeColor('accent'),
 					border: 'none',
-					color: 'var(--color-accent-contrast)',
+					color: themeColor('accent-contrast'),
 					cursor: 'pointer',
 					fontWeight: 500,
 					padding: '8px 16px',

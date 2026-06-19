@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import React from 'react';
 import styled from '@emotion/styled';
+import { themeColor } from '../../styles/theme/theme.utils';
 import { PageContainer } from '.';
 import { Theme } from '../Theme';
 import { Text } from '../Text';
@@ -35,7 +36,7 @@ type Story = StoryObj<typeof meta>;
 
 // Styled components to render a premium design showcasing the container boundaries
 const OuterFrame = styled.div`
-	background-color: var(--color-surface);
+	background-color: ${themeColor('surface')};
 	min-height: 100vh;
 	width: 100%;
 	padding: 40px 0;
@@ -44,8 +45,8 @@ const OuterFrame = styled.div`
 `;
 
 const DecorativeWrapper = styled.div`
-	border: 2px dashed var(--color-accent);
-	background-color: var(--color-container-1);
+	border: 2px dashed ${themeColor('accent')};
+	background-color: ${themeColor('container-1')};
 	border-radius: 12px;
 	padding: 24px;
 	display: flex;
@@ -57,7 +58,7 @@ const Header = styled.header`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	border-bottom: 1px solid var(--color-container-2);
+	border-bottom: 1px solid ${themeColor('container-2')};
 	padding-bottom: 16px;
 `;
 
@@ -72,8 +73,8 @@ const Grid = styled.div`
 `;
 
 const Card = styled.div`
-	background-color: var(--color-surface);
-	border: 1px solid var(--color-container-2);
+	background-color: ${themeColor('surface')};
+	border: 1px solid ${themeColor('container-2')};
 	border-radius: 8px;
 	padding: 20px;
 	display: flex;

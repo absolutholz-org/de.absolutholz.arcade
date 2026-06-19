@@ -1,4 +1,14 @@
-import type { Themeset } from './theme.types';
+import type { Theme, Themeset } from './theme.types';
+
+export type ThemeColorKey = keyof Required<Theme>;
+
+/**
+ * Returns a type-safe CSS custom property variable for the given theme color key.
+ * e.g. themeColor('surface') -> 'var(--color-surface)'
+ */
+export function themeColor(key: ThemeColorKey): string {
+	return `var(--color-${key})`;
+}
 
 /**
  * Converts a Themeset object into a flat record of CSS custom properties.

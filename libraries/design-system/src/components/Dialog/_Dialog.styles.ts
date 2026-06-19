@@ -1,6 +1,7 @@
 import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 import { space } from '../../styles/spacing/spacing.utils';
+import { themeColor } from '../../styles/theme/theme.utils';
 
 export const fadeIn = keyframes`
 	from { opacity: 0; }
@@ -55,12 +56,12 @@ export const DialogBase = styled.dialog`
 `;
 
 export const DialogContainer = styled.div`
-	background-color: var(--color-surface);
-	border: 1px solid var(--color-container-2);
+	background-color: ${themeColor('surface')};
+	border: 1px solid ${themeColor('container-2')};
 	box-shadow:
 		0 10px 25px -5px rgba(0, 0, 0, 0.1),
 		0 8px 10px -6px rgba(0, 0, 0, 0.1);
-	color: var(--color-text-1);
+	color: ${themeColor('text-1')};
 	display: flex;
 	flex-direction: column;
 	overflow: hidden;
@@ -69,14 +70,14 @@ export const DialogContainer = styled.div`
 export const DialogHeader = styled.div`
 	align-items: center;
 	background-color: transparent;
-	border-bottom: 1px solid var(--color-container-2);
+	border-bottom: 1px solid ${themeColor('container-2')};
 	display: flex;
 	justify-content: space-between;
 	padding: ${space('lg')};
 `;
 
 export const DialogTitle = styled.h2`
-	color: var(--color-text-1);
+	color: ${themeColor('text-1')};
 	font-size: var(--font-size-h2);
 	font-weight: 700;
 	line-height: var(--line-height-h2);
@@ -87,7 +88,7 @@ export const CloseButton = styled.button`
 	align-items: center;
 	background: transparent;
 	border: none;
-	color: var(--color-text-2);
+	color: ${themeColor('text-2')};
 	cursor: pointer;
 	display: flex;
 	justify-content: center;
@@ -95,18 +96,18 @@ export const CloseButton = styled.button`
 	transition: all 0.2s;
 
 	&:hover {
-		background-color: var(--color-container-1);
-		color: var(--color-text-1);
+		background-color: ${themeColor('container-1')};
+		color: ${themeColor('text-1')};
 	}
 
 	&:focus-visible {
-		outline: 3px solid var(--color-accent);
+		outline: 3px solid ${themeColor('accent')};
 		outline-offset: -3px;
 	}
 `;
 
 export const DialogContent = styled.div`
-	color: var(--color-text-2);
+	color: ${themeColor('text-2')};
 	font-size: var(--font-size-base);
 	line-height: var(--line-height-base);
 	padding: ${space('lg')};
@@ -122,13 +123,13 @@ export const DialogFooter = styled.div`
 
 export const Button = styled.button<{ $variant: 'primary' | 'secondary' }>`
 	background-color: ${({ $variant }) =>
-		$variant === 'primary' ? 'var(--color-accent)' : 'transparent'};
+		$variant === 'primary' ? themeColor('accent') : 'transparent'};
 	border: ${({ $variant }) =>
-		$variant === 'primary' ? 'none' : '1px solid var(--color-container-2)'};
+		$variant === 'primary' ? 'none' : `1px solid ${themeColor('container-2')}`};
 	color: ${({ $variant }) =>
 		$variant === 'primary'
-			? 'var(--color-accent-contrast)'
-			: 'var(--color-text-1)'};
+			? themeColor('accent-contrast')
+			: themeColor('text-1')};
 	cursor: pointer;
 	font-weight: 500;
 	padding: 8px 16px;
@@ -137,13 +138,13 @@ export const Button = styled.button<{ $variant: 'primary' | 'secondary' }>`
 	&:hover {
 		background-color: ${({ $variant }) =>
 			$variant === 'primary'
-				? 'var(--color-accent)'
-				: 'var(--color-container-1)'};
+				? themeColor('accent')
+				: themeColor('container-1')};
 		opacity: 0.9;
 	}
 
 	&:focus-visible {
-		outline: 3px solid var(--color-accent);
+		outline: 3px solid ${themeColor('accent')};
 		outline-offset: -3px;
 	}
 `;

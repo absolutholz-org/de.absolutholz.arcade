@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useEffect, useState } from 'react';
 import { Theme } from '../../Theme';
+import { themeColor } from '../../../styles/theme/theme.utils';
 import { AlertDialog } from './_AlertDialog';
 import type { AlertDialogProps } from './_AlertDialog.types';
 
@@ -44,9 +45,9 @@ function AlertDialogStoryWrapper({
 			<button
 				onClick={() => setIsOpen(true)}
 				style={{
-					backgroundColor: 'var(--color-accent)',
+					backgroundColor: themeColor('accent'),
 					border: 'none',
-					color: 'var(--color-accent-contrast)',
+					color: themeColor('accent-contrast'),
 					cursor: 'pointer',
 					fontWeight: 600,
 					padding: '12px 24px',

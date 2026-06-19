@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { themeColor } from '../../styles/theme/theme.utils';
 import { Accordion, AccordionItem } from './_Accordion';
 import { spacingScale } from '../../styles/spacing/spacing.constants';
 import { PageContainer } from '../PageContainer';
@@ -43,7 +44,7 @@ type Story = StoryObj<typeof meta>;
 
 // Styled components for a premium Storybook showcase
 const ShowcaseFrame = styled.div`
-	background-color: var(--color-surface);
+	background-color: ${themeColor('surface')};
 	min-height: 100vh;
 	width: 100%;
 	padding: 60px 0;
@@ -63,7 +64,7 @@ const SectionHeader = styled.div`
 const ContentDivider = styled.hr`
 	border: 0;
 	height: 1px;
-	background-color: var(--color-container-2);
+	background-color: ${themeColor('container-2')};
 	margin: 20px 0;
 `;
 

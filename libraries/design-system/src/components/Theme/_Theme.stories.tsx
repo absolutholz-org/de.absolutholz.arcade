@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Theme } from '.';
+import { themeColor } from '../../styles/theme/theme.utils';
 import { THEME_NAMES } from './_Theme.constants';
 
 const meta = {
@@ -34,9 +35,9 @@ type Story = StoryObj<typeof meta>;
 
 // Styled elements using the Generic Theme Custom Properties
 const StyledCard = styled.div`
-	background-color: var(--color-surface);
-	color: var(--color-text-1);
-	border: 1px solid var(--color-container-2);
+	background-color: ${themeColor('surface')};
+	color: ${themeColor('text-1')};
+	border: 1px solid ${themeColor('container-2')};
 	border-radius: 16px;
 	padding: 24px;
 	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
@@ -49,13 +50,13 @@ const StyledCard = styled.div`
 	&:hover {
 		transform: translateY(-6px);
 		box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
-		border-color: var(--color-accent);
+		border-color: ${themeColor('accent')};
 	}
 `;
 
 const CardTitle = styled.h3`
 	margin: 0;
-	color: var(--color-text-1);
+	color: ${themeColor('text-1')};
 	font-family: 'Outfit', 'Inter', sans-serif;
 	font-size: 1.25rem;
 	font-weight: 600;
@@ -63,14 +64,14 @@ const CardTitle = styled.h3`
 
 const CardDescription = styled.p`
 	margin: 0;
-	color: var(--color-text-2);
+	color: ${themeColor('text-2')};
 	font-family: 'Inter', sans-serif;
 	font-size: 0.9rem;
 	line-height: 1.5;
 `;
 
 const CardMeta = styled.span`
-	color: var(--color-text-3);
+	color: ${themeColor('text-3')};
 	font-family: 'Inter', sans-serif;
 	font-size: 0.75rem;
 	text-transform: uppercase;
@@ -78,8 +79,8 @@ const CardMeta = styled.span`
 `;
 
 const AccentButton = styled.button`
-	background-color: var(--color-accent);
-	color: var(--color-accent-contrast);
+	background-color: ${themeColor('accent')};
+	color: ${themeColor('accent-contrast')};
 	border: none;
 	border-radius: 8px;
 	padding: 10px 18px;
