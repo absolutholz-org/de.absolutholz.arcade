@@ -121,12 +121,20 @@ export const Tooltip = ({ children, content, position = 'top' }: ITooltip) => {
 		}
 	};
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const childProps = (child as any).props || {};
+	const existingDescribedBy = childProps['aria-describedby'];
+	const ariaDescribedBy = [existingDescribedBy, content ? popoverId : undefined]
+		.filter(Boolean)
+		.join(' ')
+		.trim();
+
 	return (
 		<>
 			{/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
 			{cloneElement(child as ReactElement<any>, {
 				// Programmatically associate the tooltip with the trigger element
-				'aria-describedby': content ? popoverId : undefined,
+				'aria-describedby': ariaDescribedBy || undefined,
 				onBlur: (e: FocusEvent<HTMLElement>) => {
 					hidePopover(0);
 					// eslint-disable-next-line @typescript-eslint/no-explicit-any

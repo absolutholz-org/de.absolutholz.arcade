@@ -3,24 +3,22 @@ import { space } from '../../styles/spacing/spacing.utils';
 import { themeColor } from '../../styles/theme/theme.utils';
 
 export const Tooltip = styled.div`
-	background-color: ${themeColor('container-1')};
+	background-color: ${themeColor('text-1')};
 	border: none;
-	color: ${themeColor('text-1')};
+	color: ${themeColor('surface')};
 
 	/* Baseline hidden state */
 	display: none;
 	font-weight: 500;
-	opacity: 0;
-	transform: translateY(4px);
 
 	/* Reset positioning to be controlled by JS */
 	inset: auto;
 	margin: 0;
 	max-width: 15rem;
+	opacity: 0;
 	padding: ${space('xs')} ${space('md')};
 	position: fixed;
-	width: fit-content;
-	z-index: 50;
+	transform: translateY(4px);
 
 	/* Entry and exit transitions */
 	transition:
@@ -28,6 +26,8 @@ export const Tooltip = styled.div`
 		transform 0.15s ease-out,
 		display 0.15s ease-out allow-discrete,
 		overlay 0.15s ease-out allow-discrete;
+	width: fit-content;
+	z-index: 50;
 
 	/* Native API state and our fallback state */
 	&:popover-open,
