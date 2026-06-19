@@ -1,10 +1,12 @@
-import type { ReactElement } from 'react';
-import type { FLOATING_POSITIONS } from './_Tooltip.constants';
+import { type ReactElement, type ReactNode } from 'react';
 
-export type FloatingPosition = (typeof FLOATING_POSITIONS)[number];
+export type FloatingPosition = 'top' | 'right' | 'bottom' | 'left';
 
-export interface TooltipProps {
+export interface ITooltip {
+	/** The text or content to display in the tooltip */
+	content?: string | ReactNode;
+	/** Preferred position of the tooltip relative to the child */
+	position?: 'top' | 'right' | 'bottom' | 'left';
+	/** The single child element to attach the tooltip to */
 	children: ReactElement;
-	content: string;
-	position?: FloatingPosition;
 }

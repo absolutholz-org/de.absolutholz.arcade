@@ -1,53 +1,151 @@
-import React, { Children, cloneElement, isValidElement } from 'react';
-import { useTooltip } from './_Tooltip.hooks';
-import * as S from './_Tooltip.styles';
-import type { TooltipProps } from './_Tooltip.types';
+import {
+	Children,
+	cloneElement,
+	type FocusEvent,
+	type MouseEvent,
+	type ReactElement,
+	type Ref,
+	useCallback,
+	useEffect,
+	useId,
+	useRef,
+} from 'react';
 
-export function Tooltip({ children, content, position = 'top' }: TooltipProps) {
-	const { triggerRef, popoverRef, popoverId, showPopover, hidePopover } =
-		useTooltip({ content, position });
+import { useFloatingPosition } from '../../hooks/useFloatingPosition';
+import * as S from './_Tooltip.styles';
+import { type ITooltip } from './_Tooltip.types';
+
+export const Tooltip = ({ children, content, position = 'top' }: ITooltip) => {
+	const triggerRef = useRef<HTMLElement | null>(null);
+	const popoverRef = useRef<HTMLDivElement>(null);
+	const hideTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(
+		undefined,
+	);
+	const popoverId = useId();
+
+	// Handle Escape key dismissal (WCAG 1.4.13)
+
+	const handleKeyDown = useCallback((e: KeyboardEvent) => {
+		if (e.key === 'Escape') {
+			hidePopover(0);
+		}
+	}, []);
+
+	// Handle scroll dismissal to prevent detached tooltips
+
+	const handleScroll = useCallback(() => {
+		hidePopover(0);
+	}, []);
+
+	useEffect(() => {
+		if (popoverRef.current) {
+			popoverRef.current.setAttribute('popover', 'manual');
+		}
+	}, [content]);
+
+	const { updatePosition } = useFloatingPosition({
+		gap: 8,
+		popoverRef,
+		position,
+		triggerRef,
+	});
+
+	function showPopover() {
+		clearTimeout(hideTimeoutRef.current);
+
+		if (content && popoverRef.current) {
+			const popover = popoverRef.current as HTMLDivElement & {
+				showPopover?: () => void;
+			};
+			if (typeof popover.showPopover === 'function') {
+				try {
+					popover.showPopover();
+				} catch {
+					// Ignore InvalidStateError if already open
+				}
+			} else {
+				popoverRef.current.classList.add('fallback-open');
+			}
+			requestAnimationFrame(() => updatePosition());
+			document.addEventListener('keydown', handleKeyDown);
+			// Use capture phase (true) to catch scrolling on any nested scrollable containers
+			window.addEventListener('scroll', handleScroll, true);
+		}
+	}
+
+	// Add a slight delay to hidePopover to allow the user to hover over the tooltip itself (WCAG 1.4.13)
+	function hidePopover(delay = 100) {
+		hideTimeoutRef.current = setTimeout(() => {
+			if (content && popoverRef.current) {
+				const popover = popoverRef.current as HTMLDivElement & {
+					hidePopover?: () => void;
+				};
+				if (typeof popover.hidePopover === 'function') {
+					try {
+						popover.hidePopover();
+					} catch {
+						// Ignore error if already closed
+					}
+				} else {
+					popoverRef.current.classList.remove('fallback-open');
+				}
+				document.removeEventListener('keydown', handleKeyDown);
+				window.removeEventListener('scroll', handleScroll, true);
+			}
+		}, delay);
+	}
+
+	// Clean up timeouts and listeners on unmount
+	useEffect(() => {
+		return () => {
+			clearTimeout(hideTimeoutRef.current);
+			document.removeEventListener('keydown', handleKeyDown);
+			window.removeEventListener('scroll', handleScroll, true);
+		};
+	}, [handleKeyDown, handleScroll]);
 
 	if (!content) return children;
 
 	const child = Children.only(children);
 
-	if (!isValidElement(child)) return children;
-
-	// Merge refs cleanly
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const childRef = (child as any).ref;
-	const mergedRef = (node: HTMLElement | null) => {
+	const mergedRef = (node: HTMLElement) => {
 		triggerRef.current = node;
+		const childElement = child as ReactElement & {
+			ref?: Ref<HTMLElement>;
+		};
+		const childRef = childElement.ref;
 		if (typeof childRef === 'function') {
 			childRef(node);
 		} else if (childRef && typeof childRef === 'object') {
-			childRef.current = node;
+			(childRef as { current: HTMLElement | null }).current = node;
 		}
 	};
-
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const childProps = child.props as Record<string, any>;
 
 	return (
 		<>
 			{/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-			{cloneElement(child as React.ReactElement<any>, {
-				'aria-describedby': popoverId,
-				onBlur: (e: React.FocusEvent<HTMLElement>) => {
+			{cloneElement(child as ReactElement<any>, {
+				// Programmatically associate the tooltip with the trigger element
+				'aria-describedby': content ? popoverId : undefined,
+				onBlur: (e: FocusEvent<HTMLElement>) => {
 					hidePopover(0);
-					childProps.onBlur?.(e);
+					// eslint-disable-next-line @typescript-eslint/no-explicit-any
+					(child as ReactElement<any>).props.onBlur?.(e);
 				},
-				onFocus: (e: React.FocusEvent<HTMLElement>) => {
+				onFocus: (e: FocusEvent<HTMLElement>) => {
 					showPopover();
-					childProps.onFocus?.(e);
+					// eslint-disable-next-line @typescript-eslint/no-explicit-any
+					(child as ReactElement<any>).props.onFocus?.(e);
 				},
-				onMouseEnter: (e: React.MouseEvent<HTMLElement>) => {
+				onMouseEnter: (e: MouseEvent<HTMLElement>) => {
 					showPopover();
-					childProps.onMouseEnter?.(e);
+					// eslint-disable-next-line @typescript-eslint/no-explicit-any
+					(child as ReactElement<any>).props.onMouseEnter?.(e);
 				},
-				onMouseLeave: (e: React.MouseEvent<HTMLElement>) => {
+				onMouseLeave: (e: MouseEvent<HTMLElement>) => {
 					hidePopover();
-					childProps.onMouseLeave?.(e);
+					// eslint-disable-next-line @typescript-eslint/no-explicit-any
+					(child as ReactElement<any>).props.onMouseLeave?.(e);
 				},
 				ref: mergedRef,
 			})}
@@ -55,7 +153,7 @@ export function Tooltip({ children, content, position = 'top' }: TooltipProps) {
 				id={popoverId}
 				ref={popoverRef}
 				role="tooltip"
-				popover="manual"
+				// Allow hover on the tooltip itself
 				onMouseEnter={showPopover}
 				onMouseLeave={() => hidePopover(100)}
 			>
@@ -63,4 +161,4 @@ export function Tooltip({ children, content, position = 'top' }: TooltipProps) {
 			</S.Tooltip>
 		</>
 	);
-}
+};
