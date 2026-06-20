@@ -2,10 +2,7 @@ import { css } from '@emotion/react';
 import { reset } from './reset/reset.css';
 import { getThemeMapping } from './theme/theme.utils';
 import { themesetBaseCss } from './theme/themeset-base.css';
-import {
-	spacingCssTokensCompact,
-	spacingCssTokensExpanded,
-} from './spacing/spacing.constants';
+import { spacingCssTokensCompact, spacingCssTokensExpanded } from './spacing';
 import { radiusCssTokens } from './radius/radius.constants';
 // eslint-disable-next-line no-restricted-imports
 import {

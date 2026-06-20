@@ -16,7 +16,7 @@ import {
 import {
 	spacingCssTokensCompact,
 	spacingCssTokensExpanded,
-} from '../../spacing/spacing.constants';
+} from '../../spacing';
 import { themesetBaseProps } from '../themeset-base.css';
 
 const showcaseGlobalStyles = css`

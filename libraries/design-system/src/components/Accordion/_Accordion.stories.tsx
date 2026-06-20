@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { themeColor } from '../../styles/theme/theme.utils';
 import { Accordion, AccordionItem } from './_Accordion';
-import { spacingScale } from '../../styles/spacing/spacing.constants';
+import { spacingKeys } from '../../styles/spacing';
 import { PageContainer } from '../PageContainer';
 import { Text } from '../Text';
 import { Theme } from '../Theme';
@@ -23,7 +23,7 @@ const meta = {
 		},
 		gap: {
 			control: 'select',
-			options: Object.keys(spacingScale),
+			options: spacingKeys,
 			description: 'The space gap between each accordion item',
 		},
 		exclusive: {

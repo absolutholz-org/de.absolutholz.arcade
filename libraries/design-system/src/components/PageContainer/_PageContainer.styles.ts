@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { space } from '../../styles/spacing/spacing.utils';
+import { space } from '../../styles/spacing';
 import { PAGE_CONTAINER_VARIANTS } from './_PageContainer.constants';
 import type { PageContainerVariant } from './_PageContainer.types';
 

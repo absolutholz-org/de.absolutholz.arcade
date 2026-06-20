@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
-import type { SpacingKey } from '../../styles/spacing/spacing.utils';
-import { space } from '../../styles/spacing/spacing.utils';
+import { space, type SpacingKey } from '../../styles/spacing';
 import { themeColor } from '../../styles/theme/theme.utils';
 import type { AccordionVariant } from './_Accordion.types';
 

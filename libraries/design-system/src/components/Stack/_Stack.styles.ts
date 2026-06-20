@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import type { SpacingKey } from '../../styles/spacing/spacing.utils';
+import { type SpacingKey } from '../../styles/spacing';
 import type { StackAlign, StackDirection, StackJustify } from './_Stack.types';
 
 const getGap = (spacing?: SpacingKey) => {

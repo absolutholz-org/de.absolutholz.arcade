@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import type { SpacingKey } from '../../styles/spacing/spacing.utils';
+import type { SpacingKey } from '../../styles/spacing';
 import type { ACCORDION_VARIANTS } from './_Accordion.constants';
 
 export type AccordionVariant = (typeof ACCORDION_VARIANTS)[number];

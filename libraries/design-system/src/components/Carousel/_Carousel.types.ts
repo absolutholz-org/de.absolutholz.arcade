@@ -1,5 +1,5 @@
 import type { ElementType, ComponentPropsWithoutRef, ReactNode } from 'react';
-import type { SpacingKey } from '../../styles/spacing/spacing.utils';
+import type { SpacingKey } from '../../styles/spacing';
 import type { CAROUSEL_VARIANTS } from './_Carousel.constants';
 
 export type CarouselVariant = (typeof CAROUSEL_VARIANTS)[number];

@@ -95,6 +95,6 @@ import { Text } from '../Text';
 - Avoid hardcoding manual control configurations unless an explicit custom override (like a specialized color picker or select dropdown mapping) is absolutely required for clarity.
 - **No Hardcoded Control Options**: For controls with options (such as `select` or `radio`), do not duplicate or hardcode option string arrays in story files. Instead, import and reuse the constants, type arrays, or mapping keys:
   - Reuse component-specific variants using `CAROUSEL_VARIANTS` or `Object.keys(SEMANTIC_VARIANTS)`.
-  - Reuse global styles or design tokens using `Object.keys(spacingScale)` or standard theme/spacing constants from the design system styles (e.g., `../../styles/spacing/spacing.constants`).
+  - Reuse global styles or design tokens using `spacingKeys` or standard theme/spacing constants from the design system styles (e.g., `../../styles/spacing`).
 - Author multiple purposeful story states (e.g., `Default`, `Loading`, `Disabled`, `WithError`) to thoroughly document how a component adapts to business logic, edge cases, and accessibility boundaries.
 - Defer completely to the workspace's root `.editorconfig`, `.prettierrc`, and `eslint.config.js` files for all code spacing and syntax formatting. Do not include explicit `.ts` or `.tsx` file extensions inside your `import` paths. Do not execute any production compilation commands (`pnpm build`).

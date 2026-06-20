@@ -9,13 +9,13 @@ import {
 	typographyCssTokensExpanded,
 } from '../../../components/Text/_Text.constants';
 import {
-	spacingScale,
-	spacingScaleCompact,
-	spacingScaleExpanded,
+	spacingDefinitions,
+	spacingKeys,
 	spacingCssTokensCompact,
 	spacingCssTokensExpanded,
-} from '../../spacing/spacing.constants';
-import { themesetBaseProps } from '../themeset-base.css';
+	type SpacingKey,
+} from '..';
+import { themesetBaseProps } from '../../theme/themeset-base.css';
 
 const showcaseGlobalStyles = css`
 	:root {
@@ -105,8 +105,24 @@ const RemVal = styled.span`
 	color: var(--color-text-1);
 `;
 
+const spacingScaleCompact = Object.fromEntries(
+	(
+		Object.entries(spacingDefinitions) as Array<
+			[SpacingKey, (typeof spacingDefinitions)[SpacingKey]]
+		>
+	).map(([key, def]) => [key, def.compact]),
+) as Record<SpacingKey, string>;
+
+const spacingScaleExpanded = Object.fromEntries(
+	(
+		Object.entries(spacingDefinitions) as Array<
+			[SpacingKey, (typeof spacingDefinitions)[SpacingKey]]
+		>
+	).map(([key, def]) => [key, 'expanded' in def ? def.expanded : def.compact]),
+) as Record<SpacingKey, string>;
+
 export function SpacingShowcase() {
-	const keys = Object.keys(spacingScale) as Array<keyof typeof spacingScale>;
+	const keys = spacingKeys;
 
 	return (
 		<TableContainer style={themesetBaseProps as React.CSSProperties}>
@@ -125,7 +141,7 @@ export function SpacingShowcase() {
 						</thead>
 						<tbody>
 							{keys.map((key) => {
-								const varName = spacingScale[key];
+								const varName = `var(--space-${key})`;
 								const remCompact = spacingScaleCompact[key];
 								const remExpanded = spacingScaleExpanded[key];
 								const pxCompact = parseFloat(remCompact) * 16;

@@ -10,7 +10,7 @@ import {
 	STACK_ALIGNS,
 	STACK_JUSTIFIES,
 } from './_Stack.constants';
-import { spacingScale } from '../../styles/spacing/spacing.constants';
+import { spacingKeys } from '../../styles/spacing';
 
 const meta = {
 	component: Stack,
@@ -37,12 +37,12 @@ const meta = {
 		},
 		spacing: {
 			control: 'select',
-			options: Object.keys(spacingScale),
+			options: spacingKeys,
 			description: 'The gap/spacing between flex elements',
 		},
 		crossSpacing: {
 			control: 'select',
-			options: Object.keys(spacingScale),
+			options: spacingKeys,
 			description: 'The secondary axis gap/spacing when items wrap',
 		},
 		wrap: {

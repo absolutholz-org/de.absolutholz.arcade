@@ -6,7 +6,7 @@ import { PageContainer } from '../PageContainer';
 import { Text } from '../Text';
 import { Theme } from '../Theme';
 import { CAROUSEL_VARIANTS } from './_Carousel.constants';
-import { spacingScale } from '../../styles/spacing/spacing.constants';
+import { spacingKeys } from '../../styles/spacing';
 
 const meta = {
 	component: Carousel,
@@ -23,7 +23,7 @@ const meta = {
 		},
 		gap: {
 			control: 'select',
-			options: Object.keys(spacingScale),
+			options: spacingKeys,
 			description: 'The space gap between each slide',
 		},
 		as: {

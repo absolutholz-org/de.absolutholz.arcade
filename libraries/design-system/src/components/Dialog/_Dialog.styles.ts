@@ -1,6 +1,6 @@
 import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
-import { space } from '../../styles/spacing/spacing.utils';
+import { space } from '../../styles/spacing';
 import { themeColor } from '../../styles/theme/theme.utils';
 import { radius } from '../../styles/radius/radius.utils';
 

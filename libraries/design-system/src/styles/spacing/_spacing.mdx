@@ -1,5 +1,5 @@
 import { Meta } from '@storybook/addon-docs/blocks';
-import { SpacingShowcase } from './theme/docs/SpacingShowcase';
+import { SpacingShowcase } from './storybook/_SpacingShowcase';
 
 <Meta title="Foundations/Spacing" />
 
@@ -31,21 +31,21 @@ Developers must formulate margin, padding, or gap styles using the `space` helpe
 import {
 	space,
 	type SpacingKey,
-} from '@absolutholz/design-system/styles/spacing/spacing.utils';
+} from '@absolutholz/design-system/styles/spacing';
 
 // Compile a single margin value
-const marginSingle = space('md'); // returns: "1rem"
+const marginSingle = space('md'); // returns: "var(--space-md)"
 
 // Compile shorthand values (up to 4 keys)
-const paddingShorthand = space('md', 'lg'); // returns: "1rem 1.5rem"
-const borderShorthand = space('xs', 'none', 'sm', 'lg'); // returns: "0.5rem 0rem 0.75rem 1.5rem"
+const paddingShorthand = space('md', 'lg'); // returns: "var(--space-md) var(--space-lg)"
+const borderShorthand = space('xs', 'none', 'sm', 'lg'); // returns: "var(--space-xs) var(--space-none) var(--space-sm) var(--space-lg)"
 ```
 
 ### Emotion/CSS Example
 
 ```tsx
 import styled from '@emotion/styled';
-import { space } from '@absolutholz/design-system/styles/spacing/spacing.utils';
+import { space } from '@absolutholz/design-system/styles/spacing';
 
 export const Card = styled.div`
 	padding: ${space('md', 'lg')};
