@@ -36,8 +36,8 @@ This architecture guarantees:
 
 Choose the appropriate component for your workflow based on the following criteria:
 
-| Component | Purpose | Interaction Pattern |
-| :--- | :--- | :--- |
-| `AlertDialog` | Informing the user of a critical event, warning, or status update. | Requires a single acknowledgment action to dismiss. Cannot be bypassed. |
-| `ConfirmDialog` | Securing destructive actions, changes, or workflow choices. | Presents a binary choice (usually Confirm/Submit and Cancel) to explicitly verify intent. |
-| `Dialog` | Custom modal flows, input wizard steps, or complex layout layouts. | Uses a fully custom layout via children and the footer slot. |
+| Component       | Purpose                                                            | Interaction Pattern                                                                       |
+| :-------------- | :----------------------------------------------------------------- | :---------------------------------------------------------------------------------------- |
+| `AlertDialog`   | Informing the user of a critical event, warning, or status update. | Requires a single acknowledgment action to dismiss. Cannot be bypassed.                   |
+| `ConfirmDialog` | Securing destructive actions, changes, or workflow choices.        | Presents a binary choice (usually Confirm/Submit and Cancel) to explicitly verify intent. |
+| `Dialog`        | Custom modal flows, input wizard steps, or complex layout layouts. | Uses a fully custom layout via children and the footer slot.                              |

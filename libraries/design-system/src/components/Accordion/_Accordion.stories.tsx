@@ -45,7 +45,6 @@ type Story = StoryObj<typeof meta>;
 // Styled components for a premium Storybook showcase
 const ShowcaseFrame = styled.div`
 	background-color: ${themeColor('surface')};
-	min-height: 100vh;
 	width: 100%;
 	padding: 60px 0;
 	box-sizing: border-box;

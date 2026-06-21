@@ -37,7 +37,6 @@ type Story = StoryObj<typeof meta>;
 // Styled components to render a premium design showcasing the container boundaries
 const OuterFrame = styled.div`
 	background-color: ${themeColor('surface')};
-	min-height: 100vh;
 	width: 100%;
 	padding: 40px 0;
 	box-sizing: border-box;
