@@ -57,5 +57,7 @@ export function getThemeMapping(
 		'--color-text-3': `var(--theme-${themeName}-text-3)`,
 		'--color-accent': `var(--theme-${themeName}-accent)`,
 		'--color-accent-contrast': `var(--theme-${themeName}-accent-contrast)`,
+		'--color-accent-secondary': `var(--theme-${themeName}-accent-secondary)`,
+		'--color-accent-secondary-contrast': `var(--theme-${themeName}-accent-secondary-contrast)`,
 	};
 }

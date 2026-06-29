@@ -312,6 +312,11 @@ export function ThemesetShowcase({ themeset }: ThemesetShowcaseProps) {
 		{ name: 'container-2', variable: '--color-container-2' },
 		{ name: 'accent', variable: '--color-accent' },
 		{ name: 'accent-contrast', variable: '--color-accent-contrast' },
+		{ name: 'accent-secondary', variable: '--color-accent-secondary' },
+		{
+			name: 'accent-secondary-contrast',
+			variable: '--color-accent-secondary-contrast',
+		},
 		{ name: 'text-1', variable: '--color-text-1' },
 		{ name: 'text-2', variable: '--color-text-2' },
 		{ name: 'text-3', variable: '--color-text-3' },

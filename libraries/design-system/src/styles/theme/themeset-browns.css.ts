@@ -11,6 +11,9 @@ const themesetBrowns: Themeset = {
 		'text-3': 'light-dark(oklch(0.482 0.01 40), oklch(0.64 0.01 40))',
 		accent: 'light-dark(oklch(0.6 0.2 50), oklch(0.65 0.18 50))',
 		'accent-contrast': 'light-dark(oklch(0.05 0.01 50), oklch(0.05 0.01 50))',
+		'accent-secondary': 'light-dark(oklch(0.35 0.08 40), oklch(0.45 0.08 40))',
+		'accent-secondary-contrast':
+			'light-dark(oklch(0.98 0.01 40), oklch(0.98 0.01 40))',
 	},
 	secondary: {
 		surface: 'light-dark(oklch(0.98 0.005 40), oklch(0.12 0.01 40))',
@@ -21,6 +24,9 @@ const themesetBrowns: Themeset = {
 		'text-3': 'light-dark(oklch(0.49 0.01 40), oklch(0.63 0.01 40))',
 		accent: 'light-dark(oklch(0.35 0.08 40), oklch(0.45 0.08 40))',
 		'accent-contrast': 'light-dark(oklch(0.98 0.01 40), oklch(0.98 0.01 40))',
+		'accent-secondary': 'light-dark(oklch(0.6 0.2 50), oklch(0.65 0.18 50))',
+		'accent-secondary-contrast':
+			'light-dark(oklch(0.05 0.01 50), oklch(0.05 0.01 50))',
 	},
 	contrast: {
 		surface: 'light-dark(oklch(0.12 0.01 40), oklch(0.06 0.005 40))',
@@ -31,6 +37,9 @@ const themesetBrowns: Themeset = {
 		'text-3': 'light-dark(oklch(0.65 0.01 40), oklch(0.7 0.01 40))',
 		accent: 'light-dark(oklch(0.6 0.2 50), oklch(0.65 0.18 50))',
 		'accent-contrast': 'light-dark(oklch(0.05 0.01 50), oklch(0.05 0.01 50))',
+		'accent-secondary': 'light-dark(oklch(0.35 0.08 40), oklch(0.45 0.08 40))',
+		'accent-secondary-contrast':
+			'light-dark(oklch(0.98 0.01 40), oklch(0.98 0.01 40))',
 	},
 	accent: {
 		surface: 'light-dark(oklch(0.95 0.04 45), oklch(0.14 0.04 45))',
@@ -41,6 +50,9 @@ const themesetBrowns: Themeset = {
 		'text-3': 'light-dark(oklch(0.457 0.02 45), oklch(0.66 0.02 45))',
 		accent: 'light-dark(oklch(0.35 0.08 40), oklch(0.45 0.08 40))',
 		'accent-contrast': 'light-dark(oklch(0.98 0.01 40), oklch(0.98 0.01 40))',
+		'accent-secondary': 'light-dark(oklch(0.6 0.2 50), oklch(0.65 0.18 50))',
+		'accent-secondary-contrast':
+			'light-dark(oklch(0.05 0.01 50), oklch(0.05 0.01 50))',
 	},
 };
 

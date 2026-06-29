@@ -11,6 +11,9 @@ const themesetEaster: Themeset = {
 		'text-3': 'light-dark(oklch(0.497 0.02 300), oklch(0.65 0.02 300))',
 		accent: 'light-dark(oklch(0.85 0.18 90), oklch(0.88 0.16 90))',
 		'accent-contrast': 'light-dark(oklch(0.05 0.01 90), oklch(0.05 0.01 90))',
+		'accent-secondary': 'light-dark(oklch(0.72 0.15 45), oklch(0.78 0.14 45))',
+		'accent-secondary-contrast':
+			'light-dark(oklch(0.05 0.01 45), oklch(0.05 0.01 45))',
 	},
 	secondary: {
 		surface: 'light-dark(oklch(0.97 0.02 150), oklch(0.12 0.02 150))',
@@ -21,6 +24,9 @@ const themesetEaster: Themeset = {
 		'text-3': 'light-dark(oklch(0.491 0.02 150), oklch(0.65 0.02 150))',
 		accent: 'light-dark(oklch(0.72 0.15 45), oklch(0.78 0.14 45))',
 		'accent-contrast': 'light-dark(oklch(0.05 0.01 45), oklch(0.05 0.01 45))',
+		'accent-secondary': 'light-dark(oklch(0.85 0.18 90), oklch(0.88 0.16 90))',
+		'accent-secondary-contrast':
+			'light-dark(oklch(0.05 0.01 90), oklch(0.05 0.01 90))',
 	},
 	contrast: {
 		surface: 'light-dark(oklch(0.12 0.02 300), oklch(0.1 0.04 300))',
@@ -31,6 +37,9 @@ const themesetEaster: Themeset = {
 		'text-3': 'light-dark(oklch(0.68 0.02 300), oklch(0.7 0.02 300))',
 		accent: 'light-dark(oklch(0.88 0.16 90), oklch(0.86 0.18 110))',
 		'accent-contrast': 'light-dark(oklch(0.05 0.01 90), oklch(0.05 0.01 110))',
+		'accent-secondary': 'light-dark(oklch(0.72 0.15 45), oklch(0.78 0.14 45))',
+		'accent-secondary-contrast':
+			'light-dark(oklch(0.05 0.01 45), oklch(0.05 0.01 45))',
 	},
 	accent: {
 		surface: 'light-dark(oklch(0.97 0.02 350), oklch(0.12 0.02 350))',
@@ -41,6 +50,9 @@ const themesetEaster: Themeset = {
 		'text-3': 'light-dark(oklch(0.488 0.02 350), oklch(0.65 0.02 350))',
 		accent: 'light-dark(oklch(0.6 0.22 340), oklch(0.7 0.2 340))',
 		'accent-contrast': 'light-dark(oklch(0.05 0.01 340), oklch(0.05 0.01 340))',
+		'accent-secondary': 'light-dark(oklch(0.72 0.15 45), oklch(0.78 0.14 45))',
+		'accent-secondary-contrast':
+			'light-dark(oklch(0.05 0.01 45), oklch(0.05 0.01 45))',
 	},
 };
 

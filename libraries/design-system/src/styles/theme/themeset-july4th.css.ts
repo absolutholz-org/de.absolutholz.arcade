@@ -11,6 +11,9 @@ const themesetJuly4th: Themeset = {
 		'text-3': 'light-dark(oklch(0.49 0.01 250), oklch(0.65 0.015 250))',
 		accent: 'light-dark(oklch(0.55 0.18 250), oklch(0.68 0.16 250))',
 		'accent-contrast': 'light-dark(oklch(0.98 0.01 250), oklch(0.05 0.01 250))',
+		'accent-secondary': 'light-dark(oklch(0.55 0.18 25), oklch(0.65 0.18 25))',
+		'accent-secondary-contrast':
+			'light-dark(oklch(0.98 0.01 25), oklch(0.05 0.01 25))',
 	},
 	secondary: {
 		surface: 'light-dark(oklch(0.98 0.005 25), oklch(0.12 0.015 25))',
@@ -21,6 +24,10 @@ const themesetJuly4th: Themeset = {
 		'text-3': 'light-dark(oklch(0.49 0.01 25), oklch(0.65 0.015 25))',
 		accent: 'light-dark(oklch(0.55 0.18 25), oklch(0.65 0.18 25))',
 		'accent-contrast': 'light-dark(oklch(0.98 0.01 25), oklch(0.05 0.01 25))',
+		'accent-secondary':
+			'light-dark(oklch(0.55 0.18 250), oklch(0.68 0.16 250))',
+		'accent-secondary-contrast':
+			'light-dark(oklch(0.98 0.01 250), oklch(0.05 0.01 250))',
 	},
 	contrast: {
 		surface: 'light-dark(oklch(0.12 0.015 250), oklch(0.06 0 0))',
@@ -31,6 +38,10 @@ const themesetJuly4th: Themeset = {
 		'text-3': 'light-dark(oklch(0.7 0.015 250), oklch(0.607 0 0))',
 		accent: 'light-dark(oklch(0.65 0.18 25), oklch(0.7 0.18 25))',
 		'accent-contrast': 'light-dark(oklch(0.05 0.01 25), oklch(0.05 0.01 25))',
+		'accent-secondary':
+			'light-dark(oklch(0.55 0.18 250), oklch(0.68 0.16 250))',
+		'accent-secondary-contrast':
+			'light-dark(oklch(0.98 0.01 250), oklch(0.05 0.01 250))',
 	},
 	accent: {
 		surface: 'light-dark(oklch(0.95 0.04 250), oklch(0.1 0.04 250))',
@@ -41,6 +52,10 @@ const themesetJuly4th: Themeset = {
 		'text-3': 'light-dark(oklch(0.46 0.04 250), oklch(0.68 0.03 250))',
 		accent: 'light-dark(oklch(0.55 0.18 25), oklch(0.65 0.18 25))',
 		'accent-contrast': 'light-dark(oklch(0.98 0.01 25), oklch(0.05 0.01 25))',
+		'accent-secondary':
+			'light-dark(oklch(0.55 0.18 250), oklch(0.68 0.16 250))',
+		'accent-secondary-contrast':
+			'light-dark(oklch(0.98 0.01 250), oklch(0.05 0.01 250))',
 	},
 };
 

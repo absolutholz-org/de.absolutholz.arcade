@@ -11,6 +11,9 @@ const themesetStPatricks: Themeset = {
 		'text-3': 'light-dark(oklch(0.483 0.02 140), oklch(0.65 0.02 140))',
 		accent: 'light-dark(oklch(0.55 0.18 140), oklch(0.65 0.18 140))',
 		'accent-contrast': 'light-dark(oklch(0.05 0.01 140), oklch(0.05 0.01 140))',
+		'accent-secondary': 'light-dark(oklch(0.65 0.16 80), oklch(0.72 0.14 80))',
+		'accent-secondary-contrast':
+			'light-dark(oklch(0.05 0.01 80), oklch(0.05 0.01 80))',
 	},
 	secondary: {
 		surface: 'light-dark(oklch(0.97 0.02 80), oklch(0.14 0.02 80))',
@@ -21,6 +24,10 @@ const themesetStPatricks: Themeset = {
 		'text-3': 'light-dark(oklch(0.482 0.02 80), oklch(0.64 0.02 80))',
 		accent: 'light-dark(oklch(0.65 0.16 80), oklch(0.72 0.14 80))',
 		'accent-contrast': 'light-dark(oklch(0.05 0.01 80), oklch(0.05 0.01 80))',
+		'accent-secondary':
+			'light-dark(oklch(0.55 0.18 140), oklch(0.65 0.18 140))',
+		'accent-secondary-contrast':
+			'light-dark(oklch(0.05 0.01 140), oklch(0.05 0.01 140))',
 	},
 	contrast: {
 		surface: 'light-dark(oklch(0.15 0.03 140), oklch(0.08 0.02 140))',
@@ -31,6 +38,10 @@ const themesetStPatricks: Themeset = {
 		'text-3': 'light-dark(oklch(0.68 0.02 140), oklch(0.7 0.02 140))',
 		accent: 'light-dark(oklch(0.7 0.15 80), oklch(0.75 0.15 80))',
 		'accent-contrast': 'light-dark(oklch(0.05 0.01 80), oklch(0.05 0.01 80))',
+		'accent-secondary':
+			'light-dark(oklch(0.55 0.18 140), oklch(0.65 0.18 140))',
+		'accent-secondary-contrast':
+			'light-dark(oklch(0.05 0.01 140), oklch(0.05 0.01 140))',
 	},
 	accent: {
 		surface: 'light-dark(oklch(0.94 0.05 140), oklch(0.15 0.06 140))',
@@ -41,6 +52,10 @@ const themesetStPatricks: Themeset = {
 		'text-3': 'light-dark(oklch(0.455 0.04 140), oklch(0.68 0.03 140))',
 		accent: 'light-dark(oklch(0.68 0.15 80), oklch(0.76 0.15 80))',
 		'accent-contrast': 'light-dark(oklch(0.05 0.01 80), oklch(0.05 0.01 80))',
+		'accent-secondary':
+			'light-dark(oklch(0.55 0.18 140), oklch(0.65 0.18 140))',
+		'accent-secondary-contrast':
+			'light-dark(oklch(0.05 0.01 140), oklch(0.05 0.01 140))',
 	},
 };
 

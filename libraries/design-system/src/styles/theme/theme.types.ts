@@ -7,6 +7,8 @@ export type Theme = {
 	'text-3'?: string;
 	accent?: string;
 	'accent-contrast'?: string;
+	'accent-secondary'?: string;
+	'accent-secondary-contrast'?: string;
 };
 
 export type Themeset = {
