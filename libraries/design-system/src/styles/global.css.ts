@@ -9,6 +9,8 @@ import {
 	typographyCssTokensCompact,
 	typographyCssTokensExpanded,
 } from '../components/Text/_Text.constants';
+// eslint-disable-next-line no-restricted-imports
+import { generateFontShorthand } from '../components/Text/_Text.functions';
 
 export const getGlobalStyles = (themesetCss: string = themesetBaseCss) => css`
 	${reset}
@@ -48,6 +50,7 @@ export const getGlobalStyles = (themesetCss: string = themesetBaseCss) => css`
 			--color-surface
 		); /* Applies theme surface background */
 		color: var(--color-text-1); /* Applies theme base text color */
+		font: ${generateFontShorthand('base', 'regular')};
 		font-synthesize: none; /* Protects font weight rendering */
 	}
 `;

@@ -24,3 +24,14 @@ export function generateFontShorthand(
 
 	return `${weight} ${size}/${lineHeight} ${family}`;
 }
+
+/**
+ * Returns a type-safe CSS custom property variable for the given typography scale key.
+ * e.g. fontSize('base') -> 'var(--font-size-base)'
+ */
+export function fontSize(scaleKey: TypographyScaleKey): string {
+	if (!(scaleKey in typographyScale)) {
+		throw new Error(`Invalid typography scale key: "${scaleKey}"`);
+	}
+	return `var(--font-size-${scaleKey})`;
+}
