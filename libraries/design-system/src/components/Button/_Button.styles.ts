@@ -16,6 +16,13 @@ interface StyledButtonProps {
 	$display: ButtonDisplay;
 }
 
+export const IconWrapper = styled.span`
+	align-items: center;
+	display: inline-flex;
+	font-size: 1.15em;
+	justify-content: center;
+`;
+
 export const StyledButton = styled.button<StyledButtonProps>`
 	align-items: center;
 	border: 2px solid transparent;
@@ -38,42 +45,80 @@ export const StyledButton = styled.button<StyledButtonProps>`
 	white-space: nowrap;
 	width: ${({ $display }) => ($display === 'block' ? '100%' : 'auto')};
 
-	/* Focus Outline */
-	&:focus-visible {
-		outline: 2px solid ${themeColor('accent')};
-		outline-offset: 2px;
-	}
-
 	/* Disabled State */
 	&:disabled {
 		cursor: not-allowed;
 		opacity: 0.5;
 	}
 
+	/* Focus Outline */
+	&:focus-visible {
+		outline: 2px solid ${themeColor('accent')};
+		outline-offset: 2px;
+	}
+
 	/* Variant and Accent Combinations */
 	${({ $variant, $accent }) => {
-		const bgKey = $accent === 'primary' ? 'accent' : 'accent-secondary';
-		const textKey =
-			$accent === 'primary' ? 'accent-contrast' : 'accent-secondary-contrast';
-		const accentColor = themeColor(bgKey);
-		const contrastColor = themeColor(textKey);
+		const isPrimary = $accent === 'primary';
+		const startKey = isPrimary ? 'accent' : 'accent-secondary';
+		const endKey = isPrimary ? 'accent-secondary' : 'accent';
+		const contrastKey = isPrimary
+			? 'accent-contrast'
+			: 'accent-secondary-contrast';
+
+		const startColor = themeColor(startKey);
+		const endColor = themeColor(endKey);
+		const contrastColor = themeColor(contrastKey);
+
+		// Blend the end color with 60% of the start color to soften the gradient
+		const blendedEndColor = `color-mix(in oklab, ${endColor}, ${startColor} 60%)`;
+		const gradId = isPrimary ? 'btn-grad-primary' : 'btn-grad-secondary';
 
 		switch ($variant) {
 			case 'solid':
 				return `
-					background-color: ${accentColor};
+					background-image: linear-gradient(135deg, ${startColor}, ${blendedEndColor});
+					border: none;
 					color: ${contrastColor};
 					&:hover:not(:disabled) {
 						filter: brightness(0.9);
 					}
 					&:active:not(:disabled) {
-						filter: brightness(0.8);
+						filter: brightness(0.85);
 					}
 				`;
 			case 'outlined':
 				return `
-					border-color: ${accentColor};
-					color: ${accentColor};
+					color: ${startColor};
+					position: relative;
+					&::before {
+						background: linear-gradient(135deg, ${startColor}, ${blendedEndColor});
+						border-radius: inherit;
+						content: '';
+						inset: -2px;
+						mask-composite: exclude;
+						padding: 2px;
+						pointer-events: none;
+						position: absolute;
+						transition: opacity 0.2s ease-in-out;
+						-webkit-mask:
+							linear-gradient(#fff 0 0) content-box,
+							linear-gradient(#fff 0 0);
+						-webkit-mask-composite: xor;
+					}
+					span {
+						background-clip: text;
+						background-image: linear-gradient(135deg, ${startColor}, ${blendedEndColor});
+						color: transparent;
+						-webkit-background-clip: text;
+						-webkit-text-fill-color: transparent;
+					}
+					svg[stroke="currentColor"] * {
+						stroke: url(#${gradId});
+					}
+					svg[fill="currentColor"] * {
+						fill: url(#${gradId});
+					}
 					&:hover:not(:disabled) {
 						background-color: ${themeColor('container-1')};
 					}
@@ -84,7 +129,20 @@ export const StyledButton = styled.button<StyledButtonProps>`
 			case 'ghost':
 			default:
 				return `
-					color: ${accentColor};
+					color: ${startColor};
+					span {
+						background-clip: text;
+						background-image: linear-gradient(135deg, ${startColor}, ${blendedEndColor});
+						color: transparent;
+						-webkit-background-clip: text;
+						-webkit-text-fill-color: transparent;
+					}
+					svg[stroke="currentColor"] * {
+						stroke: url(#${gradId});
+					}
+					svg[fill="currentColor"] * {
+						fill: url(#${gradId});
+					}
 					&:hover:not(:disabled) {
 						background-color: ${themeColor('container-1')};
 					}

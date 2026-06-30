@@ -9,6 +9,7 @@ export const ICON_SIZES = {
 	md: '1.5rem',
 	lg: '2rem',
 	xl: '3rem',
+	inherit: '1em',
 } as const;
 
 /**
