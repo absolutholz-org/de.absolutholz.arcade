@@ -21,6 +21,31 @@ export interface BaseCarouselProps<C extends ElementType = 'div'> {
 	 */
 	as?: C;
 	/**
+	 * Whether to render browser-native directional scroll buttons.
+	 * @default false
+	 */
+	scrollButtons?: boolean;
+	/**
+	 * The symbol or text content for the previous scroll button.
+	 * @default '‹'
+	 */
+	scrollPrevIcon?: string;
+	/**
+	 * The accessible label for the previous scroll button.
+	 * @default 'Previous slide'
+	 */
+	scrollPrevLabel?: string;
+	/**
+	 * The symbol or text content for the next scroll button.
+	 * @default '›'
+	 */
+	scrollNextIcon?: string;
+	/**
+	 * The accessible label for the next scroll button.
+	 * @default 'Next slide'
+	 */
+	scrollNextLabel?: string;
+	/**
 	 * React children to render as slides inside the carousel.
 	 */
 	children?: ReactNode;

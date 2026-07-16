@@ -31,11 +31,16 @@ const meta = {
 			description:
 				'The HTML element or custom component to render as the container',
 		},
+		scrollButtons: {
+			control: 'boolean',
+			description: 'Whether to show browser-native scroll buttons',
+		},
 	},
 	args: {
 		variant: 'standard',
 		gap: 'md',
 		as: 'div',
+		scrollButtons: false,
 	},
 } satisfies Meta<typeof Carousel>;
 
@@ -221,6 +226,23 @@ const SLIDE_ITEMS = [
 			'linear-gradient(135deg, oklch(0.4 0.09 55), oklch(0.22 0.07 45))',
 		price: '€480',
 	},
+	{
+		id: 7,
+		badge: 'Heritage',
+		title: 'Redwood Credenza',
+		desc: 'Rich warm Redwood sideboard with custom copper hand-pulled hardware.',
+		gradient: 'linear-gradient(135deg, oklch(0.38 0.1 25), oklch(0.2 0.08 15))',
+		price: '€2,450',
+	},
+	{
+		id: 8,
+		badge: 'Signature',
+		title: 'Maple Bed Frame',
+		desc: 'Minimalist frame crafted from select Northern Maple wood with slotted joinery.',
+		gradient:
+			'linear-gradient(135deg, oklch(0.58 0.06 75), oklch(0.4 0.04 65))',
+		price: '€1,350',
+	},
 ];
 
 const renderSlides = () =>
@@ -308,6 +330,48 @@ export const FullBleed: Story = {
 						dynamically adjust to match the centered page padding boundaries
 						(`--page-content-padding` and `--page-content-max-width` inherited
 						from `PageContainer`).
+					</Text>
+				</PageContainer>
+			</ShowcaseFrame>
+		</Theme>
+	),
+};
+
+export const WithScrollButtons: Story = {
+	args: {
+		scrollButtons: true,
+	},
+	parameters: {
+		docs: {
+			description: {
+				story:
+					'The carousel with native, browser-generated scroll buttons. Note: these buttons are styled pseudo-elements and will automatically disable when the scroller reaches the bounds.',
+			},
+		},
+	},
+	render: (args) => (
+		<Theme name="primary">
+			<ShowcaseFrame>
+				<PageContainer variant="standard">
+					<SectionHeader>
+						<Text variant="h2" as="h1">
+							Carousel with Native Scroll Buttons
+						</Text>
+						<Text variant="base">
+							This story demonstrates the native CSS `::scroll-button()`
+							controls. The arrows on the left and right sides are
+							browser-generated buttons that require zero JavaScript. Try
+							clicking them to scroll the carousel slides.
+						</Text>
+					</SectionHeader>
+					<ContentDivider />
+					<Carousel {...args}>{renderSlides()}</Carousel>
+					<ContentDivider />
+					<Text variant="small">
+						In browsers that support the CSS Overflow 5 specification (e.g.
+						Chrome 135+), you will see styled native arrows. In unsupported
+						browsers, it gracefully degrades to standard scroll/swipe
+						navigation.
 					</Text>
 				</PageContainer>
 			</ShowcaseFrame>

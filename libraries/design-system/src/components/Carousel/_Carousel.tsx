@@ -10,20 +10,45 @@ export function Carousel<C extends ElementType = 'div'>({
 	variant = 'standard',
 	gap = 'md',
 	as,
+	scrollButtons = false,
+	scrollPrevIcon = '‹',
+	scrollPrevLabel = 'Previous slide',
+	scrollNextIcon = '›',
+	scrollNextLabel = 'Next slide',
 	children,
+	...props
 }: CarouselProps<C>) {
 	const Component = as || 'div';
 
+	const attributes = {
+		'data-scroll-prev': scrollPrevIcon,
+		'data-scroll-prev-label': scrollPrevLabel,
+		'data-scroll-next': scrollNextIcon,
+		'data-scroll-next-label': scrollNextLabel,
+	};
+
 	if (variant === 'full-bleed') {
 		return (
-			<S.FullBleedCarousel as={Component} $gap={gap}>
+			<S.FullBleedCarousel
+				as={Component}
+				$gap={gap}
+				$scrollButtons={scrollButtons}
+				{...attributes}
+				{...props}
+			>
 				{children}
 			</S.FullBleedCarousel>
 		);
 	}
 
 	return (
-		<S.Carousel as={Component} $gap={gap}>
+		<S.Carousel
+			as={Component}
+			$gap={gap}
+			$scrollButtons={scrollButtons}
+			{...attributes}
+			{...props}
+		>
 			{children}
 		</S.Carousel>
 	);
