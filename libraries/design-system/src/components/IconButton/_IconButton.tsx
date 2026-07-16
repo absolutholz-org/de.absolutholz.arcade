@@ -1,10 +1,6 @@
 import type { ElementType, MouseEvent } from 'react';
 import * as S from './_IconButton.styles';
-import type {
-	IconButtonProps,
-	ResolvedAnchorIconButtonProps,
-	ResolvedNativeIconButtonProps,
-} from './_IconButton.types';
+import type { IconButtonProps } from './_IconButton.types';
 
 function GradientDefs() {
 	return (
@@ -49,26 +45,33 @@ function GradientDefs() {
  * Behaves either as a `<button>` or an `<a>` anchor based on the presence of the `href` prop.
  * Enforces `aria-label` to guarantee screen-reader accessibility.
  */
-export function IconButton(props: IconButtonProps) {
-	const {
-		variant = 'solid',
-		accent = 'primary',
-		display = 'inline',
-		icon,
-		'aria-label': ariaLabel,
-		className,
-		id,
-		title,
-		onClick,
-		'aria-expanded': ariaExpanded,
-		'aria-haspopup': ariaHasPopup,
-		'aria-controls': ariaControls,
-	} = props;
-
-	const hasHref = props.href !== undefined;
+export function IconButton({
+	variant = 'solid',
+	accent = 'primary',
+	display = 'inline',
+	icon,
+	'aria-label': ariaLabel,
+	className,
+	id,
+	title,
+	onClick,
+	'aria-expanded': ariaExpanded,
+	'aria-haspopup': ariaHasPopup,
+	'aria-controls': ariaControls,
+	tabIndex,
+	onFocus,
+	onBlur,
+	onKeyDown,
+	'data-toolbar-item': dataToolbarItem,
+	href,
+	target,
+	rel,
+	disabled,
+	type = 'button',
+}: IconButtonProps) {
+	const hasHref = href !== undefined;
 
 	if (hasHref) {
-		const { href, target, rel } = props as ResolvedAnchorIconButtonProps;
 		const StyledLink = S.StyledIconButton as unknown as ElementType;
 		return (
 			<>
@@ -86,6 +89,11 @@ export function IconButton(props: IconButtonProps) {
 					aria-expanded={ariaExpanded}
 					aria-haspopup={ariaHasPopup}
 					aria-controls={ariaControls}
+					tabIndex={tabIndex}
+					onFocus={onFocus}
+					onBlur={onBlur}
+					onKeyDown={onKeyDown}
+					data-toolbar-item={dataToolbarItem}
 					$variant={variant}
 					$accent={accent}
 					$display={display}
@@ -95,8 +103,6 @@ export function IconButton(props: IconButtonProps) {
 			</>
 		);
 	}
-
-	const { disabled, type = 'button' } = props as ResolvedNativeIconButtonProps;
 
 	return (
 		<>
@@ -112,6 +118,11 @@ export function IconButton(props: IconButtonProps) {
 				aria-expanded={ariaExpanded}
 				aria-haspopup={ariaHasPopup}
 				aria-controls={ariaControls}
+				tabIndex={tabIndex}
+				onFocus={onFocus}
+				onBlur={onBlur}
+				onKeyDown={onKeyDown}
+				data-toolbar-item={dataToolbarItem}
 				$variant={variant}
 				$accent={accent}
 				$display={display}

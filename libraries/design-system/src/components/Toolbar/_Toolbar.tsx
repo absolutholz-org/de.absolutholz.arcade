@@ -95,6 +95,13 @@ export function ToolbarItem({
 	const isActive = tabStopId === id;
 	const emojiIcon = EMOJI_ICONS[icon] || '❓';
 
+	let buttonVariant: 'solid' | 'outlined' | 'ghost' = 'ghost';
+	if (variant === 'primary') {
+		buttonVariant = 'solid';
+	} else if (variant === 'secondary' || variant === 'danger') {
+		buttonVariant = 'outlined';
+	}
+
 	return (
 		<S.ItemButton
 			data-toolbar-item="true"
@@ -105,15 +112,17 @@ export function ToolbarItem({
 			}}
 			onFocus={() => setTabStopId(id)}
 			disabled={disabled}
-			$variant={variant}
+			variant={buttonVariant}
+			accent="primary"
+			leadingIcon={<span aria-hidden="true">{emojiIcon}</span>}
 			title={label}
 			aria-label={label}
 			aria-haspopup={ariaHasPopup}
 			aria-controls={ariaControls}
 			aria-expanded={ariaExpanded}
 			className={className}
+			$toolbarVariant={variant}
 		>
-			<span aria-hidden="true">{emojiIcon}</span>
 			<S.ItemLabel>{label}</S.ItemLabel>
 		</S.ItemButton>
 	);

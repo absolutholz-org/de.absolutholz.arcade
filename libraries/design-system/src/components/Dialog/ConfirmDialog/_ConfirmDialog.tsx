@@ -1,7 +1,7 @@
 /* eslint-disable no-restricted-imports */
 import React from 'react';
+import { Button } from '../../Button';
 import { Dialog } from '../_Dialog';
-import * as S from '../_Dialog.styles';
 import type { ConfirmDialogProps } from './_ConfirmDialog.types';
 
 export function ConfirmDialog({
@@ -21,12 +21,12 @@ export function ConfirmDialog({
 			onClose={onCancel}
 			footer={
 				<>
-					<S.Button $variant="secondary" onClick={onCancel}>
+					<Button variant="outlined" accent="primary" onClick={onCancel}>
 						{cancelText}
-					</S.Button>
-					<S.Button $variant="primary" onClick={onConfirm}>
+					</Button>
+					<Button accent="primary" onClick={onConfirm}>
 						{confirmText}
-					</S.Button>
+					</Button>
 				</>
 			}
 		>

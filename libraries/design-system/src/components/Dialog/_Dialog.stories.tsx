@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Dialog } from '.';
+import { Button } from '../Button';
 import { Theme } from '../Theme';
-import { themeColor } from '../../styles/theme/theme.utils';
 
 const meta = {
 	component: Dialog,
@@ -59,19 +59,7 @@ function DialogStoryWrapper({
 
 	return (
 		<div>
-			<button
-				onClick={() => setIsOpen(true)}
-				style={{
-					backgroundColor: themeColor('accent'),
-					border: 'none',
-					color: themeColor('accent-contrast'),
-					cursor: 'pointer',
-					fontWeight: 600,
-					padding: '12px 24px',
-				}}
-			>
-				{triggerText}
-			</button>
+			<Button onClick={() => setIsOpen(true)}>{triggerText}</Button>
 
 			<Dialog {...props} isOpen={isOpen} onClose={() => setIsOpen(false)} />
 		</div>
@@ -82,19 +70,7 @@ export const Default: Story = {
 	args: {
 		children: 'This is a clean base layout example of the Dialog component.',
 		footer: (
-			<button
-				onClick={() => alert('Footer button clicked!')}
-				style={{
-					backgroundColor: themeColor('accent'),
-					border: 'none',
-					color: themeColor('accent-contrast'),
-					cursor: 'pointer',
-					fontWeight: 500,
-					padding: '8px 16px',
-				}}
-			>
-				Close
-			</button>
+			<Button onClick={() => alert('Footer button clicked!')}>Close</Button>
 		),
 	},
 	parameters: {

@@ -1,4 +1,9 @@
-import type { ComponentPropsWithoutRef, ReactNode } from 'react';
+import type {
+	ComponentPropsWithoutRef,
+	ReactNode,
+	FocusEvent,
+	KeyboardEvent,
+} from 'react';
 import type {
 	ICON_BUTTON_ACCENTS,
 	ICON_BUTTON_DISPLAYS,
@@ -33,6 +38,46 @@ export interface BaseIconButtonProps {
 	 * The accessible text label for screen readers.
 	 */
 	'aria-label': string;
+	/**
+	 * Tab index for keyboard navigation.
+	 */
+	tabIndex?: number;
+	/**
+	 * Focus event handler.
+	 */
+	onFocus?: (e: FocusEvent<Element>) => void;
+	/**
+	 * Blur event handler.
+	 */
+	onBlur?: (e: FocusEvent<Element>) => void;
+	/**
+	 * Key down event handler.
+	 */
+	onKeyDown?: (e: KeyboardEvent<Element>) => void;
+	/**
+	 * Custom data attribute for toolbar roving tab index.
+	 */
+	'data-toolbar-item'?: string;
+	/**
+	 * Link destination if rendered as an anchor.
+	 */
+	href?: string;
+	/**
+	 * Target for anchor link destinations.
+	 */
+	target?: string;
+	/**
+	 * Relationship for anchor link destinations.
+	 */
+	rel?: string;
+	/**
+	 * Disabled state for native buttons.
+	 */
+	disabled?: boolean;
+	/**
+	 * Type for native buttons.
+	 */
+	type?: 'button' | 'submit' | 'reset';
 }
 
 // Anchor-specific props

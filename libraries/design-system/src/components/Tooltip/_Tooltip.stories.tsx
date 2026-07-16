@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import React from 'react';
+import { Button } from '../Button';
 import { themeColor } from '../../styles/theme/theme.utils';
 import { FLOATING_POSITIONS } from './_Tooltip.constants';
 import { Tooltip } from './index';
@@ -16,33 +17,6 @@ const StoryContainer = styled.div`
 		sans-serif;
 	justify-content: center;
 	padding: 48px;
-`;
-
-const DemoButton = styled.button`
-	background-color: ${themeColor('accent')};
-	border: none;
-	border-radius: 6px;
-	color: ${themeColor('accent-contrast')};
-	cursor: pointer;
-	font-size: var(--font-size-base);
-	font-weight: 600;
-	padding: 10px 20px;
-	transition:
-		opacity 0.2s ease,
-		transform 0.1s ease;
-
-	&:hover {
-		opacity: 0.9;
-	}
-
-	&:active {
-		transform: scale(0.98);
-	}
-
-	&:focus-visible {
-		outline: 3px solid ${themeColor('accent')};
-		outline-offset: 2px;
-	}
 `;
 
 const meta = {
@@ -88,7 +62,7 @@ export const Default: Story = {
 	render: (args) => (
 		<StoryContainer>
 			<Tooltip {...args}>
-				<DemoButton>Hover or Focus Me</DemoButton>
+				<Button>Hover or Focus Me</Button>
 			</Tooltip>
 		</StoryContainer>
 	),
@@ -108,7 +82,7 @@ export const PlacementBottom: Story = {
 	render: (args) => (
 		<StoryContainer>
 			<Tooltip {...args}>
-				<DemoButton>Tooltip Bottom</DemoButton>
+				<Button>Tooltip Bottom</Button>
 			</Tooltip>
 		</StoryContainer>
 	),
@@ -129,7 +103,7 @@ export const PlacementLeft: Story = {
 	render: (args) => (
 		<StoryContainer>
 			<Tooltip {...args}>
-				<DemoButton>Tooltip Left</DemoButton>
+				<Button>Tooltip Left</Button>
 			</Tooltip>
 		</StoryContainer>
 	),
@@ -150,7 +124,7 @@ export const PlacementRight: Story = {
 	render: (args) => (
 		<StoryContainer>
 			<Tooltip {...args}>
-				<DemoButton>Tooltip Right</DemoButton>
+				<Button>Tooltip Right</Button>
 			</Tooltip>
 		</StoryContainer>
 	),

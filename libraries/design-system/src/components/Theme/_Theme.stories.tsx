@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Theme } from '.';
+import { Button } from '../Button';
 import { themeColor } from '../../styles/theme/theme.utils';
 import { THEME_NAMES } from './_Theme.constants';
 
@@ -84,27 +85,8 @@ const CardMeta = styled.span`
 	letter-spacing: 0.05em;
 `;
 
-const AccentButton = styled.button`
-	background-color: ${themeColor('accent')};
-	color: ${themeColor('accent-contrast')};
-	border: none;
-	border-radius: 8px;
-	padding: 10px 18px;
-	font-family: 'Inter', sans-serif;
-	font-size: 0.85rem;
-	font-weight: 600;
-	cursor: pointer;
-	transition:
-		opacity 0.2s ease,
-		transform 0.1s ease;
+const ExploreButton = styled(Button)`
 	margin-top: auto;
-
-	&:hover {
-		opacity: 0.9;
-	}
-	&:active {
-		transform: scale(0.97);
-	}
 `;
 
 const DemoCard = ({ themeName }: { themeName: string }) => (
@@ -115,7 +97,7 @@ const DemoCard = ({ themeName }: { themeName: string }) => (
 			Handcrafted with precision using sustainable local oak and walnut. Every
 			piece tells a unique story.
 		</CardDescription>
-		<AccentButton>Explore Collection</AccentButton>
+		<ExploreButton>Explore Collection</ExploreButton>
 	</StyledCard>
 );
 

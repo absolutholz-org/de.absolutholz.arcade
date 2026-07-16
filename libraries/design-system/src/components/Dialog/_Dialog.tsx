@@ -1,5 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Stack } from '../Stack';
+import { IconButton } from '../IconButton';
+import { Icon } from '../Icon';
 import * as S from './_Dialog.styles';
 import type { IDialog } from './_Dialog.types';
 
@@ -94,9 +96,12 @@ export function Dialog({
 				<S.DialogHeader>
 					<S.DialogTitle id="dialog-title">{title}</S.DialogTitle>
 					{onClose && (
-						<S.CloseButton onClick={onClose} aria-label="Close dialog">
-							X
-						</S.CloseButton>
+						<IconButton
+							variant="ghost"
+							onClick={onClose}
+							aria-label="Close dialog"
+							icon={<Icon name="close" />}
+						/>
 					)}
 				</S.DialogHeader>
 

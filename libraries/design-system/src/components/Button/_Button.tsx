@@ -1,11 +1,7 @@
 import React from 'react';
 import type { ElementType, MouseEvent } from 'react';
 import * as S from './_Button.styles';
-import type {
-	ButtonProps,
-	ResolvedAnchorButtonProps,
-	ResolvedNativeButtonProps,
-} from './_Button.types';
+import type { ButtonProps } from './_Button.types';
 
 function GradientDefs() {
 	return (
@@ -49,25 +45,33 @@ function GradientDefs() {
  * A highly accessible Button component that dynamically renders as either a `<button>`
  * or an `<a>` anchor based on the presence of the `href` prop.
  */
-export function Button(props: ButtonProps) {
-	const {
-		variant = 'solid',
-		accent = 'primary',
-		display = 'inline',
-		leadingIcon,
-		trailingIcon,
-		children,
-		className,
-		id,
-		title,
-		onClick,
-		'aria-label': ariaLabel,
-		'aria-expanded': ariaExpanded,
-		'aria-haspopup': ariaHasPopup,
-		'aria-controls': ariaControls,
-	} = props;
-
-	const hasHref = props.href !== undefined;
+export function Button({
+	variant = 'solid',
+	accent = 'primary',
+	display = 'inline',
+	leadingIcon,
+	trailingIcon,
+	children,
+	className,
+	id,
+	title,
+	onClick,
+	'aria-label': ariaLabel,
+	'aria-expanded': ariaExpanded,
+	'aria-haspopup': ariaHasPopup,
+	'aria-controls': ariaControls,
+	tabIndex,
+	onFocus,
+	onBlur,
+	onKeyDown,
+	'data-toolbar-item': dataToolbarItem,
+	href,
+	target,
+	rel,
+	disabled,
+	type = 'button',
+}: ButtonProps) {
+	const hasHref = href !== undefined;
 
 	const renderIcon = (icon: React.ReactNode) => {
 		if (!icon) return null;
@@ -84,7 +88,6 @@ export function Button(props: ButtonProps) {
 	};
 
 	if (hasHref) {
-		const { href, target, rel } = props as ResolvedAnchorButtonProps;
 		const StyledLink = S.StyledButton as unknown as ElementType;
 		return (
 			<>
@@ -102,6 +105,11 @@ export function Button(props: ButtonProps) {
 					aria-expanded={ariaExpanded}
 					aria-haspopup={ariaHasPopup}
 					aria-controls={ariaControls}
+					tabIndex={tabIndex}
+					onFocus={onFocus}
+					onBlur={onBlur}
+					onKeyDown={onKeyDown}
+					data-toolbar-item={dataToolbarItem}
 					$variant={variant}
 					$accent={accent}
 					$display={display}
@@ -113,8 +121,6 @@ export function Button(props: ButtonProps) {
 			</>
 		);
 	}
-
-	const { disabled, type = 'button' } = props as ResolvedNativeButtonProps;
 
 	return (
 		<>
@@ -130,6 +136,11 @@ export function Button(props: ButtonProps) {
 				aria-expanded={ariaExpanded}
 				aria-haspopup={ariaHasPopup}
 				aria-controls={ariaControls}
+				tabIndex={tabIndex}
+				onFocus={onFocus}
+				onBlur={onBlur}
+				onKeyDown={onKeyDown}
+				data-toolbar-item={dataToolbarItem}
 				$variant={variant}
 				$accent={accent}
 				$display={display}

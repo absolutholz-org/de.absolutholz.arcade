@@ -86,29 +86,6 @@ export const DialogTitle = styled.h2`
 	margin: 0;
 `;
 
-export const CloseButton = styled.button`
-	align-items: center;
-	background: transparent;
-	border: none;
-	border-radius: ${radius('sm')};
-	color: ${themeColor('text-2')};
-	cursor: pointer;
-	display: flex;
-	justify-content: center;
-	padding: ${space('sm')};
-	transition: all 0.2s;
-
-	&:hover {
-		background-color: ${themeColor('container-1')};
-		color: ${themeColor('text-1')};
-	}
-
-	&:focus-visible {
-		outline: 3px solid ${themeColor('accent')};
-		outline-offset: -3px;
-	}
-`;
-
 export const DialogContent = styled.div`
 	color: ${themeColor('text-2')};
 	font-size: var(--font-size-base);
@@ -122,33 +99,4 @@ export const DialogContent = styled.div`
 
 export const DialogFooter = styled.div`
 	padding: 0 ${space('lg')} ${space('lg')} ${space('lg')};
-`;
-
-export const Button = styled.button<{ $variant: 'primary' | 'secondary' }>`
-	background-color: ${({ $variant }) =>
-		$variant === 'primary' ? themeColor('accent') : 'transparent'};
-	border: ${({ $variant }) =>
-		$variant === 'primary' ? 'none' : `1px solid ${themeColor('container-2')}`};
-	border-radius: ${radius('md')};
-	color: ${({ $variant }) =>
-		$variant === 'primary'
-			? themeColor('accent-contrast')
-			: themeColor('text-1')};
-	cursor: pointer;
-	font-weight: 500;
-	padding: 8px 16px;
-	transition: all 0.2s ease-in-out;
-
-	&:hover {
-		background-color: ${({ $variant }) =>
-			$variant === 'primary'
-				? themeColor('accent')
-				: themeColor('container-1')};
-		opacity: 0.9;
-	}
-
-	&:focus-visible {
-		outline: 3px solid ${themeColor('accent')};
-		outline-offset: -3px;
-	}
 `;
