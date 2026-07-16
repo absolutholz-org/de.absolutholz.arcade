@@ -46,6 +46,11 @@ export interface BaseCarouselProps<C extends ElementType = 'div'> {
 	 */
 	scrollNextLabel?: string;
 	/**
+	 * Whether to render browser-native scroll markers (dots).
+	 * @default false
+	 */
+	scrollMarkers?: boolean;
+	/**
 	 * React children to render as slides inside the carousel.
 	 */
 	children?: ReactNode;

@@ -35,12 +35,17 @@ const meta = {
 			control: 'boolean',
 			description: 'Whether to show browser-native scroll buttons',
 		},
+		scrollMarkers: {
+			control: 'boolean',
+			description: 'Whether to show browser-native scroll markers (dots)',
+		},
 	},
 	args: {
 		variant: 'standard',
 		gap: 'md',
 		as: 'div',
 		scrollButtons: false,
+		scrollMarkers: false,
 	},
 } satisfies Meta<typeof Carousel>;
 
@@ -372,6 +377,48 @@ export const WithScrollButtons: Story = {
 						Chrome 135+), you will see styled native arrows. In unsupported
 						browsers, it gracefully degrades to standard scroll/swipe
 						navigation.
+					</Text>
+				</PageContainer>
+			</ShowcaseFrame>
+		</Theme>
+	),
+};
+
+export const WithScrollMarkers: Story = {
+	args: {
+		scrollMarkers: true,
+	},
+	parameters: {
+		docs: {
+			description: {
+				story:
+					'The carousel with native, browser-generated scroll markers (pagination dots). Note: the active indicator will animate smoothly to highlight the current slide.',
+			},
+		},
+	},
+	render: (args) => (
+		<Theme name="primary">
+			<ShowcaseFrame>
+				<PageContainer variant="standard">
+					<SectionHeader>
+						<Text variant="h2" as="h1">
+							Carousel with Native Scroll Markers
+						</Text>
+						<Text variant="base">
+							This story demonstrates the native CSS `::scroll-marker-group` and
+							`::scroll-marker` controls. The dots at the bottom are
+							browser-generated and tracked natively using `:target-current`
+							with zero JavaScript. Try scrolling or swiping the slides.
+						</Text>
+					</SectionHeader>
+					<ContentDivider />
+					<Carousel {...args}>{renderSlides()}</Carousel>
+					<ContentDivider />
+					<Text variant="small">
+						In browsers that support the CSS Overflow 5 specification (e.g.
+						Chrome 135+), you will see interactive pagination dots below the
+						carousel. In unsupported browsers, it gracefully degrades to
+						standard scroll/swipe navigation.
 					</Text>
 				</PageContainer>
 			</ShowcaseFrame>

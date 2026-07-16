@@ -11,6 +11,7 @@ export function Carousel<C extends ElementType = 'div'>({
 	gap = 'md',
 	as,
 	scrollButtons = false,
+	scrollMarkers = false,
 	scrollPrevIcon = '‹',
 	scrollPrevLabel = 'Previous slide',
 	scrollNextIcon = '›',
@@ -33,6 +34,7 @@ export function Carousel<C extends ElementType = 'div'>({
 				as={Component}
 				$gap={gap}
 				$scrollButtons={scrollButtons}
+				$scrollMarkers={scrollMarkers}
 				{...attributes}
 				{...props}
 			>
@@ -46,6 +48,7 @@ export function Carousel<C extends ElementType = 'div'>({
 			as={Component}
 			$gap={gap}
 			$scrollButtons={scrollButtons}
+			$scrollMarkers={scrollMarkers}
 			{...attributes}
 			{...props}
 		>

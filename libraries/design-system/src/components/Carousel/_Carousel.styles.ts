@@ -127,9 +127,79 @@ const fullBleedScrollButtonStyles = css`
 	}
 `;
 
+const scrollMarkerCommonStyles = css`
+	scroll-marker-group: after;
+
+	&::scroll-marker-group {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: ${space('xs')};
+		z-index: 10;
+		height: ${space('lg')};
+	}
+
+	> *::scroll-marker {
+		content: '';
+		display: inline-block;
+		width: 0.5rem;
+		height: 0.5rem;
+		border-radius: 0.25rem;
+		background-color: ${themeColor('text-1')};
+		opacity: 0.35;
+		cursor: pointer;
+		transition:
+			width 0.3s cubic-bezier(0.25, 1, 0.5, 1),
+			opacity 0.3s ease,
+			background-color 0.3s ease,
+			transform 0.3s ease;
+	}
+
+	> *::scroll-marker:hover {
+		opacity: 0.75;
+		transform: scale(1.2);
+	}
+
+	> *::scroll-marker:target-current {
+		width: 1.25rem;
+		background-color: ${themeColor('accent')};
+		opacity: 1;
+		transform: scale(1);
+	}
+`;
+
+const standardScrollMarkerStyles = css`
+	${scrollMarkerCommonStyles}
+	anchor-name: --carousel-standard;
+
+	&::scroll-marker-group {
+		position: absolute;
+		position-anchor: --carousel-standard;
+		top: calc(anchor(bottom) - ${space('xs')});
+		left: anchor(left);
+		right: anchor(right);
+		justify-self: center;
+	}
+`;
+
+const fullBleedScrollMarkerStyles = css`
+	${scrollMarkerCommonStyles}
+	anchor-name: --carousel-full-bleed;
+
+	&::scroll-marker-group {
+		position: absolute;
+		position-anchor: --carousel-full-bleed;
+		top: calc(anchor(bottom) - ${space('xs')});
+		left: anchor(left);
+		right: anchor(right);
+		justify-self: center;
+	}
+`;
+
 export const Carousel = styled.div<{
 	$gap: SpacingKey;
 	$scrollButtons?: boolean;
+	$scrollMarkers?: boolean;
 }>`
 	${baseCarouselStyles}
 	gap: ${({ $gap }) => space($gap)};
@@ -137,11 +207,18 @@ export const Carousel = styled.div<{
 	width: 100%;
 
 	${({ $scrollButtons }) => $scrollButtons && standardScrollButtonStyles}
+	${({ $scrollMarkers }) => $scrollMarkers && standardScrollMarkerStyles}
+	${({ $scrollMarkers }) =>
+		$scrollMarkers &&
+		css`
+			margin-bottom: ${space('lg')};
+		`}
 `;
 
 export const FullBleedCarousel = styled.div<{
 	$gap: SpacingKey;
 	$scrollButtons?: boolean;
+	$scrollMarkers?: boolean;
 }>`
 	${baseCarouselStyles}
 	--scrollable-container-margin: max(
@@ -167,4 +244,10 @@ export const FullBleedCarousel = styled.div<{
 	}
 
 	${({ $scrollButtons }) => $scrollButtons && fullBleedScrollButtonStyles}
+	${({ $scrollMarkers }) => $scrollMarkers && fullBleedScrollMarkerStyles}
+	${({ $scrollMarkers }) =>
+		$scrollMarkers &&
+		css`
+			margin-bottom: ${space('lg')};
+		`}
 `;
