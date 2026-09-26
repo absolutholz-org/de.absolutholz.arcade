@@ -12,12 +12,22 @@ export const reset = css`
 		padding: 0;
 	}
 
+	/* Enables smooth transitions and animations to/from intrinsic sizing keywords (e.g., height: 0 to height: auto). */
+	/* Progressive enhancement: Cutting-edge CSS Values & Units Level 4 property with limited browser support (Chromium 129+). Unsupported browsers safely ignore it. */
+	/* Scoped to prefers-reduced-motion: no-preference to honor user accessibility preferences. */
+	:root {
+		@media (prefers-reduced-motion: no-preference) {
+			interpolate-size: allow-keywords;
+		}
+	}
+
 	/* 2. Document Base Height and Scroll */
 	/* Ensures full viewport heights can be calculated and enables smooth scrolling by default. */
 	html,
 	body {
 		height: 100%;
 		scroll-behavior: smooth;
+		scrollbar-gutter: stable; /* Preserves layout during scroll */
 	}
 
 	/* Preps the browser engine window */
