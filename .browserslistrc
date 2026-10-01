@@ -1,0 +1,22 @@
+# Helpful testing tools:
+# https://browsersl.ist/
+# https://browserslist.dev/
+
+# Primary development target (Phase 1)
+last 10 Chrome versions
+last 10 ChromeAndroid versions
+
+# Exclude completely dead/unsupported browsers globally
+not dead
+
+# --------------------------------------------------------
+# Future targets to uncomment when ready for cross-browser
+# testing in later phases:
+# --------------------------------------------------------
+# last 10 Firefox versions
+# last 10 FirefoxAndroid versions
+# last 10 Safari versions
+# last 10 iOS versions
+# last 10 Edge versions
+# last 10 Opera versions
+# last 10 Samsung versions
