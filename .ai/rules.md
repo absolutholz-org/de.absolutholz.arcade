@@ -44,3 +44,4 @@ Agents are strictly forbidden from introducing alternative tooling. You must adh
 
 - **Self-Documenting Code:** All generated code must be as self-documenting as possible. Prioritize highly self-explanatory variable, function, and component names.
 - **Targeted Comments:** Only use comments to clearly and as briefly as possible explain complex, non-obvious, or domain-specific logic. Do not write redundant comments that merely repeat what the code obviously does.
+- **Living Documentation (README Maintenance):** The root `README.md` is our source of truth. Whenever you scaffold a new app/library in the workspace, add a new global command to `package.json`, or alter the tech stack, you **must** proactively propose an update to the `README.md` to reflect these changes.
