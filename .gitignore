@@ -6,6 +6,11 @@ node_modules/
 dist/
 out/
 .astro/
+storybook-static/
+*.tsbuildinfo
+
+# Logs
+*.log
 
 # Environment and local files
 .env
