@@ -26,6 +26,10 @@ const preview: Preview = {
 			theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? storybookDarkTheme : storybookLightTheme,
 		},
 	},
+	initialGlobals: {
+		themeset: 'base',
+		scheme: 'system',
+	},
 	globalTypes: {
 		themeset: {
 			description: 'Global White-Label Themeset',

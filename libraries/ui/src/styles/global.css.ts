@@ -14,6 +14,8 @@ import { themesetBaseCss } from './theme/themeset-base.css';
  */
 export const globalStyles = css`
 	:global() {
+		${reset}
+
 		:root {
 			${themesetBaseCss}
 

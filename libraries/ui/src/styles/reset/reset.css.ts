@@ -1,6 +1,4 @@
-import { css } from '@linaria/core';
-
-export const reset = css`
+export const reset = `
 	/* 1. Box Sizing, Margin, and Padding Reset */
 	/* Applies border-box layout calculations and clears default margins and paddings globally. */
 	*,

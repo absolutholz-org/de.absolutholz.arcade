@@ -70,15 +70,15 @@ const ThemeWrapper = ({
 };
 
 export const themeDecorator: Decorator = (Story, context) => {
-	const activeThemeset = context.globals.themeset || 'base';
-	const activeScheme = context.globals.scheme || 'system';
+	const activeThemeset = context.globals?.themeset || 'base';
+	const activeScheme = context.globals?.scheme || 'system';
 	const activeCss = themesets[activeThemeset] || themesetBaseCss;
 
 	return (
 		<ThemeWrapper scheme={activeScheme}>
 			{/* Inject active global styles dynamically without runtime CSS-in-JS */}
 			<style
-				key={activeThemeset}
+				key={`${activeThemeset}-${activeScheme}`}
 				// biome-ignore lint/security/noDangerouslySetInnerHtml: injecting dynamic storybook themeset CSS
 				dangerouslySetInnerHTML={{ __html: getGlobalStyles(activeCss) }}
 			/>
