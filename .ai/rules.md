@@ -30,7 +30,7 @@ Agents are strictly forbidden from introducing alternative tooling. You must adh
 
 - **Package Manager:** `pnpm` (Workspaces).
 - **Formatting & Linting:** `Biome` (Respecting `.editorconfig`). Do not generate or assume `ESLint` or `Prettier` configurations.
-- **Styling:** `Vanilla Extract` (`@vanilla-extract/css`). Do not use Tailwind, CSS Modules, styled-components, or Emotion.
+- **Styling:** `Linaria` (`@linaria/core`, `@linaria/react`). Styles must be written using standard CSS strings inside template literals (`css`...``). Do not use Tailwind, CSS Modules, styled-components, standard Emotion, or Vanilla Extract.
 - **Frameworks:** `Astro` for the `apps/hub`, and `React` (via Vite or Astro integrations) for interactive games.
 
 ## 5. CSS and Styling Units Constraint

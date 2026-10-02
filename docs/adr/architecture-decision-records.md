@@ -87,14 +87,14 @@ This document contains the foundational architectural decisions for the Arcade W
 - **Decision:** All `package.json` names within the workspace must utilize the `@arcade/` scope and denote their topology location.
 - **Constraint:** Apps must be named `@arcade/[app-name]` (e.g., `@arcade/hub`, `@arcade/minesweeper`). Libraries must be named `@arcade/lib-[name]` (e.g., `@arcade/lib-ui`, `@arcade/lib-storage`).
 
-## ADR 014: Styling Engine (Vanilla Extract)
+## ADR 014: Styling Engine (Linaria)
 
-- **Context:** We require a type-safe, TypeScript-driven styling developer experience that strictly outputs static CSS at build-time to adhere to ADR 002.
-- **Decision:** We will use **Vanilla Extract** (`@vanilla-extract/css`) as the styling engine across the monorepo.
-- **Constraint:** Runtime CSS-in-JS libraries (like Emotion or styled-components) are strictly forbidden to eliminate JavaScript runtime overhead for styles in the final production bundles.
+- **Context:** We require a zero-runtime CSS extraction styling developer experience that strictly outputs static CSS at build-time to adhere to ADR 002, while allowing styles to be authored using standard CSS template literals (`css`...``).
+- **Decision:** We will use **Linaria** (`@linaria/core` and `@linaria/react`) as the styling engine across the monorepo.
+- **Constraint:** Standard runtime CSS-in-JS libraries (such as standard Emotion or styled-components) and Vanilla Extract are strictly forbidden to eliminate JavaScript runtime overhead for styles in the final production bundles.
 
 ## ADR 015: Dependency Version Syncing via pnpm Catalogs
 
-- **Context:** Preventing bugs and bundle duplication caused by multiple versions of core libraries (React, Astro, Vanilla Extract) scattered across different apps and packages.
+- **Context:** Preventing bugs and bundle duplication caused by multiple versions of core libraries (React, Astro, Linaria) scattered across different apps and packages.
 - **Decision:** We will utilize **pnpm Catalogs** (introduced in pnpm v9.5+) to manage shared dependency versions centrally.
 - **Constraint:** Apps and libraries must declare shared dependencies using the catalog reference (e.g., `"react": "catalog:"`) in their `package.json`, rather than hardcoding version numbers. The actual version numbers are defined exclusively in `pnpm-workspace.yaml`.

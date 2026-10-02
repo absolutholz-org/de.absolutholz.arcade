@@ -12,14 +12,14 @@ This project is structured as a strict multi-app monorepo utilizing `pnpm worksp
     *   `apps/hub`: The main portal, routing, and static pages (Accessibility, Legal), built with **Astro**.
     *   `apps/[game]`: Individual, highly interactive game canvases built as pure **React/Vite** Single Page Applications (or Astro Islands).
 *   **`libraries/`**: Contains all shared business logic, UI components, and infrastructure.
-    *   `libraries/ui`: Shared design system components styled exclusively with **Vanilla Extract**.
+    *   `libraries/ui`: Shared design system components styled exclusively with **Linaria**.
     *   `libraries/storage`: Namespaced wrappers for LocalStorage/IndexedDB to prevent cross-game data collisions.
 
 ## 🤖 AI Agent Instructions (READ FIRST)
 
 If you are an AI agent or LLM assisting in this repository, **you must read and adhere to the following files before generating any code or commands:**
 
-1.  **`docs/architecture-decision-records.md`**: The absolute source of truth for architectural constraints (No SSR, No Tailwind, No Module Federation).
+1.  **`docs/adr/architecture-decision-records.md`**: The absolute source of truth for architectural constraints (No SSR, No Tailwind, No Module Federation).
 2.  **`.ai/rules.md`**: Global development rules regarding code deduplication, DRY principles, and self-documenting code standards.
 3.  **`AGENTS.md`**: The routing registry to find specific skill files based on your current task.
 
@@ -27,7 +27,7 @@ If you are an AI agent or LLM assisting in this repository, **you must read and 
 
 *   **Package Manager:** `pnpm`
 *   **Frameworks:** Astro (Hub/SSG) & React (Interactive Games)
-*   **Styling:** Vanilla Extract (`@vanilla-extract/css`) natively using `oklch` & `light-dark()`
+*   **Styling:** Linaria (`@linaria/core`, `@linaria/react`) natively using `oklch` & `light-dark()`
 *   **Code Quality:** Biome (Formatting & Linting)
 *   **Accessibility:** WCAG 2.2 Level AA / BITV 2.0 (Verified via `axe-core`)
 *   **Testing:** Playwright (targeting latest Chrome, Edge, Firefox, Opera)
@@ -46,4 +46,7 @@ pnpm lint
 
 # Typecheck workspace
 pnpm check
+
+# Start Storybook for libraries/ui
+pnpm storybook
 ```
