@@ -1,0 +1,71 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Theme Logic/Architecture" />
+
+# Theme Architecture
+
+Our design system utilizes a modern, white-labelable **two-tier theme strategy** powered by CSS Custom Properties, native `light-dark()` color spaces, and OKLCH coordinates. This strategy achieves high visual flexibility with zero runtime JavaScript cost.
+
+---
+
+## Core Concepts
+
+### 1. Themesets (Tier 1 - Brand Declarations)
+
+Themesets represent brand-level configurations containing color palettes. They define concrete brand custom properties (e.g., `--theme-primary-surface`) flat on the `:root` level.
+
+- **Exports**: Each themeset file (e.g., `themeset-base.css.ts`) exports:
+  - A structured Record of CSS variables and values (e.g., `themesetBaseProps`).
+  - A pre-formatted raw CSS string of properties (e.g., `themesetBaseCss`) ready for template interpolation.
+- **Style Injection**: Global styles are applied using the `getGlobalStyles(themesetCss?: string)` helper which injects the reset baseline, themeset custom properties, and context mapping variables. If no argument is provided, it defaults to the base themeset.
+
+### 2. Themes (Tier 2 - Component Contexts)
+
+Themes map generic functional variables (the Component API) to concrete flat themeset tokens.
+
+- **Mapping**: Wrappers like `<Theme name="secondary">` map generic CSS custom variables dynamically:
+  - `--color-surface` maps to `var(--theme-secondary-surface)`
+  - `--color-text-1` maps to `var(--theme-secondary-text-1)`
+- **Independence**: Components always read the generic variables (e.g., `var(--color-surface)`), keeping visual components decoupled from the active brand identity.
+
+### 3. Light & Dark Schemes (Native Resolution)
+
+Color schemes are resolved natively by the browser's engine.
+
+- **Native `light-dark()` Function**: Color tokens are declared using `light-dark(lightColor, darkColor)` (e.g. `light-dark(oklch(0.98 0.005 250), oklch(0.12 0.015 250))`).
+- **OKLCH Color Space**: Coordinates (Lightness, Chroma, Hue) are used to guarantee visual uniformity, ensuring accessible contrast ratios regardless of user preference.
+- **Zero-cost resolution**: System and user color scheme preferences are matched automatically without active runtime class selectors or state management.
+
+---
+
+## Component Usage & Type Safety
+
+To apply theme colors inside components, use the type-safe `themeColor` utility rather than writing hardcoded `var(--color-*)` strings. This ensures compile-time validation of theme keys and protects against typos.
+
+### 1. Usage in Linaria
+
+Import the `themeColor` helper or `themeVars` contract from the theme utilities and interpolate them inside Linaria `css` template literals:
+
+```typescript
+import { css } from '@linaria/core';
+import { themeColor } from '../../styles/theme/theme.utils';
+
+export const card = css`
+	background-color: ${themeColor('surface')};
+	border: 1px solid ${themeColor('container-2')};
+	color: ${themeColor('text-1')};
+`;
+```
+
+### 2. Supported Color Keys
+
+The utility accepts keys defined in the `Theme` contract:
+
+- `surface`: The baseline background color of a container.
+- `container-1`: A secondary level background color.
+- `container-2`: A tertiary level background or border color.
+- `text-1`: Primary high-contrast body text.
+- `text-2`: Secondary body/muted text.
+- `text-3`: Tertiary placeholder/accented text.
+- `accent`: Active focus, outline, or highlight color.
+- `accent-contrast`: Foreground text color when overlaying elements styled with `accent`.

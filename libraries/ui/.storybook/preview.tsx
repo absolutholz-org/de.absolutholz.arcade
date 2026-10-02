@@ -4,7 +4,7 @@ import type { Preview } from '@storybook/react-vite';
 import { storybookDarkTheme, storybookLightTheme } from './StorybookThemes';
 
 // Import the relocated decorator wrapper
-// import { themeDecorator } from './StorybookWrappers';
+import { themeDecorator } from './StorybookWrappers';
 
 const preview: Preview = {
 	parameters: {
@@ -61,7 +61,7 @@ const preview: Preview = {
 			},
 		},
 	},
-	// decorators: [themeDecorator],
+	decorators: [themeDecorator],
 };
 
 export default preview;

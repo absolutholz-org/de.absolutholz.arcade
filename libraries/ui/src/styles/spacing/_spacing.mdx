@@ -1,0 +1,56 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { SpacingShowcase } from './storybook/_SpacingShowcase';
+
+<Meta title="Foundations/Spacing" />
+
+# Spacing
+
+This document outlines our design system's spacing scale strategy, layout tokens, and compilation utilities.
+
+---
+
+## Spacing Strategy
+
+Our layout engine utilizes **CSS Custom Properties** to dynamically scale spacing dimensions depending on screen size. This enables responsive scaling of major spacing tokens using multi-axis media queries. Under the hood, developers still consume a type-safe compiler utility.
+
+### 1. Spacing Scale
+
+To preserve structural alignment, proportional layout grids, margins, and padding, developers must utilize our locked spacing scale keys. The complete scale is documented in the interactive showcase below:
+
+<SpacingShowcase />
+
+---
+
+## Compiler Utility
+
+Developers must formulate margin, padding, or gap styles using the `space` helper function imported from `@arcade/lib-ui/styles/spacing` rather than hardcoding static pixel or REM strings.
+
+### Function Signature
+
+```tsx
+import {
+	space,
+	type SpacingKey,
+} from '@arcade/lib-ui/styles/spacing';
+
+// Compile a single margin value
+const marginSingle = space('md'); // returns: "var(--space-md)"
+
+// Compile shorthand values (up to 4 keys)
+const paddingShorthand = space('md', 'lg'); // returns: "var(--space-md) var(--space-lg)"
+const borderShorthand = space('xs', 'none', 'sm', 'lg'); // returns: "var(--space-xs) var(--space-none) var(--space-sm) var(--space-lg)"
+```
+
+### Linaria Example
+
+```tsx
+import { css } from '@linaria/core';
+import { space } from '@arcade/lib-ui/styles/spacing';
+
+export const card = css`
+	padding: ${space('md', 'lg')};
+	margin-bottom: ${space('xl')};
+	display: flex;
+	gap: ${space('xs')};
+`;
+```

@@ -1,0 +1,54 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { RadiusShowcase } from './theme/docs/RadiusShowcase';
+
+<Meta title="Foundations/Border Radius" />
+
+# Border Radius
+
+This document outlines our design system's border radius scale strategy, tokens, and type-safe compilation utility.
+
+---
+
+## Border Radius Scale
+
+To maintain visual rhythm, UI components must consume our standard border radius tokens rather than using hardcoded pixel or percentage values. The complete scale is documented in the interactive showcase below:
+
+<RadiusShowcase />
+
+---
+
+## Compiler Utility
+
+Developers must formulate border-radius styles using the `radius` helper function imported from `@arcade/lib-ui/styles/radius` rather than hardcoding static pixel or CSS string values.
+
+### Function Signature
+
+```tsx
+import {
+	radius,
+	type RadiusKey,
+} from '@arcade/lib-ui/styles/radius';
+
+// Compile a single border radius value
+const roundedCorner = radius('md'); // returns: "var(--radius-md)"
+
+// Compile shorthand values (up to 4 keys for top-left, top-right, bottom-right, bottom-left)
+const roundedShorthand = radius('md', 'none'); // returns: "var(--radius-md) var(--radius-none)"
+```
+
+### Linaria Example
+
+```tsx
+import { css } from '@linaria/core';
+import { radius } from '@arcade/lib-ui/styles/radius';
+
+export const card = css`
+	border-radius: ${radius('md')};
+	background-color: var(--color-surface);
+	border: 1px solid var(--color-container-2);
+`;
+
+export const pillButton = css`
+	border-radius: ${radius('pill')};
+`;
+```

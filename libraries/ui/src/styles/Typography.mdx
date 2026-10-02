@@ -1,0 +1,45 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { TypographyShowcase } from './theme/docs/TypographyShowcase';
+
+<Meta title="Foundations/Typography" />
+
+# Typography
+
+This document outlines our design system's typography strategy, the locked-pair scale system, font stacks, and components.
+
+---
+
+## Typography Strategy
+
+Our strategy is built upon a **unified scale contract** that pairs typography sizes and line-heights. This protects consumer layouts and preserves natural reading rhythms.
+
+### 1. Locked-Pair Scale Dictionary
+
+To prevent layout breakages and vertical spacing inconsistencies, font sizes and line heights are declared in locked pairs. These pairs scale dynamically across mobile and desktop breakpoints using two-dimensional media queries. The complete available options are documented in the interactive showcase below:
+
+<TypographyShowcase />
+
+### 2. Dual Font Stacks
+
+To support both distinct brand headers and readable body copies, the system implements two font stack tiers:
+
+- **Heading Stack**: Utilizes `'Outfit'` paired with native system sans-serif fallback fonts. This brand serif/sans-serif combination elevates primary titles, cards, and hero headings.
+- **Body Stack**: Utilizes standard `system-ui` sans-serif fonts to maximize clarity, render speeds, and accessibility for long-form reading.
+
+---
+
+## Semantic Component API
+
+Developers must always consume typography via the `<Text>` component's `variant` prop rather than writing raw tag sizes or inline pixel configurations.
+
+```tsx
+import { Text } from '@/components/Text';
+
+// Title Heading
+<Text variant="h1" as="h1">Premium Oak Woodcrafts</Text>
+
+// Body copy
+<Text variant="base" as="p">
+  Handcrafted with precision using sustainable local timber.
+</Text>
+```
