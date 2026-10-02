@@ -9,7 +9,9 @@
 		"check": "biome check .",
 		"dev:hub": "pnpm --filter @arcade/hub dev",
 		"build:hub": "pnpm --filter @arcade/hub build",
-		"preview:hub": "pnpm --filter @arcade/hub preview"
+		"preview:hub": "pnpm --filter @arcade/hub preview",
+		"storybook:ui": "pnpm --filter @arcade/lib-ui storybook",
+		"storybook": "pnpm --filter @arcade/lib-ui storybook"
 	},
 	"engines": {
 		"node": ">=20.0.0",

@@ -1,0 +1,201 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/CSS Reset" />
+
+# CSS Reset
+
+This document describes and explains the individual reset rules that establish consistent, clean layout baselines across all modern browsers.
+
+---
+
+## Reset Rules
+
+### 1. Box Sizing, Margin, and Padding Reset
+
+Applies `border-box` layout calculations globally so that padding and border do not bloat specified widths, ensures font properties are inherited by default, and clears all default browser margins and paddings.
+
+```css
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+	font: inherit;
+	margin: 0;
+	padding: 0;
+}
+```
+
+---
+
+### 2. Document Base Height and Scroll
+
+Ensures full viewport heights can be calculated (useful for vertical centering and full-screen layouts), enables smooth scrolling behavior by default, and preps the browser engine window by declaring light/dark scheme support, forcing advanced font legibility, and enabling anti-aliasing.
+
+```css
+html,
+body {
+	height: 100%;
+	scroll-behavior: smooth;
+}
+
+html {
+	color-scheme: light dark;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+```
+
+---
+
+### 3. Baseline Typography
+
+Sets a unitless `line-height` so it scales correctly with inherited font sizes. It also enables hardware-level font smoothing on macOS/iOS and optimizes rendering speed.
+
+```css
+body {
+	line-height: 1.5;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizeSpeed;
+}
+```
+
+---
+
+### 4. Media & Fluid Responsive Assets
+
+Forces media components to respect their container width and removes baseline alignment gaps. Additionally, in dark mode it applies a dimming and contrast enhancement filter (`brightness(0.8) contrast(1.2)`) to prevent visual fatigue from bright assets, which is restored to normal (`brightness(1) contrast(1)`) on hover.
+
+```css
+img,
+picture,
+video,
+canvas,
+svg {
+	display: block;
+	height: auto;
+	max-width: 100%;
+}
+
+img,
+picture,
+video {
+	/* Apply dimming and contrast enhancement in dark mode to prevent visual fatigue from bright assets. */
+	@media (prefers-color-scheme: dark) {
+		filter: brightness(0.8) contrast(1.2);
+
+		/* Restore original brightness and contrast on hover for detail inspection. */
+		&:hover {
+			filter: brightness(1) contrast(1);
+		}
+	}
+}
+```
+
+---
+
+### 5. Typography Inheritances
+
+Forces form elements (inputs, textareas, selects) to inherit typography styles directly from their parent text layers instead of using browser defaults.
+
+```css
+input,
+textarea,
+select {
+	font: inherit;
+	color: inherit;
+}
+```
+
+---
+
+### 6. Word Wrapping Prevention
+
+Forces long words, continuous strings, or links to wrap rather than overflow and break layout boundaries.
+
+```css
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a,
+span {
+	overflow-wrap: break-word;
+}
+```
+
+---
+
+### 7. Stacking Context
+
+Isolates application roots to prevent floating layouts (such as modal overlays) from z-index conflicts.
+
+```css
+#root,
+#storybook-root {
+	isolation: isolate;
+}
+```
+
+---
+
+### 8. Reduced Motion Respect
+
+Automatically disables animations, transitions, and smooth scrolling if preferred by the user's OS accessibility settings.
+
+```css
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+
+	html,
+	body {
+		scroll-behavior: auto !important;
+	}
+}
+```
+
+---
+
+### 9. Complete Button Reset
+
+Resets all default browser button styles (borders, backgrounds, paddings, default fonts) to act as a clean, plain container.
+
+```css
+button {
+	appearance: none;
+	background: none;
+	border: none;
+	border-radius: 0;
+	color: inherit;
+	cursor: pointer;
+	font: inherit;
+	margin: 0;
+	overflow: visible;
+	padding: 0;
+	width: auto;
+	-webkit-font-smoothing: inherit;
+}
+```
+
+---
+
+### 10. List Style Semantic Reset
+
+Removes list bullet markers visually on any list elements carrying a `role="list"` attribute. This allows list tags to be styled freely while preserving semantic meaning in Safari and VoiceOver.
+
+```css
+[role='list'] {
+	list-style: none;
+}
+```

@@ -1,0 +1,24 @@
+[14:47:41.804] [INFO] storybook v10.4.2
+[14:47:42.226] [DEBUG] Getting package.json info for /Users/swoo/Workspaces/de-absolutholz/libraries/design-system/package.json...
+[14:47:42.646] [WARN] 🚨 Unable to index ./src/styles/Typography.mdx:
+  Error: Could not parse expression with acorn
+    at file:///Users/swoo/Workspaces/de-absolutholz/node_modules/.pnpm/storybook@10.4.2_@testing-library+dom@10.4.1_@types+react@19.2.16_prettier@3.8.3_react-_f4597636fcf27eac7f566e8d1dbdbc95/node_modules/storybook/dist/core-server/index.js:16586:24
+    at async Promise.all (index 1)
+    at async Promise.all (index 0)
+    at async _StoryIndexGenerator.updateExtracted (file:///Users/swoo/Workspaces/de-absolutholz/node_modules/.pnpm/storybook@10.4.2_@testing-library+dom@10.4.1_@types+react@19.2.16_prettier@3.8.3_react-_f4597636fcf27eac7f566e8d1dbdbc95/node_modules/storybook/dist/core-server/index.js:16569:5)
+    at async _StoryIndexGenerator.ensureExtracted (file:///Users/swoo/Workspaces/de-absolutholz/node_modules/.pnpm/storybook@10.4.2_@testing-library+dom@10.4.1_@types+react@19.2.16_prettier@3.8.3_react-_f4597636fcf27eac7f566e8d1dbdbc95/node_modules/storybook/dist/core-server/index.js:16606:8)
+    at async _StoryIndexGenerator.initialize (file:///Users/swoo/Workspaces/de-absolutholz/node_modules/.pnpm/storybook@10.4.2_@testing-library+dom@10.4.1_@types+react@19.2.16_prettier@3.8.3_react-_f4597636fcf27eac7f566e8d1dbdbc95/node_modules/storybook/dist/core-server/index.js:16565:5)
+    at async file:///Users/swoo/Workspaces/de-absolutholz/node_modules/.pnpm/storybook@10.4.2_@testing-library+dom@10.4.1_@types+react@19.2.16_prettier@3.8.3_react-_f4597636fcf27eac7f566e8d1dbdbc95/node_modules/storybook/dist/core-server/presets/common-preset.js:1694:10
+    at async Object.experimental_serverChannel (file:///Users/swoo/Workspaces/de-absolutholz/node_modules/.pnpm/@storybook+addon-vitest@10.4.2_@vitest+browser-playwright@4.1.8_@vitest+browser@4.1.8_@_d7d3319d012036faee6ba33563a4ada9/node_modules/@storybook/addon-vitest/dist/preset.js:446:29)
+    at async buildDevStandalone (file:///Users/swoo/Workspaces/de-absolutholz/node_modules/.pnpm/storybook@10.4.2_@testing-library+dom@10.4.1_@types+react@19.2.16_prettier@3.8.3_react-_f4597636fcf27eac7f566e8d1dbdbc95/node_modules/storybook/dist/core-server/index.js:19472:32)
+    at async withTelemetry (file:///Users/swoo/Workspaces/de-absolutholz/node_modules/.pnpm/storybook@10.4.2_@testing-library+dom@10.4.1_@types+react@19.2.16_prettier@3.8.3_react-_f4597636fcf27eac7f566e8d1dbdbc95/node_modules/storybook/dist/_node-chunks/chunk-PU4IASEN.js:655:12)
+[14:47:42.650] [ERROR] Error: Unable to index ./src/styles/Typography.mdx
+    at _StoryIndexGenerator.getIndexAndStats (file:///Users/swoo/Workspaces/de-absolutholz/node_modules/.pnpm/storybook@10.4.2_@testing-library+dom@10.4.1_@types+react@19.2.16_prettier@3.8.3_react-_f4597636fcf27eac7f566e8d1dbdbc95/node_modules/storybook/dist/core-server/index.js:16835:15)
+    at async _StoryIndexGenerator.getIndex (file:///Users/swoo/Workspaces/de-absolutholz/node_modules/.pnpm/storybook@10.4.2_@testing-library+dom@10.4.1_@types+react@19.2.16_prettier@3.8.3_react-_f4597636fcf27eac7f566e8d1dbdbc95/node_modules/storybook/dist/core-server/index.js:16824:13)
+    at async Object.experimental_serverChannel (file:///Users/swoo/Workspaces/de-absolutholz/node_modules/.pnpm/@storybook+addon-vitest@10.4.2_@vitest+browser-playwright@4.1.8_@vitest+browser@4.1.8_@_d7d3319d012036faee6ba33563a4ada9/node_modules/@storybook/addon-vitest/dist/preset.js:460:14)
+    at async buildDevStandalone (file:///Users/swoo/Workspaces/de-absolutholz/node_modules/.pnpm/storybook@10.4.2_@testing-library+dom@10.4.1_@types+react@19.2.16_prettier@3.8.3_react-_f4597636fcf27eac7f566e8d1dbdbc95/node_modules/storybook/dist/core-server/index.js:19472:32)
+    at async withTelemetry (file:///Users/swoo/Workspaces/de-absolutholz/node_modules/.pnpm/storybook@10.4.2_@testing-library+dom@10.4.1_@types+react@19.2.16_prettier@3.8.3_react-_f4597636fcf27eac7f566e8d1dbdbc95/node_modules/storybook/dist/_node-chunks/chunk-PU4IASEN.js:655:12)
+    at async dev (file:///Users/swoo/Workspaces/de-absolutholz/node_modules/.pnpm/storybook@10.4.2_@testing-library+dom@10.4.1_@types+react@19.2.16_prettier@3.8.3_react-_f4597636fcf27eac7f566e8d1dbdbc95/node_modules/storybook/dist/bin/core.js:2735:3)
+    at async _Command.<anonymous> (file:///Users/swoo/Workspaces/de-absolutholz/node_modules/.pnpm/storybook@10.4.2_@testing-library+dom@10.4.1_@types+react@19.2.16_prettier@3.8.3_react-_f4597636fcf27eac7f566e8d1dbdbc95/node_modules/storybook/dist/bin/core.js:2805:92)
+[14:47:42.652] [WARN] Broken build, fix the error above.
+You may need to refresh the browser.
