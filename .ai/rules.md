@@ -23,6 +23,7 @@ All code generated, refactored, or organized across apps and libraries must stri
     - _Interface Segregation:_ Keep TypeScript prop types and argument interfaces lean and purposeful; do not force components to depend on fat interfaces containing unused properties.
     - _Dependency Inversion:_ High-level application logic must depend on abstractions (like generic functional token keys), never on hardcoded low-level implementation details.
 - **Scope Efficiency:** When assisting with new library or application scoping, always propose a minimal, modular architecture footprint. Break complex features into isolated, highly testable domains.
+- **Minimal Exports Principle:** Never export variables, constants, functions, types, or styled components unless they are actively imported and used outside the defining file. Avoid speculative or preemptive exports. Keep internal helpers, intermediate variables, and styled child elements unexported (e.g., leverage CSS nesting for child elements rather than creating and exporting extraneous styled sub-components).
 
 ## 4. Stack and Tooling Enforcement
 

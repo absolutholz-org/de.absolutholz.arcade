@@ -61,6 +61,7 @@ Each component directory must be split into the following distinct files:
 - **Linaria Styling**: We strictly use Linaria (`@linaria/core` and `@linaria/react`) for all component styling using standard CSS strings inside template literals (`css`...`` and `styled`...``).
 - **No Inline Styles**: Avoid inline styles (`style={{ ... }}`) unless rendering truly dynamic values like runtime-calculated offsets, percentages, or absolute positions.
 - **Styled Component Naming**: In `_ComponentName.styles.ts`, name the exported styled components to match the name of the corresponding component being styled (e.g., `export const Text = styled.div...`).
+- **CSS Nesting Over Child Styled Components**: Adhere to the Minimal Exports Principle in `/.ai/rules.md` by styling child elements using CSS nesting (e.g., `> span`) inside the parent styled component rather than creating and exporting extra standalone styled sub-components (such as `Content = styled.span`). Only export styled components directly rendered by the view layer.
 - **Styled Component Props Destructuring**: Always destructure component props when passing them to styling functions inside styled components.
   - **No**: `max-width: ${(props) => PAGE_CONTAINER_VARIANTS[props.$variant]};`
   - **Yes**: `max-width: ${({$variant}) => PAGE_CONTAINER_VARIANTS[$variant]};`

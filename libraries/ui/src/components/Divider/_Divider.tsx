@@ -7,12 +7,18 @@ import type { DividerProps } from './_Divider.types';
  * and responsive desktop visibility controls.
  */
 export function Divider<C extends ElementType = 'div'>({ as, children, hideOnDesktop = false }: DividerProps<C>) {
-	const Component = as || 'div';
+	const hideOnDesktopAttr = hideOnDesktop ? 'true' : undefined;
 
-	return (
-		// biome-ignore lint/a11y/useSemanticElements: Divider supports children content which void element <hr> cannot accommodate
-		<S.Divider as={Component} data-hide-on-desktop={hideOnDesktop ? 'true' : undefined} role="separator">
-			{children ? <S.Content>{children}</S.Content> : null}
-		</S.Divider>
-	);
+	if (children) {
+		const Component = as || 'div';
+		return (
+			// biome-ignore lint/a11y/useSemanticElements: Divider with children cannot use void element <hr>
+			<S.Labeled as={Component} data-hide-on-desktop={hideOnDesktopAttr} role="separator">
+				<span>{children}</span>
+			</S.Labeled>
+		);
+	}
+
+	const Component = as || 'hr';
+	return <S.Divider as={Component} data-hide-on-desktop={hideOnDesktopAttr} />;
 }

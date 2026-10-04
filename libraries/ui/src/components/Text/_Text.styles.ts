@@ -1,20 +1,41 @@
 import { styled } from '@linaria/react';
-import type { TextWrapOption } from './_Text.types';
+import { generateFontShorthand } from './_Text.functions';
 
-export const Text = styled.div<{
-	$fontShorthand: string;
-	$wrap: TextWrapOption;
-}>`
-	font: ${({ $fontShorthand }: { $fontShorthand: string }) => $fontShorthand};
+export const Text = styled.div`
+	font: ${generateFontShorthand('base', 'regular')};
+	text-wrap: pretty;
 
-	${({ $wrap }: { $wrap: TextWrapOption }) => {
-		if ($wrap === 'truncate') {
-			return `
-				overflow: hidden;
-				text-overflow: ellipsis;
-				white-space: nowrap;
-			`;
-		}
-		return `text-wrap: ${$wrap === 'normal' ? 'wrap' : $wrap};`;
-	}}
+	&[data-wrap='balance'] {
+		text-wrap: balance;
+	}
+
+	&[data-wrap='truncate'] {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	&[data-wrap='normal'] {
+		text-wrap: wrap;
+	}
+`;
+
+export const Small = styled(Text)`
+	font: ${generateFontShorthand('small', 'regular')};
+`;
+
+export const H3 = styled(Text)`
+	font: ${generateFontShorthand('h3', 'bold')};
+`;
+
+export const H2 = styled(Text)`
+	font: ${generateFontShorthand('h2', 'bold')};
+`;
+
+export const H1 = styled(Text)`
+	font: ${generateFontShorthand('h1', 'bold')};
+`;
+
+export const Display = styled(Text)`
+	font: ${generateFontShorthand('display', 'bold')};
 `;
