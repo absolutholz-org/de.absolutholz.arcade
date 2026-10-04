@@ -51,6 +51,37 @@ export const globalStyles = css`
 			color: var(--color-text-1);
 			font: ${generateFontShorthand('base', 'regular')};
 		}
+
+		/* Global link styling (Option 1: Context-aware underline) */
+		a {
+			color: var(--color-accent);
+			cursor: pointer;
+			text-decoration: none;
+			text-underline-offset: 0.25em;
+			transition: color 150ms ease, text-decoration-color 150ms ease;
+
+			&:hover {
+				text-decoration: underline;
+			}
+
+			&:focus-visible {
+				border-radius: var(--radius-sm);
+				outline: 2px solid var(--color-accent);
+				outline-offset: 2px;
+			}
+		}
+
+		/* Inline text links (articles, paragraphs, lists) guarantee WCAG 1.4.1 non-color distinction */
+		p a,
+		li a,
+		blockquote a {
+			text-decoration: underline;
+			text-decoration-color: color-mix(in oklch, var(--color-accent) 50%, transparent);
+
+			&:hover {
+				text-decoration-color: var(--color-accent);
+			}
+		}
 	}
 `;
 
@@ -96,5 +127,36 @@ export const getGlobalStyles = (themesetCss: string = themesetBaseCss): string =
 		); /* Applies theme surface background */
 		color: var(--color-text-1); /* Applies theme base text color */
 		font: ${generateFontShorthand('base', 'regular')};
+	}
+
+	/* Global link styling (Option 1: Context-aware underline) */
+	a {
+		color: var(--color-accent);
+		cursor: pointer;
+		text-decoration: none;
+		text-underline-offset: 0.25em;
+		transition: color 150ms ease, text-decoration-color 150ms ease;
+
+		&:hover {
+			text-decoration: underline;
+		}
+
+		&:focus-visible {
+			border-radius: var(--radius-sm);
+			outline: 2px solid var(--color-accent);
+			outline-offset: 2px;
+		}
+	}
+
+	/* Inline text links (articles, paragraphs, lists) guarantee WCAG 1.4.1 non-color distinction */
+	p a,
+	li a,
+	blockquote a {
+		text-decoration: underline;
+		text-decoration-color: color-mix(in oklch, var(--color-accent) 50%, transparent);
+
+		&:hover {
+			text-decoration-color: var(--color-accent);
+		}
 	}
 `;

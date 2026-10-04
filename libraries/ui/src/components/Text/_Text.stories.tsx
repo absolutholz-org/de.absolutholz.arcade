@@ -118,3 +118,33 @@ export const Normal: Story = {
 		},
 	},
 };
+
+export const InteractiveLinks: Story = {
+	render: () => (
+		<div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxWidth: '36rem' }}>
+			<Text variant="h3" as="h3">
+				Semantic Links & Anchor Tags
+			</Text>
+			<Text variant="base" as="p">
+				Here is an inline paragraph with an <a href="#demo-link">accessible semantic link</a> embedded within
+				body copy. Notice the subtle offset underline that lifts below descenders to ensure WCAG 1.4.1
+				compliance.
+			</Text>
+			<Text variant="small" as="p">
+				Try keyboard navigation: press <kbd>Tab</kbd> to inspect the high-contrast focus ring on{' '}
+				<a href="#keyboard-focus">focused anchor elements</a>.
+			</Text>
+			<div style={{ display: 'flex', gap: '1.5rem', paddingTop: '0.5rem' }}>
+				<a href="#standalone-1">Standalone Nav Link</a>
+				<a href="#standalone-2">Secondary Nav Link</a>
+			</div>
+		</div>
+	),
+	parameters: {
+		docs: {
+			description: {
+				story: 'Demonstrates context-aware global link styling. Inline links within paragraphs feature a subtle offset underline for WCAG 1.4.1 compliance, while standalone navigation links remain clean until hovered or focused.',
+			},
+		},
+	},
+};

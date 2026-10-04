@@ -43,3 +43,14 @@ import { Text } from '@/components/Text';
   Handcrafted with precision using sustainable local timber.
 </Text>
 ```
+
+---
+
+## Semantic Links
+
+Global anchor elements (`<a>`) consume the active theme's `--color-accent` token and feature context-aware accessibility styling:
+
+- **Inline Text Links** (`p a`, `li a`, `blockquote a`): Render with a subtle, offset underline (`text-underline-offset: 0.25em`) blended with `color-mix()` to satisfy WCAG 2.2 AA (SC 1.4.1) without relying exclusively on color.
+- **Standalone Navigation Links**: Render without an underline by default, underlining on `:hover`.
+- **Keyboard Navigation**: Feature a high-contrast focus ring (`outline: 2px solid var(--color-accent)`) on `:focus-visible`.
+
