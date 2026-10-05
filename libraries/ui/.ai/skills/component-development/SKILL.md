@@ -55,6 +55,7 @@ Each component directory must be split into the following distinct files:
 - **Single Responsibility**: Each component should do one thing well. To enforce this, keep components under a **200-line limit**. If a component grows beyond 200 lines, it must be broken down.
 - **No Initial Props Spread**: Do not initially add a `...props` or `...rest` spread to new components. Explicitly destruct and map only the props the component actually requires, keeping props explicit.
 - **Exports**: Prefer **named exports** over default exports for better IDE autocomplete, searchability, and consistent naming across imports.
+- **Zero Hardcoded Strings:** Design system components must never contain hardcoded user-facing text strings. Text labels, actions, and accessibility announcements must be passed as explicit props or integrated via `@arcade/lib-i18n` per ADR 007 and [Localization Engineering](../../../../.ai/skills/localization-engineering/SKILL.md).
 
 ## 4. Styling Architecture
 

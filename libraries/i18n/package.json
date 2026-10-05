@@ -1,0 +1,55 @@
+{
+	"name": "@arcade/lib-i18n",
+	"version": "0.1.0",
+	"private": true,
+	"description": "Shared localization and multilingual engine for Arcade monorepo",
+	"type": "module",
+	"exports": {
+		"./schemas/*": {
+			"types": "./src/schemas/*.ts",
+			"default": "./src/schemas/*.ts"
+		},
+		"./constants/*": {
+			"types": "./src/constants/*.ts",
+			"default": "./src/constants/*.ts"
+		},
+		"./types/*": {
+			"types": "./src/types/*.ts",
+			"default": "./src/types/*.ts"
+		},
+		"./utils/*": {
+			"types": "./src/utils/*.ts",
+			"default": "./src/utils/*.ts"
+		},
+		"./config/*": {
+			"types": "./src/config/*.ts",
+			"default": "./src/config/*.ts"
+		},
+		"./hooks/*": {
+			"types": "./src/hooks/*.ts",
+			"default": "./src/hooks/*.ts"
+		},
+		"./provider/*": {
+			"types": "./src/provider/*.tsx",
+			"default": "./src/provider/*.tsx"
+		},
+		"./locales/*": "./src/locales/*"
+	},
+	"scripts": {
+		"build": "tsc",
+		"typecheck": "tsc --noEmit"
+	},
+	"peerDependencies": {
+		"react": "catalog:",
+		"react-dom": "catalog:"
+	},
+	"dependencies": {
+		"i18next": "catalog:",
+		"react-i18next": "catalog:"
+	},
+	"devDependencies": {
+		"@types/react": "catalog:",
+		"@types/react-dom": "catalog:",
+		"typescript": "^5.7.2"
+	}
+}

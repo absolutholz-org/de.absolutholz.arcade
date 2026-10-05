@@ -13,6 +13,7 @@ This project is structured as a strict multi-app monorepo utilizing `pnpm worksp
     *   `apps/[game]`: Individual, highly interactive game canvases built as pure **React/Vite** Single Page Applications (or Astro Islands).
 *   **`libraries/`**: Contains all shared business logic, UI components, and infrastructure.
     *   `libraries/ui`: Shared design system components styled exclusively with **Linaria**.
+    *   `libraries/i18n`: Shared localization engine, language constants, dictionaries, and React hook abstraction (`useI18n`).
     *   `libraries/storage`: Namespaced wrappers for LocalStorage/IndexedDB to prevent cross-game data collisions.
 
 ## 🤖 AI Agent Instructions (READ FIRST)
@@ -27,6 +28,7 @@ If you are an AI agent or LLM assisting in this repository, **you must read and 
 
 *   **Package Manager:** `pnpm`
 *   **Frameworks:** Astro (Hub/SSG) & React (Interactive Games)
+*   **Internationalization (i18n):** i18next & react-i18next with unified namespaced persistence
 *   **Styling:** Linaria (`@linaria/core`, `@linaria/react`) natively using `oklch` & `light-dark()`
 *   **Code Quality:** Biome (Formatting & Linting)
 *   **Accessibility:** WCAG 2.2 Level AA / BITV 2.0 (Verified via `axe-core`)
@@ -44,8 +46,11 @@ pnpm install
 pnpm format
 pnpm lint
 
-# Typecheck workspace
+# Lint and format check (via Biome)
 pnpm check
+
+# Typecheck workspace
+pnpm typecheck
 
 # Start Storybook for libraries/ui
 pnpm storybook
