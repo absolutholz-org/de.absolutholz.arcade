@@ -6,9 +6,11 @@
 	"scripts": {
 		"dev": "astro dev",
 		"build": "astro build",
-		"preview": "astro preview"
+		"preview": "astro preview",
+		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {
+		"@arcade/lib-i18n": "workspace:*",
 		"astro": "catalog:"
 	}
 }

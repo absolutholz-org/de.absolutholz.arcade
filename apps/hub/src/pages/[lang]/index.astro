@@ -1,0 +1,76 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import PageLayout from '../../layouts/PageLayout.astro';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? resources.en.common;
+const isGermanOrEnglish = lang === 'en' || lang === 'de';
+
+const quickLinks = [
+	{
+		href: isGermanOrEnglish ? `/${lang}/privacy` : '/en/privacy',
+		hrefLang: isGermanOrEnglish ? lang : 'en',
+		label: isGermanOrEnglish
+			? currentTranslations.navigation.privacy
+			: `${currentTranslations.navigation.privacy} (EN)`,
+	},
+	{
+		href: isGermanOrEnglish ? `/${lang}/imprint` : '/en/imprint',
+		hrefLang: isGermanOrEnglish ? lang : 'en',
+		label: isGermanOrEnglish
+			? currentTranslations.navigation.imprint
+			: `${currentTranslations.navigation.imprint} (EN)`,
+	},
+	{
+		href: `/${lang}/accessibility`,
+		hrefLang: lang,
+		label: currentTranslations.navigation.accessibility,
+	},
+];
+---
+
+<PageLayout
+	title={currentTranslations.app.title}
+	description={currentTranslations.app.tagline}
+	lang={lang as SupportedLanguageCode}
+	currentSlug=""
+>
+	<h1>{currentTranslations.app.title}</h1>
+	<p class="hero-tagline">{currentTranslations.app.tagline}</p>
+
+	<section class="quick-links">
+		<h2>{currentTranslations.hub.overviewTitle}</h2>
+		<p>{currentTranslations.hub.exploreDescription}</p>
+		<ul>
+			{quickLinks.map((link) => (
+				<li>
+					<a href={link.href} hreflang={link.hrefLang}>
+						{link.label}
+					</a>
+				</li>
+			))}
+		</ul>
+	</section>
+</PageLayout>
+
+<style>
+	.hero-tagline {
+		font-size: 1.25rem;
+		margin-bottom: 2rem;
+		opacity: 0.85;
+	}
+
+	.quick-links {
+		border-top: 1px solid var(--color-container-2);
+		margin-top: 2rem;
+		padding-top: 1.5rem;
+	}
+</style>

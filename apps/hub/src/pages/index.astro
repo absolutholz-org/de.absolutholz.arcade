@@ -1,4 +1,5 @@
 ---
+import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 ---
 
 <!doctype html>
@@ -7,16 +8,46 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Arcade Web App</title>
+		{/* Non-JS fallback redirect to default English */}
+		<meta http-equiv="refresh" content="0;url=/en/" />
+		<link rel="canonical" href="https://arcade.absolutholz.de/en/" />
+
+		<script is:inline define:vars={{ supportedCodes: SUPPORTED_LANGUAGES.map((l) => l.code), defaultLang: DEFAULT_LANGUAGE }}>
+			(function () {
+				try {
+					var stored = localStorage.getItem('arcade::i18n::language');
+					if (stored && supportedCodes.indexOf(stored) !== -1) {
+						window.location.replace('/' + stored + '/');
+						return;
+					}
+				} catch (_) {}
+
+				var candidates = navigator.languages || [navigator.language || ''];
+				for (var i = 0; i < candidates.length; i++) {
+					var candidate = (candidates[i] || '').toLowerCase().split('-')[0];
+					if (supportedCodes.indexOf(candidate) !== -1) {
+						window.location.replace('/' + candidate + '/');
+						return;
+					}
+				}
+
+				window.location.replace('/' + defaultLang + '/');
+			})();
+		</script>
 	</head>
 	<body>
-		<header>
+		<main style="padding: 2rem; font-family: system-ui, sans-serif; text-align: center;">
 			<h1>Arcade Web App</h1>
-		</header>
-		<main>
-			<p>Welcome to the Arcade Web App.</p>
+			<p>Redirecting to your preferred language...</p>
+			<ul style="list-style: none; padding: 0; display: flex; gap: 1rem; justify-content: center; margin-top: 1rem;">
+				{SUPPORTED_LANGUAGES.map((l) => (
+					<li>
+						<a href={`/${l.code}/`} style="color: #2563eb; text-decoration: none;">
+							{l.flag} {l.label}
+						</a>
+					</li>
+				))}
+			</ul>
 		</main>
-		<footer>
-			<p>&copy; Arcade Web App</p>
-		</footer>
 	</body>
 </html>
