@@ -2,6 +2,7 @@
 import { type CollectionEntry, getCollection } from 'astro:content';
 import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageLayout from '../../layouts/PageLayout.astro';
 
 interface Props {
@@ -54,23 +55,21 @@ const Content = rendered?.Content;
 
 {
 	redirectTo ? (
-		<!doctype html>
-		<html lang={lang}>
-			<head>
-				<meta charset="utf-8" />
-				<title>Redirecting...</title>
+		<BaseLayout
+			lang={lang}
+			title="Redirecting..."
+			canonical={`https://arcade.absolutholz.de${redirectTo}`}
+		>
+			<Fragment slot="head">
 				<meta http-equiv="refresh" content={`0;url=${redirectTo}`} />
-				<link rel="canonical" href={`https://arcade.absolutholz.de${redirectTo}`} />
 				<script is:inline define:vars={{ target: redirectTo }}>
 					window.location.replace(target);
 				</script>
-			</head>
-			<body>
-				<p>
-					Redirecting to <a href={redirectTo}>{redirectTo}</a>...
-				</p>
-			</body>
-		</html>
+			</Fragment>
+			<p>
+				Redirecting to <a href={redirectTo}>{redirectTo}</a>...
+			</p>
+		</BaseLayout>
 	) : entry && Content ? (
 		<PageLayout
 			title={entry.data.title}

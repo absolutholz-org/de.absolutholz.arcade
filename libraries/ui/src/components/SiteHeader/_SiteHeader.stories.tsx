@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { SiteHeader } from '.';
+import { Logo } from '../Logo';
 import { Text } from '../Text';
 import { Theme } from '../Theme';
 
@@ -56,9 +57,12 @@ export const Default: Story = {
 export const WithContent: Story = {
 	args: {
 		children: (
-			<Text variant="h3" as="span">
-				Arcade
-			</Text>
+			<div style={{ alignItems: 'center', display: 'inline-flex', gap: '0.75rem' }}>
+				<Logo size="sm" />
+				<Text variant="h3" as="span">
+					Arcade
+				</Text>
+			</div>
 		),
 	},
 	parameters: {

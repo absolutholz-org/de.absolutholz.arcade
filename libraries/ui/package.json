@@ -5,12 +5,12 @@
 	"description": "Design system package for Arcade monorepo",
 	"exports": {
 		"./components/*": {
-			"types": "./dist/components/*/index.d.ts",
-			"default": "./dist/components/*/index.js"
+			"types": "./src/components/*/index.ts",
+			"default": "./src/components/*/index.ts"
 		},
 		"./styles/*": {
-			"types": "./dist/styles/*.d.ts",
-			"default": "./dist/styles/*.js"
+			"types": "./src/styles/*.ts",
+			"default": "./src/styles/*.ts"
 		}
 	},
 	"scripts": {

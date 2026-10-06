@@ -1,0 +1,32 @@
+---
+interface Props {
+	title: string;
+	description?: string;
+	lang?: string;
+	dir?: 'ltr' | 'rtl';
+	canonical?: string;
+}
+
+const { title, description, lang = 'en', dir = 'ltr', canonical } = Astro.props;
+---
+
+<!doctype html>
+<html lang={lang} dir={dir}>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>{title}</title>
+		{description && <meta name="description" content={description} />}
+		<link rel="icon" type="image/png" href="/favicon-96x96.png?v=20261006" sizes="96x96" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20261006" />
+		<link rel="shortcut icon" href="/favicon.ico?v=20261006" />
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=20261006" />
+		<meta name="apple-mobile-web-app-title" content="Arcade" />
+		<link rel="manifest" href="/site.webmanifest?v=20261006" />
+		{canonical && <link rel="canonical" href={canonical} />}
+		<slot name="head" />
+	</head>
+	<body>
+		<slot />
+	</body>
+</html>

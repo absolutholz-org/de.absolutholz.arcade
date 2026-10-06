@@ -1,16 +1,16 @@
 ---
 import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Arcade Web App</title>
+<BaseLayout
+	lang="en"
+	title="Arcade Web App"
+	canonical="https://arcade.absolutholz.de/en/"
+>
+	<Fragment slot="head">
 		{/* Non-JS fallback redirect to default English */}
 		<meta http-equiv="refresh" content="0;url=/en/" />
-		<link rel="canonical" href="https://arcade.absolutholz.de/en/" />
 
 		<script is:inline define:vars={{ supportedCodes: SUPPORTED_LANGUAGES.map((l) => l.code), defaultLang: DEFAULT_LANGUAGE }}>
 			(function () {
@@ -34,20 +34,20 @@ import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constant
 				window.location.replace('/' + defaultLang + '/');
 			})();
 		</script>
-	</head>
-	<body>
-		<main style="padding: 2rem; font-family: system-ui, sans-serif; text-align: center;">
-			<h1>Arcade Web App</h1>
-			<p>Redirecting to your preferred language...</p>
-			<ul style="list-style: none; padding: 0; display: flex; gap: 1rem; justify-content: center; margin-top: 1rem;">
-				{SUPPORTED_LANGUAGES.map((l) => (
-					<li>
-						<a href={`/${l.code}/`} style="color: #2563eb; text-decoration: none;">
-							{l.flag} {l.label}
-						</a>
-					</li>
-				))}
-			</ul>
-		</main>
-	</body>
-</html>
+	</Fragment>
+
+	<main style="padding: 2rem; font-family: system-ui, sans-serif; text-align: center;">
+		<h1>Arcade Web App</h1>
+		<p>Redirecting to your preferred language...</p>
+		<ul style="list-style: none; padding: 0; display: flex; gap: 1rem; justify-content: center; margin-top: 1rem;">
+			{SUPPORTED_LANGUAGES.map((l) => (
+				<li>
+					<a href={`/${l.code}/`} style="color: #2563eb; text-decoration: none;">
+						{l.flag} {l.label}
+					</a>
+				</li>
+			))}
+		</ul>
+	</main>
+</BaseLayout>
+
