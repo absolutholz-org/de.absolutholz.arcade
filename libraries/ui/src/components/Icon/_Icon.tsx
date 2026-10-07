@@ -5,7 +5,7 @@ import type { IconProps } from './_Icon.types';
 
 /**
  * Icon component rendering inline SVGs, emojis, and short text glyphs
- * with dedicated sizing scales, theme accent support, and WCAG-compliant accessibility.
+ * with dedicated sizing scales, icon accent support, and WCAG-compliant accessibility.
  */
 export function Icon({ name, emoji, text, svg, size = 'md', label }: IconProps) {
 	const isDecorative = !label;

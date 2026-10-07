@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import type { CSSProperties } from 'react';
 import { Icon } from '.';
 import { Text } from '../Text';
 import { Theme } from '../Theme';
@@ -59,10 +60,15 @@ export const DuoToneAccent: Story = {
 		name: 'info',
 		size: 'lg',
 	},
+	render: (args) => (
+		<div style={{ '--icon-accent': 'var(--color-accent)' } as CSSProperties}>
+			<Icon {...args} />
+		</div>
+	),
 	parameters: {
 		docs: {
 			description: {
-				story: 'Duo-tone SVG icon using var(--color-accent, currentColor). In themed contexts it reflects the theme accent color; otherwise it automatically falls back to currentColor.',
+				story: 'Duo-tone SVG icon using var(--icon-accent, currentColor). When an accent is desired, mapping --icon-accent: var(--color-accent) activates the accent styling; otherwise it automatically falls back to currentColor.',
 			},
 		},
 	},
@@ -117,14 +123,19 @@ export const CustomSvg: Story = {
 				aria-hidden="true"
 			>
 				<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-				<circle cx="12" cy="12" r="3" fill="var(--color-accent, currentColor)" stroke="none" />
+				<circle cx="12" cy="12" r="3" fill="var(--icon-accent, currentColor)" stroke="none" />
 			</svg>
 		),
 	},
+	render: (args) => (
+		<div style={{ '--icon-accent': 'var(--color-accent)' } as CSSProperties}>
+			<Icon {...args} />
+		</div>
+	),
 	parameters: {
 		docs: {
 			description: {
-				story: 'Arbitrary custom inline SVG passed via the dedicated svg prop, utilizing var(--color-accent, currentColor) directly.',
+				story: 'Arbitrary custom inline SVG passed via the dedicated svg prop, utilizing var(--icon-accent, currentColor) directly with --icon-accent mapped to var(--color-accent).',
 			},
 		},
 	},
@@ -156,13 +167,15 @@ export const InsideTheme: Story = {
 	},
 	render: (args) => (
 		<Theme name="stpatricks">
-			<Icon {...args} />
+			<div style={{ '--icon-accent': 'var(--color-accent)' } as CSSProperties}>
+				<Icon {...args} />
+			</div>
 		</Theme>
 	),
 	parameters: {
 		docs: {
 			description: {
-				story: 'Icon nested inside a Theme provider, dynamically inheriting the theme context --color-accent token.',
+				story: 'Icon nested inside a Theme provider with --icon-accent mapped to --color-accent, dynamically inheriting the theme context accent token.',
 			},
 		},
 	},
