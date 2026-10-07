@@ -1,27 +1,51 @@
-import type { ComponentPropsWithoutRef, ElementType } from 'react';
-import type { SCHEME_OPTIONS, SCHEME_ORIENTATIONS } from './_SchemeSwitcher.constants';
+import type { ComponentPropsWithoutRef } from 'react';
+import type { ButtonSize } from '../Button/_Button.types';
+import type { CollapsibleListboxVariant } from '../CollapsibleListbox/_CollapsibleListbox.types';
+import type { PopoverAlign } from '../Popover/_Popover.types';
+import type { SCHEME_OPTIONS } from './_SchemeSwitcher.constants';
 
 export type Scheme = (typeof SCHEME_OPTIONS)[number];
-export type SchemeOrientation = (typeof SCHEME_ORIENTATIONS)[number];
 
-export interface BaseSchemeSwitcherProps<C extends ElementType = 'fieldset'> {
+export interface SchemeSwitcherProps extends Omit<ComponentPropsWithoutRef<'div'>, 'onSelect' | 'style'> {
 	/**
-	 * Accessible label or title for the scheme switcher radio group.
+	 * Visual variant of the trigger button.
+	 */
+	variant?: CollapsibleListboxVariant;
+	/**
+	 * Sizing preset dictating padding, font size, and min target bounds.
+	 */
+	size?: ButtonSize;
+	/**
+	 * Alignment position of the popover relative to the trigger button.
+	 */
+	align?: PopoverAlign;
+	/**
+	 * Whether to show the text label in the trigger button.
+	 * If false, renders an icon-only button layout.
+	 */
+	showLabel?: boolean;
+	/**
+	 * Accessible label for the listbox component.
+	 */
+	'aria-label'?: string;
+	/**
+	 * Optional CSS class name for styling.
+	 */
+	className?: string;
+	/**
+	 * Whether the listbox trigger is disabled.
+	 */
+	disabled?: boolean;
+	/**
+	 * Backward compatibility legend prop.
 	 */
 	legend?: string;
 	/**
-	 * Whether to visually hide the legend while keeping it accessible to screen readers.
+	 * Backward compatibility hideLegend prop.
 	 */
 	hideLegend?: boolean;
 	/**
-	 * Layout orientation of the radio group options.
+	 * Backward compatibility orientation prop.
 	 */
-	orientation?: SchemeOrientation;
-	/**
-	 * The HTML element or custom component to render as the wrapping element.
-	 */
-	as?: C;
+	orientation?: 'horizontal' | 'vertical';
 }
-
-export type SchemeSwitcherProps<C extends ElementType = 'fieldset'> = BaseSchemeSwitcherProps<C> &
-	Omit<ComponentPropsWithoutRef<C>, keyof BaseSchemeSwitcherProps<ElementType> | 'style'>;
