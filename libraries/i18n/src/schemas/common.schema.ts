@@ -3,9 +3,18 @@ export const commonSchema = {
 		title: 'app.title',
 		tagline: 'app.tagline',
 	},
-	language: {
-		select: 'language.select',
-		change: 'language.change',
+	switchers: {
+		language: {
+			ariaLabel: 'switchers.language.ariaLabel',
+		},
+		scheme: {
+			ariaLabel: 'switchers.scheme.ariaLabel',
+			options: {
+				light: 'switchers.scheme.options.light',
+				dark: 'switchers.scheme.options.dark',
+				system: 'switchers.scheme.options.system',
+			},
+		},
 	},
 	actions: {
 		close: 'actions.close',
