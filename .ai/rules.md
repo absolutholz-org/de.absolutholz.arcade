@@ -47,3 +47,24 @@ Agents are strictly forbidden from introducing alternative tooling. You must adh
 - **Self-Documenting Code:** All generated code must be as self-documenting as possible. Prioritize highly self-explanatory variable, function, and component names.
 - **Targeted Comments:** Only use comments to clearly and as briefly as possible explain complex, non-obvious, or domain-specific logic. Do not write redundant comments that merely repeat what the code obviously does.
 - **Living Documentation (README Maintenance):** The root `README.md` is our source of truth. Whenever you scaffold a new app/library in the workspace, add a new global command to `package.json`, or alter the tech stack, you **must** proactively propose an update to the `README.md` to reflect these changes.
+
+## 7. Hybrid Rendering Architecture & Execution Boundaries
+
+This project combines static pre-rendered content (Astro) with dynamic client-side content (React). Agents must strictly adhere to the following rendering boundaries:
+
+- **Static Pre-Rendered Pages (`.astro`)**:
+  - Execute exclusively during the static build/SSG step (Node.js).
+  - Global stylesheet (`@arcade/lib-ui/styles/global.css`) must be imported once at the root layout (`BaseLayout.astro`).
+  - Server-side text must be read directly from `@arcade/lib-i18n` resources without client hooks.
+  - Must never execute client-side state loops or assume browser globals exist (`window`, `localStorage`, `document`).
+- **Isomorphic UI Islands (`libraries/ui` in `.astro` with `client:load` / `client:idle`)**:
+  - Evaluated on the server during SSG, then hydrated in the browser.
+  - **Strict SSR Safety:** Never use `useLayoutEffect` (enforce `useEffect`). Guard all `window`, `document`, and `localStorage` accesses (`typeof window !== 'undefined'`).
+  - Must consume `@arcade/lib-i18n` abstractions (`useI18n()`).
+- **Client-Only Interactive Modules (Games & Canvas)**:
+  - Must use `client:only="react"` per ADR 002.
+  - Must never be evaluated on the server or use partial hydration directives.
+- **Ambiguity Handling**:
+  - Agents must follow this taxonomy automatically without asking on every routine prompt.
+  - If a new feature is requested whose rendering tier is genuinely ambiguous (e.g., choosing between a static Astro component vs. an interactive React island), the agent must ask for clarification on the rendering strategy before implementing.
+

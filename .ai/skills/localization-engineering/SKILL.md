@@ -42,7 +42,7 @@ export const MyComponent = () => {
     <div>
       <p>{t('app.title')}</p>
       <button onClick={() => changeLanguage('de')}>
-        {t('language.change')}
+        {t('switchers.language.ariaLabel')}
       </button>
     </div>
   );
