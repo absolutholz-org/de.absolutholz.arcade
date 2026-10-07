@@ -8,6 +8,10 @@
 			"types": "./src/components/*/index.ts",
 			"default": "./src/components/*/index.ts"
 		},
+		"./hooks/*": {
+			"types": "./src/hooks/*.ts",
+			"default": "./src/hooks/*.ts"
+		},
 		"./styles/*": {
 			"types": "./src/styles/*.ts",
 			"default": "./src/styles/*.ts"
@@ -46,8 +50,10 @@
 		"react-dom": "catalog:"
 	},
 	"dependencies": {
+		"@arcade/lib-i18n": "workspace:*",
 		"@linaria/babel-preset": "^5.0.4",
 		"@linaria/core": "catalog:",
-		"@linaria/react": "catalog:"
+		"@linaria/react": "catalog:",
+		"react-i18next": "catalog:"
 	}
 }
