@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef, ElementType, ReactNode } from 'react';
+import type { ComponentPropsWithRef, ElementType, ReactNode } from 'react';
 import type { BUTTON_SIZES, BUTTON_VARIANTS } from './_Button.constants';
 
 export type ButtonVariant = (typeof BUTTON_VARIANTS)[number];
@@ -33,4 +33,4 @@ export interface BaseButtonProps<C extends ElementType = 'button'> {
 }
 
 export type ButtonProps<C extends ElementType = 'button'> = BaseButtonProps<C> &
-	Omit<ComponentPropsWithoutRef<C>, keyof BaseButtonProps<ElementType> | 'style'>;
+	Omit<ComponentPropsWithRef<C>, keyof BaseButtonProps<ElementType> | 'style'>;

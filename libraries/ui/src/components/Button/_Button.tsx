@@ -1,26 +1,26 @@
-import type { ElementType } from 'react';
+import { type ElementType, type ForwardedRef, forwardRef } from 'react';
 import * as S from './_Button.styles';
 import type { ButtonProps } from './_Button.types';
 
-/**
- * Interactive button component supporting primary, secondary, outline, and ghost variants,
- * flexible sizing, leading/trailing icon slots, and icon-only layouts.
- */
-export function Button<C extends ElementType = 'button'>({
-	variant = 'primary',
-	size = 'md',
-	leadingIcon,
-	trailingIcon,
-	isIconOnly = false,
-	as,
-	children,
-	...restProps
-}: ButtonProps<C>) {
+function ButtonInner<C extends ElementType = 'button'>(
+	{
+		variant = 'primary',
+		size = 'md',
+		leadingIcon,
+		trailingIcon,
+		isIconOnly = false,
+		as,
+		children,
+		...restProps
+	}: ButtonProps<C>,
+	ref: ForwardedRef<HTMLButtonElement>,
+) {
 	const Component = as || 'button';
 	const isButtonElement = Component === 'button';
 
 	return (
 		<S.Button
+			ref={ref}
 			as={Component}
 			{...(isButtonElement
 				? { type: (restProps as { type?: 'button' | 'submit' | 'reset' }).type || 'button' }
@@ -44,3 +44,11 @@ export function Button<C extends ElementType = 'button'>({
 		</S.Button>
 	);
 }
+
+/**
+ * Interactive button component supporting primary, secondary, outline, and ghost variants,
+ * flexible sizing, leading/trailing icon slots, and icon-only layouts.
+ */
+export const Button = forwardRef(ButtonInner) as <C extends ElementType = 'button'>(
+	props: ButtonProps<C> & { ref?: ForwardedRef<HTMLElement> },
+) => ReturnType<typeof ButtonInner>;
