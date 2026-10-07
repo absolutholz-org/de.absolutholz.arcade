@@ -5,9 +5,18 @@ export const frCommon = {
 		title: 'Arcade Web App',
 		tagline: "Jeux classiques conçus dans un souci d'accessibilité.",
 	},
-	language: {
-		select: 'Sélectionner la langue',
-		change: 'Changer de langue',
+	switchers: {
+		language: {
+			ariaLabel: 'Sélectionner la langue',
+		},
+		scheme: {
+			ariaLabel: 'Thème de couleur',
+			options: {
+				light: 'Clair',
+				dark: 'Sombre',
+				system: 'Système',
+			},
+		},
 	},
 	actions: {
 		close: 'Fermer',

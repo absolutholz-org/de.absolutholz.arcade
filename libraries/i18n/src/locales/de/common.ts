@@ -5,9 +5,18 @@ export const deCommon = {
 		title: 'Arcade Web App',
 		tagline: 'Klassische Spiele mit Fokus auf Barrierefreiheit.',
 	},
-	language: {
-		select: 'Sprache auswählen',
-		change: 'Sprache ändern',
+	switchers: {
+		language: {
+			ariaLabel: 'Sprache auswählen',
+		},
+		scheme: {
+			ariaLabel: 'Farbschema',
+			options: {
+				light: 'Hell',
+				dark: 'Dunkel',
+				system: 'Systemeinstellung',
+			},
+		},
 	},
 	actions: {
 		close: 'Schließen',

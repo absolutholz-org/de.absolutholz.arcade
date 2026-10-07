@@ -5,9 +5,18 @@ export const enCommon = {
 		title: 'Arcade Web App',
 		tagline: 'Classic games built with accessibility in mind.',
 	},
-	language: {
-		select: 'Select language',
-		change: 'Change language',
+	switchers: {
+		language: {
+			ariaLabel: 'Select language',
+		},
+		scheme: {
+			ariaLabel: 'Color scheme',
+			options: {
+				light: 'Light',
+				dark: 'Dark',
+				system: 'Sync with system',
+			},
+		},
 	},
 	actions: {
 		close: 'Close',

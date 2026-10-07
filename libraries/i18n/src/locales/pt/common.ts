@@ -5,9 +5,18 @@ export const ptCommon = {
 		title: 'Arcade Web App',
 		tagline: 'Jogos clássicos construídos com foco em acessibilidade.',
 	},
-	language: {
-		select: 'Selecionar idioma',
-		change: 'Alterar idioma',
+	switchers: {
+		language: {
+			ariaLabel: 'Selecionar idioma',
+		},
+		scheme: {
+			ariaLabel: 'Esquema de cores',
+			options: {
+				light: 'Claro',
+				dark: 'Escuro',
+				system: 'Sistema',
+			},
+		},
 	},
 	actions: {
 		close: 'Fechar',
