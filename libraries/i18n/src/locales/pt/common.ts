@@ -33,8 +33,6 @@ export const ptCommon = {
 		legal: 'Informações legais',
 	},
 	hub: {
-		overviewTitle: 'Visão Geral',
-		exploreDescription: 'Explore jogos clássicos de arcade construídos com foco em acessibilidade.',
 		gamesTitle: 'Jogos',
 	},
 } as const satisfies CommonTranslationContract;

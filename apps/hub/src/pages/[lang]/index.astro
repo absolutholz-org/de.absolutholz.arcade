@@ -14,29 +14,6 @@ const { lang } = Astro.params;
 const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? resources.en.common;
 const currentSudoku = resources[lang as SupportedLanguageCode]?.sudoku ?? resources.en.sudoku;
 const currentMinesweeper = resources[lang as SupportedLanguageCode]?.minesweeper ?? resources.en.minesweeper;
-const isGermanOrEnglish = lang === 'en' || lang === 'de';
-
-const quickLinks = [
-	{
-		href: isGermanOrEnglish ? `/${lang}/privacy` : '/en/privacy',
-		hrefLang: isGermanOrEnglish ? lang : 'en',
-		label: isGermanOrEnglish
-			? currentTranslations.navigation.privacy
-			: `${currentTranslations.navigation.privacy} (EN)`,
-	},
-	{
-		href: isGermanOrEnglish ? `/${lang}/imprint` : '/en/imprint',
-		hrefLang: isGermanOrEnglish ? lang : 'en',
-		label: isGermanOrEnglish
-			? currentTranslations.navigation.imprint
-			: `${currentTranslations.navigation.imprint} (EN)`,
-	},
-	{
-		href: `/${lang}/accessibility`,
-		hrefLang: lang,
-		label: currentTranslations.navigation.accessibility,
-	},
-];
 ---
 
 <PageLayout
@@ -62,19 +39,6 @@ const quickLinks = [
 		</div>
 	</section>
 
-	<section class="quick-links">
-		<h2>{currentTranslations.hub.overviewTitle}</h2>
-		<p>{currentTranslations.hub.exploreDescription}</p>
-		<ul>
-			{quickLinks.map((link) => (
-				<li>
-					<a href={link.href} hreflang={link.hrefLang}>
-						{link.label}
-					</a>
-				</li>
-			))}
-		</ul>
-	</section>
 </PageLayout>
 
 <style>
@@ -123,11 +87,5 @@ const quickLinks = [
 		font-size: 0.875rem;
 		line-height: 1.5;
 		margin: 0;
-	}
-
-	.quick-links {
-		border-top: 1px solid var(--color-container-2);
-		margin-top: 2.5rem;
-		padding-top: 1.5rem;
 	}
 </style>

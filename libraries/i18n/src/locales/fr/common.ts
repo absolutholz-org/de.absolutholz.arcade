@@ -33,8 +33,6 @@ export const frCommon = {
 		legal: 'Informations légales',
 	},
 	hub: {
-		overviewTitle: 'Présentation',
-		exploreDescription: "Découvrez des jeux d'arcade classiques conçus dans un souci d'accessibilité.",
 		gamesTitle: 'Jeux',
 	},
 } as const satisfies CommonTranslationContract;

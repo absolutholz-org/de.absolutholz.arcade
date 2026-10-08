@@ -33,8 +33,6 @@ export const enCommon = {
 		legal: 'Legal',
 	},
 	hub: {
-		overviewTitle: 'Overview',
-		exploreDescription: 'Explore classic arcade games built with accessibility in mind.',
 		gamesTitle: 'Games',
 	},
 } as const satisfies CommonTranslationContract;

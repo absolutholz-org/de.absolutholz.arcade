@@ -31,8 +31,6 @@ export const commonSchema = {
 		legal: 'navigation.legal',
 	},
 	hub: {
-		overviewTitle: 'hub.overviewTitle',
-		exploreDescription: 'hub.exploreDescription',
 		gamesTitle: 'hub.gamesTitle',
 	},
 } as const;
