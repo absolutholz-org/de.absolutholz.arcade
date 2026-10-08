@@ -12,6 +12,7 @@ export function getStaticPaths() {
 
 const { lang } = Astro.params;
 const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? resources.en.common;
+const currentSudoku = resources[lang as SupportedLanguageCode]?.sudoku ?? resources.en.sudoku;
 const isGermanOrEnglish = lang === 'en' || lang === 'de';
 
 const quickLinks = [
@@ -46,6 +47,16 @@ const quickLinks = [
 	<h1>{currentTranslations.app.title}</h1>
 	<p class="hero-tagline">{currentTranslations.app.tagline}</p>
 
+	<section class="games-section">
+		<h2>{currentTranslations.hub.gamesTitle}</h2>
+		<div class="games-grid">
+			<a href={`/sudoku/${lang}/`} class="game-card">
+				<h3>{currentSudoku.title}</h3>
+				<p>{currentSudoku.description}</p>
+			</a>
+		</div>
+	</section>
+
 	<section class="quick-links">
 		<h2>{currentTranslations.hub.overviewTitle}</h2>
 		<p>{currentTranslations.hub.exploreDescription}</p>
@@ -68,9 +79,50 @@ const quickLinks = [
 		opacity: 0.85;
 	}
 
+	.games-section {
+		margin-top: 2rem;
+	}
+
+	.games-grid {
+		display: grid;
+		gap: 1.5rem;
+		grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+		margin-top: 1rem;
+	}
+
+	.game-card {
+		background: var(--color-container-1);
+		border: 1px solid var(--color-container-2);
+		border-radius: var(--radius-md);
+		color: var(--color-text-1);
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		padding: 1.5rem;
+		text-decoration: none;
+		transition: border-color 150ms ease, transform 150ms ease;
+	}
+
+	.game-card:hover {
+		border-color: var(--color-accent);
+		transform: translateY(-2px);
+	}
+
+	.game-card h3 {
+		font-size: 1.25rem;
+		margin: 0;
+	}
+
+	.game-card p {
+		color: var(--color-text-2);
+		font-size: 0.875rem;
+		line-height: 1.5;
+		margin: 0;
+	}
+
 	.quick-links {
 		border-top: 1px solid var(--color-container-2);
-		margin-top: 2rem;
+		margin-top: 2.5rem;
 		padding-top: 1.5rem;
 	}
 </style>

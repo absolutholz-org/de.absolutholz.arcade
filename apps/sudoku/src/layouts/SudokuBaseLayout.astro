@@ -12,7 +12,7 @@ interface Props {
 const props = Astro.props;
 ---
 
-<BaseLayout {...props}>
+<BaseLayout {...props} appTitle="Sudoku">
 	<slot name="head" slot="head" />
 	<slot />
 </BaseLayout>

@@ -13,18 +13,18 @@ interface Props {
 
 const { title, description, lang, currentSlug = '', contentProse = true } = Astro.props;
 
-const currentTranslations = resources[lang]?.common ?? resources.en.common;
+const currentSudoku = resources[lang]?.sudoku ?? resources.en.sudoku;
 ---
 
 <PageLayout
 	lang={lang}
 	title={title}
-	description={description || currentTranslations.app.tagline}
-	appTitle={currentTranslations.app.title}
-	appHomeHref={`/${lang}/`}
+	description={description || currentSudoku.description}
+	appTitle={currentSudoku.title}
+	appHomeHref={`/sudoku/${lang}/`}
+	basePath="sudoku"
 	currentSlug={currentSlug}
 	contentProse={contentProse}
-	manifestHref="/site.webmanifest?v=20261006"
 >
 	<slot name="head" slot="head" />
 	<slot />

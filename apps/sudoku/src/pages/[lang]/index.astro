@@ -1,0 +1,26 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { SudokuLobby } from '../../components/SudokuLobby';
+import SudokuPageLayout from '../../layouts/SudokuPageLayout.astro';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const currentSudoku = resources[lang as SupportedLanguageCode]?.sudoku ?? resources.en.sudoku;
+---
+
+<SudokuPageLayout
+	title={currentSudoku.title}
+	description={currentSudoku.description}
+	lang={lang as SupportedLanguageCode}
+	currentSlug=""
+	contentProse={false}
+>
+	<SudokuLobby client:load lang={lang as SupportedLanguageCode} />
+</SudokuPageLayout>
