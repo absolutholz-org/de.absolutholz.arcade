@@ -1,0 +1,89 @@
+name: Deploy Arcade Monorepo to Webgo
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Code Verification (Quality Gate)
+        run: |
+          pnpm check
+          pnpm typecheck
+
+      - name: Build Hub
+        run: pnpm build:hub
+
+      - name: Build Sudoku
+        run: pnpm build:sudoku
+
+      - name: Build Storybook
+        run: pnpm build:storybook
+
+      - name: Assemble deployment payload
+        run: |
+          mkdir -p deploy_dist
+          # 1. Copy Hub to document root
+          cp -r apps/hub/dist/* deploy_dist/
+          # 2. Copy Sudoku into /sudoku subpath
+          mkdir -p deploy_dist/sudoku
+          cp -r apps/sudoku/dist/* deploy_dist/sudoku/
+          # 3. Copy Storybook into /storybook subpath
+          mkdir -p deploy_dist/storybook
+          cp -r libraries/ui/storybook-static/* deploy_dist/storybook/
+          # 4. Copy Apache production .htaccess
+          cp deploy/.htaccess deploy_dist/.htaccess
+
+      - name: Deploy via SSH & rsync to Webgo
+        run: |
+          # Create SSH directory and configure private key
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+          # Scan and store host key to prevent interactive verification prompt
+          ssh-keyscan -p ${{ secrets.WEBGO_SFTP_PORT || 22 }} ${{ secrets.WEBGO_SFTP_HOST }} >> ~/.ssh/known_hosts
+
+          # Ensure target directory exists on Webgo
+          ssh -i ~/.ssh/id_rsa -p ${{ secrets.WEBGO_SFTP_PORT || 22 }} ${{ secrets.WEBGO_SFTP_USERNAME }}@${{ secrets.WEBGO_SFTP_HOST }} \
+            "mkdir -p /home/www/de.absolutholz.arcade"
+
+          # Rsync assembled payload atomically
+          rsync -avz --delete -e "ssh -i ~/.ssh/id_rsa -p ${{ secrets.WEBGO_SFTP_PORT || 22 }}" \
+            deploy_dist/ ${{ secrets.WEBGO_SFTP_USERNAME }}@${{ secrets.WEBGO_SFTP_HOST }}:/home/www/de.absolutholz.arcade/
+
+          # Set directory and file permissions
+          ssh -i ~/.ssh/id_rsa -p ${{ secrets.WEBGO_SFTP_PORT || 22 }} ${{ secrets.WEBGO_SFTP_USERNAME }}@${{ secrets.WEBGO_SFTP_HOST }} \
+            "find /home/www/de.absolutholz.arcade -type d -exec chmod 755 {} \; && find /home/www/de.absolutholz.arcade -type f -exec chmod 644 {} \;"
+
+          # Clean up private key
+          rm ~/.ssh/id_rsa
