@@ -60,7 +60,7 @@ const meta = {
 			},
 			{
 				external: true,
-				href: '/storybook/',
+				href: '/storybook',
 				label: 'Storybook',
 			},
 		],
