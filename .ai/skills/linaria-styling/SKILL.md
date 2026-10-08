@@ -24,6 +24,7 @@ Agents are strictly forbidden from introducing, importing, or configuring altern
   - `css` tagged template literal for class names and static styles.
   - `styled` tagged template literal for styled components.
 - **Syntax Standard**: Never use JavaScript object syntax for styles. Write standard, native CSS declarations inside template literals.
+- **Zero Runtime Prop Interpolations / Zero Generated Inline CSS Variables**: Agents are strictly forbidden from passing dynamic component props into template literal interpolation functions (`${({ $variant }) => ...}`). In Linaria, runtime prop functions compile into dynamic CSS custom properties rendered as inline `style="..."` attributes on the DOM node. All component variants, layout options, orientations, and sizes must be matched statically via CSS `data-*` attribute selectors (e.g., `&[data-variant='primary']`, `&[data-size='sm']`, `&[data-direction='row']`).
 
 ## 3. Theme Variables & Color Token Consumption
 

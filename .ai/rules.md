@@ -34,6 +34,7 @@ Agents are strictly forbidden from introducing alternative tooling. You must adh
 - **Package Manager:** `pnpm` (Workspaces).
 - **Formatting & Linting:** `Biome` (Respecting `.editorconfig`). Do not generate or assume `ESLint` or `Prettier` configurations.
 - **Styling:** `Linaria` (`@linaria/core`, `@linaria/react`). Styles must be written using standard CSS strings inside template literals (`css`...``). Do not use Tailwind, CSS Modules, styled-components, standard Emotion, or Vanilla Extract.
+  - **Zero Inline Styles & Zero Runtime Prop Interpolations:** Inline styles (`style={{ ... }}`) are strictly prohibited except for purely dynamic, continuous runtime calculations (such as real-time animation coordinates). Agents must never use dynamic prop interpolation functions (`${({ $prop }) => ...}`) inside Linaria styled components because Linaria compiles them into dynamic CSS custom properties rendered as inline `style="..."` attributes on the DOM element. All component variants, sizes, orientations, and states must be implemented using static CSS with `data-*` attribute selectors (e.g., `&[data-variant='primary']`, `&[data-size='sm']`).
 - **Frameworks:** `Astro` for the `apps/hub`, and `React` (via Vite or Astro integrations) for interactive games.
 
 ### Workspace Dependency & Package Management Integrity

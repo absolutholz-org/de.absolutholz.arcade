@@ -24,14 +24,14 @@ export function Stack<C extends ElementType = 'div'>({
 	return (
 		<S.Stack
 			as={Component}
-			$direction={direction}
-			$spacing={spacing}
-			$crossSpacing={crossSpacing}
-			$align={align}
-			$justify={justify}
-			$wrap={wrap}
-			$fullWidth={fullWidth}
-			$inline={inline}
+			data-align={align}
+			data-cross-spacing={crossSpacing}
+			data-direction={direction}
+			data-full-width={fullWidth ? 'true' : 'false'}
+			data-inline={inline ? 'true' : undefined}
+			data-justify={justify}
+			data-spacing={spacing}
+			data-wrap={wrap ? 'true' : undefined}
 			{...props}
 		>
 			{children}
