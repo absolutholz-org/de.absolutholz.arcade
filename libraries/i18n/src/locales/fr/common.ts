@@ -4,6 +4,7 @@ export const frCommon = {
 	app: {
 		title: 'Arcade Web App',
 		tagline: "Jeux classiques conçus dans un souci d'accessibilité.",
+		redirectNotice: 'Redirection vers votre langue préférée...',
 	},
 	switchers: {
 		language: {
@@ -34,5 +35,6 @@ export const frCommon = {
 	hub: {
 		overviewTitle: 'Présentation',
 		exploreDescription: "Découvrez des jeux d'arcade classiques conçus dans un souci d'accessibilité.",
+		gamesTitle: 'Jeux',
 	},
 } as const satisfies CommonTranslationContract;

@@ -4,6 +4,7 @@ export const enCommon = {
 	app: {
 		title: 'Arcade Web App',
 		tagline: 'Classic games built with accessibility in mind.',
+		redirectNotice: 'Redirecting to your preferred language...',
 	},
 	switchers: {
 		language: {
@@ -34,5 +35,6 @@ export const enCommon = {
 	hub: {
 		overviewTitle: 'Overview',
 		exploreDescription: 'Explore classic arcade games built with accessibility in mind.',
+		gamesTitle: 'Games',
 	},
 } as const satisfies CommonTranslationContract;

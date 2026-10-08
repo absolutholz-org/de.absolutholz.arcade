@@ -11,8 +11,14 @@
 		"dev:hub": "pnpm --filter @arcade/hub dev",
 		"build:hub": "pnpm --filter @arcade/hub build",
 		"preview:hub": "pnpm --filter @arcade/hub preview",
+		"dev:sudoku": "pnpm --filter @arcade/sudoku dev",
+		"build:sudoku": "pnpm --filter @arcade/sudoku build",
+		"preview:sudoku": "pnpm --filter @arcade/sudoku preview",
 		"storybook:ui": "pnpm --filter @arcade/lib-ui storybook",
-		"storybook": "pnpm --filter @arcade/lib-ui storybook"
+		"storybook": "pnpm --filter @arcade/lib-ui storybook",
+		"build:storybook": "pnpm --filter @arcade/lib-ui build-storybook",
+		"build:all": "pnpm build:hub && pnpm build:sudoku && pnpm build:storybook",
+		"build": "pnpm build:all"
 	},
 	"engines": {
 		"node": ">=20.0.0",

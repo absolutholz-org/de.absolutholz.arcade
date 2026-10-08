@@ -72,8 +72,7 @@ export const Switch = styled.label`
 	}
 
 	&[data-size='md'] > [data-slot='track'] > [data-slot='thumb'] {
-		top: 0.1875rem;
-		left: 0.1875rem;
+		left: 0.125rem;
 		width: 1.375rem;
 		height: 1.375rem;
 	}
@@ -85,8 +84,7 @@ export const Switch = styled.label`
 	}
 
 	&[data-size='sm'] > [data-slot='track'] > [data-slot='thumb'] {
-		top: 0.125rem;
-		left: 0.125rem;
+		left: 0.0625rem;
 		width: 1rem;
 		height: 1rem;
 	}
@@ -94,10 +92,11 @@ export const Switch = styled.label`
 	/* Switch sliding thumb element */
 	> [data-slot='track'] > [data-slot='thumb'] {
 		position: absolute;
+		top: 50%;
 		background-color: ${themeColor('surface')};
 		border-radius: ${radiusScale.pill};
 		transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
-		transform: translateX(0);
+		transform: translateY(-50%) translateX(0);
 		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 
 		@media (forced-colors: active) {
@@ -113,12 +112,12 @@ export const Switch = styled.label`
 
 	&[data-size='md']:has(input:checked) > [data-slot='track'] > [data-slot='thumb'],
 	&[data-size='md'] > [data-slot='track'][data-checked='true'] > [data-slot='thumb'] {
-		transform: translateX(1.25rem);
+		transform: translateY(-50%) translateX(1.25rem);
 	}
 
 	&[data-size='sm']:has(input:checked) > [data-slot='track'] > [data-slot='thumb'],
 	&[data-size='sm'] > [data-slot='track'][data-checked='true'] > [data-slot='thumb'] {
-		transform: translateX(1rem);
+		transform: translateY(-50%) translateX(1rem);
 	}
 
 	@media (prefers-reduced-motion: reduce) {

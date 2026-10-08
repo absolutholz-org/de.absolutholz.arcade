@@ -6,6 +6,11 @@ packages:
 
 # pnpm v9 Catalogs: Centralized version management
 # Apps use these by declaring e.g., "react": "catalog:" in their package.json
+allowBuilds:
+  '@biomejs/biome': set this to true or false
+  esbuild: set this to true or false
+  sharp: set this to true or false
+
 catalog:
   react: ^18.3.1
   react-dom: ^18.3.1

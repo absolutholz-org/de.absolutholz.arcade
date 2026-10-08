@@ -4,6 +4,7 @@ export const deCommon = {
 	app: {
 		title: 'Arcade Web App',
 		tagline: 'Klassische Spiele mit Fokus auf Barrierefreiheit.',
+		redirectNotice: 'Weiterleitung zu Ihrer bevorzugten Sprache...',
 	},
 	switchers: {
 		language: {
@@ -34,5 +35,6 @@ export const deCommon = {
 	hub: {
 		overviewTitle: 'Übersicht',
 		exploreDescription: 'Entdecken Sie klassische Arcade-Spiele mit Fokus auf Barrierefreiheit.',
+		gamesTitle: 'Spiele',
 	},
 } as const satisfies CommonTranslationContract;

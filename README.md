@@ -10,7 +10,8 @@ This project is structured as a strict multi-app monorepo utilizing `pnpm worksp
 
 *   **`apps/`**: Contains all deployable, user-facing applications.
     *   `apps/hub`: The main portal, routing, and static pages (Accessibility, Legal), built with **Astro**.
-    *   `apps/[game]`: Individual, highly interactive game canvases built as pure **React/Vite** Single Page Applications (or Astro Islands).
+    *   `apps/sudoku`: Classic Sudoku puzzle game with accessible 9×9 grid, timer, and settings, built with **Astro** and interactive React canvas.
+    *   `apps/[game]`: Additional interactive game canvases built as pure **React/Vite** Single Page Applications (or Astro Islands).
 *   **`libraries/`**: Contains all shared business logic, UI components, and infrastructure.
     *   `libraries/ui`: Shared design system components styled exclusively with **Linaria**.
     *   `libraries/i18n`: Shared localization engine, language constants, dictionaries, and React hook abstraction (`useI18n`).
@@ -52,6 +53,37 @@ pnpm check
 # Typecheck workspace
 pnpm typecheck
 
+# Start Sudoku dev server
+pnpm dev:sudoku
+
+# Start Hub dev server
+pnpm dev:hub
+
 # Start Storybook for libraries/ui
 pnpm storybook
+
+# Production builds
+pnpm build:hub
+pnpm build:sudoku
+pnpm build:storybook
+pnpm build:all
 ```
+
+## 🚢 Deployment Architecture (Webgo)
+
+Deployments are automated via GitHub Actions (`.github/workflows/deploy.yml`) on every push to `main`.
+
+### Server Topology & Routing
+- **Primary Domain (`arcade.absolutholz.de`)**: DocumentRoot `/home/www/de.absolutholz.arcade`
+  - `/`: Hub (`apps/hub`)
+  - `/sudoku`: Sudoku puzzle game (`apps/sudoku`)
+  - `/storybook`: Component design system documentation (`libraries/ui`)
+- **Game Subdomains (`[gamename].absolutholz.de`)**: Pointed in Webgo to `/home/www/de.absolutholz.arcade`. The root `.htaccess` transparently 301-redirects requests to `https://arcade.absolutholz.de/[gamename]/` (preserving paths and query parameters).
+
+### Required GitHub Secrets
+Configure the following secrets in GitHub Repository Settings (`Settings -> Secrets and variables -> Actions`):
+- `SSH_PRIVATE_KEY`: Private SSH key authorized for the Webgo hosting account.
+- `WEBGO_SFTP_HOST`: Server SSH/SFTP host address (e.g., `swoo.webgo.de`).
+- `WEBGO_SFTP_USERNAME`: Webgo SSH username.
+- `WEBGO_SFTP_PORT`: Webgo SSH port (defaults to `22` if omitted).
+

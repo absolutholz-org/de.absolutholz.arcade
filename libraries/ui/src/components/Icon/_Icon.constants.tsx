@@ -218,4 +218,109 @@ export const ICON_CATALOG: Record<string, () => JSX.Element> = {
 			<circle cx="12" cy="14" r="8" />
 		</svg>
 	),
+	undo: () => (
+		<svg
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			strokeWidth={2}
+			strokeLinecap="round"
+			strokeLinejoin="round"
+			focusable="false"
+			aria-hidden="true"
+		>
+			<path d="M3 7v6h6" />
+			<path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13" stroke="var(--icon-accent, currentColor)" />
+		</svg>
+	),
+	redo: () => (
+		<svg
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			strokeWidth={2}
+			strokeLinecap="round"
+			strokeLinejoin="round"
+			focusable="false"
+			aria-hidden="true"
+		>
+			<path d="M21 7v6h-6" />
+			<path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3L21 13" stroke="var(--icon-accent, currentColor)" />
+		</svg>
+	),
+	eraser: () => (
+		<svg
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			strokeWidth={2}
+			strokeLinecap="round"
+			strokeLinejoin="round"
+			focusable="false"
+			aria-hidden="true"
+		>
+			<path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21" />
+			<path d="M22 21H7" stroke="var(--icon-accent, currentColor)" />
+			<path d="m5 11 9 9" />
+		</svg>
+	),
+	pencil: () => (
+		<svg
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			strokeWidth={2}
+			strokeLinecap="round"
+			strokeLinejoin="round"
+			focusable="false"
+			aria-hidden="true"
+		>
+			<path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+			<path d="m15 5 4 4" stroke="var(--icon-accent, currentColor)" />
+		</svg>
+	),
+	pause: () => (
+		<svg
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			strokeWidth={2}
+			strokeLinecap="round"
+			strokeLinejoin="round"
+			focusable="false"
+			aria-hidden="true"
+		>
+			<rect width="4" height="16" x="6" y="4" />
+			<rect width="4" height="16" x="14" y="4" stroke="var(--icon-accent, currentColor)" />
+		</svg>
+	),
+	play: () => (
+		<svg
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			strokeWidth={2}
+			strokeLinecap="round"
+			strokeLinejoin="round"
+			focusable="false"
+			aria-hidden="true"
+		>
+			<polygon points="6 3 20 12 6 21 6 3" />
+		</svg>
+	),
+	'rotate-ccw': () => (
+		<svg
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			strokeWidth={2}
+			strokeLinecap="round"
+			strokeLinejoin="round"
+			focusable="false"
+			aria-hidden="true"
+		>
+			<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" stroke="var(--icon-accent, currentColor)" />
+			<path d="M3 3v5h5" />
+		</svg>
+	),
 } as const;

@@ -4,6 +4,7 @@ export const ptCommon = {
 	app: {
 		title: 'Arcade Web App',
 		tagline: 'Jogos clássicos construídos com foco em acessibilidade.',
+		redirectNotice: 'Redirecionando para seu idioma preferido...',
 	},
 	switchers: {
 		language: {
@@ -34,5 +35,6 @@ export const ptCommon = {
 	hub: {
 		overviewTitle: 'Visão Geral',
 		exploreDescription: 'Explore jogos clássicos de arcade construídos com foco em acessibilidade.',
+		gamesTitle: 'Jogos',
 	},
 } as const satisfies CommonTranslationContract;

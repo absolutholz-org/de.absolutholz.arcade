@@ -12,6 +12,7 @@ This document serves as the central routing system for AI agents in this monorep
 | UI components / Accessibility / Styling         | [Accessibility Agent Profile](/.ai/agents/accessibility-agent.md)                 | Audits and builds UI components to guarantee strict WCAG 2.2 and BITV 2.0 compliance.         |
 | Localization / Translations / Multilingual (i18n) | [Localization Agent Profile](/.ai/agents/localization-agent.md)                 | Manages translation schemas, dictionaries, and multilingual hooks across all apps and libraries. |
 | Storage architecture / State persistence / Storage drivers | [Storage Agent Profile](/libraries/storage/.ai/agents/storage-agent.md)          | Enforces asynchronous namespacing and driver contracts adhering to ADR 008 and ADR 012.     |
+| Sudoku game engine & canvas / Puzzle gameplay   | [Sudoku Agent Profile](/apps/sudoku/.ai/agents/sudoku-agent.md)                  | Manages puzzle engine, keyboard navigation, grid accessibility, and Sudoku state syncing.    |
 
 ## General Rules
 

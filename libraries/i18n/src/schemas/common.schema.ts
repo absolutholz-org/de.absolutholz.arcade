@@ -2,6 +2,7 @@ export const commonSchema = {
 	app: {
 		title: 'app.title',
 		tagline: 'app.tagline',
+		redirectNotice: 'app.redirectNotice',
 	},
 	switchers: {
 		language: {
@@ -32,6 +33,7 @@ export const commonSchema = {
 	hub: {
 		overviewTitle: 'hub.overviewTitle',
 		exploreDescription: 'hub.exploreDescription',
+		gamesTitle: 'hub.gamesTitle',
 	},
 } as const;
 

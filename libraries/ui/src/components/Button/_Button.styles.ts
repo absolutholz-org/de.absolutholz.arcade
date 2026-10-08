@@ -152,10 +152,12 @@ export const Button = styled.button`
 		align-items: center;
 		justify-content: center;
 		flex-shrink: 0;
+		color: inherit;
 	}
 
 	> span[data-slot='content'] {
 		display: inline-flex;
 		align-items: center;
+		color: inherit;
 	}
 `;
