@@ -31,7 +31,7 @@ export function usePopover({ align = 'bottom', onOpenChange }: UsePopoverOptions
 		triggerRef,
 	});
 
-	// Ensure DOM attributes for popover invocation are applied to the elements on client mount
+	// Ensure DOM attributes for popover invocation are applied on mount
 	useEffect(() => {
 		if (triggerRef.current) {
 			triggerRef.current.setAttribute('popovertarget', id);
@@ -41,6 +41,7 @@ export function usePopover({ align = 'bottom', onOpenChange }: UsePopoverOptions
 		}
 	}, [id]);
 
+	// Native Popover toggle event listener
 	useEffect(() => {
 		const popover = popoverRef.current;
 		if (!popover) return;
@@ -49,11 +50,8 @@ export function usePopover({ align = 'bottom', onOpenChange }: UsePopoverOptions
 			const toggleEvent = e as Event & { newState: string };
 			const isOpen = toggleEvent.newState === 'open';
 			if (isOpen) {
-				popover.setAttribute('data-open', 'true');
 				updatePosition();
 				requestAnimationFrame(() => updatePosition());
-			} else {
-				popover.removeAttribute('data-open');
 			}
 			onOpenChange?.(isOpen);
 		};
@@ -62,39 +60,11 @@ export function usePopover({ align = 'bottom', onOpenChange }: UsePopoverOptions
 		return () => popover.removeEventListener('toggle', handleToggle);
 	}, [updatePosition, onOpenChange]);
 
-	const handleTriggerClick = useCallback(() => {
-		const popover = popoverRef.current;
-		if (!popover) return;
-
-		if (typeof popover.togglePopover === 'function') {
-			try {
-				popover.togglePopover();
-			} catch (_) {}
-		} else {
-			const isCurrentlyOpen = popover.getAttribute('data-open') === 'true';
-			if (isCurrentlyOpen) {
-				popover.removeAttribute('data-open');
-				popover.style.display = 'none';
-				onOpenChange?.(false);
-			} else {
-				popover.setAttribute('data-open', 'true');
-				popover.style.display = 'block';
-				updatePosition();
-				onOpenChange?.(true);
-			}
-		}
-	}, [onOpenChange, updatePosition]);
-
+	// Update floating position when open on resize or scroll
 	useEffect(() => {
 		const handleReposition = () => {
-			try {
-				if (popoverRef.current?.matches(':popover-open')) {
-					updatePosition();
-				}
-			} catch {
-				if (popoverRef.current && getComputedStyle(popoverRef.current).display !== 'none') {
-					updatePosition();
-				}
+			if (popoverRef.current?.matches(':popover-open')) {
+				updatePosition();
 			}
 		};
 
@@ -127,6 +97,7 @@ export function usePopover({ align = 'bottom', onOpenChange }: UsePopoverOptions
 		[],
 	);
 
+	// Close popover natively when an interactive item inside is clicked
 	const handleContentClick = useCallback((e: ReactMouseEvent<HTMLDivElement>) => {
 		if ((e.target as HTMLElement).closest('button, a')) {
 			popoverRef.current?.hidePopover?.();
@@ -136,7 +107,6 @@ export function usePopover({ align = 'bottom', onOpenChange }: UsePopoverOptions
 	return {
 		createMergedRef,
 		handleContentClick,
-		handleTriggerClick,
 		id,
 		popoverRef,
 		triggerRef,

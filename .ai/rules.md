@@ -25,6 +25,7 @@ All code generated, refactored, or organized across apps and libraries must stri
 - **Scope Efficiency:** When assisting with new library or application scoping, always propose a minimal, modular architecture footprint. Break complex features into isolated, highly testable domains.
 - **Zero Hardcoded UI Strings (ADR 007):** Hardcoding user-facing text strings in applications or components is strictly forbidden. All UI strings must route through the shared localization package (`@arcade/lib-i18n`) and be registered across all supported languages in accordance with [Localization Engineering](/.ai/skills/localization-engineering/SKILL.md).
 - **Minimal Exports Principle:** Never export variables, constants, functions, types, or styled components unless they are actively imported and used outside the defining file. Avoid speculative or preemptive exports. Keep internal helpers, intermediate variables, and styled child elements unexported (e.g., leverage CSS nesting for child elements rather than creating and exporting extraneous styled sub-components).
+- **Native Web Standards & Browser Support Matrix:** The targeted browser matrix strictly targets modern browsers with native baseline web platform features (such as the HTML Popover API, `light-dark()`, and top-layer CSS). Never implement speculative or custom JavaScript polyfills, manual fallbacks, or simulated legacy behavior for browsers lacking these native APIs. Simple, native solutions must always take precedence over custom logic.
 
 ## 4. Stack and Tooling Enforcement
 
@@ -34,6 +35,15 @@ Agents are strictly forbidden from introducing alternative tooling. You must adh
 - **Formatting & Linting:** `Biome` (Respecting `.editorconfig`). Do not generate or assume `ESLint` or `Prettier` configurations.
 - **Styling:** `Linaria` (`@linaria/core`, `@linaria/react`). Styles must be written using standard CSS strings inside template literals (`css`...``). Do not use Tailwind, CSS Modules, styled-components, standard Emotion, or Vanilla Extract.
 - **Frameworks:** `Astro` for the `apps/hub`, and `React` (via Vite or Astro integrations) for interactive games.
+
+### Workspace Dependency & Package Management Integrity
+
+- **Canonical Package Management Only:** All dependency installations, workspace linking, and binary execution shims (`node_modules/.bin`) must be handled natively and exclusively by `pnpm`.
+- **Zero Manual `node_modules` Manipulation:** Agents are strictly forbidden from manually creating, modifying, copying, or symlinking files or directories inside any `node_modules/` or `.bin/` folder (e.g., via `ln -s`, `cp`, or `mkdir`). Never attempt ad-hoc mock symlinks to simulate package installation or bypass tooling.
+- **Sandbox Boundary Protocol:** The AI execution sandbox isolates external network access. When scaffolding a new package or modifying `package.json` dependencies:
+  - Declare package manifests (`package.json`, `pnpm-workspace.yaml`) cleanly and accurately.
+  - Never attempt destructive re-installations in the sandbox that prompt to wipe modules, and never create ad-hoc manual symlink workarounds.
+  - If `pnpm install` is required to link new workspace packages or binaries into the dependency graph, instruct the human developer to run `pnpm install` in their unconstrained host terminal.
 
 ## 5. CSS and Styling Units Constraint
 

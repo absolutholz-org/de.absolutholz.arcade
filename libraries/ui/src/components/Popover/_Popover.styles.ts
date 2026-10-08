@@ -21,35 +21,4 @@ export const PopoverContent = styled.div`
 	max-width: calc(100vw - 2rem);
 	z-index: 1000;
 	outline: none;
-
-	/* Top-layer entry and exit transitions */
-	opacity: 0;
-	transform: scale(0.96);
-	transition-property: opacity, transform, display, overlay;
-	transition-duration: 150ms;
-	transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-	transition-behavior: allow-discrete;
-
-	&:is(:popover-open, .\:popover-open),
-	&[data-open='true'] {
-		opacity: 1;
-		transform: scale(1);
-
-		@starting-style {
-			opacity: 0;
-			transform: scale(0.96);
-		}
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		transform: none;
-		transition-duration: 50ms;
-
-		@starting-style {
-			&:is(:popover-open, .\:popover-open),
-			&[data-open='true'] {
-				transform: none;
-			}
-		}
-	}
 `;

@@ -15,7 +15,8 @@
 		"./styles/*": {
 			"types": "./src/styles/*.ts",
 			"default": "./src/styles/*.ts"
-		}
+		},
+		"./layouts/*": "./src/layouts/*"
 	},
 	"scripts": {
 		"build": "tsc",
