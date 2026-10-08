@@ -119,5 +119,7 @@ export const deMinesweeper = {
 		boardGrid: 'Minesweeper Spielfeld, {{cols}} Spalten mal {{rows}} Zeilen',
 		scrollLeft: 'Nach links scrollen',
 		scrollRight: 'Nach rechts scrollen',
+		gameControls: 'Spielsteuerung',
+		navigationControls: 'Navigationssteuerung',
 	},
 } as const satisfies MinesweeperTranslationContract;

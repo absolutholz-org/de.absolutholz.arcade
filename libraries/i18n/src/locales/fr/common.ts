@@ -18,6 +18,7 @@ export const frCommon = {
 				system: 'Système',
 			},
 		},
+		toolbarLabel: 'Préférences',
 	},
 	actions: {
 		close: 'Fermer',

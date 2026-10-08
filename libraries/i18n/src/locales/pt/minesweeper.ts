@@ -119,5 +119,7 @@ export const ptMinesweeper = {
 		boardGrid: 'Grade de Campo Minado, {{cols}} colunas por {{rows}} linhas',
 		scrollLeft: 'Deslocar para a esquerda',
 		scrollRight: 'Deslocar para a direita',
+		gameControls: 'Controles do jogo',
+		navigationControls: 'Controles de navegação',
 	},
 } as const satisfies MinesweeperTranslationContract;

@@ -1,6 +1,7 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { Icon } from '@arcade/lib-ui/components/Icon';
 import { Timer } from '@arcade/lib-ui/components/Timer';
+import { Toolbar } from '@arcade/lib-ui/components/Toolbar';
 import * as S from './SudokuGameHeader.styles';
 import type { SudokuGameHeaderProps } from './SudokuGameHeader.types';
 
@@ -34,19 +35,19 @@ export function SudokuGameHeader({
 				/>
 			</S.CenterSection>
 
-			<S.RightSection>
-				<button
+			<Toolbar variant="ghost" size="sm" aria-label={t('aria.headerToolbar')}>
+				<S.HeaderButton
 					type="button"
 					onClick={onTogglePause}
 					aria-label={isPaused ? t('controls.resume') : t('controls.pause')}
 				>
 					<Icon name={isPaused ? 'play' : 'pause'} size="sm" />
-				</button>
+				</S.HeaderButton>
 
-				<button type="button" onClick={onOpenSettings} aria-label={t('settings.title')}>
+				<S.HeaderButton type="button" onClick={onOpenSettings} aria-label={t('settings.title')}>
 					<Icon name="settings" size="sm" />
-				</button>
-			</S.RightSection>
+				</S.HeaderButton>
+			</Toolbar>
 		</S.HeaderContainer>
 	);
 }

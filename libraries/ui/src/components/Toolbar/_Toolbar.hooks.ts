@@ -1,5 +1,5 @@
 import { type FocusEvent, type KeyboardEvent, useCallback, useEffect, useRef } from 'react';
-import { getFocusableItems, isNativeTextOrRangeInput } from './_Toolbar.functions';
+import { getFocusableItems, isInsideCompositeWidget, isNativeTextOrRangeInput } from './_Toolbar.functions';
 import type { ToolbarOrientation } from './_Toolbar.types';
 
 interface UseToolbarOptions {
@@ -21,19 +21,27 @@ export function useToolbar({ loop = true, orientation = 'horizontal' }: UseToolb
 		const items = getFocusableItems(container);
 		if (items.length === 0) return;
 
-		const activeIndex = items.findIndex((item) => item.tabIndex === 0);
+		const activeIndex = items.findIndex((item) => item.getAttribute('tabindex') === '0');
 
 		if (activeIndex === -1) {
 			// Initialize first item as the active tab stop
 			items[0].tabIndex = 0;
+			items[0].setAttribute('tabindex', '0');
 			for (let i = 1; i < items.length; i++) {
 				items[i].tabIndex = -1;
+				items[i].setAttribute('tabindex', '-1');
 			}
 		} else {
 			// Enforce exactly one active tab stop
 			for (let i = 0; i < items.length; i++) {
-				if (i !== activeIndex && items[i].tabIndex !== -1) {
-					items[i].tabIndex = -1;
+				if (i !== activeIndex) {
+					if (items[i].getAttribute('tabindex') !== '-1') {
+						items[i].tabIndex = -1;
+						items[i].setAttribute('tabindex', '-1');
+					}
+				} else {
+					items[i].tabIndex = 0;
+					items[i].setAttribute('tabindex', '0');
 				}
 			}
 		}
@@ -72,13 +80,28 @@ export function useToolbar({ loop = true, orientation = 'horizontal' }: UseToolb
 		if (!container) return;
 
 		const target = event.target as HTMLElement;
+
+		// If focus landed directly on the container, delegate to the active item
+		if (target === container) {
+			const items = getFocusableItems(container);
+			const activeItem = items.find((item) => item.getAttribute('tabindex') === '0') ?? items[0];
+			activeItem?.focus();
+			return;
+		}
+
+		// If focus is inside a popup, menu, listbox, or dialog, do not alter toolbar roving tabindex
+		if (isInsideCompositeWidget(target, container)) {
+			return;
+		}
+
 		const items = getFocusableItems(container);
 		const targetIndex = items.findIndex((item) => item === target || item.contains(target));
 
 		if (targetIndex !== -1) {
-			const activeItem = items[targetIndex];
-			for (const item of items) {
-				item.tabIndex = item === activeItem ? 0 : -1;
+			for (let i = 0; i < items.length; i++) {
+				const isTarget = i === targetIndex;
+				items[i].tabIndex = isTarget ? 0 : -1;
+				items[i].setAttribute('tabindex', isTarget ? '0' : '-1');
 			}
 		}
 	}, []);
@@ -96,6 +119,11 @@ export function useToolbar({ loop = true, orientation = 'horizontal' }: UseToolb
 				return;
 			}
 
+			// Do not intercept key events if focus is inside a popup, menu, listbox, or dialog
+			if (isInsideCompositeWidget(target, container)) {
+				return;
+			}
+
 			const isHorizontal = orientation === 'horizontal';
 			const isNext = isHorizontal ? event.key === 'ArrowRight' : event.key === 'ArrowDown';
 			const isPrev = isHorizontal ? event.key === 'ArrowLeft' : event.key === 'ArrowUp';
@@ -106,14 +134,14 @@ export function useToolbar({ loop = true, orientation = 'horizontal' }: UseToolb
 				return;
 			}
 
-			// Prevent default page scroll on arrow, home, and end keys within the toolbar
-			event.preventDefault();
-
 			const items = getFocusableItems(container);
 			if (items.length === 0) return;
 
 			const currentIndex = items.findIndex((item) => item === target || item.contains(target));
 			if (currentIndex === -1) return;
+
+			// Prevent default page scroll only after verifying this is a valid toolbar item navigation event
+			event.preventDefault();
 
 			let nextIndex = currentIndex;
 
@@ -129,8 +157,10 @@ export function useToolbar({ loop = true, orientation = 'horizontal' }: UseToolb
 
 			const targetItem = items[nextIndex];
 			if (targetItem) {
-				for (const item of items) {
-					item.tabIndex = item === targetItem ? 0 : -1;
+				for (let i = 0; i < items.length; i++) {
+					const isTarget = i === nextIndex;
+					items[i].tabIndex = isTarget ? 0 : -1;
+					items[i].setAttribute('tabindex', isTarget ? '0' : '-1');
 				}
 				targetItem.focus();
 			}

@@ -59,8 +59,8 @@ export function MinesweeperBoard({
 
 	const handleKeyDown = useCallback(
 		(e: KeyboardEvent<HTMLTableElement>) => {
-			if (!focusedCell) return;
-			const { col, row } = focusedCell;
+			const currentCell = focusedCell ?? { col: 0, row: 0 };
+			const { col, row } = currentCell;
 
 			let nextCol = col;
 			let nextRow = row;
@@ -102,10 +102,10 @@ export function MinesweeperBoard({
 					return;
 			}
 
-			if (nextCol !== col || nextRow !== row) {
+			if (nextCol !== col || nextRow !== row || focusedCell === null) {
 				onSetFocus(nextCol, nextRow);
 				const cellBtn = tableRef.current?.querySelector<HTMLButtonElement>(
-					`button[aria-label*="Row ${nextRow + 1}"], button[aria-label*="Zeile ${nextRow + 1}"], button[aria-label*="Ligne ${nextRow + 1}"], button[aria-label*="Linha ${nextRow + 1}"]`,
+					`button[data-col="${nextCol}"][data-row="${nextRow}"]`,
 				);
 				cellBtn?.focus();
 				cellBtn?.scrollIntoView({ block: 'nearest', inline: 'nearest' });

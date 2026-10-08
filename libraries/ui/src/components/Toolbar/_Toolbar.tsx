@@ -1,3 +1,4 @@
+import type { FocusEvent, KeyboardEvent } from 'react';
 import { useToolbar } from './_Toolbar.hooks';
 import * as S from './_Toolbar.styles';
 import type { ToolbarProps } from './_Toolbar.types';
@@ -16,6 +17,8 @@ export function Toolbar({
 	fullWidth = false,
 	id,
 	loop = true,
+	onFocus,
+	onKeyDown,
 	orientation = 'horizontal',
 	size = 'md',
 	variant = 'default',
@@ -24,6 +27,16 @@ export function Toolbar({
 		loop,
 		orientation,
 	});
+
+	const handleFocusCombined = (event: FocusEvent<HTMLDivElement>) => {
+		handleFocus(event);
+		onFocus?.(event);
+	};
+
+	const handleKeyDownCombined = (event: KeyboardEvent<HTMLDivElement>) => {
+		handleKeyDown(event);
+		onKeyDown?.(event);
+	};
 
 	return (
 		<S.Toolbar
@@ -34,8 +47,8 @@ export function Toolbar({
 			aria-labelledby={ariaLabelledBy}
 			aria-orientation={orientation}
 			className={className}
-			tabIndex={-1}
-			onFocus={handleFocus}
+			onFocus={handleFocusCombined}
+			onKeyDown={handleKeyDownCombined}
 			data-align={align}
 			data-full-width={fullWidth ? 'true' : undefined}
 			data-orientation={orientation}

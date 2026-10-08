@@ -1,10 +1,28 @@
+import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { persistLanguage } from '@arcade/lib-i18n/utils/detection';
 import { LanguageSwitcher } from '../LanguageSwitcher';
 import { SchemeSwitcher } from '../SchemeSwitcher';
-import { Stack } from '../Stack';
+import { Toolbar } from '../Toolbar';
 import type { HeaderActionsProps } from './_HeaderActions.types';
+
+function HeaderActionsContent({
+	handleLanguageChange,
+	lang,
+}: {
+	handleLanguageChange: (nextLang: SupportedLanguageCode) => void;
+	lang?: SupportedLanguageCode;
+}) {
+	const { t } = useI18n('common');
+
+	return (
+		<Toolbar variant="ghost" size="sm" aria-label={t('switchers.toolbarLabel')}>
+			<LanguageSwitcher activeLanguage={lang} onLanguageChange={handleLanguageChange} />
+			<SchemeSwitcher />
+		</Toolbar>
+	);
+}
 
 /**
  * Interactive header actions cluster containing language and color scheme switchers.
@@ -30,10 +48,7 @@ export function HeaderActions({ lang, currentSlug = '' }: HeaderActionsProps = {
 
 	return (
 		<I18nProvider language={lang}>
-			<Stack direction="row" align="center" spacing="xs" inline fullWidth={false}>
-				<LanguageSwitcher activeLanguage={lang} onLanguageChange={handleLanguageChange} />
-				<SchemeSwitcher />
-			</Stack>
+			<HeaderActionsContent handleLanguageChange={handleLanguageChange} lang={lang} />
 		</I18nProvider>
 	);
 }

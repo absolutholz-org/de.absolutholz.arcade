@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { FocusEventHandler, KeyboardEventHandler, ReactNode } from 'react';
 import type { TOOLBAR_ALIGNS, TOOLBAR_ORIENTATIONS, TOOLBAR_SIZES, TOOLBAR_VARIANTS } from './_Toolbar.constants';
 
 export type ToolbarOrientation = (typeof TOOLBAR_ORIENTATIONS)[number];
@@ -48,6 +48,16 @@ export interface ToolbarProps {
 	 * Defaults to true.
 	 */
 	loop?: boolean;
+
+	/**
+	 * Optional focus event handler invoked when the toolbar or any child receives focus.
+	 */
+	onFocus?: FocusEventHandler<HTMLDivElement>;
+
+	/**
+	 * Optional keydown event handler invoked on toolbar keyboard events.
+	 */
+	onKeyDown?: KeyboardEventHandler<HTMLDivElement>;
 
 	/**
 	 * Layout orientation of the toolbar.

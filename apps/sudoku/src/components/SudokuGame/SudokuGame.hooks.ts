@@ -407,17 +407,66 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 	useEffect(() => {
 		function handleKeyDown(e: KeyboardEvent) {
 			if (isSettingsOpen || isVictoryOpen) return;
+			if (e.defaultPrevented) return;
 
-			// Arrow keys navigation
-			if (e.key === 'ArrowUp' || e.key === 'ArrowDown' || e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+			// Pause toggle ('p' or 'P' or 'Escape')
+			if (e.key === 'p' || e.key === 'P' || e.key === 'Escape') {
+				e.preventDefault();
+				setIsPaused((prev) => !prev);
+				return;
+			}
+
+			if (isPaused || isComplete) return;
+
+			const target = e.target as HTMLElement | null;
+			if (!target) return;
+
+			// Never intercept keys when focus is inside a toolbar, header, navigation, form control, or dialog
+			if (
+				target.closest(
+					'input, textarea, select, [role="dialog"], [role="listbox"], [role="menu"], [role="toolbar"]',
+				) ||
+				target.closest('header, nav, footer')
+			) {
+				return;
+			}
+
+			const isBoardFocused =
+				Boolean(target.closest('#sudoku-board')) || target === document.body || target.id === 'main-content';
+
+			// Arrow keys & grid navigation (strictly constrained to the board or game canvas)
+			const isArrowOrNavKey =
+				e.key === 'ArrowUp' ||
+				e.key === 'ArrowDown' ||
+				e.key === 'ArrowLeft' ||
+				e.key === 'ArrowRight' ||
+				e.key === 'Home' ||
+				e.key === 'End' ||
+				e.key === 'PageUp' ||
+				e.key === 'PageDown';
+
+			if (isArrowOrNavKey) {
+				if (!isBoardFocused) {
+					return;
+				}
+
 				e.preventDefault();
 				setActiveCell((prev) => {
-					if (!prev) return { row: 0, col: 0 };
-					let { row, col } = prev;
+					const current = prev ?? { row: 0, col: 0 };
+					let { row, col } = current;
 					if (e.key === 'ArrowUp') row = (row - 1 + 9) % 9;
 					if (e.key === 'ArrowDown') row = (row + 1) % 9;
 					if (e.key === 'ArrowLeft') col = (col - 1 + 9) % 9;
 					if (e.key === 'ArrowRight') col = (col + 1) % 9;
+					if (e.key === 'Home') col = 0;
+					if (e.key === 'End') col = 8;
+					if (e.key === 'PageUp') row = 0;
+					if (e.key === 'PageDown') row = 8;
+
+					const cellBtn = document.querySelector<HTMLButtonElement>(
+						`#sudoku-board button[data-row="${row}"][data-col="${col}"]`,
+					);
+					cellBtn?.focus();
 					return { row, col };
 				});
 				return;
@@ -472,17 +521,11 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 				handleRedo();
 				return;
 			}
-
-			// Pause toggle ('p' or 'P' or 'Escape')
-			if (e.key === 'p' || e.key === 'P' || e.key === 'Escape') {
-				e.preventDefault();
-				setIsPaused((prev) => !prev);
-			}
 		}
 
 		window.addEventListener('keydown', handleKeyDown);
 		return () => window.removeEventListener('keydown', handleKeyDown);
-	}, [isSettingsOpen, isVictoryOpen, handleDigitPress, handleErase, handleUndo, handleRedo]);
+	}, [isSettingsOpen, isVictoryOpen, isPaused, isComplete, handleDigitPress, handleErase, handleUndo, handleRedo]);
 
 	return {
 		difficulty,

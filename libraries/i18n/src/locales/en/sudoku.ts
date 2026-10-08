@@ -92,5 +92,7 @@ export const enSudoku = {
 		clueCell: 'Given clue',
 		keypadDigit: 'Enter digit {{digit}}',
 		boardGrid: 'Sudoku grid, 9 by 9',
+		actionsToolbar: 'Action tools',
+		headerToolbar: 'Game controls',
 	},
 } as const satisfies SudokuTranslationContract;

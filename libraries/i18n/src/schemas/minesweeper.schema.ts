@@ -119,6 +119,8 @@ export const minesweeperSchema = {
 		boardGrid: 'aria.boardGrid',
 		scrollLeft: 'aria.scrollLeft',
 		scrollRight: 'aria.scrollRight',
+		gameControls: 'aria.gameControls',
+		navigationControls: 'aria.navigationControls',
 	},
 } as const;
 

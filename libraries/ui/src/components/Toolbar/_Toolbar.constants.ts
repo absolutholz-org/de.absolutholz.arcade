@@ -31,5 +31,7 @@ export const TOOLBAR_FOCUSABLE_SELECTOR = [
 	'[role="checkbox"]:not([aria-disabled="true"])',
 	'[role="switch"]:not([aria-disabled="true"])',
 	'[role="menuitem"]:not([aria-disabled="true"])',
-	'[tabindex]:not([tabindex="-1"]):not([disabled]):not([aria-disabled="true"])',
+	'[role="menuitemcheckbox"]:not([aria-disabled="true"])',
+	'[role="menuitemradio"]:not([aria-disabled="true"])',
+	'[role="tab"]:not([aria-disabled="true"])',
 ].join(', ');

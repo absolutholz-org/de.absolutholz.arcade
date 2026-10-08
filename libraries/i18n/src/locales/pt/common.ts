@@ -18,6 +18,7 @@ export const ptCommon = {
 				system: 'Sistema',
 			},
 		},
+		toolbarLabel: 'Preferências',
 	},
 	actions: {
 		close: 'Fechar',

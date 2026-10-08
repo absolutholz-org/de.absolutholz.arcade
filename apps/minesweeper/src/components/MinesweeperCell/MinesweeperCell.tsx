@@ -220,6 +220,8 @@ export function MinesweeperCell({
 			tabIndex={isFocused ? 0 : -1}
 			aria-label={ariaLabel}
 			aria-selected={isFocused}
+			data-col={cell.col}
+			data-row={cell.row}
 			disabled={isGameOver || isWon}
 			className={classNames}
 			onClick={handleClick}

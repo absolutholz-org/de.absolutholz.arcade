@@ -92,5 +92,7 @@ export const frSudoku = {
 		clueCell: 'Indice de départ',
 		keypadDigit: 'Saisir le chiffre {{digit}}',
 		boardGrid: 'Grille de Sudoku, 9 par 9',
+		actionsToolbar: "Outils d'action",
+		headerToolbar: 'Commandes du jeu',
 	},
 } as const satisfies SudokuTranslationContract;

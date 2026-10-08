@@ -62,31 +62,25 @@ export const DifficultyText = styled.span`
 	line-height: 1;
 `;
 
-export const RightSection = styled.div`
-	display: flex;
+export const HeaderButton = styled.button`
+	display: inline-flex;
 	align-items: center;
-	gap: 0.375rem;
+	justify-content: center;
+	width: 2.5rem;
+	height: 2.5rem;
+	border-radius: var(--radius-sm);
+	border: 1px solid ${themeColor('container-2')};
+	background-color: ${themeColor('surface')};
+	color: ${themeColor('text-1')};
+	cursor: pointer;
+	transition: background-color 150ms ease;
 
-	> button {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		width: 2.5rem;
-		height: 2.5rem;
-		border-radius: var(--radius-sm);
-		border: 1px solid ${themeColor('container-2')};
-		background-color: ${themeColor('surface')};
-		color: ${themeColor('text-1')};
-		cursor: pointer;
-		transition: background-color 150ms ease;
+	&:hover {
+		background-color: ${themeColor('container-1')};
+	}
 
-		&:hover {
-			background-color: ${themeColor('container-1')};
-		}
-
-		&:focus-visible {
-			outline: 2px solid ${themeColor('accent')};
-			outline-offset: 2px;
-		}
+	&:focus-visible {
+		outline: 2px solid ${themeColor('accent')};
+		outline-offset: 2px;
 	}
 `;

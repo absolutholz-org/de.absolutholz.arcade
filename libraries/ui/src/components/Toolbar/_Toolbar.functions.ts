@@ -7,8 +7,19 @@ function isItemDisabled(element: HTMLElement): boolean {
 	return (
 		(element as HTMLButtonElement).disabled === true ||
 		element.getAttribute('aria-disabled') === 'true' ||
-		element.hasAttribute('disabled')
+		element.hasAttribute('disabled') ||
+		element.getAttribute('aria-hidden') === 'true' ||
+		element.hasAttribute('hidden')
 	);
+}
+
+/**
+ * Checks whether an element is located inside a nested composite widget (popover, menu, listbox, or dialog)
+ * contained within the toolbar.
+ */
+function isInsideCompositeWidget(element: HTMLElement, container: HTMLElement): boolean {
+	const popupAncestor = element.parentElement?.closest('[role="listbox"], [role="menu"], [role="dialog"], [popover]');
+	return Boolean(popupAncestor && container.contains(popupAncestor));
 }
 
 /**
@@ -26,12 +37,13 @@ function isNativeTextOrRangeInput(element: HTMLElement): boolean {
 }
 
 /**
- * Queries all enabled focusable controls contained within the toolbar element.
+ * Queries all enabled focusable controls directly participating in the toolbar,
+ * excluding controls housed inside nested popups, menus, listboxes, or dialogs.
  */
 export function getFocusableItems(container: HTMLElement | null): HTMLElement[] {
 	if (!container) return [];
 	const items = Array.from(container.querySelectorAll<HTMLElement>(TOOLBAR_FOCUSABLE_SELECTOR));
-	return items.filter((item) => !isItemDisabled(item));
+	return items.filter((item) => !isItemDisabled(item) && !isInsideCompositeWidget(item, container));
 }
 
-export { isItemDisabled, isNativeTextOrRangeInput };
+export { isInsideCompositeWidget, isItemDisabled, isNativeTextOrRangeInput };

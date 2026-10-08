@@ -16,6 +16,7 @@ export const commonSchema = {
 				system: 'switchers.scheme.options.system',
 			},
 		},
+		toolbarLabel: 'switchers.toolbarLabel',
 	},
 	actions: {
 		close: 'actions.close',

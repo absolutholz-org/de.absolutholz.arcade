@@ -1,5 +1,6 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { Icon } from '@arcade/lib-ui/components/Icon';
+import { Toolbar } from '@arcade/lib-ui/components/Toolbar';
 import * as S from './SudokuKeypad.styles';
 import type { SudokuKeypadProps } from './SudokuKeypad.types';
 
@@ -21,7 +22,7 @@ export function SudokuKeypad({
 
 	return (
 		<S.KeypadContainer>
-			<S.ActionsRow>
+			<Toolbar fullWidth variant="ghost" size="sm" aria-label={t('aria.actionsToolbar')}>
 				<S.ActionButton type="button" onClick={onUndo} disabled={!canUndo} aria-label={t('controls.undo')}>
 					<Icon name="undo" size="sm" />
 					<span>{t('controls.undo')}</span>
@@ -47,7 +48,7 @@ export function SudokuKeypad({
 					<Icon name="pencil" size="sm" />
 					<span>{isNotesMode ? t('controls.notesOn') : t('controls.notes')}</span>
 				</S.ActionButton>
-			</S.ActionsRow>
+			</Toolbar>
 
 			<S.DigitsGrid data-layout={layout}>
 				{DIGITS.map((digit) => {

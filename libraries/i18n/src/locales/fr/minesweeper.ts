@@ -119,5 +119,7 @@ export const frMinesweeper = {
 		boardGrid: 'Grille de démineur, {{cols}} colonnes sur {{rows}} lignes',
 		scrollLeft: 'Faire défiler vers la gauche',
 		scrollRight: 'Faire défiler vers la droite',
+		gameControls: 'Commandes du jeu',
+		navigationControls: 'Commandes de navigation',
 	},
 } as const satisfies MinesweeperTranslationContract;

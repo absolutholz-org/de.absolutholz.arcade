@@ -18,6 +18,7 @@ export const enCommon = {
 				system: 'Sync with system',
 			},
 		},
+		toolbarLabel: 'Preferences',
 	},
 	actions: {
 		close: 'Close',

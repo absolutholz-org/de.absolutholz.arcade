@@ -92,5 +92,7 @@ export const deSudoku = {
 		clueCell: 'Vorgegebener Hinweis',
 		keypadDigit: 'Zahl {{digit}} eingeben',
 		boardGrid: 'Sudoku-Spielfeld, 9 mal 9',
+		actionsToolbar: 'Aktionswerkzeuge',
+		headerToolbar: 'Spielsteuerung',
 	},
 } as const satisfies SudokuTranslationContract;

@@ -27,7 +27,7 @@ export function SudokuBoard({ grid, activeCell, conflicts, settings, onSelectCel
 
 	return (
 		// biome-ignore lint/a11y/useSemanticElements: Sudoku is an interactive 2D grid widget adhering to WAI-ARIA Grid pattern
-		<S.BoardContainer role="grid" aria-label={t('aria.boardGrid')}>
+		<S.BoardContainer id="sudoku-board" role="grid" aria-label={t('aria.boardGrid')}>
 			{blocks.map(({ blockIndex, cells }) => (
 				<S.BlockContainer
 					key={blockIndex}

@@ -119,5 +119,7 @@ export const enMinesweeper = {
 		boardGrid: 'Minesweeper grid, {{cols}} columns by {{rows}} rows',
 		scrollLeft: 'Scroll left',
 		scrollRight: 'Scroll right',
+		gameControls: 'Game controls',
+		navigationControls: 'Navigation controls',
 	},
 } as const satisfies MinesweeperTranslationContract;

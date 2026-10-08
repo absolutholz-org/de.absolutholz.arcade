@@ -2,6 +2,7 @@ import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { Button } from '@arcade/lib-ui/components/Button';
 import { Icon } from '@arcade/lib-ui/components/Icon';
 import { Timer } from '@arcade/lib-ui/components/Timer';
+import { Toolbar } from '@arcade/lib-ui/components/Toolbar';
 import type { JSX } from 'react';
 import type { BoardSizeId, DifficultyId } from '../../engine/types';
 import { FlagIcon, MineIcon, ZoomInIcon, ZoomOutIcon } from '../MinesweeperIcons';
@@ -40,7 +41,7 @@ export function MinesweeperGameHeader({
 
 	return (
 		<header className={S.headerRoot}>
-			<div className={S.leftSection}>
+			<Toolbar variant="ghost" size="sm" className={S.leftSection} aria-label={t('aria.navigationControls')}>
 				<Button
 					as="a"
 					href={`/minesweeper/${language}/`}
@@ -64,13 +65,13 @@ export function MinesweeperGameHeader({
 				>
 					<FlagIcon />
 				</Button>
-			</div>
+			</Toolbar>
 
 			<div className={S.centerSection}>
 				<Timer seconds={elapsedSeconds} size="sm" showIcon={true} />
 			</div>
 
-			<div className={S.rightSection}>
+			<Toolbar variant="ghost" size="sm" className={S.rightSection} aria-label={t('aria.gameControls')}>
 				<Button
 					variant="ghost"
 					size="sm"
@@ -96,7 +97,7 @@ export function MinesweeperGameHeader({
 				<Button variant="ghost" size="sm" onClick={onOpenSettings} aria-label={t('settings.title')}>
 					<Icon name="settings" size="sm" />
 				</Button>
-			</div>
+			</Toolbar>
 		</header>
 	);
 }

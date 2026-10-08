@@ -16,14 +16,8 @@ export const KeypadContainer = styled.div`
 	}
 `;
 
-export const ActionsRow = styled.div`
-	display: grid;
-	grid-template-columns: repeat(4, 1fr);
-	gap: 0.375rem;
-	width: 100%;
-`;
-
 export const ActionButton = styled.button`
+	flex: 1 1 0;
 	min-height: 3.25rem;
 	min-width: 0;
 	display: flex;

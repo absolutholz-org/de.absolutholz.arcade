@@ -18,6 +18,7 @@ export const deCommon = {
 				system: 'Systemeinstellung',
 			},
 		},
+		toolbarLabel: 'Einstellungen',
 	},
 	actions: {
 		close: 'Schließen',

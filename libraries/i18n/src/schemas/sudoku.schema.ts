@@ -91,6 +91,8 @@ export const sudokuSchema = {
 		clueCell: 'aria.clueCell',
 		keypadDigit: 'aria.keypadDigit',
 		boardGrid: 'aria.boardGrid',
+		actionsToolbar: 'aria.actionsToolbar',
+		headerToolbar: 'aria.headerToolbar',
 	},
 } as const;
 
