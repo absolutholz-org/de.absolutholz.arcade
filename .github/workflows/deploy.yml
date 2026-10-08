@@ -14,6 +14,8 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    env:
+      ASTRO_TELEMETRY_DISABLED: 1
 
     steps:
       - name: Checkout code
@@ -53,13 +55,13 @@ jobs:
         run: |
           mkdir -p deploy_dist
           # 1. Copy Hub to document root
-          cp -r apps/hub/dist/* deploy_dist/
+          cp -R apps/hub/dist/. deploy_dist/
           # 2. Copy Sudoku into /sudoku subpath
           mkdir -p deploy_dist/sudoku
-          cp -r apps/sudoku/dist/* deploy_dist/sudoku/
+          cp -R apps/sudoku/dist/. deploy_dist/sudoku/
           # 3. Copy Storybook into /storybook subpath
           mkdir -p deploy_dist/storybook
-          cp -r libraries/ui/storybook-static/* deploy_dist/storybook/
+          cp -R libraries/ui/storybook-static/. deploy_dist/storybook/
           # 4. Copy Apache production .htaccess
           cp deploy/.htaccess deploy_dist/.htaccess
 
