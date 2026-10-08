@@ -11,6 +11,7 @@ This document serves as the central routing system for AI agents in this monorep
 | Storybook stories & docs / Component playground | [Storybook Agent Profile](/libraries/ui/.ai/agents/storybook-agent.md) | Handles creation and updates of interactive Storybook stories and MDX documentation.          |
 | UI components / Accessibility / Styling         | [Accessibility Agent Profile](/.ai/agents/accessibility-agent.md)                 | Audits and builds UI components to guarantee strict WCAG 2.2 and BITV 2.0 compliance.         |
 | Localization / Translations / Multilingual (i18n) | [Localization Agent Profile](/.ai/agents/localization-agent.md)                 | Manages translation schemas, dictionaries, and multilingual hooks across all apps and libraries. |
+| Storage architecture / State persistence / Storage drivers | [Storage Agent Profile](/libraries/storage/.ai/agents/storage-agent.md)          | Enforces asynchronous namespacing and driver contracts adhering to ADR 008 and ADR 012.     |
 
 ## General Rules
 
