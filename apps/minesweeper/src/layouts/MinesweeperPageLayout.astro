@@ -1,0 +1,31 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import PageLayout from '@arcade/lib-ui/layouts/PageLayout.astro';
+
+interface Props {
+	title: string;
+	description?: string;
+	lang: SupportedLanguageCode;
+	currentSlug?: string;
+	contentProse?: boolean;
+}
+
+const { title, description, lang, currentSlug = '', contentProse = true } = Astro.props;
+
+const currentMinesweeper = resources[lang]?.minesweeper ?? resources.en.minesweeper;
+---
+
+<PageLayout
+	lang={lang}
+	title={title}
+	description={description || currentMinesweeper.description}
+	appTitle={currentMinesweeper.title}
+	appHomeHref={`/minesweeper/${lang}/`}
+	basePath="minesweeper"
+	currentSlug={currentSlug}
+	contentProse={contentProse}
+>
+	<slot name="head" slot="head" />
+	<slot />
+</PageLayout>

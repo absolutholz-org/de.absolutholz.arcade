@@ -11,6 +11,7 @@ This project is structured as a strict multi-app monorepo utilizing `pnpm worksp
 *   **`apps/`**: Contains all deployable, user-facing applications.
     *   `apps/hub`: The main portal, routing, and static pages (Accessibility, Legal), built with **Astro**.
     *   `apps/sudoku`: Classic Sudoku puzzle game with accessible 9×9 grid, timer, and settings, built with **Astro** and interactive React canvas.
+    *   `apps/minesweeper`: Classic Minesweeper game with 5 board sizes, safe first click, chording, accessible grid, timer, and high scores, built with **Astro** and interactive React canvas.
     *   `apps/[game]`: Additional interactive game canvases built as pure **React/Vite** Single Page Applications (or Astro Islands).
 *   **`libraries/`**: Contains all shared business logic, UI components, and infrastructure.
     *   `libraries/ui`: Shared design system components styled exclusively with **Linaria**.
@@ -56,6 +57,9 @@ pnpm typecheck
 # Start Sudoku dev server
 pnpm dev:sudoku
 
+# Start Minesweeper dev server
+pnpm dev:minesweeper
+
 # Start Hub dev server
 pnpm dev:hub
 
@@ -65,6 +69,7 @@ pnpm storybook
 # Production builds
 pnpm build:hub
 pnpm build:sudoku
+pnpm build:minesweeper
 pnpm build:storybook
 pnpm build:all
 ```
@@ -77,6 +82,7 @@ Deployments are automated via GitHub Actions (`.github/workflows/deploy.yml`) on
 - **Primary Domain (`arcade.absolutholz.de`)**: DocumentRoot `/home/www/de.absolutholz.arcade`
   - `/`: Hub (`apps/hub`)
   - `/sudoku`: Sudoku puzzle game (`apps/sudoku`)
+  - `/minesweeper`: Minesweeper puzzle game (`apps/minesweeper`)
   - `/storybook`: Component design system documentation (`libraries/ui`)
 - **Game Subdomains (`[gamename].absolutholz.de`)**: Pointed in Webgo to `/home/www/de.absolutholz.arcade`. The root `.htaccess` transparently 301-redirects requests to `https://arcade.absolutholz.de/[gamename]/` (preserving paths and query parameters).
 

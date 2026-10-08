@@ -13,6 +13,7 @@ export function getStaticPaths() {
 const { lang } = Astro.params;
 const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? resources.en.common;
 const currentSudoku = resources[lang as SupportedLanguageCode]?.sudoku ?? resources.en.sudoku;
+const currentMinesweeper = resources[lang as SupportedLanguageCode]?.minesweeper ?? resources.en.minesweeper;
 const isGermanOrEnglish = lang === 'en' || lang === 'de';
 
 const quickLinks = [
@@ -53,6 +54,10 @@ const quickLinks = [
 			<a href={`/sudoku/${lang}/`} class="game-card">
 				<h3>{currentSudoku.title}</h3>
 				<p>{currentSudoku.description}</p>
+			</a>
+			<a href={`/minesweeper/${lang}/`} class="game-card">
+				<h3>{currentMinesweeper.title}</h3>
+				<p>{currentMinesweeper.description}</p>
 			</a>
 		</div>
 	</section>

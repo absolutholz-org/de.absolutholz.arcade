@@ -1,0 +1,27 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { HighScoresView } from '../../components/HighScoresView';
+import MinesweeperPageLayout from '../../layouts/MinesweeperPageLayout.astro';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const currentMinesweeper = resources[lang as SupportedLanguageCode]?.minesweeper ?? resources.en.minesweeper;
+---
+
+<MinesweeperPageLayout
+	title={currentMinesweeper.highScores.title}
+	description={`${currentMinesweeper.title} ${currentMinesweeper.highScores.title}`}
+	lang={lang as SupportedLanguageCode}
+	currentSlug="high-scores"
+	contentProse={false}
+>
+	<h1>{currentMinesweeper.highScores.title}</h1>
+	<HighScoresView client:load lang={lang as SupportedLanguageCode} />
+</MinesweeperPageLayout>

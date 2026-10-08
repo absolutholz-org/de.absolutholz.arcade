@@ -1,5 +1,6 @@
 import type { SUPPORTED_LANGUAGES } from '../constants/languages.js';
 import type { CommonSchema, CommonTranslationContract } from '../schemas/common.schema.js';
+import type { MinesweeperSchema, MinesweeperTranslationContract } from '../schemas/minesweeper.schema.js';
 import type { SudokuSchema, SudokuTranslationContract } from '../schemas/sudoku.schema.js';
 
 export type SupportedLanguageCode = (typeof SUPPORTED_LANGUAGES)[number]['code'];
@@ -12,8 +13,9 @@ type LeafKeys<T extends object> = {
 
 export type CommonTranslationKey = LeafKeys<CommonSchema>;
 export type SudokuTranslationKey = LeafKeys<SudokuSchema>;
+export type MinesweeperTranslationKey = LeafKeys<MinesweeperSchema>;
 
-export type TranslationKey = CommonTranslationKey | SudokuTranslationKey;
+export type TranslationKey = CommonTranslationKey | SudokuTranslationKey | MinesweeperTranslationKey;
 
 export interface UseI18nReturn {
 	readonly t: (key: TranslationKey, options?: Record<string, unknown>) => string;
@@ -28,5 +30,6 @@ export type TranslationResources = Record<
 	{
 		readonly common: CommonTranslationContract;
 		readonly sudoku: SudokuTranslationContract;
+		readonly minesweeper: MinesweeperTranslationContract;
 	}
 >;

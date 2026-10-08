@@ -13,6 +13,7 @@ This document serves as the central routing system for AI agents in this monorep
 | Localization / Translations / Multilingual (i18n) | [Localization Agent Profile](/.ai/agents/localization-agent.md)                 | Manages translation schemas, dictionaries, and multilingual hooks across all apps and libraries. |
 | Storage architecture / State persistence / Storage drivers | [Storage Agent Profile](/libraries/storage/.ai/agents/storage-agent.md)          | Enforces asynchronous namespacing and driver contracts adhering to ADR 008 and ADR 012.     |
 | Sudoku game engine & canvas / Puzzle gameplay   | [Sudoku Agent Profile](/apps/sudoku/.ai/agents/sudoku-agent.md)                  | Manages puzzle engine, keyboard navigation, grid accessibility, and Sudoku state syncing.    |
+| Minesweeper game engine & canvas / Puzzle gameplay | [Minesweeper Agent Profile](/apps/minesweeper/.ai/agents/minesweeper-agent.md) | Manages minefield generation, keyboard navigation, grid accessibility, and state syncing.    |
 
 ## General Rules
 
