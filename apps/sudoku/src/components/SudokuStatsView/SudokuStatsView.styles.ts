@@ -47,7 +47,6 @@ export const BreakdownSection = styled.section`
 
 	h2 {
 		font-size: 1.25rem;
-		margin: 0;
 		color: ${themeColor('text-1')};
 	}
 `;
@@ -70,7 +69,6 @@ export const BreakdownGrid = styled.div`
 			font-size: 1rem;
 			font-weight: 600;
 			color: ${themeColor('text-1')};
-			margin: 0;
 			border-bottom: 1px solid ${themeColor('container-2')};
 			padding-bottom: 0.5rem;
 		}

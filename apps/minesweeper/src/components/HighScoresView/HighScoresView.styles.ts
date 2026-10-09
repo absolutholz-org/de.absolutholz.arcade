@@ -19,7 +19,6 @@ export const Section = styled.section`
 		font-size: 1.5rem;
 		font-weight: 700;
 		color: ${themeColor('text-1')};
-		margin: 0;
 		border-bottom: 2px solid ${themeColor('container-2')};
 		padding-bottom: 0.5rem;
 	}
@@ -34,14 +33,11 @@ export const DifficultyBlock = styled.div`
 		font-size: 1.125rem;
 		font-weight: 600;
 		color: ${themeColor('text-2')};
-		margin: 0;
 	}
 `;
 
 export const ScoresList = styled.ol`
 	list-style: none;
-	padding: 0;
-	margin: 0;
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
 	gap: 0.75rem;
@@ -106,7 +102,6 @@ export const ScoreCard = styled.li`
 `;
 
 export const NoScores = styled.p`
-	margin: 0;
 	font-size: 0.875rem;
 	color: ${themeColor('text-3')};
 	font-style: italic;

@@ -4,6 +4,7 @@ import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { Hero } from '@arcade/lib-ui/components/Hero';
 import { Logo } from '@arcade/lib-ui/components/Logo';
+import { PageContainer } from '@arcade/lib-ui/components/PageContainer';
 import PageLayout from '../../layouts/PageLayout.astro';
 
 export function getStaticPaths() {
@@ -25,31 +26,32 @@ const currentMinesweeper = resources[lang as SupportedLanguageCode]?.minesweeper
 	currentSlug=""
 	headerVariant="minimal"
 >
-	<Hero
-		title={currentTranslations.app.title}
-		tagline={currentTranslations.app.tagline}
-		logo={<Logo size="xl" />}
-		align="left"
-	/>
+	<PageContainer>
+		<Hero
+			title={currentTranslations.app.title}
+			tagline={currentTranslations.app.tagline}
+			align="left"
+		>
+			<Logo size="xl" slot="logo" />
+		</Hero>
 
-	<section class="games-section">
-		<h2>{currentTranslations.hub.gamesTitle}</h2>
-		<div class="games-grid">
-			<a href={`/sudoku/${lang}/`} class="game-card">
-				<h3>{currentSudoku.title}</h3>
-				<p>{currentSudoku.description}</p>
-			</a>
-			<a href={`/minesweeper/${lang}/`} class="game-card">
-				<h3>{currentMinesweeper.title}</h3>
-				<p>{currentMinesweeper.description}</p>
-			</a>
-		</div>
-	</section>
-
+		<section class="games-section">
+			<h2>{currentTranslations.hub.gamesTitle}</h2>
+			<div class="games-grid">
+				<a href={`/sudoku/${lang}/`} class="game-card">
+					<h3>{currentSudoku.title}</h3>
+					<p>{currentSudoku.description}</p>
+				</a>
+				<a href={`/minesweeper/${lang}/`} class="game-card">
+					<h3>{currentMinesweeper.title}</h3>
+					<p>{currentMinesweeper.description}</p>
+				</a>
+			</div>
+		</section>
+	</PageContainer>
 </PageLayout>
 
 <style>
-
 	.games-section {
 		margin-top: 2rem;
 	}
@@ -70,7 +72,6 @@ const currentMinesweeper = resources[lang as SupportedLanguageCode]?.minesweeper
 		flex-direction: column;
 		gap: 0.5rem;
 		padding: 1.5rem;
-		text-decoration: none;
 		transition: border-color 150ms ease, transform 150ms ease;
 	}
 
@@ -81,13 +82,10 @@ const currentMinesweeper = resources[lang as SupportedLanguageCode]?.minesweeper
 
 	.game-card h3 {
 		font-size: 1.25rem;
-		margin: 0;
 	}
 
 	.game-card p {
 		color: var(--color-text-2);
 		font-size: 0.875rem;
-		line-height: 1.5;
-		margin: 0;
 	}
 </style>

@@ -31,7 +31,6 @@ export const TimeCard = styled.div`
 `;
 
 export const RankMessage = styled.p`
-	margin: 0;
 	font-size: 1rem;
 	font-weight: 500;
 	color: ${themeColor('text-1')};
@@ -47,9 +46,7 @@ export const Actions = styled.div`
 
 	a {
 		font-size: 0.875rem;
-		color: ${themeColor('accent')};
 		text-decoration: underline;
-		cursor: pointer;
 
 		&:hover {
 			opacity: 0.8;

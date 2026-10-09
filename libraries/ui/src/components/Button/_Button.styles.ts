@@ -3,17 +3,13 @@ import { radiusScale } from '../../styles/radius/radius.constants';
 import { themeColor } from '../../styles/theme/theme.utils';
 
 export const Button = styled.button`
-	appearance: none;
 	border: 1px solid transparent;
 	border-radius: ${radiusScale.lg};
-	font-family: inherit;
 	font-weight: 600;
 	line-height: 1.25;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	text-decoration: none;
-	cursor: pointer;
 	user-select: none;
 	transition: background-color 120ms ease,
 		border-color 120ms ease,

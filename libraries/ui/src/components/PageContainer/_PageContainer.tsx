@@ -10,11 +10,12 @@ export function PageContainer<C extends ElementType = 'div'>({
 	variant = 'standard',
 	as,
 	children,
+	...rest
 }: PageContainerProps<C>) {
 	const Component = as || 'div';
 
 	return (
-		<S.PageContainer as={Component} $variant={variant}>
+		<S.PageContainer as={Component} data-variant={variant} {...rest}>
 			{children}
 		</S.PageContainer>
 	);

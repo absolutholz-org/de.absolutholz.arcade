@@ -8,10 +8,9 @@ interface Props {
 	description?: string;
 	lang: SupportedLanguageCode;
 	currentSlug?: string;
-	contentProse?: boolean;
 }
 
-const { title, description, lang, currentSlug = '', contentProse = true } = Astro.props;
+const { title, description, lang, currentSlug = '' } = Astro.props;
 
 const currentMinesweeper = resources[lang]?.minesweeper ?? resources.en.minesweeper;
 ---
@@ -24,7 +23,6 @@ const currentMinesweeper = resources[lang]?.minesweeper ?? resources.en.mineswee
 	appHomeHref={`/minesweeper/${lang}/`}
 	basePath="minesweeper"
 	currentSlug={currentSlug}
-	contentProse={contentProse}
 >
 	<slot name="head" slot="head" />
 	<slot />

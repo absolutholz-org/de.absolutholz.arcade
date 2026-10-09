@@ -33,6 +33,7 @@ export const frCommon = {
 		skipToContent: 'Aller au contenu principal',
 		legal: 'Informations légales',
 		settings: 'Paramètres',
+		breadcrumb: 'Fil d’Ariane',
 	},
 	hub: {
 		gamesTitle: 'Jeux',

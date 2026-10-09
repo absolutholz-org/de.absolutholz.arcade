@@ -9,17 +9,12 @@ export const CellButton = styled.button`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	padding: 0;
-	margin: 0;
-	border: none;
 	border-radius: clamp(2px, 0.5vmin, 4px);
-	font-family: inherit;
 	font-size: clamp(0.75rem, min(3.5vw, 3.5vh), 1.25rem);
 	font-weight: 700;
 	line-height: 1;
 	user-select: none;
 	touch-action: manipulation;
-	cursor: pointer;
 	transition: background-color 150ms ease, box-shadow 150ms ease, transform 100ms ease;
 
 	&:focus-visible {

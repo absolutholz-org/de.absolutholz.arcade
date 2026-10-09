@@ -30,8 +30,6 @@ export const ActionButton = styled.button`
 	border-radius: var(--radius-sm);
 	background-color: ${themeColor('container-1')};
 	color: ${themeColor('text-1')};
-	font-family: inherit;
-	cursor: pointer;
 	touch-action: manipulation;
 	transition: background-color 150ms ease, color 150ms ease, opacity 150ms ease;
 
@@ -119,9 +117,7 @@ export const DigitButton = styled.button`
 	border-radius: var(--radius-sm);
 	background-color: ${themeColor('surface')};
 	color: ${themeColor('text-1')};
-	font-family: inherit;
 	font-variant-numeric: tabular-nums;
-	cursor: pointer;
 	touch-action: manipulation;
 	transition: background-color 150ms ease, transform 100ms ease;
 

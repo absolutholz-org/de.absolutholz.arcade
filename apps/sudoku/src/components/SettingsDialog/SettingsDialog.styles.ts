@@ -15,7 +15,6 @@ export const Section = styled.section`
 	gap: 1rem;
 
 	> h3 {
-		margin: 0;
 		font-size: 0.875rem;
 		font-weight: 700;
 		text-transform: uppercase;
@@ -32,7 +31,6 @@ export const SettingItem = styled.div`
 	gap: 0.25rem;
 
 	> p {
-		margin: 0;
 		font-size: 0.8125rem;
 		color: ${themeColor('text-3')};
 		line-height: 1.35;

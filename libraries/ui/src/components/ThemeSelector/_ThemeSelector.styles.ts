@@ -21,14 +21,11 @@ export const Title = styled.h2`
 	font-size: 1.25rem;
 	font-weight: 700;
 	line-height: 1.3;
-	margin: 0;
 `;
 
 export const Description = styled.p`
 	color: ${themeColor('text-2')};
 	font-size: 0.9375rem;
-	line-height: 1.5;
-	margin: 0;
 `;
 
 export const Grid = styled.div`
@@ -39,12 +36,10 @@ export const Grid = styled.div`
 `;
 
 export const Card = styled.button`
-	appearance: none;
 	background-color: ${themeColor('container-1')};
 	border: 1px solid var(--color-container-2);
 	border-radius: ${radiusScale.md};
 	color: ${themeColor('text-1')};
-	cursor: pointer;
 	display: flex;
 	flex-direction: column;
 	gap: ${space('sm')};

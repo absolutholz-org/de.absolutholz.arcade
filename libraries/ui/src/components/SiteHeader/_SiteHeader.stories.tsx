@@ -15,13 +15,18 @@ const meta = {
 		docs: {
 			description: {
 				component:
-					'The SiteHeader component provides a top-level banner landmark container with consistent bottom border and responsive layout padding.',
+					'The SiteHeader component provides a top-level banner landmark container with standard bordered or minimal variants, brand links, and action switchers.',
 			},
 		},
 	},
 	tags: ['autodocs'],
 	title: 'Components/SiteHeader',
 	argTypes: {
+		variant: {
+			control: 'select',
+			options: ['standard', 'minimal'],
+			description: 'Layout variant of the site header.',
+		},
 		children: {
 			control: false,
 			description: 'Child elements rendered inside the header container.',
@@ -60,7 +65,48 @@ export const Default: Story = {
 	},
 };
 
-export const WithContent: Story = {
+export const StandardWithBranding: Story = {
+	args: {
+		variant: 'standard',
+		brandLogo: <Logo size="sm" />,
+		brandTitle: 'Arcade',
+		brandHref: '#',
+		actions: (
+			<Stack direction="row" align="center" spacing="xs" inline fullWidth={false}>
+				<LanguageSwitcher />
+				<SchemeSwitcher />
+			</Stack>
+		),
+	},
+	parameters: {
+		docs: {
+			description: {
+				story: 'Standard site header configured with structured brand logo, title, and actions props.',
+			},
+		},
+	},
+};
+
+export const Minimal: Story = {
+	args: {
+		variant: 'minimal',
+		actions: (
+			<Stack direction="row" align="center" spacing="xs" inline fullWidth={false}>
+				<LanguageSwitcher />
+				<SchemeSwitcher />
+			</Stack>
+		),
+	},
+	parameters: {
+		docs: {
+			description: {
+				story: 'Minimal site header variant without a bottom border or logo, aligning actions to the upper right.',
+			},
+		},
+	},
+};
+
+export const WithCustomChildren: Story = {
 	args: {
 		children: (
 			<>
@@ -80,48 +126,7 @@ export const WithContent: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Site header rendered with branding and interactive navigation controls including language and color scheme switchers.',
-			},
-		},
-	},
-};
-
-export const WithBranding: Story = {
-	args: {
-		children: (
-			<Stack direction="row" align="center" spacing="sm" inline fullWidth={false}>
-				<Logo size="sm" />
-				<Text variant="h3" as="span">
-					Arcade
-				</Text>
-			</Stack>
-		),
-	},
-	parameters: {
-		docs: {
-			description: {
-				story: 'Site header rendered with branding logo and text title only.',
-			},
-		},
-	},
-};
-
-export const WithSwitchers: Story = {
-	args: {
-		children: (
-			<>
-				<div />
-				<Stack direction="row" align="center" spacing="xs" inline fullWidth={false}>
-					<LanguageSwitcher />
-					<SchemeSwitcher />
-				</Stack>
-			</>
-		),
-	},
-	parameters: {
-		docs: {
-			description: {
-				story: 'Site header rendered with language and color scheme switchers aligned to the end.',
+				story: 'Site header rendered with custom child elements placed directly into the container.',
 			},
 		},
 	},

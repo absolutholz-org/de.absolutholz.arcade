@@ -31,16 +31,10 @@ export const LeftSection = styled.div`
 		border: 1px solid ${themeColor('container-2')};
 		background-color: ${themeColor('surface')};
 		color: ${themeColor('text-1')};
-		text-decoration: none;
 		transition: background-color 150ms ease;
 
 		&:hover {
 			background-color: ${themeColor('container-1')};
-		}
-
-		&:focus-visible {
-			outline: 2px solid ${themeColor('accent')};
-			outline-offset: 2px;
 		}
 	}
 `;
@@ -72,7 +66,6 @@ export const HeaderButton = styled.button`
 	border: 1px solid ${themeColor('container-2')};
 	background-color: ${themeColor('surface')};
 	color: ${themeColor('text-1')};
-	cursor: pointer;
 	transition: background-color 150ms ease;
 
 	&:hover {

@@ -36,11 +36,14 @@ export const reset = `
 		-moz-osx-font-smoothing: grayscale;
 	}
 
-	/* 3. Baseline Typography */
-	/* Establishes line-height, text rendering quality, and font-smoothing baselines. */
+	/* 3. Baseline Typography & Document Layout */
+	/* Establishes line-height, text rendering quality, and full viewport flex container. */
 	body {
+		display: flex;
+		flex-direction: column;
 		font-synthesize: none; /* Protects font weight rendering */
 		line-height: 1.5;
+		min-height: 100vh;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
 		text-rendering: optimizeSpeed;
@@ -92,6 +95,11 @@ export const reset = `
 	a,
 	span {
 		overflow-wrap: break-word;
+	}
+
+	/* Reset the last paragraph in any block to eliminate trailing bottom margin */
+	p:last-child {
+		margin-bottom: 0;
 	}
 
 	/* 7. Stacking Context */

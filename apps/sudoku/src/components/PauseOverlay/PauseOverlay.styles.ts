@@ -28,14 +28,12 @@ export const OverlayCard = styled.div`
 	text-align: center;
 
 	h2 {
-		margin: 0;
 		font-size: 1.5rem;
 		font-weight: 700;
 		color: ${themeColor('text-1')};
 	}
 
 	p {
-		margin: 0;
 		font-size: 0.875rem;
 		color: ${themeColor('text-2')};
 		line-height: 1.45;

@@ -20,13 +20,11 @@ export const HeroSection = styled.div`
 		font-size: 2.5rem;
 		font-weight: 800;
 		color: ${themeColor('text-1')};
-		margin: 0;
 	}
 
 	p {
 		font-size: 1.125rem;
 		color: ${themeColor('text-2')};
-		margin: 0;
 	}
 `;
 
@@ -67,8 +65,6 @@ export const ConfigForm = styled.form`
 
 export const Fieldset = styled.fieldset`
 	border: none;
-	padding: 0;
-	margin: 0;
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
@@ -174,12 +170,6 @@ export const QuickLinks = styled.div`
 	padding-top: 2rem;
 
 	a {
-		color: ${themeColor('accent')};
 		font-weight: 600;
-		text-decoration: none;
-
-		&:hover {
-			text-decoration: underline;
-		}
 	}
 `;

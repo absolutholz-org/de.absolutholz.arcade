@@ -105,6 +105,11 @@ export const globalStyles = css`
 			font: ${generateFontShorthand('base', 'regular')};
 		}
 
+		/* Main content landmark flex expansion for sticky footer */
+		main#main-content {
+			flex: 1;
+		}
+
 		/* Global link styling (Option 1: Context-aware underline) */
 		a {
 			color: var(--color-accent);
@@ -180,6 +185,11 @@ export const getGlobalStyles = (themesetCss: string = themesetBaseCss): string =
 		); /* Applies theme surface background */
 		color: var(--color-text-1); /* Applies theme base text color */
 		font: ${generateFontShorthand('base', 'regular')};
+	}
+
+	/* Main content landmark flex expansion for sticky footer */
+	main#main-content {
+		flex: 1;
 	}
 
 	/* Global link styling (Option 1: Context-aware underline) */

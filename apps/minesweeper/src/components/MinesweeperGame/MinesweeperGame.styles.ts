@@ -21,6 +21,5 @@ export const boardArea = css`
 	min-width: 0;
 	width: 100%;
 	padding: clamp(0.25rem, 1.5vmin, 0.75rem);
-	box-sizing: border-box;
 	overflow: hidden;
 `;

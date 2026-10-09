@@ -2,6 +2,7 @@
 import { resources } from '@arcade/lib-i18n/config/i18n';
 import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { PageContainer } from '@arcade/lib-ui/components/PageContainer';
 import { ThemeSelector } from '@arcade/lib-ui/components/ThemeSelector';
 import PageLayout from '../../layouts/PageLayout.astro';
 
@@ -20,18 +21,19 @@ const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? 
 	description={currentTranslations.settings.description}
 	lang={lang as SupportedLanguageCode}
 	currentSlug="settings"
-	contentProse={false}
 >
-	<div class="settings-page">
-		<header class="settings-header">
-			<h1>{currentTranslations.settings.title}</h1>
-			<p class="settings-tagline">{currentTranslations.settings.description}</p>
-		</header>
+	<PageContainer>
+		<div class="settings-page">
+			<header class="settings-header">
+				<h1>{currentTranslations.settings.title}</h1>
+				<p class="settings-tagline">{currentTranslations.settings.description}</p>
+			</header>
 
-		<section class="settings-content">
-			<ThemeSelector client:load lang={lang as SupportedLanguageCode} />
-		</section>
-	</div>
+			<section class="settings-content">
+				<ThemeSelector client:load lang={lang as SupportedLanguageCode} />
+			</section>
+		</div>
+	</PageContainer>
 </PageLayout>
 
 <style>
@@ -49,17 +51,18 @@ const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? 
 		font-size: 2.25rem;
 		font-weight: 800;
 		line-height: 1.2;
-		margin: 0 0 0.5rem;
+		margin-bottom: 0.5rem;
 	}
 
 	.settings-tagline {
 		color: var(--color-text-2);
 		font-size: 1.125rem;
-		line-height: 1.5;
-		margin: 0;
 	}
 
 	.settings-content {
-		margin-top: 1.5rem;
+		background: var(--color-container-1);
+		border: 1px solid var(--color-container-2);
+		border-radius: var(--radius-md);
+		padding: 1.5rem;
 	}
 </style>

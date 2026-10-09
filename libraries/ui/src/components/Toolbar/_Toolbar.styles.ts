@@ -28,7 +28,7 @@ export const Toolbar = styled.div`
 		> [role='separator'] {
 			width: 1px;
 			height: 1.5rem;
-			margin: 0 ${space('2xs')};
+			margin-inline: ${space('2xs')};
 		}
 	}
 
@@ -40,7 +40,7 @@ export const Toolbar = styled.div`
 		> [role='separator'] {
 			width: 100%;
 			height: 1px;
-			margin: ${space('2xs')} 0;
+			margin-block: ${space('2xs')};
 		}
 	}
 

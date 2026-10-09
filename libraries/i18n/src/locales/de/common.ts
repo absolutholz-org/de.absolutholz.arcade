@@ -33,6 +33,7 @@ export const deCommon = {
 		skipToContent: 'Zum Hauptinhalt springen',
 		legal: 'Rechtliches',
 		settings: 'Einstellungen',
+		breadcrumb: 'Brotkrümelnavigation',
 	},
 	hub: {
 		gamesTitle: 'Spiele',

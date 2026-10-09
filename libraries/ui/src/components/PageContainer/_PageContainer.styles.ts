@@ -1,15 +1,24 @@
 import { styled } from '@linaria/react';
+import { PAGE_MAX_WIDTH, PAGE_MAX_WIDTH_WIDE } from '../../styles/constants';
 import { space } from '../../styles/spacing';
-import { PAGE_CONTAINER_VARIANTS } from './_PageContainer.constants';
-import type { PageContainerVariant } from './_PageContainer.types';
 
-export const PageContainer = styled.div<{ $variant: PageContainerVariant }>`
-	--page-content-max-width: ${({ $variant }) => PAGE_CONTAINER_VARIANTS[$variant]};
+export const PageContainer = styled.div`
 	--page-content-padding: ${space('xl')};
 
 	container-type: inline-size;
 	margin-inline: auto;
-	max-width: var(--page-content-max-width);
 	padding-inline: var(--page-content-padding);
 	width: 100%;
+
+	&[data-variant='standard'] {
+		max-width: ${PAGE_MAX_WIDTH};
+	}
+
+	&[data-variant='wide'] {
+		max-width: ${PAGE_MAX_WIDTH_WIDE};
+	}
+
+	&[data-variant='full'] {
+		max-width: 100%;
+	}
 `;

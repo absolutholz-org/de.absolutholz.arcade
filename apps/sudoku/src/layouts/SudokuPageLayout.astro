@@ -8,10 +8,9 @@ interface Props {
 	description?: string;
 	lang: SupportedLanguageCode;
 	currentSlug?: string;
-	contentProse?: boolean;
 }
 
-const { title, description, lang, currentSlug = '', contentProse = true } = Astro.props;
+const { title, description, lang, currentSlug = '' } = Astro.props;
 
 const currentSudoku = resources[lang]?.sudoku ?? resources.en.sudoku;
 ---
@@ -24,7 +23,6 @@ const currentSudoku = resources[lang]?.sudoku ?? resources.en.sudoku;
 	appHomeHref={`/sudoku/${lang}/`}
 	basePath="sudoku"
 	currentSlug={currentSlug}
-	contentProse={contentProse}
 >
 	<slot name="head" slot="head" />
 	<slot />

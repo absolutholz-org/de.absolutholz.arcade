@@ -18,13 +18,11 @@ export const HeroSection = styled.div`
 		font-size: 2.5rem;
 		font-weight: 800;
 		color: ${themeColor('text-1')};
-		margin: 0;
 	}
 
 	p {
 		font-size: 1.125rem;
 		color: ${themeColor('text-2')};
-		margin: 0;
 	}
 `;
 
@@ -66,7 +64,6 @@ export const DifficultySection = styled.section`
 		font-size: 1.5rem;
 		font-weight: 700;
 		color: ${themeColor('text-1')};
-		margin: 0;
 	}
 `;
 
@@ -84,7 +81,6 @@ export const DifficultyGrid = styled.div`
 		flex-direction: column;
 		justify-content: space-between;
 		gap: 1rem;
-		text-decoration: none;
 		color: inherit;
 		transition: transform 150ms ease, border-color 150ms ease;
 
@@ -121,12 +117,6 @@ export const QuickLinks = styled.div`
 	padding-top: 2rem;
 
 	a {
-		color: ${themeColor('accent')};
 		font-weight: 600;
-		text-decoration: none;
-
-		&:hover {
-			text-decoration: underline;
-		}
 	}
 `;

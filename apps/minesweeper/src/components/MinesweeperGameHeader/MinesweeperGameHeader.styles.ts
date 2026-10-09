@@ -11,7 +11,6 @@ export const headerRoot = css`
 	border-bottom: 1px solid var(--color-border, #e5e7eb);
 	width: 100%;
 	flex-shrink: 0;
-	box-sizing: border-box;
 `;
 
 export const leftSection = css`

@@ -9,16 +9,11 @@ export const CellButton = styled.button`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	padding: 0;
-	margin: 0;
-	border: none;
 	background-color: ${themeColor('surface')};
 	color: ${themeColor('text-1')};
-	font-family: inherit;
 	font-variant-numeric: tabular-nums;
 	font-size: 1.5rem;
 	line-height: 1;
-	cursor: pointer;
 	user-select: none;
 	touch-action: manipulation;
 	transition: transform 180ms cubic-bezier(0.2, 0, 0, 1),
@@ -108,7 +103,6 @@ export const CellButton = styled.button`
 		width: 100%;
 		height: 100%;
 		padding: 0.125rem;
-		box-sizing: border-box;
 		pointer-events: none;
 
 		> span {

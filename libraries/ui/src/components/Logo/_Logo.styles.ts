@@ -22,7 +22,6 @@ export const Logo = styled.span`
 	width: 1em;
 
 	> svg {
-		display: block;
 		height: 0.9em;
 		width: 0.9em;
 	}

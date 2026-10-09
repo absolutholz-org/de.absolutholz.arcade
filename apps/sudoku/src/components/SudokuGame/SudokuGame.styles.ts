@@ -10,7 +10,6 @@ export const GameRoot = styled.main`
 	padding: 0.25rem 0.5rem 0.75rem;
 	gap: 0.375rem;
 	margin: 0 auto;
-	box-sizing: border-box;
 
 	@media (min-width: 640px) {
 		padding: 0.75rem 1rem 1.5rem;

@@ -1,7 +1,6 @@
 import { styled } from '@linaria/react';
 
 const BaseDivider = styled.div`
-	margin: 0;
 	width: 100%;
 
 	&[data-hide-on-desktop='true'] {

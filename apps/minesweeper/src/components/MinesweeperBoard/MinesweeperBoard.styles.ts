@@ -10,8 +10,6 @@ export const BoardContainer = styled.div`
 	height: 100%;
 	max-width: 100%;
 	max-height: 100%;
-	padding: 0;
-	margin: 0;
 	overflow: hidden;
 `;
 
@@ -27,7 +25,6 @@ export const BoardFrame = styled.div`
 	aspect-ratio: var(--columns, 9) / var(--rows, 9);
 	max-width: 100%;
 	max-height: 100%;
-	box-sizing: border-box;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -50,7 +47,6 @@ export const BoardInset = styled.div`
 	box-shadow:
 		inset 0 2px 4px rgba(0, 0, 0, 0.08),
 		0 4px 6px -1px rgba(0, 0, 0, 0.05);
-	box-sizing: border-box;
 	overflow: hidden;
 	display: flex;
 	align-items: center;
@@ -87,14 +83,11 @@ export const BoardTable = styled.table`
 	grid-template-columns: repeat(var(--columns, 9), 1fr);
 	grid-template-rows: repeat(var(--rows, 9), 1fr);
 	gap: clamp(1px, 0.35vmin, 2px);
-	margin: 0;
-	padding: 0;
 	border-collapse: collapse;
 	border-spacing: 0;
 	user-select: none;
 	width: 100%;
 	height: 100%;
-	box-sizing: border-box;
 
 	&[data-zoom='true'] {
 		grid-template-columns: repeat(var(--columns, 9), 2.25rem);
@@ -115,8 +108,6 @@ export const BoardRow = styled.tr`
 
 export const BoardCellWrapper = styled.td`
 	display: contents;
-	padding: 0;
-	margin: 0;
 	border: none;
 `;
 

@@ -6,7 +6,6 @@ import { DIALOG_MAX_WIDTH } from './_Dialog.constants';
 export const DialogBase = styled.dialog`
 	border: none;
 	background: transparent;
-	padding: 0;
 	margin: auto;
 	max-width: calc(100vw - 2rem);
 	max-height: calc(100vh - 2rem);
@@ -87,7 +86,6 @@ export const DialogHeader = styled.header`
 `;
 
 export const DialogTitle = styled.h2`
-	margin: 0;
 	font-size: 1.25rem;
 	font-weight: 700;
 	line-height: 1.25;
@@ -97,12 +95,7 @@ export const DialogTitle = styled.h2`
 export const DialogContent = styled.div`
 	padding: 1.5rem;
 	font-size: 0.9375rem;
-	line-height: 1.5;
 	color: ${themeColor('text-2')};
-
-	> p {
-		margin: 0;
-	}
 
 	> p + * {
 		margin-top: 0.75rem;

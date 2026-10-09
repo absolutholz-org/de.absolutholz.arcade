@@ -8,12 +8,9 @@ export const ListboxContainer = styled.div`
 	flex-direction: column;
 	min-width: 10rem;
 	gap: ${space('3xs')};
-	margin: 0;
-	padding: 0;
 `;
 
 export const OptionItem = styled.button`
-	appearance: none;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -23,12 +20,10 @@ export const OptionItem = styled.button`
 	border: 1px solid transparent;
 	width: 100%;
 	text-align: left;
-	font-family: inherit;
 	font-size: 0.875rem;
 	line-height: 1.25;
 	color: ${themeColor('text-1')};
 	border-radius: ${radiusScale.sm};
-	cursor: pointer;
 	user-select: none;
 	min-height: 2rem;
 	transition: background-color 120ms ease, color 120ms ease, border-color 120ms ease;

@@ -59,7 +59,6 @@ export const Actions = styled.div`
 		border: 1px solid ${themeColor('container-2')};
 		background-color: ${themeColor('surface')};
 		color: ${themeColor('text-1')};
-		text-decoration: none;
 		font-size: 0.875rem;
 		font-weight: 600;
 		transition: background-color 150ms ease;

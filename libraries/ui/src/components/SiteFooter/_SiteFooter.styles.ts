@@ -35,11 +35,9 @@ export const SiteFooter = styled.footer`
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
-		gap: ${space('xs')} ${space('sm')};
+		gap: ${space('2xs')} ${space('xs')};
 		justify-content: center;
 		list-style: none;
-		margin: 0;
-		padding: 0;
 	}
 
 	/* Cluster A: Legal navigation */
@@ -60,7 +58,7 @@ export const SiteFooter = styled.footer`
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
-		gap: ${space('xs')} ${space('sm')};
+		gap: ${space('2xs')} ${space('xs')};
 		justify-content: center;
 
 		@media (min-width: 768px) {
@@ -98,19 +96,13 @@ export const SiteFooter = styled.footer`
 		font-size: var(--font-size-small);
 		line-height: var(--line-height-small);
 		min-height: 1.5rem;
-		padding: ${space('xs')} ${space('sm')};
+		padding: ${space('3xs')} ${space('2xs')};
 		text-decoration: none;
-		transition: color 150ms ease, text-decoration-color 150ms ease;
 		white-space: nowrap;
 
 		&:hover {
 			color: var(--color-accent);
-			text-decoration: underline;
-		}
-
-		&:focus-visible {
-			outline: 2px solid var(--color-accent);
-			outline-offset: 2px;
+			text-decoration: none;
 		}
 	}
 

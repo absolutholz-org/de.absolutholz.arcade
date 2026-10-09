@@ -7,14 +7,12 @@ export const Tooltip = styled.div`
 	display: none;
 	position: fixed;
 	inset: auto;
-	margin: 0;
 	padding: 0.375rem 0.625rem;
 	background-color: ${themeColor('surface')};
 	color: ${themeColor('text-1')};
 	border: 1px solid ${themeColor('container-2')};
 	border-radius: ${radiusScale.sm};
 	box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.16);
-	font-family: inherit;
 	font-size: 0.8125rem;
 	line-height: 1.4;
 	max-width: 20rem;

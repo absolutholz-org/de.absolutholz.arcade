@@ -16,14 +16,13 @@ export const LanguageRedirectFallback = styled.main`
 		font-size: 2rem;
 		font-weight: 700;
 		line-height: 1.2;
-		margin: 0 0 var(--space-sm) 0;
+		margin-bottom: var(--space-sm);
 	}
 
 	> p {
 		font-size: 1rem;
 		color: ${themeColor('text-2')};
-		line-height: 1.5;
-		margin: 0 0 var(--space-xl) 0;
+		margin-bottom: var(--space-xl);
 		max-width: 32rem;
 	}
 
@@ -34,18 +33,11 @@ export const LanguageRedirectFallback = styled.main`
 
 	ul {
 		list-style: none;
-		margin: 0;
-		padding: 0;
 		display: flex;
 		flex-wrap: wrap;
 		gap: var(--space-md);
 		justify-content: center;
 		align-items: center;
-	}
-
-	li {
-		margin: 0;
-		padding: 0;
 	}
 
 	a {
@@ -60,7 +52,6 @@ export const LanguageRedirectFallback = styled.main`
 		border: 1px solid ${themeColor('container-2')};
 		background-color: ${themeColor('container-1')};
 		color: ${themeColor('text-1')};
-		text-decoration: none;
 		font-weight: 600;
 		font-size: 0.9375rem;
 		transition: background-color 120ms ease,
@@ -72,11 +63,6 @@ export const LanguageRedirectFallback = styled.main`
 			border-color: ${themeColor('accent')};
 			background-color: ${themeColor('container-2')};
 			transform: translateY(-1px);
-		}
-
-		&:focus-visible {
-			outline: 2px solid ${themeColor('accent')};
-			outline-offset: 2px;
 		}
 
 		> span[data-slot='flag'] {

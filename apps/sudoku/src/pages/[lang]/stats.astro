@@ -2,6 +2,7 @@
 import { resources } from '@arcade/lib-i18n/config/i18n';
 import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { PageContainer } from '@arcade/lib-ui/components/PageContainer';
 import { SudokuStatsView } from '../../components/SudokuStatsView';
 import SudokuPageLayout from '../../layouts/SudokuPageLayout.astro';
 
@@ -20,8 +21,9 @@ const currentSudoku = resources[lang as SupportedLanguageCode]?.sudoku ?? resour
 	description={`${currentSudoku.title} ${currentSudoku.stats.title}`}
 	lang={lang as SupportedLanguageCode}
 	currentSlug="stats"
-	contentProse={false}
 >
-	<h1>{currentSudoku.stats.title}</h1>
-	<SudokuStatsView client:load lang={lang as SupportedLanguageCode} />
+	<PageContainer>
+		<h1>{currentSudoku.stats.title}</h1>
+		<SudokuStatsView client:load lang={lang as SupportedLanguageCode} />
+	</PageContainer>
 </SudokuPageLayout>

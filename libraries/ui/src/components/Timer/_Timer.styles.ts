@@ -5,7 +5,6 @@ export const Timer = styled.time`
 	display: inline-flex;
 	align-items: center;
 	gap: 0.375rem;
-	font-family: inherit;
 	font-variant-numeric: tabular-nums;
 	font-feature-settings: 'tnum';
 	line-height: 1;

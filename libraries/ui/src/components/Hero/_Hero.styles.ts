@@ -43,7 +43,6 @@ export const Hero = styled.header`
 		font-weight: 800;
 		letter-spacing: -0.03em;
 		line-height: 1.1;
-		margin: 0;
 
 		@media (max-width: 600px) {
 			font-size: 2.25rem;
@@ -54,7 +53,6 @@ export const Hero = styled.header`
 		color: var(--color-text-2);
 		font-size: 1.25rem;
 		line-height: 1.4;
-		margin: 0;
 
 		@media (max-width: 600px) {
 			font-size: 1.125rem;
