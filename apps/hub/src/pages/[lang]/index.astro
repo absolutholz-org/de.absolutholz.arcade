@@ -2,6 +2,7 @@
 import { resources } from '@arcade/lib-i18n/config/i18n';
 import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { Hero } from '@arcade/lib-ui/components/Hero';
 import { Logo } from '@arcade/lib-ui/components/Logo';
 import PageLayout from '../../layouts/PageLayout.astro';
 
@@ -24,15 +25,12 @@ const currentMinesweeper = resources[lang as SupportedLanguageCode]?.minesweeper
 	currentSlug=""
 	headerVariant="minimal"
 >
-	<header class="hub-hero">
-		<div class="hub-hero-logo">
-			<Logo size="xl" />
-		</div>
-		<div class="hub-hero-content">
-			<h1 class="hub-hero-title">{currentTranslations.app.title}</h1>
-			<p class="hub-hero-tagline">{currentTranslations.app.tagline}</p>
-		</div>
-	</header>
+	<Hero
+		title={currentTranslations.app.title}
+		tagline={currentTranslations.app.tagline}
+		logo={<Logo size="xl" />}
+		align="left"
+	/>
 
 	<section class="games-section">
 		<h2>{currentTranslations.hub.gamesTitle}</h2>
@@ -51,53 +49,6 @@ const currentMinesweeper = resources[lang as SupportedLanguageCode]?.minesweeper
 </PageLayout>
 
 <style>
-	.hub-hero {
-		align-items: center;
-		display: flex;
-		gap: 1.5rem;
-		margin-bottom: 2.5rem;
-	}
-
-	.hub-hero-logo {
-		flex-shrink: 0;
-	}
-
-	.hub-hero-content {
-		display: flex;
-		flex-direction: column;
-		gap: 0.25rem;
-	}
-
-	.hub-hero .hub-hero-title {
-		font-size: 3rem;
-		font-weight: 800;
-		letter-spacing: -0.03em;
-		line-height: 1.1;
-		margin: 0;
-	}
-
-	.hub-hero .hub-hero-tagline {
-		color: var(--color-text-2);
-		font-size: 1.25rem;
-		line-height: 1.4;
-		margin: 0;
-	}
-
-	@media (max-width: 600px) {
-		.hub-hero {
-			align-items: flex-start;
-			flex-direction: column;
-			gap: 1rem;
-		}
-
-		.hub-hero .hub-hero-title {
-			font-size: 2.25rem;
-		}
-
-		.hub-hero .hub-hero-tagline {
-			font-size: 1.125rem;
-		}
-	}
 
 	.games-section {
 		margin-top: 2rem;
