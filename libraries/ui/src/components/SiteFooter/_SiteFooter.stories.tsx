@@ -51,6 +51,7 @@ const meta = {
 			{ href: '/privacy', label: 'Privacy' },
 			{ href: '/accessibility', label: 'Accessibility' },
 			{ href: '/imprint', label: 'Imprint' },
+			{ href: '/settings', label: 'Settings' },
 		],
 		resourceLinks: [
 			{
