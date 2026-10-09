@@ -15,7 +15,7 @@ This profile outlines the operational rules, boundaries, and quality protocols f
 
 2. **Zero Hardcoded Strings (ADR 007):**
    - Hardcoding user-facing strings is strictly forbidden.
-   - All text, difficulty labels, status notifications, and dialog prompts must route through `@arcade/lib-i18n` using the `sudoku` namespace.
+   - All interactive UI text, difficulty labels, status notifications, and dialog prompts must route through `@arcade/lib-i18n` using the `sudoku` namespace.
 
 3. **Accessibility & WCAG 2.2 AA Compliance:**
    - The 9×9 board must implement the WAI-ARIA grid pattern with cell row/column coordinates, values, and candidate notes announced cleanly.
@@ -29,3 +29,8 @@ This profile outlines the operational rules, boundaries, and quality protocols f
 5. **Styling & Component Boundaries:**
    - Use Linaria zero-runtime styling with REM units and CSS custom properties for OKLCH theme colors.
    - No runtime CSS-in-JS or Tailwind CSS.
+
+6. **Layout & Navigation Strategy (Breadcrumbs):**
+   - Lobby (`index.astro`): Must use `SudokuPageLayout.astro` (never render breadcrumbs).
+   - Game Canvas (`game.astro`): Must use `SudokuBaseLayout.astro` (never render breadcrumbs).
+   - Static Subpages (`rules.astro`, `stats.astro`, future guides): Must use `SudokuStaticPageLayout.astro` to ensure automatic, standardized breadcrumb navigation (`Arcade > Sudoku > Page`).

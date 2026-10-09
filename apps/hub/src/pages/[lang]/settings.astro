@@ -4,7 +4,7 @@ import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { PageContainer } from '@arcade/lib-ui/components/PageContainer';
 import { ThemeSelector } from '@arcade/lib-ui/components/ThemeSelector';
-import PageLayout from '../../layouts/PageLayout.astro';
+import StaticPageLayout from '@arcade/lib-ui/layouts/StaticPageLayout.astro';
 
 export function getStaticPaths() {
 	return SUPPORTED_LANGUAGES.map((item) => ({
@@ -16,7 +16,7 @@ const { lang } = Astro.params;
 const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? resources.en.common;
 ---
 
-<PageLayout
+<StaticPageLayout
 	title={currentTranslations.settings.title}
 	description={currentTranslations.settings.description}
 	lang={lang as SupportedLanguageCode}
@@ -34,7 +34,7 @@ const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? 
 			</section>
 		</div>
 	</PageContainer>
-</PageLayout>
+</StaticPageLayout>
 
 <style>
 	.settings-page {

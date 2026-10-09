@@ -72,20 +72,6 @@ export const deSudoku = {
 		bestTime: 'Bestzeit',
 		noStatsYet: 'Noch keine Spiele aufgezeichnet.',
 	},
-	rules: {
-		title: 'Sudoku-Regeln',
-		objectiveTitle: 'Ziel des Spiels',
-		objective:
-			'Fülle das 9×9-Gitter so mit Ziffern von 1 bis 9, dass jede Zeile, jede Spalte und jeder der neun 3×3-Blöcke alle Zahlen ohne Wiederholung enthält.',
-		rule1Title: 'Zeilen',
-		rule1: 'Jede Zeile muss die Zahlen 1 bis 9 ohne Duplikate enthalten.',
-		rule2Title: 'Spalten',
-		rule2: 'Jede Spalte muss die Zahlen 1 bis 9 ohne Duplikate enthalten.',
-		rule3Title: '3×3-Blöcke',
-		rule3: 'Jeder 3×3-Block muss die Zahlen 1 bis 9 ohne Duplikate enthalten.',
-		notesTipTitle: 'Notizen nutzen',
-		notesTip: 'Aktiviere den Notizmodus, um mögliche Kandidaten in leere Zellen einzutragen.',
-	},
 	aria: {
 		cellLabel: 'Zeile {{row}}, Spalte {{col}}, Wert {{value}}',
 		emptyCell: 'Leer',

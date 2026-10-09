@@ -33,6 +33,7 @@ export const ptCommon = {
 		skipToContent: 'Pular para o conteúdo principal',
 		legal: 'Informações legais',
 		settings: 'Configurações',
+		rules: 'Regras',
 		breadcrumb: 'Trilha de navegação',
 	},
 	hub: {

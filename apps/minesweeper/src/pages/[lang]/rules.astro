@@ -1,10 +1,12 @@
 ---
+import { getEntry } from 'astro:content';
 import { resources } from '@arcade/lib-i18n/config/i18n';
-import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { Button } from '@arcade/lib-ui/components/Button';
-import { PageContainer } from '@arcade/lib-ui/components/PageContainer';
-import MinesweeperPageLayout from '../../layouts/MinesweeperPageLayout.astro';
+import { MarkdownContent } from '@arcade/lib-ui/components/MarkdownContent';
+import { Stack } from '@arcade/lib-ui/components/Stack';
+import MinesweeperStaticPageLayout from '../../layouts/MinesweeperStaticPageLayout.astro';
 
 export function getStaticPaths() {
 	return SUPPORTED_LANGUAGES.map((item) => ({
@@ -13,80 +15,26 @@ export function getStaticPaths() {
 }
 
 const { lang } = Astro.params;
+const entry = (await getEntry('pages', `${lang}/rules`)) ?? (await getEntry('pages', `${DEFAULT_LANGUAGE}/rules`));
+const rendered = entry ? await entry.render() : null;
+const Content = rendered?.Content;
+
 const currentMinesweeper = resources[lang as SupportedLanguageCode]?.minesweeper ?? resources.en.minesweeper;
 ---
 
-<MinesweeperPageLayout
-	title={currentMinesweeper.rules.title}
-	description={currentMinesweeper.rules.objective}
+<MinesweeperStaticPageLayout
+	title={entry?.data.title ?? 'Minesweeper Rules'}
+	description={entry?.data.description}
 	lang={lang as SupportedLanguageCode}
 	currentSlug="rules"
 >
-	<PageContainer>
-		<div class="rules-page">
-			<h1>{currentMinesweeper.rules.title}</h1>
+	<Stack align="center" spacing="3xl">
+		<MarkdownContent>
+			{Content && <Content />}
+		</MarkdownContent>
 
-			<section class="rules-section">
-				<h2>{currentMinesweeper.rules.objectiveTitle}</h2>
-				<p>{currentMinesweeper.rules.objective}</p>
-			</section>
-
-			<section class="rules-section">
-				<h2>{currentMinesweeper.rules.rule1Title}</h2>
-				<p>{currentMinesweeper.rules.rule1}</p>
-			</section>
-
-			<section class="rules-section">
-				<h2>{currentMinesweeper.rules.rule2Title}</h2>
-				<p>{currentMinesweeper.rules.rule2}</p>
-			</section>
-
-			<section class="rules-section">
-				<h2>{currentMinesweeper.rules.rule3Title}</h2>
-				<p>{currentMinesweeper.rules.rule3}</p>
-			</section>
-
-			<div class="rules-actions">
-				<Button as="a" href={`/minesweeper/${lang}/`} variant="primary" size="md">
-					{currentMinesweeper.controls.newGame}
-				</Button>
-			</div>
-		</div>
-	</PageContainer>
-</MinesweeperPageLayout>
-
-<style>
-	.rules-page {
-		margin: 0 auto;
-		max-width: 48rem;
-		width: 100%;
-	}
-
-	.rules-page h1 {
-		font-size: 2.25rem;
-		font-weight: 800;
-		line-height: 1.2;
-		margin-bottom: 1.5rem;
-	}
-
-	.rules-section {
-		margin-bottom: 2rem;
-	}
-
-	.rules-section h2 {
-		color: var(--color-text-1);
-		font-size: 1.375rem;
-		margin-bottom: 0.5rem;
-	}
-
-	.rules-section p {
-		color: var(--color-text-2);
-		line-height: 1.6;
-	}
-
-	.rules-actions {
-		display: flex;
-		justify-content: center;
-		margin-top: 2.5rem;
-	}
-</style>
+		<Button as="a" href={`/minesweeper/${lang}/`} variant="primary" size="md">
+			{currentMinesweeper.controls.newGame}
+		</Button>
+	</Stack>
+</MinesweeperStaticPageLayout>

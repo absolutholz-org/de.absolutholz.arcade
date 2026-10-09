@@ -23,7 +23,8 @@ All code generated, refactored, or organized across apps and libraries must stri
     - _Interface Segregation:_ Keep TypeScript prop types and argument interfaces lean and purposeful; do not force components to depend on fat interfaces containing unused properties.
     - _Dependency Inversion:_ High-level application logic must depend on abstractions (like generic functional token keys), never on hardcoded low-level implementation details.
 - **Scope Efficiency:** When assisting with new library or application scoping, always propose a minimal, modular architecture footprint. Break complex features into isolated, highly testable domains.
-- **Zero Hardcoded UI Strings (ADR 007):** Hardcoding user-facing text strings in applications or components is strictly forbidden. All UI strings must route through the shared localization package (`@arcade/lib-i18n`) and be registered across all supported languages in accordance with [Localization Engineering](/.ai/skills/localization-engineering/SKILL.md).
+- **Zero Hardcoded UI Strings (ADR 007):** Hardcoding user-facing text strings in applications or components is strictly forbidden. All interactive UI strings (buttons, notifications, status labels, controls) must route through the shared localization package (`@arcade/lib-i18n`) and be registered across all supported languages in accordance with [Localization Engineering](/.ai/skills/localization-engineering/SKILL.md).
+    - **Static Prose & Markdown Content Collections:** Purely textual static prose (such as game rules, legal documents, guides, and informational pages) must **NEVER** be fragmented into fine-grained translation key racks in `@arcade/lib-i18n`. Instead, author and maintain them as localized Markdown files in Astro content collections (`src/content/pages/[lang]/[slug].md`) and render them using the design system's `<MarkdownContent>` component (`@arcade/lib-ui/components/MarkdownContent`). Defining ad-hoc scoped `<style>` blocks or inline styles in page templates to style markdown tags is strictly prohibited. Navigation links pointing to these pages use `common.navigation` keys.
 - **Minimal Exports Principle:** Never export variables, constants, functions, types, or styled components unless they are actively imported and used outside the defining file. Avoid speculative or preemptive exports. Keep internal helpers, intermediate variables, and styled child elements unexported (e.g., leverage CSS nesting for child elements rather than creating and exporting extraneous styled sub-components).
 - **Native Web Standards & Browser Support Matrix:** The targeted browser matrix strictly targets modern browsers with native baseline web platform features (such as the HTML Popover API, `light-dark()`, and top-layer CSS). Never implement speculative or custom JavaScript polyfills, manual fallbacks, or simulated legacy behavior for browsers lacking these native APIs. Simple, native solutions must always take precedence over custom logic.
 
@@ -78,4 +79,28 @@ This project combines static pre-rendered content (Astro) with dynamic client-si
 - **Ambiguity Handling**:
   - Agents must follow this taxonomy automatically without asking on every routine prompt.
   - If a new feature is requested whose rendering tier is genuinely ambiguous (e.g., choosing between a static Astro component vs. an interactive React island), the agent must ask for clarification on the rendering strategy before implementing.
+
+## 8. Page Layout & Navigation Taxonomy (Breadcrumb Strategy)
+
+To maintain a consistent, accessible navigation hierarchy and avoid redundant landmark clutter, pages across all applications are strictly categorized into three layout tiers:
+
+1. **Interactive Game Screens (`apps/[game]/src/pages/[lang]/game.astro`)**:
+   - Must use `*BaseLayout.astro`.
+   - Dedicated full-screen canvas viewport with zero header, zero footer, and **no breadcrumbs**.
+
+2. **Homepages & Lobbies (`index.astro`)**:
+   - The Hub homepage (`apps/hub/src/pages/[lang]/index.astro`) and Game lobbies (`apps/[game]/src/pages/[lang]/index.astro`).
+   - Must use standard `PageLayout.astro` (or game wrapper `*PageLayout.astro`).
+   - Serves as the root navigation landmark; must **NEVER** render breadcrumbs.
+
+3. **Static Content & Informational Subpages (`rules.astro`, `stats.astro`, `high-scores.astro`, `settings.astro`, `[slug].astro`)**:
+   - Informational, documentation, settings, and legal prose pages.
+   - Must **ALWAYS** consume `StaticPageLayout.astro` (`@arcade/lib-ui/layouts/StaticPageLayout.astro` or domain wrapper `*StaticPageLayout.astro`).
+   - `StaticPageLayout` automatically injects the W3C APG compliant `<Breadcrumb>` in a dedicated breadcrumb bar outside `<main id="main-content">`, forming the hierarchical path:
+     - Game subpages: `[Arcade Logo] / [Game Title] / [Page Title]`
+     - Hub subpages: `[Arcade Logo] / [Page Title]`
+   - Breadcrumbs are positioned outside `<main>` to preserve skip-to-content target integrity and clean landmark hierarchy.
+   - Pages and content sections wrap their content in `<PageContainer>` independently, ensuring layout containers are modular rather than forced into a single monolithic layout wrapper.
+   - **No Manual Placements:** Agents are strictly forbidden from placing `<Breadcrumb>` manually outside of `StaticPageLayout`.
+
 

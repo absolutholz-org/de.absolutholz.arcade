@@ -97,17 +97,6 @@ export const enMinesweeper = {
 		date: 'Date',
 		lastGame: 'last game',
 	},
-	rules: {
-		title: 'How to Play Minesweeper',
-		objectiveTitle: 'Objective',
-		objective: 'Uncover all safe squares across the grid while avoiding hidden mines.',
-		rule1Title: 'Numbers',
-		rule1: 'A number on a revealed square shows how many adjacent squares contain mines.',
-		rule2Title: 'Flagging',
-		rule2: 'Right-click or press F to place a flag on squares you believe contain a mine.',
-		rule3Title: 'Chording',
-		rule3: 'Double-click or middle-click a number when you have placed all adjacent flags to uncover remaining squares quickly.',
-	},
 	aria: {
 		cellHidden: 'Row {{row}}, Column {{col}}, hidden',
 		cellRevealed: 'Row {{row}}, Column {{col}}, {{count}} mines nearby',

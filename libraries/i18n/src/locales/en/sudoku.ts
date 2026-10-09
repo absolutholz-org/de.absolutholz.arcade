@@ -72,20 +72,6 @@ export const enSudoku = {
 		bestTime: 'Best Time',
 		noStatsYet: 'No games recorded yet.',
 	},
-	rules: {
-		title: 'How to Play Sudoku',
-		objectiveTitle: 'Objective',
-		objective:
-			'Fill the 9×9 grid with digits from 1 to 9 so that each column, each row, and each of the nine 3×3 subgrids contain all digits without repetition.',
-		rule1Title: 'Rows',
-		rule1: 'Every row must contain the numbers 1 to 9, without duplicates.',
-		rule2Title: 'Columns',
-		rule2: 'Every column must contain the numbers 1 to 9, without duplicates.',
-		rule3Title: '3×3 Blocks',
-		rule3: 'Every 3×3 block must contain the numbers 1 to 9, without duplicates.',
-		notesTipTitle: 'Using Notes',
-		notesTip: 'Turn on Notes mode to write down candidate possibilities in empty cells.',
-	},
 	aria: {
 		cellLabel: 'Row {{row}}, Column {{col}}, value {{value}}',
 		emptyCell: 'Empty',

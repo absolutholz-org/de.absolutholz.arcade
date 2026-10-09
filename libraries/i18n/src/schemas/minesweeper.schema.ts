@@ -97,17 +97,6 @@ export const minesweeperSchema = {
 		date: 'highScores.date',
 		lastGame: 'highScores.lastGame',
 	},
-	rules: {
-		title: 'rules.title',
-		objectiveTitle: 'rules.objectiveTitle',
-		objective: 'rules.objective',
-		rule1Title: 'rules.rule1Title',
-		rule1: 'rules.rule1',
-		rule2Title: 'rules.rule2Title',
-		rule2: 'rules.rule2',
-		rule3Title: 'rules.rule3Title',
-		rule3: 'rules.rule3',
-	},
 	aria: {
 		cellHidden: 'aria.cellHidden',
 		cellRevealed: 'aria.cellRevealed',

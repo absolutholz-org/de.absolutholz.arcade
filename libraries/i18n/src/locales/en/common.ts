@@ -33,6 +33,7 @@ export const enCommon = {
 		skipToContent: 'Skip to main content',
 		legal: 'Legal',
 		settings: 'Settings',
+		rules: 'Rules',
 		breadcrumb: 'Breadcrumb',
 	},
 	hub: {

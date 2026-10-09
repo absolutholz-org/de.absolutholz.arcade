@@ -31,6 +31,7 @@ export const commonSchema = {
 		skipToContent: 'navigation.skipToContent',
 		legal: 'navigation.legal',
 		settings: 'navigation.settings',
+		rules: 'navigation.rules',
 		breadcrumb: 'navigation.breadcrumb',
 	},
 	hub: {

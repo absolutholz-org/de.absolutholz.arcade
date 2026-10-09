@@ -1,10 +1,12 @@
 ---
+import { getEntry } from 'astro:content';
 import { resources } from '@arcade/lib-i18n/config/i18n';
-import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { Button } from '@arcade/lib-ui/components/Button';
-import { PageContainer } from '@arcade/lib-ui/components/PageContainer';
-import SudokuPageLayout from '../../layouts/SudokuPageLayout.astro';
+import { MarkdownContent } from '@arcade/lib-ui/components/MarkdownContent';
+import { Stack } from '@arcade/lib-ui/components/Stack';
+import SudokuStaticPageLayout from '../../layouts/SudokuStaticPageLayout.astro';
 
 export function getStaticPaths() {
 	return SUPPORTED_LANGUAGES.map((item) => ({
@@ -13,92 +15,26 @@ export function getStaticPaths() {
 }
 
 const { lang } = Astro.params;
+const entry = (await getEntry('pages', `${lang}/rules`)) ?? (await getEntry('pages', `${DEFAULT_LANGUAGE}/rules`));
+const rendered = entry ? await entry.render() : null;
+const Content = rendered?.Content;
+
 const currentSudoku = resources[lang as SupportedLanguageCode]?.sudoku ?? resources.en.sudoku;
 ---
 
-<SudokuPageLayout
-	title={currentSudoku.rules.title}
-	description={currentSudoku.rules.objective}
+<SudokuStaticPageLayout
+	title={entry?.data.title ?? 'Sudoku Rules'}
+	description={entry?.data.description}
 	lang={lang as SupportedLanguageCode}
 	currentSlug="rules"
 >
-	<PageContainer>
-		<div class="rules-page">
-			<h1>{currentSudoku.rules.title}</h1>
+	<Stack align="center" spacing="3xl">
+		<MarkdownContent>
+			{Content && <Content />}
+		</MarkdownContent>
 
-			<section class="rules-section">
-				<h2>{currentSudoku.rules.objectiveTitle}</h2>
-				<p>{currentSudoku.rules.objective}</p>
-			</section>
-
-			<section class="rules-section">
-				<h2>{currentSudoku.rules.rule1Title}</h2>
-				<p>{currentSudoku.rules.rule1}</p>
-			</section>
-
-			<section class="rules-section">
-				<h2>{currentSudoku.rules.rule2Title}</h2>
-				<p>{currentSudoku.rules.rule2}</p>
-			</section>
-
-			<section class="rules-section">
-				<h2>{currentSudoku.rules.rule3Title}</h2>
-				<p>{currentSudoku.rules.rule3}</p>
-			</section>
-
-			<section class="rules-section tip-box">
-				<h2>{currentSudoku.rules.notesTipTitle}</h2>
-				<p>{currentSudoku.rules.notesTip}</p>
-			</section>
-
-			<div class="rules-actions">
-				<Button as="a" href={`/sudoku/${lang}/`} variant="primary" size="md">
-					{currentSudoku.controls.newGame}
-				</Button>
-			</div>
-		</div>
-	</PageContainer>
-</SudokuPageLayout>
-
-<style>
-	.rules-page {
-		margin: 0 auto;
-		max-width: 48rem;
-		width: 100%;
-	}
-
-	.rules-page h1 {
-		font-size: 2.25rem;
-		font-weight: 800;
-		line-height: 1.2;
-		margin-bottom: 1.5rem;
-	}
-
-	.rules-section {
-		margin-bottom: 2rem;
-	}
-
-	.rules-section h2 {
-		color: var(--color-text-1);
-		font-size: 1.375rem;
-		margin-bottom: 0.5rem;
-	}
-
-	.rules-section p {
-		color: var(--color-text-2);
-		line-height: 1.6;
-	}
-
-	.tip-box {
-		background: var(--color-container-1);
-		border-left: 4px solid var(--color-accent);
-		border-radius: 0 var(--radius-md) var(--radius-md) 0;
-		padding: 1.25rem;
-	}
-
-	.rules-actions {
-		display: flex;
-		justify-content: center;
-		margin-top: 2.5rem;
-	}
-</style>
+		<Button as="a" href={`/sudoku/${lang}/`} variant="primary" size="md">
+			{currentSudoku.controls.newGame}
+		</Button>
+	</Stack>
+</SudokuStaticPageLayout>

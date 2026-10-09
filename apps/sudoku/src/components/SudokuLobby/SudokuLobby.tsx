@@ -83,7 +83,7 @@ function LobbyContent() {
 			</S.DifficultySection>
 
 			<S.QuickLinks>
-				<a href={`/sudoku/${language}/rules`}>{t('rules.title')}</a>
+				<a href={`/sudoku/${language}/rules`}>{t('navigation.rules')}</a>
 				<a href={`/sudoku/${language}/stats`}>{t('stats.title')}</a>
 			</S.QuickLinks>
 		</S.LobbyContainer>

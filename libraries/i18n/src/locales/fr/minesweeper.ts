@@ -97,17 +97,6 @@ export const frMinesweeper = {
 		date: 'Date',
 		lastGame: 'dernière partie',
 	},
-	rules: {
-		title: 'Règles du Démineur',
-		objectiveTitle: 'Objectif',
-		objective: 'Révélez toutes les cases sûres du plateau sans toucher aux mines cachées.',
-		rule1Title: 'Chiffres',
-		rule1: 'Un chiffre indique combien de mines se trouvent dans les 8 cases adjacentes.',
-		rule2Title: 'Drapeaux',
-		rule2: 'Faites un clic droit ou appuyez sur F pour poser un drapeau sur les mines supposées.',
-		rule3Title: 'Accords',
-		rule3: 'Double-cliquez sur un chiffre lorsque tous ses drapeaux voisins sont posés pour révéler le reste.',
-	},
 	aria: {
 		cellHidden: 'Ligne {{row}}, Colonne {{col}}, masquée',
 		cellRevealed: 'Ligne {{row}}, Colonne {{col}}, {{count}} mines adjacentes',

@@ -1,0 +1,29 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import StaticPageLayout from '@arcade/lib-ui/layouts/StaticPageLayout.astro';
+
+interface Props {
+	title: string;
+	description?: string;
+	lang: SupportedLanguageCode;
+	currentSlug?: string;
+}
+
+const { title, description, lang, currentSlug = '' } = Astro.props;
+
+const currentSudoku = resources[lang]?.sudoku ?? resources.en.sudoku;
+---
+
+<StaticPageLayout
+	lang={lang}
+	title={title}
+	description={description || currentSudoku.description}
+	appTitle={currentSudoku.title}
+	appHomeHref={`/sudoku/${lang}/`}
+	basePath="sudoku"
+	currentSlug={currentSlug}
+>
+	<slot name="head" slot="head" />
+	<slot />
+</StaticPageLayout>

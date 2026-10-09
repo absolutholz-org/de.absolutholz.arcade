@@ -97,17 +97,6 @@ export const deMinesweeper = {
 		date: 'Datum',
 		lastGame: 'Letztes Spiel',
 	},
-	rules: {
-		title: 'Minesweeper Spielregeln',
-		objectiveTitle: 'Ziel des Spiels',
-		objective: 'Decke alle sicheren Felder auf und meide versteckte Minen.',
-		rule1Title: 'Zahlen',
-		rule1: 'Eine Zahl zeigt an, wie viele Minen sich in den direkt benachbarten 8 Feldern befinden.',
-		rule2Title: 'Markieren',
-		rule2: 'Mit Rechtsklick oder F setzt du eine Flagge auf vermutete Minenfelder.',
-		rule3Title: 'Akkord-Klick',
-		rule3: 'Ein Doppelklick auf eine Zahl deckt alle verbleibenden Nachbarn auf, wenn alle Flaggen gesetzt sind.',
-	},
 	aria: {
 		cellHidden: 'Zeile {{row}}, Spalte {{col}}, verdeckt',
 		cellRevealed: 'Zeile {{row}}, Spalte {{col}}, {{count}} Minen in der Nähe',

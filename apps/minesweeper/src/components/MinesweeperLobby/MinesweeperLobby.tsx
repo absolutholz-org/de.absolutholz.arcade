@@ -154,7 +154,7 @@ function LobbyContent(): JSX.Element {
 
 			<S.QuickLinks>
 				<a href={`/minesweeper/${language}/high-scores`}>{t('highScores.title')}</a>
-				<a href={`/minesweeper/${language}/rules`}>{t('rules.title')}</a>
+				<a href={`/minesweeper/${language}/rules`}>{t('navigation.rules')}</a>
 			</S.QuickLinks>
 		</S.LobbyContainer>
 	);

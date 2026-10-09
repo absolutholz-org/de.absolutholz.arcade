@@ -97,17 +97,6 @@ export const ptMinesweeper = {
 		date: 'Data',
 		lastGame: 'último jogo',
 	},
-	rules: {
-		title: 'Como Jogar Campo Minado',
-		objectiveTitle: 'Objetivo',
-		objective: 'Descubra todas as casas seguras do tabuleiro evitando minas escondidas.',
-		rule1Title: 'Números',
-		rule1: 'O número em uma casa revela quantas minas estão presentes nas 8 casas adjacentes.',
-		rule2Title: 'Bandeiras',
-		rule2: 'Clique com o botão direito ou pressione F para marcar onde você suspeita ter minas.',
-		rule3Title: 'Acordes',
-		rule3: 'Clique duas vezes em um número com todas as bandeiras corretas para abrir os vizinhos.',
-	},
 	aria: {
 		cellHidden: 'Linha {{row}}, Coluna {{col}}, oculta',
 		cellRevealed: 'Linha {{row}}, Coluna {{col}}, {{count}} minas próximas',

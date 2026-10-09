@@ -33,6 +33,7 @@ export const deCommon = {
 		skipToContent: 'Zum Hauptinhalt springen',
 		legal: 'Rechtliches',
 		settings: 'Einstellungen',
+		rules: 'Regeln',
 		breadcrumb: 'Brotkrümelnavigation',
 	},
 	hub: {

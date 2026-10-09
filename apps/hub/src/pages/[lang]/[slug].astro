@@ -2,9 +2,9 @@
 import { type CollectionEntry, getCollection } from 'astro:content';
 import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
-import { PageContainer } from '@arcade/lib-ui/components/PageContainer';
+import { MarkdownContent } from '@arcade/lib-ui/components/MarkdownContent';
+import StaticPageLayout from '@arcade/lib-ui/layouts/StaticPageLayout.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import PageLayout from '../../layouts/PageLayout.astro';
 
 interface Props {
 	entry: CollectionEntry<'pages'> | null;
@@ -72,62 +72,16 @@ const Content = rendered?.Content;
 			</p>
 		</BaseLayout>
 	) : entry && Content ? (
-		<PageLayout
+		<StaticPageLayout
 			title={entry.data.title}
 			description={entry.data.description}
 			lang={lang as SupportedLanguageCode}
 			currentSlug={slug}
 		>
-			<PageContainer>
-				<article class="legal-page">
-					<Content />
-				</article>
-			</PageContainer>
-		</PageLayout>
+			<MarkdownContent>
+				<Content />
+			</MarkdownContent>
+		</StaticPageLayout>
 	) : null
 }
 
-<style>
-	.legal-page {
-		margin: 0 auto;
-		max-width: 48rem;
-		width: 100%;
-	}
-
-	.legal-page :global(h1) {
-		font-size: 2.25rem;
-		font-weight: 800;
-		line-height: 1.2;
-		margin-bottom: 1.5rem;
-	}
-
-	.legal-page :global(h2) {
-		border-bottom: 1px solid var(--color-container-2);
-		font-size: 1.5rem;
-		font-weight: 700;
-		margin-bottom: 0.75rem;
-		margin-top: 2rem;
-		padding-bottom: 0.5rem;
-	}
-
-	.legal-page :global(h3) {
-		font-size: 1.125rem;
-		font-weight: 600;
-		margin-bottom: 0.5rem;
-		margin-top: 1.25rem;
-	}
-
-	.legal-page :global(p) {
-		line-height: 1.6;
-		margin-bottom: 1rem;
-	}
-
-	.legal-page :global(ul) {
-		margin-bottom: 1.25rem;
-		padding-left: 1.5rem;
-	}
-
-	.legal-page :global(li) {
-		margin-bottom: 0.375rem;
-	}
-</style>

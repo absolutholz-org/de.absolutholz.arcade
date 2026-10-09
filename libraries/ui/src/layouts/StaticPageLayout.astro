@@ -1,0 +1,90 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { Breadcrumb } from '../components/Breadcrumb';
+import type { BreadcrumbItem } from '../components/Breadcrumb/_Breadcrumb.types';
+import PageLayout from './PageLayout.astro';
+
+interface Props {
+	title: string;
+	description?: string;
+	lang: SupportedLanguageCode;
+	appTitle?: string;
+	appHomeHref?: string;
+	currentSlug?: string;
+	basePath?: string;
+	canonicalBase?: string;
+	manifestHref?: string;
+	headerVariant?: 'standard' | 'minimal' | 'none';
+	breadcrumbItems?: BreadcrumbItem[];
+}
+
+const {
+	title,
+	description,
+	lang,
+	appTitle,
+	appHomeHref,
+	currentSlug = '',
+	basePath = '',
+	canonicalBase = 'https://arcade.absolutholz.de',
+	manifestHref,
+	headerVariant = 'standard',
+	breadcrumbItems,
+} = Astro.props;
+
+const currentCommon = resources[lang]?.common ?? resources.en.common;
+
+const resolvedAppTitle = appTitle || currentCommon.app.title;
+const resolvedAppHomeHref = appHomeHref || (basePath ? `/${basePath}/${lang}/` : `/${lang}/`);
+const arcadeHomeHref = `/${lang}/`;
+
+// Automatically construct hierarchical trail if custom items are not provided:
+// - Game subpage: [Arcade Home (Logo)] / [Game Title] / [Page Title (current)]
+// - Hub subpage: [Arcade Home (Logo)] / [Page Title (current)]
+const resolvedBreadcrumbItems: BreadcrumbItem[] =
+	breadcrumbItems ||
+	(basePath
+		? [
+				{ href: resolvedAppHomeHref, label: resolvedAppTitle },
+				{ label: title, isCurrent: true },
+			]
+		: [{ label: title, isCurrent: true }]);
+---
+
+<PageLayout
+	lang={lang}
+	title={title}
+	description={description}
+	appTitle={resolvedAppTitle}
+	appHomeHref={resolvedAppHomeHref}
+	basePath={basePath}
+	currentSlug={currentSlug}
+	canonicalBase={canonicalBase}
+	manifestHref={manifestHref}
+	headerVariant={headerVariant}
+>
+	<slot name="head" slot="head" />
+
+	<div slot="breadcrumb" class="breadcrumb-bar">
+		<div class="breadcrumb-container">
+			<Breadcrumb homeHref={arcadeHomeHref} items={resolvedBreadcrumbItems} />
+		</div>
+	</div>
+
+	<slot />
+</PageLayout>
+
+<style>
+	.breadcrumb-bar {
+		padding: 0 var(--page-content-padding, 1.5rem);
+		width: 100%;
+	}
+
+	.breadcrumb-container {
+		margin: 0 auto;
+		max-width: 64rem;
+		padding-block: 1rem 1.25rem;
+		width: 100%;
+	}
+</style>

@@ -72,20 +72,6 @@ export const frSudoku = {
 		bestTime: 'Meilleur temps',
 		noStatsYet: 'Aucune partie enregistrée pour le moment.',
 	},
-	rules: {
-		title: 'Règles du Sudoku',
-		objectiveTitle: 'Objectif',
-		objective:
-			'Remplissez la grille 9×9 avec des chiffres de 1 à 9 pour que chaque colonne, chaque ligne et chacun des neuf blocs 3×3 contiennent tous les chiffres sans répétition.',
-		rule1Title: 'Lignes',
-		rule1: 'Chaque ligne doit contenir les chiffres de 1 à 9, sans doublon.',
-		rule2Title: 'Colonnes',
-		rule2: 'Chaque colonne doit contenir les chiffres de 1 à 9, sans doublon.',
-		rule3Title: 'Blocs 3×3',
-		rule3: 'Chaque bloc 3×3 doit contenir les chiffres de 1 à 9, sans doublon.',
-		notesTipTitle: 'Utiliser les notes',
-		notesTip: 'Activez le mode Notes pour inscrire les candidats possibles dans les cases vides.',
-	},
 	aria: {
 		cellLabel: 'Ligne {{row}}, Colonne {{col}}, valeur {{value}}',
 		emptyCell: 'Vide',
