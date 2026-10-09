@@ -9,9 +9,10 @@ interface Props {
 	lang: SupportedLanguageCode;
 	currentSlug?: string;
 	contentProse?: boolean;
+	headerVariant?: 'standard' | 'minimal' | 'none';
 }
 
-const { title, description, lang, currentSlug = '', contentProse = true } = Astro.props;
+const { title, description, lang, currentSlug = '', contentProse = true, headerVariant = 'standard' } = Astro.props;
 
 const currentTranslations = resources[lang]?.common ?? resources.en.common;
 ---
@@ -24,6 +25,7 @@ const currentTranslations = resources[lang]?.common ?? resources.en.common;
 	appHomeHref={`/${lang}/`}
 	currentSlug={currentSlug}
 	contentProse={contentProse}
+	headerVariant={headerVariant}
 	manifestHref="/site.webmanifest?v=20261006"
 >
 	<slot name="head" slot="head" />

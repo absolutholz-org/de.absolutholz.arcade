@@ -19,6 +19,7 @@ interface Props {
 	canonicalBase?: string;
 	contentProse?: boolean;
 	manifestHref?: string;
+	headerVariant?: 'standard' | 'minimal' | 'none';
 }
 
 const {
@@ -32,6 +33,7 @@ const {
 	canonicalBase = 'https://arcade.absolutholz.de',
 	contentProse = true,
 	manifestHref,
+	headerVariant = 'standard',
 } = Astro.props;
 
 const currentCommon = resources[lang]?.common ?? resources.en.common;
@@ -116,22 +118,39 @@ const canonicalUrl = `${canonicalBase}${canonicalPath}`;
 
 	<a href="#main-content" class="skip-link">{currentCommon.navigation.skipToContent}</a>
 
-	<SiteHeader>
-		<div class="header-container">
-			<div class="header-brand">
-				<a href={`/${lang}/`} class="header-logo-link" aria-label={currentCommon.navigation.home}>
-					<Logo size="sm" />
-				</a>
-				<a href={appHomeHref} class="header-app-title-link">
-					<span class="header-app-title">{appTitle}</span>
-				</a>
+	{
+		headerVariant === 'standard' && (
+			<SiteHeader>
+				<div class="header-container">
+					<div class="header-brand">
+						<a href={`/${lang}/`} class="header-logo-link" aria-label={currentCommon.navigation.home}>
+							<Logo size="sm" />
+						</a>
+						<a href={appHomeHref} class="header-app-title-link">
+							<span class="header-app-title">{appTitle}</span>
+						</a>
+					</div>
+
+					<HeaderActions client:load lang={lang} currentSlug={currentSlug} />
+				</div>
+			</SiteHeader>
+		)
+	}
+
+	{
+		headerVariant === 'minimal' && (
+			<div class="utility-bar">
+				<div class="utility-bar-container">
+					<HeaderActions client:load lang={lang} currentSlug={currentSlug} />
+				</div>
 			</div>
+		)
+	}
 
-			<HeaderActions client:load lang={lang} currentSlug={currentSlug} />
-		</div>
-	</SiteHeader>
-
-	<main id="main-content" class="site-main">
+	<main
+		id="main-content"
+		class:list={['site-main', { 'site-main--minimal-header': headerVariant === 'minimal' }]}
+	>
 		{contentProse ? (
 			<article class="page-container prose">
 				<slot />
@@ -224,10 +243,30 @@ const canonicalUrl = `${canonicalBase}${canonicalPath}`;
 		transition: color 120ms ease;
 	}
 
+	.utility-bar {
+		box-sizing: border-box;
+		display: flex;
+		justify-content: flex-end;
+		padding: 1rem var(--page-content-padding, 1.5rem) 0;
+		width: 100%;
+	}
+
+	.utility-bar-container {
+		display: flex;
+		justify-content: flex-end;
+		margin: 0 auto;
+		max-width: 64rem;
+		width: 100%;
+	}
+
 	.site-main {
 		flex: 1;
 		padding: 2.5rem 1.5rem;
 		width: 100%;
+	}
+
+	.site-main--minimal-header {
+		padding-top: 1.5rem;
 	}
 
 	.page-container {
