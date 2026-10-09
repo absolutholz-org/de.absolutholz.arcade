@@ -1,7 +1,7 @@
 import type { Themeset } from './theme.types.js';
 import { themesetToCssProperties, themesetToCssString } from './theme.utils.js';
 
-const themesetBrowns: Themeset = {
+const themesetClevelandGridiron: Themeset = {
 	primary: {
 		surface: 'light-dark(oklch(0.97 0.008 40), oklch(0.12 0.01 40))',
 		'container-1': 'light-dark(oklch(0.93 0.012 40), oklch(0.17 0.015 40))',
@@ -52,5 +52,5 @@ const themesetBrowns: Themeset = {
 	},
 };
 
-export const themesetBrownsProps = themesetToCssProperties(themesetBrowns);
-export const themesetBrownsCss = themesetToCssString(themesetBrowns);
+export const themesetClevelandGridironProps = themesetToCssProperties(themesetClevelandGridiron);
+export const themesetClevelandGridironCss = themesetToCssString(themesetClevelandGridiron);

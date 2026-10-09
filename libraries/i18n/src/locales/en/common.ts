@@ -2,7 +2,7 @@ import type { CommonTranslationContract } from '../../schemas/common.schema.js';
 
 export const enCommon = {
 	app: {
-		title: 'Arcade Web App',
+		title: 'Arcade',
 		tagline: 'Classic games built with accessibility in mind.',
 		redirectNotice: 'Redirecting to your preferred language...',
 	},
@@ -32,8 +32,27 @@ export const enCommon = {
 		accessibility: 'Accessibility',
 		skipToContent: 'Skip to main content',
 		legal: 'Legal',
+		settings: 'Settings',
 	},
 	hub: {
 		gamesTitle: 'Games',
+	},
+	settings: {
+		title: 'Settings',
+		description: 'Customize your arcade experience.',
+		themeSectionTitle: 'Themes',
+		themeSectionDescription: 'Choose a visual color theme for the arcade.',
+		themes: {
+			base: 'Default',
+			christmas: 'Christmas',
+			easter: 'Easter',
+			'fast-food-fun': 'Fast Food Fun',
+			july4th: '4th of July',
+			stpatricks: "St. Patrick's Day",
+			'cleveland-gridiron': 'Cleveland Gridiron',
+			'buckeye-pride': 'Buckeye Pride',
+			germany: 'Germany',
+			halloween: 'Halloween',
+		},
 	},
 } as const satisfies CommonTranslationContract;

@@ -1,0 +1,56 @@
+import type { Themeset } from './theme.types.js';
+import { themesetToCssProperties, themesetToCssString } from './theme.utils.js';
+
+const themesetBuckeyePride: Themeset = {
+	primary: {
+		surface: 'light-dark(oklch(0.97 0.005 20), oklch(0.12 0.01 20))',
+		'container-1': 'light-dark(oklch(0.93 0.01 20), oklch(0.17 0.015 20))',
+		'container-2': 'light-dark(oklch(0.88 0.015 20), oklch(0.22 0.02 20))',
+		'text-1': 'light-dark(oklch(0.18 0.01 20), oklch(0.95 0.005 20))',
+		'text-2': 'light-dark(oklch(0.38 0.01 20), oklch(0.8 0.01 20))',
+		'text-3': 'light-dark(oklch(0.482 0.01 20), oklch(0.64 0.01 20))',
+		accent: 'light-dark(oklch(0.5 0.22 25), oklch(0.6 0.22 25))',
+		'accent-contrast': 'light-dark(oklch(0.98 0.01 25), oklch(0.05 0.01 25))',
+		'accent-secondary': 'light-dark(oklch(0.55 0.02 20), oklch(0.65 0.02 20))',
+		'accent-secondary-contrast': 'light-dark(oklch(0.05 0.01 20), oklch(0.05 0.01 20))',
+	},
+	secondary: {
+		surface: 'light-dark(oklch(0.98 0.005 20), oklch(0.12 0.01 20))',
+		'container-1': 'light-dark(oklch(0.94 0.01 20), oklch(0.18 0.015 20))',
+		'container-2': 'light-dark(oklch(0.89 0.015 20), oklch(0.23 0.02 20))',
+		'text-1': 'light-dark(oklch(0.2 0.01 20), oklch(0.94 0.01 20))',
+		'text-2': 'light-dark(oklch(0.4 0.01 20), oklch(0.79 0.01 20))',
+		'text-3': 'light-dark(oklch(0.49 0.01 20), oklch(0.63 0.01 20))',
+		accent: 'light-dark(oklch(0.55 0.02 20), oklch(0.65 0.02 20))',
+		'accent-contrast': 'light-dark(oklch(0.05 0.01 20), oklch(0.05 0.01 20))',
+		'accent-secondary': 'light-dark(oklch(0.5 0.22 25), oklch(0.6 0.22 25))',
+		'accent-secondary-contrast': 'light-dark(oklch(0.98 0.01 25), oklch(0.05 0.01 25))',
+	},
+	contrast: {
+		surface: 'light-dark(oklch(0.12 0.01 20), oklch(0.06 0.005 20))',
+		'container-1': 'light-dark(oklch(0.18 0.015 20), oklch(0.12 0.01 20))',
+		'container-2': 'light-dark(oklch(0.24 0.02 20), oklch(0.18 0.015 20))',
+		'text-1': 'light-dark(oklch(0.95 0.005 20), oklch(0.98 0.005 20))',
+		'text-2': 'light-dark(oklch(0.8 0.01 20), oklch(0.85 0.01 20))',
+		'text-3': 'light-dark(oklch(0.65 0.01 20), oklch(0.7 0.01 20))',
+		accent: 'light-dark(oklch(0.6 0.22 25), oklch(0.65 0.22 25))',
+		'accent-contrast': 'light-dark(oklch(0.05 0.01 25), oklch(0.05 0.01 25))',
+		'accent-secondary': 'light-dark(oklch(0.6 0.02 20), oklch(0.7 0.02 20))',
+		'accent-secondary-contrast': 'light-dark(oklch(0.05 0.01 20), oklch(0.05 0.01 20))',
+	},
+	accent: {
+		surface: 'light-dark(oklch(0.95 0.03 25), oklch(0.14 0.04 25))',
+		'container-1': 'light-dark(oklch(0.91 0.04 25), oklch(0.19 0.05 25))',
+		'container-2': 'light-dark(oklch(0.85 0.05 25), oklch(0.25 0.06 25))',
+		'text-1': 'light-dark(oklch(0.18 0.03 25), oklch(0.96 0.02 25))',
+		'text-2': 'light-dark(oklch(0.38 0.03 25), oklch(0.82 0.02 25))',
+		'text-3': 'light-dark(oklch(0.457 0.02 25), oklch(0.66 0.02 25))',
+		accent: 'light-dark(oklch(0.5 0.22 25), oklch(0.6 0.22 25))',
+		'accent-contrast': 'light-dark(oklch(0.98 0.01 25), oklch(0.05 0.01 25))',
+		'accent-secondary': 'light-dark(oklch(0.55 0.02 20), oklch(0.65 0.02 20))',
+		'accent-secondary-contrast': 'light-dark(oklch(0.05 0.01 20), oklch(0.05 0.01 20))',
+	},
+};
+
+export const themesetBuckeyePrideProps = themesetToCssProperties(themesetBuckeyePride);
+export const themesetBuckeyePrideCss = themesetToCssString(themesetBuckeyePride);

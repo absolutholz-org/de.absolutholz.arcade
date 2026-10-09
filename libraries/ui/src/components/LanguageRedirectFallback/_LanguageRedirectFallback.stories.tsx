@@ -14,7 +14,7 @@ const meta: Meta<typeof LanguageRedirectFallback> = {
 		layout: 'fullscreen',
 	},
 	args: {
-		title: 'Arcade Web App',
+		title: 'Arcade',
 		message: 'Redirecting to your preferred language...',
 		languagesAriaLabel: 'Select language',
 		languages: [
@@ -33,7 +33,7 @@ export const Default: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Default redirect fallback screen for the Arcade Web App.',
+				story: 'Default redirect fallback screen for the Arcade.',
 			},
 		},
 	},

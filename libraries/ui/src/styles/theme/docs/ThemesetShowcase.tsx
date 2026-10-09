@@ -2,13 +2,14 @@ import type React from 'react';
 import { Text } from '../../../components/Text';
 import { Theme } from '../../../components/Theme';
 import { themesetBaseProps } from '../themeset-base.css';
-import { themesetBrownsProps } from '../themeset-browns.css';
+import { themesetBuckeyePrideProps } from '../themeset-buckeye-pride.css';
 import { themesetChristmasProps } from '../themeset-christmas.css';
+import { themesetClevelandGridironProps } from '../themeset-cleveland-gridiron.css';
 import { themesetEasterProps } from '../themeset-easter.css';
+import { themesetFastFoodFunProps } from '../themeset-fast-food-fun.css';
 import { themesetGermanyProps } from '../themeset-germany.css';
+import { themesetHalloweenProps } from '../themeset-halloween.css';
 import { themesetJuly4thProps } from '../themeset-july4th.css';
-import { themesetMcDonaldsProps } from '../themeset-mcdonalds.css';
-import { themesetOsuProps } from '../themeset-osu.css';
 import { themesetStPatricksProps } from '../themeset-stpatricks.css';
 import * as styles from './ThemesetShowcase.css';
 
@@ -28,9 +29,9 @@ const themesetsData = {
 		title: 'Easter Themeset',
 		desc: 'Soft pastel greens and pinks contrasted with deep rebeccapurple canvases.',
 	},
-	mcdonalds: {
-		props: themesetMcDonaldsProps,
-		title: "McDonald's Themeset",
+	'fast-food-fun': {
+		props: themesetFastFoodFunProps,
+		title: 'Fast Food Fun Themeset',
 		desc: 'Golden arches yellow accents paired with restaurant brand red outlines.',
 	},
 	july4th: {
@@ -43,20 +44,25 @@ const themesetsData = {
 		title: "St. Patrick's Day Themeset",
 		desc: 'Lucky shamrock green paired with festive gold/orange outlines.',
 	},
-	browns: {
-		props: themesetBrownsProps,
-		title: 'Cleveland Browns Themeset',
-		desc: 'Classic Browns colors featuring bold orange and rich brown canvas tones.',
+	'cleveland-gridiron': {
+		props: themesetClevelandGridironProps,
+		title: 'Cleveland Gridiron Themeset',
+		desc: 'Classic football colors featuring bold orange and rich brown canvas tones.',
 	},
-	osu: {
-		props: themesetOsuProps,
-		title: 'Ohio State University Themeset',
-		desc: 'OSU brand-compliant scarlet red and athletics gray tokens.',
+	'buckeye-pride': {
+		props: themesetBuckeyePrideProps,
+		title: 'Buckeye Pride Themeset',
+		desc: 'Buckeye team colors featuring scarlet red accents and athletics gray canvas highlights.',
 	},
 	germany: {
 		props: themesetGermanyProps,
 		title: 'Germany Themeset',
 		desc: 'German national flag colors: gold, red, and deep charcoal black.',
+	},
+	halloween: {
+		props: themesetHalloweenProps,
+		title: 'Halloween Themeset',
+		desc: 'Spooky pumpkin orange accents paired with witch purple and eerie dark canvas tones.',
 	},
 };
 

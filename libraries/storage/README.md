@@ -9,6 +9,7 @@ Unified asynchronous storage library for the Arcade Web App monorepo. Enforces s
 All applications in this monorepo (`apps/hub`, `apps/sudoku`, etc.) are hosted under a single static domain origin: `arcade.absolutholz.de`.
 
 Because every application shares the exact same browser storage origin:
+
 - Direct, un-namespaced calls to `localStorage.setItem('highScore', ...)` or `localStorage.clear()` cause **irreversible cross-game data collisions and corruption**.
 - Calling `localStorage.clear()` from one game would erase the saved states of all other arcade games.
 - Direct synchronous calls to `window.localStorage` make future migrations to cloud backends (Firebase, remote leaderboards) painful and leak low-level implementation details into game components.
@@ -33,27 +34,27 @@ Because every application shares the exact same browser storage origin:
 ### 1. Basic Persistent Storage (Default)
 
 ```ts
-import { createGameStorage } from '@arcade/lib-storage';
+import { createGameStorage } from "@arcade/lib-storage";
 
 // Initialize a scoped storage client for Sudoku
-const sudokuStorage = createGameStorage('sudoku');
+const sudokuStorage = createGameStorage("sudoku");
 
 // Persist state (automatically serialized as JSON under 'arcade::sudoku::activeGame')
-await sudokuStorage.set('activeGame', {
-  difficulty: 'medium',
-  elapsedSeconds: 142,
-  board: [[1, 2, 3], /* ... */],
+await sudokuStorage.set("activeGame", {
+	difficulty: "medium",
+	elapsedSeconds: 142,
+	board: [[1, 2, 3] /* ... */],
 });
 
 // Retrieve state with full TypeScript type-safety
 interface ActiveGameState {
-  difficulty: string;
-  elapsedSeconds: number;
+	difficulty: string;
+	elapsedSeconds: number;
 }
-const savedGame = await sudokuStorage.get<ActiveGameState>('activeGame');
+const savedGame = await sudokuStorage.get<ActiveGameState>("activeGame");
 
 // Remove a single key
-await sudokuStorage.remove('activeGame');
+await sudokuStorage.remove("activeGame");
 
 // Clear ONLY Sudoku data (other arcade games are not affected)
 await sudokuStorage.clear();
@@ -64,14 +65,16 @@ await sudokuStorage.clear();
 For temporary, tab-scoped data that should reset when the browser tab closes:
 
 ```ts
-import { createGameStorage } from '@arcade/lib-storage';
-import { sessionStorageDriver } from '@arcade/lib-storage/drivers/sessionStorageDriver.js';
+import { createGameStorage } from "@arcade/lib-storage";
+import { sessionStorageDriver } from "@arcade/lib-storage/drivers/sessionStorageDriver.js";
 
-const draftStorage = createGameStorage('sudoku', {
-  driver: sessionStorageDriver,
+const draftStorage = createGameStorage("sudoku", {
+	driver: sessionStorageDriver,
 });
 
-await draftStorage.set('inputHistory', [/* ... */]);
+await draftStorage.set("inputHistory", [
+	/* ... */
+]);
 ```
 
 ---
@@ -81,30 +84,30 @@ await draftStorage.set('inputHistory', [/* ... */]);
 To add a new storage medium (such as IndexedDB or a Firebase sync adapter), implement the `StorageDriver` interface:
 
 ```ts
-import type { StorageDriver } from '@arcade/lib-storage/types/storage.types.js';
+import type { StorageDriver } from "@arcade/lib-storage/types/storage.types.js";
 
 export class IndexedDbDriver implements StorageDriver {
-  readonly name = 'indexed-db';
+	readonly name = "indexed-db";
 
-  isAvailable(): boolean {
-    return typeof window !== 'undefined' && 'indexedDB' in window;
-  }
+	isAvailable(): boolean {
+		return typeof window !== "undefined" && "indexedDB" in window;
+	}
 
-  async getItem(key: string): Promise<string | null> {
-    // Read from IndexedDB store
-  }
+	async getItem(key: string): Promise<string | null> {
+		// Read from IndexedDB store
+	}
 
-  async setItem(key: string, value: string): Promise<void> {
-    // Write to IndexedDB store
-  }
+	async setItem(key: string, value: string): Promise<void> {
+		// Write to IndexedDB store
+	}
 
-  async removeItem(key: string): Promise<void> {
-    // Delete from IndexedDB store
-  }
+	async removeItem(key: string): Promise<void> {
+		// Delete from IndexedDB store
+	}
 
-  async getAllKeys(): Promise<string[]> {
-    // Return all keys in object store
-  }
+	async getAllKeys(): Promise<string[]> {
+		// Return all keys in object store
+	}
 }
 ```
 

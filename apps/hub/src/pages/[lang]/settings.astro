@@ -1,0 +1,65 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { ThemeSelector } from '@arcade/lib-ui/components/ThemeSelector';
+import PageLayout from '../../layouts/PageLayout.astro';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? resources.en.common;
+---
+
+<PageLayout
+	title={currentTranslations.settings.title}
+	description={currentTranslations.settings.description}
+	lang={lang as SupportedLanguageCode}
+	currentSlug="settings"
+	contentProse={false}
+>
+	<div class="settings-page">
+		<header class="settings-header">
+			<h1>{currentTranslations.settings.title}</h1>
+			<p class="settings-tagline">{currentTranslations.settings.description}</p>
+		</header>
+
+		<section class="settings-content">
+			<ThemeSelector client:load lang={lang as SupportedLanguageCode} />
+		</section>
+	</div>
+</PageLayout>
+
+<style>
+	.settings-page {
+		margin: 0 auto;
+		max-width: 48rem;
+		width: 100%;
+	}
+
+	.settings-header {
+		margin-bottom: 2rem;
+	}
+
+	.settings-header h1 {
+		font-size: 2.25rem;
+		font-weight: 800;
+		line-height: 1.2;
+		margin: 0 0 0.5rem;
+	}
+
+	.settings-tagline {
+		color: var(--color-text-2);
+		font-size: 1.125rem;
+		line-height: 1.5;
+		margin: 0;
+	}
+
+	.settings-content {
+		margin-top: 1.5rem;
+	}
+</style>

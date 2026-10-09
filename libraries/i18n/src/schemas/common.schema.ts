@@ -30,9 +30,28 @@ export const commonSchema = {
 		accessibility: 'navigation.accessibility',
 		skipToContent: 'navigation.skipToContent',
 		legal: 'navigation.legal',
+		settings: 'navigation.settings',
 	},
 	hub: {
 		gamesTitle: 'hub.gamesTitle',
+	},
+	settings: {
+		title: 'settings.title',
+		description: 'settings.description',
+		themeSectionTitle: 'settings.themeSectionTitle',
+		themeSectionDescription: 'settings.themeSectionDescription',
+		themes: {
+			base: 'settings.themes.base',
+			christmas: 'settings.themes.christmas',
+			easter: 'settings.themes.easter',
+			'fast-food-fun': 'settings.themes.fast-food-fun',
+			july4th: 'settings.themes.july4th',
+			stpatricks: 'settings.themes.stpatricks',
+			'cleveland-gridiron': 'settings.themes.cleveland-gridiron',
+			'buckeye-pride': 'settings.themes.buckeye-pride',
+			germany: 'settings.themes.germany',
+			halloween: 'settings.themes.halloween',
+		},
 	},
 } as const;
 

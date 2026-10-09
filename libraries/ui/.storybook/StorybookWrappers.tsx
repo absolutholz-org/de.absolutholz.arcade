@@ -7,25 +7,27 @@ import { getGlobalStyles } from '../src/styles/global.css';
 
 // Import all themeset CSS strings statically
 import { themesetBaseCss } from '../src/styles/theme/themeset-base.css';
-import { themesetBrownsCss } from '../src/styles/theme/themeset-browns.css';
+import { themesetBuckeyePrideCss } from '../src/styles/theme/themeset-buckeye-pride.css';
 import { themesetChristmasCss } from '../src/styles/theme/themeset-christmas.css';
+import { themesetClevelandGridironCss } from '../src/styles/theme/themeset-cleveland-gridiron.css';
 import { themesetEasterCss } from '../src/styles/theme/themeset-easter.css';
+import { themesetFastFoodFunCss } from '../src/styles/theme/themeset-fast-food-fun.css';
 import { themesetGermanyCss } from '../src/styles/theme/themeset-germany.css';
+import { themesetHalloweenCss } from '../src/styles/theme/themeset-halloween.css';
 import { themesetJuly4thCss } from '../src/styles/theme/themeset-july4th.css';
-import { themesetMcDonaldsCss } from '../src/styles/theme/themeset-mcdonalds.css';
-import { themesetOsuCss } from '../src/styles/theme/themeset-osu.css';
 import { themesetStPatricksCss } from '../src/styles/theme/themeset-stpatricks.css';
 
 const themesets: Record<string, string> = {
 	base: themesetBaseCss,
 	christmas: themesetChristmasCss,
 	easter: themesetEasterCss,
-	mcdonalds: themesetMcDonaldsCss,
+	'fast-food-fun': themesetFastFoodFunCss,
 	july4th: themesetJuly4thCss,
 	stpatricks: themesetStPatricksCss,
-	browns: themesetBrownsCss,
-	osu: themesetOsuCss,
+	'cleveland-gridiron': themesetClevelandGridironCss,
+	'buckeye-pride': themesetBuckeyePrideCss,
 	germany: themesetGermanyCss,
+	halloween: themesetHalloweenCss,
 };
 
 const storybookCanvasOverrides = `

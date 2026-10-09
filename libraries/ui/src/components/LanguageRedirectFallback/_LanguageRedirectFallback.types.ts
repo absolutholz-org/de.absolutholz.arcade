@@ -14,7 +14,7 @@ export interface LanguageRedirectItem {
 export interface LanguageRedirectFallbackProps
 	extends Omit<ComponentPropsWithoutRef<'main'>, 'style' | 'children' | 'title'> {
 	/**
-	 * The title of the application or game (e.g., "Arcade Web App" or "Sudoku").
+	 * The title of the application or game (e.g., "Arcade" or "Sudoku").
 	 */
 	title: string;
 

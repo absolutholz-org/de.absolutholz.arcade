@@ -19,3 +19,5 @@ export type Themeset = {
 	contrast?: Theme;
 	accent?: Theme;
 };
+
+export type { ThemesetId } from './theme.constants.js';
