@@ -4,8 +4,8 @@ import { LanguageSwitcher } from '@arcade/lib-ui/components/LanguageSwitcher';
 import { SchemeSwitcher } from '@arcade/lib-ui/components/SchemeSwitcher';
 import { Switch } from '@arcade/lib-ui/components/Switch';
 import type { JSX } from 'react';
-import * as S from './SettingsDialog.styles.js';
-import type { SettingsDialogProps } from './SettingsDialog.types.js';
+import * as S from './SettingsDialog.styles';
+import type { SettingsDialogProps } from './SettingsDialog.types';
 
 export function SettingsDialog({
 	isOpen,

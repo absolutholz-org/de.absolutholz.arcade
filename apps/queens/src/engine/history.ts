@@ -1,4 +1,4 @@
-import type { CellState, MoveAction } from './types.js';
+import type { CellState, MoveAction } from './types';
 
 export function cloneBoard(board: CellState[][]): CellState[][] {
 	return board.map((row) => [...row]);

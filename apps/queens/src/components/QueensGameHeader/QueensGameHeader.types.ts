@@ -1,4 +1,4 @@
-import type { Difficulty } from '../../engine/types.js';
+import type { Difficulty } from '../../engine/types';
 
 export interface QueensGameHeaderProps {
 	difficulty: Difficulty;

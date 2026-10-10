@@ -1,8 +1,8 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import type { JSX, MouseEvent, PointerEvent } from 'react';
-import { CrownIcon, XMarkIcon } from '../QueensIcons/index.js';
-import * as S from './QueensCell.styles.js';
-import type { QueensCellProps } from './QueensCell.types.js';
+import { CrownIcon, XMarkIcon } from '../QueensIcons';
+import * as S from './QueensCell.styles';
+import type { QueensCellProps } from './QueensCell.types';
 
 export function QueensCell({
 	row,

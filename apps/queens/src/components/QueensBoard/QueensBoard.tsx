@@ -1,8 +1,8 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import type { JSX } from 'react';
-import { QueensCell } from '../QueensCell/index.js';
-import * as S from './QueensBoard.styles.js';
-import type { QueensBoardProps } from './QueensBoard.types.js';
+import { QueensCell } from '../QueensCell';
+import * as S from './QueensBoard.styles';
+import type { QueensBoardProps } from './QueensBoard.types';
 
 export function QueensBoard({
 	size,

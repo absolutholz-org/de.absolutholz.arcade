@@ -1,5 +1,5 @@
 import type { MouseEvent, PointerEvent } from 'react';
-import type { CellConflict, CellCoord, CellState, InputMode } from '../../engine/types.js';
+import type { CellConflict, CellCoord, CellState, InputMode } from '../../engine/types';
 
 export interface QueensBoardProps {
 	size: number;

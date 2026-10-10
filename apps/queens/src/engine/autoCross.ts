@@ -1,4 +1,4 @@
-import type { CellState } from './types.js';
+import type { CellState } from './types';
 
 export interface AutoCrossTarget {
 	row: number;

@@ -1,4 +1,4 @@
-import type { InputMode } from '../../engine/types.js';
+import type { InputMode } from '../../engine/types';
 
 export interface QueensControlsProps {
 	inputMode: InputMode;

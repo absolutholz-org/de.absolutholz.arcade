@@ -1,2 +1,2 @@
-export { QueensControls } from './QueensControls.js';
-export type { QueensControlsProps } from './QueensControls.types.js';
+export { QueensControls } from './QueensControls';
+export type { QueensControlsProps } from './QueensControls.types';

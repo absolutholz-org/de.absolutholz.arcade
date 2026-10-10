@@ -4,15 +4,15 @@ import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { isSupportedLanguage } from '@arcade/lib-i18n/utils/detection';
 import { type JSX, useCallback, useState } from 'react';
-import { PauseOverlay } from '../PauseOverlay/index.js';
-import { QueensBoard } from '../QueensBoard/index.js';
-import { QueensControls } from '../QueensControls/index.js';
-import { QueensGameHeader } from '../QueensGameHeader/index.js';
-import { SettingsDialog } from '../SettingsDialog/index.js';
-import { VictoryDialog } from '../VictoryDialog/index.js';
-import { useQueensGame } from './QueensGame.hooks.js';
-import * as S from './QueensGame.styles.js';
-import type { QueensGameProps } from './QueensGame.types.js';
+import { PauseOverlay } from '../PauseOverlay';
+import { QueensBoard } from '../QueensBoard';
+import { QueensControls } from '../QueensControls';
+import { QueensGameHeader } from '../QueensGameHeader';
+import { SettingsDialog } from '../SettingsDialog';
+import { VictoryDialog } from '../VictoryDialog';
+import { useQueensGame } from './QueensGame.hooks';
+import * as S from './QueensGame.styles';
+import type { QueensGameProps } from './QueensGame.types';
 
 export function QueensGame({ initialDifficulty = 'easy', initialPuzzleId, lang }: QueensGameProps): JSX.Element {
 	const [activeLang, setActiveLang] = useState<SupportedLanguageCode>(() => {

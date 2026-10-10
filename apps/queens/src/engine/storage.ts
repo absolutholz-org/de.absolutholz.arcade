@@ -1,5 +1,5 @@
 import { createGameStorage } from '@arcade/lib-storage';
-import { DEFAULT_SETTINGS, type GameSettings, type GameSnapshot, type ProgressMap } from './types.js';
+import { DEFAULT_SETTINGS, type GameSettings, type GameSnapshot, type ProgressMap } from './types';
 
 const storage = createGameStorage('queens');
 

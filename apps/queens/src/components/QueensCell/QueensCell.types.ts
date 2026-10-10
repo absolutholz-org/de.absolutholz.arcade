@@ -1,5 +1,5 @@
 import type { MouseEvent, PointerEvent } from 'react';
-import type { CellConflict, CellState } from '../../engine/types.js';
+import type { CellConflict, CellState } from '../../engine/types';
 
 export interface QueensCellProps {
 	row: number;

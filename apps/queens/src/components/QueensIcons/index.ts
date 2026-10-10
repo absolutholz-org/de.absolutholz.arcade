@@ -1,1 +1,1 @@
-export { CrownIcon, XMarkIcon } from './QueensIcons.js';
+export { CrownIcon, XMarkIcon } from './QueensIcons';

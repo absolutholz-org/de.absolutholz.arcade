@@ -4,17 +4,17 @@ import { Button } from '@arcade/lib-ui/components/Button';
 import { Icon } from '@arcade/lib-ui/components/Icon';
 import { formatTime } from '@arcade/lib-ui/components/Timer';
 import { type JSX, useEffect, useState } from 'react';
-import { getPuzzlesByDifficulty } from '../../engine/puzzles.js';
-import { loadActiveGame, loadProgress } from '../../engine/storage.js';
+import { getPuzzlesByDifficulty } from '../../engine/puzzles';
+import { loadActiveGame, loadProgress } from '../../engine/storage';
 import {
 	DIFFICULTY_LEVELS,
 	type Difficulty,
 	GRID_SIZES,
 	type GameSnapshot,
 	type ProgressMap,
-} from '../../engine/types.js';
-import * as S from './QueensLobby.styles.js';
-import type { QueensLobbyProps } from './QueensLobby.types.js';
+} from '../../engine/types';
+import * as S from './QueensLobby.styles';
+import type { QueensLobbyProps } from './QueensLobby.types';
 
 function LobbyContent(): JSX.Element {
 	const { t, language } = useI18n('queens');

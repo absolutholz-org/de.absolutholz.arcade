@@ -2,8 +2,8 @@ import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { Button } from '@arcade/lib-ui/components/Button';
 import { Stack } from '@arcade/lib-ui/components/Stack';
 import type { JSX } from 'react';
-import * as S from './PauseOverlay.styles.js';
-import type { PauseOverlayProps } from './PauseOverlay.types.js';
+import * as S from './PauseOverlay.styles';
+import type { PauseOverlayProps } from './PauseOverlay.types';
 
 export function PauseOverlay({ isOpen, onResume, onRestart }: PauseOverlayProps): JSX.Element | null {
 	const { t } = useI18n('queens');

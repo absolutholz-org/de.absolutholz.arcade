@@ -1,2 +1,2 @@
-export { VictoryDialog } from './VictoryDialog.js';
-export type { VictoryDialogProps } from './VictoryDialog.types.js';
+export { VictoryDialog } from './VictoryDialog';
+export type { VictoryDialogProps } from './VictoryDialog.types';

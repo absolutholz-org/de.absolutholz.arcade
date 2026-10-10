@@ -1,4 +1,4 @@
-import type { Difficulty, QueensPuzzle } from './types.js';
+import type { Difficulty, QueensPuzzle } from './types';
 
 export const QUEENS_PUZZLES: readonly QueensPuzzle[] = [
 	{

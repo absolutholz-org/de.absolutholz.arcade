@@ -1,2 +1,2 @@
-export { SettingsDialog } from './SettingsDialog.js';
-export type { SettingsDialogProps } from './SettingsDialog.types.js';
+export { SettingsDialog } from './SettingsDialog';
+export type { SettingsDialogProps } from './SettingsDialog.types';

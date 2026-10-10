@@ -3,8 +3,8 @@ import { Icon } from '@arcade/lib-ui/components/Icon';
 import { Timer } from '@arcade/lib-ui/components/Timer';
 import { Toolbar } from '@arcade/lib-ui/components/Toolbar';
 import type { JSX } from 'react';
-import * as S from './QueensGameHeader.styles.js';
-import type { QueensGameHeaderProps } from './QueensGameHeader.types.js';
+import * as S from './QueensGameHeader.styles';
+import type { QueensGameHeaderProps } from './QueensGameHeader.types';
 
 export function QueensGameHeader({
 	difficulty,

@@ -1,4 +1,4 @@
-import type { CellConflict, CellCoord, CellState } from './types.js';
+import type { CellConflict, CellCoord, CellState } from './types';
 
 /**
  * Validates token placements against the Queens rules and detects collisions:

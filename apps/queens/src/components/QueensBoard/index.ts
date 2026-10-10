@@ -1,2 +1,2 @@
-export { QueensBoard } from './QueensBoard.js';
-export type { QueensBoardProps } from './QueensBoard.types.js';
+export { QueensBoard } from './QueensBoard';
+export type { QueensBoardProps } from './QueensBoard.types';

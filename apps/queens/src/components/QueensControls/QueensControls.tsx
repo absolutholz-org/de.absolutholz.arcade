@@ -2,9 +2,9 @@ import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { Icon } from '@arcade/lib-ui/components/Icon';
 import { Switch } from '@arcade/lib-ui/components/Switch';
 import type { JSX } from 'react';
-import { CrownIcon, XMarkIcon } from '../QueensIcons/index.js';
-import * as S from './QueensControls.styles.js';
-import type { QueensControlsProps } from './QueensControls.types.js';
+import { CrownIcon, XMarkIcon } from '../QueensIcons';
+import * as S from './QueensControls.styles';
+import type { QueensControlsProps } from './QueensControls.types';
 
 export function QueensControls({
 	inputMode,

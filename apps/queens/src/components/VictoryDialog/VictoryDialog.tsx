@@ -3,8 +3,8 @@ import { Button } from '@arcade/lib-ui/components/Button';
 import { Dialog } from '@arcade/lib-ui/components/Dialog';
 import { Timer } from '@arcade/lib-ui/components/Timer';
 import type { JSX } from 'react';
-import * as S from './VictoryDialog.styles.js';
-import type { VictoryDialogProps } from './VictoryDialog.types.js';
+import * as S from './VictoryDialog.styles';
+import type { VictoryDialogProps } from './VictoryDialog.types';
 
 export function VictoryDialog({
 	isOpen,

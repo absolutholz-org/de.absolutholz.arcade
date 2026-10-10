@@ -1,2 +1,2 @@
-export { QueensGameHeader } from './QueensGameHeader.js';
-export type { QueensGameHeaderProps } from './QueensGameHeader.types.js';
+export { QueensGameHeader } from './QueensGameHeader';
+export type { QueensGameHeaderProps } from './QueensGameHeader.types';

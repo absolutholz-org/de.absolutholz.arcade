@@ -1,2 +1,2 @@
-export { PauseOverlay } from './PauseOverlay.js';
-export type { PauseOverlayProps } from './PauseOverlay.types.js';
+export { PauseOverlay } from './PauseOverlay';
+export type { PauseOverlayProps } from './PauseOverlay.types';

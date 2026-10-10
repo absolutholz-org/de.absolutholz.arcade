@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { KeyboardEvent, MouseEvent, PointerEvent } from 'react';
-import { getAutoCrossCells } from '../../engine/autoCross.js';
-import { cloneBoard } from '../../engine/history.js';
-import { QUEENS_PUZZLES, getNextPuzzle, getPuzzleById, getPuzzlesByDifficulty } from '../../engine/puzzles.js';
+import { getAutoCrossCells } from '../../engine/autoCross';
+import { cloneBoard } from '../../engine/history';
+import { QUEENS_PUZZLES, getNextPuzzle, getPuzzleById, getPuzzlesByDifficulty } from '../../engine/puzzles';
 import {
 	clearActiveGame,
 	loadActiveGame,
@@ -11,7 +11,7 @@ import {
 	recordPuzzleCompletion,
 	saveActiveGame,
 	saveSettings,
-} from '../../engine/storage.js';
+} from '../../engine/storage';
 import {
 	type CellCoord,
 	type CellState,
@@ -22,8 +22,8 @@ import {
 	type MoveAction,
 	type ProgressMap,
 	type QueensPuzzle,
-} from '../../engine/types.js';
-import { getConflicts, isBoardSolved } from '../../engine/validator.js';
+} from '../../engine/types';
+import { getConflicts, isBoardSolved } from '../../engine/validator';
 
 function createEmptyBoard(size: number): CellState[][] {
 	return Array.from({ length: size }, () => new Array(size).fill('empty'));

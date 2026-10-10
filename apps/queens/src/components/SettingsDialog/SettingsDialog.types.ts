@@ -1,5 +1,5 @@
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
-import type { GameSettings } from '../../engine/types.js';
+import type { GameSettings } from '../../engine/types';
 
 export interface SettingsDialogProps {
 	isOpen: boolean;
