@@ -1,0 +1,56 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import { LanguageRedirectFallback } from '@arcade/lib-ui/components/LanguageRedirectFallback';
+import NonogramBaseLayout from '../layouts/NonogramBaseLayout.astro';
+
+const currentCommon = resources[DEFAULT_LANGUAGE].common;
+const currentNonogram = resources[DEFAULT_LANGUAGE].nonogram;
+const languageItems = SUPPORTED_LANGUAGES.map((item) => ({
+	code: item.code,
+	label: item.label,
+	flag: item.flag,
+	href: `/nonogram/${item.code}/`,
+}));
+---
+
+<NonogramBaseLayout
+	lang={DEFAULT_LANGUAGE}
+	title={currentNonogram.title}
+	canonical="https://arcade.absolutholz.de/nonogram/en/"
+>
+	<Fragment slot="head">
+		{/* Non-JS fallback redirect to default English */}
+		<meta http-equiv="refresh" content="0;url=/nonogram/en/" />
+
+		<script is:inline define:vars={{ supportedCodes: SUPPORTED_LANGUAGES.map((l) => l.code), defaultLang: DEFAULT_LANGUAGE }}>
+			(function () {
+				try {
+					var stored = localStorage.getItem('arcade::i18n::language');
+					if (stored && supportedCodes.indexOf(stored) !== -1) {
+						window.location.replace('/nonogram/' + stored + '/');
+						return;
+					}
+				} catch (_) {}
+
+				var candidates = navigator.languages || [navigator.language || ''];
+				for (var i = 0; i < candidates.length; i++) {
+					var candidate = (candidates[i] || '').toLowerCase().split('-')[0];
+					if (supportedCodes.indexOf(candidate) !== -1) {
+						window.location.replace('/nonogram/' + candidate + '/');
+						return;
+					}
+				}
+
+				window.location.replace('/nonogram/' + defaultLang + '/');
+			})();
+		</script>
+	</Fragment>
+
+	<LanguageRedirectFallback
+		title={currentNonogram.title}
+		message={currentCommon.app.redirectNotice}
+		languagesAriaLabel={currentCommon.switchers.language.ariaLabel}
+		languages={languageItems}
+	/>
+</NonogramBaseLayout>

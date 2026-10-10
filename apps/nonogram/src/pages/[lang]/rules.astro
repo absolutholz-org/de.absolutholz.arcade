@@ -1,0 +1,40 @@
+---
+import { getEntry } from 'astro:content';
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { Button } from '@arcade/lib-ui/components/Button';
+import { MarkdownContent } from '@arcade/lib-ui/components/MarkdownContent';
+import { Stack } from '@arcade/lib-ui/components/Stack';
+import NonogramStaticPageLayout from '../../layouts/NonogramStaticPageLayout.astro';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const entry = (await getEntry('pages', `${lang}/rules`)) ?? (await getEntry('pages', `${DEFAULT_LANGUAGE}/rules`));
+const rendered = entry ? await entry.render() : null;
+const Content = rendered?.Content;
+
+const currentNonogram = resources[lang as SupportedLanguageCode]?.nonogram ?? resources.en.nonogram;
+---
+
+<NonogramStaticPageLayout
+	title={entry?.data.title ?? 'Nonogram Rules'}
+	description={entry?.data.description}
+	lang={lang as SupportedLanguageCode}
+	currentSlug="rules"
+>
+	<Stack align="center" spacing="3xl">
+		<MarkdownContent>
+			{Content && <Content />}
+		</MarkdownContent>
+
+		<Button as="a" href={`/nonogram/${lang}/`} variant="primary" size="md">
+			{currentNonogram.controls.newGame}
+		</Button>
+	</Stack>
+</NonogramStaticPageLayout>

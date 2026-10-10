@@ -1,0 +1,25 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { NonogramGame } from '../../components/NonogramGame';
+import NonogramBaseLayout from '../../layouts/NonogramBaseLayout.astro';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const currentNonogram = resources[lang as SupportedLanguageCode]?.nonogram ?? resources.en.nonogram;
+---
+
+<NonogramBaseLayout
+	title={`${currentNonogram.title} | ${currentNonogram.description}`}
+	description={currentNonogram.description}
+	lang={lang as SupportedLanguageCode}
+	canonical={`https://arcade.absolutholz.de/nonogram/${lang}/game`}
+>
+	<NonogramGame client:only="react" lang={lang as SupportedLanguageCode} />
+</NonogramBaseLayout>

@@ -1,0 +1,28 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { PageContainer } from '@arcade/lib-ui/components/PageContainer';
+import { NonogramLobby } from '../../components/NonogramLobby';
+import NonogramPageLayout from '../../layouts/NonogramPageLayout.astro';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const currentNonogram = resources[lang as SupportedLanguageCode]?.nonogram ?? resources.en.nonogram;
+---
+
+<NonogramPageLayout
+	title={currentNonogram.title}
+	description={currentNonogram.description}
+	lang={lang as SupportedLanguageCode}
+	currentSlug=""
+>
+	<PageContainer>
+		<NonogramLobby client:load lang={lang as SupportedLanguageCode} />
+	</PageContainer>
+</NonogramPageLayout>

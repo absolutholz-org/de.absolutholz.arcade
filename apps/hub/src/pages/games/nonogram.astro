@@ -1,0 +1,18 @@
+---
+import { DEFAULT_LANGUAGE } from '@arcade/lib-i18n/constants/languages';
+---
+
+<!doctype html>
+<html lang={DEFAULT_LANGUAGE}>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Nonogram | Arcade</title>
+		<meta http-equiv="refresh" content={`0;url=/nonogram/${DEFAULT_LANGUAGE}/`} />
+		<script is:inline>
+			window.location.replace('/nonogram/');
+		</script>
+	</head>
+	<body>
+		<p>Redirecting to <a href={`/nonogram/${DEFAULT_LANGUAGE}/`}>Nonogram</a>...</p>
+	</body>
+</html>

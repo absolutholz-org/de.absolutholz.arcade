@@ -1,0 +1,29 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import StaticPageLayout from '@arcade/lib-ui/layouts/StaticPageLayout.astro';
+
+interface Props {
+	title: string;
+	description?: string;
+	lang: SupportedLanguageCode;
+	currentSlug?: string;
+}
+
+const { title, description, lang, currentSlug = '' } = Astro.props;
+
+const currentNonogram = resources[lang]?.nonogram ?? resources.en.nonogram;
+---
+
+<StaticPageLayout
+	lang={lang}
+	title={title}
+	description={description || currentNonogram.description}
+	appTitle={currentNonogram.title}
+	appHomeHref={`/nonogram/${lang}/`}
+	basePath="nonogram"
+	currentSlug={currentSlug}
+>
+	<slot name="head" slot="head" />
+	<slot />
+</StaticPageLayout>
