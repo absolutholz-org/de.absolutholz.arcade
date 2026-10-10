@@ -14,6 +14,8 @@ This document serves as the central routing system for AI agents in this monorep
 | Storage architecture / State persistence / Storage drivers | [Storage Agent Profile](/libraries/storage/.ai/agents/storage-agent.md)          | Enforces asynchronous namespacing and driver contracts adhering to ADR 008 and ADR 012.     |
 | Sudoku game engine & canvas / Puzzle gameplay   | [Sudoku Agent Profile](/apps/sudoku/.ai/agents/sudoku-agent.md)                  | Manages puzzle engine, keyboard navigation, grid accessibility, and Sudoku state syncing.    |
 | Minesweeper game engine & canvas / Puzzle gameplay | [Minesweeper Agent Profile](/apps/minesweeper/.ai/agents/minesweeper-agent.md) | Manages minefield generation, keyboard navigation, grid accessibility, and state syncing.    |
+| Nonogram game engine & canvas / Puzzle gameplay | [Nonogram Agent Profile](/apps/nonogram/.ai/agents/nonogram-agent.md)       | Manages picture logic puzzle engine, clue derivation, grid accessibility, and state syncing. |
+| Queens game engine & canvas / Puzzle gameplay   | [Queens Agent Profile](/apps/queens/.ai/agents/queens-agent.md)                  | Manages Star Battle / Queens puzzle engine, grid accessibility, rules validation, and state syncing. |
 
 ## General Rules
 

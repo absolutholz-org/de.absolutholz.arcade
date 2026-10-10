@@ -51,6 +51,12 @@ jobs:
       - name: Build Minesweeper
         run: pnpm build:minesweeper
 
+      - name: Build Nonogram
+        run: pnpm build:nonogram
+
+      - name: Build Queens
+        run: pnpm build:queens
+
       - name: Build Storybook
         run: pnpm build:storybook
 
@@ -65,10 +71,16 @@ jobs:
           # 3. Copy Minesweeper into /minesweeper subpath
           mkdir -p deploy_dist/minesweeper
           cp -R apps/minesweeper/dist/. deploy_dist/minesweeper/
-          # 4. Copy Storybook into /storybook subpath
+          # 4. Copy Nonogram into /nonogram subpath
+          mkdir -p deploy_dist/nonogram
+          cp -R apps/nonogram/dist/. deploy_dist/nonogram/
+          # 5. Copy Queens into /queens subpath
+          mkdir -p deploy_dist/queens
+          cp -R apps/queens/dist/. deploy_dist/queens/
+          # 6. Copy Storybook into /storybook subpath
           mkdir -p deploy_dist/storybook
           cp -R libraries/ui/storybook-static/. deploy_dist/storybook/
-          # 5. Copy Apache production .htaccess
+          # 7. Copy Apache production .htaccess
           cp deploy/.htaccess deploy_dist/.htaccess
 
       - name: Deploy via SSH & rsync to Webgo

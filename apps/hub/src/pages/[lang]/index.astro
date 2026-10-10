@@ -17,6 +17,8 @@ const { lang } = Astro.params;
 const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? resources.en.common;
 const currentSudoku = resources[lang as SupportedLanguageCode]?.sudoku ?? resources.en.sudoku;
 const currentMinesweeper = resources[lang as SupportedLanguageCode]?.minesweeper ?? resources.en.minesweeper;
+const currentNonogram = resources[lang as SupportedLanguageCode]?.nonogram ?? resources.en.nonogram;
+const currentQueens = resources[lang as SupportedLanguageCode]?.queens ?? resources.en.queens;
 ---
 
 <PageLayout
@@ -27,11 +29,7 @@ const currentMinesweeper = resources[lang as SupportedLanguageCode]?.minesweeper
 	headerVariant="minimal"
 >
 	<PageContainer>
-		<Hero
-			title={currentTranslations.app.title}
-			tagline={currentTranslations.app.tagline}
-			align="left"
-		>
+		<Hero title={currentTranslations.app.title} tagline={currentTranslations.app.tagline} align="left">
 			<Logo size="xl" slot="logo" />
 		</Hero>
 
@@ -46,6 +44,14 @@ const currentMinesweeper = resources[lang as SupportedLanguageCode]?.minesweeper
 					<h3>{currentMinesweeper.title}</h3>
 					<p>{currentMinesweeper.description}</p>
 				</a>
+				<a href={`/nonogram/${lang}/`} class="game-card">
+					<h3>{currentNonogram.title}</h3>
+					<p>{currentNonogram.description}</p>
+				</a>
+				<a href={`/queens/${lang}/`} class="game-card">
+					<h3>{currentQueens.title}</h3>
+					<p>{currentQueens.description}</p>
+				</a>
 			</div>
 		</section>
 	</PageContainer>
@@ -59,7 +65,7 @@ const currentMinesweeper = resources[lang as SupportedLanguageCode]?.minesweeper
 	.games-grid {
 		display: grid;
 		gap: 1.5rem;
-		grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
 		margin-top: 1rem;
 	}
 
@@ -72,11 +78,14 @@ const currentMinesweeper = resources[lang as SupportedLanguageCode]?.minesweeper
 		flex-direction: column;
 		gap: 0.5rem;
 		padding: 1.5rem;
-		transition: border-color 150ms ease, transform 150ms ease;
+		transition:
+			border-color 150ms ease,
+			transform 150ms ease;
 	}
 
 	.game-card:hover {
 		border-color: var(--color-accent);
+		text-decoration: none;
 		transform: translateY(-2px);
 	}
 

@@ -17,10 +17,16 @@
 		"dev:minesweeper": "pnpm --filter @arcade/minesweeper dev",
 		"build:minesweeper": "pnpm --filter @arcade/minesweeper build",
 		"preview:minesweeper": "pnpm --filter @arcade/minesweeper preview",
+		"dev:nonogram": "pnpm --filter @arcade/nonogram dev",
+		"build:nonogram": "pnpm --filter @arcade/nonogram build",
+		"preview:nonogram": "pnpm --filter @arcade/nonogram preview",
+		"dev:queens": "pnpm --filter @arcade/queens dev",
+		"build:queens": "pnpm --filter @arcade/queens build",
+		"preview:queens": "pnpm --filter @arcade/queens preview",
 		"storybook:ui": "pnpm --filter @arcade/lib-ui storybook",
 		"storybook": "pnpm --filter @arcade/lib-ui storybook",
 		"build:storybook": "pnpm --filter @arcade/lib-ui build-storybook",
-		"build:all": "pnpm build:hub && pnpm build:sudoku && pnpm build:minesweeper && pnpm build:storybook",
+		"build:all": "pnpm build:hub && pnpm build:sudoku && pnpm build:minesweeper && pnpm build:nonogram && pnpm build:queens && pnpm build:storybook",
 		"build": "pnpm build:all"
 	},
 	"engines": {
