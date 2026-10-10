@@ -63,17 +63,13 @@ export function Breadcrumb<C extends ElementType = 'nav'>({
 
 	return (
 		<S.Breadcrumb as={Component} aria-label={resolvedAriaLabel} aria-labelledby={ariaLabelledBy}>
-			<S.Breadcrumb_List role='list'>
+			<S.Breadcrumb_List role="list">
 				{processedItems.map((item, index) => {
 					const isLast = index === processedItems.length - 1;
 					return (
 						<S.Breadcrumb_ListItem key={item.key}>
 							{renderBreadcrumbItem(item)}
-							{!isLast && (
-								<S.Breadcrumb_Separator aria-hidden="true">
-									/
-								</S.Breadcrumb_Separator>
-							)}
+							{!isLast && <S.Breadcrumb_Separator aria-hidden="true">/</S.Breadcrumb_Separator>}
 						</S.Breadcrumb_ListItem>
 					);
 				})}

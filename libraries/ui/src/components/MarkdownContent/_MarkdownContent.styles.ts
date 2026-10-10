@@ -148,4 +148,3 @@ export const MarkdownContent = styled.article`
 		margin-bottom: 0;
 	}
 `;
-

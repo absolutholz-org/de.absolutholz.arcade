@@ -21,7 +21,7 @@ function ThemeSelectorInner({ className }: { className?: string }) {
 				{THEMESET_IDS.map((id: ThemesetId) => {
 					const isSelected = activeThemeset === id;
 					const themeLabel = t(`settings.themes.${id}`);
-
+					console.log({ THEMESET_IDS, activeThemeset, id, isSelected });
 					return (
 						<S.Card
 							key={id}

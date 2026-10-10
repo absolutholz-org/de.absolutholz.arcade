@@ -1,4 +1,9 @@
-import { PAGE_MAX_WIDTH, PAGE_MAX_WIDTH_SLIM, PAGE_MAX_WIDTH_WIDE, PAGE_MAX_WIDTH_EXTRA_WIDE } from '../../styles/constants';
+import {
+	PAGE_MAX_WIDTH,
+	PAGE_MAX_WIDTH_SLIM,
+	PAGE_MAX_WIDTH_WIDE,
+	PAGE_MAX_WIDTH_EXTRA_WIDE,
+} from '../../styles/constants';
 
 export const PAGE_CONTAINER_VARIANTS = {
 	extraWide: PAGE_MAX_WIDTH_EXTRA_WIDE,

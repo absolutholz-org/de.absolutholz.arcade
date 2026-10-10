@@ -63,17 +63,17 @@ export const Toolbar = styled.div`
 
 	/* Sizing Presets using design system spacing tokens */
 	&[data-size='sm'] {
-		padding: ${space('2xs')};
+		/* padding: ${space('2xs')}; */
 		gap: ${space('2xs')};
 	}
 
 	&[data-size='md'] {
-		padding: 0.375rem;
+		/* padding: 0.375rem; */
 		gap: 0.375rem;
 	}
 
 	&[data-size='lg'] {
-		padding: ${space('xs')};
+		/* padding: ${space('xs')}; */
 		gap: ${space('xs')};
 	}
 

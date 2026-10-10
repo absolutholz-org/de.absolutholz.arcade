@@ -1,10 +1,10 @@
 ---
-import { resources } from "@arcade/lib-i18n/config/i18n";
-import type { SupportedLanguageCode } from "@arcade/lib-i18n/types/i18n.types";
-import { Breadcrumb } from "../components/Breadcrumb";
-import type { BreadcrumbItem } from "../components/Breadcrumb/_Breadcrumb.types";
-import PageLayout from "./PageLayout.astro";
-import { PageContainer } from "../components/PageContainer/_PageContainer";
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { Breadcrumb } from '../components/Breadcrumb';
+import type { BreadcrumbItem } from '../components/Breadcrumb/_Breadcrumb.types';
+import PageLayout from './PageLayout.astro';
+import { PageContainer } from '../components/PageContainer/_PageContainer';
 
 interface Props {
 	title: string;
@@ -16,7 +16,7 @@ interface Props {
 	basePath?: string;
 	canonicalBase?: string;
 	manifestHref?: string;
-	headerVariant?: "standard" | "minimal" | "none";
+	headerVariant?: 'standard' | 'minimal' | 'none';
 	breadcrumbItems?: BreadcrumbItem[];
 }
 
@@ -26,11 +26,11 @@ const {
 	lang,
 	appTitle,
 	appHomeHref,
-	currentSlug = "",
-	basePath = "",
-	canonicalBase = "https://arcade.absolutholz.de",
+	currentSlug = '',
+	basePath = '',
+	canonicalBase = 'https://arcade.absolutholz.de',
 	manifestHref,
-	headerVariant = "standard",
+	headerVariant = 'standard',
 	breadcrumbItems,
 } = Astro.props;
 
