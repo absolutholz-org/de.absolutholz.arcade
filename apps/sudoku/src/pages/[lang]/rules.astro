@@ -1,13 +1,13 @@
 ---
-import { getEntry } from "astro:content";
-import { resources } from "@arcade/lib-i18n/config/i18n";
-import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from "@arcade/lib-i18n/constants/languages";
-import type { SupportedLanguageCode } from "@arcade/lib-i18n/types/i18n.types";
-import { Button } from "@arcade/lib-ui/components/Button";
-import { MarkdownContent } from "@arcade/lib-ui/components/MarkdownContent";
-import { Stack } from "@arcade/lib-ui/components/Stack";
-import SudokuStaticPageLayout from "../../layouts/SudokuStaticPageLayout.astro";
-import { PageContainer } from "@arcade/lib-ui/components/PageContainer";
+import { getEntry } from 'astro:content';
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { Button } from '@arcade/lib-ui/components/Button';
+import { MarkdownContent } from '@arcade/lib-ui/components/MarkdownContent';
+import { PageContainer } from '@arcade/lib-ui/components/PageContainer';
+import { Stack } from '@arcade/lib-ui/components/Stack';
+import SudokuStaticPageLayout from '../../layouts/SudokuStaticPageLayout.astro';
 
 export function getStaticPaths() {
 	return SUPPORTED_LANGUAGES.map((item) => ({
@@ -16,7 +16,7 @@ export function getStaticPaths() {
 }
 
 const { lang } = Astro.params;
-const entry = (await getEntry("pages", `${lang}/rules`)) ?? (await getEntry("pages", `${DEFAULT_LANGUAGE}/rules`));
+const entry = (await getEntry('pages', `${lang}/rules`)) ?? (await getEntry('pages', `${DEFAULT_LANGUAGE}/rules`));
 const rendered = entry ? await entry.render() : null;
 const Content = rendered?.Content;
 

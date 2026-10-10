@@ -2,12 +2,12 @@ import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import { createGameStorage } from '@arcade/lib-storage';
 import { Button } from '@arcade/lib-ui/components/Button';
+import { Hero } from '@arcade/lib-ui/components/Hero';
 import { formatTime } from '@arcade/lib-ui/components/Timer';
 import { useEffect, useState } from 'react';
 import type { Difficulty, GameSnapshot, SudokuStats } from '../../engine/types';
 import * as S from './SudokuLobby.styles';
 import type { SudokuLobbyProps } from './SudokuLobby.types';
-import { Hero } from '@arcade/lib-ui/components/Hero';
 
 const storage = createGameStorage('sudoku');
 const DIFFICULTIES: Difficulty[] = ['easy', 'medium', 'hard', 'veryHard', 'insane', 'inhuman'];

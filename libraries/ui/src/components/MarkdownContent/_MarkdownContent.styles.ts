@@ -1,7 +1,7 @@
 import { styled } from '@linaria/react';
 import { space } from '../../styles/spacing';
-import { generateFontShorthand } from '../Text/_Text.functions';
 import { themeColor } from '../../styles/theme/theme.utils';
+import { generateFontShorthand } from '../Text/_Text.functions';
 
 export const MarkdownContent = styled.article`
 	max-width: 75ch;

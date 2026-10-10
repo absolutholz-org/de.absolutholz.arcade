@@ -1,6 +1,6 @@
 import { styled } from '@linaria/react';
-import { themeColor } from '../../styles/theme/theme.utils';
 import { space } from '../../styles/spacing';
+import { themeColor } from '../../styles/theme/theme.utils';
 import { generateFontShorthand } from '../Text/_Text.functions';
 
 export const Breadcrumb = styled.nav`

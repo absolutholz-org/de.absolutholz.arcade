@@ -2,6 +2,7 @@ import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { Button } from '@arcade/lib-ui/components/Button';
+import { Hero } from '@arcade/lib-ui/components/Hero';
 import { Icon } from '@arcade/lib-ui/components/Icon';
 import { formatTime } from '@arcade/lib-ui/components/Timer';
 import type { FormEvent, JSX } from 'react';
@@ -18,7 +19,6 @@ import {
 } from '../../engine';
 import { DifficultyGraphic, SizeGraphic } from '../Graphics';
 import * as S from './MinesweeperLobby.styles';
-import { Hero } from '@arcade/lib-ui/components/Hero';
 
 export interface MinesweeperLobbyProps {
 	lang: SupportedLanguageCode;

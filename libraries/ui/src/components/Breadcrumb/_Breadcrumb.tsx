@@ -63,6 +63,7 @@ export function Breadcrumb<C extends ElementType = 'nav'>({
 
 	return (
 		<S.Breadcrumb as={Component} aria-label={resolvedAriaLabel} aria-labelledby={ariaLabelledBy}>
+			{/* biome-ignore lint/a11y/useSemanticElements: Preserve VoiceOver list semantics lost via list-style: none in Safari */}
 			<S.Breadcrumb_List role="list">
 				{processedItems.map((item, index) => {
 					const isLast = index === processedItems.length - 1;

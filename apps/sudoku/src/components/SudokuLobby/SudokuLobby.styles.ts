@@ -5,7 +5,6 @@ export const LobbyContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 2.5rem;
-	width: 100%;
 `;
 
 export const HeroSection = styled.div`

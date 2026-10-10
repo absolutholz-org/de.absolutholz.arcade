@@ -1,7 +1,7 @@
 import type { ElementType } from 'react';
+import { PageContainer } from '../PageContainer';
 import * as S from './_SiteHeader.styles';
 import type { SiteHeaderProps } from './_SiteHeader.types';
-import { PageContainer } from '../PageContainer';
 
 /**
  * Reusable site header providing the top landmark banner container.
