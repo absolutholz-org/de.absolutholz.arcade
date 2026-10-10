@@ -6,6 +6,8 @@ This document outlines the global rules and operational boundaries that all AI a
 
 - **No Production Builds**: Do not run production build/compilation commands (such as `pnpm build`, `pnpm -r build`, or package-specific build scripts) during local development or validation steps. Production builds are slow and generate unnecessary artifacts in build directories (`dist/`).
 - **Validation Alternatives**: To verify compilation, syntax, or TypeScript type-safety, run `pnpm typecheck` or `pnpm check` (via Biome) instead of building.
+- **Targeted Validation Scoping**: Never run workspace-wide checks (`pnpm -r check`, monorepo-wide test suites) for incremental file edits. Scope type-checking and linting to the specific package or files touched.
+- **Quiet Test Execution**: When running unit or integration tests to verify changes, execute only the targeted test file associated with the modified module (e.g., using quiet flags such as `--reporter=dot` where available). Never execute full test suites across unaffected packages.
 
 ## 2. Git Operations Safety
 
@@ -35,7 +37,7 @@ Agents are strictly forbidden from introducing alternative tooling. You must adh
 - **Package Manager:** `pnpm` (Workspaces).
 - **Formatting & Linting:** `Biome` (Respecting `.editorconfig`). Do not generate or assume `ESLint` or `Prettier` configurations.
 - **Styling:** `Linaria` (`@linaria/core`, `@linaria/react`). Styles must be written using standard CSS strings inside template literals (`css`...``). Do not use Tailwind, CSS Modules, styled-components, standard Emotion, or Vanilla Extract.
-  - **Zero Inline Styles & Zero Runtime Prop Interpolations:** Inline styles (`style={{ ... }}`) are strictly prohibited except for purely dynamic, continuous runtime calculations (such as real-time animation coordinates). Agents must never use dynamic prop interpolation functions (`${({ $prop }) => ...}`) inside Linaria styled components because Linaria compiles them into dynamic CSS custom properties rendered as inline `style="..."` attributes on the DOM element. All component variants, sizes, orientations, and states must be implemented using static CSS with `data-*` attribute selectors (e.g., `&[data-variant='primary']`, `&[data-size='sm']`).
+    - **Zero Inline Styles & Zero Runtime Prop Interpolations:** Inline styles (`style={{ ... }}`) are strictly prohibited except for purely dynamic, continuous runtime calculations (such as real-time animation coordinates). Agents must never use dynamic prop interpolation functions (`${({ $prop }) => ...}`) inside Linaria styled components because Linaria compiles them into dynamic CSS custom properties rendered as inline `style="..."` attributes on the DOM element. All component variants, sizes, orientations, and states must be implemented using static CSS with `data-*` attribute selectors (e.g., `&[data-variant='primary']`, `&[data-size='sm']`).
 - **Frameworks:** `Astro` for the `apps/hub`, and `React` (via Vite or Astro integrations) for interactive games.
 
 ### Workspace Dependency & Package Management Integrity
@@ -43,9 +45,9 @@ Agents are strictly forbidden from introducing alternative tooling. You must adh
 - **Canonical Package Management Only:** All dependency installations, workspace linking, and binary execution shims (`node_modules/.bin`) must be handled natively and exclusively by `pnpm`.
 - **Zero Manual `node_modules` Manipulation:** Agents are strictly forbidden from manually creating, modifying, copying, or symlinking files or directories inside any `node_modules/` or `.bin/` folder (e.g., via `ln -s`, `cp`, or `mkdir`). Never attempt ad-hoc mock symlinks to simulate package installation or bypass tooling.
 - **Sandbox Boundary Protocol:** The AI execution sandbox isolates external network access. When scaffolding a new package or modifying `package.json` dependencies:
-  - Declare package manifests (`package.json`, `pnpm-workspace.yaml`) cleanly and accurately.
-  - Never attempt destructive re-installations in the sandbox that prompt to wipe modules, and never create ad-hoc manual symlink workarounds.
-  - If `pnpm install` is required to link new workspace packages or binaries into the dependency graph, instruct the human developer to run `pnpm install` in their unconstrained host terminal.
+    - Declare package manifests (`package.json`, `pnpm-workspace.yaml`) cleanly and accurately.
+    - Never attempt destructive re-installations in the sandbox that prompt to wipe modules, and never create ad-hoc manual symlink workarounds.
+    - If `pnpm install` is required to link new workspace packages or binaries into the dependency graph, instruct the human developer to run `pnpm install` in their unconstrained host terminal.
 
 ## 5. CSS and Styling Units Constraint
 
@@ -65,42 +67,49 @@ Agents are strictly forbidden from introducing alternative tooling. You must adh
 This project combines static pre-rendered content (Astro) with dynamic client-side content (React). Agents must strictly adhere to the following rendering boundaries:
 
 - **Static Pre-Rendered Pages (`.astro`)**:
-  - Execute exclusively during the static build/SSG step (Node.js).
-  - Global stylesheet (`@arcade/lib-ui/styles/global.css`) must be imported once at the root layout (`BaseLayout.astro`).
-  - Server-side text must be read directly from `@arcade/lib-i18n` resources without client hooks.
-  - Must never execute client-side state loops or assume browser globals exist (`window`, `localStorage`, `document`).
+    - Execute exclusively during the static build/SSG step (Node.js).
+    - Global stylesheet (`@arcade/lib-ui/styles/global.css`) must be imported once at the root layout (`BaseLayout.astro`).
+    - Server-side text must be read directly from `@arcade/lib-i18n` resources without client hooks.
+    - Must never execute client-side state loops or assume browser globals exist (`window`, `localStorage`, `document`).
 - **Isomorphic UI Islands (`libraries/ui` in `.astro` with `client:load` / `client:idle`)**:
-  - Evaluated on the server during SSG, then hydrated in the browser.
-  - **Strict SSR Safety:** Never use `useLayoutEffect` (enforce `useEffect`). Guard all `window`, `document`, and `localStorage` accesses (`typeof window !== 'undefined'`).
-  - Must consume `@arcade/lib-i18n` abstractions (`useI18n()`).
+    - Evaluated on the server during SSG, then hydrated in the browser.
+    - **Strict SSR Safety:** Never use `useLayoutEffect` (enforce `useEffect`). Guard all `window`, `document`, and `localStorage` accesses (`typeof window !== 'undefined'`).
+    - Must consume `@arcade/lib-i18n` abstractions (`useI18n()`).
 - **Client-Only Interactive Modules (Games & Canvas)**:
-  - Must use `client:only="react"` per ADR 002.
-  - Must never be evaluated on the server or use partial hydration directives.
+    - Must use `client:only="react"` per ADR 002.
+    - Must never be evaluated on the server or use partial hydration directives.
 - **Ambiguity Handling**:
-  - Agents must follow this taxonomy automatically without asking on every routine prompt.
-  - If a new feature is requested whose rendering tier is genuinely ambiguous (e.g., choosing between a static Astro component vs. an interactive React island), the agent must ask for clarification on the rendering strategy before implementing.
+    - Agents must follow this taxonomy automatically without asking on every routine prompt.
+    - If a new feature is requested whose rendering tier is genuinely ambiguous (e.g., choosing between a static Astro component vs. an interactive React island), the agent must ask for clarification on the rendering strategy before implementing.
 
 ## 8. Page Layout & Navigation Taxonomy (Breadcrumb Strategy)
 
 To maintain a consistent, accessible navigation hierarchy and avoid redundant landmark clutter, pages across all applications are strictly categorized into three layout tiers:
 
 1. **Interactive Game Screens (`apps/[game]/src/pages/[lang]/game.astro`)**:
-   - Must use `*BaseLayout.astro`.
-   - Dedicated full-screen canvas viewport with zero header, zero footer, and **no breadcrumbs**.
+    - Must use `*BaseLayout.astro`.
+    - Dedicated full-screen canvas viewport with zero header, zero footer, and **no breadcrumbs**.
 
 2. **Homepages & Lobbies (`index.astro`)**:
-   - The Hub homepage (`apps/hub/src/pages/[lang]/index.astro`) and Game lobbies (`apps/[game]/src/pages/[lang]/index.astro`).
-   - Must use standard `PageLayout.astro` (or game wrapper `*PageLayout.astro`).
-   - Serves as the root navigation landmark; must **NEVER** render breadcrumbs.
+    - The Hub homepage (`apps/hub/src/pages/[lang]/index.astro`) and Game lobbies (`apps/[game]/src/pages/[lang]/index.astro`).
+    - Must use standard `PageLayout.astro` (or game wrapper `*PageLayout.astro`).
+    - Serves as the root navigation landmark; must **NEVER** render breadcrumbs.
 
 3. **Static Content & Informational Subpages (`rules.astro`, `stats.astro`, `high-scores.astro`, `settings.astro`, `[slug].astro`)**:
-   - Informational, documentation, settings, and legal prose pages.
-   - Must **ALWAYS** consume `StaticPageLayout.astro` (`@arcade/lib-ui/layouts/StaticPageLayout.astro` or domain wrapper `*StaticPageLayout.astro`).
-   - `StaticPageLayout` automatically injects the W3C APG compliant `<Breadcrumb>` in a dedicated breadcrumb bar outside `<main id="main-content">`, forming the hierarchical path:
-     - Game subpages: `[Arcade Logo] / [Game Title] / [Page Title]`
-     - Hub subpages: `[Arcade Logo] / [Page Title]`
-   - Breadcrumbs are positioned outside `<main>` to preserve skip-to-content target integrity and clean landmark hierarchy.
-   - Pages and content sections wrap their content in `<PageContainer>` independently, ensuring layout containers are modular rather than forced into a single monolithic layout wrapper.
-   - **No Manual Placements:** Agents are strictly forbidden from placing `<Breadcrumb>` manually outside of `StaticPageLayout`.
+    - Informational, documentation, settings, and legal prose pages.
+    - Must **ALWAYS** consume `StaticPageLayout.astro` (`@arcade/lib-ui/layouts/StaticPageLayout.astro` or domain wrapper `*StaticPageLayout.astro`).
+    - `StaticPageLayout` automatically injects the W3C APG compliant `<Breadcrumb>` in a dedicated breadcrumb bar outside `<main id="main-content">`, forming the hierarchical path:
+        - Game subpages: `[Arcade Logo] / [Game Title] / [Page Title]`
+        - Hub subpages: `[Arcade Logo] / [Page Title]`
+    - Breadcrumbs are positioned outside `<main>` to preserve skip-to-content target integrity and clean landmark hierarchy.
+    - Pages and content sections wrap their content in `<PageContainer>` independently, ensuring layout containers are modular rather than forced into a single monolithic layout wrapper.
+    - **No Manual Placements:** Agents are strictly forbidden from placing `<Breadcrumb>` manually outside of `StaticPageLayout`.
 
+## 9. Token Economy & Autonomous Loop Guardrails
 
+To protect agent quota and context windows from exhaustion, all agents must operate under strict token and loop boundaries:
+
+- **Targeted Code Inspection:** Scope file reads and searches strictly to the packages and files explicitly mentioned in the task prompt or directly imported by the active component. Do not perform recursive monorepo file system sweeps, and never read `dist/`, `.astro/`, or lockfiles unless explicitly instructed.
+- **Autonomous Retries Limit (Fail-Fast Policy):** Limit automated self-correction and validation retry loops to a maximum of **1 attempt**. If a typecheck or test fails after one fix attempt, halt immediately, summarize the exact error, display the candidate diff, and request direction from the developer.
+- **No Speculative Cascading Refactors:** Never attempt autonomous, speculative refactors across unrelated workspace files or libraries to resolve a localized typing or lint error.
+- **Lean Tool Output:** Avoid executing commands that output massive terminal logs into context. Favor concise, quiet reporter flags and specific file arguments.
