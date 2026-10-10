@@ -1,0 +1,25 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { QueensGame } from '../../components/QueensGame/index.js';
+import QueensBaseLayout from '../../layouts/QueensBaseLayout.astro';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const currentQueens = resources[lang as SupportedLanguageCode]?.queens ?? resources.en.queens;
+---
+
+<QueensBaseLayout
+	title={`${currentQueens.title} | ${currentQueens.description}`}
+	description={currentQueens.description}
+	lang={lang as SupportedLanguageCode}
+	canonical={`https://arcade.absolutholz.de/queens/${lang}/game`}
+>
+	<QueensGame client:only="react" lang={lang as SupportedLanguageCode} />
+</QueensBaseLayout>

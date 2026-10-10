@@ -1,0 +1,28 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { PageContainer } from '@arcade/lib-ui/components/PageContainer';
+import { QueensLobby } from '../../components/QueensLobby/index.js';
+import QueensPageLayout from '../../layouts/QueensPageLayout.astro';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const currentQueens = resources[lang as SupportedLanguageCode]?.queens ?? resources.en.queens;
+---
+
+<QueensPageLayout
+	title={currentQueens.title}
+	description={currentQueens.description}
+	lang={lang as SupportedLanguageCode}
+	currentSlug=""
+>
+	<PageContainer>
+		<QueensLobby client:load lang={lang as SupportedLanguageCode} />
+	</PageContainer>
+</QueensPageLayout>

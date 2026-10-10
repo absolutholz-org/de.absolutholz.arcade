@@ -1,0 +1,92 @@
+import type { QueensTranslationContract } from '../../schemas/queens.schema.js';
+
+export const deQueens = {
+	title: 'Queens',
+	description:
+		'Platziere neutrale Kronen-Marker so, dass jede Zeile, Spalte und Farbzone genau eine Krone enthält, ohne sich zu berühren.',
+	difficulty: {
+		label: 'Schwierigkeitsgrad',
+		easy: 'Einfach',
+		easyDesc: '6×6 Gitter mit 6 Zonen und 6 Kronen.',
+		medium: 'Mittel',
+		mediumDesc: '8×8 Gitter mit 8 Zonen und 8 Kronen.',
+		hard: 'Schwer',
+		hardDesc: '10×10 Gitter mit 10 Zonen und 10 Kronen.',
+		expert: 'Experte',
+		expertDesc: '12×12 Gitter mit 12 Zonen und 12 Kronen.',
+	},
+	levels: {
+		puzzle: 'Rätsel',
+		puzzleNum: 'Rätsel {{number}}',
+		selectLevel: 'Rätsel auswählen',
+		completed: 'Gelöst',
+		notCompleted: 'Nicht gelöst',
+		bestTime: 'Bestzeit: {{time}}',
+	},
+	mode: {
+		label: 'Eingabemodus',
+		mark: 'Markierungsmodus',
+		markDesc: 'Setze und entferne X-Markierungen zum Eliminieren',
+		token: 'Kronenmodus',
+		tokenDesc: 'Setze und entferne Kronen-Marker',
+	},
+	controls: {
+		undo: 'Rückgängig',
+		redo: 'Wiederholen',
+		reset: 'Spielfeld zurücksetzen',
+		autoCross: 'Auto-Kreuz',
+		autoCrossDesc:
+			'Setzt beim Platzieren einer Krone automatisch X-Markierungen in Zeile, Spalte und Nachbarfeldern',
+		pause: 'Pause',
+		resume: 'Fortsetzen',
+		restart: 'Neu starten',
+		play: 'Spielen',
+		nextPuzzle: 'Nächstes Rätsel',
+		backToLobby: 'Lobby',
+	},
+	settings: {
+		title: 'Spieleinstellungen',
+		gameplayTab: 'Spielablauf',
+		siteTab: 'Präferenzen',
+		autoCross: {
+			label: 'Auto-Kreuz Assistent',
+			description: 'Platziert beim Setzen einer Krone automatisch X-Markierungen um die Krone herum.',
+		},
+		colorScheme: 'Erscheinungsbild',
+		language: 'Sprache',
+	},
+	status: {
+		paused: 'Spiel pausiert',
+		pausedDescription: 'Dein Spielfortschritt und Timer sind sicher pausiert.',
+		timer: 'Verstrichene Zeit',
+		time: 'Zeit',
+		bestTime: 'Bestzeit',
+		newBestTime: 'Neue Bestzeit!',
+		tokensPlaced: '{{current}} von {{total}} Kronen platziert',
+	},
+	conflicts: {
+		row: 'Zeilenkonflikt: Mehrere Kronen in dieser Zeile',
+		col: 'Spaltenkonflikt: Mehrere Kronen in dieser Spalte',
+		region: 'Zonenkonflikt: Mehrere Kronen in dieser Farbzone',
+		adjacency: 'Abstandskonflikt: Kronen dürfen sich horizontal, vertikal und diagonal nicht berühren',
+	},
+	victory: {
+		title: 'Rätsel gelöst!',
+		congratulations: 'Hervorragende Deduktion! Alle Kronen sind ohne Regelverletzungen platziert.',
+		playAgain: 'Nochmal spielen',
+		nextLevel: 'Nächstes Rätsel',
+	},
+	aria: {
+		board: 'Queens Spielfeld {{size}} mal {{size}}',
+		cell: 'Zeile {{row}}, Spalte {{col}}, Zone {{region}}',
+		cellEmpty: 'leer',
+		cellMarked: 'mit X markiert',
+		cellToken: 'enthält Krone',
+		conflictNotice: 'Regelkonflikt: {{reason}}',
+		headerToolbar: 'Steuerungsleiste',
+	},
+	navigation: {
+		rules: 'Regeln',
+		lobby: 'Lobby',
+	},
+} as const satisfies QueensTranslationContract;

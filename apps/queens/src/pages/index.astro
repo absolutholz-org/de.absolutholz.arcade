@@ -1,0 +1,56 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import { LanguageRedirectFallback } from '@arcade/lib-ui/components/LanguageRedirectFallback';
+import QueensBaseLayout from '../layouts/QueensBaseLayout.astro';
+
+const currentCommon = resources[DEFAULT_LANGUAGE].common;
+const currentQueens = resources[DEFAULT_LANGUAGE].queens;
+const languageItems = SUPPORTED_LANGUAGES.map((item) => ({
+	code: item.code,
+	label: item.label,
+	flag: item.flag,
+	href: `/queens/${item.code}/`,
+}));
+---
+
+<QueensBaseLayout
+	lang={DEFAULT_LANGUAGE}
+	title={currentQueens.title}
+	canonical="https://arcade.absolutholz.de/queens/en/"
+>
+	<Fragment slot="head">
+		{/* Non-JS fallback redirect to default English */}
+		<meta http-equiv="refresh" content="0;url=/queens/en/" />
+
+		<script is:inline define:vars={{ supportedCodes: SUPPORTED_LANGUAGES.map((l) => l.code), defaultLang: DEFAULT_LANGUAGE }}>
+			(function () {
+				try {
+					var stored = localStorage.getItem('arcade::i18n::language');
+					if (stored && supportedCodes.indexOf(stored) !== -1) {
+						window.location.replace('/queens/' + stored + '/');
+						return;
+					}
+				} catch (_) {}
+
+				var candidates = navigator.languages || [navigator.language || ''];
+				for (var i = 0; i < candidates.length; i++) {
+					var candidate = (candidates[i] || '').toLowerCase().split('-')[0];
+					if (supportedCodes.indexOf(candidate) !== -1) {
+						window.location.replace('/queens/' + candidate + '/');
+						return;
+					}
+				}
+
+				window.location.replace('/queens/' + defaultLang + '/');
+			})();
+		</script>
+	</Fragment>
+
+	<LanguageRedirectFallback
+		title={currentQueens.title}
+		message={currentCommon.app.redirectNotice}
+		languagesAriaLabel={currentCommon.switchers.language.ariaLabel}
+		languages={languageItems}
+	/>
+</QueensBaseLayout>

@@ -1,0 +1,18 @@
+---
+import BaseLayout from '@arcade/lib-ui/layouts/BaseLayout.astro';
+
+interface Props {
+	title: string;
+	description?: string;
+	lang?: string;
+	dir?: 'ltr' | 'rtl';
+	canonical?: string;
+}
+
+const props = Astro.props;
+---
+
+<BaseLayout {...props} appTitle="Queens">
+	<slot name="head" slot="head" />
+	<slot />
+</BaseLayout>
