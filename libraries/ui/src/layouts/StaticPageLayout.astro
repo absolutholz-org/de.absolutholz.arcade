@@ -1,9 +1,10 @@
 ---
-import { resources } from '@arcade/lib-i18n/config/i18n';
-import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
-import { Breadcrumb } from '../components/Breadcrumb';
-import type { BreadcrumbItem } from '../components/Breadcrumb/_Breadcrumb.types';
-import PageLayout from './PageLayout.astro';
+import { resources } from "@arcade/lib-i18n/config/i18n";
+import type { SupportedLanguageCode } from "@arcade/lib-i18n/types/i18n.types";
+import { Breadcrumb } from "../components/Breadcrumb";
+import type { BreadcrumbItem } from "../components/Breadcrumb/_Breadcrumb.types";
+import PageLayout from "./PageLayout.astro";
+import { PageContainer } from "../components/PageContainer/_PageContainer";
 
 interface Props {
 	title: string;
@@ -15,7 +16,7 @@ interface Props {
 	basePath?: string;
 	canonicalBase?: string;
 	manifestHref?: string;
-	headerVariant?: 'standard' | 'minimal' | 'none';
+	headerVariant?: "standard" | "minimal" | "none";
 	breadcrumbItems?: BreadcrumbItem[];
 }
 
@@ -25,11 +26,11 @@ const {
 	lang,
 	appTitle,
 	appHomeHref,
-	currentSlug = '',
-	basePath = '',
-	canonicalBase = 'https://arcade.absolutholz.de',
+	currentSlug = "",
+	basePath = "",
+	canonicalBase = "https://arcade.absolutholz.de",
 	manifestHref,
-	headerVariant = 'standard',
+	headerVariant = "standard",
 	breadcrumbItems,
 } = Astro.props;
 
@@ -66,25 +67,13 @@ const resolvedBreadcrumbItems: BreadcrumbItem[] =
 >
 	<slot name="head" slot="head" />
 
-	<div slot="breadcrumb" class="breadcrumb-bar">
-		<div class="breadcrumb-container">
+	<div slot="breadcrumb">
+		<PageContainer variant="slim">
 			<Breadcrumb homeHref={arcadeHomeHref} items={resolvedBreadcrumbItems} />
-		</div>
+		</PageContainer>
 	</div>
 
-	<slot />
+	<PageContainer variant="slim">
+		<slot />
+	</PageContainer>
 </PageLayout>
-
-<style>
-	.breadcrumb-bar {
-		padding: 0 var(--page-content-padding, 1.5rem);
-		width: 100%;
-	}
-
-	.breadcrumb-container {
-		margin: 0 auto;
-		max-width: 64rem;
-		padding-block: 1rem 1.25rem;
-		width: 100%;
-	}
-</style>

@@ -1,9 +1,11 @@
 import { styled } from '@linaria/react';
 import { space } from '../../styles/spacing';
+import { themeColor } from '../../styles/theme/theme.utils';
+import { generateFontShorthand } from '../Text/_Text.functions';
 
 export const Hero = styled.header`
 	display: flex;
-	margin-bottom: ${space('xl')};
+	padding-block: ${space('3xl')} ${space('xl')};
 	width: 100%;
 
 	&[data-align='left'] {
@@ -25,44 +27,33 @@ export const Hero = styled.header`
 		gap: ${space('md')};
 		text-align: center;
 	}
+`;
 
-	.hero-visual {
-		display: inline-flex;
-		flex-shrink: 0;
-	}
+export const Hero_Visual = styled.div`
+	display: inline-flex;
+	flex-shrink: 0;
+`;
 
-	.hero-body {
-		display: flex;
-		flex-direction: column;
-		gap: ${space('2xs')};
-	}
+export const Hero_Body = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: ${space('2xs')};
+`;
 
-	.hero-title {
-		color: var(--color-text-1);
-		font-size: 3rem;
-		font-weight: 800;
-		letter-spacing: -0.03em;
-		line-height: 1.1;
+export const Hero_Title = styled.h1`
+	color: ${themeColor('text-1')};
+	font: ${generateFontShorthand('display', 'bold')};
+	/* letter-spacing: -0.03em; */
+`;
 
-		@media (max-width: 600px) {
-			font-size: 2.25rem;
-		}
-	}
+export const Hero_Tagline = styled.p`
+	color: ${themeColor('text-2')};
+	font: ${generateFontShorthand('h3', 'regular')};
+`;
 
-	.hero-tagline {
-		color: var(--color-text-2);
-		font-size: 1.25rem;
-		line-height: 1.4;
-
-		@media (max-width: 600px) {
-			font-size: 1.125rem;
-		}
-	}
-
-	.hero-actions {
-		display: flex;
-		flex-wrap: wrap;
-		gap: ${space('sm')};
-		margin-top: ${space('sm')};
-	}
+export const Hero_Actions = styled.div`
+	display: flex;
+	flex-wrap: wrap;
+	gap: ${space('sm')};
+	margin-top: ${space('sm')};
 `;

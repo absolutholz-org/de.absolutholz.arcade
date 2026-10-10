@@ -7,12 +7,14 @@ import { useEffect, useState } from 'react';
 import type { Difficulty, GameSnapshot, SudokuStats } from '../../engine/types';
 import * as S from './SudokuLobby.styles';
 import type { SudokuLobbyProps } from './SudokuLobby.types';
+import { Hero } from '@arcade/lib-ui/components/Hero';
 
 const storage = createGameStorage('sudoku');
 const DIFFICULTIES: Difficulty[] = ['easy', 'medium', 'hard', 'veryHard', 'insane', 'inhuman'];
 
 function LobbyContent() {
 	const { t, language } = useI18n('sudoku');
+	const { t: tCommon } = useI18n('common');
 	const [activeGame, setActiveGame] = useState<GameSnapshot | null>(null);
 	const [stats, setStats] = useState<SudokuStats | null>(null);
 
@@ -36,10 +38,7 @@ function LobbyContent() {
 
 	return (
 		<S.LobbyContainer>
-			<S.HeroSection>
-				<h1>{t('title')}</h1>
-				<p>{t('description')}</p>
-			</S.HeroSection>
+			<Hero title={t('title')} tagline={t('description')} />
 
 			{activeGame ? (
 				<S.ResumeCard>
@@ -83,7 +82,7 @@ function LobbyContent() {
 			</S.DifficultySection>
 
 			<S.QuickLinks>
-				<a href={`/sudoku/${language}/rules`}>{t('navigation.rules')}</a>
+				<a href={`/sudoku/${language}/rules`}>{tCommon('navigation.rules')}</a>
 				<a href={`/sudoku/${language}/stats`}>{t('stats.title')}</a>
 			</S.QuickLinks>
 		</S.LobbyContainer>

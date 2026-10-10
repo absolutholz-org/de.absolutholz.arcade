@@ -18,6 +18,7 @@ import {
 } from '../../engine';
 import { DifficultyGraphic, SizeGraphic } from '../Graphics';
 import * as S from './MinesweeperLobby.styles';
+import { Hero } from '@arcade/lib-ui/components/Hero';
 
 export interface MinesweeperLobbyProps {
 	lang: SupportedLanguageCode;
@@ -25,6 +26,7 @@ export interface MinesweeperLobbyProps {
 
 function LobbyContent(): JSX.Element {
 	const { t, language } = useI18n('minesweeper');
+	const { t: tCommon } = useI18n('common');
 	const [activeGame, setActiveGame] = useState<GameSnapshot | null>(null);
 	const [selectedSize, setSelectedSize] = useState<BoardSizeId>('md');
 	const [selectedDifficulty, setSelectedDifficulty] = useState<DifficultyId>('medium');
@@ -64,10 +66,7 @@ function LobbyContent(): JSX.Element {
 
 	return (
 		<S.LobbyContainer>
-			<S.HeroSection>
-				<h1>{t('title')}</h1>
-				<p>{t('description')}</p>
-			</S.HeroSection>
+			<Hero title={t('title')} tagline={t('description')} />
 
 			{activeGame ? (
 				<S.ResumeCard>
@@ -154,7 +153,7 @@ function LobbyContent(): JSX.Element {
 
 			<S.QuickLinks>
 				<a href={`/minesweeper/${language}/high-scores`}>{t('highScores.title')}</a>
-				<a href={`/minesweeper/${language}/rules`}>{t('navigation.rules')}</a>
+				<a href={`/minesweeper/${language}/rules`}>{tCommon('navigation.rules')}</a>
 			</S.QuickLinks>
 		</S.LobbyContainer>
 	);

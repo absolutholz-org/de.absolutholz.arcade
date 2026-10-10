@@ -10,7 +10,6 @@ export const SiteHeader = styled.header`
 		display: flex;
 		height: 4rem;
 		min-height: 4rem;
-		padding: 0 var(--page-content-padding, ${space('xl')});
 
 		.header-container {
 			justify-content: space-between;
@@ -21,7 +20,7 @@ export const SiteHeader = styled.header`
 		border-bottom: none;
 		display: flex;
 		justify-content: flex-end;
-		padding: ${space('md')} var(--page-content-padding, ${space('xl')}) 0;
+		padding-block: ${space('md')};
 
 		.header-container {
 			justify-content: flex-end;
@@ -33,8 +32,6 @@ export const SiteHeader = styled.header`
 		display: flex;
 		height: 100%;
 		margin: 0 auto;
-		max-width: 64rem;
-		width: 100%;
 	}
 
 	.header-brand {
@@ -46,6 +43,13 @@ export const SiteHeader = styled.header`
 	.header-logo-link {
 		align-items: center;
 		display: inline-flex;
+	}
+
+	.header-logo-link,
+	.header-app-title-link {
+		&:hover {
+			text-decoration: none;
+		}
 	}
 
 	.header-app-title-link {

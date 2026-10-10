@@ -1,75 +1,43 @@
 import { styled } from '@linaria/react';
 import { space } from '../../styles/spacing';
+import { generateFontShorthand } from '../Text/_Text.functions';
+import { themeColor } from '../../styles/theme/theme.utils';
 
 export const MarkdownContent = styled.article`
-	color: var(--color-text-1);
-	display: flex;
-	flex-direction: column;
-	margin-inline: auto;
-	padding-inline: var(--page-content-padding, ${space('xl')});
-	width: 100%;
-
-	&[data-variant='standard'] {
-		max-width: 48rem;
-	}
-
-	&[data-variant='wide'] {
-		max-width: 64rem;
-	}
-
-	&[data-variant='full'] {
-		max-width: 100%;
-	}
+	max-width: 75ch;
 
 	/* Headings */
 	& h1 {
-		color: var(--color-text-1);
-		font-size: 2.25rem;
-		font-weight: 800;
-		line-height: 1.2;
+		font: ${generateFontShorthand('h1', 'bold')};
 		margin-bottom: ${space('lg')};
 	}
 
 	& h2 {
-		border-bottom: 1px solid var(--color-container-2);
-		color: var(--color-text-1);
-		font-size: 1.5rem;
-		font-weight: 700;
-		line-height: 1.3;
-		margin-top: ${space('xl')};
-		margin-bottom: ${space('sm')};
+		border-bottom: 1px solid ${themeColor('container-2')};
+		font: ${generateFontShorthand('h2', 'bold')};
+		margin-block: ${space('xl')} ${space('sm')};
 		padding-bottom: ${space('xs')};
 	}
 
 	& h3 {
-		color: var(--color-text-1);
-		font-size: 1.25rem;
-		font-weight: 600;
-		line-height: 1.4;
-		margin-top: ${space('lg')};
-		margin-bottom: ${space('xs')};
+		font: ${generateFontShorthand('h3', 'bold')};
+		margin-block: ${space('lg')} ${space('xs')};
 	}
 
 	& h4,
 	& h5,
 	& h6 {
-		color: var(--color-text-1);
-		font-size: 1rem;
-		font-weight: 600;
-		line-height: 1.5;
-		margin-top: ${space('md')};
-		margin-bottom: ${space('xs')};
+		font: ${generateFontShorthand('base', 'regular')};
+		margin-block: ${space('md')} ${space('xs')};
 	}
 
 	/* Paragraphs & Core Text */
 	& p {
-		color: var(--color-text-1);
 		line-height: 1.6;
 		margin-bottom: ${space('md')};
 	}
 
 	& strong {
-		color: var(--color-text-1);
 		font-weight: 700;
 	}
 
@@ -93,22 +61,21 @@ export const MarkdownContent = styled.article`
 	}
 
 	& li {
-		color: var(--color-text-1);
 		line-height: 1.6;
 		margin-bottom: ${space('xs')};
 
 		&::marker {
-			color: var(--color-accent);
+			color: ${themeColor('accent')};
 		}
 	}
 
 	/* Blockquotes & Callout / Tip Boxes */
 	& blockquote,
 	& aside {
-		background: var(--color-container-1);
-		border-left: 4px solid var(--color-accent);
+		background: ${themeColor('container-1')};
+		border-left: 4px solid ${themeColor('accent')};
 		border-radius: 0 var(--radius-md) var(--radius-md) 0;
-		color: var(--color-text-1);
+		color: ${themeColor('text-1')};
 		margin-top: ${space('lg')};
 		margin-bottom: ${space('lg')};
 		padding: ${space('md')} ${space('lg')};
@@ -127,17 +94,17 @@ export const MarkdownContent = styled.article`
 	}
 
 	/* Code Blocks & Inline Code */
-	& code {
-		background: var(--color-container-1);
+	/* & code {
+		background: ${themeColor('container-1')};
 		border-radius: var(--radius-sm);
 		font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 		font-size: 0.875em;
 		padding: 0.125rem 0.375rem;
-	}
+	} */
 
-	& pre {
-		background: var(--color-container-1);
-		border: 1px solid var(--color-container-2);
+	/* & pre {
+		background: ${themeColor('container-1')};
+		border: 1px solid ${themeColor('container-2')};
 		border-radius: var(--radius-md);
 		margin-bottom: ${space('lg')};
 		overflow-x: auto;
@@ -147,12 +114,12 @@ export const MarkdownContent = styled.article`
 			background: transparent;
 			padding: 0;
 		}
-	}
+	} */
 
 	/* Horizontal Dividers */
 	& hr {
 		border: none;
-		border-top: 1px solid var(--color-container-2);
+		border-top: 1px solid ${themeColor('container-2')};
 		margin: ${space('xl')} 0;
 	}
 
@@ -165,13 +132,13 @@ export const MarkdownContent = styled.article`
 
 	& th,
 	& td {
-		border-bottom: 1px solid var(--color-container-2);
+		border-bottom: 1px solid ${themeColor('container-2')};
 		padding: ${space('sm')} ${space('md')};
 		text-align: left;
 	}
 
 	& th {
-		border-bottom: 2px solid var(--color-container-2);
+		border-bottom: 2px solid ${themeColor('container-2')};
 		color: var(--color-text-1);
 		font-weight: 700;
 	}
@@ -181,3 +148,4 @@ export const MarkdownContent = styled.article`
 		margin-bottom: 0;
 	}
 `;
+

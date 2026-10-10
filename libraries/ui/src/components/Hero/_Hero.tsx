@@ -20,12 +20,12 @@ export function Hero<C extends ElementType = 'header'>({
 
 	return (
 		<S.Hero as={Component} data-align={align}>
-			{logo ? <div className="hero-visual">{logo}</div> : null}
-			<div className="hero-body">
-				<HeadingTag className="hero-title">{title}</HeadingTag>
-				{tagline ? <p className="hero-tagline">{tagline}</p> : null}
-				{children ? <div className="hero-actions">{children}</div> : null}
-			</div>
+			{logo ? <S.Hero_Visual>{logo}</S.Hero_Visual> : null}
+			<S.Hero_Body>
+				<S.Hero_Title as={HeadingTag}>{title}</S.Hero_Title>
+				{tagline ? <S.Hero_Tagline>{tagline}</S.Hero_Tagline> : null}
+				{children ? <S.Hero_Actions>{children}</S.Hero_Actions> : null}
+			</S.Hero_Body>
 		</S.Hero>
 	);
 }

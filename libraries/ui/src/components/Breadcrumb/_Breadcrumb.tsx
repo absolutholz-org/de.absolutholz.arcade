@@ -1,5 +1,4 @@
 import type { ElementType, ReactNode } from 'react';
-import { Logo } from '../Logo';
 import { useBreadcrumb } from './_Breadcrumb.hooks';
 import * as S from './_Breadcrumb.styles';
 import type { BreadcrumbProps, ProcessedBreadcrumbItem } from './_Breadcrumb.types';
@@ -9,30 +8,29 @@ function renderBreadcrumbItem(item: ProcessedBreadcrumbItem): ReactNode {
 	const accessibleName =
 		item['aria-label'] || (typeof item.resolvedLabel === 'string' ? item.resolvedLabel : undefined);
 
-	const itemContent = isHome ? <Logo size="sm" /> : item.resolvedLabel;
+	const itemContent = isHome ? 'Arcade Home' : item.resolvedLabel;
 
 	// The current page is always rendered as non-interactive text per WCAG and W3C APG best practice
 	if (item.isCurrent) {
 		return (
-			<span
+			<S.Breadcrumb_Span
 				aria-current="page"
 				aria-label={isHome ? accessibleName : item['aria-label']}
 				data-home={isHome ? 'true' : undefined}
-				data-current="true"
 			>
 				{itemContent}
-			</span>
+			</S.Breadcrumb_Span>
 		);
 	}
 
 	return (
-		<a
+		<S.Breadcrumb_Link
 			href={item.href}
 			aria-label={isHome ? accessibleName : item['aria-label']}
 			data-home={isHome ? 'true' : undefined}
 		>
 			{itemContent}
-		</a>
+		</S.Breadcrumb_Link>
 	);
 }
 
@@ -65,21 +63,21 @@ export function Breadcrumb<C extends ElementType = 'nav'>({
 
 	return (
 		<S.Breadcrumb as={Component} aria-label={resolvedAriaLabel} aria-labelledby={ariaLabelledBy}>
-			<ol>
+			<S.Breadcrumb_List role='list'>
 				{processedItems.map((item, index) => {
 					const isLast = index === processedItems.length - 1;
 					return (
-						<li key={item.key}>
+						<S.Breadcrumb_ListItem key={item.key}>
 							{renderBreadcrumbItem(item)}
 							{!isLast && (
-								<span data-separator="true" aria-hidden="true">
+								<S.Breadcrumb_Separator aria-hidden="true">
 									/
-								</span>
+								</S.Breadcrumb_Separator>
 							)}
-						</li>
+						</S.Breadcrumb_ListItem>
 					);
 				})}
-			</ol>
+			</S.Breadcrumb_List>
 		</S.Breadcrumb>
 	);
 }
