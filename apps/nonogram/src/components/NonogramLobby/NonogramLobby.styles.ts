@@ -286,12 +286,5 @@ export const QuickLinks = styled.div`
 
 	a {
 		font-weight: 600;
-		color: ${themeColor('text-1')};
-		text-decoration: none;
-		transition: color 150ms ease;
-
-		&:hover {
-			color: ${themeColor('accent')};
-		}
 	}
 `;

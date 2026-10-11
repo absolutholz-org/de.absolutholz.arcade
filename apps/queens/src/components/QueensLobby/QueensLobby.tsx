@@ -18,6 +18,7 @@ import type { QueensLobbyProps } from './QueensLobby.types';
 
 function LobbyContent(): JSX.Element {
 	const { t, language } = useI18n('queens');
+	const { t: tCommon } = useI18n('common');
 	const [activeGame, setActiveGame] = useState<GameSnapshot | null>(null);
 	const [progress, setProgress] = useState<ProgressMap>({});
 	const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty>('easy');
@@ -127,7 +128,7 @@ function LobbyContent(): JSX.Element {
 			</S.PuzzlesSection>
 
 			<S.QuickLinks>
-				<a href={`/queens/${language}/rules`}>{t('navigation.rules')}</a>
+				<a href={`/queens/${language}/rules`}>{tCommon('navigation.rules')}</a>
 			</S.QuickLinks>
 		</S.LobbyContainer>
 	);

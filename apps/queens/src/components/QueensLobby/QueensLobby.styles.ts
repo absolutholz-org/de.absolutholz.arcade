@@ -182,25 +182,12 @@ export const PuzzleCard = styled.div`
 
 export const QuickLinks = styled.div`
 	display: flex;
-	gap: 1.5rem;
-	padding-top: 1rem;
+	justify-content: center;
+	gap: 2rem;
 	border-top: 1px solid ${themeColor('container-2')};
+	padding-top: 2rem;
 
-	> a {
-		color: ${themeColor('text-2')};
-		text-decoration: none;
-		font-size: 0.875rem;
-		font-weight: 500;
-		transition: color 150ms ease;
-
-		&:hover {
-			color: ${themeColor('accent')};
-			text-decoration: underline;
-		}
-
-		&:focus-visible {
-			outline: 2px solid ${themeColor('accent')};
-			outline-offset: 2px;
-		}
+	a {
+		font-weight: 600;
 	}
 `;

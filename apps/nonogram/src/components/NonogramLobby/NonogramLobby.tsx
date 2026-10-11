@@ -20,6 +20,7 @@ const DIFFICULTIES: DifficultyId[] = ['easy', 'medium', 'hard'];
 
 function LobbyContent(): JSX.Element {
 	const { t, language } = useI18n('nonogram');
+	const { t: tCommon } = useI18n('common');
 	const [activeGame, setActiveGame] = useState<GameSnapshot | null>(null);
 	const [activeGamePuzzle, setActiveGamePuzzle] = useState<NonogramPuzzle | null>(null);
 	const [selectedDifficulty, setSelectedDifficulty] = useState<DifficultyId>('easy');
@@ -196,7 +197,7 @@ function LobbyContent(): JSX.Element {
 			</S.ConfigForm>
 
 			<S.QuickLinks>
-				<a href={`/nonogram/${language}/rules`}>{t('navigation.rules' as TranslationKey)}</a>
+				<a href={`/nonogram/${language}/rules`}>{tCommon('navigation.rules')}</a>
 			</S.QuickLinks>
 		</S.LobbyContainer>
 	);
