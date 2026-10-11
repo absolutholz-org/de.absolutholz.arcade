@@ -89,12 +89,3 @@ export const ActionButton = styled.button`
 		outline-offset: 2px;
 	}
 `;
-
-export const HelperRow = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	padding: 0.25rem 0.5rem;
-	font-size: 0.8125rem;
-	color: ${themeColor('text-2')};
-`;

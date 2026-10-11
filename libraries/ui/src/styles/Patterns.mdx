@@ -1,0 +1,93 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { PatternShowcase } from './patterns/docs/PatternShowcase';
+
+<Meta title="Foundations/Patterns" />
+
+# Accessibility & High-Contrast Patterns
+
+This document outlines the design system's reusable background texture patterns. These patterns provide an accessible, non-color visual distinction layer compliant with **WCAG 2.2 Success Criterion 1.4.1 (Use of Color)** across 2D grids, boards, charts, and spatial data visualizations.
+
+---
+
+## Architectural Strategy
+
+When distinguishing regions or states (such as contiguous territories in the Queens game board or distinct series in data visualizations), relying solely on color hue leaves users with color vision deficiencies at a severe disadvantage.
+
+Our pattern token suite implements **12 scalable, lightweight native CSS background gradients**:
+- **Zero External Assets**: Built with native CSS gradients (`repeating-linear-gradient`, `linear-gradient`, and `radial-gradient`) without network requests, base64 overhead, or SVG parsing costs.
+- **Adaptive Monochromatic Overlays**: Uses semi-transparent `currentColor` mixtures (`color-mix(in srgb, currentColor 10%–14%, transparent)`) so patterns blend smoothly over any base color across both light and dark color schemes.
+- **Background Layer Separation**: Patterns sit directly in the `background-image` layer behind cell content, guaranteeing that interactive tokens (e.g. Queens crowns) and marks remain crisp, legible, and uncompromised.
+
+---
+
+## Pattern Gallery
+
+Below is the complete interactive gallery of all 12 patterns rendered over representative board region colors across both light and dark color schemes:
+
+<PatternShowcase />
+
+---
+
+## Token Reference & CSS Usage
+
+### Available Pattern Keys
+
+| Key | CSS Token Variable | Pattern Style |
+| :--- | :--- | :--- |
+| `diagonal-forward` | `var(--pattern-diagonal-forward)` | 45° forward diagonal lines (2.5px stroke, 8px pitch, ~31% duty cycle) |
+| `diagonal-reverse` | `var(--pattern-diagonal-reverse)` | -45° reverse diagonal lines (2.5px stroke, 8px pitch, ~31% duty cycle) |
+| `horizontal-stripes` | `var(--pattern-horizontal-stripes)` | 0° horizontal stripes (2px stroke, 7px pitch, ~29% duty cycle) |
+| `vertical-stripes` | `var(--pattern-vertical-stripes)` | 90° vertical stripes (2px stroke, 7px pitch, ~29% duty cycle) |
+| `cross-hatch` | `var(--pattern-cross-hatch)` | Overlapping 0° and 90° grid hatch (2px stroke, 8px pitch) |
+| `fine-dots` | `var(--pattern-fine-dots)` | Regular circular polka dots (2px radius, 8px pitch) |
+| `checker-dots` | `var(--pattern-checker-dots)` | Staggered dual-offset dots (2px radius, 8px pitch) |
+| `cross-diagonal` | `var(--pattern-cross-diagonal)` | Overlapping 45° and -45° diagonal hatch (2px stroke, 9px pitch) |
+| `chevron` | `var(--pattern-chevron)` | Diagonal zig-zag chevron lines (10px pitch, 30% duty band) |
+| `diamond-mesh` | `var(--pattern-diamond-mesh)` | Concentric diamond mesh (2px stroke, 10px pitch) |
+| `brick` | `var(--pattern-brick)` | Crisp horizontal beds with alternating vertical seams (16px × 8px tile) |
+| `solid` | `var(--pattern-solid)` | Clean solid base (`none`) |
+
+---
+
+## Usage in Components & Linaria Styles
+
+### In Linaria Static CSS Selectors
+
+Patterns can be referenced using the `var(--pattern-<key>)` custom properties directly inside static CSS selectors:
+
+```tsx
+import { styled } from '@linaria/react';
+
+export const GridCell = styled.button`
+	position: relative;
+	width: 100%;
+	height: 100%;
+
+	/* Base region background color + pattern overlay */
+	&[data-region='0'] {
+		background-color: light-dark(oklch(0.93 0.05 25), oklch(0.24 0.05 25));
+		background-image: var(--pattern-diagonal-forward);
+	}
+
+	&[data-region='1'] {
+		background-color: light-dark(oklch(0.93 0.05 65), oklch(0.24 0.05 65));
+		background-image: var(--pattern-diagonal-reverse);
+	}
+
+	&[data-region='2'] {
+		background-color: light-dark(oklch(0.94 0.05 100), oklch(0.25 0.05 100));
+		background-image: var(--pattern-horizontal-stripes);
+	}
+`;
+```
+
+### With the Type-Safe Helper
+
+For dynamic lookups or utilities, use the `pattern()` helper from `@arcade/lib-ui/styles/patterns`:
+
+```tsx
+import { pattern, type PatternKey } from '@arcade/lib-ui/styles/patterns';
+
+// Returns 'var(--pattern-chevron)'
+const patternVar = pattern('chevron');
+```

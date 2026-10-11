@@ -28,10 +28,12 @@ export const CellButton = styled.button`
 		filter: brightness(0.97);
 	}
 
-	&:focus-visible {
-		outline: 2px solid ${themeColor('accent')};
-		outline-offset: -2px;
-		z-index: 5;
+	&:focus-visible,
+	&[data-focused='true']:focus {
+		outline: 3px solid ${themeColor('accent')};
+		outline-offset: -3px;
+		box-shadow: 0 0 0 2px ${themeColor('surface')}, inset 0 0 0 1px ${themeColor('accent')};
+		z-index: 10;
 	}
 
 	/* Dynamic border thickness matching region boundaries */
@@ -55,42 +57,54 @@ export const CellButton = styled.button`
 		border-right-color: ${themeColor('text-1')};
 	}
 
-	/* Region palette using accessible light-dark OKLCH */
+	/* Region palette using accessible light-dark OKLCH + high-contrast overlay pattern */
 	&[data-region='0'] {
 		background-color: light-dark(oklch(0.93 0.05 25), oklch(0.24 0.05 25));
+		background-image: var(--pattern-diagonal-forward);
 	}
 	&[data-region='1'] {
 		background-color: light-dark(oklch(0.93 0.05 65), oklch(0.24 0.05 65));
+		background-image: var(--pattern-diagonal-reverse);
 	}
 	&[data-region='2'] {
 		background-color: light-dark(oklch(0.94 0.05 100), oklch(0.25 0.05 100));
+		background-image: var(--pattern-horizontal-stripes);
 	}
 	&[data-region='3'] {
 		background-color: light-dark(oklch(0.93 0.05 140), oklch(0.24 0.05 140));
+		background-image: var(--pattern-vertical-stripes);
 	}
 	&[data-region='4'] {
 		background-color: light-dark(oklch(0.93 0.05 175), oklch(0.24 0.05 175));
+		background-image: var(--pattern-cross-hatch);
 	}
 	&[data-region='5'] {
 		background-color: light-dark(oklch(0.93 0.05 215), oklch(0.24 0.05 215));
+		background-image: var(--pattern-fine-dots);
 	}
 	&[data-region='6'] {
 		background-color: light-dark(oklch(0.93 0.05 255), oklch(0.24 0.05 255));
+		background-image: var(--pattern-checker-dots);
 	}
 	&[data-region='7'] {
 		background-color: light-dark(oklch(0.93 0.05 295), oklch(0.24 0.05 295));
+		background-image: var(--pattern-cross-diagonal);
 	}
 	&[data-region='8'] {
 		background-color: light-dark(oklch(0.93 0.05 330), oklch(0.24 0.05 330));
+		background-image: var(--pattern-chevron);
 	}
 	&[data-region='9'] {
 		background-color: light-dark(oklch(0.93 0.04 45), oklch(0.24 0.04 45));
+		background-image: var(--pattern-diamond-mesh);
 	}
 	&[data-region='10'] {
 		background-color: light-dark(oklch(0.93 0.04 195), oklch(0.24 0.04 195));
+		background-image: var(--pattern-brick);
 	}
 	&[data-region='11'] {
 		background-color: light-dark(oklch(0.93 0.04 280), oklch(0.24 0.04 280));
+		background-image: var(--pattern-solid);
 	}
 
 	/* State styling */

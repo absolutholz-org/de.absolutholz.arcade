@@ -367,91 +367,10 @@ export function useQueensGame(initialDifficulty: Difficulty = 'easy', initialPuz
 		}
 	}, []);
 
-	// Keyboard navigation & shortcuts
-	const handleKeyDown = useCallback(
-		(e: KeyboardEvent) => {
-			if (isComplete || isPaused) return;
-
-			const currentFocus = focusedCell || { row: 0, col: 0 };
-			const size = puzzle.size;
-
-			switch (e.key) {
-				case 'ArrowUp': {
-					e.preventDefault();
-					setFocusedCell({ row: Math.max(0, currentFocus.row - 1), col: currentFocus.col });
-					break;
-				}
-				case 'ArrowDown': {
-					e.preventDefault();
-					setFocusedCell({ row: Math.min(size - 1, currentFocus.row + 1), col: currentFocus.col });
-					break;
-				}
-				case 'ArrowLeft': {
-					e.preventDefault();
-					setFocusedCell({ row: currentFocus.row, col: Math.max(0, currentFocus.col - 1) });
-					break;
-				}
-				case 'ArrowRight': {
-					e.preventDefault();
-					setFocusedCell({ row: currentFocus.row, col: Math.min(size - 1, currentFocus.col + 1) });
-					break;
-				}
-				case ' ':
-				case 'Enter': {
-					e.preventDefault();
-					handleCellClick(currentFocus.row, currentFocus.col);
-					break;
-				}
-				case 'c':
-				case 'C':
-				case 'q':
-				case 'Q': {
-					e.preventDefault();
-					// Direct crown toggle
-					const current = boardRef.current[currentFocus.row]?.[currentFocus.col] ?? 'empty';
-					setCellAction(currentFocus.row, currentFocus.col, current === 'token' ? 'empty' : 'token');
-					break;
-				}
-				case 'x':
-				case 'X':
-				case 'm':
-				case 'M': {
-					e.preventDefault();
-					// Direct mark toggle
-					const current = boardRef.current[currentFocus.row]?.[currentFocus.col] ?? 'empty';
-					setCellAction(currentFocus.row, currentFocus.col, current === 'mark' ? 'empty' : 'mark');
-					break;
-				}
-				case 'Backspace':
-				case 'Delete': {
-					e.preventDefault();
-					setCellAction(currentFocus.row, currentFocus.col, 'empty');
-					break;
-				}
-				case 'z':
-				case 'Z': {
-					if (e.ctrlKey || e.metaKey || !e.shiftKey) {
-						e.preventDefault();
-						if (e.shiftKey) {
-							handleRedo();
-						} else {
-							handleUndo();
-						}
-					}
-					break;
-				}
-				case 'y':
-				case 'Y': {
-					if (e.ctrlKey || e.metaKey) {
-						e.preventDefault();
-						handleRedo();
-					}
-					break;
-				}
-			}
-		},
-		[isComplete, isPaused, focusedCell, puzzle.size, handleCellClick, setCellAction],
-	);
+	// Cell focus handler
+	const handleCellFocus = useCallback((row: number, col: number) => {
+		setFocusedCell({ row, col });
+	}, []);
 
 	// Undo
 	const handleUndo = useCallback(() => {
@@ -572,13 +491,155 @@ export function useQueensGame(initialDifficulty: Difficulty = 'easy', initialPuz
 		setIsPaused((prev) => !prev);
 	}, [isComplete]);
 
-	// Toggle auto-cross helper
-	const handleToggleAutoCross = useCallback(() => {
-		setSettings((prev) => {
-			const next = { ...prev, autoCross: !prev.autoCross };
-			saveSettings(next);
-			return next;
-		});
+	// Keyboard navigation & shortcuts
+	const handleKeyDown = useCallback(
+		(e: KeyboardEvent) => {
+			if (isComplete || isPaused) return;
+
+			const currentFocus = focusedCell || { row: 0, col: 0 };
+			const size = puzzle.size;
+
+			switch (e.key) {
+				case 'ArrowUp': {
+					e.preventDefault();
+					setFocusedCell({ row: Math.max(0, currentFocus.row - 1), col: currentFocus.col });
+					break;
+				}
+				case 'ArrowDown': {
+					e.preventDefault();
+					setFocusedCell({ row: Math.min(size - 1, currentFocus.row + 1), col: currentFocus.col });
+					break;
+				}
+				case 'ArrowLeft': {
+					e.preventDefault();
+					setFocusedCell({ row: currentFocus.row, col: Math.max(0, currentFocus.col - 1) });
+					break;
+				}
+				case 'ArrowRight': {
+					e.preventDefault();
+					setFocusedCell({ row: currentFocus.row, col: Math.min(size - 1, currentFocus.col + 1) });
+					break;
+				}
+				case 'Home': {
+					e.preventDefault();
+					if (e.ctrlKey || e.metaKey) {
+						setFocusedCell({ row: 0, col: 0 });
+					} else {
+						setFocusedCell({ row: currentFocus.row, col: 0 });
+					}
+					break;
+				}
+				case 'End': {
+					e.preventDefault();
+					if (e.ctrlKey || e.metaKey) {
+						setFocusedCell({ row: size - 1, col: size - 1 });
+					} else {
+						setFocusedCell({ row: currentFocus.row, col: size - 1 });
+					}
+					break;
+				}
+				case 'PageUp': {
+					e.preventDefault();
+					setFocusedCell({ row: 0, col: currentFocus.col });
+					break;
+				}
+				case 'PageDown': {
+					e.preventDefault();
+					setFocusedCell({ row: size - 1, col: currentFocus.col });
+					break;
+				}
+				case ' ':
+				case 'Enter': {
+					e.preventDefault();
+					handleCellClick(currentFocus.row, currentFocus.col);
+					break;
+				}
+				case 'c':
+				case 'C':
+				case 'q':
+				case 'Q': {
+					e.preventDefault();
+					// Direct crown toggle
+					const current = boardRef.current[currentFocus.row]?.[currentFocus.col] ?? 'empty';
+					setCellAction(currentFocus.row, currentFocus.col, current === 'token' ? 'empty' : 'token');
+					break;
+				}
+				case 'x':
+				case 'X':
+				case 'm':
+				case 'M': {
+					e.preventDefault();
+					// Direct mark toggle
+					const current = boardRef.current[currentFocus.row]?.[currentFocus.col] ?? 'empty';
+					setCellAction(currentFocus.row, currentFocus.col, current === 'mark' ? 'empty' : 'mark');
+					break;
+				}
+				case 'Backspace':
+				case 'Delete': {
+					e.preventDefault();
+					setCellAction(currentFocus.row, currentFocus.col, 'empty');
+					break;
+				}
+				case 'u':
+				case 'U': {
+					e.preventDefault();
+					handleUndo();
+					break;
+				}
+				case 'z':
+				case 'Z': {
+					if (e.ctrlKey || e.metaKey || !e.shiftKey) {
+						e.preventDefault();
+						if (e.shiftKey) {
+							handleRedo();
+						} else {
+							handleUndo();
+						}
+					}
+					break;
+				}
+				case 'y':
+				case 'Y': {
+					if (e.ctrlKey || e.metaKey) {
+						e.preventDefault();
+						handleRedo();
+					}
+					break;
+				}
+				case 'r':
+				case 'R': {
+					if (e.ctrlKey || e.metaKey) {
+						e.preventDefault();
+						handleRedo();
+					}
+					break;
+				}
+				case 'Escape':
+				case 'p':
+				case 'P': {
+					e.preventDefault();
+					handleTogglePause();
+					break;
+				}
+			}
+		},
+		[
+			isComplete,
+			isPaused,
+			focusedCell,
+			puzzle.size,
+			handleCellClick,
+			setCellAction,
+			handleUndo,
+			handleRedo,
+			handleTogglePause,
+		],
+	);
+
+	// Update settings
+	const handleUpdateSettings = useCallback(async (newSettings: GameSettings) => {
+		setSettings(newSettings);
+		await saveSettings(newSettings);
 	}, []);
 
 	// Select / start a specific puzzle
@@ -641,6 +702,7 @@ export function useQueensGame(initialDifficulty: Difficulty = 'easy', initialPuz
 		handleCellClick,
 		handleCellDoubleClick,
 		handleCellContextMenu,
+		handleCellFocus,
 		handleDragStart,
 		handleDragEnter,
 		handleDragEnd,
@@ -649,7 +711,7 @@ export function useQueensGame(initialDifficulty: Difficulty = 'easy', initialPuz
 		handleRedo,
 		handleReset,
 		handleTogglePause,
-		handleToggleAutoCross,
+		handleUpdateSettings,
 		handleSelectPuzzle,
 		handleNextPuzzle,
 		handlePlayAgain,

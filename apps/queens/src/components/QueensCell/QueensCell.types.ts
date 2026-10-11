@@ -15,6 +15,7 @@ export interface QueensCellProps {
 	onCellClick: (row: number, col: number) => void;
 	onCellDoubleClick?: (row: number, col: number) => void;
 	onCellContextMenu?: (row: number, col: number, e: MouseEvent) => void;
+	onFocus?: (row: number, col: number) => void;
 	onPointerDown?: (row: number, col: number, e: PointerEvent) => void;
 	onPointerEnter?: (row: number, col: number, e: PointerEvent) => void;
 	onPointerUp?: (e: PointerEvent) => void;

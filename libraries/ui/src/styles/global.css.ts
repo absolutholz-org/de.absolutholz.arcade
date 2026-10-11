@@ -1,6 +1,7 @@
 import { css } from '@linaria/core';
 import { typographyCssTokensCompact, typographyCssTokensExpanded } from '../components/Text/_Text.constants';
 import { generateFontShorthand } from '../components/Text/_Text.functions';
+import { patternCssTokens } from './patterns';
 import { radiusCssTokens } from './radius/radius.constants';
 import { reset } from './reset/reset.css';
 import { spacingCssTokensCompact, spacingCssTokensExpanded } from './spacing';
@@ -37,6 +38,9 @@ export const globalStyles = css`
 
 			/* Border radius tokens */
 			${radiusCssTokens}
+
+			/* Accessible high-contrast pattern tokens */
+			${patternCssTokens}
 
 			/* Default generic functional variables mapped to primary theme */
 			${Object.entries(getThemeMapping('primary'))
@@ -160,6 +164,9 @@ export const getGlobalStyles = (themesetCss: string = themesetBaseCss): string =
 
 		/* Border radius tokens */
 		${radiusCssTokens}
+
+		/* Accessible high-contrast pattern tokens */
+		${patternCssTokens}
 
 		/* Default generic functional variables mapped to primary theme */
 		${Object.entries(getThemeMapping('primary'))

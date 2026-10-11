@@ -18,6 +18,7 @@ export function QueensCell({
 	onCellClick,
 	onCellDoubleClick,
 	onCellContextMenu,
+	onFocus,
 	onPointerDown,
 	onPointerEnter,
 	onPointerUp,
@@ -29,18 +30,16 @@ export function QueensCell({
 	const stateLabel =
 		state === 'token' ? t('aria.cellToken') : state === 'mark' ? t('aria.cellMarked') : t('aria.cellEmpty');
 
-	const conflictLabel = hasConflict
-		? conflict?.row
-			? t('conflicts.row')
-			: conflict?.col
-				? t('conflicts.col')
-				: conflict?.region
-					? t('conflicts.region')
-					: t('conflicts.adjacency')
-		: '';
+	const conflictReasons: string[] = [];
+	if (conflict?.row) conflictReasons.push(t('conflicts.row'));
+	if (conflict?.col) conflictReasons.push(t('conflicts.col'));
+	if (conflict?.region) conflictReasons.push(t('conflicts.region'));
+	if (conflict?.adjacency) conflictReasons.push(t('conflicts.adjacency'));
 
-	const fullAriaLabel = `${t('aria.cell', { row: row + 1, col: col + 1, region: region + 1 })}, ${stateLabel}${
-		conflictLabel ? `. ${t('aria.conflictNotice', { reason: conflictLabel })}` : ''
+	const conflictText = conflictReasons.join('; ');
+
+	const fullAriaLabel = `${t('aria.cell', { row: row + 1, col: col + 1, region: region + 1 })}: ${stateLabel}${
+		conflictText ? `. ${t('aria.conflictNotice', { reason: conflictText })}` : ''
 	}`;
 
 	const handleClick = (e: MouseEvent) => {
@@ -69,11 +68,18 @@ export function QueensCell({
 	return (
 		<S.CellButton
 			type="button"
+			// biome-ignore lint/a11y/useSemanticElements: Gridcell role required for WAI-ARIA grid pattern
+			role="gridcell"
 			tabIndex={isFocused ? 0 : -1}
+			aria-selected={isFocused}
+			aria-rowindex={row + 1}
+			aria-colindex={col + 1}
 			aria-label={fullAriaLabel}
-			aria-pressed={state === 'token'}
+			data-row={row}
+			data-col={col}
 			data-state={state}
 			data-region={String(region)}
+			data-focused={isFocused ? 'true' : undefined}
 			data-conflict={hasConflict ? 'true' : 'false'}
 			data-border-top={borderTop}
 			data-border-bottom={borderBottom}
@@ -82,6 +88,7 @@ export function QueensCell({
 			onClick={handleClick}
 			onDoubleClick={handleDoubleClick}
 			onContextMenu={handleContextMenu}
+			onFocus={() => onFocus?.(row, col)}
 			onPointerDown={handlePointerDown}
 			onPointerEnter={handlePointerEnter}
 			onPointerUp={onPointerUp}

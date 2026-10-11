@@ -1,6 +1,5 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { Icon } from '@arcade/lib-ui/components/Icon';
-import { Switch } from '@arcade/lib-ui/components/Switch';
 import type { JSX } from 'react';
 import { CrownIcon, XMarkIcon } from '../QueensIcons';
 import * as S from './QueensControls.styles';
@@ -8,11 +7,9 @@ import type { QueensControlsProps } from './QueensControls.types';
 
 export function QueensControls({
 	inputMode,
-	autoCross,
 	canUndo,
 	canRedo,
 	onToggleMode,
-	onToggleAutoCross,
 	onUndo,
 	onRedo,
 	onReset,
@@ -77,17 +74,6 @@ export function QueensControls({
 					</S.ActionButton>
 				</S.ActionButtonGroup>
 			</S.MainBar>
-
-			<S.HelperRow>
-				<Switch
-					id="queens-auto-cross"
-					label={t('controls.autoCross')}
-					checked={autoCross}
-					onChange={onToggleAutoCross}
-					size="sm"
-				/>
-				<span>{t('controls.autoCrossDesc')}</span>
-			</S.HelperRow>
 		</S.ControlsContainer>
 	);
 }

@@ -69,6 +69,7 @@ export function QueensGame({ initialDifficulty = 'easy', initialPuzzleId, lang }
 					onCellClick={game.handleCellClick}
 					onCellDoubleClick={game.handleCellDoubleClick}
 					onCellContextMenu={game.handleCellContextMenu}
+					onCellFocus={game.handleCellFocus}
 					onDragStart={game.handleDragStart}
 					onDragEnter={game.handleDragEnter}
 					onDragEnd={game.handleDragEnd}
@@ -83,11 +84,9 @@ export function QueensGame({ initialDifficulty = 'easy', initialPuzzleId, lang }
 
 				<QueensControls
 					inputMode={game.inputMode}
-					autoCross={game.settings.autoCross}
 					canUndo={game.canUndo}
 					canRedo={game.canRedo}
 					onToggleMode={game.setInputMode}
-					onToggleAutoCross={game.handleToggleAutoCross}
 					onUndo={game.handleUndo}
 					onRedo={game.handleRedo}
 					onReset={game.handleReset}
@@ -98,7 +97,7 @@ export function QueensGame({ initialDifficulty = 'easy', initialPuzzleId, lang }
 				isOpen={game.isSettingsOpen}
 				onClose={game.closeSettings}
 				settings={game.settings}
-				onUpdateSettings={game.setSettings}
+				onUpdateSettings={game.handleUpdateSettings}
 				activeLanguage={activeLang}
 				onLanguageChange={handleLanguageChange}
 			/>
