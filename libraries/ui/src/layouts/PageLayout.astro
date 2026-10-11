@@ -14,7 +14,7 @@ interface Props {
 	description?: string;
 	lang: SupportedLanguageCode;
 	appTitle: string;
-	appHomeHref: string;
+	appHomeHref?: string;
 	currentSlug?: string;
 	basePath?: string;
 	canonicalBase?: string;
@@ -27,7 +27,7 @@ const {
 	description,
 	lang,
 	appTitle,
-	appHomeHref,
+	appHomeHref = '',
 	currentSlug = '',
 	basePath = '',
 	canonicalBase = 'https://arcade.absolutholz.de',
@@ -122,11 +122,9 @@ const canonicalUrl = `${canonicalBase}${canonicalPath}`;
 			<SiteHeader variant={headerVariant}>
 				{headerVariant === 'standard' && (
 					<div class="header-brand">
-						<a href={`/${lang}/`} class="header-logo-link" aria-label={currentCommon.navigation.home}>
+						<a href={`/${lang}/`} class="header-brand-link">
 							<Logo size="sm" />
-						</a>
-						<a href={appHomeHref} class="header-app-title-link">
-							<span class="header-app-title">{appTitle}</span>
+							<span class="header-app-title">{currentCommon.app.title}</span>
 						</a>
 					</div>
 				)}

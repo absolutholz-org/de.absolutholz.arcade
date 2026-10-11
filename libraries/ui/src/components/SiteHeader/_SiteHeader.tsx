@@ -19,6 +19,7 @@ export function SiteHeader<C extends ElementType = 'header'>({
 	...rest
 }: SiteHeaderProps<C>) {
 	const Component = as || 'header';
+	const resolvedHomeHref = brandHref || homeHref;
 
 	return (
 		<S.SiteHeader as={Component} data-variant={variant} {...rest}>
@@ -26,20 +27,14 @@ export function SiteHeader<C extends ElementType = 'header'>({
 				<div className="header-container">
 					{variant === 'standard' && (brandLogo || brandTitle) ? (
 						<div className="header-brand">
-							{brandLogo ? (
-								<a href={homeHref} className="header-logo-link" aria-label={homeAriaLabel}>
-									{brandLogo}
-								</a>
-							) : null}
-							{brandTitle ? (
-								brandHref ? (
-									<a href={brandHref} className="header-app-title-link">
-										<span className="header-app-title">{brandTitle}</span>
-									</a>
-								) : (
-									<span className="header-app-title">{brandTitle}</span>
-								)
-							) : null}
+							<a
+								href={resolvedHomeHref}
+								className="header-brand-link"
+								aria-label={brandTitle ? undefined : homeAriaLabel}
+							>
+								{brandLogo}
+								{brandTitle ? <span className="header-app-title">{brandTitle}</span> : null}
+							</a>
 						</div>
 					) : null}
 					{children}

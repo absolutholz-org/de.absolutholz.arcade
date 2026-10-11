@@ -70,7 +70,7 @@ export const StandardWithBranding: Story = {
 		variant: 'standard',
 		brandLogo: <Logo size="sm" />,
 		brandTitle: 'Arcade',
-		brandHref: '#',
+		homeHref: '#',
 		actions: (
 			<Stack direction="row" align="center" spacing="xs" inline fullWidth={false}>
 				<LanguageSwitcher />

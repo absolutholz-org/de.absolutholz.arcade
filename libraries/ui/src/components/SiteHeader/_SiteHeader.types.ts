@@ -24,14 +24,16 @@ export interface BaseSiteHeaderProps<C extends ElementType = 'header'> {
 	brandTitle?: ReactNode;
 	/**
 	 * Application home URL for the brand title link.
+	 * @deprecated Use `homeHref` instead as logo and title are linked together within one element.
 	 */
 	brandHref?: string;
 	/**
-	 * Site home URL for the logo link.
+	 * Site home URL for the unified brand link.
+	 * @default '/'
 	 */
 	homeHref?: string;
 	/**
-	 * Accessible label for the home logo link.
+	 * Accessible label for the brand link when no visible brand title is provided.
 	 * @default 'Home'
 	 */
 	homeAriaLabel?: string;

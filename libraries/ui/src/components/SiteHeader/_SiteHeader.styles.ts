@@ -37,7 +37,23 @@ export const SiteHeader = styled.header`
 	.header-brand {
 		align-items: center;
 		display: inline-flex;
+	}
+
+	.header-brand-link {
+		align-items: center;
+		border-radius: var(--radius-sm);
+		color: var(--color-text-1);
+		display: inline-flex;
 		gap: ${space('sm')};
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: none;
+
+			.header-app-title {
+				color: var(--color-accent);
+			}
+		}
 	}
 
 	.header-logo-link {
