@@ -3,18 +3,13 @@ import { styled } from '@linaria/react';
 
 export const HeaderContainer = styled.header`
 	width: 100%;
-	max-width: min(calc(100vw - 1rem), 34rem);
-	margin: 0 auto;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	padding: 0.125rem 0 0.25rem;
+	padding: 0.5rem 1rem;
+	background-color: ${themeColor('surface')};
+	border-bottom: 1px solid ${themeColor('container-2')};
 	user-select: none;
-
-	@media (min-width: 640px) {
-		max-width: min(calc(100vw - 2rem), 34rem);
-		padding: 0.25rem 0 0.5rem;
-	}
 `;
 
 export const LeftSection = styled.div`

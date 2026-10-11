@@ -3,6 +3,7 @@ import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { isSupportedLanguage } from '@arcade/lib-i18n/utils/detection';
+import { GameContainer } from '@arcade/lib-ui/components/GameContainer';
 import { type JSX, useCallback, useState } from 'react';
 import { PauseOverlay } from '../PauseOverlay';
 import { QueensBoard } from '../QueensBoard';
@@ -46,19 +47,51 @@ export function QueensGame({ initialDifficulty = 'easy', initialPuzzleId, lang }
 	);
 
 	const content = (
-		<S.GameRoot id="main-content">
-			<QueensGameHeader
-				difficulty={game.puzzle.difficulty}
-				puzzleId={game.puzzle.id}
-				tokenCount={game.tokenCount}
-				totalTokens={game.puzzle.size}
-				elapsedSeconds={game.elapsedSeconds}
-				isPaused={game.isPaused}
-				onTogglePause={game.handleTogglePause}
-				onOpenSettings={game.openSettings}
-			/>
+		<GameContainer
+			id="main-content"
+			header={
+				<QueensGameHeader
+					difficulty={game.puzzle.difficulty}
+					puzzleId={game.puzzle.id}
+					tokenCount={game.tokenCount}
+					totalTokens={game.puzzle.size}
+					elapsedSeconds={game.elapsedSeconds}
+					isPaused={game.isPaused}
+					onTogglePause={game.handleTogglePause}
+					onOpenSettings={game.openSettings}
+				/>
+			}
+			overlay={
+				<PauseOverlay
+					isOpen={game.isPaused && !game.isComplete}
+					onResume={game.handleTogglePause}
+					onRestart={game.handlePlayAgain}
+				/>
+			}
+			dialogs={
+				<>
+					<SettingsDialog
+						isOpen={game.isSettingsOpen}
+						onClose={game.closeSettings}
+						settings={game.settings}
+						onUpdateSettings={game.handleUpdateSettings}
+						activeLanguage={activeLang}
+						onLanguageChange={handleLanguageChange}
+					/>
 
-			<S.GameViewport>
+					<VictoryDialog
+						isOpen={game.isVictoryOpen}
+						elapsedSeconds={game.elapsedSeconds}
+						isNewBestTime={game.isNewBestTime}
+						hasNextPuzzle={game.hasNextPuzzle}
+						onNextPuzzle={game.handleNextPuzzle}
+						onPlayAgain={game.handlePlayAgain}
+						onClose={game.closeVictory}
+					/>
+				</>
+			}
+		>
+			<S.PlayColumn>
 				<QueensBoard
 					size={game.puzzle.size}
 					regions={game.puzzle.regions}
@@ -76,12 +109,6 @@ export function QueensGame({ initialDifficulty = 'easy', initialPuzzleId, lang }
 					onKeyDown={game.handleKeyDown}
 				/>
 
-				<PauseOverlay
-					isOpen={game.isPaused && !game.isComplete}
-					onResume={game.handleTogglePause}
-					onRestart={game.handlePlayAgain}
-				/>
-
 				<QueensControls
 					inputMode={game.inputMode}
 					canUndo={game.canUndo}
@@ -91,27 +118,8 @@ export function QueensGame({ initialDifficulty = 'easy', initialPuzzleId, lang }
 					onRedo={game.handleRedo}
 					onReset={game.handleReset}
 				/>
-			</S.GameViewport>
-
-			<SettingsDialog
-				isOpen={game.isSettingsOpen}
-				onClose={game.closeSettings}
-				settings={game.settings}
-				onUpdateSettings={game.handleUpdateSettings}
-				activeLanguage={activeLang}
-				onLanguageChange={handleLanguageChange}
-			/>
-
-			<VictoryDialog
-				isOpen={game.isVictoryOpen}
-				elapsedSeconds={game.elapsedSeconds}
-				isNewBestTime={game.isNewBestTime}
-				hasNextPuzzle={game.hasNextPuzzle}
-				onNextPuzzle={game.handleNextPuzzle}
-				onPlayAgain={game.handlePlayAgain}
-				onClose={game.closeVictory}
-			/>
-		</S.GameRoot>
+			</S.PlayColumn>
+		</GameContainer>
 	);
 
 	return <I18nProvider language={activeLang}>{content}</I18nProvider>;
