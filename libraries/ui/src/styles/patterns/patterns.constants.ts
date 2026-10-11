@@ -15,16 +15,17 @@ export const PATTERN_KEYS = [
 
 export type PatternKey = (typeof PATTERN_KEYS)[number];
 
-const STROKE_COLOR = 'color-mix(in srgb, currentColor 20%, transparent)';
-const LIGHT_STROKE_COLOR = 'color-mix(in srgb, currentColor 18%, transparent)';
-const DOTS_COLOR = 'color-mix(in srgb, currentColor 22%, transparent)';
-const BRICK_COLOR = 'color-mix(in srgb, currentColor 20%, transparent)';
+const STROKE_COLOR = 'var(--pattern-color, light-dark(rgba(0, 0, 0, 0.30), rgba(255, 255, 255, 0.28)))';
+const LIGHT_STROKE_COLOR = 'var(--pattern-color-light, light-dark(rgba(0, 0, 0, 0.25), rgba(255, 255, 255, 0.24)))';
+const DOTS_COLOR = 'var(--pattern-color-dots, light-dark(rgba(0, 0, 0, 0.32), rgba(255, 255, 255, 0.30)))';
+const BRICK_COLOR = 'var(--pattern-color, light-dark(rgba(0, 0, 0, 0.30), rgba(255, 255, 255, 0.28)))';
 
 /**
  * 12 scalable native CSS background gradient patterns for high-contrast / accessible region distinction.
  * Built using native CSS gradients (repeating-linear-gradient, linear-gradient, and radial-gradient)
- * with robust stroke widths (2px–2.5px), 25%–35% duty cycle, and 18%–22% currentColor mix opacity
- * to guarantee clear visibility and distinction across both light and dark themes.
+ * with robust stroke widths (2px–2.5px), 25%–35% duty cycle, and high-contrast light-dark() overlay opacity
+ * (28%–32% in light mode, 25%–30% in dark mode) so every pattern renders crisply and continuously
+ * across all cells regardless of contents or empty states.
  */
 export const patternGradients: Record<PatternKey, string> = {
 	// 1. Diagonal lines (45deg forward): 2.5px stroke, 8px pitch (~31% duty cycle)

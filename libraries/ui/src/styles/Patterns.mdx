@@ -15,7 +15,7 @@ When distinguishing regions or states (such as contiguous territories in the Que
 
 Our pattern token suite implements **12 scalable, lightweight native CSS background gradients**:
 - **Zero External Assets**: Built with native CSS gradients (`repeating-linear-gradient`, `linear-gradient`, and `radial-gradient`) without network requests, base64 overhead, or SVG parsing costs.
-- **Adaptive Monochromatic Overlays**: Uses semi-transparent `currentColor` mixtures (`color-mix(in srgb, currentColor 10%–14%, transparent)`) so patterns blend smoothly over any base color across both light and dark color schemes.
+- **Adaptive High-Contrast Overlays**: Uses native `light-dark()` overlays (28%–32% in light mode, 25%–30% in dark mode) so patterns remain crisp, legible, and distinct across both light and dark jewel-tone backgrounds.
 - **Background Layer Separation**: Patterns sit directly in the `background-image` layer behind cell content, guaranteeing that interactive tokens (e.g. Queens crowns) and marks remain crisp, legible, and uncompromised.
 
 ---
