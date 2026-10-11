@@ -79,6 +79,8 @@ export const frQueens = {
 	},
 	aria: {
 		board: 'Grille de Queens {{size}} sur {{size}}',
+		instructions:
+			'Utilisez les touches fléchées pour vous déplacer sur la grille. Espace ou Entrée pour basculer. X pour marquer, C ou Q pour placer une couronne, Retour arrière pour effacer, Z pour annuler, Y pour rétablir et Échap pour mettre en pause.',
 		cell: 'Ligne {{row}}, Colonne {{col}}, Zone {{region}}',
 		cellEmpty: 'vide',
 		cellMarked: 'marquée d’une croix',

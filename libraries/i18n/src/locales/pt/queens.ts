@@ -77,6 +77,8 @@ export const ptQueens = {
 	},
 	aria: {
 		board: 'Grade de Queens {{size}} por {{size}}',
+		instructions:
+			'Use as teclas de seta para navegar na grade. Espaço ou Enter para alternar. X para marcar, C ou Q para colocar coroa, Backspace para limpar, Z para desfazer, Y para refazer e Esc para pausar.',
 		cell: 'Linha {{row}}, Coluna {{col}}, Região {{region}}',
 		cellEmpty: 'vazio',
 		cellMarked: 'marcado com X',

@@ -76,6 +76,7 @@ export const queensSchema = {
 	},
 	aria: {
 		board: 'aria.board',
+		instructions: 'aria.instructions',
 		cell: 'aria.cell',
 		cellEmpty: 'aria.cellEmpty',
 		cellMarked: 'aria.cellMarked',

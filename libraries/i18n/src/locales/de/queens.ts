@@ -78,6 +78,8 @@ export const deQueens = {
 	},
 	aria: {
 		board: 'Queens Spielfeld {{size}} mal {{size}}',
+		instructions:
+			'Mit den Pfeiltasten über das Spielfeld navigieren. Leertaste oder Eingabetaste zum Umschalten. X für Markierung, C oder Q für Krone, Rücktaste zum Leeren, Z zum Rückgängigmachen, Y zum Wiederholen und Escape für Pause.',
 		cell: 'Zeile {{row}}, Spalte {{col}}, Zone {{region}}',
 		cellEmpty: 'leer',
 		cellMarked: 'mit X markiert',

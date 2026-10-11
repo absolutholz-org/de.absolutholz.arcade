@@ -77,6 +77,8 @@ export const enQueens = {
 	},
 	aria: {
 		board: 'Queens puzzle grid {{size}} by {{size}}',
+		instructions:
+			'Use arrow keys to move between cells. Press Space or Enter to toggle. Press X to mark, C or Q for Crown, Backspace to clear, Z to undo, Y to redo, and Escape to pause.',
 		cell: 'Row {{row}}, Column {{col}}, Region {{region}}',
 		cellEmpty: 'empty',
 		cellMarked: 'marked with X',
