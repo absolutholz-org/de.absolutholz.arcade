@@ -15,8 +15,8 @@ export function CrownIcon({ className }: { className?: string }): JSX.Element {
 			aria-hidden="true"
 			className={className}
 		>
-			<path d="M3 18h18l-2-11-5 5-2-7-2 7-5-5-2 11z" />
-			<line x1="3" y1="19" x2="21" y2="19" strokeWidth={2.5} />
+			<path d="M3 17h18l-2-10-5 5-2-7-2 7-5-5-2 10z" />
+			<line x1="3" y1="19.5" x2="21" y2="19.5" strokeWidth={2.5} strokeLinecap="round" />
 		</svg>
 	);
 }
@@ -36,8 +36,8 @@ export function XMarkIcon({ className }: { className?: string }): JSX.Element {
 			aria-hidden="true"
 			className={className}
 		>
-			<line x1="18" y1="6" x2="6" y2="18" />
-			<line x1="6" y1="6" x2="18" y2="18" />
+			<path d="M18 6 6 18" />
+			<path d="m6 6 12 12" />
 		</svg>
 	);
 }
