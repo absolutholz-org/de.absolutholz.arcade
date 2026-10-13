@@ -19,6 +19,7 @@ This project is structured as a strict multi-app monorepo utilizing `pnpm worksp
     *   `libraries/ui`: Shared design system components styled exclusively with **Linaria**.
     *   `libraries/i18n`: Shared localization engine, language constants, dictionaries, and React hook abstraction (`useI18n`).
     *   `libraries/storage`: Namespaced wrappers for LocalStorage/IndexedDB to prevent cross-game data collisions.
+    *   `libraries/user`: User identity facade, session management, local persistence, and Firebase Cloud synchronization.
 
 ## 🤖 AI Agent Instructions (READ FIRST)
 
