@@ -4,6 +4,10 @@
 	"private": true,
 	"description": "Design system package for Arcade monorepo",
 	"exports": {
+		".": {
+			"types": "./src/index.ts",
+			"default": "./src/index.ts"
+		},
 		"./components/*": {
 			"types": "./src/components/*/index.ts",
 			"default": "./src/components/*/index.ts"
@@ -52,6 +56,7 @@
 	},
 	"dependencies": {
 		"@arcade/lib-i18n": "workspace:*",
+		"@arcade/lib-user": "workspace:*",
 		"@linaria/babel-preset": "^5.0.4",
 		"@linaria/core": "catalog:",
 		"@linaria/react": "catalog:",

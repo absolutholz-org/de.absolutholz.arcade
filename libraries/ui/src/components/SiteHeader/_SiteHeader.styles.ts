@@ -89,5 +89,6 @@ export const SiteHeader = styled.header`
 	.header-actions {
 		align-items: center;
 		display: flex;
+		gap: ${space('sm')};
 	}
 `;

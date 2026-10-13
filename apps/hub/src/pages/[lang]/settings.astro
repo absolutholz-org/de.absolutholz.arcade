@@ -2,6 +2,7 @@
 import { resources } from '@arcade/lib-i18n/config/i18n';
 import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { HeaderUserMenu } from '@arcade/lib-ui';
 import { PageContainer } from '@arcade/lib-ui/components/PageContainer';
 import { ThemeSelector } from '@arcade/lib-ui/components/ThemeSelector';
 import StaticPageLayout from '@arcade/lib-ui/layouts/StaticPageLayout.astro';
@@ -22,6 +23,7 @@ const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? 
 	lang={lang as SupportedLanguageCode}
 	currentSlug="settings"
 >
+	<HeaderUserMenu slot="header-actions" client:load lang={lang as SupportedLanguageCode} />
 	<div class="settings-page">
 		<header class="settings-header">
 			<h1>{currentTranslations.settings.title}</h1>

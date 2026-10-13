@@ -1,6 +1,7 @@
 ---
 import { resources } from '@arcade/lib-i18n/config/i18n';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { HeaderUserMenu } from '@arcade/lib-ui';
 import PageLayout from '@arcade/lib-ui/layouts/PageLayout.astro';
 
 interface Props {
@@ -27,6 +28,9 @@ const currentTranslations = resources[lang]?.common ?? resources.en.common;
 	manifestHref="/site.webmanifest?v=20261006"
 >
 	<slot name="head" slot="head" />
+	<slot name="header-actions" slot="header-actions">
+		<HeaderUserMenu client:load lang={lang} />
+	</slot>
 	<slot name="breadcrumb" slot="breadcrumb" />
 	<slot />
 </PageLayout>

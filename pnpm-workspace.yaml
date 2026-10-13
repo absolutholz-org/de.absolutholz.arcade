@@ -7,8 +7,10 @@ packages:
 # pnpm v9 Catalogs: Centralized version management
 # Apps use these by declaring e.g., "react": "catalog:" in their package.json
 allowBuilds:
-  '@biomejs/biome': true
+  "@biomejs/biome": true
+  "@firebase/util": true
   esbuild: true
+  protobufjs: true
   sharp: true
 
 catalog:
@@ -19,5 +21,8 @@ catalog:
   "@linaria/core": ^6.2.0
   "@linaria/react": ^6.2.0
   astro: ^4.15.0
+  "@astrojs/react": ^3.6.3
+  "@wyw-in-js/vite": ^1.1.0
   i18next: ^26.4.2
   react-i18next: ^17.0.15
+  firebase: ^11.10.0

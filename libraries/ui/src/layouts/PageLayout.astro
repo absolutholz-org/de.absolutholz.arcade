@@ -131,6 +131,7 @@ const canonicalUrl = `${canonicalBase}${canonicalPath}`;
 
 				<div class="header-actions">
 					<HeaderActions client:load lang={lang} currentSlug={currentSlug} />
+					<slot name="header-actions" />
 				</div>
 			</SiteHeader>
 		)

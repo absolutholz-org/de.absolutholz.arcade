@@ -19,6 +19,67 @@ export const ICON_SIZES = {
  * back to currentColor when no icon accent variable is defined.
  */
 export const ICON_CATALOG: Record<string, () => JSX.Element> = {
+	'arrow-left': () => (
+		<svg
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			strokeWidth={2}
+			strokeLinecap="round"
+			strokeLinejoin="round"
+			focusable="false"
+			aria-hidden="true"
+		>
+			<line x1="19" y1="12" x2="5" y2="12" />
+			<polyline points="12 19 5 12 12 5" />
+		</svg>
+	),
+	user: () => (
+		<svg
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			strokeWidth={2}
+			strokeLinecap="round"
+			strokeLinejoin="round"
+			focusable="false"
+			aria-hidden="true"
+		>
+			<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+			<circle cx="12" cy="7" r="4" />
+		</svg>
+	),
+	cloud: () => (
+		<svg
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			strokeWidth={2}
+			strokeLinecap="round"
+			strokeLinejoin="round"
+			focusable="false"
+			aria-hidden="true"
+		>
+			<path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z" />
+		</svg>
+	),
+	'hard-drive': () => (
+		<svg
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			strokeWidth={2}
+			strokeLinecap="round"
+			strokeLinejoin="round"
+			focusable="false"
+			aria-hidden="true"
+		>
+			<line x1="22" y1="12" x2="2" y2="12" />
+			<path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" />
+			<line x1="6" y1="16" x2="6.01" y2="16" />
+			<line x1="10" y1="16" x2="10.01" y2="16" />
+		</svg>
+	),
 	settings: () => (
 		<svg
 			viewBox="0 0 24 24"

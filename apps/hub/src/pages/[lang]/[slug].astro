@@ -2,6 +2,7 @@
 import { type CollectionEntry, getCollection } from 'astro:content';
 import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { HeaderUserMenu } from '@arcade/lib-ui';
 import { MarkdownContent } from '@arcade/lib-ui/components/MarkdownContent';
 import StaticPageLayout from '@arcade/lib-ui/layouts/StaticPageLayout.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
@@ -78,6 +79,7 @@ const Content = rendered?.Content;
 			lang={lang as SupportedLanguageCode}
 			currentSlug={slug}
 		>
+			<HeaderUserMenu slot="header-actions" client:load lang={lang as SupportedLanguageCode} />
 			<MarkdownContent>
 				<Content />
 			</MarkdownContent>
