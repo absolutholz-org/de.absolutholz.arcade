@@ -6,6 +6,7 @@ import * as S from './_Dialog.styles';
 import type { DialogProps } from './_Dialog.types';
 
 export function Dialog({
+	backAriaLabel,
 	cancelText,
 	children,
 	closeAriaLabel,
@@ -13,19 +14,29 @@ export function Dialog({
 	id,
 	isOpen,
 	message,
+	onBack,
 	onCancel,
 	onConfirm,
 	showCloseButton = true,
 	title,
 	...restProps
 }: DialogProps) {
-	const { dialogId, dialogRef, handleBackdropClick, handleNativeCancel, messageId, resolvedCloseAriaLabel, titleId } =
-		useDialog({
-			closeAriaLabel,
-			id,
-			isOpen,
-			onCancel,
-		});
+	const {
+		dialogId,
+		dialogRef,
+		handleBackdropClick,
+		handleNativeCancel,
+		messageId,
+		resolvedBackAriaLabel,
+		resolvedCloseAriaLabel,
+		titleId,
+	} = useDialog({
+		backAriaLabel,
+		closeAriaLabel,
+		id,
+		isOpen,
+		onCancel,
+	});
 
 	return (
 		<S.DialogBase
@@ -39,7 +50,21 @@ export function Dialog({
 		>
 			<S.DialogContainer onClick={(e: MouseEvent<HTMLDivElement>) => e.stopPropagation()}>
 				<S.DialogHeader>
-					<S.DialogTitle id={titleId}>{title}</S.DialogTitle>
+					<S.DialogHeaderStart>
+						{onBack && (
+							<Button
+								variant="ghost"
+								size="sm"
+								isIconOnly
+								onClick={onBack}
+								aria-label={resolvedBackAriaLabel}
+								title={resolvedBackAriaLabel}
+							>
+								<Icon name="arrow-left" size="sm" />
+							</Button>
+						)}
+						<S.DialogTitle id={titleId}>{title}</S.DialogTitle>
+					</S.DialogHeaderStart>
 					{showCloseButton && onCancel && (
 						<Button
 							variant="ghost"

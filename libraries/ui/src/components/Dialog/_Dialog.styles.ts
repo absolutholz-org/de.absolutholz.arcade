@@ -1,7 +1,7 @@
 import { styled } from '@linaria/react';
 import { radiusScale } from '../../styles/radius/radius.constants';
 import { themeColor } from '../../styles/theme/theme.utils';
-import { DIALOG_MAX_WIDTH } from './_Dialog.constants';
+import { DIALOG_MAX_WIDTH, DIALOG_MIN_WIDTH } from './_Dialog.constants';
 
 export const DialogBase = styled.dialog`
 	border: none;
@@ -65,6 +65,7 @@ export const DialogBase = styled.dialog`
 
 export const DialogContainer = styled.div`
 	width: 100%;
+	min-width: ${DIALOG_MIN_WIDTH};
 	max-width: ${DIALOG_MAX_WIDTH};
 	background-color: ${themeColor('surface')};
 	color: ${themeColor('text-1')};
@@ -83,6 +84,13 @@ export const DialogHeader = styled.header`
 	padding: 1.25rem 1.5rem;
 	border-bottom: 1px solid ${themeColor('container-2')};
 	gap: 1rem;
+`;
+
+export const DialogHeaderStart = styled.div`
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	min-width: 0;
 `;
 
 export const DialogTitle = styled.h2`

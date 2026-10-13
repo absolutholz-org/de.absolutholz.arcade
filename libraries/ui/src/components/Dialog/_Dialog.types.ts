@@ -37,6 +37,16 @@ export interface DialogProps extends Omit<ComponentPropsWithoutRef<'dialog'>, 's
 	 */
 	confirmText?: string;
 	/**
+	 * Callback triggered when header back button is clicked.
+	 * When provided, renders a back navigation button before the title in the header.
+	 */
+	onBack?: () => void;
+	/**
+	 * Accessible label for the header back button.
+	 * If omitted, falls back to the localized translation from `@arcade/lib-i18n`.
+	 */
+	backAriaLabel?: string;
+	/**
 	 * Whether to render the header close button when onCancel is provided.
 	 */
 	showCloseButton?: boolean;

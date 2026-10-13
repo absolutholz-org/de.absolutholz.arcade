@@ -6,9 +6,10 @@ export interface UseDialogParams {
 	isOpen: boolean;
 	onCancel?: () => void;
 	closeAriaLabel?: string;
+	backAriaLabel?: string;
 }
 
-export function useDialog({ closeAriaLabel, id, isOpen, onCancel }: UseDialogParams) {
+export function useDialog({ backAriaLabel, closeAriaLabel, id, isOpen, onCancel }: UseDialogParams) {
 	const dialogRef = useRef<HTMLDialogElement>(null);
 	const generatedId = useId();
 	const dialogId = id || generatedId;
@@ -17,6 +18,7 @@ export function useDialog({ closeAriaLabel, id, isOpen, onCancel }: UseDialogPar
 
 	const { t } = useI18n();
 	const resolvedCloseAriaLabel = closeAriaLabel || t('actions.close');
+	const resolvedBackAriaLabel = backAriaLabel || t('actions.back');
 
 	useEffect(() => {
 		const dialog = dialogRef.current;
@@ -56,6 +58,7 @@ export function useDialog({ closeAriaLabel, id, isOpen, onCancel }: UseDialogPar
 		titleId,
 		messageId,
 		resolvedCloseAriaLabel,
+		resolvedBackAriaLabel,
 		handleBackdropClick,
 		handleNativeCancel,
 	};
