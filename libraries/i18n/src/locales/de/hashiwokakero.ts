@@ -1,0 +1,82 @@
+import type { HashiwokakeroTranslationContract } from '../../schemas/hashiwokakero.schema.js';
+
+export const deHashiwokakero: HashiwokakeroTranslationContract = {
+	title: 'Hashiwokakero',
+	description:
+		'Verbinde Inseln mit horizontalen und vertikalen Brücken zu einem einzigen Netzwerk entsprechend aller Vorgaben.',
+	difficulty: {
+		label: 'Schwierigkeit',
+		beginner: 'Anfänger',
+		beginnerDesc: '6×6 Gitter mit wenigen Inseln.',
+		easy: 'Einfach',
+		easyDesc: '8×8 Gitter mit direkten logischen Schritten.',
+		medium: 'Mittel',
+		mediumDesc: '10×10 Gitter mit verzweigten Brückenwegen.',
+		hard: 'Schwer',
+		hardDesc: '14×14 Gitter mit dichten Inselgruppen.',
+		expert: 'Experte',
+		expertDesc: '18×18 Gitter für anspruchsvolle topologische Deduktion.',
+	},
+	levels: {
+		puzzle: 'Rätsel',
+		puzzleNum: 'Rätsel {{number}}',
+		selectLevel: 'Rätsel wählen',
+		completed: 'Gelöst',
+		notCompleted: 'Nicht gelöst',
+		bestTime: 'Bestzeit: {{time}}',
+	},
+	mode: {
+		label: 'Spielmodus',
+		standard: 'Standard',
+		standardDesc: 'Mit laufender Zeitmessung und persönlicher Bestzeit.',
+		zen: 'Zen-Modus',
+		zenDesc: 'Entspanntes Rätseln ohne Zeitdruck.',
+	},
+	controls: {
+		undo: 'Rückgängig',
+		redo: 'Wiederholen',
+		reset: 'Zurücksetzen',
+		pause: 'Pause',
+		resume: 'Fortsetzen',
+		restart: 'Neustart',
+		play: 'Spielen',
+		nextPuzzle: 'Nächstes Rätsel',
+		backToLobby: 'Lobby',
+	},
+	settings: {
+		title: 'Einstellungen',
+		gameplayTab: 'Spielablauf',
+		siteTab: 'Präferenzen',
+		zenMode: {
+			label: 'Zen-Modus',
+			description: 'Stoppuhr ausblenden und ohne Zeitdruck spielen.',
+		},
+		highlightSatisfied: {
+			label: 'Erfüllte Inseln hervorheben',
+			description: 'Inseln mit passender Brückenanzahl optisch markieren.',
+		},
+		highlightOverflow: {
+			label: 'Überfüllte Inseln hervorheben',
+			description: 'Inseln mit zu vielen Brücken rot markieren.',
+		},
+		colorScheme: 'Farbschema',
+		language: 'Sprache',
+	},
+	status: {
+		paused: 'Spiel pausiert',
+		pausedDescription: 'Dein Spielfortschritt und Timer sind pausiert.',
+		timer: 'Verstrichene Zeit',
+		time: 'Zeit',
+		islandsRemaining: 'Verbleibende Inseln',
+		satisfiedIslands: 'Erfüllte Inseln',
+		bestTime: 'Bestzeit',
+		newBestTime: 'Neue Bestzeit!',
+	},
+	victory: {
+		title: 'Rätsel gelöst!',
+		congratulations: 'Alle Inseln sind erfolgreich zu einem zusammenhängenden Netz verbunden!',
+		playAgain: 'Nochmal spielen',
+		nextLevel: 'Nächstes Rätsel',
+		completedIn: 'Gelöst in {{time}}',
+	},
+};

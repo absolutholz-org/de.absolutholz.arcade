@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 import { generatePuzzle } from './generator.ts';
-import { STATIC_PUZZLES, getStaticPuzzle } from './puzzles.ts';
+import { STATIC_PUZZLES, getNextPuzzle, getPuzzleById, getPuzzlesByDifficulty, getStaticPuzzle } from './puzzles.ts';
 import { DIFFICULTY_GRID_SIZES, type DifficultyLevel } from './types.ts';
 
 const DIFFICULTIES: DifficultyLevel[] = ['beginner', 'easy', 'medium', 'hard', 'expert'];
@@ -39,9 +39,16 @@ describe('Hashiwokakero Static Puzzles & Generator Engine', () => {
 			});
 		}
 
+		it('contains at least 10 puzzles per difficulty tier', () => {
+			for (const diff of DIFFICULTIES) {
+				const list = STATIC_PUZZLES[diff];
+				assert.ok(list.length >= 10, `Difficulty tier ${diff} has only ${list.length} puzzles, expected >= 10`);
+			}
+		});
+
 		it('cycles through indices if index exceeds available puzzles', () => {
 			const totalBeginner = STATIC_PUZZLES.beginner.length;
-			assert.ok(totalBeginner >= 2);
+			assert.ok(totalBeginner >= 10);
 
 			const p0 = getStaticPuzzle('beginner', 0);
 			const p1 = getStaticPuzzle('beginner', 1);
@@ -49,6 +56,31 @@ describe('Hashiwokakero Static Puzzles & Generator Engine', () => {
 
 			assert.notDeepEqual(p0.islands, p1.islands);
 			assert.deepEqual(p0.islands, pCycled.islands);
+		});
+	});
+
+	describe('catalog lookup helpers', () => {
+		it('getPuzzlesByDifficulty returns all puzzles for a tier', () => {
+			const easyList = getPuzzlesByDifficulty('easy');
+			assert.equal(easyList.length, 10);
+			assert.equal(easyList[0].id, 'e-1');
+		});
+
+		it('getPuzzleById finds puzzle across tiers', () => {
+			const found = getPuzzleById('m-5');
+			assert.ok(found);
+			assert.equal(found?.puzzle.id, 'm-5');
+			assert.equal(found?.difficulty, 'medium');
+		});
+
+		it('getNextPuzzle returns the next puzzle in the same tier', () => {
+			const next = getNextPuzzle('b-1');
+			assert.ok(next);
+			assert.equal(next?.puzzle.id, 'b-2');
+			assert.equal(next?.difficulty, 'beginner');
+
+			const last = getNextPuzzle('b-10');
+			assert.equal(last, undefined);
 		});
 	});
 

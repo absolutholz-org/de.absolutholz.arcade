@@ -104,7 +104,7 @@ export const frNonogram = {
 		'easy-lightning': 'Éclair',
 		'easy-cactus': 'Cactus',
 		'easy-ghost': 'Petit Fantôme',
-		'easy-duck': 'Canard',
+		'easy.hourglass': 'Sablier',
 		'easy-crab': 'Crabe',
 		'medium-invader': 'Space Invader',
 		'medium-mushroom': 'Super Champignon',

@@ -1,7 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { KeyboardEvent } from 'react';
 import { createHistory, pushState, redo, reset, undo } from '../../engine/history.js';
-import { STATIC_PUZZLES, getStaticPuzzle } from '../../engine/puzzles.js';
+import {
+	createBoardFromPuzzle,
+	getNextPuzzle,
+	getPuzzleById,
+	getPuzzlesByDifficulty,
+	getStaticPuzzle,
+} from '../../engine/puzzles.js';
 import {
 	clearActiveGame,
 	loadActiveGame,
@@ -14,6 +20,8 @@ import {
 import {
 	type BoardState,
 	DEFAULT_SETTINGS,
+	DIFFICULTY_GRID_SIZES,
+	DIFFICULTY_LEVELS,
 	type DifficultyLevel,
 	type HashiSettings,
 	type HistoryState,
@@ -29,25 +37,73 @@ import {
 	toggleBridge,
 } from '../../engine/validator.js';
 
-export function useHashiGame(initialDifficulty: DifficultyLevel = 'easy', initialPuzzleId?: string) {
-	// Initialize board from catalog
-	const [puzzleIndex, setPuzzleIndex] = useState(0);
-	const initialBoard = useMemo(() => {
-		const list = STATIC_PUZZLES[initialDifficulty] ?? STATIC_PUZZLES.easy;
-		if (initialPuzzleId) {
-			const foundIdx = list.findIndex((p) => p.id === initialPuzzleId);
-			if (foundIdx >= 0) {
-				return getStaticPuzzle(initialDifficulty, foundIdx);
+function getInitialBoardState(
+	initialDifficulty: DifficultyLevel,
+	initialPuzzleId?: string,
+): { board: BoardState; puzzleId: string } {
+	let diff = initialDifficulty;
+	let puzzle = getPuzzlesByDifficulty(diff)[0];
+
+	if (typeof window !== 'undefined') {
+		const params = new URLSearchParams(window.location.search);
+		const queryDiff = params.get('difficulty') as DifficultyLevel | null;
+		const queryPuzzle = params.get('puzzle');
+
+		if (queryDiff && (DIFFICULTY_LEVELS as readonly string[]).includes(queryDiff)) {
+			diff = queryDiff;
+		}
+
+		if (queryPuzzle) {
+			const found = getPuzzleById(queryPuzzle);
+			if (found) {
+				puzzle = found.puzzle;
+				diff = found.difficulty;
+			} else {
+				const parsed = Number.parseInt(queryPuzzle, 10);
+				if (!Number.isNaN(parsed)) {
+					const list = getPuzzlesByDifficulty(diff);
+					const safeIdx =
+						parsed > 0 && parsed <= list.length ? parsed - 1 : Math.max(0, parsed % list.length);
+					if (list[safeIdx]) {
+						puzzle = list[safeIdx];
+					}
+				}
+			}
+		} else if (initialPuzzleId) {
+			const found = getPuzzleById(initialPuzzleId);
+			if (found) {
+				puzzle = found.puzzle;
+				diff = found.difficulty;
+			}
+		} else {
+			const list = getPuzzlesByDifficulty(diff);
+			if (list.length > 0) {
+				puzzle = list[0];
 			}
 		}
-		return getStaticPuzzle(initialDifficulty, 0);
-	}, [initialDifficulty, initialPuzzleId]);
+	} else if (initialPuzzleId) {
+		const found = getPuzzleById(initialPuzzleId);
+		if (found) {
+			puzzle = found.puzzle;
+			diff = found.difficulty;
+		}
+	}
 
-	const [puzzleId, setPuzzleId] = useState<string>(
-		initialPuzzleId || initialBoard.islands[0] ? `hashi-${initialDifficulty}-1` : 'puzzle-1',
+	return {
+		board: createBoardFromPuzzle(puzzle, diff),
+		puzzleId: puzzle.id,
+	};
+}
+
+export function useHashiGame(initialDifficulty: DifficultyLevel = 'easy', initialPuzzleId?: string) {
+	const initial = useMemo(
+		() => getInitialBoardState(initialDifficulty, initialPuzzleId),
+		[initialDifficulty, initialPuzzleId],
 	);
-	const [board, setBoard] = useState<BoardState>(initialBoard);
-	const [history, setHistory] = useState<HistoryState>(() => createHistory(initialBoard));
+
+	const [puzzleId, setPuzzleId] = useState<string>(initial.puzzleId);
+	const [board, setBoard] = useState<BoardState>(initial.board);
+	const [history, setHistory] = useState<HistoryState>(() => createHistory(initial.board));
 	const [selectedIslandId, setSelectedIslandId] = useState<string | null>(null);
 	const [focusedIslandId, setFocusedIslandId] = useState<string | null>(null);
 
@@ -64,39 +120,98 @@ export function useHashiGame(initialDifficulty: DifficultyLevel = 'easy', initia
 	// Load settings, progress, and optional active game on mount
 	useEffect(() => {
 		async function init() {
-			const [loadedSettings, loadedProgress, savedGame] = await Promise.all([
-				loadSettings(),
-				loadProgress(),
-				loadActiveGame(),
-			]);
+			try {
+				const [loadedSettings, loadedProgress, savedGame] = await Promise.all([
+					loadSettings(),
+					loadProgress(),
+					loadActiveGame(),
+				]);
 
-			setSettings(loadedSettings);
-			setProgress(loadedProgress);
+				setSettings(loadedSettings);
+				setProgress(loadedProgress);
 
-			if (
-				savedGame &&
-				!savedGame.isComplete &&
-				savedGame.difficulty === initialDifficulty &&
-				(!initialPuzzleId || savedGame.puzzleId === initialPuzzleId)
-			) {
-				const restoredBoard: BoardState = {
-					difficulty: savedGame.difficulty,
-					width: initialBoard.width,
-					height: initialBoard.height,
-					islands: savedGame.islands,
-					bridges: savedGame.bridges,
-				};
-				setBoard(restoredBoard);
-				setHistory(createHistory(restoredBoard));
-				setElapsedSeconds(savedGame.elapsedSeconds);
-				setPuzzleId(savedGame.puzzleId);
+				let requestedDiff: DifficultyLevel = initialDifficulty;
+				let requestedPuzzle = getPuzzlesByDifficulty(initialDifficulty)[0];
+				let forceNew = false;
+				let forceResume = false;
+
+				if (typeof window !== 'undefined') {
+					const params = new URLSearchParams(window.location.search);
+					const queryDiff = params.get('difficulty') as DifficultyLevel | null;
+					const queryPuzzle = params.get('puzzle');
+
+					if (queryDiff && (DIFFICULTY_LEVELS as readonly string[]).includes(queryDiff)) {
+						requestedDiff = queryDiff;
+					}
+
+					if (queryPuzzle) {
+						const found = getPuzzleById(queryPuzzle);
+						if (found) {
+							requestedPuzzle = found.puzzle;
+							requestedDiff = found.difficulty;
+						} else {
+							const parsed = Number.parseInt(queryPuzzle, 10);
+							if (!Number.isNaN(parsed)) {
+								const list = getPuzzlesByDifficulty(requestedDiff);
+								const safeIdx =
+									parsed > 0 && parsed <= list.length
+										? parsed - 1
+										: Math.max(0, parsed % list.length);
+								if (list[safeIdx]) {
+									requestedPuzzle = list[safeIdx];
+								}
+							}
+						}
+					} else {
+						const list = getPuzzlesByDifficulty(requestedDiff);
+						if (list.length > 0) {
+							requestedPuzzle = list[0];
+						}
+					}
+
+					if (params.get('new') === 'true') forceNew = true;
+					if (params.get('resume') === 'true') forceResume = true;
+				}
+
+				if (
+					!forceNew &&
+					savedGame &&
+					!savedGame.isComplete &&
+					(forceResume || savedGame.puzzleId === requestedPuzzle.id)
+				) {
+					const restoredBoard: BoardState = {
+						difficulty: savedGame.difficulty,
+						width: DIFFICULTY_GRID_SIZES[savedGame.difficulty]?.width ?? 8,
+						height: DIFFICULTY_GRID_SIZES[savedGame.difficulty]?.height ?? 8,
+						islands: savedGame.islands,
+						bridges: savedGame.bridges,
+					};
+					setBoard(restoredBoard);
+					setHistory(createHistory(restoredBoard));
+					setElapsedSeconds(savedGame.elapsedSeconds);
+					setPuzzleId(savedGame.puzzleId);
+					setIsPaused(true);
+				} else {
+					const newBoard = createBoardFromPuzzle(requestedPuzzle, requestedDiff);
+					setBoard(newBoard);
+					setHistory(createHistory(newBoard));
+					setElapsedSeconds(0);
+					setPuzzleId(requestedPuzzle.id);
+					setIsPaused(false);
+				}
+			} catch {
+				const fallback = getStaticPuzzle(initialDifficulty, 0);
+				setBoard(fallback);
+				setHistory(createHistory(fallback));
+				setElapsedSeconds(0);
+				setPuzzleId('puzzle-1');
+			} finally {
+				setIsLoaded(true);
 			}
-
-			setIsLoaded(true);
 		}
 
 		init();
-	}, [initialDifficulty, initialPuzzleId, initialBoard.width, initialBoard.height]);
+	}, [initialDifficulty]);
 
 	// Timer ticker
 	useEffect(() => {
@@ -173,6 +288,7 @@ export function useHashiGame(initialDifficulty: DifficultyLevel = 'easy', initia
 					clearActiveGame();
 					recordPuzzleCompletion(puzzleId, elapsedSeconds).then((res) => {
 						setIsNewBestTime(res.isNewBestTime);
+						loadProgress().then(setProgress);
 					});
 				}
 			} else {
@@ -199,6 +315,7 @@ export function useHashiGame(initialDifficulty: DifficultyLevel = 'easy', initia
 				clearActiveGame();
 				recordPuzzleCompletion(puzzleId, elapsedSeconds).then((res) => {
 					setIsNewBestTime(res.isNewBestTime);
+					loadProgress().then(setProgress);
 				});
 			}
 		},
@@ -288,19 +405,51 @@ export function useHashiGame(initialDifficulty: DifficultyLevel = 'easy', initia
 		setElapsedSeconds(0);
 	}, [history]);
 
+	const hasNextPuzzle = useMemo(() => {
+		return !!getNextPuzzle(puzzleId);
+	}, [puzzleId]);
+
 	const handleNextPuzzle = useCallback(() => {
-		const nextIdx = puzzleIndex + 1;
-		setPuzzleIndex(nextIdx);
-		const nextBoard = getStaticPuzzle(board.difficulty, nextIdx);
-		setBoard(nextBoard);
-		setHistory(createHistory(nextBoard));
-		setSelectedIslandId(null);
-		setFocusedIslandId(null);
-		setElapsedSeconds(0);
-		setIsComplete(false);
-		setIsVictoryOpen(false);
-		setPuzzleId(`hashi-${board.difficulty}-${nextIdx + 1}`);
-	}, [puzzleIndex, board.difficulty]);
+		const next = getNextPuzzle(puzzleId);
+		if (next) {
+			const nextBoard = createBoardFromPuzzle(next.puzzle, next.difficulty);
+			setBoard(nextBoard);
+			setHistory(createHistory(nextBoard));
+			setSelectedIslandId(null);
+			setFocusedIslandId(null);
+			setElapsedSeconds(0);
+			setIsComplete(false);
+			setIsVictoryOpen(false);
+			setPuzzleId(next.puzzle.id);
+			if (typeof window !== 'undefined') {
+				const url = new URL(window.location.href);
+				url.searchParams.set('difficulty', next.difficulty);
+				url.searchParams.set('puzzle', next.puzzle.id);
+				window.history.replaceState(null, '', url.toString());
+			}
+		} else {
+			const current = getPuzzleById(puzzleId);
+			const diff = current?.difficulty ?? board.difficulty;
+			const list = getPuzzlesByDifficulty(diff);
+			if (list.length > 0) {
+				const firstBoard = createBoardFromPuzzle(list[0], diff);
+				setBoard(firstBoard);
+				setHistory(createHistory(firstBoard));
+				setSelectedIslandId(null);
+				setFocusedIslandId(null);
+				setElapsedSeconds(0);
+				setIsComplete(false);
+				setIsVictoryOpen(false);
+				setPuzzleId(list[0].id);
+				if (typeof window !== 'undefined') {
+					const url = new URL(window.location.href);
+					url.searchParams.set('difficulty', diff);
+					url.searchParams.set('puzzle', list[0].id);
+					window.history.replaceState(null, '', url.toString());
+				}
+			}
+		}
+	}, [puzzleId, board.difficulty]);
 
 	const handleUpdateSettings = useCallback((newSettings: HashiSettings) => {
 		setSettings(newSettings);
@@ -321,6 +470,7 @@ export function useHashiGame(initialDifficulty: DifficultyLevel = 'easy', initia
 		settings,
 		progress,
 		satisfiedCount,
+		hasNextPuzzle,
 		canUndo,
 		canRedo,
 		getIslandEvaluation,

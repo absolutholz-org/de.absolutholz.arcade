@@ -104,7 +104,7 @@ export const ptNonogram = {
 		'easy-lightning': 'Raio',
 		'easy-cactus': 'Cacto',
 		'easy-ghost': 'Fantasminha',
-		'easy-duck': 'Pato de Borracha',
+		'easy.hourglass': 'Ampulheta',
 		'easy-crab': 'Caranguejo',
 		'medium-invader': 'Space Invader',
 		'medium-mushroom': 'Super Cogumelo',

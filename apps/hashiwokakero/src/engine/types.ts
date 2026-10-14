@@ -39,6 +39,8 @@ export interface HistoryState {
 	future: BoardState[];
 }
 
+export const DIFFICULTY_LEVELS: DifficultyLevel[] = ['beginner', 'easy', 'medium', 'hard', 'expert'];
+
 export const DIFFICULTY_GRID_SIZES: Record<DifficultyLevel, { width: number; height: number }> = {
 	beginner: { width: 6, height: 6 },
 	easy: { width: 8, height: 8 },

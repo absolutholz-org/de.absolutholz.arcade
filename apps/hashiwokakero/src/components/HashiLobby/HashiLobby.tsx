@@ -2,20 +2,20 @@ import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import { GameLandingTemplate } from '@arcade/lib-ui';
 import { Button } from '@arcade/lib-ui/components/Button';
+import { Icon } from '@arcade/lib-ui/components/Icon';
 import { formatTime } from '@arcade/lib-ui/components/Timer';
 import { type JSX, useEffect, useState } from 'react';
-import { STATIC_PUZZLES } from '../../engine/puzzles.js';
+import { getPuzzlesByDifficulty } from '../../engine/puzzles.js';
 import { loadActiveGame, loadProgress } from '../../engine/storage.js';
 import {
 	DIFFICULTY_GRID_SIZES,
+	DIFFICULTY_LEVELS,
 	type DifficultyLevel,
 	type GameSnapshot,
 	type ProgressMap,
 } from '../../engine/types.js';
 import * as S from './HashiLobby.styles.js';
 import type { HashiLobbyProps } from './HashiLobby.types.js';
-
-const DIFFICULTIES: DifficultyLevel[] = ['beginner', 'easy', 'medium', 'hard', 'expert'];
 
 function LobbyContent(): JSX.Element {
 	const { t, language } = useI18n('hashiwokakero');
@@ -36,7 +36,7 @@ function LobbyContent(): JSX.Element {
 		init();
 	}, []);
 
-	const currentPuzzles = STATIC_PUZZLES[selectedDifficulty] ?? [];
+	const currentPuzzles = getPuzzlesByDifficulty(selectedDifficulty);
 	const currentGrid = DIFFICULTY_GRID_SIZES[selectedDifficulty];
 
 	const resumeState = activeGame
@@ -60,7 +60,7 @@ function LobbyContent(): JSX.Element {
 		>
 			{/* Difficulty Selector Tabs */}
 			<S.DifficultyTabs role="tablist" aria-label={t('difficulty.label')}>
-				{DIFFICULTIES.map((diff) => {
+				{DIFFICULTY_LEVELS.map((diff) => {
 					const size = DIFFICULTY_GRID_SIZES[diff];
 					const isSelected = selectedDifficulty === diff;
 
@@ -99,7 +99,12 @@ function LobbyContent(): JSX.Element {
 									<span className="puzzle-num">
 										{t('levels.puzzleNum', { number: String(index + 1) })}
 									</span>
-									{isCompleted && <span className="completed-badge">✓ {t('levels.completed')}</span>}
+									{isCompleted && (
+										<span className="completed-badge">
+											<Icon name="check" size="xs" />
+											{t('levels.completed')}
+										</span>
+									)}
 								</div>
 
 								<div className="card-body">
@@ -107,14 +112,16 @@ function LobbyContent(): JSX.Element {
 									<span>
 										Grid: {currentGrid.width}×{currentGrid.height}
 									</span>
-									{puzzleRecord?.bestTime && (
+									{puzzleRecord?.bestTime ? (
 										<span>{t('levels.bestTime', { time: formatTime(puzzleRecord.bestTime) })}</span>
+									) : (
+										<span>{t('levels.notCompleted')}</span>
 									)}
 								</div>
 
 								<Button
 									as="a"
-									href={`/hashiwokakero/${language}/game?difficulty=${selectedDifficulty}&puzzle=${puzzle.id}`}
+									href={`/hashiwokakero/${language}/game?difficulty=${selectedDifficulty}&puzzle=${puzzle.id}&new=true`}
 									variant={isCompleted ? 'secondary' : 'primary'}
 									size="sm"
 								>
