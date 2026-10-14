@@ -31,7 +31,7 @@
 		"storybook:ui": "pnpm --filter @arcade/lib-ui storybook",
 		"storybook": "pnpm --filter @arcade/lib-ui storybook",
 		"build:storybook": "pnpm --filter @arcade/lib-ui build-storybook",
-		"build:all": "pnpm build:hub && pnpm build:sudoku && pnpm build:minesweeper && pnpm build:nonogram && pnpm build:queens && pnpm build:storybook",
+		"build:all": "pnpm build:hub && pnpm build:sudoku && pnpm build:minesweeper && pnpm build:nonogram && pnpm build:queens && pnpm build:hashiwokakero && pnpm build:storybook",
 		"build": "pnpm build:all"
 	},
 	"engines": {

@@ -31,8 +31,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
-          cache: 'pnpm'
+          node-version: "22"
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -57,6 +57,9 @@ jobs:
       - name: Build Queens
         run: pnpm build:queens
 
+      - name: Build Hashiwokakero
+        run: pnpm build:hashiwokakero
+
       - name: Build Storybook
         run: pnpm build:storybook
 
@@ -77,10 +80,13 @@ jobs:
           # 5. Copy Queens into /queens subpath
           mkdir -p deploy_dist/queens
           cp -R apps/queens/dist/. deploy_dist/queens/
-          # 6. Copy Storybook into /storybook subpath
+          # 6. Copy Hashiwokakero into /hashiwokakero subpath
+          mkdir -p deploy_dist/hashiwokakero
+          cp -R apps/hashiwokakero/dist/. deploy_dist/hashiwokakero/
+          # 7. Copy Storybook into /storybook subpath
           mkdir -p deploy_dist/storybook
           cp -R libraries/ui/storybook-static/. deploy_dist/storybook/
-          # 7. Copy Apache production .htaccess
+          # 8. Copy Apache production .htaccess
           cp deploy/.htaccess deploy_dist/.htaccess
 
       - name: Deploy via SSH & rsync to Webgo
