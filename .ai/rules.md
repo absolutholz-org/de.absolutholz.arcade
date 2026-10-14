@@ -109,7 +109,19 @@ To maintain a consistent, accessible navigation hierarchy and avoid redundant la
 
 To protect agent quota and context windows from exhaustion, all agents must operate under strict token and loop boundaries:
 
-- **Targeted Code Inspection:** Scope file reads and searches strictly to the packages and files explicitly mentioned in the task prompt or directly imported by the active component. Do not perform recursive monorepo file system sweeps, and never read `dist/`, `.astro/`, or lockfiles unless explicitly instructed.
-- **Autonomous Retries Limit (Fail-Fast Policy):** Limit automated self-correction and validation retry loops to a maximum of **1 attempt**. If a typecheck or test fails after one fix attempt, halt immediately, summarize the exact error, display the candidate diff, and request direction from the developer.
-- **No Speculative Cascading Refactors:** Never attempt autonomous, speculative refactors across unrelated workspace files or libraries to resolve a localized typing or lint error.
-- **Lean Tool Output:** Avoid executing commands that output massive terminal logs into context. Favor concise, quiet reporter flags and specific file arguments.
+- **Tool-Call Ceiling & Early Halting**: Limit turns to a maximum of **8 tool calls** per user prompt. If a task is not resolved within 8 tool invocations, halt immediately, report what was accomplished, and request user guidance.
+- **Forbidden File-System Archeology**:
+    - NEVER execute commands that search inside `node_modules`, `.pnpm`, `.pnpm-store`, or root user directories (`~`, `/Users/`).
+    - NEVER run investigative commands like `which`, `find . -name ...`, or `ls` looking for runtime binaries (`tsc`, `biome`, `node`, `tsx`).
+    - Always use canonical workspace runners directly:
+        - Typecheck: `pnpm --filter <pkg> typecheck`
+        - Lint/Check: `pnpm biome check <path>`
+        - Execution: `pnpm exec tsx <path>` or `node <path>`
+    - If a command fails due to path, binary, or missing environment errors, halt after **1 attempt**. Do not attempt blind fixes or cache investigations.
+- **Scratchpad & In-Memory Trial Prohibition**:
+    - NEVER craft, test, or tweak puzzle data, matrices, or levels iteratively inside scratch files (`scratch/verify_*.mjs`) via repetitive tool loops.
+    - If procedural data generation is needed, write a single script in `scripts/`, run it ONCE to populate the data target, and inspect the algorithm logic if it fails.
+- **Targeted Code Inspection**: Scope file reads and searches strictly to the packages and files explicitly mentioned in the task prompt or directly imported by the active component[cite: 13]. Read specific line ranges; avoid dumping entire 300+ line files into context when checking types or signatures.
+- **Autonomous Retries Limit (Fail-Fast Policy)**: Limit automated self-correction and validation retry loops to a maximum of **1 attempt**[cite: 13]. If a typecheck or test fails after one fix attempt, halt immediately, summarize the exact error, display the candidate diff, and request direction from the developer[cite: 13].
+- **No Speculative Cascading Refactors**: Never attempt autonomous, speculative refactors across unrelated workspace files or libraries to resolve a localized typing or lint error[cite: 13].
+- **Lean Tool Output**: Avoid executing commands that output massive terminal logs into context[cite: 13]. Favor concise, quiet reporter flags and specific file arguments[cite: 13].
