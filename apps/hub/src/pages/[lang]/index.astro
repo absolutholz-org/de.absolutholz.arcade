@@ -19,6 +19,7 @@ const currentSudoku = resources[lang as SupportedLanguageCode]?.sudoku ?? resour
 const currentMinesweeper = resources[lang as SupportedLanguageCode]?.minesweeper ?? resources.en.minesweeper;
 const currentNonogram = resources[lang as SupportedLanguageCode]?.nonogram ?? resources.en.nonogram;
 const currentQueens = resources[lang as SupportedLanguageCode]?.queens ?? resources.en.queens;
+const currentHashi = resources[lang as SupportedLanguageCode]?.hashiwokakero ?? resources.en.hashiwokakero;
 ---
 
 <PageLayout
@@ -51,6 +52,10 @@ const currentQueens = resources[lang as SupportedLanguageCode]?.queens ?? resour
 				<a href={`/queens/${lang}/`} class="game-card">
 					<h3>{currentQueens.title}</h3>
 					<p>{currentQueens.description}</p>
+				</a>
+				<a href={`/hashiwokakero/${lang}/`} class="game-card">
+					<h3>{currentHashi.title}</h3>
+					<p>{currentHashi.description}</p>
 				</a>
 			</div>
 		</section>
