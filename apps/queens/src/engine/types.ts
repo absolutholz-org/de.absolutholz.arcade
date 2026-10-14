@@ -25,12 +25,15 @@ export interface CellConflict {
 	adjacency?: boolean;
 }
 
+/** A queen position as `[row, col]`. */
+export type QueenPlacement = [number, number];
+
 export interface QueensPuzzle {
 	id: string;
 	difficulty: Difficulty;
 	size: number;
 	regions: number[][];
-	solution: [number, number][];
+	solution: QueenPlacement[];
 }
 
 export type MoveAction =
