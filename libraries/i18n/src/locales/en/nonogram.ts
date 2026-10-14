@@ -72,6 +72,7 @@ export const enNonogram = {
 		quickPlay: 'Quick Play',
 	},
 	puzzles: {
+		'easy.hourglass': 'Hourglass',
 		'easy-christmas-tree': 'Christmas Tree',
 		'easy-buckeye-nut': 'Buckeye Nut',
 		'easy-beer-mug': 'Beer Mug',
@@ -104,7 +105,6 @@ export const enNonogram = {
 		'easy-lightning': 'Lightning',
 		'easy-cactus': 'Mini Cactus',
 		'easy-ghost': 'Little Ghost',
-		'easy-duck': 'Rubber Duck',
 		'easy-crab': 'Little Crab',
 		'medium-invader': 'Space Invader',
 		'medium-mushroom': 'Super Mushroom',

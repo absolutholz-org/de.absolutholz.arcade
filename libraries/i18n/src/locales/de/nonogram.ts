@@ -72,6 +72,7 @@ export const deNonogram = {
 		quickPlay: 'Schnellstart',
 	},
 	puzzles: {
+		'easy.hourglass': 'Sanduhr',
 		'easy-christmas-tree': 'Weihnachtsbaum',
 		'easy-buckeye-nut': 'Rosskastanie',
 		'easy-beer-mug': 'Maßkrug',
@@ -104,7 +105,6 @@ export const deNonogram = {
 		'easy-lightning': 'Blitz',
 		'easy-cactus': 'Kaktus',
 		'easy-ghost': 'Gespenst',
-		'easy-duck': 'Badeente',
 		'easy-crab': 'Krabbe',
 		'medium-invader': 'Space Invader',
 		'medium-mushroom': 'Pilz',

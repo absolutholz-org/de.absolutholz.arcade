@@ -72,6 +72,7 @@ export const nonogramSchema = {
 		quickPlay: 'lobby.quickPlay',
 	},
 	puzzles: {
+		'easy.hourglass': 'puzzles.easy.hourglass',
 		'easy-christmas-tree': 'puzzles.easy-christmas-tree',
 		'easy-buckeye-nut': 'puzzles.easy-buckeye-nut',
 		'easy-beer-mug': 'puzzles.easy-beer-mug',
@@ -104,7 +105,6 @@ export const nonogramSchema = {
 		'easy-lightning': 'puzzles.easy-lightning',
 		'easy-cactus': 'puzzles.easy-cactus',
 		'easy-ghost': 'puzzles.easy-ghost',
-		'easy-duck': 'puzzles.easy-duck',
 		'easy-crab': 'puzzles.easy-crab',
 		'medium-invader': 'puzzles.medium-invader',
 		'medium-mushroom': 'puzzles.medium-mushroom',

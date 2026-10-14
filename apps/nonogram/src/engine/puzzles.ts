@@ -64,7 +64,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		width: 5,
 		height: 5,
 		color: '#38bdf8',
-		grid: [0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0],
+		grid: [0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0],
 	},
 	{
 		id: 'easy-buckeye-nut',
@@ -82,7 +82,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		width: 5,
 		height: 5,
 		color: '#facc15',
-		grid: [1, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1],
+		grid: [0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0],
 	},
 	{
 		id: 'easy-sword',
@@ -91,7 +91,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		width: 5,
 		height: 5,
 		color: '#fbbf24',
-		grid: [0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
+		grid: [0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0],
 	},
 	{
 		id: 'easy-potion',
@@ -109,7 +109,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		width: 5,
 		height: 5,
 		color: '#10b981',
-		grid: [0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0, 0, 1],
+		grid: [0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1],
 	},
 	{
 		id: 'easy-key',
@@ -199,7 +199,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		width: 5,
 		height: 5,
 		color: '#d97706',
-		grid: [0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
+		grid: [0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0],
 	},
 	{
 		id: 'easy-arrow',
@@ -208,7 +208,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		width: 5,
 		height: 5,
 		color: '#e11d48',
-		grid: [0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
+		grid: [0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
 	},
 	{
 		id: 'easy-fish',
@@ -217,7 +217,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		width: 5,
 		height: 5,
 		color: '#eab308',
-		grid: [0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1],
+		grid: [0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0],
 	},
 	{
 		id: 'easy-lightning',
@@ -247,13 +247,13 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		grid: [0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1],
 	},
 	{
-		id: 'easy-duck',
-		titleKey: 'puzzles.easy-duck',
+		id: 'easy-hourglass',
+		titleKey: 'puzzles.easy.hourglass',
 		difficulty: 'easy',
 		width: 5,
 		height: 5,
-		color: '#38bdf8',
-		grid: [1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0],
+		color: '#eab308',
+		grid: [1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1],
 	},
 	{
 		id: 'easy-crab',
