@@ -1,3 +1,5 @@
+import type { DifficultyLevel } from '../../engine/types.js';
+
 export interface VictoryDialogProps {
 	isOpen: boolean;
 	elapsedSeconds: number;
@@ -7,4 +9,5 @@ export interface VictoryDialogProps {
 	onPlayAgain: () => void;
 	onClose: () => void;
 	gameMode?: 'standard' | 'zen';
+	difficulty?: DifficultyLevel;
 }

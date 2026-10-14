@@ -24,7 +24,7 @@ export function HashiGameHeader({
 	return (
 		<S.HeaderContainer>
 			<S.LeftSection>
-				<a href={`/hashiwokakero/${language}/`} aria-label={t('controls.backToLobby')}>
+				<a href={`/hashiwokakero/${language}/?difficulty=${difficulty}`} aria-label={t('controls.backToLobby')}>
 					← {t('controls.backToLobby')}
 				</a>
 			</S.LeftSection>

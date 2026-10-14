@@ -5,7 +5,7 @@ import { Button } from '@arcade/lib-ui/components/Button';
 import { Icon } from '@arcade/lib-ui/components/Icon';
 import { formatTime } from '@arcade/lib-ui/components/Timer';
 import { type JSX, useEffect, useState } from 'react';
-import { getPuzzlesByDifficulty } from '../../engine/puzzles.js';
+import { getPuzzleById, getPuzzlesByDifficulty } from '../../engine/puzzles.js';
 import { loadActiveGame, loadProgress } from '../../engine/storage.js';
 import {
 	DIFFICULTY_GRID_SIZES,
@@ -17,12 +17,23 @@ import {
 import * as S from './HashiLobby.styles.js';
 import type { HashiLobbyProps } from './HashiLobby.types.js';
 
+function getInitialLobbyDifficulty(): DifficultyLevel {
+	if (typeof window !== 'undefined') {
+		const params = new URLSearchParams(window.location.search);
+		const diff = params.get('difficulty') as DifficultyLevel | null;
+		if (diff && (DIFFICULTY_LEVELS as readonly string[]).includes(diff)) {
+			return diff;
+		}
+	}
+	return 'easy';
+}
+
 function LobbyContent(): JSX.Element {
 	const { t, language } = useI18n('hashiwokakero');
 	const { t: tCommon } = useI18n('common');
 	const [activeGame, setActiveGame] = useState<GameSnapshot | null>(null);
 	const [progress, setProgress] = useState<ProgressMap>({});
-	const [selectedDifficulty, setSelectedDifficulty] = useState<DifficultyLevel>('easy');
+	const [selectedDifficulty, setSelectedDifficulty] = useState<DifficultyLevel>(getInitialLobbyDifficulty);
 
 	useEffect(() => {
 		async function init() {
@@ -32,9 +43,53 @@ function LobbyContent(): JSX.Element {
 			}
 			const savedProgress = await loadProgress();
 			setProgress(savedProgress);
+
+			// 1. If URL query param specified a valid difficulty, stick with it
+			if (typeof window !== 'undefined') {
+				const params = new URLSearchParams(window.location.search);
+				const diff = params.get('difficulty') as DifficultyLevel | null;
+				if (diff && (DIFFICULTY_LEVELS as readonly string[]).includes(diff)) {
+					setSelectedDifficulty(diff);
+					return;
+				}
+			}
+
+			// 2. Otherwise, check most recently played/completed puzzle
+			let latestTime = 0;
+			let latestDiff: DifficultyLevel | null = null;
+			for (const [pId, record] of Object.entries(savedProgress)) {
+				if (record.lastPlayed && record.lastPlayed > latestTime) {
+					latestTime = record.lastPlayed;
+					const found = getPuzzleById(pId);
+					if (found) {
+						latestDiff = found.difficulty;
+					}
+				}
+			}
+
+			// 3. If there is an active uncompleted game, compare with latestPlayed
+			if (savedGame && !savedGame.isComplete && savedGame.difficulty) {
+				if (!latestTime || (savedGame.lastPlayed && savedGame.lastPlayed >= latestTime)) {
+					setSelectedDifficulty(savedGame.difficulty);
+					return;
+				}
+			}
+
+			if (latestDiff) {
+				setSelectedDifficulty(latestDiff);
+			}
 		}
 		init();
 	}, []);
+
+	const handleSelectDifficulty = (diff: DifficultyLevel) => {
+		setSelectedDifficulty(diff);
+		if (typeof window !== 'undefined') {
+			const url = new URL(window.location.href);
+			url.searchParams.set('difficulty', diff);
+			window.history.replaceState(null, '', url.toString());
+		}
+	};
 
 	const currentPuzzles = getPuzzlesByDifficulty(selectedDifficulty);
 	const currentGrid = DIFFICULTY_GRID_SIZES[selectedDifficulty];
@@ -71,7 +126,7 @@ function LobbyContent(): JSX.Element {
 							role="tab"
 							aria-selected={isSelected}
 							data-active={isSelected ? 'true' : 'false'}
-							onClick={() => setSelectedDifficulty(diff)}
+							onClick={() => handleSelectDifficulty(diff)}
 						>
 							<span className="tab-title">{t(`difficulty.${diff}`)}</span>
 							<span className="tab-size">

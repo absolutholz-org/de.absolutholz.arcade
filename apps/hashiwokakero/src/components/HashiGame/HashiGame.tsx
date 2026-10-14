@@ -89,6 +89,7 @@ export function HashiGame({ initialDifficulty = 'easy', initialPuzzleId, lang }:
 						onPlayAgain={game.handlePlayAgain}
 						onClose={game.closeVictory}
 						gameMode={game.settings.gameMode}
+						difficulty={game.board.difficulty}
 					/>
 				</>
 			}

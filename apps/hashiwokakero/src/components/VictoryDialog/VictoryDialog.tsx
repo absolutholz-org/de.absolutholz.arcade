@@ -15,8 +15,13 @@ export function VictoryDialog({
 	onPlayAgain,
 	onClose,
 	gameMode = 'standard',
+	difficulty,
 }: VictoryDialogProps): JSX.Element {
 	const { t, language } = useI18n('hashiwokakero');
+
+	const lobbyHref = difficulty
+		? `/hashiwokakero/${language}/?difficulty=${difficulty}`
+		: `/hashiwokakero/${language}/`;
 
 	return (
 		<Dialog
@@ -47,7 +52,7 @@ export function VictoryDialog({
 					<Button onClick={onPlayAgain} variant={hasNextPuzzle ? 'secondary' : 'primary'} size="md">
 						{t('victory.playAgain')}
 					</Button>
-					<a href={`/hashiwokakero/${language}/`}>{t('controls.backToLobby')}</a>
+					<a href={lobbyHref}>{t('controls.backToLobby')}</a>
 				</S.Actions>
 			</S.VictoryContent>
 		</Dialog>
