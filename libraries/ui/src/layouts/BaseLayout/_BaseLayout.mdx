@@ -1,0 +1,36 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Layouts/BaseLayout" />
+
+# BaseLayout
+
+`BaseLayout` is the root document layout for all static pages across the Arcade monorepo. It manages:
+
+- Global document boilerplate (`<!doctype html>`, `<html lang dir>`, `<head>`, `<body>`)
+- Initial theme initialization inline script (`arcade::ui::themeset` and `arcade::ui::scheme`) to eliminate Flash of Unstyled Content (FOUC)
+- Core metadata, dynamic page titles, descriptions, canonical URLs, and favicon links
+- Global CSS reset and design token stylesheet loading (`@arcade/lib-ui/styles/global.css`)
+
+## Usage
+
+```astro
+---
+import BaseLayout from '@arcade/lib-ui/layouts/BaseLayout/BaseLayout.astro';
+---
+
+<BaseLayout title="My Page" description="Page description">
+  <main id="main-content">
+    <slot />
+  </main>
+</BaseLayout>
+```
+
+## Props
+
+- `title`: Primary document title.
+- `description`: Optional meta description.
+- `lang`: Language code (`en`, `de`, etc. Default: `'en'`).
+- `dir`: Text direction (`'ltr'` or `'rtl'`. Default: `'ltr'`).
+- `canonical`: Full canonical URL.
+- `appTitle`: Application title for mobile app title meta tags (Default: `'Arcade'`).
+- `manifestHref`: Web app manifest link href.

@@ -97,7 +97,7 @@ To maintain a consistent, accessible navigation hierarchy and avoid redundant la
 
 3. **Static Content & Informational Subpages (`rules.astro`, `stats.astro`, `high-scores.astro`, `settings.astro`, `[slug].astro`)**:
     - Informational, documentation, settings, and legal prose pages.
-    - Must **ALWAYS** consume `StaticPageLayout.astro` (`@arcade/lib-ui/layouts/StaticPageLayout.astro` or domain wrapper `*StaticPageLayout.astro`).
+    - Must **ALWAYS** consume `StaticPageLayout.astro` (`@arcade/lib-ui/layouts/StaticPageLayout/StaticPageLayout.astro` or domain wrapper `*StaticPageLayout.astro`).
     - `StaticPageLayout` automatically injects the W3C APG compliant `<Breadcrumb>` in a dedicated breadcrumb bar outside `<main id="main-content">`, forming the hierarchical path:
         - Game subpages: `[Arcade Logo] / [Game Title] / [Page Title]`
         - Hub subpages: `[Arcade Logo] / [Page Title]`

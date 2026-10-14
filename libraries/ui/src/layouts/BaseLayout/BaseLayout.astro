@@ -1,15 +1,8 @@
 ---
-import '../styles/global.css';
+import '../../styles/global.css';
+import type { BaseLayoutProps } from './_BaseLayout.types';
 
-interface Props {
-	title: string;
-	description?: string;
-	lang?: string;
-	dir?: 'ltr' | 'rtl';
-	canonical?: string;
-	appTitle?: string;
-	manifestHref?: string;
-}
+type Props = BaseLayoutProps;
 
 const { title, description, lang = 'en', dir = 'ltr', canonical, appTitle = 'Arcade', manifestHref } = Astro.props;
 ---

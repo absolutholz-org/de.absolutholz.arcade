@@ -19,10 +19,12 @@ export function GameLandingTemplate({
 	return (
 		<S.Root>
 			{/* Zone 1: Header / Intro */}
-			<PageContainer variant="standard">
-				<S.HeaderZone>
+			<S.HeaderZone>
+				<PageContainer>
 					<Hero title={title} tagline={description} logo={heroIcon} align="left" />
-					{resumeState && (
+				</PageContainer>
+				{resumeState && (
+					<PageContainer>
 						<Banner
 							variant="info"
 							statusLabel="Resume"
@@ -33,9 +35,9 @@ export function GameLandingTemplate({
 								</Button>
 							}
 						/>
-					)}
-				</S.HeaderZone>
-			</PageContainer>
+					</PageContainer>
+				)}
+			</S.HeaderZone>
 
 			{/* Zone 2: Main Area */}
 			<PageContainer variant={mainContainerVariant}>

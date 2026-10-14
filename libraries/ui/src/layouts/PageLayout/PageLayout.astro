@@ -2,25 +2,15 @@
 import { resources } from '@arcade/lib-i18n/config/i18n';
 import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
-import { HeaderActions } from '../components/HeaderActions';
-import { Logo } from '../components/Logo';
-import { SiteFooter } from '../components/SiteFooter';
-import { SiteHeader } from '../components/SiteHeader';
-import { SkipLink } from '../components/SkipLink';
-import BaseLayout from './BaseLayout.astro';
+import { HeaderActions } from '../../components/HeaderActions';
+import { Logo } from '../../components/Logo';
+import { SiteFooter } from '../../components/SiteFooter';
+import { SiteHeader } from '../../components/SiteHeader';
+import { SkipLink } from '../../components/SkipLink';
+import BaseLayout from '../BaseLayout/BaseLayout.astro';
+import type { PageLayoutProps } from './_PageLayout.types';
 
-interface Props {
-	title: string;
-	description?: string;
-	lang: SupportedLanguageCode;
-	appTitle: string;
-	appHomeHref?: string;
-	currentSlug?: string;
-	basePath?: string;
-	canonicalBase?: string;
-	manifestHref?: string;
-	headerVariant?: 'standard' | 'minimal' | 'none';
-}
+type Props = PageLayoutProps;
 
 const {
 	title,

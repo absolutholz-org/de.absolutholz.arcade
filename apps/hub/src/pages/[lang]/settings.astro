@@ -5,7 +5,7 @@ import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { HeaderUserMenu } from '@arcade/lib-ui';
 import { PageContainer } from '@arcade/lib-ui/components/PageContainer';
 import { ThemeSelector } from '@arcade/lib-ui/components/ThemeSelector';
-import StaticPageLayout from '@arcade/lib-ui/layouts/StaticPageLayout.astro';
+import StaticPageLayout from '@arcade/lib-ui/layouts/StaticPageLayout/StaticPageLayout.astro';
 
 export function getStaticPaths() {
 	return SUPPORTED_LANGUAGES.map((item) => ({

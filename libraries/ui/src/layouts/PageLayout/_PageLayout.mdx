@@ -1,0 +1,42 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Layouts/PageLayout" />
+
+# PageLayout
+
+`PageLayout` provides the standard page structure for hub landing pages, game lobbies, and subpages across the monorepo. It wraps `BaseLayout` and adds:
+
+- Skip link landmark (`SkipLink`) for keyboard accessibility
+- Top site header (`SiteHeader`) with logo, app title, and header actions (language switcher, scheme switcher, theme selector, user menu)
+- Main landmark wrapper (`<main id="main-content">`)
+- Global site footer (`SiteFooter`) with copyright and localized legal links
+
+## Usage
+
+```astro
+---
+import PageLayout from '@arcade/lib-ui/layouts/PageLayout/PageLayout.astro';
+---
+
+<PageLayout
+  title="Sudoku"
+  lang="en"
+  appTitle="Sudoku"
+  currentSlug=""
+>
+  <slot />
+</PageLayout>
+```
+
+## Props
+
+- `title`: Page title string.
+- `description`: Optional meta description.
+- `lang`: Supported language code (`'en'`, `'de'`, etc.).
+- `appTitle`: Application name displayed in header and title tag.
+- `appHomeHref`: URL pointing to the game or hub root.
+- `currentSlug`: Active route slug used for localized language switching URLs.
+- `basePath`: Subdirectory route prefix (e.g., `'sudoku'`).
+- `canonicalBase`: Origin URL for canonical links (Default: `'https://arcade.absolutholz.de'`).
+- `manifestHref`: Web app manifest URL.
+- `headerVariant`: Header display mode (`'standard'`, `'minimal'`, or `'none'`).
