@@ -1,8 +1,8 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { GameLandingTemplate } from '@arcade/lib-ui';
 import { Button } from '@arcade/lib-ui/components/Button';
-import { Hero } from '@arcade/lib-ui/components/Hero';
 import { Icon } from '@arcade/lib-ui/components/Icon';
 import { formatTime } from '@arcade/lib-ui/components/Timer';
 import type { FormEvent, JSX } from 'react';
@@ -64,25 +64,28 @@ function LobbyContent(): JSX.Element {
 		}
 	};
 
+	const resumeState = activeGame
+		? {
+				message: `${t(`size.${activeGame.size}`)} • ${t(`difficulty.${activeGame.difficulty}`)} • ${formatTime(activeGame.elapsedSeconds)}`,
+				onResume: () => {
+					window.location.href = `/minesweeper/${language}/game?resume=true`;
+				},
+				buttonLabel: t('controls.resume'),
+			}
+		: undefined;
+
+	const pageFooterLinks = [
+		{ label: t('highScores.title'), href: `/minesweeper/${language}/high-scores` },
+		{ label: tCommon('navigation.rules'), href: `/minesweeper/${language}/rules` },
+	];
+
 	return (
-		<S.LobbyContainer>
-			<Hero title={t('title')} tagline={t('description')} />
-
-			{activeGame ? (
-				<S.ResumeCard>
-					<div className="resume-info">
-						<span className="resume-title">{t('controls.resume')}</span>
-						<span className="resume-meta">
-							{t(`size.${activeGame.size}`)} • {t(`difficulty.${activeGame.difficulty}`)} •{' '}
-							{formatTime(activeGame.elapsedSeconds)}
-						</span>
-					</div>
-					<Button as="a" href={`/minesweeper/${language}/game?resume=true`} variant="primary" size="md">
-						{t('controls.resume')}
-					</Button>
-				</S.ResumeCard>
-			) : null}
-
+		<GameLandingTemplate
+			title={t('title')}
+			description={t('description')}
+			resumeState={resumeState}
+			pageFooterLinks={pageFooterLinks}
+		>
 			<S.ConfigForm onSubmit={handleStartGame}>
 				<S.Fieldset>
 					<legend>{t('size.label')}</legend>
@@ -150,12 +153,7 @@ function LobbyContent(): JSX.Element {
 					</Button>
 				</S.PlaySection>
 			</S.ConfigForm>
-
-			<S.QuickLinks>
-				<a href={`/minesweeper/${language}/high-scores`}>{t('highScores.title')}</a>
-				<a href={`/minesweeper/${language}/rules`}>{tCommon('navigation.rules')}</a>
-			</S.QuickLinks>
-		</S.LobbyContainer>
+		</GameLandingTemplate>
 	);
 }
 

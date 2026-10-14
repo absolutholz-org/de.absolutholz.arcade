@@ -1,6 +1,7 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode, TranslationKey } from '@arcade/lib-i18n/types/i18n.types';
+import { GameLandingTemplate } from '@arcade/lib-ui';
 import { Button } from '@arcade/lib-ui/components/Button';
 import { Icon } from '@arcade/lib-ui/components/Icon';
 import { formatTime } from '@arcade/lib-ui/components/Timer';
@@ -72,29 +73,26 @@ function LobbyContent(): JSX.Element {
 
 	const availablePuzzles = PUZZLES_BY_DIFFICULTY[selectedDifficulty];
 
+	const resumeState =
+		activeGame && activeGamePuzzle
+			? {
+					message: `${t(activeGamePuzzle.titleKey as TranslationKey)} • ${t(`difficulty.${activeGamePuzzle.difficulty}` as TranslationKey)} • ${formatTime(activeGame.elapsedSeconds)} (${activeGame.moves} ${t('status.moves')})`,
+					onResume: () => {
+						window.location.href = `/nonogram/${language}/game?resume=true`;
+					},
+					buttonLabel: t('controls.resume'),
+				}
+			: undefined;
+
+	const pageFooterLinks = [{ label: tCommon('navigation.rules'), href: `/nonogram/${language}/rules` }];
+
 	return (
-		<S.LobbyContainer>
-			<S.HeroSection>
-				<h1>{t('title')}</h1>
-				<p>{t('description')}</p>
-			</S.HeroSection>
-
-			{activeGame && activeGamePuzzle ? (
-				<S.ResumeCard>
-					<div className="resume-info">
-						<span className="resume-title">{t('controls.resume')}</span>
-						<span className="resume-meta">
-							{t(activeGamePuzzle.titleKey as TranslationKey)} •{' '}
-							{t(`difficulty.${activeGamePuzzle.difficulty}` as TranslationKey)} •{' '}
-							{formatTime(activeGame.elapsedSeconds)} ({activeGame.moves} {t('status.moves')})
-						</span>
-					</div>
-					<Button as="a" href={`/nonogram/${language}/game?resume=true`} variant="primary" size="md">
-						{t('controls.resume')}
-					</Button>
-				</S.ResumeCard>
-			) : null}
-
+		<GameLandingTemplate
+			title={t('title')}
+			description={t('description')}
+			resumeState={resumeState}
+			pageFooterLinks={pageFooterLinks}
+		>
 			<S.ConfigForm onSubmit={handleStartGame}>
 				{/* Difficulty Selection */}
 				<S.Fieldset>
@@ -195,11 +193,7 @@ function LobbyContent(): JSX.Element {
 					</Button>
 				</S.PlaySection>
 			</S.ConfigForm>
-
-			<S.QuickLinks>
-				<a href={`/nonogram/${language}/rules`}>{tCommon('navigation.rules')}</a>
-			</S.QuickLinks>
-		</S.LobbyContainer>
+		</GameLandingTemplate>
 	);
 }
 

@@ -1,8 +1,7 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import { createGameStorage } from '@arcade/lib-storage';
-import { Button } from '@arcade/lib-ui/components/Button';
-import { Hero } from '@arcade/lib-ui/components/Hero';
+import { GameLandingTemplate } from '@arcade/lib-ui';
 import { formatTime } from '@arcade/lib-ui/components/Timer';
 import { useEffect, useState } from 'react';
 import type { Difficulty, GameSnapshot, SudokuStats } from '../../engine/types';
@@ -36,24 +35,28 @@ function LobbyContent() {
 		loadState();
 	}, []);
 
+	const resumeState = activeGame
+		? {
+				message: `${t(`difficulty.${activeGame.difficulty}`)} • ${formatTime(activeGame.elapsedSeconds)}`,
+				onResume: () => {
+					window.location.href = `/sudoku/${language}/game?resume=true`;
+				},
+				buttonLabel: t('controls.resume'),
+			}
+		: undefined;
+
+	const pageFooterLinks = [
+		{ label: tCommon('navigation.rules'), href: `/sudoku/${language}/rules` },
+		{ label: t('stats.title'), href: `/sudoku/${language}/stats` },
+	];
+
 	return (
-		<S.LobbyContainer>
-			<Hero title={t('title')} tagline={t('description')} />
-
-			{activeGame ? (
-				<S.ResumeCard>
-					<div className="resume-info">
-						<span className="resume-title">{t('controls.resume')}</span>
-						<span className="resume-meta">
-							{t(`difficulty.${activeGame.difficulty}`)} • {formatTime(activeGame.elapsedSeconds)}
-						</span>
-					</div>
-					<Button as="a" href={`/sudoku/${language}/game?resume=true`} variant="primary" size="md">
-						{t('controls.resume')}
-					</Button>
-				</S.ResumeCard>
-			) : null}
-
+		<GameLandingTemplate
+			title={t('title')}
+			description={t('description')}
+			resumeState={resumeState}
+			pageFooterLinks={pageFooterLinks}
+		>
 			<S.DifficultySection>
 				<h2>{t('controls.newGame')}</h2>
 				<S.DifficultyGrid>
@@ -80,12 +83,7 @@ function LobbyContent() {
 					})}
 				</S.DifficultyGrid>
 			</S.DifficultySection>
-
-			<S.QuickLinks>
-				<a href={`/sudoku/${language}/rules`}>{tCommon('navigation.rules')}</a>
-				<a href={`/sudoku/${language}/stats`}>{t('stats.title')}</a>
-			</S.QuickLinks>
-		</S.LobbyContainer>
+		</GameLandingTemplate>
 	);
 }
 

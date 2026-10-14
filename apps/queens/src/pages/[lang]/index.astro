@@ -2,7 +2,6 @@
 import { resources } from '@arcade/lib-i18n/config/i18n';
 import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
-import { PageContainer } from '@arcade/lib-ui/components/PageContainer';
 import { QueensLobby } from '../../components/QueensLobby';
 import QueensPageLayout from '../../layouts/QueensPageLayout.astro';
 
@@ -22,7 +21,5 @@ const currentQueens = resources[lang as SupportedLanguageCode]?.queens ?? resour
 	lang={lang as SupportedLanguageCode}
 	currentSlug=""
 >
-	<PageContainer>
-		<QueensLobby client:load lang={lang as SupportedLanguageCode} />
-	</PageContainer>
+	<QueensLobby client:load lang={lang as SupportedLanguageCode} />
 </QueensPageLayout>

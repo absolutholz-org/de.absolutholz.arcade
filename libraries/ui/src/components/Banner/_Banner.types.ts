@@ -12,7 +12,7 @@ export interface IBanner {
 	/**
 	 * The message to be displayed in the banner.
 	 */
-	message: string;
+	message: ReactNode;
 
 	/**
 	 * Explicit indicator for the status type (e.g., 'SUCCESS', 'INFO').

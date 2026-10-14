@@ -1,5 +1,6 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
+import { GameLandingTemplate } from '@arcade/lib-ui';
 import { Button } from '@arcade/lib-ui/components/Button';
 import { Icon } from '@arcade/lib-ui/components/Icon';
 import { formatTime } from '@arcade/lib-ui/components/Timer';
@@ -37,28 +38,25 @@ function LobbyContent(): JSX.Element {
 
 	const currentPuzzles = getPuzzlesByDifficulty(selectedDifficulty);
 
+	const resumeState = activeGame
+		? {
+				message: `${t(`difficulty.${activeGame.difficulty}`)} • ${activeGame.size}×${activeGame.size} • ${formatTime(activeGame.elapsedSeconds)}`,
+				onResume: () => {
+					window.location.href = `/queens/${language}/game?resume=true`;
+				},
+				buttonLabel: t('controls.resume'),
+			}
+		: undefined;
+
+	const pageFooterLinks = [{ label: tCommon('navigation.rules'), href: `/queens/${language}/rules` }];
+
 	return (
-		<S.LobbyContainer>
-			<S.HeroSection>
-				<h1>{t('title')}</h1>
-				<p>{t('description')}</p>
-			</S.HeroSection>
-
-			{activeGame ? (
-				<S.ResumeCard>
-					<div className="resume-info">
-						<span className="resume-title">{t('controls.resume')}</span>
-						<span className="resume-meta">
-							{t(`difficulty.${activeGame.difficulty}`)} • {activeGame.size}×{activeGame.size} •{' '}
-							{formatTime(activeGame.elapsedSeconds)}
-						</span>
-					</div>
-					<Button as="a" href={`/queens/${language}/game?resume=true`} variant="primary" size="md">
-						{t('controls.resume')}
-					</Button>
-				</S.ResumeCard>
-			) : null}
-
+		<GameLandingTemplate
+			title={t('title')}
+			description={t('description')}
+			resumeState={resumeState}
+			pageFooterLinks={pageFooterLinks}
+		>
 			<S.DifficultyTabs role="tablist" aria-label={t('difficulty.label')}>
 				{DIFFICULTY_LEVELS.map((diff) => {
 					const size = GRID_SIZES[diff];
@@ -126,11 +124,7 @@ function LobbyContent(): JSX.Element {
 					})}
 				</S.PuzzlesGrid>
 			</S.PuzzlesSection>
-
-			<S.QuickLinks>
-				<a href={`/queens/${language}/rules`}>{tCommon('navigation.rules')}</a>
-			</S.QuickLinks>
-		</S.LobbyContainer>
+		</GameLandingTemplate>
 	);
 }
 

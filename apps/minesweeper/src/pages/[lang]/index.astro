@@ -2,7 +2,6 @@
 import { resources } from '@arcade/lib-i18n/config/i18n';
 import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
-import { PageContainer } from '@arcade/lib-ui/components/PageContainer';
 import { MinesweeperLobby } from '../../components/MinesweeperLobby';
 import MinesweeperPageLayout from '../../layouts/MinesweeperPageLayout.astro';
 
@@ -22,7 +21,5 @@ const currentMinesweeper = resources[lang as SupportedLanguageCode]?.minesweeper
 	lang={lang as SupportedLanguageCode}
 	currentSlug=""
 >
-	<PageContainer>
-		<MinesweeperLobby client:load lang={lang as SupportedLanguageCode} />
-	</PageContainer>
+	<MinesweeperLobby client:load lang={lang as SupportedLanguageCode} />
 </MinesweeperPageLayout>
