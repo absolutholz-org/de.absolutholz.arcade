@@ -4,3 +4,9 @@ pre-commit:
       glob: "*.{js,ts,jsx,tsx,mjs,cjs,json}"
       run: pnpm exec biome check --write --unsafe --no-errors-on-unmatched {staged_files}
       stage_fixed: true
+
+pre-push:
+  commands:
+    typecheck:
+      run: pnpm typecheck
+
