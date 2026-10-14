@@ -10,6 +10,7 @@ allowBuilds:
   "@biomejs/biome": true
   "@firebase/util": true
   esbuild: true
+  lefthook: true
   protobufjs: true
   sharp: true
 

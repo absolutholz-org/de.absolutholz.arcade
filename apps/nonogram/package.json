@@ -7,9 +7,11 @@
 		"dev": "astro dev --port 4323",
 		"build": "astro build",
 		"preview": "astro preview",
-		"typecheck": "astro sync && tsc --noEmit"
+		"typecheck": "astro sync && tsc --noEmit",
+		"verify:puzzles": "node --experimental-strip-types scripts/verify-puzzles.mjs"
 	},
 	"dependencies": {
+		"@arcade/lib-astro-config": "workspace:*",
 		"@arcade/lib-i18n": "workspace:*",
 		"@arcade/lib-storage": "workspace:*",
 		"@arcade/lib-ui": "workspace:*",

@@ -10,6 +10,7 @@
 		"typecheck": "astro sync && tsc --noEmit"
 	},
 	"dependencies": {
+		"@arcade/lib-astro-config": "workspace:*",
 		"@arcade/lib-i18n": "workspace:*",
 		"@arcade/lib-storage": "workspace:*",
 		"@arcade/lib-ui": "workspace:*",
