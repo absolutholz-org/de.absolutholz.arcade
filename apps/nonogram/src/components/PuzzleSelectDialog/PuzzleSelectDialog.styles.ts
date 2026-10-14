@@ -6,7 +6,7 @@ export const ContentRoot = styled.div`
 	flex-direction: column;
 	gap: 1.25rem;
 	padding: 0.5rem 0;
-	min-width: min(calc(100vw - 4rem), 26rem);
+	min-width: min(calc(100vw - 4rem), 32rem);
 	max-height: 70vh;
 	overflow-y: auto;
 `;
@@ -17,6 +17,11 @@ export const DifficultyGroup = styled.div`
 	gap: 0.5rem;
 
 	> h4 {
+		position: sticky;
+		top: 0;
+		background: ${themeColor('surface')};
+		z-index: 1;
+		padding: 0.25rem 0;
 		font-size: 0.8125rem;
 		font-weight: 700;
 		text-transform: uppercase;
