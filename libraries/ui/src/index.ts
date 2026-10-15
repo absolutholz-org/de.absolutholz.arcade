@@ -21,3 +21,5 @@ export type {
 	OfflineGameStatus,
 	UseOfflineGameResult,
 } from './hooks/useOfflineGame';
+export { VictoryDialog } from './components/VictoryDialog';
+export type { VictoryDialogProps, VictoryStatItem } from './components/VictoryDialog';

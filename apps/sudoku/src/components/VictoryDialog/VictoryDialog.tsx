@@ -1,44 +1,25 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
-import { Button } from '@arcade/lib-ui/components/Button';
-import { Dialog } from '@arcade/lib-ui/components/Dialog';
-import { Timer } from '@arcade/lib-ui/components/Timer';
-import * as S from './VictoryDialog.styles';
+import { VictoryDialog as SharedVictoryDialog } from '@arcade/lib-ui/components/VictoryDialog';
 import type { VictoryDialogProps } from './VictoryDialog.types';
 
-export function VictoryDialog({
-	isOpen,
-	elapsedSeconds,
-	difficulty,
-	isNewBestTime,
-	onPlayAgain,
-	onClose,
-}: VictoryDialogProps) {
+export function VictoryDialog({ isOpen, elapsedSeconds, isNewBestTime, onPlayAgain, onClose }: VictoryDialogProps) {
 	const { t, language } = useI18n('sudoku');
 
 	return (
-		<Dialog
+		<SharedVictoryDialog
 			isOpen={isOpen}
-			onCancel={onClose}
+			onClose={onClose}
 			title={t('victory.title')}
 			message={t('victory.congratulations')}
-			showCloseButton={true}
-		>
-			<S.VictoryContent>
-				<S.TimeCard>
-					<span data-slot="label">{t('status.time')}</span>
-					<Timer seconds={elapsedSeconds} size="lg" showIcon={false} />
-				</S.TimeCard>
-
-				{isNewBestTime && <S.BestTimeBadge>{t('status.newBestTime')}</S.BestTimeBadge>}
-
-				<S.Actions>
-					<Button onClick={onPlayAgain} variant="primary" size="md">
-						{t('victory.playAgain')}
-					</Button>
-					<a href={`/sudoku/${language}/stats`}>{t('stats.title')}</a>
-					<a href={`/sudoku/${language}/`}>{t('controls.backToLobby')}</a>
-				</S.Actions>
-			</S.VictoryContent>
-		</Dialog>
+			elapsedSeconds={elapsedSeconds}
+			timeLabel={t('status.time')}
+			isNewBestTime={isNewBestTime}
+			bestTimeText={t('status.newBestTime')}
+			onPlayAgain={onPlayAgain}
+			playAgainLabel={t('victory.playAgain')}
+			lobbyHref={`/sudoku/${language}/`}
+			lobbyLabel={t('controls.backToLobby')}
+			secondaryActions={<a href={`/sudoku/${language}/stats`}>{t('stats.title')}</a>}
+		/>
 	);
 }

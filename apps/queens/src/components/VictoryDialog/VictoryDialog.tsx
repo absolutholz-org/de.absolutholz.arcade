@@ -1,9 +1,6 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
-import { Button } from '@arcade/lib-ui/components/Button';
-import { Dialog } from '@arcade/lib-ui/components/Dialog';
-import { Timer } from '@arcade/lib-ui/components/Timer';
+import { VictoryDialog as SharedVictoryDialog } from '@arcade/lib-ui/components/VictoryDialog';
 import type { JSX } from 'react';
-import * as S from './VictoryDialog.styles';
 import type { VictoryDialogProps } from './VictoryDialog.types';
 
 export function VictoryDialog({
@@ -18,33 +15,22 @@ export function VictoryDialog({
 	const { t, language } = useI18n('queens');
 
 	return (
-		<Dialog
+		<SharedVictoryDialog
 			isOpen={isOpen}
-			onCancel={onClose}
+			onClose={onClose}
 			title={t('victory.title')}
 			message={t('victory.congratulations')}
-			showCloseButton={true}
-		>
-			<S.VictoryContent>
-				<S.TimeCard>
-					<span data-slot="label">{t('status.time')}</span>
-					<Timer seconds={elapsedSeconds} size="lg" showIcon={false} />
-				</S.TimeCard>
-
-				{isNewBestTime && <S.BestTimeBadge>{t('status.newBestTime')}</S.BestTimeBadge>}
-
-				<S.Actions>
-					{hasNextPuzzle && onNextPuzzle && (
-						<Button onClick={onNextPuzzle} variant="primary" size="md">
-							{t('victory.nextLevel')}
-						</Button>
-					)}
-					<Button onClick={onPlayAgain} variant={hasNextPuzzle ? 'secondary' : 'primary'} size="md">
-						{t('victory.playAgain')}
-					</Button>
-					<a href={`/queens/${language}/`}>{t('controls.backToLobby')}</a>
-				</S.Actions>
-			</S.VictoryContent>
-		</Dialog>
+			elapsedSeconds={elapsedSeconds}
+			timeLabel={t('status.time')}
+			isNewBestTime={isNewBestTime}
+			bestTimeText={t('status.newBestTime')}
+			hasNextPuzzle={hasNextPuzzle}
+			onNextPuzzle={onNextPuzzle}
+			nextPuzzleLabel={t('victory.nextLevel')}
+			onPlayAgain={onPlayAgain}
+			playAgainLabel={t('victory.playAgain')}
+			lobbyHref={`/queens/${language}/`}
+			lobbyLabel={t('controls.backToLobby')}
+		/>
 	);
 }

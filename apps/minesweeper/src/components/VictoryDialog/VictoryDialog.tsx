@@ -1,10 +1,7 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
-import { Button } from '@arcade/lib-ui/components/Button';
-import { Dialog } from '@arcade/lib-ui/components/Dialog';
-import { Timer } from '@arcade/lib-ui/components/Timer';
+import { VictoryDialog as SharedVictoryDialog } from '@arcade/lib-ui/components/VictoryDialog';
 import type { JSX } from 'react';
 import type { BoardSizeId, DifficultyId } from '../../engine/types';
-import * as S from './VictoryDialog.styles';
 
 export interface VictoryDialogProps {
 	isOpen: boolean;
@@ -37,33 +34,26 @@ export function VictoryDialog({
 	}
 
 	return (
-		<Dialog
+		<SharedVictoryDialog
 			isOpen={isOpen}
-			onCancel={onClose}
+			onClose={onClose}
 			title={t('victory.title')}
 			message={t('victory.congratulations')}
-			showCloseButton={true}
-		>
-			<S.VictoryContent>
-				<S.TimeCard>
-					<span data-slot="label">{t('status.time')}</span>
-					<Timer seconds={elapsedSeconds} size="lg" showIcon={false} />
-				</S.TimeCard>
-
-				{rankText ? <S.RankMessage>{rankText}</S.RankMessage> : null}
-
-				<S.Actions>
-					<Button onClick={onPlayAgain} variant="primary" size="md">
-						{t('victory.playAgain')}
-					</Button>
-					<a
-						href={`/minesweeper/${language}/high-scores?size=${size}&difficulty=${difficulty}&highlight=${rankPosition}`}
-					>
-						{t('victory.viewHighScores')}
-					</a>
-					<a href={`/minesweeper/${language}/`}>{t('controls.newGame')}</a>
-				</S.Actions>
-			</S.VictoryContent>
-		</Dialog>
+			elapsedSeconds={elapsedSeconds}
+			timeLabel={t('status.time')}
+			isNewBestTime={Boolean(rankText)}
+			bestTimeText={rankText}
+			onPlayAgain={onPlayAgain}
+			playAgainLabel={t('victory.playAgain')}
+			lobbyHref={`/minesweeper/${language}/`}
+			lobbyLabel={t('controls.newGame')}
+			secondaryActions={
+				<a
+					href={`/minesweeper/${language}/high-scores?size=${size}&difficulty=${difficulty}&highlight=${rankPosition}`}
+				>
+					{t('victory.viewHighScores')}
+				</a>
+			}
+		/>
 	);
 }
