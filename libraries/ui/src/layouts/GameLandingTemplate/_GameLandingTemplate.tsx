@@ -1,5 +1,6 @@
 import { Banner } from '../../components/Banner';
 import { Button } from '../../components/Button';
+import { GameOfflineToolbar } from '../../components/GameOfflineToolbar';
 import { Hero } from '../../components/Hero';
 import { PageContainer } from '../../components/PageContainer';
 import * as S from './_GameLandingTemplate.styles';
@@ -12,6 +13,7 @@ export function GameLandingTemplate({
 	resumeState,
 	contentWidth = 'default',
 	pageFooterLinks,
+	offlineGameId,
 	children,
 }: GameLandingTemplateProps) {
 	const mainContainerVariant = contentWidth === 'wide' ? 'wide' : 'standard';
@@ -41,7 +43,10 @@ export function GameLandingTemplate({
 
 			{/* Zone 2: Main Area */}
 			<PageContainer variant={mainContainerVariant}>
-				<S.MainZone>{children}</S.MainZone>
+				<S.MainZone>
+					{offlineGameId && <GameOfflineToolbar gameId={offlineGameId} />}
+					{children}
+				</S.MainZone>
 			</PageContainer>
 
 			{/* Zone 3: Game Page Footer */}

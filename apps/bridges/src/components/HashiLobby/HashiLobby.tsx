@@ -112,6 +112,7 @@ function LobbyContent(): JSX.Element {
 			description={t('description')}
 			resumeState={resumeState}
 			pageFooterLinks={pageFooterLinks}
+			offlineGameId="bridges"
 		>
 			{/* Difficulty Selector Tabs */}
 			<S.DifficultyTabs role="tablist" aria-label={t('difficulty.label')}>

@@ -22,5 +22,6 @@ export interface GameLandingTemplateProps {
 	resumeState?: ResumeStateConfig;
 	contentWidth?: GameLandingContentWidth;
 	pageFooterLinks?: PageFooterLink[];
+	offlineGameId?: string;
 	children: ReactNode;
 }

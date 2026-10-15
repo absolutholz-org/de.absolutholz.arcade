@@ -85,6 +85,7 @@ function LobbyContent(): JSX.Element {
 			description={t('description')}
 			resumeState={resumeState}
 			pageFooterLinks={pageFooterLinks}
+			offlineGameId="minesweeper"
 		>
 			<S.ConfigForm onSubmit={handleStartGame}>
 				<S.Fieldset>

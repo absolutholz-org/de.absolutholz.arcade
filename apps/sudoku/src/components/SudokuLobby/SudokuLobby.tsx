@@ -2,7 +2,7 @@ import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import { createGameStorage } from '@arcade/lib-storage';
 
-import { GameLandingTemplate, OfflineToggle, useOfflineGame } from '@arcade/lib-ui';
+import { GameLandingTemplate } from '@arcade/lib-ui';
 import { formatTime } from '@arcade/lib-ui/components/Timer';
 import { useEffect, useState } from 'react';
 import type { Difficulty, GameSnapshot, SudokuStats } from '../../engine/types';
@@ -17,7 +17,6 @@ function LobbyContent() {
 	const { t: tCommon } = useI18n('common');
 	const [activeGame, setActiveGame] = useState<GameSnapshot | null>(null);
 	const [stats, setStats] = useState<SudokuStats | null>(null);
-	const { status, installGame, uninstallGame } = useOfflineGame('sudoku');
 
 	useEffect(() => {
 		async function loadState() {
@@ -58,15 +57,8 @@ function LobbyContent() {
 			description={t('description')}
 			resumeState={resumeState}
 			pageFooterLinks={pageFooterLinks}
+			offlineGameId="sudoku"
 		>
-			<S.OfflineToolbar>
-				<OfflineToggle
-					gameId="sudoku"
-					status={status}
-					onToggle={status === 'installed' ? uninstallGame : installGame}
-					onUninstall={uninstallGame}
-				/>
-			</S.OfflineToolbar>
 			<S.DifficultySection>
 				<h2>{t('controls.newGame')}</h2>
 				<S.DifficultyGrid>

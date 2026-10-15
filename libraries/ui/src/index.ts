@@ -13,6 +13,8 @@ export type {
 } from './layouts/GameLandingTemplate';
 export { OfflineToggle } from './components/OfflineToggle/OfflineToggle';
 export type { OfflineToggleProps } from './components/OfflineToggle/OfflineToggle';
+export { GameOfflineToolbar } from './components/GameOfflineToolbar';
+export type { GameOfflineToolbarProps } from './components/GameOfflineToolbar';
 export { useOfflineGame, formatBytes } from './hooks/useOfflineGame';
 export type {
 	GameManifestData,

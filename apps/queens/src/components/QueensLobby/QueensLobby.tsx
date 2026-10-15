@@ -56,6 +56,7 @@ function LobbyContent(): JSX.Element {
 			description={t('description')}
 			resumeState={resumeState}
 			pageFooterLinks={pageFooterLinks}
+			offlineGameId="queens"
 		>
 			<S.DifficultyTabs role="tablist" aria-label={t('difficulty.label')}>
 				{DIFFICULTY_LEVELS.map((diff) => {

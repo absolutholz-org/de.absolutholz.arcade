@@ -92,6 +92,7 @@ function LobbyContent(): JSX.Element {
 			description={t('description')}
 			resumeState={resumeState}
 			pageFooterLinks={pageFooterLinks}
+			offlineGameId="nonogram"
 		>
 			<S.ConfigForm onSubmit={handleStartGame}>
 				{/* Difficulty Selection */}
