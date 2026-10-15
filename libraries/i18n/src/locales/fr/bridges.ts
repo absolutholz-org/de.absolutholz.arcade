@@ -1,0 +1,82 @@
+import type { BridgesTranslationContract } from '../../schemas/bridges.schema.js';
+
+export const frBridges: BridgesTranslationContract = {
+	title: 'Bridges',
+	description:
+		'Reliez les îles par des ponts horizontaux et verticaux pour former un réseau unique respectant chaque quota.',
+	difficulty: {
+		label: 'Difficulté',
+		beginner: 'Débutant',
+		beginnerDesc: 'Grille 6×6 avec un nombre modéré d’îles.',
+		easy: 'Facile',
+		easyDesc: 'Grille 8×8 avec déductions accessibles.',
+		medium: 'Moyen',
+		mediumDesc: 'Grille 10×10 avec embranchements multiples.',
+		hard: 'Difficile',
+		hardDesc: 'Grille 14×14 avec îlots denses.',
+		expert: 'Expert',
+		expertDesc: 'Grille 18×18 exigeant une déduction topologique avancée.',
+	},
+	levels: {
+		puzzle: 'Puzzle',
+		puzzleNum: 'Puzzle {{number}}',
+		selectLevel: 'Choisir un puzzle',
+		completed: 'Terminé',
+		notCompleted: 'Non terminé',
+		bestTime: 'Meilleur temps : {{time}}',
+	},
+	mode: {
+		label: 'Mode de jeu',
+		standard: 'Standard',
+		standardDesc: 'Chronomètre actif et suivi du meilleur temps.',
+		zen: 'Mode Zen',
+		zenDesc: 'Résolvez sans pression de temps.',
+	},
+	controls: {
+		undo: 'Annuler',
+		redo: 'Rétablir',
+		reset: 'Réinitialiser',
+		pause: 'Pause',
+		resume: 'Reprendre',
+		restart: 'Recommencer',
+		play: 'Jouer',
+		nextPuzzle: 'Puzzle suivant',
+		backToLobby: 'Accueil',
+	},
+	settings: {
+		title: 'Paramètres',
+		gameplayTab: 'Jeu',
+		siteTab: 'Préférences',
+		zenMode: {
+			label: 'Mode Zen',
+			description: 'Masquer le chronomètre pour jouer en toute tranquillité.',
+		},
+		highlightSatisfied: {
+			label: 'Mettre en valeur les îles complètes',
+			description: 'Distinguer visuellement les îles dont le quota de ponts est atteint.',
+		},
+		highlightOverflow: {
+			label: 'Signaler les dépassements',
+			description: 'Afficher en rouge les îles ayant trop de ponts.',
+		},
+		colorScheme: 'Apparence',
+		language: 'Langue',
+	},
+	status: {
+		paused: 'Jeu en pause',
+		pausedDescription: 'Votre progression et le chronomètre sont en pause.',
+		timer: 'Temps écoulé',
+		time: 'Temps',
+		islandsRemaining: 'Îles restantes',
+		satisfiedIslands: 'Îles complètes',
+		bestTime: 'Meilleur temps',
+		newBestTime: 'Nouveau record !',
+	},
+	victory: {
+		title: 'Puzzle résolu !',
+		congratulations: 'Toutes les îles sont reliées en un réseau continu unique !',
+		playAgain: 'Rejouer',
+		nextLevel: 'Puzzle suivant',
+		completedIn: 'Résolu en {{time}}',
+	},
+};

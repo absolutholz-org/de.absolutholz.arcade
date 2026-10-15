@@ -2,7 +2,7 @@
 const CORE_CACHE_NAME = 'arcade-core-v1';
 const GAME_CACHE_PREFIX = 'arcade-game-';
 const SUPPORTED_LOCALES = ['en', 'de', 'fr', 'pt'];
-const KNOWN_GAMES = ['sudoku', 'minesweeper', 'nonogram', 'queens', 'hashiwokakero'];
+const KNOWN_GAMES = ['sudoku', 'minesweeper', 'nonogram', 'queens', 'bridges'];
 
 const CORE_ASSETS = [
 	'/',

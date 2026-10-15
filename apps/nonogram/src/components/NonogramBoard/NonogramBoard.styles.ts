@@ -12,6 +12,11 @@ export const BoardRoot = styled.div`
 	margin: 0 auto;
 	user-select: none;
 	touch-action: none;
+	overflow-x: auto;
+	overflow-y: hidden;
+	scrollbar-width: thin;
+	-webkit-overflow-scrolling: touch;
+	padding: 0 0.25rem;
 `;
 
 export const BoardContainer = styled.section`
@@ -31,6 +36,12 @@ export const BoardContainer = styled.section`
 
 	&[data-size='hard'] {
 		width: min(calc(100vw - 1rem), calc(100dvh - 12rem), 44rem);
+		padding: clamp(0.125rem, 1vmin, 0.5rem);
+	}
+
+	@media (max-width: 480px) {
+		width: max-content;
+		max-width: none;
 	}
 `;
 
@@ -41,7 +52,7 @@ export const CornerCell = styled.div`
 	background: ${themeColor('container-1')};
 	border-right: 2px solid ${themeColor('text-2')};
 	border-bottom: 2px solid ${themeColor('text-2')};
-	padding: 0.25rem;
+	padding: 0.125rem;
 	color: ${themeColor('text-3')};
 `;
 
@@ -59,7 +70,7 @@ export const TopClueColumn = styled.div`
 	justify-content: flex-end;
 	gap: 0.125rem;
 	padding: clamp(0.125rem, 0.5vmin, 0.375rem) 0;
-	font-size: clamp(0.625rem, 1.8vmin, 0.875rem);
+	font-size: clamp(0.5rem, 1.8vmin, 0.875rem);
 	font-weight: 600;
 	font-variant-numeric: tabular-nums;
 	color: ${themeColor('text-1')};
@@ -80,7 +91,7 @@ export const LeftCluesContainer = styled.div`
 	grid-template-rows: repeat(var(--rows, 5), 1fr);
 	border-right: 2px solid ${themeColor('text-2')};
 	background: ${themeColor('container-1')};
-	min-width: clamp(2rem, 6vmin, 4rem);
+	min-width: clamp(1.5rem, 5vmin, 4rem);
 `;
 
 export const LeftClueRow = styled.div`
@@ -88,9 +99,9 @@ export const LeftClueRow = styled.div`
 	flex-direction: row;
 	align-items: center;
 	justify-content: flex-end;
-	gap: clamp(0.2rem, 0.8vmin, 0.5rem);
-	padding: 0 clamp(0.25rem, 0.8vmin, 0.5rem);
-	font-size: clamp(0.625rem, 1.8vmin, 0.875rem);
+	gap: clamp(0.125rem, 0.6vmin, 0.5rem);
+	padding: 0 clamp(0.125rem, 0.6vmin, 0.5rem);
+	font-size: clamp(0.5rem, 1.8vmin, 0.875rem);
 	font-weight: 600;
 	font-variant-numeric: tabular-nums;
 	color: ${themeColor('text-1')};

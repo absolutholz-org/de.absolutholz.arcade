@@ -1,6 +1,6 @@
 {
-	"hashiwokakero": {
-		"title": "Hashiwokakero",
+	"bridges": {
+		"title": "Bridges",
 		"description": "Connect islands with horizontal and vertical bridges to form a single network matching every island quota."
 	}
 }

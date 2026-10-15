@@ -6,8 +6,8 @@ export const CellButton = styled.button`
 	width: 100%;
 	height: 100%;
 	aspect-ratio: 1 / 1;
-	min-width: 24px;
-	min-height: 24px;
+	min-width: 18px;
+	min-height: 18px;
 	padding: 0;
 	margin: 0;
 	display: flex;
@@ -15,6 +15,11 @@ export const CellButton = styled.button`
 	justify-content: center;
 	border: 1px solid ${themeColor('container-2')};
 	background-color: ${themeColor('surface')};
+
+	@media (min-width: 480px) {
+		min-width: 24px;
+		min-height: 24px;
+	}
 	color: ${themeColor('text-1')};
 	cursor: pointer;
 	user-select: none;

@@ -1,26 +1,26 @@
 import i18next, { type i18n as I18nInstance } from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { SUPPORTED_LANGUAGES } from '../constants/languages.js';
+import { deBridges } from '../locales/de/bridges.js';
 import { deCommon } from '../locales/de/common.js';
-import { deHashiwokakero } from '../locales/de/hashiwokakero.js';
 import { deMinesweeper } from '../locales/de/minesweeper.js';
 import { deNonogram } from '../locales/de/nonogram.js';
 import { deQueens } from '../locales/de/queens.js';
 import { deSudoku } from '../locales/de/sudoku.js';
+import { enBridges } from '../locales/en/bridges.js';
 import { enCommon } from '../locales/en/common.js';
-import { enHashiwokakero } from '../locales/en/hashiwokakero.js';
 import { enMinesweeper } from '../locales/en/minesweeper.js';
 import { enNonogram } from '../locales/en/nonogram.js';
 import { enQueens } from '../locales/en/queens.js';
 import { enSudoku } from '../locales/en/sudoku.js';
+import { frBridges } from '../locales/fr/bridges.js';
 import { frCommon } from '../locales/fr/common.js';
-import { frHashiwokakero } from '../locales/fr/hashiwokakero.js';
 import { frMinesweeper } from '../locales/fr/minesweeper.js';
 import { frNonogram } from '../locales/fr/nonogram.js';
 import { frQueens } from '../locales/fr/queens.js';
 import { frSudoku } from '../locales/fr/sudoku.js';
+import { ptBridges } from '../locales/pt/bridges.js';
 import { ptCommon } from '../locales/pt/common.js';
-import { ptHashiwokakero } from '../locales/pt/hashiwokakero.js';
 import { ptMinesweeper } from '../locales/pt/minesweeper.js';
 import { ptNonogram } from '../locales/pt/nonogram.js';
 import { ptQueens } from '../locales/pt/queens.js';
@@ -35,7 +35,7 @@ export const resources: TranslationResources = {
 		minesweeper: enMinesweeper,
 		nonogram: enNonogram,
 		queens: enQueens,
-		hashiwokakero: enHashiwokakero,
+		bridges: enBridges,
 	},
 	de: {
 		common: deCommon,
@@ -43,7 +43,7 @@ export const resources: TranslationResources = {
 		minesweeper: deMinesweeper,
 		nonogram: deNonogram,
 		queens: deQueens,
-		hashiwokakero: deHashiwokakero,
+		bridges: deBridges,
 	},
 	fr: {
 		common: frCommon,
@@ -51,7 +51,7 @@ export const resources: TranslationResources = {
 		minesweeper: frMinesweeper,
 		nonogram: frNonogram,
 		queens: frQueens,
-		hashiwokakero: frHashiwokakero,
+		bridges: frBridges,
 	},
 	pt: {
 		common: ptCommon,
@@ -59,7 +59,7 @@ export const resources: TranslationResources = {
 		minesweeper: ptMinesweeper,
 		nonogram: ptNonogram,
 		queens: ptQueens,
-		hashiwokakero: ptHashiwokakero,
+		bridges: ptBridges,
 	},
 };
 
@@ -71,7 +71,7 @@ i18n.use(initReactI18next).init({
 	fallbackLng: false,
 	supportedLngs: SUPPORTED_LANGUAGES.map((item) => item.code),
 	defaultNS: 'common',
-	ns: ['common', 'sudoku', 'minesweeper', 'nonogram', 'queens', 'hashiwokakero'],
+	ns: ['common', 'sudoku', 'minesweeper', 'nonogram', 'queens', 'bridges'],
 	interpolation: {
 		escapeValue: false,
 	},

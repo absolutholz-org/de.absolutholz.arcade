@@ -57,8 +57,8 @@ jobs:
       - name: Build Queens
         run: pnpm build:queens
 
-      - name: Build Hashiwokakero
-        run: pnpm build:hashiwokakero
+      - name: Build Bridges
+        run: pnpm build:bridges
 
       - name: Build Storybook
         run: pnpm build:storybook
@@ -80,9 +80,9 @@ jobs:
           # 5. Copy Queens into /queens subpath
           mkdir -p deploy_dist/queens
           cp -R apps/queens/dist/. deploy_dist/queens/
-          # 6. Copy Hashiwokakero into /hashiwokakero subpath
-          mkdir -p deploy_dist/hashiwokakero
-          cp -R apps/hashiwokakero/dist/. deploy_dist/hashiwokakero/
+          # 6. Copy Bridges into /bridges subpath
+          mkdir -p deploy_dist/bridges
+          cp -R apps/bridges/dist/. deploy_dist/bridges/
           # 7. Copy Storybook into /storybook subpath
           mkdir -p deploy_dist/storybook
           cp -R libraries/ui/storybook-static/. deploy_dist/storybook/

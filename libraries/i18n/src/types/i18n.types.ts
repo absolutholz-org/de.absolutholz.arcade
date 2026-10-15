@@ -1,6 +1,6 @@
 import type { SUPPORTED_LANGUAGES } from '../constants/languages.js';
+import type { BridgesSchema, BridgesTranslationContract } from '../schemas/bridges.schema.js';
 import type { CommonSchema, CommonTranslationContract } from '../schemas/common.schema.js';
-import type { HashiwokakeroSchema, HashiwokakeroTranslationContract } from '../schemas/hashiwokakero.schema.js';
 import type { MinesweeperSchema, MinesweeperTranslationContract } from '../schemas/minesweeper.schema.js';
 import type { NonogramSchema, NonogramTranslationContract } from '../schemas/nonogram.schema.js';
 import type { QueensSchema, QueensTranslationContract } from '../schemas/queens.schema.js';
@@ -19,7 +19,7 @@ export type SudokuTranslationKey = LeafKeys<SudokuSchema>;
 export type MinesweeperTranslationKey = LeafKeys<MinesweeperSchema>;
 export type NonogramTranslationKey = LeafKeys<NonogramSchema>;
 export type QueensTranslationKey = LeafKeys<QueensSchema>;
-export type HashiwokakeroTranslationKey = LeafKeys<HashiwokakeroSchema>;
+export type BridgesTranslationKey = LeafKeys<BridgesSchema>;
 
 export type TranslationKey =
 	| CommonTranslationKey
@@ -27,7 +27,7 @@ export type TranslationKey =
 	| MinesweeperTranslationKey
 	| NonogramTranslationKey
 	| QueensTranslationKey
-	| HashiwokakeroTranslationKey;
+	| BridgesTranslationKey;
 
 export interface UseI18nReturn {
 	readonly t: (key: TranslationKey, options?: Record<string, unknown>) => string;
@@ -45,6 +45,6 @@ export type TranslationResources = Record<
 		readonly minesweeper: MinesweeperTranslationContract;
 		readonly nonogram: NonogramTranslationContract;
 		readonly queens: QueensTranslationContract;
-		readonly hashiwokakero: HashiwokakeroTranslationContract;
+		readonly bridges: BridgesTranslationContract;
 	}
 >;
