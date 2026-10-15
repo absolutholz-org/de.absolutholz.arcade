@@ -7,18 +7,9 @@ export type OfflineToggleStatus = 'idle' | 'checking' | 'installed' | 'downloadi
 export interface OfflineToggleProps {
 	gameId: string;
 	status: OfflineToggleStatus;
-	totalBytes?: number;
 	onToggle: () => undefined | Promise<unknown>;
 	onUninstall?: () => undefined | Promise<unknown>;
 	className?: string;
-}
-
-function formatBytes(bytes: number): string {
-	if (bytes === 0) return '0 B';
-	const k = 1024;
-	const sizes = ['B', 'KB', 'MB', 'GB'];
-	const i = Math.floor(Math.log(bytes) / Math.log(k));
-	return `${Number.parseFloat((bytes / k ** i).toFixed(1))} ${sizes[i]}`;
 }
 
 const toggleContainerClass = css`
@@ -82,21 +73,12 @@ const removeBtnClass = css`
 	}
 `;
 
-export const OfflineToggle: React.FC<OfflineToggleProps> = ({
-	gameId,
-	status,
-	totalBytes = 0,
-	onToggle,
-	onUninstall,
-	className,
-}) => {
+export const OfflineToggle: React.FC<OfflineToggleProps> = ({ gameId, status, onToggle, onUninstall, className }) => {
 	const { t } = useI18n('common');
 
 	const isInstalled = status === 'installed';
 	const isDownloading = status === 'downloading';
 	const isChecking = status === 'checking';
-
-	const sizeText = totalBytes > 0 ? ` (${formatBytes(totalBytes)})` : '';
 
 	return (
 		<div className={`${toggleContainerClass} ${className || ''}`}>
@@ -107,9 +89,7 @@ export const OfflineToggle: React.FC<OfflineToggleProps> = ({
 				className={toggleBtnClass}
 				data-installed={isInstalled ? 'true' : 'false'}
 				aria-label={
-					isInstalled
-						? `${t('offline.installed')}: ${gameId}`
-						: `${t('offline.install')}: ${gameId}${sizeText}`
+					isInstalled ? `${t('offline.installed')}: ${gameId}` : `${t('offline.saveOffline')}: ${gameId}`
 				}
 			>
 				{isDownloading ? (
@@ -117,10 +97,7 @@ export const OfflineToggle: React.FC<OfflineToggleProps> = ({
 				) : isInstalled ? (
 					<span>✓ {t('offline.installed')}</span>
 				) : (
-					<span>
-						📥 {t('offline.saveOffline')}
-						{sizeText}
-					</span>
+					<span>📥 {t('offline.saveOffline')}</span>
 				)}
 			</button>
 			{isInstalled && onUninstall && (

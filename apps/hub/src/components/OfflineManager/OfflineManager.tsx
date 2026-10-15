@@ -1,7 +1,7 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
-import { OfflineToggle, formatBytes, useOfflineGame } from '@arcade/lib-ui';
+import { OfflineToggle, useOfflineGame } from '@arcade/lib-ui';
 import type React from 'react';
 
 const MONOREPO_GAMES = [
@@ -13,22 +13,18 @@ const MONOREPO_GAMES = [
 ];
 
 function GameRow({ game }: { game: { id: string; name: string; icon: string } }) {
-	const { status, totalBytes, installGame, uninstallGame } = useOfflineGame(game.id);
+	const { status, installGame, uninstallGame } = useOfflineGame(game.id);
 	return (
 		<div className="offline-game-item">
 			<div className="game-meta">
 				<span className="game-icon" aria-hidden="true">
 					{game.icon}
 				</span>
-				<div>
-					<span className="game-name">{game.name}</span>
-					{totalBytes > 0 && <span className="game-size"> · {formatBytes(totalBytes)}</span>}
-				</div>
+				<span className="game-name">{game.name}</span>
 			</div>
 			<OfflineToggle
 				gameId={game.id}
 				status={status}
-				totalBytes={totalBytes}
 				onToggle={status === 'installed' ? uninstallGame : installGame}
 				onUninstall={uninstallGame}
 			/>

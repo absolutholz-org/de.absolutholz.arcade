@@ -72,7 +72,7 @@ export const enCommon = {
 		returnToHub: 'Return to Arcade Hub',
 		install: 'Save Offline',
 		uninstall: 'Remove Offline Data',
-		downloading: 'Downloading...',
+		downloading: 'Saving...',
 		installed: 'Available Offline',
 		saveOffline: 'Save Offline',
 		totalStorageUsed: 'Total Offline Storage Used',

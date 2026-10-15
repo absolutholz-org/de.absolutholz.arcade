@@ -33,6 +33,18 @@ const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? 
 		<section class="settings-content">
 			<ThemeSelector client:load lang={lang as SupportedLanguageCode} />
 		</section>
+
+		<section class="settings-content offline-section">
+			<div class="offline-setting-row">
+				<div class="offline-setting-text">
+					<h2>{currentTranslations.offline.title}</h2>
+					<p class="settings-tagline">{currentTranslations.offline.description}</p>
+				</div>
+				<a href={`/${lang}/offline`} class="offline-link">
+					{currentTranslations.offline.title} →
+				</a>
+			</div>
+		</section>
 	</div>
 </StaticPageLayout>
 
@@ -41,10 +53,13 @@ const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? 
 		margin: 0 auto;
 		max-width: 48rem;
 		width: 100%;
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
 	}
 
 	.settings-header {
-		margin-bottom: 2rem;
+		margin-bottom: 0.5rem;
 	}
 
 	.settings-header h1 {
@@ -64,5 +79,45 @@ const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? 
 		border: 1px solid var(--color-container-2);
 		border-radius: var(--radius-md);
 		padding: 1.5rem;
+	}
+
+	.offline-section {
+		margin-top: 0.5rem;
+	}
+
+	.offline-setting-row {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1.5rem;
+		flex-wrap: wrap;
+	}
+
+	.offline-setting-text h2 {
+		font-size: 1.25rem;
+		font-weight: 700;
+		margin-bottom: 0.25rem;
+	}
+
+	.offline-setting-text p {
+		font-size: 0.95rem;
+	}
+
+	.offline-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.25rem;
+		font-weight: 600;
+		color: var(--color-action-primary, #2563eb);
+		text-decoration: none;
+		padding: 0.5rem 1rem;
+		border: 1px solid var(--color-container-3, #d1d5db);
+		border-radius: var(--radius-sm);
+		background: var(--color-container-2);
+		transition: all 0.2s ease;
+	}
+
+	.offline-link:hover {
+		background: var(--color-container-3);
 	}
 </style>

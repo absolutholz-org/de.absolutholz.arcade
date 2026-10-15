@@ -72,7 +72,7 @@ export const ptCommon = {
 		returnToHub: 'Voltar ao Arcade Hub',
 		install: 'Guardar offline',
 		uninstall: 'Remover dados offline',
-		downloading: 'A transferir...',
+		downloading: 'A guardar...',
 		installed: 'Disponível offline',
 		saveOffline: 'Guardar offline',
 		totalStorageUsed: 'Armazenamento offline total usado',

@@ -17,7 +17,7 @@ function LobbyContent() {
 	const { t: tCommon } = useI18n('common');
 	const [activeGame, setActiveGame] = useState<GameSnapshot | null>(null);
 	const [stats, setStats] = useState<SudokuStats | null>(null);
-	const { status, totalBytes, installGame, uninstallGame } = useOfflineGame('sudoku');
+	const { status, installGame, uninstallGame } = useOfflineGame('sudoku');
 
 	useEffect(() => {
 		async function loadState() {
@@ -63,7 +63,6 @@ function LobbyContent() {
 				<OfflineToggle
 					gameId="sudoku"
 					status={status}
-					totalBytes={totalBytes}
 					onToggle={status === 'installed' ? uninstallGame : installGame}
 					onUninstall={uninstallGame}
 				/>

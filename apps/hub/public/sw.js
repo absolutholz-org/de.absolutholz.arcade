@@ -203,22 +203,48 @@ self.addEventListener('message', (event) => {
 					const targetCacheName = `${GAME_CACHE_PREFIX}${gameId}-v${manifest.version || '1'}`;
 					const gameCache = await caches.open(targetCacheName);
 
-					const urlsToCache = [...(manifest.routes || []), ...(manifest.assets || []).map((a) => a.url)];
+					const rawUrls = [...(manifest.routes || []), ...(manifest.assets || []).map((a) => a.url)];
+					const urlsToCache = Array.from(new Set(rawUrls));
 
-					await gameCache.addAll(urlsToCache);
+					let successCount = 0;
+					let failCount = 0;
 
-					// Delete older cache versions of this game
-					const allCaches = await caches.keys();
-					const oldGameCaches = allCaches.filter(
-						(c) => c.startsWith(`${GAME_CACHE_PREFIX}${gameId}-`) && c !== targetCacheName,
+					await Promise.allSettled(
+						urlsToCache.map(async (url) => {
+							try {
+								const response = await fetch(url);
+								if (response.ok) {
+									await gameCache.put(url, response);
+									successCount += 1;
+								} else {
+									failCount += 1;
+									console.warn(`[SW] Failed to cache ${url}: HTTP ${response.status}`);
+								}
+							} catch (err) {
+								failCount += 1;
+								console.warn(`[SW] Error fetching ${url} for cache:`, err);
+							}
+						}),
 					);
-					await Promise.all(oldGameCaches.map((c) => caches.delete(c)));
+
+					// Consider operation successful if at least one asset was cached
+					const isSuccess = successCount > 0;
+
+					if (isSuccess) {
+						// Delete older cache versions of this game
+						const allCaches = await caches.keys();
+						const oldGameCaches = allCaches.filter(
+							(c) => c.startsWith(`${GAME_CACHE_PREFIX}${gameId}-`) && c !== targetCacheName,
+						);
+						await Promise.all(oldGameCaches.map((c) => caches.delete(c)));
+					}
 
 					if (event.ports?.[0]) {
 						event.ports[0].postMessage({
-							success: true,
+							success: isSuccess,
 							gameId,
-							totalBytes: manifest.totalBytes || 0,
+							cachedItems: successCount,
+							failedItems: failCount,
 						});
 					}
 				} catch (err) {

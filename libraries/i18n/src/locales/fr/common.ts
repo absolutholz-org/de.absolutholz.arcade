@@ -72,7 +72,7 @@ export const frCommon = {
 		returnToHub: "Retour à l'Arcade Hub",
 		install: 'Enregistrer hors ligne',
 		uninstall: 'Supprimer les données hors ligne',
-		downloading: 'Téléchargement...',
+		downloading: 'Enregistrement...',
 		installed: 'Disponible hors ligne',
 		saveOffline: 'Enregistrer hors ligne',
 		totalStorageUsed: 'Stockage hors ligne total utilisé',

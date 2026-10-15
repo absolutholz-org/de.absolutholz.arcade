@@ -72,7 +72,7 @@ export const deCommon = {
 		returnToHub: 'Zurück zum Arcade Hub',
 		install: 'Offline speichern',
 		uninstall: 'Offline-Daten löschen',
-		downloading: 'Wird heruntergeladen...',
+		downloading: 'Wird gespeichert...',
 		installed: 'Offline verfügbar',
 		saveOffline: 'Offline speichern',
 		totalStorageUsed: 'Gesamter Offline-Speicher',
