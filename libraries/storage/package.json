@@ -20,6 +20,18 @@
 		"./utils/*": {
 			"types": "./src/utils/*.ts",
 			"default": "./src/utils/*.ts"
+		},
+		"./pwa/*": {
+			"types": "./src/pwa/*.ts",
+			"default": "./src/pwa/*.ts"
+		},
+		"./pwa/offlineBridge": {
+			"types": "./src/pwa/offlineBridge.ts",
+			"default": "./src/pwa/offlineBridge.ts"
+		},
+		"./pwa/offlineBridge.js": {
+			"types": "./src/pwa/offlineBridge.ts",
+			"default": "./src/pwa/offlineBridge.ts"
 		}
 	},
 	"scripts": {

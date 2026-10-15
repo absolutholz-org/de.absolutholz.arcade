@@ -7,6 +7,12 @@ export const LobbyContainer = styled.div`
 	gap: 2.5rem;
 `;
 
+export const OfflineToolbar = styled.div`
+	display: flex;
+	justify-content: flex-end;
+	margin-bottom: 1rem;
+`;
+
 export const HeroSection = styled.div`
 	text-align: center;
 	display: flex;

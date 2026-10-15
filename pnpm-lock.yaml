@@ -117,6 +117,9 @@ importers:
       '@arcade/lib-i18n':
         specifier: workspace:*
         version: link:../../libraries/i18n
+      '@arcade/lib-storage':
+        specifier: workspace:*
+        version: link:../../libraries/storage
       '@arcade/lib-ui':
         specifier: workspace:*
         version: link:../../libraries/ui

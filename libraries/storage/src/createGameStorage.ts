@@ -1,3 +1,4 @@
+import { indexedDbDriver } from './drivers/indexedDbDriver.js';
 import { localStorageDriver } from './drivers/localStorageDriver.js';
 import type { GameStorage, GameStorageOptions, StorageDriver } from './types/storage.types.js';
 import { buildStorageKey, parseStorageKey } from './utils/namespace.js';
@@ -12,7 +13,7 @@ class ScopedGameStorage implements GameStorage {
 		}
 
 		this.appName = appName.trim();
-		this.driver = options?.driver ?? localStorageDriver;
+		this.driver = options?.driver ?? indexedDbDriver;
 	}
 
 	get driverName(): string {

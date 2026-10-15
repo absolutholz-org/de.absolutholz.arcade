@@ -61,6 +61,21 @@ export const commonSchema = {
 	hub: {
 		gamesTitle: 'hub.gamesTitle',
 	},
+	offline: {
+		title: 'offline.title',
+		description: 'offline.description',
+		gameUnavailable: 'offline.gameUnavailable',
+		notDownloaded: 'offline.notDownloaded',
+		returnToHub: 'offline.returnToHub',
+		install: 'offline.install',
+		uninstall: 'offline.uninstall',
+		downloading: 'offline.downloading',
+		installed: 'offline.installed',
+		saveOffline: 'offline.saveOffline',
+		totalStorageUsed: 'offline.totalStorageUsed',
+		allGamesTitle: 'offline.allGamesTitle',
+		allGamesDescription: 'offline.allGamesDescription',
+	},
 	settings: {
 		title: 'settings.title',
 		description: 'settings.description',

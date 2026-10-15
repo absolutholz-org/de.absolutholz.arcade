@@ -1,6 +1,12 @@
 import { type FirebaseApp, type FirebaseOptions, getApp, getApps, initializeApp } from 'firebase/app';
 import { type Auth, getAuth } from 'firebase/auth';
-import { type Firestore, getFirestore } from 'firebase/firestore';
+import {
+	type Firestore,
+	getFirestore,
+	initializeFirestore,
+	persistentLocalCache,
+	persistentMultipleTabManager,
+} from 'firebase/firestore';
 
 /**
  * Internal container holding modular Firebase instances.
@@ -15,17 +21,31 @@ export interface FirebaseServices {
 let cachedServices: FirebaseServices | null = null;
 
 /**
+ * Initializes Firestore with resilient multi-tab offline persistence.
+ * Falls back to getFirestore(app) if already initialized or in unsupported environments.
+ */
+function initFirestoreInstance(app: FirebaseApp): Firestore {
+	try {
+		return initializeFirestore(app, {
+			localCache: persistentLocalCache({
+				tabManager: persistentMultipleTabManager(),
+			}),
+		});
+	} catch {
+		return getFirestore(app);
+	}
+}
+
+/**
  * Attempts to resolve Firebase credentials from environment variables
  * across Astro / Vite (import.meta.env) or Node (process.env).
  */
 function resolveEnvConfig(): FirebaseOptions | null {
-	// Astro / Vite environment variables
 	const metaEnv =
 		typeof import.meta !== 'undefined' && 'env' in import.meta
 			? (import.meta as { env?: Record<string, string | undefined> }).env
 			: undefined;
 
-	// Node environment variables fallback
 	const globalScope =
 		typeof globalThis !== 'undefined'
 			? (globalThis as { process?: { env?: Record<string, string | undefined> } })
@@ -76,7 +96,7 @@ export function initFirebase(config?: FirebaseOptions): FirebaseServices | null 
 		cachedServices = {
 			app,
 			auth: getAuth(app),
-			firestore: getFirestore(app),
+			firestore: initFirestoreInstance(app),
 		};
 		return cachedServices;
 	}
@@ -91,7 +111,7 @@ export function initFirebase(config?: FirebaseOptions): FirebaseServices | null 
 		cachedServices = {
 			app,
 			auth: getAuth(app),
-			firestore: getFirestore(app),
+			firestore: initFirestoreInstance(app),
 		};
 		return cachedServices;
 	} catch (error) {

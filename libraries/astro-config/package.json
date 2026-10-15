@@ -7,6 +7,9 @@
 	"exports": {
 		".": "./src/index.ts"
 	},
+	"scripts": {
+		"typecheck": "tsc --noEmit"
+	},
 	"dependencies": {
 		"@arcade/lib-i18n": "workspace:*",
 		"@astrojs/react": "catalog:",

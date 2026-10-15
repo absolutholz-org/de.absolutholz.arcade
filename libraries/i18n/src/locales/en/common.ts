@@ -64,6 +64,21 @@ export const enCommon = {
 	hub: {
 		gamesTitle: 'Games',
 	},
+	offline: {
+		title: 'Offline Game Manager',
+		description: 'Manage games available for offline play.',
+		gameUnavailable: 'This game is not currently downloaded for offline play.',
+		notDownloaded: 'To play without an active internet connection, download it from the Arcade Hub.',
+		returnToHub: 'Return to Arcade Hub',
+		install: 'Save Offline',
+		uninstall: 'Remove Offline Data',
+		downloading: 'Downloading...',
+		installed: 'Available Offline',
+		saveOffline: 'Save Offline',
+		totalStorageUsed: 'Total Offline Storage Used',
+		allGamesTitle: 'Installed Arcade Games',
+		allGamesDescription: 'Choose which games to save to this device for offline play.',
+	},
 	settings: {
 		title: 'Settings',
 		description: 'Customize your arcade experience.',

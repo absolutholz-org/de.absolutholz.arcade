@@ -64,6 +64,21 @@ export const ptCommon = {
 	hub: {
 		gamesTitle: 'Jogos',
 	},
+	offline: {
+		title: 'Gerenciador de Jogos Offline',
+		description: 'Gerencie os jogos disponíveis para jogar offline.',
+		gameUnavailable: 'Este jogo não está descarregado para jogar offline no momento.',
+		notDownloaded: 'Para jogar sem uma conexão ativa à internet, transfira-o a partir do Arcade Hub.',
+		returnToHub: 'Voltar ao Arcade Hub',
+		install: 'Guardar offline',
+		uninstall: 'Remover dados offline',
+		downloading: 'A transferir...',
+		installed: 'Disponível offline',
+		saveOffline: 'Guardar offline',
+		totalStorageUsed: 'Armazenamento offline total usado',
+		allGamesTitle: 'Jogos Arcade Instalados',
+		allGamesDescription: 'Escolha quais os jogos a guardar neste dispositivo para jogar offline.',
+	},
 	settings: {
 		title: 'Configurações',
 		description: 'Personalize sua experiência no arcade.',

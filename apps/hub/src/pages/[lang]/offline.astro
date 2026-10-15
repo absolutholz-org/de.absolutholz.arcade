@@ -1,0 +1,197 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { HeaderUserMenu } from '@arcade/lib-ui';
+import StaticPageLayout from '@arcade/lib-ui/layouts/StaticPageLayout/StaticPageLayout.astro';
+import { OfflineManager } from '../../components/OfflineManager/OfflineManager';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? resources.en.common;
+---
+
+<StaticPageLayout
+	title={currentTranslations.offline.title}
+	description={currentTranslations.offline.description}
+	lang={lang as SupportedLanguageCode}
+	currentSlug="offline"
+>
+	<HeaderUserMenu slot="header-actions" client:load lang={lang as SupportedLanguageCode} />
+	<div class="offline-page">
+		<header class="offline-header">
+			<h1>{currentTranslations.offline.title}</h1>
+			<p class="offline-tagline">{currentTranslations.offline.description}</p>
+		</header>
+
+		<section id="missing-game-card" class="offline-card missing-card" style="display: none;">
+			<div class="offline-status-banner">
+				<div class="offline-icon" aria-hidden="true">📡</div>
+				<h2 id="missing-game-title">{currentTranslations.offline.gameUnavailable}</h2>
+				<p>{currentTranslations.offline.notDownloaded}</p>
+			</div>
+		</section>
+
+		<section class="offline-card manager-section">
+			<OfflineManager client:load lang={lang as SupportedLanguageCode} />
+			<div class="offline-actions">
+				<a href={`/${lang}/`} class="btn-primary">
+					{currentTranslations.offline.returnToHub}
+				</a>
+			</div>
+		</section>
+	</div>
+
+	<script is:inline>
+		(() => {
+			const params = new URLSearchParams(window.location.search);
+			const missing = params.get("missing");
+			if (missing) {
+				const missingCard = document.getElementById("missing-game-card");
+				const titleEl = document.getElementById("missing-game-title");
+				if (missingCard && titleEl) {
+					const formattedName = missing.charAt(0).toUpperCase() + missing.slice(1);
+					titleEl.textContent = `${formattedName}: ${titleEl.textContent}`;
+					missingCard.style.display = "flex";
+				}
+			}
+		})();
+	</script>
+</StaticPageLayout>
+
+<style>
+	.offline-page {
+		margin: 0 auto;
+		max-width: 48rem;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+	}
+
+	.offline-header {
+		margin-bottom: 0.5rem;
+	}
+
+	.offline-header h1 {
+		font-size: 2.25rem;
+		font-weight: 800;
+		line-height: 1.2;
+		margin-bottom: 0.5rem;
+	}
+
+	.offline-tagline {
+		color: var(--color-text-2);
+		font-size: 1.125rem;
+	}
+
+	.offline-card {
+		background: var(--color-container-1);
+		border: 1px solid var(--color-container-2);
+		border-radius: var(--radius-md);
+		padding: 2rem;
+	}
+
+	.missing-card {
+		text-align: center;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1rem;
+		border-color: var(--color-status-warning, #f59e0b);
+	}
+
+	.offline-icon {
+		font-size: 2.5rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.offline-status-banner h2 {
+		font-size: 1.25rem;
+		font-weight: 700;
+		margin-bottom: 0.5rem;
+	}
+
+	.offline-status-banner p {
+		color: var(--color-text-2);
+		font-size: 0.95rem;
+		max-width: 32rem;
+		margin: 0 auto;
+	}
+
+	.offline-actions {
+		margin-top: 2rem;
+		display: flex;
+		justify-content: flex-start;
+	}
+
+	.btn-primary {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		background: var(--color-action-primary, #2563eb);
+		color: #ffffff;
+		padding: 0.75rem 1.5rem;
+		border-radius: var(--radius-md);
+		text-decoration: none;
+		font-weight: 600;
+		transition: opacity 0.2s ease;
+	}
+
+	.btn-primary:hover {
+		opacity: 0.9;
+	}
+
+	:global(.offline-manager-container h2) {
+		font-size: 1.5rem;
+		font-weight: 700;
+		margin-bottom: 0.25rem;
+	}
+
+	:global(.offline-manager-container .section-desc) {
+		color: var(--color-text-2);
+		font-size: 0.95rem;
+		margin-bottom: 1.5rem;
+	}
+
+	:global(.offline-manager-container .games-list) {
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+	}
+
+	:global(.offline-game-item) {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 0.75rem 1rem;
+		background: var(--color-container-2);
+		border-radius: var(--radius-sm);
+		gap: 1rem;
+	}
+
+	:global(.offline-game-item .game-meta) {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+	}
+
+	:global(.offline-game-item .game-icon) {
+		font-size: 1.5rem;
+	}
+
+	:global(.offline-game-item .game-name) {
+		font-weight: 600;
+		font-size: 1rem;
+	}
+
+	:global(.offline-game-item .game-size) {
+		color: var(--color-text-2);
+		font-size: 0.875rem;
+	}
+</style>

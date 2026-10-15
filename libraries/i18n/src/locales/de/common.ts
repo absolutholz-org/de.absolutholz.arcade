@@ -64,6 +64,21 @@ export const deCommon = {
 	hub: {
 		gamesTitle: 'Spiele',
 	},
+	offline: {
+		title: 'Offline-Spieleverwaltung',
+		description: 'Verwalte Spiele für das Offline-Spielen.',
+		gameUnavailable: 'Dieses Spiel ist derzeit nicht für das Offline-Spielen heruntergeladen.',
+		notDownloaded: 'Um ohne aktive Internetverbindung zu spielen, lade es im Arcade Hub herunter.',
+		returnToHub: 'Zurück zum Arcade Hub',
+		install: 'Offline speichern',
+		uninstall: 'Offline-Daten löschen',
+		downloading: 'Wird heruntergeladen...',
+		installed: 'Offline verfügbar',
+		saveOffline: 'Offline speichern',
+		totalStorageUsed: 'Gesamter Offline-Speicher',
+		allGamesTitle: 'Installierte Arcade-Spiele',
+		allGamesDescription: 'Wähle aus, welche Spiele auf diesem Gerät offline verfügbar sein sollen.',
+	},
 	settings: {
 		title: 'Einstellungen',
 		description: 'Passe dein Arcade-Erlebnis an.',

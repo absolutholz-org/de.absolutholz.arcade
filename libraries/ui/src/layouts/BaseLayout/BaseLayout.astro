@@ -4,7 +4,15 @@ import type { BaseLayoutProps } from './_BaseLayout.types';
 
 type Props = BaseLayoutProps;
 
-const { title, description, lang = 'en', dir = 'ltr', canonical, appTitle = 'Arcade', manifestHref } = Astro.props;
+const {
+	title,
+	description,
+	lang = 'en',
+	dir = 'ltr',
+	canonical,
+	appTitle = 'Arcade',
+	manifestHref = '/site.webmanifest',
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -25,6 +33,15 @@ const { title, description, lang = 'en', dir = 'ltr', canonical, appTitle = 'Arc
 					}
 				} catch {}
 			})();
+		</script>
+		<script is:inline>
+			if ('serviceWorker' in navigator) {
+				window.addEventListener('load', () => {
+					navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch((err) => {
+						console.error('Service Worker registration failed:', err);
+					});
+				});
+			}
 		</script>
 		<title>{title}</title>
 		{description && <meta name="description" content={description} />}

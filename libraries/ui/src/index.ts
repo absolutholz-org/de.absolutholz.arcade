@@ -11,3 +11,11 @@ export type {
 	PageFooterLink,
 	ResumeStateConfig,
 } from './layouts/GameLandingTemplate';
+export { OfflineToggle } from './components/OfflineToggle/OfflineToggle';
+export type { OfflineToggleProps } from './components/OfflineToggle/OfflineToggle';
+export { useOfflineGame, formatBytes } from './hooks/useOfflineGame';
+export type {
+	GameManifestData,
+	OfflineGameStatus,
+	UseOfflineGameResult,
+} from './hooks/useOfflineGame';

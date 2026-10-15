@@ -64,6 +64,21 @@ export const frCommon = {
 	hub: {
 		gamesTitle: 'Jeux',
 	},
+	offline: {
+		title: 'Gestionnaire de jeux hors ligne',
+		description: 'Gérez les jeux disponibles hors ligne.',
+		gameUnavailable: "Ce jeu n'est pas actuellement téléchargé pour jouer hors ligne.",
+		notDownloaded: "Pour jouer sans connexion Internet active, téléchargez-le depuis l'Arcade Hub.",
+		returnToHub: "Retour à l'Arcade Hub",
+		install: 'Enregistrer hors ligne',
+		uninstall: 'Supprimer les données hors ligne',
+		downloading: 'Téléchargement...',
+		installed: 'Disponible hors ligne',
+		saveOffline: 'Enregistrer hors ligne',
+		totalStorageUsed: 'Stockage hors ligne total utilisé',
+		allGamesTitle: "Jeux d'arcade installés",
+		allGamesDescription: 'Choisissez les jeux à enregistrer sur cet appareil pour jouer hors ligne.',
+	},
 	settings: {
 		title: 'Paramètres',
 		description: 'Personnalisez votre expérience arcade.',
