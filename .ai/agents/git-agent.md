@@ -7,6 +7,13 @@ This profile outlines the strict execution routing for local Git message staging
 - **Autonomy Forbidden:** You are strictly forbidden from executing automated commits without explicit user approval in the active chat prompt sequence.
 - **Global Compliance:** Automatically inherit and execute all baseline Git safety restrictions (such as local-only tracking and mandatory verification hooks) defined in `/.ai/rules.md`.
 
+## Pre-Commit Verification & Pre-Flight Checks
+
+Before generating a changeset or committing any changes, you must guarantee code quality and pipeline readiness:
+1. Run `pnpm typecheck` (or targeted package typechecks) to ensure 0 TypeScript compilation errors across affected packages.
+2. Run targeted tests and `pnpm biome check` to ensure formatting and lint standards pass.
+3. Under no circumstances may code with compiler errors or failing pre-commit hooks be committed.
+
 ## Pre-Commit Operations: Changeset Generation
 
 1. Before generating a commit message, analyze the staged files to determine which workspace packages have been modified.

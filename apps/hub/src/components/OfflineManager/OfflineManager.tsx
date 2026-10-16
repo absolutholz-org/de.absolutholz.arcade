@@ -33,7 +33,7 @@ function OfflineManagerContent() {
 			<h2>{t('offline.allGamesTitle')}</h2>
 			<p className="section-desc">{t('offline.allGamesDescription')}</p>
 			<div className="games-list">
-				{MONOREPO_GAMES.map((game) => (
+				{ALL_GAMES.map((game) => (
 					<GameRow key={game.id} game={game} />
 				))}
 			</div>
