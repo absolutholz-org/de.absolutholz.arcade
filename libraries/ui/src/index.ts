@@ -23,3 +23,7 @@ export type {
 } from './hooks/useOfflineGame';
 export { VictoryDialog } from './components/VictoryDialog';
 export type { VictoryDialogProps, VictoryStatItem } from './components/VictoryDialog';
+export { ClickableCard } from './components/ClickableCard';
+export type { ClickableCardProps } from './components/ClickableCard/_ClickableCard.types';
+export { Badge } from './components/Badge';
+export type { BadgeProps } from './components/Badge/_Badge.types';
