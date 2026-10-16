@@ -39,3 +39,5 @@ export type {
 } from './components/GameSelectionCard/_GameSelectionCard.types';
 export { QuickPlayCard } from './components/QuickPlayCard';
 export type { QuickPlayCardProps } from './components/QuickPlayCard/_QuickPlayCard.types';
+export { Icon } from './components/Icon';
+export type { IconName, IconProps, IconSize } from './components/Icon/_Icon.types';

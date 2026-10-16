@@ -23,6 +23,8 @@ export const frTracks = {
 		notCompleted: 'Non terminé',
 		bestTime: 'Meilleur temps : {{time}}',
 		gridSize: 'Grille {{size}}×{{size}}',
+		quickPlay: 'Partie rapide',
+		quickPlayDesc: 'Générer une nouvelle grille',
 	},
 	mode: {
 		label: 'Mode de saisie',

@@ -23,6 +23,8 @@ export const bridgesSchema = {
 		completed: 'levels.completed',
 		notCompleted: 'levels.notCompleted',
 		bestTime: 'levels.bestTime',
+		quickPlay: 'levels.quickPlay',
+		quickPlayDesc: 'levels.quickPlayDesc',
 	},
 	mode: {
 		label: 'mode.label',

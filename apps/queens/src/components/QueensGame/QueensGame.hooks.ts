@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { KeyboardEvent, MouseEvent, PointerEvent } from 'react';
 import { getAutoCrossCells } from '../../engine/autoCross';
+import { generateQueensPuzzle } from '../../engine/generator';
 import { cloneBoard } from '../../engine/history';
 import { QUEENS_PUZZLES, getNextPuzzle, getPuzzleById, getPuzzlesByDifficulty } from '../../engine/puzzles';
 import {
@@ -105,9 +106,21 @@ export function useQueensGame(initialDifficulty: Difficulty = 'easy', initialPuz
 					const queryPuzzle = params.get('puzzle');
 					const queryDiff = params.get('difficulty') as Difficulty | null;
 
+					let isRandom = false;
 					if (queryPuzzle) {
 						const found = getPuzzleById(queryPuzzle);
 						if (found) requestedPuzzle = found;
+					} else if (
+						params.get('random') === 'true' ||
+						params.get('procedural') === 'true' ||
+						params.get('new') === 'true'
+					) {
+						isRandom = true;
+						const targetDiff =
+							queryDiff && ['easy', 'medium', 'hard', 'expert'].includes(queryDiff)
+								? queryDiff
+								: initialDifficulty;
+						requestedPuzzle = generateQueensPuzzle(targetDiff);
 					} else if (queryDiff && ['easy', 'medium', 'hard', 'expert'].includes(queryDiff)) {
 						const list = getPuzzlesByDifficulty(queryDiff);
 						if (list.length > 0) requestedPuzzle = list[0];
@@ -124,7 +137,8 @@ export function useQueensGame(initialDifficulty: Difficulty = 'easy', initialPuz
 					!activeGame.isComplete &&
 					(forceResume || activeGame.puzzleId === requestedPuzzle.id)
 				) {
-					const loadedPuzzle = getPuzzleById(activeGame.puzzleId) || requestedPuzzle;
+					const loadedPuzzle =
+						activeGame.puzzleDefinition || getPuzzleById(activeGame.puzzleId) || requestedPuzzle;
 					setPuzzle(loadedPuzzle);
 					setBoard(activeGame.board);
 					setElapsedSeconds(activeGame.elapsedSeconds);
@@ -148,7 +162,7 @@ export function useQueensGame(initialDifficulty: Difficulty = 'easy', initialPuz
 		}
 
 		init();
-	}, [initialPuzzle]);
+	}, [initialPuzzle, initialDifficulty]);
 
 	// Timer interval
 	useEffect(() => {
@@ -175,19 +189,9 @@ export function useQueensGame(initialDifficulty: Difficulty = 'easy', initialPuz
 			redoStack,
 			isComplete: false,
 			inputMode,
+			puzzleDefinition: puzzle,
 		});
-	}, [
-		isLoaded,
-		isComplete,
-		puzzle.id,
-		puzzle.difficulty,
-		puzzle.size,
-		board,
-		elapsedSeconds,
-		history,
-		redoStack,
-		inputMode,
-	]);
+	}, [isLoaded, isComplete, puzzle, board, elapsedSeconds, history, redoStack, inputMode]);
 
 	// Compute rule conflicts
 	const conflicts = useMemo(() => {
@@ -214,11 +218,15 @@ export function useQueensGame(initialDifficulty: Difficulty = 'easy', initialPuz
 			setIsPaused(true);
 			clearActiveGame();
 
-			recordPuzzleCompletion(puzzle.id, elapsedSeconds).then(({ isNewBestTime: isBest }) => {
-				setIsNewBestTime(isBest);
-				loadProgress().then(setProgress);
+			if (!puzzle.id.startsWith('procedural-')) {
+				recordPuzzleCompletion(puzzle.id, elapsedSeconds).then(({ isNewBestTime: isBest }) => {
+					setIsNewBestTime(isBest);
+					loadProgress().then(setProgress);
+					setIsVictoryOpen(true);
+				});
+			} else {
 				setIsVictoryOpen(true);
-			});
+			}
 		}
 	}, [board, puzzle.regions, puzzle.size, isLoaded, isComplete, puzzle.id, elapsedSeconds]);
 

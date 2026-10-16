@@ -22,6 +22,8 @@ export const enQueens = {
 		completed: 'Completed',
 		notCompleted: 'Not completed',
 		bestTime: 'Best time: {{time}}',
+		quickPlay: 'Quick Play',
+		quickPlayDesc: 'Generate a new board',
 	},
 	mode: {
 		label: 'Input Mode',

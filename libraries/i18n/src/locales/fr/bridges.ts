@@ -24,6 +24,8 @@ export const frBridges: BridgesTranslationContract = {
 		completed: 'Terminé',
 		notCompleted: 'Non terminé',
 		bestTime: 'Meilleur temps : {{time}}',
+		quickPlay: 'Partie rapide',
+		quickPlayDesc: 'Générer une nouvelle grille',
 	},
 	mode: {
 		label: 'Mode de jeu',

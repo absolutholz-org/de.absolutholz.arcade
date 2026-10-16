@@ -1,23 +1,25 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
-import { GameLandingTemplate } from '@arcade/lib-ui';
-import { Button } from '@arcade/lib-ui/components/Button';
-import { Icon } from '@arcade/lib-ui/components/Icon';
+import { GameLandingTemplate, GameSelectionCard, SegmentedControl, type SegmentedControlItem } from '@arcade/lib-ui';
 import { formatTime } from '@arcade/lib-ui/components/Timer';
-import type { FormEvent, JSX } from 'react';
+import type { JSX } from 'react';
 import { useEffect, useState } from 'react';
 import {
+	BOARD_SIZES,
 	BOARD_SIZE_LIST,
 	type BoardSizeId,
 	DIFFICULTY_LIST,
 	type DifficultyId,
 	type GameSnapshot,
+	type HighScoreEntry,
+	getMineCount,
 	loadActiveGame,
+	loadHighScores,
 	loadLastConfig,
 	saveLastConfig,
 } from '../../engine';
-import { DifficultyGraphic, SizeGraphic } from '../Graphics';
+import { DifficultyGraphic } from '../Graphics';
 import * as S from './MinesweeperLobby.styles';
 
 export interface MinesweeperLobbyProps {
@@ -30,6 +32,7 @@ function LobbyContent(): JSX.Element {
 	const [activeGame, setActiveGame] = useState<GameSnapshot | null>(null);
 	const [selectedSize, setSelectedSize] = useState<BoardSizeId>('md');
 	const [selectedDifficulty, setSelectedDifficulty] = useState<DifficultyId>('medium');
+	const [highScores, setHighScores] = useState<HighScoreEntry[]>([]);
 
 	useEffect(() => {
 		async function init() {
@@ -38,29 +41,35 @@ function LobbyContent(): JSX.Element {
 				setActiveGame(game);
 			}
 
-			const lastConfig = await loadLastConfig();
+			const [lastConfig, loadedScores] = await Promise.all([loadLastConfig(), loadHighScores()]);
+
 			if (lastConfig) {
-				setSelectedSize(lastConfig.size);
-				setSelectedDifficulty(lastConfig.difficulty);
+				if (BOARD_SIZES[lastConfig.size]) {
+					setSelectedSize(lastConfig.size);
+				}
+				if (lastConfig.difficulty) {
+					setSelectedDifficulty(lastConfig.difficulty);
+				}
+			}
+
+			if (loadedScores) {
+				setHighScores(loadedScores);
 			}
 		}
 		init();
 	}, []);
 
-	const handleSizeChange = (size: BoardSizeId) => {
+	const handleSizeChange = (sizeId: string) => {
+		const size = sizeId as BoardSizeId;
 		setSelectedSize(size);
 		saveLastConfig({ size, difficulty: selectedDifficulty });
 	};
 
-	const handleDifficultyChange = (diff: DifficultyId) => {
-		setSelectedDifficulty(diff);
-		saveLastConfig({ size: selectedSize, difficulty: diff });
-	};
-
-	const handleStartGame = (e: FormEvent) => {
-		e.preventDefault();
+	const handleStartGame = (difficulty: DifficultyId) => {
+		setSelectedDifficulty(difficulty);
+		saveLastConfig({ size: selectedSize, difficulty });
 		if (typeof window !== 'undefined') {
-			window.location.href = `/minesweeper/${language}/game?size=${selectedSize}&difficulty=${selectedDifficulty}&new=true`;
+			window.location.href = `/minesweeper/${language}/game?size=${selectedSize}&difficulty=${difficulty}&new=true`;
 		}
 	};
 
@@ -79,6 +88,12 @@ function LobbyContent(): JSX.Element {
 		{ label: tCommon('navigation.rules'), href: `/minesweeper/${language}/rules` },
 	];
 
+	const sizeItems: SegmentedControlItem[] = BOARD_SIZE_LIST.map((sizeConfig) => ({
+		id: sizeConfig.id,
+		label: t(`size.${sizeConfig.id}`),
+		sublabel: `${sizeConfig.columns}×${sizeConfig.rows}`,
+	}));
+
 	return (
 		<GameLandingTemplate
 			title={t('title')}
@@ -87,73 +102,45 @@ function LobbyContent(): JSX.Element {
 			pageFooterLinks={pageFooterLinks}
 			offlineGameId="minesweeper"
 		>
-			<S.ConfigForm onSubmit={handleStartGame}>
-				<S.Fieldset>
-					<legend>{t('size.label')}</legend>
-					<S.OptionsGrid>
-						{BOARD_SIZE_LIST.map((sizeConfig) => {
-							const isSelected = selectedSize === sizeConfig.id;
-							return (
-								<S.OptionCard key={sizeConfig.id} className={isSelected ? 'selected' : ''}>
-									<input
-										type="radio"
-										name="board-size"
-										value={sizeConfig.id}
-										checked={isSelected}
-										onChange={() => handleSizeChange(sizeConfig.id)}
-									/>
-									<SizeGraphic size={sizeConfig.id} />
-									<div className="option-info">
-										<span className="option-title">{t(`size.${sizeConfig.id}`)}</span>
-										<span className="option-desc">{t(`size.${sizeConfig.id}Desc`)}</span>
-									</div>
-									{isSelected && (
-										<span className="check-icon">
-											<Icon name="check" size="inherit" />
-										</span>
-									)}
-								</S.OptionCard>
-							);
-						})}
-					</S.OptionsGrid>
-				</S.Fieldset>
+			<S.LaunchSection>
+				<S.SizeSelectorWrapper>
+					<SegmentedControl
+						items={sizeItems}
+						value={selectedSize}
+						onChange={handleSizeChange}
+						ariaLabel={t('size.label')}
+					/>
+				</S.SizeSelectorWrapper>
 
-				<S.Fieldset>
-					<legend>{t('difficulty.label')}</legend>
-					<S.OptionsGrid>
-						{DIFFICULTY_LIST.map((diffConfig) => {
-							const isSelected = selectedDifficulty === diffConfig.id;
-							return (
-								<S.OptionCard key={diffConfig.id} className={isSelected ? 'selected' : ''}>
-									<input
-										type="radio"
-										name="board-difficulty"
-										value={diffConfig.id}
-										checked={isSelected}
-										onChange={() => handleDifficultyChange(diffConfig.id)}
-									/>
-									<DifficultyGraphic difficulty={diffConfig.id} />
-									<div className="option-info">
-										<span className="option-title">{t(`difficulty.${diffConfig.id}`)}</span>
-										<span className="option-desc">{t(`difficulty.${diffConfig.id}Desc`)}</span>
-									</div>
-									{isSelected && (
-										<span className="check-icon">
-											<Icon name="check" size="inherit" />
-										</span>
-									)}
-								</S.OptionCard>
-							);
-						})}
-					</S.OptionsGrid>
-				</S.Fieldset>
+				<S.DifficultyGrid aria-label={t('difficulty.label')}>
+					{DIFFICULTY_LIST.map((diffConfig) => {
+						const fieldCount = BOARD_SIZES[selectedSize].fieldCount;
+						const mineCount = getMineCount(fieldCount, diffConfig.id);
+						const bestScore = highScores
+							.filter((s) => s.size === selectedSize && s.difficulty === diffConfig.id)
+							.sort((a, b) => a.seconds - b.seconds)[0];
 
-				<S.PlaySection>
-					<Button type="submit" variant="primary" size="lg">
-						{t('controls.play')}
-					</Button>
-				</S.PlaySection>
-			</S.ConfigForm>
+						return (
+							<GameSelectionCard
+								key={diffConfig.id}
+								title={t(`difficulty.${diffConfig.id}`)}
+								subtitle={t(`difficulty.${diffConfig.id}Desc`)}
+								dimensions={`${mineCount} ${t('status.minesLeft')}`}
+								badge={
+									bestScore
+										? {
+												label: `${t('status.bestTime')}: ${formatTime(bestScore.seconds)}`,
+												variant: 'accent',
+											}
+										: undefined
+								}
+								preview={<DifficultyGraphic difficulty={diffConfig.id} />}
+								onClick={() => handleStartGame(diffConfig.id)}
+							/>
+						);
+					})}
+				</S.DifficultyGrid>
+			</S.LaunchSection>
 		</GameLandingTemplate>
 	);
 }

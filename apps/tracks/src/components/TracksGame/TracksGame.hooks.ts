@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { KeyboardEvent, MouseEvent, PointerEvent } from 'react';
+import { generateTracksPuzzle } from '../../engine/generator.js';
 import {
 	canRedo as checkCanRedo,
 	canUndo as checkCanUndo,
@@ -23,6 +24,7 @@ import {
 import {
 	type BoardState,
 	DEFAULT_SETTINGS,
+	DIFFICULTY_GRID_SIZES,
 	DIFFICULTY_LEVELS,
 	type DifficultyLevel,
 	type HistoryState,
@@ -61,6 +63,7 @@ function resolveInitialPuzzle(initialDifficulty: DifficultyLevel, initialPuzzleI
 		const params = new URLSearchParams(window.location.search);
 		const queryDiff = params.get('difficulty') as DifficultyLevel | null;
 		const queryPuzzle = params.get('puzzle');
+		const isRandom = params.get('random') === 'true' || params.get('procedural') === 'true';
 
 		if (queryDiff && (DIFFICULTY_LEVELS as readonly string[]).includes(queryDiff)) {
 			diff = queryDiff;
@@ -69,6 +72,13 @@ function resolveInitialPuzzle(initialDifficulty: DifficultyLevel, initialPuzzleI
 		if (queryPuzzle) {
 			const found = unwrapPuzzle(getPuzzleById(queryPuzzle));
 			if (found) return found;
+		} else if (isRandom || params.get('new') === 'true') {
+			try {
+				const size = DIFFICULTY_GRID_SIZES[diff].width;
+				return generateTracksPuzzle(size, diff);
+			} catch {
+				// Fallback to static if generation fails
+			}
 		}
 	}
 
@@ -236,7 +246,10 @@ export function useTracksGame(initialDifficulty: DifficultyLevel = 'easy', initi
 					!savedGame.isComplete &&
 					(forceResume || savedGame.puzzleId === requestedPuzzle.id)
 				) {
-					const restoredPuzzle = unwrapPuzzle(getPuzzleById(savedGame.puzzleId)) ?? requestedPuzzle;
+					const restoredPuzzle =
+						savedGame.puzzleDefinition ??
+						unwrapPuzzle(getPuzzleById(savedGame.puzzleId)) ??
+						requestedPuzzle;
 					const baseBoard = buildBoard(restoredPuzzle);
 					const restoredBoard: BoardState = {
 						...baseBoard,
@@ -304,8 +317,9 @@ export function useTracksGame(initialDifficulty: DifficultyLevel = 'easy', initi
 			mistakes,
 			isComplete: false,
 			lastPlayed: Date.now(),
+			puzzleDefinition: puzzle,
 		});
-	}, [isLoaded, isComplete, puzzle.id, puzzle.difficulty, board.grid, elapsedSeconds, movesCount, mistakes]);
+	}, [isLoaded, isComplete, puzzle, board.grid, elapsedSeconds, movesCount, mistakes]);
 
 	// Evaluate current board
 	const evaluation = useMemo(() => evaluateBoard(board), [board]);
@@ -331,16 +345,20 @@ export function useTracksGame(initialDifficulty: DifficultyLevel = 'easy', initi
 			setIsComplete(true);
 			clearActiveGame();
 
-			const recordFn = recordPuzzleCompletion as (
-				id: string,
-				sec: number,
-				moves?: number,
-			) => Promise<{ isNewBestTime: boolean }>;
+			const isProcedural =
+				puzzleRef.current.id.startsWith('procedural-') || puzzleRef.current.id.startsWith('generated-');
+			if (!isProcedural) {
+				const recordFn = recordPuzzleCompletion as (
+					id: string,
+					sec: number,
+					moves?: number,
+				) => Promise<{ isNewBestTime: boolean }>;
 
-			recordFn(puzzleRef.current.id, elapsedRef.current, nextMoves).then((res) => {
-				setIsNewBestTime(res.isNewBestTime);
-				loadProgress().then(setProgress);
-			});
+				recordFn(puzzleRef.current.id, elapsedRef.current, nextMoves).then((res) => {
+					setIsNewBestTime(res.isNewBestTime);
+					loadProgress().then(setProgress);
+				});
+			}
 
 			if (victoryTimerRef.current !== null) {
 				window.clearTimeout(victoryTimerRef.current);

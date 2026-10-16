@@ -2,6 +2,8 @@ import { createGameStorage } from '@arcade/lib-storage';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { generateSudoku } from '../../engine/generator';
 import { applyMove, autoClearPeerNotes, undoMove } from '../../engine/history';
+import { createGridFromClues, getPuzzleById } from '../../engine/puzzles';
+import { recordPuzzleCompletion } from '../../engine/storage';
 import {
 	type CellCoord,
 	DEFAULT_GAME_SETTINGS,
@@ -21,6 +23,7 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 	const [difficulty, setDifficulty] = useState<Difficulty>(initialDifficulty);
 	const [grid, setGrid] = useState<SudokuGrid>(() => generateSudoku(initialDifficulty).puzzle);
 	const [solution, setSolution] = useState<number[][]>(() => []);
+	const [currentPuzzleId, setCurrentPuzzleId] = useState<string | undefined>();
 	const [activeCell, setActiveCell] = useState<CellCoord | null>({ row: 0, col: 0 });
 	const [isNotesMode, setIsNotesMode] = useState(false);
 	const [elapsedSeconds, setElapsedSeconds] = useState(0);
@@ -36,6 +39,9 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 
 	const gridRef = useRef(grid);
 	gridRef.current = grid;
+
+	const currentPuzzleIdRef = useRef(currentPuzzleId);
+	currentPuzzleIdRef.current = currentPuzzleId;
 
 	const settingsRef = useRef(settings);
 	settingsRef.current = settings;
@@ -70,12 +76,17 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 				let requestedDifficulty = initialDifficulty;
 				let forceNew = false;
 				let forceResume = false;
+				let requestedPuzzleId: string | null = null;
 
 				if (typeof window !== 'undefined') {
 					const params = new URLSearchParams(window.location.search);
 					const queryDiff = params.get('difficulty') as Difficulty | null;
 					if (queryDiff && ['easy', 'medium', 'hard', 'veryHard', 'insane', 'inhuman'].includes(queryDiff)) {
 						requestedDifficulty = queryDiff;
+					}
+					const queryPuzzle = params.get('puzzle');
+					if (queryPuzzle) {
+						requestedPuzzleId = queryPuzzle;
 					}
 					if (params.get('new') === 'true') {
 						forceNew = true;
@@ -91,7 +102,9 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 					activeGame &&
 					!activeGame.isComplete &&
 					activeGame.puzzle.length === 9 &&
-					(forceResume || activeGame.difficulty === requestedDifficulty)
+					(forceResume ||
+						(!requestedPuzzleId && activeGame.difficulty === requestedDifficulty) ||
+						(requestedPuzzleId && activeGame.puzzleId === requestedPuzzleId))
 				) {
 					setDifficulty(activeGame.difficulty);
 					setGrid(activeGame.puzzle);
@@ -99,17 +112,39 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 					setElapsedSeconds(activeGame.elapsedSeconds);
 					setHistory(activeGame.history || []);
 					setRedoStack(activeGame.redoStack || []);
+					setCurrentPuzzleId(activeGame.puzzleId);
+					currentPuzzleIdRef.current = activeGame.puzzleId;
 					setIsPaused(true); // Always resume paused so player can prepare
+				} else if (requestedPuzzleId) {
+					const preset = getPuzzleById(requestedPuzzleId);
+					if (preset) {
+						setDifficulty(preset.difficulty);
+						setGrid(createGridFromClues(preset.clues));
+						setSolution(preset.solution);
+						setCurrentPuzzleId(preset.id);
+						currentPuzzleIdRef.current = preset.id;
+					} else {
+						setDifficulty(requestedDifficulty);
+						const generated = generateSudoku(requestedDifficulty);
+						setGrid(generated.puzzle);
+						setSolution(generated.solution);
+						setCurrentPuzzleId(undefined);
+						currentPuzzleIdRef.current = undefined;
+					}
 				} else {
 					setDifficulty(requestedDifficulty);
 					const generated = generateSudoku(requestedDifficulty);
 					setGrid(generated.puzzle);
 					setSolution(generated.solution);
+					setCurrentPuzzleId(undefined);
+					currentPuzzleIdRef.current = undefined;
 				}
 			} catch {
 				const generated = generateSudoku(initialDifficulty);
 				setGrid(generated.puzzle);
 				setSolution(generated.solution);
+				setCurrentPuzzleId(undefined);
+				currentPuzzleIdRef.current = undefined;
 			} finally {
 				setIsLoaded(true);
 			}
@@ -134,6 +169,7 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 			redoStack: redoRef.current,
 			isPaused: true,
 			isComplete: false,
+			puzzleId: currentPuzzleIdRef.current,
 		};
 
 		await storage.set('activeGame', snapshot);
@@ -206,6 +242,10 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 			const finalTime = elapsedRef.current;
 
 			try {
+				if (currentPuzzleIdRef.current) {
+					await recordPuzzleCompletion(currentPuzzleIdRef.current, finalTime);
+				}
+
 				const existingStats = (await storage.get<SudokuStats>('stats')) || INITIAL_SUDOKU_STATS;
 				const currentDiffStats = existingStats[difficultyRef.current] || {
 					gamesPlayed: 0,
@@ -372,6 +412,8 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 			setIsComplete(false);
 			setIsVictoryOpen(false);
 			setActiveCell({ row: 0, col: 0 });
+			setCurrentPuzzleId(undefined);
+			currentPuzzleIdRef.current = undefined;
 
 			storage.remove('activeGame');
 		},
@@ -529,6 +571,7 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 
 	return {
 		difficulty,
+		puzzleId: currentPuzzleId,
 		grid,
 		solution,
 		activeCell,

@@ -72,6 +72,16 @@ export const sudokuSchema = {
 		bestTime: 'stats.bestTime',
 		noStatsYet: 'stats.noStatsYet',
 	},
+	levels: {
+		puzzle: 'levels.puzzle',
+		puzzleNum: 'levels.puzzleNum',
+		selectLevel: 'levels.selectLevel',
+		completed: 'levels.completed',
+		notCompleted: 'levels.notCompleted',
+		bestTime: 'levels.bestTime',
+		quickPlay: 'levels.quickPlay',
+		quickPlayDesc: 'levels.quickPlayDesc',
+	},
 	aria: {
 		cellLabel: 'aria.cellLabel',
 		emptyCell: 'aria.emptyCell',

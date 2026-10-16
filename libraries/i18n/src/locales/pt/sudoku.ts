@@ -72,6 +72,16 @@ export const ptSudoku = {
 		bestTime: 'Melhor tempo',
 		noStatsYet: 'Nenhum jogo registrado ainda.',
 	},
+	levels: {
+		puzzle: 'Quebra-cabeça',
+		puzzleNum: 'Quebra-cabeça {{number}}',
+		selectLevel: 'Selecionar quebra-cabeça',
+		completed: 'Concluído',
+		notCompleted: 'Não concluído',
+		bestTime: 'Melhor tempo: {{time}}',
+		quickPlay: 'Jogo Rápido',
+		quickPlayDesc: 'Gerar um novo tabuleiro',
+	},
 	aria: {
 		cellLabel: 'Linha {{row}}, Coluna {{col}}, valor {{value}}',
 		emptyCell: 'Vazia',

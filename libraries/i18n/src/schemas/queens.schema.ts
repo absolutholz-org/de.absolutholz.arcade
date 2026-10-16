@@ -21,6 +21,8 @@ export const queensSchema = {
 		completed: 'levels.completed',
 		notCompleted: 'levels.notCompleted',
 		bestTime: 'levels.bestTime',
+		quickPlay: 'levels.quickPlay',
+		quickPlayDesc: 'levels.quickPlayDesc',
 	},
 	mode: {
 		label: 'mode.label',

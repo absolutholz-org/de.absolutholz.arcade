@@ -22,6 +22,8 @@ export const ptQueens = {
 		completed: 'Concluído',
 		notCompleted: 'Não concluído',
 		bestTime: 'Melhor tempo: {{time}}',
+		quickPlay: 'Jogo Rápido',
+		quickPlayDesc: 'Gerar um novo tabuleiro',
 	},
 	mode: {
 		label: 'Modo de Entrada',

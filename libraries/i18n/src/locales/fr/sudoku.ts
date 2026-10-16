@@ -72,6 +72,16 @@ export const frSudoku = {
 		bestTime: 'Meilleur temps',
 		noStatsYet: 'Aucune partie enregistrée pour le moment.',
 	},
+	levels: {
+		puzzle: 'Grille',
+		puzzleNum: 'Grille {{number}}',
+		selectLevel: 'Sélectionner une grille',
+		completed: 'Terminé',
+		notCompleted: 'Non terminé',
+		bestTime: 'Meilleur temps : {{time}}',
+		quickPlay: 'Partie rapide',
+		quickPlayDesc: 'Générer une nouvelle grille',
+	},
 	aria: {
 		cellLabel: 'Ligne {{row}}, Colonne {{col}}, valeur {{value}}',
 		emptyCell: 'Vide',

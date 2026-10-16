@@ -85,7 +85,16 @@ export interface GameSnapshot {
 	redoStack: MoveAction[];
 	isPaused: boolean;
 	isComplete: boolean;
+	puzzleId?: string;
 }
+
+export interface PuzzleRecord {
+	completed: boolean;
+	bestTime?: number;
+	lastPlayed?: number;
+}
+
+export type ProgressMap = Record<string, PuzzleRecord>;
 
 export interface DifficultyStats {
 	gamesPlayed: number;

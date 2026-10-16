@@ -1,8 +1,13 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
-import { GameLandingTemplate } from '@arcade/lib-ui';
-import { Button } from '@arcade/lib-ui/components/Button';
-import { Icon } from '@arcade/lib-ui/components/Icon';
+import {
+	GameLandingTemplate,
+	GameSelectionCard,
+	Icon,
+	QuickPlayCard,
+	SegmentedControl,
+	type SegmentedControlItem,
+} from '@arcade/lib-ui';
 import { formatTime } from '@arcade/lib-ui/components/Timer';
 import { type JSX, useEffect, useState } from 'react';
 import { getPuzzleById, getPuzzlesByDifficulty } from '../../engine/puzzles.js';
@@ -44,7 +49,6 @@ function LobbyContent(): JSX.Element {
 			const savedProgress = await loadProgress();
 			setProgress(savedProgress);
 
-			// 1. If URL query param specified a valid difficulty, stick with it
 			if (typeof window !== 'undefined') {
 				const params = new URLSearchParams(window.location.search);
 				const diff = params.get('difficulty') as DifficultyLevel | null;
@@ -54,7 +58,6 @@ function LobbyContent(): JSX.Element {
 				}
 			}
 
-			// 2. Otherwise, check most recently played/completed puzzle
 			let latestTime = 0;
 			let latestDiff: DifficultyLevel | null = null;
 			for (const [pId, record] of Object.entries(savedProgress)) {
@@ -67,7 +70,6 @@ function LobbyContent(): JSX.Element {
 				}
 			}
 
-			// 3. If there is an active uncompleted game, compare with latestPlayed
 			if (savedGame && !savedGame.isComplete && savedGame.difficulty) {
 				if (!latestTime || (savedGame.lastPlayed && savedGame.lastPlayed >= latestTime)) {
 					setSelectedDifficulty(savedGame.difficulty);
@@ -106,6 +108,15 @@ function LobbyContent(): JSX.Element {
 
 	const pageFooterLinks = [{ label: tCommon('navigation.rules'), href: `/bridges/${language}/rules` }];
 
+	const difficultyItems: SegmentedControlItem[] = DIFFICULTY_LEVELS.map((diff) => {
+		const size = DIFFICULTY_GRID_SIZES[diff];
+		return {
+			id: diff,
+			label: t(`difficulty.${diff}`),
+			sublabel: `${size.width}×${size.height}`,
+		};
+	});
+
 	return (
 		<GameLandingTemplate
 			title={t('title')}
@@ -114,80 +125,57 @@ function LobbyContent(): JSX.Element {
 			pageFooterLinks={pageFooterLinks}
 			offlineGameId="bridges"
 		>
-			{/* Difficulty Selector Tabs */}
-			<S.DifficultyTabs role="tablist" aria-label={t('difficulty.label')}>
-				{DIFFICULTY_LEVELS.map((diff) => {
-					const size = DIFFICULTY_GRID_SIZES[diff];
-					const isSelected = selectedDifficulty === diff;
+			<SegmentedControl
+				items={difficultyItems}
+				value={selectedDifficulty}
+				onChange={(diff) => handleSelectDifficulty(diff as DifficultyLevel)}
+				ariaLabel={t('difficulty.label')}
+			/>
 
-					return (
-						<S.TabButton
-							key={diff}
-							type="button"
-							role="tab"
-							aria-selected={isSelected}
-							data-active={isSelected ? 'true' : 'false'}
-							onClick={() => handleSelectDifficulty(diff)}
-						>
-							<span className="tab-title">{t(`difficulty.${diff}`)}</span>
-							<span className="tab-size">
-								{size.width}×{size.height}
-							</span>
-						</S.TabButton>
-					);
-				})}
-			</S.DifficultyTabs>
-
-			{/* Puzzles Grid */}
-			<section aria-labelledby="puzzles-section-title">
-				<h2 id="puzzles-section-title" style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '1rem' }}>
+			<S.PuzzlesSection aria-labelledby="puzzles-section-title">
+				<h2 id="puzzles-section-title">
 					{t('levels.selectLevel')} ({t(`difficulty.${selectedDifficulty}`)})
 				</h2>
 
 				<S.PuzzlesGrid>
+					<QuickPlayCard
+						key="quick-play"
+						as="a"
+						href={`/bridges/${language}/game?difficulty=${selectedDifficulty}&random=true&new=true`}
+						title={t('levels.quickPlay')}
+						subtitle={t('levels.quickPlayDesc')}
+						icon={<Icon emoji="🎲" size="md" />}
+					/>
+
 					{currentPuzzles.map((puzzle, index) => {
 						const puzzleRecord = progress[puzzle.id];
-						const isCompleted = puzzleRecord?.completed;
+						const isCompleted = Boolean(puzzleRecord?.completed);
 
 						return (
-							<S.PuzzleCard key={puzzle.id}>
-								<div className="card-header">
-									<span className="puzzle-num">
-										{t('levels.puzzleNum', { number: String(index + 1) })}
-									</span>
-									{isCompleted && (
-										<span className="completed-badge">
-											<Icon name="check" size="xs" />
-											{t('levels.completed')}
-										</span>
-									)}
-								</div>
-
-								<div className="card-body">
-									<span>{puzzle.islands.length} islands</span>
-									<span>
-										Grid: {currentGrid.width}×{currentGrid.height}
-									</span>
-									{puzzleRecord?.bestTime ? (
-										<span>{t('levels.bestTime', { time: formatTime(puzzleRecord.bestTime) })}</span>
-									) : (
-										<span>{t('levels.notCompleted')}</span>
-									)}
-								</div>
-
-								<Button
-									as="a"
-									href={`/bridges/${language}/game?difficulty=${selectedDifficulty}&puzzle=${puzzle.id}&new=true`}
-									variant={isCompleted ? 'secondary' : 'primary'}
-									size="sm"
-								>
-									{t('controls.play')}
-								</Button>
-							</S.PuzzleCard>
+							<GameSelectionCard
+								key={puzzle.id}
+								as="a"
+								href={`/bridges/${language}/game?difficulty=${selectedDifficulty}&puzzle=${puzzle.id}&new=true`}
+								title={t('levels.puzzleNum', { number: String(index + 1) })}
+								dimensions={`${currentGrid.width}×${currentGrid.height}`}
+								subtitle={
+									puzzleRecord?.bestTime !== undefined
+										? t('levels.bestTime', { time: formatTime(puzzleRecord.bestTime) })
+										: undefined
+								}
+								badge={
+									isCompleted
+										? {
+												label: t('levels.completed'),
+												variant: 'success',
+											}
+										: undefined
+								}
+							/>
 						);
 					})}
 				</S.PuzzlesGrid>
-			</section>
+			</S.PuzzlesSection>
 		</GameLandingTemplate>
 	);
 }

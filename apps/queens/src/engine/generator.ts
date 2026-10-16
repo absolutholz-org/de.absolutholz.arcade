@@ -1,6 +1,7 @@
+import { getPuzzlesByDifficulty } from './puzzles.ts';
 import { ORTHOGONAL_OFFSETS, isValidRegionLayout } from './regionLayout.ts';
 import { countSolutions, findSolutions } from './solver.ts';
-import type { QueenPlacement } from './types.ts';
+import { type Difficulty, GRID_SIZES, type QueenPlacement, type QueensPuzzle } from './types.ts';
 
 export type RandomSource = () => number;
 
@@ -254,4 +255,33 @@ function renumberRegionsByAppearance(regions: number[][], size: number): number[
 			return newIdByOldId.get(oldId) as number;
 		}),
 	);
+}
+
+/**
+ * Procedurally generates a solvable, unique Queens puzzle.
+ * Falls back to static catalog if generation budget is exceeded.
+ */
+export function generateQueensPuzzle(
+	difficulty: Difficulty,
+	id = `procedural-${difficulty}-${Date.now()}`,
+	seed?: number,
+): QueensPuzzle {
+	const size = GRID_SIZES[difficulty];
+	const random = seed !== undefined ? createSeededRandom(seed) : () => Math.random();
+	const generated = generateUniqueLayout(size, random, {
+		maxAttempts: 300,
+		maxRepairsPerAttempt: 400,
+	});
+
+	if (generated) {
+		return {
+			id,
+			difficulty,
+			size,
+			regions: generated.regions,
+			solution: generated.solution,
+		};
+	}
+
+	return getPuzzlesByDifficulty(difficulty)[0];
 }

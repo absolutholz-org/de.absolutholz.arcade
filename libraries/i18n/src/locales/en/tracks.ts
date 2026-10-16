@@ -23,6 +23,8 @@ export const enTracks = {
 		notCompleted: 'Not completed',
 		bestTime: 'Best time: {{time}}',
 		gridSize: '{{size}}×{{size}} Grid',
+		quickPlay: 'Quick Play',
+		quickPlayDesc: 'Generate a new board',
 	},
 	mode: {
 		label: 'Input Mode',

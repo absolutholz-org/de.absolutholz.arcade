@@ -1,11 +1,9 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode, TranslationKey } from '@arcade/lib-i18n/types/i18n.types';
-import { GameLandingTemplate } from '@arcade/lib-ui';
-import { Button } from '@arcade/lib-ui/components/Button';
-import { Icon } from '@arcade/lib-ui/components/Icon';
+import { GameLandingTemplate, GameSelectionCard, SegmentedControl, type SegmentedControlItem } from '@arcade/lib-ui';
 import { formatTime } from '@arcade/lib-ui/components/Timer';
-import type { CSSProperties, FormEvent, JSX } from 'react';
+import type { CSSProperties, JSX } from 'react';
 import { useEffect, useState } from 'react';
 import { PUZZLES_BY_DIFFICULTY, getDefaultPuzzle, getPuzzleById } from '../../engine/puzzles';
 import { loadActiveGame, loadLastConfig, loadSolvedPuzzles, saveLastConfig } from '../../engine/storage';
@@ -19,13 +17,18 @@ export interface NonogramLobbyProps {
 
 const DIFFICULTIES: DifficultyId[] = ['easy', 'medium', 'hard'];
 
+const DIFFICULTY_SIZES: Record<DifficultyId, string> = {
+	easy: '5×5',
+	medium: '10×10',
+	hard: '15×15',
+};
+
 function LobbyContent(): JSX.Element {
 	const { t, language } = useI18n('nonogram');
 	const { t: tCommon } = useI18n('common');
 	const [activeGame, setActiveGame] = useState<GameSnapshot | null>(null);
 	const [activeGamePuzzle, setActiveGamePuzzle] = useState<NonogramPuzzle | null>(null);
 	const [selectedDifficulty, setSelectedDifficulty] = useState<DifficultyId>('easy');
-	const [selectedPuzzleId, setSelectedPuzzleId] = useState<string>(() => getDefaultPuzzle('easy').id);
 	const [solvedRecords, setSolvedRecords] = useState<Record<string, PuzzleRecord>>({});
 
 	useEffect(() => {
@@ -46,7 +49,6 @@ function LobbyContent(): JSX.Element {
 
 			if (lastConfig) {
 				setSelectedDifficulty(lastConfig.difficulty);
-				setSelectedPuzzleId(lastConfig.puzzleId);
 			}
 		}
 		init();
@@ -55,20 +57,7 @@ function LobbyContent(): JSX.Element {
 	const handleDifficultyChange = (diff: DifficultyId) => {
 		setSelectedDifficulty(diff);
 		const defaultForDiff = getDefaultPuzzle(diff).id;
-		setSelectedPuzzleId(defaultForDiff);
 		saveLastConfig({ difficulty: diff, puzzleId: defaultForDiff });
-	};
-
-	const handlePuzzleChange = (puzId: string) => {
-		setSelectedPuzzleId(puzId);
-		saveLastConfig({ difficulty: selectedDifficulty, puzzleId: puzId });
-	};
-
-	const handleStartGame = (e: FormEvent) => {
-		e.preventDefault();
-		if (typeof window !== 'undefined') {
-			window.location.href = `/nonogram/${language}/game?difficulty=${selectedDifficulty}&puzzle=${selectedPuzzleId}&new=true`;
-		}
 	};
 
 	const availablePuzzles = PUZZLES_BY_DIFFICULTY[selectedDifficulty];
@@ -86,6 +75,12 @@ function LobbyContent(): JSX.Element {
 
 	const pageFooterLinks = [{ label: tCommon('navigation.rules'), href: `/nonogram/${language}/rules` }];
 
+	const difficultyItems: SegmentedControlItem[] = DIFFICULTIES.map((diff) => ({
+		id: diff,
+		label: t(`difficulty.${diff}` as TranslationKey),
+		sublabel: DIFFICULTY_SIZES[diff],
+	}));
+
 	return (
 		<GameLandingTemplate
 			title={t('title')}
@@ -94,66 +89,53 @@ function LobbyContent(): JSX.Element {
 			pageFooterLinks={pageFooterLinks}
 			offlineGameId="nonogram"
 		>
-			<S.ConfigForm onSubmit={handleStartGame}>
-				{/* Difficulty Selection */}
-				<S.Fieldset>
-					<legend>{t('difficulty.label')}</legend>
-					<S.DifficultyGrid>
-						{DIFFICULTIES.map((diff) => {
-							const isSelected = selectedDifficulty === diff;
-							return (
-								<S.DifficultyCard key={diff} className={isSelected ? 'selected' : ''}>
-									<input
-										type="radio"
-										name="nonogram-difficulty"
-										value={diff}
-										checked={isSelected}
-										onChange={() => handleDifficultyChange(diff)}
-									/>
-									<div className="option-info">
-										<span className="option-title">
-											{t(`difficulty.${diff}` as TranslationKey)}
-										</span>
-										<span className="option-desc">
-											{t(`difficulty.${diff}Desc` as TranslationKey)}
-										</span>
-									</div>
-									{isSelected && (
-										<span className="check-icon">
-											<Icon name="check" size="inherit" />
-										</span>
-									)}
-								</S.DifficultyCard>
-							);
-						})}
-					</S.DifficultyGrid>
-				</S.Fieldset>
+			<SegmentedControl
+				items={difficultyItems}
+				value={selectedDifficulty}
+				onChange={(diff) => handleDifficultyChange(diff as DifficultyId)}
+				ariaLabel={t('difficulty.label')}
+			/>
 
-				{/* Puzzle Selection */}
-				<S.Fieldset>
-					<legend>{t('lobby.selectPuzzle')}</legend>
-					<S.PuzzlesGrid>
-						{availablePuzzles.map((puz) => {
-							const isSelected = selectedPuzzleId === puz.id;
-							const record = solvedRecords[puz.id];
-							const isSolved = record?.solved;
+			<S.PuzzlesSection aria-labelledby="nonogram-puzzles-section-title">
+				<h2 id="nonogram-puzzles-section-title">
+					{t('lobby.selectPuzzle')} ({t(`difficulty.${selectedDifficulty}` as TranslationKey)})
+				</h2>
 
-							const thumbVars: CSSProperties = {
-								'--thumb-cols': puz.width,
-								'--thumb-rows': puz.height,
-								'--thumb-color': puz.color,
-							} as CSSProperties;
+				<S.PuzzlesGrid>
+					{availablePuzzles.map((puz) => {
+						const record = solvedRecords[puz.id];
+						const isSolved = Boolean(record?.solved);
 
-							return (
-								<S.PuzzleSelectionCard key={puz.id} className={isSelected ? 'selected' : ''}>
-									<input
-										type="radio"
-										name="nonogram-puzzle"
-										value={puz.id}
-										checked={isSelected}
-										onChange={() => handlePuzzleChange(puz.id)}
-									/>
+						const thumbVars: CSSProperties = {
+							'--thumb-cols': puz.width,
+							'--thumb-rows': puz.height,
+							'--thumb-color': puz.color,
+						} as CSSProperties;
 
+						return (
+							<GameSelectionCard
+								key={puz.id}
+								as="a"
+								href={`/nonogram/${language}/game?difficulty=${selectedDifficulty}&puzzle=${puz.id}&new=true`}
+								onClick={() => {
+									saveLastConfig({ difficulty: selectedDifficulty, puzzleId: puz.id });
+								}}
+								title={t(puz.titleKey as TranslationKey)}
+								dimensions={`${puz.width}×${puz.height}`}
+								subtitle={
+									record?.bestTime !== undefined
+										? t('lobby.bestTime', { time: formatTime(record.bestTime) })
+										: undefined
+								}
+								badge={
+									isSolved
+										? {
+												label: t('lobby.completed'),
+												variant: 'success',
+											}
+										: undefined
+								}
+								preview={
 									<S.MiniThumbnail style={thumbVars} data-unsolved={!isSolved} aria-hidden="true">
 										{isSolved ? (
 											puz.grid.map((val, idx) => (
@@ -163,37 +145,12 @@ function LobbyContent(): JSX.Element {
 											<PuzzleIcon />
 										)}
 									</S.MiniThumbnail>
-
-									<span className="card-title">{t(puz.titleKey as TranslationKey)}</span>
-									<span className="card-badge">
-										{puz.width}×{puz.height}
-									</span>
-
-									{isSolved ? (
-										<span className="card-solved">
-											✓ {t('lobby.completed')} ({formatTime(record.bestTime)})
-										</span>
-									) : (
-										<span className="card-badge">{t('lobby.unsolved')}</span>
-									)}
-
-									{isSelected && (
-										<span className="check-icon">
-											<Icon name="check" size="inherit" />
-										</span>
-									)}
-								</S.PuzzleSelectionCard>
-							);
-						})}
-					</S.PuzzlesGrid>
-				</S.Fieldset>
-
-				<S.PlaySection>
-					<Button type="submit" variant="primary" size="lg">
-						{t('controls.play')}
-					</Button>
-				</S.PlaySection>
-			</S.ConfigForm>
+								}
+							/>
+						);
+					})}
+				</S.PuzzlesGrid>
+			</S.PuzzlesSection>
 		</GameLandingTemplate>
 	);
 }

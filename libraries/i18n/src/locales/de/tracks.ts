@@ -23,6 +23,8 @@ export const deTracks = {
 		notCompleted: 'Nicht abgeschlossen',
 		bestTime: 'Bestzeit: {{time}}',
 		gridSize: '{{size}}×{{size}}-Raster',
+		quickPlay: 'Schnellstart',
+		quickPlayDesc: 'Neues Spielfeld generieren',
 	},
 	mode: {
 		label: 'Eingabemodus',

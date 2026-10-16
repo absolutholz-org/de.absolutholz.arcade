@@ -82,4 +82,5 @@ export interface GameSnapshot {
 	redoStack: MoveAction[];
 	isComplete: boolean;
 	inputMode: InputMode;
+	puzzleDefinition?: QueensPuzzle;
 }

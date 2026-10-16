@@ -1,6 +1,6 @@
-import { type EncodedPuzzle, decodePuzzle } from './puzzleCodec';
-import puzzlesData from './puzzles.data.json';
-import type { Difficulty, QueensPuzzle } from './types';
+import { type EncodedPuzzle, decodePuzzle } from './puzzleCodec.ts';
+import puzzlesData from './puzzles.data.json' with { type: 'json' };
+import type { Difficulty, QueensPuzzle } from './types.ts';
 
 export const QUEENS_PUZZLES: readonly QueensPuzzle[] = (puzzlesData as EncodedPuzzle[]).map(decodePuzzle);
 

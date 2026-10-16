@@ -22,6 +22,8 @@ export const tracksSchema = {
 		notCompleted: 'levels.notCompleted',
 		bestTime: 'levels.bestTime',
 		gridSize: 'levels.gridSize',
+		quickPlay: 'levels.quickPlay',
+		quickPlayDesc: 'levels.quickPlayDesc',
 	},
 	mode: {
 		label: 'mode.label',

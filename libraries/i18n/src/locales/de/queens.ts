@@ -22,6 +22,8 @@ export const deQueens = {
 		completed: 'Gelöst',
 		notCompleted: 'Nicht gelöst',
 		bestTime: 'Bestzeit: {{time}}',
+		quickPlay: 'Schnellstart',
+		quickPlayDesc: 'Neues Spielfeld generieren',
 	},
 	mode: {
 		label: 'Eingabemodus',

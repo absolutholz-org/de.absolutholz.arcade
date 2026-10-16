@@ -24,6 +24,8 @@ export const enBridges: BridgesTranslationContract = {
 		completed: 'Completed',
 		notCompleted: 'Not completed',
 		bestTime: 'Best time: {{time}}',
+		quickPlay: 'Quick Play',
+		quickPlayDesc: 'Generate a new board',
 	},
 	mode: {
 		label: 'Game Mode',

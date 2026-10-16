@@ -1,8 +1,13 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
-import { GameLandingTemplate } from '@arcade/lib-ui';
-import { Button } from '@arcade/lib-ui/components/Button';
-import { Icon } from '@arcade/lib-ui/components/Icon';
+import {
+	GameLandingTemplate,
+	GameSelectionCard,
+	Icon,
+	QuickPlayCard,
+	SegmentedControl,
+	type SegmentedControlItem,
+} from '@arcade/lib-ui';
 import { formatTime } from '@arcade/lib-ui/components/Timer';
 import { type JSX, useEffect, useState } from 'react';
 import { getPuzzlesByDifficulty } from '../../engine/puzzles';
@@ -50,6 +55,15 @@ function LobbyContent(): JSX.Element {
 
 	const pageFooterLinks = [{ label: tCommon('navigation.rules'), href: `/queens/${language}/rules` }];
 
+	const difficultyItems: SegmentedControlItem[] = DIFFICULTY_LEVELS.map((diff) => {
+		const size = GRID_SIZES[diff];
+		return {
+			id: diff,
+			label: t(`difficulty.${diff}`),
+			sublabel: `${size}×${size}`,
+		};
+	});
+
 	return (
 		<GameLandingTemplate
 			title={t('title')}
@@ -58,69 +72,52 @@ function LobbyContent(): JSX.Element {
 			pageFooterLinks={pageFooterLinks}
 			offlineGameId="queens"
 		>
-			<S.DifficultyTabs role="tablist" aria-label={t('difficulty.label')}>
-				{DIFFICULTY_LEVELS.map((diff) => {
-					const size = GRID_SIZES[diff];
-					const isActive = selectedDifficulty === diff;
-					return (
-						<S.TabButton
-							key={diff}
-							type="button"
-							role="tab"
-							aria-selected={isActive}
-							data-active={isActive ? 'true' : 'false'}
-							onClick={() => setSelectedDifficulty(diff)}
-						>
-							<span className="tab-title">{t(`difficulty.${diff}`)}</span>
-							<span className="tab-size">
-								{size}×{size}
-							</span>
-						</S.TabButton>
-					);
-				})}
-			</S.DifficultyTabs>
+			<SegmentedControl
+				items={difficultyItems}
+				value={selectedDifficulty}
+				onChange={(diff) => setSelectedDifficulty(diff as Difficulty)}
+				ariaLabel={t('difficulty.label')}
+			/>
 
 			<S.PuzzlesSection>
 				<h2>{t('levels.selectLevel')}</h2>
 				<S.PuzzlesGrid>
+					<QuickPlayCard
+						key="quick-play"
+						as="a"
+						href={`/queens/${language}/game?difficulty=${selectedDifficulty}&random=true&new=true`}
+						title={t('levels.quickPlay')}
+						subtitle={t('levels.quickPlayDesc')}
+						icon={<Icon emoji="🎲" size="md" />}
+					/>
+
 					{currentPuzzles.map((puzzle, index) => {
 						const puzzleNum = index + 1;
 						const puzzleData = progress[puzzle.id];
-						const isDone = !!puzzleData?.completed;
+						const isDone = Boolean(puzzleData?.completed);
 						const bestTime = puzzleData?.bestTime;
 
 						return (
-							<S.PuzzleCard key={puzzle.id}>
-								<div className="card-header">
-									<span className="puzzle-num">{t('levels.puzzleNum', { number: puzzleNum })}</span>
-									{isDone && (
-										<span className="completed-badge">
-											<Icon name="check" size="xs" />
-											{t('levels.completed')}
-										</span>
-									)}
-								</div>
-
-								<div className="card-body">
-									<span>
-										{puzzle.size}×{puzzle.size} Grid
-									</span>
-									{bestTime ? (
-										<span>{t('levels.bestTime', { time: formatTime(bestTime) })}</span>
-									) : (
-										<span>{t('levels.notCompleted')}</span>
-									)}
-								</div>
-
-								<Button
-									as="a"
-									href={`/queens/${language}/game?puzzle=${puzzle.id}&new=true`}
-									variant={isDone ? 'secondary' : 'primary'}
-									size="sm"
-								>
-									{t('controls.play')}
-								</Button>
-							</S.PuzzleCard>
+							<GameSelectionCard
+								key={puzzle.id}
+								as="a"
+								href={`/queens/${language}/game?puzzle=${puzzle.id}&new=true`}
+								title={t('levels.puzzleNum', { number: puzzleNum })}
+								dimensions={`${puzzle.size}×${puzzle.size}`}
+								subtitle={
+									bestTime !== undefined
+										? t('levels.bestTime', { time: formatTime(bestTime) })
+										: undefined
+								}
+								badge={
+									isDone
+										? {
+												label: t('levels.completed'),
+												variant: 'success',
+											}
+										: undefined
+								}
+							/>
 						);
 					})}
 				</S.PuzzlesGrid>

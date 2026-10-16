@@ -23,6 +23,8 @@ export const ptTracks = {
 		notCompleted: 'Não concluído',
 		bestTime: 'Melhor tempo: {{time}}',
 		gridSize: 'Grelha {{size}}×{{size}}',
+		quickPlay: 'Jogo Rápido',
+		quickPlayDesc: 'Gerar um novo tabuleiro',
 	},
 	mode: {
 		label: 'Modo de Entrada',

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { KeyboardEvent } from 'react';
+import { generatePuzzle } from '../../engine/generator.js';
 import { createHistory, pushState, redo, reset, undo } from '../../engine/history.js';
 import {
 	createBoardFromPuzzle,
@@ -68,6 +69,20 @@ function getInitialBoardState(
 						puzzle = list[safeIdx];
 					}
 				}
+			}
+		} else if (
+			params.get('random') === 'true' ||
+			params.get('procedural') === 'true' ||
+			params.get('new') === 'true'
+		) {
+			try {
+				const generated = generatePuzzle(diff);
+				return {
+					board: generated,
+					puzzleId: `procedural-${diff}-${Date.now()}`,
+				};
+			} catch {
+				// Fallback to static
 			}
 		} else if (initialPuzzleId) {
 			const found = getPuzzleById(initialPuzzleId);
@@ -173,11 +188,18 @@ export function useHashiGame(initialDifficulty: DifficultyLevel = 'easy', initia
 					if (params.get('resume') === 'true') forceResume = true;
 				}
 
+				const isRandom =
+					typeof window !== 'undefined' &&
+					(new URLSearchParams(window.location.search).get('random') === 'true' ||
+						new URLSearchParams(window.location.search).get('procedural') === 'true' ||
+						(!new URLSearchParams(window.location.search).get('puzzle') &&
+							new URLSearchParams(window.location.search).get('new') === 'true'));
+
 				if (
 					!forceNew &&
 					savedGame &&
 					!savedGame.isComplete &&
-					(forceResume || savedGame.puzzleId === requestedPuzzle.id)
+					(forceResume || (!isRandom && savedGame.puzzleId === requestedPuzzle.id))
 				) {
 					const restoredBoard: BoardState = {
 						difficulty: savedGame.difficulty,
@@ -191,6 +213,23 @@ export function useHashiGame(initialDifficulty: DifficultyLevel = 'easy', initia
 					setElapsedSeconds(savedGame.elapsedSeconds);
 					setPuzzleId(savedGame.puzzleId);
 					setIsPaused(true);
+				} else if (isRandom) {
+					try {
+						const generated = generatePuzzle(requestedDiff);
+						const pid = `procedural-${requestedDiff}-${Date.now()}`;
+						setBoard(generated);
+						setHistory(createHistory(generated));
+						setElapsedSeconds(0);
+						setPuzzleId(pid);
+						setIsPaused(false);
+					} catch {
+						const newBoard = createBoardFromPuzzle(requestedPuzzle, requestedDiff);
+						setBoard(newBoard);
+						setHistory(createHistory(newBoard));
+						setElapsedSeconds(0);
+						setPuzzleId(requestedPuzzle.id);
+						setIsPaused(false);
+					}
 				} else {
 					const newBoard = createBoardFromPuzzle(requestedPuzzle, requestedDiff);
 					setBoard(newBoard);
@@ -286,10 +325,12 @@ export function useHashiGame(initialDifficulty: DifficultyLevel = 'easy', initia
 					setIsComplete(true);
 					setIsVictoryOpen(true);
 					clearActiveGame();
-					recordPuzzleCompletion(puzzleId, elapsedSeconds).then((res) => {
-						setIsNewBestTime(res.isNewBestTime);
-						loadProgress().then(setProgress);
-					});
+					if (!puzzleId.startsWith('procedural-')) {
+						recordPuzzleCompletion(puzzleId, elapsedSeconds).then((res) => {
+							setIsNewBestTime(res.isNewBestTime);
+							loadProgress().then(setProgress);
+						});
+					}
 				}
 			} else {
 				// If not connectable, switch active selection to the clicked island
@@ -313,10 +354,12 @@ export function useHashiGame(initialDifficulty: DifficultyLevel = 'easy', initia
 				setIsComplete(true);
 				setIsVictoryOpen(true);
 				clearActiveGame();
-				recordPuzzleCompletion(puzzleId, elapsedSeconds).then((res) => {
-					setIsNewBestTime(res.isNewBestTime);
-					loadProgress().then(setProgress);
-				});
+				if (!puzzleId.startsWith('procedural-')) {
+					recordPuzzleCompletion(puzzleId, elapsedSeconds).then((res) => {
+						setIsNewBestTime(res.isNewBestTime);
+						loadProgress().then(setProgress);
+					});
+				}
 			}
 		},
 		[board, isComplete, puzzleId, elapsedSeconds],

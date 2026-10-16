@@ -72,6 +72,16 @@ export const enSudoku = {
 		bestTime: 'Best Time',
 		noStatsYet: 'No games recorded yet.',
 	},
+	levels: {
+		puzzle: 'Puzzle',
+		puzzleNum: 'Puzzle {{number}}',
+		selectLevel: 'Select Puzzle',
+		completed: 'Completed',
+		notCompleted: 'Not completed',
+		bestTime: 'Best time: {{time}}',
+		quickPlay: 'Quick Play',
+		quickPlayDesc: 'Generate a new board',
+	},
 	aria: {
 		cellLabel: 'Row {{row}}, Column {{col}}, value {{value}}',
 		emptyCell: 'Empty',

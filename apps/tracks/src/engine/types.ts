@@ -107,6 +107,7 @@ export interface GameSnapshot {
 	mistakes: number;
 	isComplete: boolean;
 	lastPlayed: number;
+	puzzleDefinition?: StaticPuzzleDefinition;
 }
 
 interface ProgressRecord {

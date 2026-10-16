@@ -72,6 +72,16 @@ export const deSudoku = {
 		bestTime: 'Bestzeit',
 		noStatsYet: 'Noch keine Spiele aufgezeichnet.',
 	},
+	levels: {
+		puzzle: 'Rätsel',
+		puzzleNum: 'Rätsel {{number}}',
+		selectLevel: 'Rätsel auswählen',
+		completed: 'Abgeschlossen',
+		notCompleted: 'Nicht abgeschlossen',
+		bestTime: 'Bestzeit: {{time}}',
+		quickPlay: 'Schnellstart',
+		quickPlayDesc: 'Neues Spielfeld generieren',
+	},
 	aria: {
 		cellLabel: 'Zeile {{row}}, Spalte {{col}}, Wert {{value}}',
 		emptyCell: 'Leer',
