@@ -114,6 +114,9 @@ importers:
       '@arcade/lib-astro-config':
         specifier: workspace:*
         version: link:../../libraries/astro-config
+      '@arcade/lib-games':
+        specifier: workspace:*
+        version: link:../../libraries/games
       '@arcade/lib-i18n':
         specifier: workspace:*
         version: link:../../libraries/i18n
@@ -429,6 +432,12 @@ importers:
       astro:
         specifier: 'catalog:'
         version: 4.16.19(@types/node@26.6.3)(lightningcss@1.33.0)(rollup@4.63.6)(supports-color@7.2.0)(typescript@5.9.3)
+
+  libraries/games:
+    devDependencies:
+      typescript:
+        specifier: ^5.7.2
+        version: 5.9.3
 
   libraries/i18n:
     dependencies:

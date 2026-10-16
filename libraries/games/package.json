@@ -1,0 +1,20 @@
+{
+	"name": "@arcade/lib-games",
+	"version": "0.1.0",
+	"private": true,
+	"description": "Central registry and metadata types for all Arcade games",
+	"type": "module",
+	"exports": {
+		".": {
+			"types": "./src/index.ts",
+			"default": "./src/index.ts"
+		}
+	},
+	"scripts": {
+		"build": "tsc",
+		"typecheck": "tsc --noEmit"
+	},
+	"devDependencies": {
+		"typescript": "^5.7.2"
+	}
+}

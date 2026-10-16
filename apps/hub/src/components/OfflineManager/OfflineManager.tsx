@@ -1,25 +1,17 @@
+import { ALL_GAMES, type GameDefinition } from '@arcade/lib-games';
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { OfflineToggle, useOfflineGame } from '@arcade/lib-ui';
 import type React from 'react';
 
-const MONOREPO_GAMES = [
-	{ id: 'sudoku', name: 'Sudoku', icon: '🔢' },
-	{ id: 'minesweeper', name: 'Minesweeper', icon: '💣' },
-	{ id: 'nonogram', name: 'Nonogram', icon: '🎨' },
-	{ id: 'queens', name: 'Queens', icon: '👑' },
-	{ id: 'bridges', name: 'Bridges', icon: '🌉' },
-	{ id: 'tracks', name: 'Tracks', icon: '🚂' },
-];
-
-function GameRow({ game }: { game: { id: string; name: string; icon: string } }) {
+function GameRow({ game }: { game: GameDefinition }) {
 	const { status, installGame, uninstallGame } = useOfflineGame(game.id);
 	return (
 		<div className="offline-game-item">
 			<div className="game-meta">
 				<span className="game-icon" aria-hidden="true">
-					{game.icon}
+					{game.assets.icon}
 				</span>
 				<span className="game-name">{game.name}</span>
 			</div>

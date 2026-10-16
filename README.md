@@ -16,7 +16,7 @@ This project is structured as a strict multi-app monorepo utilizing `pnpm worksp
     *   `apps/queens`: Queens / Star Battle logic puzzle game with 4 difficulty tiers (6×6, 8×8, 10×10, 12×12), 20 uniquely solvable puzzles, dual-mode inputs (Crown / X-mark), auto-cross helper, accessible grid, and timer, built with **Astro** and interactive React canvas.
     *   `apps/tracks`: Train Tracks railway path logic puzzle game with 4 difficulty tiers (6×6, 8×8, 10×10, 12×12), row/column clue validation, auto-cross helper, accessible grid, and timer, built with **Astro** and interactive React canvas.
     *   `apps/[game]`: Additional interactive game canvases built as pure **React/Vite** Single Page Applications (or Astro Islands).
-*   **`libraries/`**: Contains all shared business logic, UI components, and infrastructure.
+    *   `libraries/games`: Central game registry, metadata definitions, canonical game IDs, and visual assets (`@arcade/lib-games`).
     *   `libraries/ui`: Shared design system components styled exclusively with **Linaria**.
     *   `libraries/i18n`: Shared localization engine, language constants, dictionaries, and React hook abstraction (`useI18n`).
     *   `libraries/storage`: Namespaced wrappers for LocalStorage/IndexedDB to prevent cross-game data collisions.

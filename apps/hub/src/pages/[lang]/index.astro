@@ -1,4 +1,4 @@
----
+import { ALL_GAMES } from '@arcade/lib-games';
 import { resources } from '@arcade/lib-i18n/config/i18n';
 import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
@@ -15,12 +15,6 @@ export function getStaticPaths() {
 
 const { lang } = Astro.params;
 const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? resources.en.common;
-const currentSudoku = resources[lang as SupportedLanguageCode]?.sudoku ?? resources.en.sudoku;
-const currentMinesweeper = resources[lang as SupportedLanguageCode]?.minesweeper ?? resources.en.minesweeper;
-const currentNonogram = resources[lang as SupportedLanguageCode]?.nonogram ?? resources.en.nonogram;
-const currentQueens = resources[lang as SupportedLanguageCode]?.queens ?? resources.en.queens;
-const currentBridges = resources[lang as SupportedLanguageCode]?.bridges ?? resources.en.bridges;
-const currentTracks = resources[lang as SupportedLanguageCode]?.tracks ?? resources.en.tracks;
 ---
 
 <PageLayout
@@ -38,30 +32,20 @@ const currentTracks = resources[lang as SupportedLanguageCode]?.tracks ?? resour
 		<section class="games-section">
 			<h2>{currentTranslations.hub.gamesTitle}</h2>
 			<div class="games-grid">
-				<a href={`/sudoku/${lang}/`} class="game-card">
-					<h3>{currentSudoku.title}</h3>
-					<p>{currentSudoku.description}</p>
-				</a>
-				<a href={`/minesweeper/${lang}/`} class="game-card">
-					<h3>{currentMinesweeper.title}</h3>
-					<p>{currentMinesweeper.description}</p>
-				</a>
-				<a href={`/nonogram/${lang}/`} class="game-card">
-					<h3>{currentNonogram.title}</h3>
-					<p>{currentNonogram.description}</p>
-				</a>
-				<a href={`/queens/${lang}/`} class="game-card">
-					<h3>{currentQueens.title}</h3>
-					<p>{currentQueens.description}</p>
-				</a>
-				<a href={`/bridges/${lang}/`} class="game-card">
-					<h3>{currentBridges.title}</h3>
-					<p>{currentBridges.description}</p>
-				</a>
-				<a href={`/tracks/${lang}/`} class="game-card">
-					<h3>{currentTracks.title}</h3>
-					<p>{currentTracks.description}</p>
-				</a>
+				{ALL_GAMES.map((game) => {
+					const gameTranslation =
+						resources[lang as SupportedLanguageCode]?.[game.i18nNamespace] ??
+						resources.en[game.i18nNamespace];
+					return (
+						<a href={`${game.route}/${lang}/`} class="game-card">
+							<div class="game-card-header">
+								<span class="game-card-icon" aria-hidden="true">{game.assets.icon}</span>
+								<h3>{gameTranslation?.title ?? game.name}</h3>
+							</div>
+							<p>{gameTranslation?.description}</p>
+						</a>
+					);
+				})}
 			</div>
 		</section>
 	</PageContainer>
@@ -99,8 +83,20 @@ const currentTracks = resources[lang as SupportedLanguageCode]?.tracks ?? resour
 		transform: translateY(-2px);
 	}
 
+	.game-card-header {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+	}
+
+	.game-card-icon {
+		font-size: 1.75rem;
+		line-height: 1;
+	}
+
 	.game-card h3 {
 		font-size: 1.25rem;
+		margin: 0;
 	}
 
 	.game-card p {
