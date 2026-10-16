@@ -5,6 +5,7 @@ import type { MinesweeperSchema, MinesweeperTranslationContract } from '../schem
 import type { NonogramSchema, NonogramTranslationContract } from '../schemas/nonogram.schema.js';
 import type { QueensSchema, QueensTranslationContract } from '../schemas/queens.schema.js';
 import type { SudokuSchema, SudokuTranslationContract } from '../schemas/sudoku.schema.js';
+import type { TracksSchema, TracksTranslationContract } from '../schemas/tracks.schema.js';
 
 export type SupportedLanguageCode = (typeof SUPPORTED_LANGUAGES)[number]['code'];
 
@@ -20,6 +21,7 @@ export type MinesweeperTranslationKey = LeafKeys<MinesweeperSchema>;
 export type NonogramTranslationKey = LeafKeys<NonogramSchema>;
 export type QueensTranslationKey = LeafKeys<QueensSchema>;
 export type BridgesTranslationKey = LeafKeys<BridgesSchema>;
+export type TracksTranslationKey = LeafKeys<TracksSchema>;
 
 export type TranslationKey =
 	| CommonTranslationKey
@@ -27,7 +29,8 @@ export type TranslationKey =
 	| MinesweeperTranslationKey
 	| NonogramTranslationKey
 	| QueensTranslationKey
-	| BridgesTranslationKey;
+	| BridgesTranslationKey
+	| TracksTranslationKey;
 
 export interface UseI18nReturn {
 	readonly t: (key: TranslationKey, options?: Record<string, unknown>) => string;
@@ -46,5 +49,6 @@ export type TranslationResources = Record<
 		readonly nonogram: NonogramTranslationContract;
 		readonly queens: QueensTranslationContract;
 		readonly bridges: BridgesTranslationContract;
+		readonly tracks: TracksTranslationContract;
 	}
 >;

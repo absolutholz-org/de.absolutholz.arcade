@@ -20,6 +20,7 @@ const currentMinesweeper = resources[lang as SupportedLanguageCode]?.minesweeper
 const currentNonogram = resources[lang as SupportedLanguageCode]?.nonogram ?? resources.en.nonogram;
 const currentQueens = resources[lang as SupportedLanguageCode]?.queens ?? resources.en.queens;
 const currentBridges = resources[lang as SupportedLanguageCode]?.bridges ?? resources.en.bridges;
+const currentTracks = resources[lang as SupportedLanguageCode]?.tracks ?? resources.en.tracks;
 ---
 
 <PageLayout
@@ -56,6 +57,10 @@ const currentBridges = resources[lang as SupportedLanguageCode]?.bridges ?? reso
 				<a href={`/bridges/${lang}/`} class="game-card">
 					<h3>{currentBridges.title}</h3>
 					<p>{currentBridges.description}</p>
+				</a>
+				<a href={`/tracks/${lang}/`} class="game-card">
+					<h3>{currentTracks.title}</h3>
+					<p>{currentTracks.description}</p>
 				</a>
 			</div>
 		</section>

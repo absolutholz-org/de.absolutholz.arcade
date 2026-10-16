@@ -1,0 +1,132 @@
+import { DEFAULT_LANGUAGE } from '@arcade/lib-i18n/constants/languages';
+import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
+import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { isSupportedLanguage } from '@arcade/lib-i18n/utils/detection';
+import { GameContainer } from '@arcade/lib-ui/components/GameContainer';
+import { type JSX, useCallback, useState } from 'react';
+import { PauseOverlay } from '../PauseOverlay/index.js';
+import { SettingsDialog } from '../SettingsDialog/index.js';
+import { TracksBoard } from '../TracksBoard/index.js';
+import { TracksControls } from '../TracksControls/index.js';
+import { TracksGameHeader } from '../TracksGameHeader/index.js';
+import { VictoryDialog } from '../VictoryDialog/index.js';
+import { useTracksGame } from './TracksGame.hooks.js';
+import * as S from './TracksGame.styles.js';
+import type { TracksGameProps } from './TracksGame.types.js';
+
+export function TracksGame({ initialDifficulty = 'easy', initialPuzzleId, lang }: TracksGameProps): JSX.Element {
+	const [activeLang, setActiveLang] = useState<SupportedLanguageCode>(() => {
+		if (lang && isSupportedLanguage(lang)) return lang;
+		if (typeof window !== 'undefined') {
+			const match = window.location.pathname.match(/\/tracks\/([a-z]{2})(\/|$)/);
+			if (match && isSupportedLanguage(match[1])) {
+				return match[1] as SupportedLanguageCode;
+			}
+		}
+		return DEFAULT_LANGUAGE;
+	});
+
+	const { changeLanguage } = useI18n();
+	const game = useTracksGame(initialDifficulty, initialPuzzleId);
+
+	const handleLanguageChange = useCallback(
+		(nextLang: SupportedLanguageCode) => {
+			setActiveLang(nextLang);
+			changeLanguage(nextLang);
+			if (typeof window !== 'undefined') {
+				const currentPath = window.location.pathname;
+				const targetPath =
+					activeLang && currentPath.includes(`/${activeLang}`)
+						? currentPath.replace(new RegExp(`/${activeLang}(/|$)`), `/${nextLang}$1`)
+						: `/tracks/${nextLang}/game`;
+				window.history.replaceState(null, '', targetPath + window.location.search);
+			}
+		},
+		[activeLang, changeLanguage],
+	);
+
+	const content = (
+		<GameContainer
+			id="main-content"
+			header={
+				<TracksGameHeader
+					difficulty={game.puzzle.difficulty}
+					puzzleId={game.puzzle.id}
+					satisfiedLines={game.evaluation.satisfiedLines}
+					totalLines={game.evaluation.totalLines}
+					elapsedSeconds={game.elapsedSeconds}
+					mistakes={game.mistakes}
+					maxMistakes={game.maxMistakes}
+					isPaused={game.isPaused}
+					gameMode={game.settings.gameMode}
+					onTogglePause={game.handleTogglePause}
+					onOpenSettings={game.openSettings}
+				/>
+			}
+			overlay={
+				<PauseOverlay
+					isOpen={game.isPaused && !game.isComplete}
+					onResume={game.handleTogglePause}
+					onRestart={game.handlePlayAgain}
+				/>
+			}
+			dialogs={
+				<>
+					<SettingsDialog
+						isOpen={game.isSettingsOpen}
+						onClose={game.closeSettings}
+						settings={game.settings}
+						onUpdateSettings={game.handleUpdateSettings}
+						activeLanguage={activeLang}
+						onLanguageChange={handleLanguageChange}
+					/>
+
+					<VictoryDialog
+						isOpen={game.isVictoryOpen}
+						elapsedSeconds={game.elapsedSeconds}
+						movesCount={game.movesCount}
+						isNewBestTime={game.isNewBestTime}
+						hasNextPuzzle={game.hasNextPuzzle}
+						onNextPuzzle={game.handleNextPuzzle}
+						onPlayAgain={game.handlePlayAgain}
+						onClose={game.closeVictory}
+						gameMode={game.settings.gameMode}
+						difficulty={game.puzzle.difficulty}
+					/>
+				</>
+			}
+		>
+			<S.PlayColumn>
+				<TracksBoard
+					board={game.board}
+					evaluation={game.evaluation}
+					focusedCell={game.focusedCell}
+					highlightClues={game.settings.highlightClues}
+					isComplete={game.isComplete}
+					onCellClick={game.handleCellClick}
+					onCellContextMenu={game.handleCellContextMenu}
+					onCellFocus={game.handleCellFocus}
+					onDragStart={game.handleDragStart}
+					onDragEnter={game.handleDragEnter}
+					onDragEnd={game.handleDragEnd}
+					onClueClick={game.handleClueClick}
+					onKeyDown={game.handleKeyDown}
+				/>
+
+				<TracksControls
+					inputMode={game.inputMode}
+					canUndo={game.canUndo}
+					canRedo={game.canRedo}
+					onToggleMode={game.setInputMode}
+					onHint={game.handleHint}
+					onUndo={game.handleUndo}
+					onRedo={game.handleRedo}
+					onReset={game.handleReset}
+				/>
+			</S.PlayColumn>
+		</GameContainer>
+	);
+
+	return <I18nProvider language={activeLang}>{content}</I18nProvider>;
+}

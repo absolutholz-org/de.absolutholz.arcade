@@ -14,6 +14,7 @@ This project is structured as a strict multi-app monorepo utilizing `pnpm worksp
     *   `apps/minesweeper`: Classic Minesweeper game with 5 board sizes, safe first click, chording, accessible grid, timer, and high scores, built with **Astro** and interactive React canvas.
     *   `apps/nonogram`: Nonogram (picture logic) game with 3 difficulty tiers (5×5, 10×10, 15×15), 15 deterministic starter puzzles, dual-mode line drawing, accessible grid, timer, and pixel art reveal, built with **Astro** and interactive React canvas.
     *   `apps/queens`: Queens / Star Battle logic puzzle game with 4 difficulty tiers (6×6, 8×8, 10×10, 12×12), 20 uniquely solvable puzzles, dual-mode inputs (Crown / X-mark), auto-cross helper, accessible grid, and timer, built with **Astro** and interactive React canvas.
+    *   `apps/tracks`: Train Tracks railway path logic puzzle game with 4 difficulty tiers (6×6, 8×8, 10×10, 12×12), row/column clue validation, auto-cross helper, accessible grid, and timer, built with **Astro** and interactive React canvas.
     *   `apps/[game]`: Additional interactive game canvases built as pure **React/Vite** Single Page Applications (or Astro Islands).
 *   **`libraries/`**: Contains all shared business logic, UI components, and infrastructure.
     *   `libraries/ui`: Shared design system components styled exclusively with **Linaria**.
@@ -69,6 +70,9 @@ pnpm dev:nonogram
 # Start Queens dev server
 pnpm dev:queens
 
+# Start Tracks dev server
+pnpm dev:tracks
+
 # Start Hub dev server
 pnpm dev:hub
 
@@ -81,6 +85,7 @@ pnpm build:sudoku
 pnpm build:minesweeper
 pnpm build:nonogram
 pnpm build:queens
+pnpm build:tracks
 pnpm build:storybook
 pnpm build:all
 ```
@@ -96,6 +101,7 @@ Deployments are automated via GitHub Actions (`.github/workflows/deploy.yml`) on
   - `/minesweeper`: Minesweeper puzzle game (`apps/minesweeper`)
   - `/nonogram`: Nonogram picture logic game (`apps/nonogram`)
   - `/queens`: Queens logic puzzle game (`apps/queens`)
+  - `/tracks`: Tracks railway logic puzzle game (`apps/tracks`)
   - `/storybook`: Component design system documentation (`libraries/ui`)
 - **Game Subdomains (`[gamename].absolutholz.de`)**: Pointed in Webgo to `/home/www/de.absolutholz.arcade`. The root `.htaccess` transparently 301-redirects requests to `https://arcade.absolutholz.de/[gamename]/` (preserving paths and query parameters).
 

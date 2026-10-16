@@ -7,24 +7,28 @@ import { deMinesweeper } from '../locales/de/minesweeper.js';
 import { deNonogram } from '../locales/de/nonogram.js';
 import { deQueens } from '../locales/de/queens.js';
 import { deSudoku } from '../locales/de/sudoku.js';
+import { deTracks } from '../locales/de/tracks.js';
 import { enBridges } from '../locales/en/bridges.js';
 import { enCommon } from '../locales/en/common.js';
 import { enMinesweeper } from '../locales/en/minesweeper.js';
 import { enNonogram } from '../locales/en/nonogram.js';
 import { enQueens } from '../locales/en/queens.js';
 import { enSudoku } from '../locales/en/sudoku.js';
+import { enTracks } from '../locales/en/tracks.js';
 import { frBridges } from '../locales/fr/bridges.js';
 import { frCommon } from '../locales/fr/common.js';
 import { frMinesweeper } from '../locales/fr/minesweeper.js';
 import { frNonogram } from '../locales/fr/nonogram.js';
 import { frQueens } from '../locales/fr/queens.js';
 import { frSudoku } from '../locales/fr/sudoku.js';
+import { frTracks } from '../locales/fr/tracks.js';
 import { ptBridges } from '../locales/pt/bridges.js';
 import { ptCommon } from '../locales/pt/common.js';
 import { ptMinesweeper } from '../locales/pt/minesweeper.js';
 import { ptNonogram } from '../locales/pt/nonogram.js';
 import { ptQueens } from '../locales/pt/queens.js';
 import { ptSudoku } from '../locales/pt/sudoku.js';
+import { ptTracks } from '../locales/pt/tracks.js';
 import type { TranslationResources } from '../types/i18n.types.js';
 import { resolveInitialLanguage } from '../utils/detection.js';
 
@@ -36,6 +40,7 @@ export const resources: TranslationResources = {
 		nonogram: enNonogram,
 		queens: enQueens,
 		bridges: enBridges,
+		tracks: enTracks,
 	},
 	de: {
 		common: deCommon,
@@ -44,6 +49,7 @@ export const resources: TranslationResources = {
 		nonogram: deNonogram,
 		queens: deQueens,
 		bridges: deBridges,
+		tracks: deTracks,
 	},
 	fr: {
 		common: frCommon,
@@ -52,6 +58,7 @@ export const resources: TranslationResources = {
 		nonogram: frNonogram,
 		queens: frQueens,
 		bridges: frBridges,
+		tracks: frTracks,
 	},
 	pt: {
 		common: ptCommon,
@@ -60,6 +67,7 @@ export const resources: TranslationResources = {
 		nonogram: ptNonogram,
 		queens: ptQueens,
 		bridges: ptBridges,
+		tracks: ptTracks,
 	},
 };
 
@@ -71,7 +79,7 @@ i18n.use(initReactI18next).init({
 	fallbackLng: false,
 	supportedLngs: SUPPORTED_LANGUAGES.map((item) => item.code),
 	defaultNS: 'common',
-	ns: ['common', 'sudoku', 'minesweeper', 'nonogram', 'queens', 'bridges'],
+	ns: ['common', 'sudoku', 'minesweeper', 'nonogram', 'queens', 'bridges', 'tracks'],
 	interpolation: {
 		escapeValue: false,
 	},

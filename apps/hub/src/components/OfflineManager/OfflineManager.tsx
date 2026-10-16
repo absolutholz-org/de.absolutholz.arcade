@@ -10,6 +10,7 @@ const MONOREPO_GAMES = [
 	{ id: 'nonogram', name: 'Nonogram', icon: '🎨' },
 	{ id: 'queens', name: 'Queens', icon: '👑' },
 	{ id: 'bridges', name: 'Bridges', icon: '🌉' },
+	{ id: 'tracks', name: 'Tracks', icon: '🚂' },
 ];
 
 function GameRow({ game }: { game: { id: string; name: string; icon: string } }) {
