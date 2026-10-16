@@ -1,5 +1,5 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
-import { type JSX, useEffect, useRef, useState } from 'react';
+import { type JSX, type PointerEvent, useEffect, useRef, useState } from 'react';
 import type { TrackType } from '../../engine/types.js';
 import { getFixedCell, inferCellTrackType, isTrackType } from '../../engine/validator.js';
 import {
@@ -94,8 +94,43 @@ export function TracksBoard({
 	const activeTrainStep =
 		isComplete && orderedPath.length > 0 ? orderedPath[trainStepIndex % orderedPath.length] : undefined;
 
+	const handlePointerDown = (r: number, c: number, e: PointerEvent<HTMLButtonElement>) => {
+		onDragStart(r, c, e);
+		if (e.button === 0 && gridRef.current) {
+			try {
+				gridRef.current.setPointerCapture(e.pointerId);
+			} catch {
+				// Ignore if pointer capture is not supported
+			}
+		}
+	};
+
+	const handleGridPointerMove = (e: PointerEvent<HTMLDivElement>) => {
+		// On touch devices or when pointer is captured, pointerenter on cells doesn't fire.
+		// Use document.elementFromPoint to resolve the cell under the pointer touch coordinate.
+		const el = document.elementFromPoint(e.clientX, e.clientY);
+		const cellBtn = el?.closest<HTMLButtonElement>('button[data-row][data-col]');
+		if (!cellBtn || !cellBtn.dataset.row || !cellBtn.dataset.col) return;
+		const r = Number(cellBtn.dataset.row);
+		const c = Number(cellBtn.dataset.col);
+		onDragEnter(r, c, e as unknown as PointerEvent<HTMLButtonElement>);
+	};
+
+	const handlePointerUp = (e: PointerEvent<HTMLElement>) => {
+		if (gridRef.current && e.pointerId !== undefined) {
+			try {
+				if (gridRef.current.hasPointerCapture(e.pointerId)) {
+					gridRef.current.releasePointerCapture(e.pointerId);
+				}
+			} catch {
+				// Ignore
+			}
+		}
+		onDragEnd(e);
+	};
+
 	return (
-		<S.BoardWrapper onPointerUp={onDragEnd} onPointerCancel={onDragEnd}>
+		<S.BoardWrapper onPointerUp={handlePointerUp} onPointerCancel={handlePointerUp}>
 			<S.SrOnly id="tracks-keyboard-instructions">{t('aria.instructions')}</S.SrOnly>
 
 			<S.BoardMatrix data-size={String(size)}>
@@ -174,6 +209,9 @@ export function TracksBoard({
 					aria-colcount={size}
 					data-size={String(size)}
 					onKeyDown={onKeyDown}
+					onPointerMove={handleGridPointerMove}
+					onPointerUp={handlePointerUp}
+					onPointerCancel={handlePointerUp}
 				>
 					{Array.from({ length: size }).map((_, r) => (
 						// biome-ignore lint/suspicious/noArrayIndexKey: Fixed 2D grid row coordinates serve as stable keys
@@ -229,9 +267,9 @@ export function TracksBoard({
 										onClick={() => onCellClick(r, c)}
 										onContextMenu={(e) => onCellContextMenu(r, c, e)}
 										onFocus={() => onCellFocus(r, c)}
-										onPointerDown={(e) => onDragStart(r, c, e)}
+										onPointerDown={(e) => handlePointerDown(r, c, e)}
 										onPointerEnter={(e) => onDragEnter(r, c, e)}
-										onPointerUp={onDragEnd}
+										onPointerUp={handlePointerUp}
 									>
 										{isStart && (
 											<S.GateOverlay>
