@@ -82,6 +82,10 @@ export const ptCommon = {
 	settings: {
 		title: 'Configurações',
 		description: 'Personalize sua experiência no arcade.',
+		languageSectionTitle: 'Idioma',
+		languageSectionDescription: 'Escolha o seu idioma de exibição preferido.',
+		schemeSectionTitle: 'Esquema de cores',
+		schemeSectionDescription: 'Escolha entre os modos claro, escuro ou do sistema.',
 		themeSectionTitle: 'Temas',
 		themeSectionDescription: 'Escolha um tema visual de cores para o arcade.',
 		themes: {

@@ -15,7 +15,7 @@ export const enCommon = {
 			options: {
 				light: 'Light',
 				dark: 'Dark',
-				system: 'Sync with system',
+				system: 'System',
 			},
 		},
 		toolbarLabel: 'Preferences',
@@ -82,6 +82,10 @@ export const enCommon = {
 	settings: {
 		title: 'Settings',
 		description: 'Customize your arcade experience.',
+		languageSectionTitle: 'Language',
+		languageSectionDescription: 'Choose your preferred display language.',
+		schemeSectionTitle: 'Color Scheme',
+		schemeSectionDescription: 'Choose between light, dark, or system color modes.',
 		themeSectionTitle: 'Themes',
 		themeSectionDescription: 'Choose a visual color theme for the arcade.',
 		themes: {

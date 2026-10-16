@@ -3,7 +3,12 @@ import { resources } from '@arcade/lib-i18n/config/i18n';
 import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { HeaderUserMenu } from '@arcade/lib-ui';
+import { Button } from '@arcade/lib-ui/components/Button';
+import { Hero } from '@arcade/lib-ui/components/Hero';
+import { LanguageSelector } from '@arcade/lib-ui/components/LanguageSelector';
 import { PageContainer } from '@arcade/lib-ui/components/PageContainer';
+import { SchemeSelector } from '@arcade/lib-ui/components/SchemeSelector';
+import { Stack } from '@arcade/lib-ui/components/Stack';
 import { ThemeSelector } from '@arcade/lib-ui/components/ThemeSelector';
 import StaticPageLayout from '@arcade/lib-ui/layouts/StaticPageLayout/StaticPageLayout.astro';
 
@@ -24,65 +29,47 @@ const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? 
 	currentSlug="settings"
 >
 	<HeaderUserMenu slot="header-actions" client:load lang={lang as SupportedLanguageCode} />
-	<div class="settings-page">
-		<header class="settings-header">
-			<h1>{currentTranslations.settings.title}</h1>
-			<p class="settings-tagline">{currentTranslations.settings.description}</p>
-		</header>
+	<PageContainer variant="slim">
+		<Stack spacing="xl">
+			<Hero
+				title={currentTranslations.settings.title}
+				tagline={currentTranslations.settings.description}
+				align="left"
+			/>
 
-		<section class="settings-content">
-			<ThemeSelector client:load lang={lang as SupportedLanguageCode} />
-		</section>
+			<section class="settings-content">
+				<LanguageSelector client:load lang={lang as SupportedLanguageCode} />
+			</section>
 
-		<section class="settings-content offline-section">
-			<div class="offline-setting-row">
-				<div class="offline-setting-text">
-					<h2>{currentTranslations.offline.title}</h2>
-					<p class="settings-tagline">{currentTranslations.offline.description}</p>
+			<section class="settings-content">
+				<SchemeSelector client:load lang={lang as SupportedLanguageCode} />
+			</section>
+
+			<section class="settings-content">
+				<ThemeSelector client:load lang={lang as SupportedLanguageCode} />
+			</section>
+
+			<section class="settings-content">
+				<div class="offline-setting-row">
+					<div>
+						<h2>{currentTranslations.offline.title}</h2>
+						<p class="offline-tagline">{currentTranslations.offline.description}</p>
+					</div>
+					<Button as="a" href={`/${lang}/offline`} variant="outline" size="md">
+						{currentTranslations.offline.title} →
+					</Button>
 				</div>
-				<a href={`/${lang}/offline`} class="offline-link">
-					{currentTranslations.offline.title} →
-				</a>
-			</div>
-		</section>
-	</div>
+			</section>
+		</Stack>
+	</PageContainer>
 </StaticPageLayout>
 
 <style>
-	.settings-page {
-		margin: 0 auto;
-		max-width: 48rem;
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-		gap: 1.5rem;
-	}
-
-	.settings-header {
-		margin-bottom: 0.5rem;
-	}
-
-	.settings-header h1 {
-		font-size: 2.25rem;
-		font-weight: 800;
-		line-height: 1.2;
-		margin-bottom: 0.5rem;
-	}
-
-	.settings-tagline {
-		color: var(--color-text-2);
-		font-size: 1.125rem;
-	}
-
 	.settings-content {
 		background: var(--color-container-1);
 		border: 1px solid var(--color-container-2);
 		border-radius: var(--radius-md);
 		padding: 1.5rem;
-	}
-
-	.offline-section {
-		margin-top: 0.5rem;
 	}
 
 	.offline-setting-row {
@@ -93,31 +80,14 @@ const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? 
 		flex-wrap: wrap;
 	}
 
-	.offline-setting-text h2 {
+	.offline-setting-row h2 {
 		font-size: 1.25rem;
 		font-weight: 700;
 		margin-bottom: 0.25rem;
 	}
 
-	.offline-setting-text p {
+	.offline-tagline {
+		color: var(--color-text-2);
 		font-size: 0.95rem;
-	}
-
-	.offline-link {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.25rem;
-		font-weight: 600;
-		color: var(--color-action-primary, #2563eb);
-		text-decoration: none;
-		padding: 0.5rem 1rem;
-		border: 1px solid var(--color-container-3, #d1d5db);
-		border-radius: var(--radius-sm);
-		background: var(--color-container-2);
-		transition: all 0.2s ease;
-	}
-
-	.offline-link:hover {
-		background: var(--color-container-3);
 	}
 </style>

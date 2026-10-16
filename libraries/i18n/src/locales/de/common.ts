@@ -82,7 +82,11 @@ export const deCommon = {
 	settings: {
 		title: 'Einstellungen',
 		description: 'Passe dein Arcade-Erlebnis an.',
-		themeSectionTitle: 'Farbschemata',
+		languageSectionTitle: 'Sprache',
+		languageSectionDescription: 'Wähle deine bevorzugte Anzeigesprache.',
+		schemeSectionTitle: 'Farbschema',
+		schemeSectionDescription: 'Wähle zwischen hellem, dunklem oder System-Farbschema.',
+		themeSectionTitle: 'Farbthemen',
 		themeSectionDescription: 'Wähle ein visuelles Farbthema für die Arcade.',
 		themes: {
 			base: 'Standard',

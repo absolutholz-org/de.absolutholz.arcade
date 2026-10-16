@@ -20,9 +20,19 @@ export function useLanguageSwitcher({
 			if (!controlledActiveLanguage) {
 				changeLanguage(lang);
 			}
-			onLanguageChange?.(lang);
+			if (onLanguageChange) {
+				onLanguageChange(lang);
+				return;
+			}
+			if (typeof window !== 'undefined' && activeLanguage && lang !== activeLanguage) {
+				const currentPath = window.location.pathname;
+				if (currentPath.includes(`/${activeLanguage}`)) {
+					const targetPath = currentPath.replace(new RegExp(`/${activeLanguage}(/|$)`), `/${lang}$1`);
+					window.location.assign(targetPath + window.location.search);
+				}
+			}
 		},
-		[changeLanguage, controlledActiveLanguage, onLanguageChange],
+		[activeLanguage, changeLanguage, controlledActiveLanguage, onLanguageChange],
 	);
 
 	useEffect(() => {

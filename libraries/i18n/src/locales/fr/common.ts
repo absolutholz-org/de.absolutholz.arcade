@@ -82,6 +82,10 @@ export const frCommon = {
 	settings: {
 		title: 'Paramètres',
 		description: 'Personnalisez votre expérience arcade.',
+		languageSectionTitle: 'Langue',
+		languageSectionDescription: 'Choisissez votre langue d’affichage préférée.',
+		schemeSectionTitle: 'Mode d’affichage',
+		schemeSectionDescription: 'Choisissez entre le mode clair, sombre ou système.',
 		themeSectionTitle: 'Thèmes',
 		themeSectionDescription: "Choisissez un thème de couleur visuel pour l'arcade.",
 		themes: {

@@ -30,15 +30,3 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
-
-export const GermanLocale: Story = {
-	render: () => <ThemeSelector lang="de" />,
-};
-
-export const FrenchLocale: Story = {
-	render: () => <ThemeSelector lang="fr" />,
-};
-
-export const PortugueseLocale: Story = {
-	render: () => <ThemeSelector lang="pt" />,
-};

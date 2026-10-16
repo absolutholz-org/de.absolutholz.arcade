@@ -79,6 +79,10 @@ export const commonSchema = {
 	settings: {
 		title: 'settings.title',
 		description: 'settings.description',
+		languageSectionTitle: 'settings.languageSectionTitle',
+		languageSectionDescription: 'settings.languageSectionDescription',
+		schemeSectionTitle: 'settings.schemeSectionTitle',
+		schemeSectionDescription: 'settings.schemeSectionDescription',
 		themeSectionTitle: 'settings.themeSectionTitle',
 		themeSectionDescription: 'settings.themeSectionDescription',
 		themes: {
