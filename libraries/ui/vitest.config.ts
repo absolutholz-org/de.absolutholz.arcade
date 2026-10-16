@@ -30,6 +30,13 @@ export default defineConfig({
 					},
 				},
 			},
+			{
+				test: {
+					name: 'unit',
+					include: ['src/**/*.test.{ts,tsx}'],
+					environment: 'happy-dom',
+				},
+			},
 		],
 	},
 });

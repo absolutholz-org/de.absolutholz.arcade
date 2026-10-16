@@ -27,3 +27,15 @@ export { ClickableCard } from './components/ClickableCard';
 export type { ClickableCardProps } from './components/ClickableCard/_ClickableCard.types';
 export { Badge } from './components/Badge';
 export type { BadgeProps } from './components/Badge/_Badge.types';
+export { SegmentedControl } from './components/SegmentedControl';
+export type {
+	SegmentedControlItem,
+	SegmentedControlProps,
+} from './components/SegmentedControl/_SegmentedControl.types';
+export { GameSelectionCard } from './components/GameSelectionCard';
+export type {
+	GameSelectionCardBadge,
+	GameSelectionCardProps,
+} from './components/GameSelectionCard/_GameSelectionCard.types';
+export { QuickPlayCard } from './components/QuickPlayCard';
+export type { QuickPlayCardProps } from './components/QuickPlayCard/_QuickPlayCard.types';
