@@ -13,6 +13,21 @@ export const ClickableCard = styled.button`
 	background-color: ${themeColor('container-1')};
 	color: ${themeColor('text-1')};
 	text-decoration: none;
+
+	&:hover,
+	&:focus,
+	&:focus-visible,
+	&:visited,
+	&:active {
+		text-decoration: none;
+	}
+
+	/* Prevent cascading underline from parent anchor contexts into card children */
+	*,
+	*::before,
+	*::after {
+		text-decoration: none;
+	}
 	cursor: pointer;
 	user-select: none;
 	outline: none;
