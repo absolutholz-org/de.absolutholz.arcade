@@ -2,7 +2,7 @@ import type { MedalsTranslationContract } from '../../schemas/medals.schema.js';
 
 export const deMedals = {
 	showcase: {
-		title: 'Meine Medaillen',
+		title: 'Medaillen-Vitrine',
 		description: 'Verfolge deine Trophäen, persönlichen Erfolge und deinen Spielfortschritt.',
 		trophiesSummary: 'Trophäensammlung',
 		allGames: 'Alle Spiele',
@@ -25,6 +25,13 @@ export const deMedals = {
 			bronze: 'Bronze',
 		},
 		empty: 'Keine Medaillen für diesen Filter gefunden.',
+		widget: {
+			bannerTitle: 'Deine Trophäensammlung',
+			guestTitle: 'Medaillen-Vitrine',
+			guestDescription:
+				'Meistere Puzzle-Meilensteine, verfolge deinen Fortschritt und verdiene Trophäen in allen Spielen.',
+			viewShowcase: 'Vitrine öffnen',
+		},
 	},
 	sudoku: {
 		first_win: {

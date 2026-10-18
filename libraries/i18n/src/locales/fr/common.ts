@@ -89,7 +89,7 @@ export const frCommon = {
 		authenticatedAs: 'Connecté en tant que',
 		resetSentSuccess: 'Lien de réinitialisation envoyé à votre adresse e-mail.',
 		enableCloudSync: 'Se connecter pour activer la synchronisation cloud',
-		viewMedals: 'Voir mes médailles',
+		viewMedals: 'Voir la vitrine des médailles',
 		guestSyncNotice:
 			'Votre progression est stockée localement sur cet appareil. Connectez-vous ou créez un compte pour synchroniser votre progression sur tous vos appareils.',
 	},
@@ -102,7 +102,7 @@ export const frCommon = {
 		legal: 'Informations légales',
 		settings: 'Paramètres',
 		rules: 'Règles',
-		medals: 'Mes médailles',
+		medals: 'Vitrine des médailles',
 		breadcrumb: 'Fil d’Ariane',
 	},
 	hub: {

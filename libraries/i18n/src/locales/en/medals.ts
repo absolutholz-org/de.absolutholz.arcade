@@ -2,7 +2,7 @@ import type { MedalsTranslationContract } from '../../schemas/medals.schema.js';
 
 export const enMedals = {
 	showcase: {
-		title: 'My Medals',
+		title: 'Medal Showcase',
 		description: 'Track your trophies, personal achievements, and puzzle progression.',
 		trophiesSummary: 'Trophy Collection',
 		allGames: 'All Games',
@@ -25,6 +25,12 @@ export const enMedals = {
 			bronze: 'Bronze',
 		},
 		empty: 'No medals found for this filter.',
+		widget: {
+			bannerTitle: 'Your Trophy Collection',
+			guestTitle: 'Medal Showcase',
+			guestDescription: 'Complete puzzle milestones, track your progress, and earn trophies across all games.',
+			viewShowcase: 'View Showcase',
+		},
 	},
 	sudoku: {
 		first_win: {

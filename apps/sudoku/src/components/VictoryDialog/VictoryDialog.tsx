@@ -23,7 +23,7 @@ export function VictoryDialog({ isOpen, elapsedSeconds, isNewBestTime, onPlayAga
 			secondaryActions={
 				<>
 					<a href={`/sudoku/${language}/stats`}>{t('stats.title')}</a>
-					<a href={`/${language}/medals?game=sudoku`}>🏅 {tCommon('navigation.medals')}</a>
+					<a href={`/sudoku/${language}/medals`}>🏅 {tCommon('navigation.medals')}</a>
 				</>
 			}
 		/>

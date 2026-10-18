@@ -113,10 +113,7 @@ export function SudokuGame({ initialDifficulty = 'easy', lang }: SudokuGameProps
 				/>
 
 				<S.GameFooter>
-					<S.GameFooterLink
-						href={`/${activeLang}/medals?game=sudoku`}
-						aria-label={tCommon('navigation.medals')}
-					>
+					<S.GameFooterLink href={`/sudoku/${activeLang}/medals`} aria-label={tCommon('navigation.medals')}>
 						🏅 {tCommon('navigation.medals')}
 					</S.GameFooterLink>
 				</S.GameFooter>

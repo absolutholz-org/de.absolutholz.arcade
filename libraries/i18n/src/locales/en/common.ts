@@ -89,7 +89,7 @@ export const enCommon = {
 		authenticatedAs: 'Signed in as',
 		resetSentSuccess: 'Password reset link sent to your email.',
 		enableCloudSync: 'Sign In to Enable Cloud Sync',
-		viewMedals: 'View My Medals',
+		viewMedals: 'View Medal Showcase',
 		guestSyncNotice:
 			'Your progress is stored locally on this device. Sign in or create an account to back up and sync your progress across devices.',
 	},
@@ -102,7 +102,7 @@ export const enCommon = {
 		legal: 'Legal',
 		settings: 'Settings',
 		rules: 'Rules',
-		medals: 'My Medals',
+		medals: 'Medal Showcase',
 		breadcrumb: 'Breadcrumb',
 	},
 	hub: {

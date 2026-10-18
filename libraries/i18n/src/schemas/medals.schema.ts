@@ -23,6 +23,12 @@ export interface MedalsSchema {
 			readonly bronze: string;
 		};
 		readonly empty: string;
+		readonly widget: {
+			readonly bannerTitle: string;
+			readonly guestTitle: string;
+			readonly guestDescription: string;
+			readonly viewShowcase: string;
+		};
 	};
 	readonly sudoku: {
 		readonly first_win: { readonly title: string; readonly desc: string };

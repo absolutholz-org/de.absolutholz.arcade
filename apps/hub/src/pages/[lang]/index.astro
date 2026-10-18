@@ -6,6 +6,7 @@ import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { Hero } from '@arcade/lib-ui/components/Hero';
 import { Logo } from '@arcade/lib-ui/components/Logo';
 import { PageContainer } from '@arcade/lib-ui/components/PageContainer';
+import { UserMedalSummaryWidget } from '../../components/UserMedalSummaryWidget';
 import PageLayout from '../../layouts/PageLayout.astro';
 
 export function getStaticPaths() {
@@ -16,7 +17,6 @@ export function getStaticPaths() {
 
 const { lang } = Astro.params;
 const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? resources.en.common;
-const medalsTranslations = resources[lang as SupportedLanguageCode]?.medals ?? resources.en.medals;
 ---
 
 <PageLayout
@@ -30,6 +30,8 @@ const medalsTranslations = resources[lang as SupportedLanguageCode]?.medals ?? r
 		<Hero title={currentTranslations.app.title} tagline={currentTranslations.app.tagline} align="left">
 			<Logo size="xl" slot="logo" />
 		</Hero>
+
+		<UserMedalSummaryWidget client:idle lang={lang as SupportedLanguageCode} />
 
 		<section class="games-section">
 			<h2>{currentTranslations.hub.gamesTitle}</h2>
@@ -48,13 +50,6 @@ const medalsTranslations = resources[lang as SupportedLanguageCode]?.medals ?? r
 						</a>
 					);
 				})}
-				<a href={`/${lang}/medals`} class="game-card medals-card">
-					<div class="game-card-header">
-						<span class="game-card-icon" aria-hidden="true">🏅</span>
-						<h3>{medalsTranslations?.showcase?.title ?? currentTranslations.navigation.medals}</h3>
-					</div>
-					<p>{medalsTranslations?.showcase?.description ?? currentTranslations.app.tagline}</p>
-				</a>
 			</div>
 		</section>
 	</PageContainer>
@@ -81,14 +76,28 @@ const medalsTranslations = resources[lang as SupportedLanguageCode]?.medals ?? r
 		flex-direction: column;
 		gap: 0.5rem;
 		padding: 1.5rem;
+		text-decoration: none;
 		transition:
 			border-color 150ms ease,
 			transform 150ms ease;
 	}
 
+	.game-card:hover,
+	.game-card:focus,
+	.game-card:focus-visible,
+	.game-card:visited,
+	.game-card:active {
+		text-decoration: none;
+	}
+
+	.game-card *,
+	.game-card *::before,
+	.game-card *::after {
+		text-decoration: none;
+	}
+
 	.game-card:hover {
 		border-color: var(--color-accent);
-		text-decoration: none;
 		transform: translateY(-2px);
 	}
 
@@ -111,14 +120,5 @@ const medalsTranslations = resources[lang as SupportedLanguageCode]?.medals ?? r
 	.game-card p {
 		color: var(--color-text-2);
 		font-size: 0.875rem;
-	}
-
-	.medals-card {
-		border-color: color-mix(in srgb, #eab308 30%, var(--color-container-2));
-		background: color-mix(in srgb, #eab308 3%, var(--color-container-1));
-	}
-
-	.medals-card:hover {
-		border-color: #eab308;
 	}
 </style>
