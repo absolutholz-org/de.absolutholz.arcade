@@ -89,6 +89,7 @@ export const deCommon = {
 		authenticatedAs: 'Angemeldet als',
 		resetSentSuccess: 'Link zum Zurücksetzen an deine E-Mail gesendet.',
 		enableCloudSync: 'Anmelden für Cloud-Synchronisierung',
+		viewMedals: 'Meine Medaillen anzeigen',
 		guestSyncNotice:
 			'Dein Fortschritt wird lokal auf diesem Gerät gespeichert. Melde dich an oder erstelle ein Konto, um deinen Fortschritt auf all deinen Geräten zu synchronisieren.',
 	},
@@ -101,6 +102,7 @@ export const deCommon = {
 		legal: 'Rechtliches',
 		settings: 'Einstellungen',
 		rules: 'Regeln',
+		medals: 'Meine Medaillen',
 		breadcrumb: 'Brotkrümelnavigation',
 	},
 	hub: {

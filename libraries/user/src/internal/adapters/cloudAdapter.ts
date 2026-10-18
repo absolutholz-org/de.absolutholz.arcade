@@ -116,9 +116,68 @@ export class CloudAdapter {
 	 * Deletes the user profile and associated data from Cloud Firestore when
 	 * downgrading from cloud sync to local-only persistence per ADR 0003.
 	 */
+	/**
+	 * Persists game medals document under /users/{uid}/gameStats/{gameId} per ADR 0004.
+	 */
+	async saveGameMedals(uid: string, gameId: string, state: unknown): Promise<void> {
+		const { firestore } = this.getActiveServices();
+		try {
+			const gameRef = doc(firestore, USERS_COLLECTION, uid, 'gameStats', gameId);
+			await setDoc(gameRef, state as Record<string, unknown>, { merge: true });
+		} catch (error) {
+			console.warn(`[@arcade/lib-user] Failed to persist game medals for ${uid}/${gameId}:`, error);
+		}
+	}
+
+	/**
+	 * Fetches game medals document from Cloud Firestore.
+	 */
+	async getGameMedals<T>(uid: string, gameId: string): Promise<T | null> {
+		const { firestore } = this.getActiveServices();
+		try {
+			const gameRef = doc(firestore, USERS_COLLECTION, uid, 'gameStats', gameId);
+			const snapshot = await getDoc(gameRef);
+			if (snapshot.exists()) {
+				return snapshot.data() as T;
+			}
+			return null;
+		} catch (error) {
+			console.warn(`[@arcade/lib-user] Failed to fetch game medals for ${uid}/${gameId}:`, error);
+			return null;
+		}
+	}
+
+	/**
+	 * Deletes game medals documents under /users/{uid}/gameStats.
+	 */
+	async deleteGameMedals(uid: string, gameId?: string): Promise<void> {
+		const { firestore } = this.getActiveServices();
+		try {
+			if (gameId) {
+				const gameRef = doc(firestore, USERS_COLLECTION, uid, 'gameStats', gameId);
+				await deleteDoc(gameRef);
+			} else {
+				const knownGames = ['sudoku', 'nonogram', 'minesweeper', 'queens', 'tracks'];
+				await Promise.all(
+					knownGames.map(async (g) => {
+						const ref = doc(firestore, USERS_COLLECTION, uid, 'gameStats', g);
+						await deleteDoc(ref);
+					}),
+				);
+			}
+		} catch (error) {
+			console.warn(`[@arcade/lib-user] Failed to delete game medals for ${uid}:`, error);
+		}
+	}
+
+	/**
+	 * Deletes the user profile and associated data (including medals subcollection)
+	 * from Cloud Firestore when downgrading from cloud sync to local-only persistence per ADR 0003 & ADR 0004.
+	 */
 	async deleteUserData(uid: string): Promise<void> {
 		const { firestore } = this.getActiveServices();
 		try {
+			await this.deleteGameMedals(uid);
 			const userRef = doc(firestore, USERS_COLLECTION, uid);
 			await deleteDoc(userRef);
 		} catch (error) {

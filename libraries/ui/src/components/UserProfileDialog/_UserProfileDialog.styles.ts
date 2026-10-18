@@ -82,6 +82,18 @@ export const UserProfileDialog = styled.div`
 		}
 	}
 
+	/* Medals navigation link */
+	> [data-slot='medals-link'] {
+		display: flex;
+		width: 100%;
+
+		> a {
+			width: 100%;
+			justify-content: center;
+			text-decoration: none;
+		}
+	}
+
 	/* Form for display name */
 	[data-slot='display-name-form'] {
 		display: flex;

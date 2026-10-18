@@ -28,7 +28,7 @@ export function UserProfileDialog({
 	onUpdateDisplayName,
 	session,
 }: UserProfileDialogProps) {
-	const { t } = useI18n();
+	const { t, language } = useI18n();
 	const [isConsentOpen, setIsConsentOpen] = useState(false);
 	const {
 		displayName,
@@ -102,6 +102,18 @@ export function UserProfileDialog({
 							) : (
 								<span data-slot="session-detail">{t('auth.guestNotice')}</span>
 							)}
+						</div>
+
+						<div data-slot="medals-link">
+							<Button
+								variant="outline"
+								size="sm"
+								as="a"
+								href={`/${language}/medals`}
+								leadingIcon={<Icon name="trophy" size="sm" />}
+							>
+								{t('auth.viewMedals')}
+							</Button>
 						</div>
 
 						<form onSubmit={handleUpdateDisplayName} data-slot="display-name-form">

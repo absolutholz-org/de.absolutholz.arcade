@@ -1,0 +1,326 @@
+import type {
+	BaseGameStats,
+	GameCustomStatsMap,
+	GameId,
+	GameMedalState,
+	GameResultPayload,
+	MedalProgress,
+	MedalUnlock,
+	MinesweeperCustomStats,
+	MinesweeperDifficulty,
+	NonogramCustomStats,
+	QueensCustomStats,
+	SudokuCustomStats,
+	SudokuDifficulty,
+	TracksCustomStats,
+} from '../types/index.js';
+
+export function updateBaseStats(
+	current: BaseGameStats,
+	won: boolean,
+	playTimeSeconds: number,
+	now: number,
+): BaseGameStats {
+	const safeTime = Math.max(0, Math.floor(playTimeSeconds));
+	const currentStreak = won ? current.currentStreak + 1 : 0;
+	const bestStreak = Math.max(current.bestStreak, currentStreak);
+
+	return {
+		gamesPlayed: current.gamesPlayed + 1,
+		gamesWon: current.gamesWon + (won ? 1 : 0),
+		totalPlayTimeSeconds: current.totalPlayTimeSeconds + safeTime,
+		currentStreak,
+		bestStreak,
+		lastPlayedAt: now,
+	};
+}
+
+export function updateCustomStats<G extends GameId>(
+	gameId: G,
+	current: GameCustomStatsMap[G],
+	result: GameResultPayload<G>,
+): { updatedCustom: GameCustomStatsMap[G]; isNewBestTime: boolean } {
+	let isNewBestTime = false;
+	const safeTime = Math.max(0, Math.floor(result.playTimeSeconds));
+
+	switch (gameId) {
+		case 'sudoku': {
+			const stats = { ...(current as SudokuCustomStats) };
+			const diffKey = result.levelKey as SudokuDifficulty | undefined;
+			if (diffKey && diffKey in stats.difficulties) {
+				const prev = stats.difficulties[diffKey];
+				const prevBest = prev.bestTimeSeconds;
+				const isWon = result.won;
+				const achievedNewBest = isWon && (prevBest === null || safeTime < prevBest);
+
+				if (achievedNewBest) {
+					isNewBestTime = true;
+				}
+
+				const currentStreak = isWon ? prev.currentStreak + 1 : 0;
+				stats.difficulties = {
+					...stats.difficulties,
+					[diffKey]: {
+						gamesPlayed: prev.gamesPlayed + 1,
+						gamesWon: prev.gamesWon + (isWon ? 1 : 0),
+						bestTimeSeconds: achievedNewBest ? safeTime : prevBest,
+						currentStreak,
+						bestStreak: Math.max(prev.bestStreak, currentStreak),
+					},
+				};
+			}
+			return { updatedCustom: stats as GameCustomStatsMap[G], isNewBestTime };
+		}
+
+		case 'minesweeper': {
+			const stats = { ...(current as MinesweeperCustomStats) };
+			const diffKey = result.levelKey as MinesweeperDifficulty | undefined;
+			if (diffKey && diffKey in stats.difficulties) {
+				const prev = stats.difficulties[diffKey];
+				const prevBest = prev.bestTimeSeconds;
+				const isWon = result.won;
+				const achievedNewBest = isWon && (prevBest === null || safeTime < prevBest);
+
+				if (achievedNewBest) {
+					isNewBestTime = true;
+				}
+
+				const currentStreak = isWon ? prev.currentStreak + 1 : 0;
+				stats.difficulties = {
+					...stats.difficulties,
+					[diffKey]: {
+						gamesPlayed: prev.gamesPlayed + 1,
+						gamesWon: prev.gamesWon + (isWon ? 1 : 0),
+						bestTimeSeconds: achievedNewBest ? safeTime : prevBest,
+						currentStreak,
+						bestStreak: Math.max(prev.bestStreak, currentStreak),
+					},
+				};
+			}
+			return { updatedCustom: stats as GameCustomStatsMap[G], isNewBestTime };
+		}
+
+		case 'nonogram': {
+			const stats = {
+				...(current as NonogramCustomStats),
+				puzzles: { ...(current as NonogramCustomStats).puzzles },
+			};
+			const puzzleId = result.levelKey;
+			if (puzzleId && result.won) {
+				const prev = stats.puzzles[puzzleId];
+				const prevBest = prev?.bestTimeSeconds ?? null;
+				const achievedNewBest = prevBest === null || safeTime < prevBest;
+
+				if (achievedNewBest) {
+					isNewBestTime = true;
+				}
+
+				const withoutErrors = result.roundContext?.errorsCount === 0;
+				stats.puzzles[puzzleId] = {
+					completed: true,
+					bestTimeSeconds: achievedNewBest ? safeTime : prevBest,
+					completedWithoutErrors: Boolean(prev?.completedWithoutErrors || withoutErrors),
+				};
+			}
+			return { updatedCustom: stats as GameCustomStatsMap[G], isNewBestTime };
+		}
+
+		case 'queens': {
+			const stats = { ...(current as QueensCustomStats), boards: { ...(current as QueensCustomStats).boards } };
+			const boardId = result.levelKey;
+			if (boardId && result.won) {
+				const prev = stats.boards[boardId];
+				const prevBest = prev?.bestTimeSeconds ?? null;
+				const achievedNewBest = prevBest === null || safeTime < prevBest;
+
+				if (achievedNewBest) {
+					isNewBestTime = true;
+				}
+
+				stats.boards[boardId] = {
+					completed: true,
+					bestTimeSeconds: achievedNewBest ? safeTime : prevBest,
+				};
+			}
+			return { updatedCustom: stats as GameCustomStatsMap[G], isNewBestTime };
+		}
+
+		case 'tracks': {
+			const stats = { ...(current as TracksCustomStats), grids: { ...(current as TracksCustomStats).grids } };
+			const gridId = result.levelKey;
+			if (gridId && result.won) {
+				const prev = stats.grids[gridId];
+				const prevBest = prev?.bestTimeSeconds ?? null;
+				const achievedNewBest = prevBest === null || safeTime < prevBest;
+
+				if (achievedNewBest) {
+					isNewBestTime = true;
+				}
+
+				stats.grids[gridId] = {
+					completed: true,
+					bestTimeSeconds: achievedNewBest ? safeTime : prevBest,
+				};
+			}
+			return { updatedCustom: stats as GameCustomStatsMap[G], isNewBestTime };
+		}
+
+		default:
+			return { updatedCustom: current, isNewBestTime: false };
+	}
+}
+
+/**
+ * Field-level merge for multi-device sync conflict resolution (ADR 0004).
+ * Combines medals via union, selects Math.min for best times, and preserves max progression.
+ */
+export function mergeGameMedalState<G extends GameId>(
+	local: GameMedalState<G>,
+	remote: GameMedalState<G>,
+): GameMedalState<G> {
+	const mergedBase: BaseGameStats = {
+		gamesPlayed: Math.max(local.baseStats.gamesPlayed, remote.baseStats.gamesPlayed),
+		gamesWon: Math.max(local.baseStats.gamesWon, remote.baseStats.gamesWon),
+		totalPlayTimeSeconds: Math.max(local.baseStats.totalPlayTimeSeconds, remote.baseStats.totalPlayTimeSeconds),
+		bestStreak: Math.max(local.baseStats.bestStreak, remote.baseStats.bestStreak),
+		currentStreak:
+			local.updatedAt >= remote.updatedAt ? local.baseStats.currentStreak : remote.baseStats.currentStreak,
+		lastPlayedAt: Math.max(local.baseStats.lastPlayedAt, remote.baseStats.lastPlayedAt),
+	};
+
+	// Merge unlocked medals: union of both sets, taking the earliest unlock timestamp
+	const mergedMedals: Record<string, MedalUnlock> = { ...remote.unlockedMedals };
+	for (const [id, localUnlock] of Object.entries(local.unlockedMedals)) {
+		if (!mergedMedals[id]) {
+			mergedMedals[id] = localUnlock;
+		} else {
+			mergedMedals[id] = {
+				...localUnlock,
+				unlockedAt: Math.min(localUnlock.unlockedAt, mergedMedals[id].unlockedAt),
+			};
+		}
+	}
+
+	// Merge medal progress: take highest progress recorded
+	const mergedProgress: Record<string, MedalProgress> = { ...remote.medalProgress };
+	for (const [id, localProg] of Object.entries(local.medalProgress)) {
+		if (!mergedProgress[id]) {
+			mergedProgress[id] = localProg;
+		} else {
+			mergedProgress[id] = {
+				current: Math.max(localProg.current, mergedProgress[id].current),
+				target: Math.max(localProg.target, mergedProgress[id].target),
+			};
+		}
+	}
+
+	// Merge customStats per game
+	let mergedCustom = { ...local.customStats };
+
+	if (local.gameId === 'sudoku' || local.gameId === 'minesweeper') {
+		interface DifficultyRecord {
+			readonly gamesPlayed: number;
+			readonly gamesWon: number;
+			readonly bestTimeSeconds: number | null;
+			readonly currentStreak: number;
+			readonly bestStreak: number;
+		}
+
+		const localDiffs = (local.customStats as SudokuCustomStats).difficulties as unknown as Record<
+			string,
+			DifficultyRecord
+		>;
+		const remoteDiffs = (remote.customStats as SudokuCustomStats).difficulties as unknown as Record<
+			string,
+			DifficultyRecord
+		>;
+		const diffs: Record<string, DifficultyRecord> = {};
+
+		for (const key of Object.keys(localDiffs)) {
+			const l = localDiffs[key];
+			const r = remoteDiffs[key];
+			if (!r) {
+				diffs[key] = l;
+				continue;
+			}
+			const bestTimeSeconds =
+				l.bestTimeSeconds !== null && r.bestTimeSeconds !== null
+					? Math.min(l.bestTimeSeconds, r.bestTimeSeconds)
+					: (l.bestTimeSeconds ?? r.bestTimeSeconds);
+
+			diffs[key] = {
+				gamesPlayed: Math.max(l.gamesPlayed, r.gamesPlayed),
+				gamesWon: Math.max(l.gamesWon, r.gamesWon),
+				bestTimeSeconds,
+				bestStreak: Math.max(l.bestStreak, r.bestStreak),
+				currentStreak: local.updatedAt >= remote.updatedAt ? l.currentStreak : r.currentStreak,
+			};
+		}
+		mergedCustom = { difficulties: diffs } as unknown as GameCustomStatsMap[G];
+	} else if (local.gameId === 'nonogram') {
+		const localPuzzles = (local.customStats as NonogramCustomStats).puzzles;
+		const remotePuzzles = (remote.customStats as NonogramCustomStats).puzzles;
+		const allPuzzleIds = new Set([...Object.keys(localPuzzles), ...Object.keys(remotePuzzles)]);
+		const mergedPuzzles: NonogramCustomStats['puzzles'] = {};
+
+		for (const id of allPuzzleIds) {
+			const l = localPuzzles[id];
+			const r = remotePuzzles[id];
+			if (!r) {
+				mergedPuzzles[id] = l;
+			} else if (!l) {
+				mergedPuzzles[id] = r;
+			} else {
+				const bestTimeSeconds =
+					l.bestTimeSeconds !== null && r.bestTimeSeconds !== null
+						? Math.min(l.bestTimeSeconds, r.bestTimeSeconds)
+						: (l.bestTimeSeconds ?? r.bestTimeSeconds);
+
+				mergedPuzzles[id] = {
+					completed: l.completed || r.completed,
+					bestTimeSeconds,
+					completedWithoutErrors: l.completedWithoutErrors || r.completedWithoutErrors,
+				};
+			}
+		}
+		mergedCustom = { puzzles: mergedPuzzles } as unknown as GameCustomStatsMap[G];
+	} else if (local.gameId === 'queens' || local.gameId === 'tracks') {
+		const localBoards = (local.customStats as QueensCustomStats).boards;
+		const remoteBoards = (remote.customStats as QueensCustomStats).boards;
+		const allIds = new Set([...Object.keys(localBoards), ...Object.keys(remoteBoards)]);
+		const mergedBoards: QueensCustomStats['boards'] = {};
+
+		for (const id of allIds) {
+			const l = localBoards[id];
+			const r = remoteBoards[id];
+			if (!r) {
+				mergedBoards[id] = l;
+			} else if (!l) {
+				mergedBoards[id] = r;
+			} else {
+				const bestTimeSeconds =
+					l.bestTimeSeconds !== null && r.bestTimeSeconds !== null
+						? Math.min(l.bestTimeSeconds, r.bestTimeSeconds)
+						: (l.bestTimeSeconds ?? r.bestTimeSeconds);
+
+				mergedBoards[id] = {
+					completed: l.completed || r.completed,
+					bestTimeSeconds,
+				};
+			}
+		}
+		mergedCustom = (local.gameId === 'queens'
+			? { boards: mergedBoards }
+			: { grids: mergedBoards }) as unknown as GameCustomStatsMap[G];
+	}
+
+	return {
+		gameId: local.gameId,
+		baseStats: mergedBase,
+		customStats: mergedCustom,
+		unlockedMedals: mergedMedals,
+		medalProgress: mergedProgress,
+		schemaVersion: Math.max(local.schemaVersion, remote.schemaVersion),
+		updatedAt: Math.max(local.updatedAt, remote.updatedAt),
+	};
+}

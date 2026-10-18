@@ -78,6 +78,7 @@ function LobbyContent(): JSX.Element {
 	const pageFooterLinks = [
 		{ label: tCommon('navigation.rules'), href: `/sudoku/${language}/rules` },
 		{ label: t('stats.title'), href: `/sudoku/${language}/stats` },
+		{ label: `🏅 ${tCommon('navigation.medals')}`, href: `/${language}/medals?game=sudoku` },
 	];
 
 	const difficultyItems: SegmentedControlItem[] = DIFFICULTY_LEVELS.map((diff) => ({

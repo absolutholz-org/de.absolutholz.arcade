@@ -4,6 +4,12 @@ import {
 	saveConsentPreferences,
 	subscribeToConsent,
 } from '@arcade/lib-consent';
+import {
+	clearMedalSyncQueue,
+	flushMedalSyncQueue,
+	initOfflineSyncBridge,
+	registerMedalSyncAdapter,
+} from '@arcade/lib-medals';
 import { CloudAdapter } from './internal/adapters/cloudAdapter.js';
 import { LocalAdapter } from './internal/adapters/localAdapter.js';
 import { initFirebase } from './internal/firebase.js';
@@ -84,12 +90,25 @@ class UserService implements IUserService {
 			initFirebase(this.options.firebaseConfig);
 		}
 
+		// Register medals sync adapter for Tier 3 & Tier 4 cloud synchronization
+		registerMedalSyncAdapter({
+			isSyncEnabled: () =>
+				Boolean(this.session.isAuthenticated && this.session.isCloudSynced && this.session.user),
+			syncGameMedals: async (gameId, state) => {
+				if (this.session.user && this.cloudAdapter.isAvailable()) {
+					await this.cloudAdapter.saveGameMedals(this.session.user.id, gameId, state);
+				}
+			},
+		});
+		initOfflineSyncBridge();
+
 		// Attach consent change listener to react to tier transitions and remote data purge
 		if (typeof window !== 'undefined') {
 			subscribeToConsent(async (detail: ConsentUpdatedEventDetail) => {
 				if (detail.action === 'delete_cloud_retain_local') {
 					if (this.session.user && this.session.isAuthenticated && this.cloudAdapter.isAvailable()) {
 						await this.cloudAdapter.deleteUserData(this.session.user.id);
+						await clearMedalSyncQueue();
 					}
 					await this.setStorageMode('local');
 				} else if (

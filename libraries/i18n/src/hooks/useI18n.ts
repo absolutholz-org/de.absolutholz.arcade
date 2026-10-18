@@ -25,7 +25,38 @@ export const useI18n = (ns?: string): UseI18nReturn => {
 
 	const t = useCallback(
 		(key: TranslationKey, options?: Record<string, unknown>): string => {
-			return translateRaw ? translateRaw(key, options) : activeI18n.t(key, options);
+			if (typeof key === 'string') {
+				const lowerKey = key.toLowerCase();
+				if (lowerKey.startsWith('medals.')) {
+					const rawMedalKey = key.slice(7);
+					const normalizedKey = rawMedalKey
+						.split('.')
+						.map((seg) => (seg.length > 0 ? seg.charAt(0).toLowerCase() + seg.slice(1) : seg))
+						.join('.');
+
+					const translated = activeI18n.t(normalizedKey, { ns: 'medals', ...options });
+					if (translated && translated !== normalizedKey) {
+						return translated;
+					}
+					const fallbackTranslated = activeI18n.t(rawMedalKey, { ns: 'medals', ...options });
+					if (fallbackTranslated && fallbackTranslated !== rawMedalKey) {
+						return fallbackTranslated;
+					}
+				}
+			}
+
+			const result = translateRaw ? translateRaw(key, options) : activeI18n.t(key, options);
+			if (result === key && typeof key === 'string') {
+				const normalized = key
+					.split('.')
+					.map((seg) => (seg.length > 0 ? seg.charAt(0).toLowerCase() + seg.slice(1) : seg))
+					.join('.');
+				const medalAttempt = activeI18n.t(normalized, { ns: 'medals', ...options });
+				if (medalAttempt && medalAttempt !== normalized) {
+					return medalAttempt;
+				}
+			}
+			return result;
 		},
 		[translateRaw, activeI18n],
 	);

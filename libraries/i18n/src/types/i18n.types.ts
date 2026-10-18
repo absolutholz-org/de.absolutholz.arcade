@@ -1,6 +1,7 @@
 import type { SUPPORTED_LANGUAGES } from '../constants/languages.js';
 import type { BridgesSchema, BridgesTranslationContract } from '../schemas/bridges.schema.js';
 import type { CommonSchema, CommonTranslationContract } from '../schemas/common.schema.js';
+import type { MedalsSchema, MedalsTranslationContract } from '../schemas/medals.schema.js';
 import type { MinesweeperSchema, MinesweeperTranslationContract } from '../schemas/minesweeper.schema.js';
 import type { NonogramSchema, NonogramTranslationContract } from '../schemas/nonogram.schema.js';
 import type { QueensSchema, QueensTranslationContract } from '../schemas/queens.schema.js';
@@ -22,6 +23,7 @@ export type NonogramTranslationKey = LeafKeys<NonogramSchema>;
 export type QueensTranslationKey = LeafKeys<QueensSchema>;
 export type BridgesTranslationKey = LeafKeys<BridgesSchema>;
 export type TracksTranslationKey = LeafKeys<TracksSchema>;
+export type MedalsTranslationKey = LeafKeys<MedalsSchema> | `medals.${LeafKeys<MedalsSchema>}`;
 
 export type TranslationKey =
 	| CommonTranslationKey
@@ -30,7 +32,8 @@ export type TranslationKey =
 	| NonogramTranslationKey
 	| QueensTranslationKey
 	| BridgesTranslationKey
-	| TracksTranslationKey;
+	| TracksTranslationKey
+	| MedalsTranslationKey;
 
 export interface UseI18nReturn {
 	readonly t: (key: TranslationKey, options?: Record<string, unknown>) => string;
@@ -50,5 +53,6 @@ export type TranslationResources = Record<
 		readonly queens: QueensTranslationContract;
 		readonly bridges: BridgesTranslationContract;
 		readonly tracks: TracksTranslationContract;
+		readonly medals: MedalsTranslationContract;
 	}
 >;

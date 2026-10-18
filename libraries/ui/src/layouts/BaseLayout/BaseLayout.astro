@@ -1,5 +1,8 @@
 ---
 import '../../styles/global.css';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { MedalToastListener } from '../../components/MedalToastListener';
+import { Toast } from '../../components/Toast';
 import type { BaseLayoutProps } from './_BaseLayout.types';
 
 type Props = BaseLayoutProps;
@@ -56,5 +59,7 @@ const {
 	</head>
 	<body>
 		<slot />
+		<Toast client:load />
+		<MedalToastListener client:load lang={lang as SupportedLanguageCode} />
 	</body>
 </html>

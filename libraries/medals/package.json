@@ -1,0 +1,33 @@
+{
+	"name": "@arcade/lib-medals",
+	"version": "0.1.0",
+	"private": true,
+	"description": "Unified medal progression, local achievement evaluation, and conflict-free stats engine for Arcade monorepo",
+	"type": "module",
+	"exports": {
+		".": {
+			"types": "./src/index.ts",
+			"default": "./src/index.ts"
+		},
+		"./types": {
+			"types": "./src/types.ts",
+			"default": "./src/types.ts"
+		},
+		"./definitions": {
+			"types": "./src/definitions/index.ts",
+			"default": "./src/definitions/index.ts"
+		}
+	},
+	"scripts": {
+		"build": "tsc",
+		"typecheck": "tsc --noEmit",
+		"test": "vitest run"
+	},
+	"dependencies": {
+		"@arcade/lib-storage": "workspace:*"
+	},
+	"devDependencies": {
+		"typescript": "^5.7.2",
+		"vitest": "^4.1.8"
+	}
+}

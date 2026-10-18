@@ -88,6 +88,7 @@ export const ptCommon = {
 		authenticatedAs: 'Conectado como',
 		resetSentSuccess: 'Link de redefinição enviado para o seu e-mail.',
 		enableCloudSync: 'Entrar para ativar sincronização em nuvem',
+		viewMedals: 'Ver minhas medalhas',
 		guestSyncNotice:
 			'Seu progresso está salvo localmente neste dispositivo. Entre ou crie uma conta para sincronizar seu progresso em todos os seus dispositivos.',
 	},
@@ -100,6 +101,7 @@ export const ptCommon = {
 		legal: 'Informações legais',
 		settings: 'Configurações',
 		rules: 'Regras',
+		medals: 'Minhas medalhas',
 		breadcrumb: 'Trilha de navegação',
 	},
 	hub: {

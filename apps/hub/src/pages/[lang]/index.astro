@@ -16,6 +16,7 @@ export function getStaticPaths() {
 
 const { lang } = Astro.params;
 const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? resources.en.common;
+const medalsTranslations = resources[lang as SupportedLanguageCode]?.medals ?? resources.en.medals;
 ---
 
 <PageLayout
@@ -47,6 +48,13 @@ const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? 
 						</a>
 					);
 				})}
+				<a href={`/${lang}/medals`} class="game-card medals-card">
+					<div class="game-card-header">
+						<span class="game-card-icon" aria-hidden="true">🏅</span>
+						<h3>{medalsTranslations?.showcase?.title ?? currentTranslations.navigation.medals}</h3>
+					</div>
+					<p>{medalsTranslations?.showcase?.description ?? currentTranslations.app.tagline}</p>
+				</a>
 			</div>
 		</section>
 	</PageContainer>
@@ -103,5 +111,14 @@ const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? 
 	.game-card p {
 		color: var(--color-text-2);
 		font-size: 0.875rem;
+	}
+
+	.medals-card {
+		border-color: color-mix(in srgb, #eab308 30%, var(--color-container-2));
+		background: color-mix(in srgb, #eab308 3%, var(--color-container-1));
+	}
+
+	.medals-card:hover {
+		border-color: #eab308;
 	}
 </style>

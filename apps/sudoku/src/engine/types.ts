@@ -86,6 +86,8 @@ export interface GameSnapshot {
 	isPaused: boolean;
 	isComplete: boolean;
 	puzzleId?: string;
+	mistakesCount?: number;
+	hintsUsed?: number;
 }
 
 export interface PuzzleRecord {

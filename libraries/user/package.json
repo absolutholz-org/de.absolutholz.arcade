@@ -22,7 +22,8 @@
 	"dependencies": {
 		"@arcade/lib-consent": "workspace:*",
 		"@arcade/lib-storage": "workspace:*",
-		"firebase": "catalog:"
+		"firebase": "catalog:",
+		"@arcade/lib-medals": "workspace:*"
 	},
 	"devDependencies": {
 		"typescript": "^5.7.2",

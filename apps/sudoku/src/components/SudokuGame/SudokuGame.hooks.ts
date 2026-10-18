@@ -1,3 +1,4 @@
+import { type SudokuDifficulty, recordGameResult } from '@arcade/lib-medals';
 import { createGameStorage } from '@arcade/lib-storage';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { generateSudoku } from '../../engine/generator';
@@ -19,6 +20,13 @@ import { findAllConflicts, isBoardComplete } from '../../engine/validator';
 
 const storage = createGameStorage('sudoku');
 
+function mapDifficultyToMedalDifficulty(diff: Difficulty): SudokuDifficulty {
+	if (diff === 'easy' || diff === 'medium' || diff === 'hard') {
+		return diff;
+	}
+	return 'expert';
+}
+
 export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 	const [difficulty, setDifficulty] = useState<Difficulty>(initialDifficulty);
 	const [grid, setGrid] = useState<SudokuGrid>(() => generateSudoku(initialDifficulty).puzzle);
@@ -35,6 +43,8 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 	const [history, setHistory] = useState<MoveAction[]>([]);
 	const [redoStack, setRedoStack] = useState<MoveAction[]>([]);
 	const [settings, setSettings] = useState<GameSettings>(DEFAULT_GAME_SETTINGS);
+	const [mistakesCount, setMistakesCount] = useState(0);
+	const [hintsUsed, setHintsUsed] = useState(0);
 	const [isLoaded, setIsLoaded] = useState(false);
 
 	const gridRef = useRef(grid);
@@ -63,6 +73,12 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 
 	const isCompleteRef = useRef(isComplete);
 	isCompleteRef.current = isComplete;
+
+	const mistakesRef = useRef(mistakesCount);
+	mistakesRef.current = mistakesCount;
+
+	const hintsRef = useRef(hintsUsed);
+	hintsRef.current = hintsUsed;
 
 	// Initial load from storage
 	useEffect(() => {
@@ -114,6 +130,10 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 					setRedoStack(activeGame.redoStack || []);
 					setCurrentPuzzleId(activeGame.puzzleId);
 					currentPuzzleIdRef.current = activeGame.puzzleId;
+					setMistakesCount(activeGame.mistakesCount || 0);
+					mistakesRef.current = activeGame.mistakesCount || 0;
+					setHintsUsed(activeGame.hintsUsed || 0);
+					hintsRef.current = activeGame.hintsUsed || 0;
 					setIsPaused(true); // Always resume paused so player can prepare
 				} else if (requestedPuzzleId) {
 					const preset = getPuzzleById(requestedPuzzleId);
@@ -170,6 +190,8 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 			isPaused: true,
 			isComplete: false,
 			puzzleId: currentPuzzleIdRef.current,
+			mistakesCount: mistakesRef.current,
+			hintsUsed: hintsRef.current,
 		};
 
 		await storage.set('activeGame', snapshot);
@@ -272,6 +294,30 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 			} catch {
 				// Fallback gracefully
 			}
+
+			// Record round result in @arcade/lib-medals engine
+			try {
+				const currentDiff = difficultyRef.current;
+				const medalDiff = mapDifficultyToMedalDifficulty(currentDiff);
+				const mistakes = mistakesRef.current;
+				const hints = hintsRef.current;
+
+				await recordGameResult({
+					gameId: 'sudoku',
+					won: true,
+					playTimeSeconds: finalTime,
+					levelKey: medalDiff,
+					roundContext: {
+						difficulty: medalDiff,
+						originalDifficulty: currentDiff,
+						mistakesCount: mistakes,
+						errorsCount: mistakes,
+						hintsUsed: hints,
+					},
+				});
+			} catch (error) {
+				console.warn('[@arcade/sudoku] Failed to record game medals result:', error);
+			}
 		}
 	}, []);
 
@@ -321,6 +367,13 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 					prevNotes: clearedOwnNotes ? [...cell.notes] : undefined,
 					autoClearedNotes: autoCleared,
 				};
+
+				if (solutionRef.current.length === 9 && solutionRef.current[row]?.[col] !== undefined) {
+					if (digit !== solutionRef.current[row][col]) {
+						setMistakesCount((prev) => prev + 1);
+						mistakesRef.current += 1;
+					}
+				}
 
 				const nextGrid = applyMove(grid, move);
 				setGrid(nextGrid);
@@ -411,6 +464,10 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 			setIsPaused(false);
 			setIsComplete(false);
 			setIsVictoryOpen(false);
+			setMistakesCount(0);
+			mistakesRef.current = 0;
+			setHintsUsed(0);
+			hintsRef.current = 0;
 			setActiveCell({ row: 0, col: 0 });
 			setCurrentPuzzleId(undefined);
 			currentPuzzleIdRef.current = undefined;
@@ -434,6 +491,10 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 		setElapsedSeconds(0);
 		setHistory([]);
 		setRedoStack([]);
+		setMistakesCount(0);
+		mistakesRef.current = 0;
+		setHintsUsed(0);
+		hintsRef.current = 0;
 		setIsPaused(false);
 		setIsComplete(false);
 		setIsVictoryOpen(false);
@@ -577,6 +638,8 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 		activeCell,
 		isNotesMode,
 		elapsedSeconds,
+		mistakesCount,
+		hintsUsed,
 		isPaused,
 		isComplete,
 		isVictoryOpen,

@@ -60,6 +60,7 @@
 		"@linaria/babel-preset": "^5.0.4",
 		"@linaria/core": "catalog:",
 		"@linaria/react": "catalog:",
-		"react-i18next": "catalog:"
+		"react-i18next": "catalog:",
+		"@arcade/lib-medals": "workspace:*"
 	}
 }

@@ -81,6 +81,7 @@ export const commonSchema = {
 		authenticatedAs: 'auth.authenticatedAs',
 		resetSentSuccess: 'auth.resetSentSuccess',
 		enableCloudSync: 'auth.enableCloudSync',
+		viewMedals: 'auth.viewMedals',
 		guestSyncNotice: 'auth.guestSyncNotice',
 	},
 	navigation: {
@@ -92,6 +93,7 @@ export const commonSchema = {
 		legal: 'navigation.legal',
 		settings: 'navigation.settings',
 		rules: 'navigation.rules',
+		medals: 'navigation.medals',
 		breadcrumb: 'navigation.breadcrumb',
 	},
 	hub: {

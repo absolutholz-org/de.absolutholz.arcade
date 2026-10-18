@@ -28,6 +28,7 @@ export function SudokuGame({ initialDifficulty = 'easy', lang }: SudokuGameProps
 	});
 
 	const { changeLanguage } = useI18n();
+	const { t: tCommon } = useI18n('common');
 	const game = useSudokuGame(initialDifficulty);
 
 	const handleLanguageChange = useCallback(
@@ -110,6 +111,15 @@ export function SudokuGame({ initialDifficulty = 'easy', lang }: SudokuGameProps
 					onUndo={game.handleUndo}
 					onRedo={game.handleRedo}
 				/>
+
+				<S.GameFooter>
+					<S.GameFooterLink
+						href={`/${activeLang}/medals?game=sudoku`}
+						aria-label={tCommon('navigation.medals')}
+					>
+						🏅 {tCommon('navigation.medals')}
+					</S.GameFooterLink>
+				</S.GameFooter>
 			</S.PlayColumn>
 		</GameContainer>
 	);

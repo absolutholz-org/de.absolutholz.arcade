@@ -1,8 +1,47 @@
+import { saveConsentPreferences } from '@arcade/lib-consent';
 import { createGameStorage } from '@arcade/lib-storage';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { resetFirebaseServices } from '../internal/firebase.js';
 import { createUserService } from '../service.js';
 import type { UserProfile, UserSession } from '../types.js';
+
+// Setup in-memory localStorage for Node.js test environment
+const mockStorageMap = new Map<string, string>();
+const mockLocalStorage: Storage = {
+	get length() {
+		return mockStorageMap.size;
+	},
+	clear() {
+		mockStorageMap.clear();
+	},
+	getItem(key: string) {
+		return mockStorageMap.get(key) ?? null;
+	},
+	key(index: number) {
+		return Array.from(mockStorageMap.keys())[index] ?? null;
+	},
+	removeItem(key: string) {
+		mockStorageMap.delete(key);
+	},
+	setItem(key: string, value: string) {
+		mockStorageMap.set(key, value);
+	},
+};
+Object.defineProperty(globalThis, 'localStorage', {
+	value: mockLocalStorage,
+	writable: true,
+	configurable: true,
+});
+Object.defineProperty(globalThis, 'window', {
+	value: {
+		localStorage: mockLocalStorage,
+		dispatchEvent: () => true,
+		addEventListener: () => {},
+		removeEventListener: () => {},
+	},
+	writable: true,
+	configurable: true,
+});
 
 // Setup shared mock state for Firebase modules
 let authStateListeners: Array<(user: unknown) => void> = [];
@@ -104,6 +143,9 @@ vi.mock('firebase/firestore', () => ({
 	updateDoc: vi.fn(async (_docRef: unknown, updates: Partial<UserProfile>) => {
 		mockFirestoreDoc = { ...mockFirestoreDoc, ...updates };
 	}),
+	deleteDoc: vi.fn(async () => {
+		mockFirestoreDoc = null;
+	}),
 }));
 
 describe('UserService & createUserService', () => {
@@ -118,6 +160,7 @@ describe('UserService & createUserService', () => {
 		authStateListeners = [];
 		mockCurrentUser = null;
 		mockFirestoreDoc = null;
+		saveConsentPreferences({ cloudSync: true, publicBroadcast: false, analytics: false });
 		await createGameStorage('user').clear();
 	});
 

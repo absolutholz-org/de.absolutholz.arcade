@@ -19,7 +19,10 @@
 		"@astrojs/react": "^3.6.3",
 		"astro": "catalog:",
 		"react": "catalog:",
-		"react-dom": "catalog:"
+		"react-dom": "catalog:",
+		"@arcade/lib-medals": "workspace:*",
+		"@linaria/core": "catalog:",
+		"@linaria/react": "catalog:"
 	},
 	"devDependencies": {
 		"@babel/preset-react": "^7.29.7",
