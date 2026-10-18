@@ -1,4 +1,40 @@
 export const commonSchema = {
+	consent: {
+		banner: {
+			title: 'consent.banner.title',
+			description: 'consent.banner.description',
+			acceptEssential: 'consent.banner.acceptEssential',
+			customize: 'consent.banner.customize',
+		},
+		modal: {
+			title: 'consent.modal.title',
+			description: 'consent.modal.description',
+			essentialTitle: 'consent.modal.essentialTitle',
+			essentialDescription: 'consent.modal.essentialDescription',
+			essentialBadge: 'consent.modal.essentialBadge',
+			cloudSyncTitle: 'consent.modal.cloudSyncTitle',
+			cloudSyncDescription: 'consent.modal.cloudSyncDescription',
+			publicBroadcastTitle: 'consent.modal.publicBroadcastTitle',
+			publicBroadcastDescription: 'consent.modal.publicBroadcastDescription',
+			analyticsTitle: 'consent.modal.analyticsTitle',
+			analyticsDescription: 'consent.modal.analyticsDescription',
+			savePreferences: 'consent.modal.savePreferences',
+			currentTierLabel: 'consent.modal.currentTierLabel',
+		},
+		tiers: {
+			tier1: 'consent.tiers.tier1',
+			tier2: 'consent.tiers.tier2',
+			tier3: 'consent.tiers.tier3',
+			tier4: 'consent.tiers.tier4',
+		},
+		warnings: {
+			title: 'consent.warnings.title',
+			confirmButton: 'consent.warnings.confirmButton',
+			cancelButton: 'consent.warnings.cancelButton',
+			stopPublicBroadcast: 'consent.warnings.stopPublicBroadcast',
+			deleteCloudRetainLocal: 'consent.warnings.deleteCloudRetainLocal',
+		},
+	},
 	app: {
 		title: 'app.title',
 		tagline: 'app.tagline',

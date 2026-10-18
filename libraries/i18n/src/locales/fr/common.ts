@@ -1,6 +1,48 @@
 import type { CommonTranslationContract } from '../../schemas/common.schema.js';
 
 export const frCommon = {
+	consent: {
+		banner: {
+			title: 'Confidentialité et préférences',
+			description:
+				'Nous utilisons un stockage local essentiel pour enregistrer votre progression sur cet appareil. La synchronisation dans le cloud et les classements publics sont désactivés par défaut.',
+			acceptEssential: "Accepter uniquement l'essentiel",
+			customize: 'Personnaliser',
+		},
+		modal: {
+			title: 'Paramètres de confidentialité',
+			description:
+				'Contrôlez la façon dont votre progression et vos statistiques sont stockées, synchronisées et partagées.',
+			essentialTitle: 'Stockage local essentiel',
+			essentialDescription: 'Enregistre votre progression directement dans votre navigateur. Requis pour jouer.',
+			essentialBadge: 'Toujours actif',
+			cloudSyncTitle: 'Synchronisation Cloud (Privée)',
+			cloudSyncDescription:
+				'Synchronisez vos scores en toute sécurité pour jouer sur plusieurs appareils. Vos données restent privées.',
+			publicBroadcastTitle: 'Classements publics',
+			publicBroadcastDescription:
+				'Partagez vos meilleurs scores sur les classements mondiaux. Nécessite la synchronisation cloud.',
+			analyticsTitle: 'Télémétrie et diagnostics',
+			analyticsDescription: "Aide à améliorer les jeux en partageant des diagnostics d'erreur anonymes.",
+			savePreferences: 'Enregistrer les préférences',
+			currentTierLabel: 'Niveau de données actif',
+		},
+		tiers: {
+			tier1: 'Niveau 1 : Anonyme Local',
+			tier2: 'Niveau 2 : Connecté Local Uniquement',
+			tier3: 'Niveau 3 : Connecté Synchronisé Cloud (Privé)',
+			tier4: 'Niveau 4 : Connecté Synchronisé Cloud (Public)',
+		},
+		warnings: {
+			title: 'Confirmer la modification du stockage',
+			confirmButton: 'Confirmer et mettre à jour',
+			cancelButton: 'Conserver les paramètres actuels',
+			stopPublicBroadcast:
+				'Vous désactivez la diffusion publique. Vos scores publics seront masqués, mais vos données privées dans le cloud seront conservées.',
+			deleteCloudRetainLocal:
+				'Vous désactivez la synchronisation cloud. Toutes vos données distantes seront supprimées des serveurs cloud. Votre progression restera conservée localement sur cet appareil.',
+		},
+	},
 	app: {
 		title: 'Arcade',
 		tagline: "Jeux classiques conçus dans un souci d'accessibilité.",

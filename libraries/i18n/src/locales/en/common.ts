@@ -1,6 +1,48 @@
 import type { CommonTranslationContract } from '../../schemas/common.schema.js';
 
 export const enCommon = {
+	consent: {
+		banner: {
+			title: 'Privacy & Data Preferences',
+			description:
+				'We use essential local storage to save your game progress on this device. Cloud sync and public leaderboards are disabled by default.',
+			acceptEssential: 'Accept Essential Only',
+			customize: 'Customize Settings',
+		},
+		modal: {
+			title: 'Privacy & Data Settings',
+			description: 'Control how your game progress and stats are stored, synchronized, and shared.',
+			essentialTitle: 'Essential Local Storage',
+			essentialDescription:
+				'Stores your game board states, settings, and progress directly in your browser. Required for gameplay.',
+			essentialBadge: 'Always Active',
+			cloudSyncTitle: 'Cloud Synchronization (Private)',
+			cloudSyncDescription:
+				'Sync your game scores and progress securely to your account for cross-device play. Your data remains private.',
+			publicBroadcastTitle: 'Public Leaderboards & Stats',
+			publicBroadcastDescription:
+				'Share your high scores and achievements on public leaderboards and player profiles. Requires cloud sync.',
+			analyticsTitle: 'Performance & Error Telemetry',
+			analyticsDescription: 'Help improve the arcade by sharing anonymous performance and error diagnostics.',
+			savePreferences: 'Save Preferences',
+			currentTierLabel: 'Active Data Tier',
+		},
+		tiers: {
+			tier1: 'Tier 1: Anonymous Local',
+			tier2: 'Tier 2: Logged-In Local-Only',
+			tier3: 'Tier 3: Logged-In Cloud-Synced (Private)',
+			tier4: 'Tier 4: Logged-In Cloud-Synced (Public)',
+		},
+		warnings: {
+			title: 'Confirm Data Storage Change',
+			confirmButton: 'Confirm and Update',
+			cancelButton: 'Keep Current Settings',
+			stopPublicBroadcast:
+				'You are disabling public broadcasting. Your public leaderboard entries will be removed from public view, but your private cloud progress will be retained in your account.',
+			deleteCloudRetainLocal:
+				'You are disabling cloud synchronization. All your remote game data will be deleted from our cloud servers. All progress and scores will remain safely saved on this device locally.',
+		},
+	},
 	app: {
 		title: 'Arcade',
 		tagline: 'Classic games built with accessibility in mind.',

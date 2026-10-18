@@ -1,6 +1,47 @@
 import type { CommonTranslationContract } from '../../schemas/common.schema.js';
 
 export const ptCommon = {
+	consent: {
+		banner: {
+			title: 'Privacidade e preferências',
+			description:
+				'Usamos armazenamento local essencial para salvar seu progresso neste dispositivo. A sincronização em nuvem e os placares públicos vêm desativados por padrão.',
+			acceptEssential: 'Aceitar apenas essenciais',
+			customize: 'Personalizar',
+		},
+		modal: {
+			title: 'Configurações de privacidade',
+			description: 'Controle como seu progresso e estatísticas são salvos, sincronizados e compartilhados.',
+			essentialTitle: 'Armazenamento local essencial',
+			essentialDescription: 'Salva seu progresso diretamente no navegador. Obrigatório para jogar.',
+			essentialBadge: 'Sempre ativo',
+			cloudSyncTitle: 'Sincronização em Nuvem (Privada)',
+			cloudSyncDescription:
+				'Sincronize suas pontuações com segurança para jogar em múltiplos dispositivos. Seus dados permanecem privados.',
+			publicBroadcastTitle: 'Placares públicos',
+			publicBroadcastDescription:
+				'Compartilhe seus recordes nos placares globais. Requer sincronização em nuvem.',
+			analyticsTitle: 'Telemetria e diagnósticos',
+			analyticsDescription: 'Ajuda a aprimorar os jogos compartilhando diagnósticos anônimos.',
+			savePreferences: 'Salvar preferências',
+			currentTierLabel: 'Nível de dados ativo',
+		},
+		tiers: {
+			tier1: 'Nível 1: Anônimo Local',
+			tier2: 'Nível 2: Conectado Apenas Local',
+			tier3: 'Nível 3: Conectado Sincronizado em Nuvem (Privado)',
+			tier4: 'Nível 4: Conectado Sincronizado em Nuvem (Público)',
+		},
+		warnings: {
+			title: 'Confirmar alteração de armazenamento',
+			confirmButton: 'Confirmar e atualizar',
+			cancelButton: 'Manter configurações atuais',
+			stopPublicBroadcast:
+				'Você está desativando a transmissão pública. Suas pontuações públicas serão ocultadas, mas seus dados privados na nuvem serão retidos.',
+			deleteCloudRetainLocal:
+				'Você está desativando a sincronização em nuvem. Todos os seus dados remotos serão excluídos dos servidores em nuvem. Seu progresso permanecerá salvo localmente neste dispositivo.',
+		},
+	},
 	app: {
 		title: 'Arcade',
 		tagline: 'Jogos clássicos construídos com foco em acessibilidade.',

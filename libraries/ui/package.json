@@ -54,6 +54,7 @@
 		"react-dom": "catalog:"
 	},
 	"dependencies": {
+		"@arcade/lib-consent": "workspace:*",
 		"@arcade/lib-i18n": "workspace:*",
 		"@arcade/lib-user": "workspace:*",
 		"@linaria/babel-preset": "^5.0.4",

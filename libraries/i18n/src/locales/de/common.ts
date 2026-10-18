@@ -1,6 +1,48 @@
 import type { CommonTranslationContract } from '../../schemas/common.schema.js';
 
 export const deCommon = {
+	consent: {
+		banner: {
+			title: 'Datenschutz- & Speicher-Einstellungen',
+			description:
+				'Wir verwenden zwingend erforderliche lokale Speicherung, um Ihren Spielfortschritt auf diesem Gerät zu sichern. Cloud-Synchronisierung und öffentliche Bestenlisten sind standardmäßig deaktiviert.',
+			acceptEssential: 'Nur essenzielle akzeptieren',
+			customize: 'Einstellungen anpassen',
+		},
+		modal: {
+			title: 'Datenschutz- & Dateneinstellungen',
+			description: 'Bestimmen Sie, wie Ihr Spielfortschritt gespeichert, synchronisiert und geteilt wird.',
+			essentialTitle: 'Essenzielle lokale Speicherung',
+			essentialDescription:
+				'Speichert Spielstände und Einstellungen direkt im Browser. Für das Spielen zwingend erforderlich.',
+			essentialBadge: 'Immer aktiv',
+			cloudSyncTitle: 'Cloud-Synchronisierung (Privat)',
+			cloudSyncDescription:
+				'Sichert Ihre Punkte und Fortschritte sicher in Ihrem Konto für geräteübergreifendes Spielen. Ihre Daten bleiben privat.',
+			publicBroadcastTitle: 'Öffentliche Bestenlisten',
+			publicBroadcastDescription:
+				'Teilt Ihre Bestzeiten auf globalen Ranglisten. Erfordert Cloud-Synchronisierung.',
+			analyticsTitle: 'Leistungs- & Fehleranalyse',
+			analyticsDescription: 'Hilft bei der Optimierung der Spiele durch anonyme Fehlerdiagnose.',
+			savePreferences: 'Einstellungen speichern',
+			currentTierLabel: 'Aktive Datenstufe',
+		},
+		tiers: {
+			tier1: 'Stufe 1: Anonym Lokal',
+			tier2: 'Stufe 2: Angemeldet Nur-Lokal',
+			tier3: 'Stufe 3: Angemeldet Cloud-Synchronisiert (Privat)',
+			tier4: 'Stufe 4: Angemeldet Cloud-Synchronisiert (Öffentlich)',
+		},
+		warnings: {
+			title: 'Änderung der Datenspeicherung bestätigen',
+			confirmButton: 'Bestätigen und aktualisieren',
+			cancelButton: 'Aktuelle Einstellung behalten',
+			stopPublicBroadcast:
+				'Sie deaktivieren die öffentliche Übertragung. Ihre öffentlichen Bestenlisteneinträge werden verborgen, Ihre privaten Cloud-Daten bleiben jedoch in Ihrem Konto erhalten.',
+			deleteCloudRetainLocal:
+				'Sie deaktivieren die Cloud-Synchronisierung. Alle Ihre Remote-Spieldaten werden von den Cloud-Servern gelöscht. Sämtliche Fortschritte bleiben jedoch sicher lokal auf diesem Gerät gespeichert.',
+		},
+	},
 	app: {
 		title: 'Arcade',
 		tagline: 'Klassische Spiele mit Fokus auf Barrierefreiheit.',

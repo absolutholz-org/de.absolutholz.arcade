@@ -30,15 +30,19 @@ export function useDialog({ backAriaLabel, closeAriaLabel, id, isOpen, onCancel 
 			if (!dialog.open && typeof dialog.showModal === 'function') {
 				dialog.showModal();
 			}
-		} else if (dialog.open && typeof dialog.close === 'function') {
+			const originalOverflow = document.body.style.overflow;
+			document.body.style.overflow = 'hidden';
+
+			return () => {
+				document.body.style.overflow = originalOverflow;
+				if (dialog.open && typeof dialog.close === 'function') {
+					dialog.close();
+				}
+			};
+		}
+		if (dialog.open && typeof dialog.close === 'function') {
 			dialog.close();
 		}
-
-		return () => {
-			if (dialog.open && typeof dialog.close === 'function') {
-				dialog.close();
-			}
-		};
 	}, [isOpen]);
 
 	const handleBackdropClick = (e: MouseEvent<HTMLDialogElement>) => {

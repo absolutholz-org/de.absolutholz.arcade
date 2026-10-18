@@ -433,6 +433,12 @@ importers:
         specifier: 'catalog:'
         version: 4.16.19(@types/node@26.6.3)(lightningcss@1.33.0)(rollup@4.63.6)(supports-color@7.2.0)(typescript@5.9.3)
 
+  libraries/consent:
+    devDependencies:
+      typescript:
+        specifier: ^5.7.2
+        version: 5.9.3
+
   libraries/games:
     devDependencies:
       typescript:
@@ -472,6 +478,9 @@ importers:
 
   libraries/ui:
     dependencies:
+      '@arcade/lib-consent':
+        specifier: workspace:*
+        version: link:../consent
       '@arcade/lib-i18n':
         specifier: workspace:*
         version: link:../i18n
@@ -548,6 +557,9 @@ importers:
 
   libraries/user:
     dependencies:
+      '@arcade/lib-consent':
+        specifier: workspace:*
+        version: link:../consent
       '@arcade/lib-storage':
         specifier: workspace:*
         version: link:../storage

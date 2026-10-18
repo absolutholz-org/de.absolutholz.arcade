@@ -41,3 +41,11 @@ export { QuickPlayCard } from './components/QuickPlayCard';
 export type { QuickPlayCardProps } from './components/QuickPlayCard/_QuickPlayCard.types';
 export { Icon } from './components/Icon';
 export type { IconName, IconProps, IconSize } from './components/Icon/_Icon.types';
+
+export { ConsentBanner } from './components/ConsentBanner';
+export type { ConsentBannerProps } from './components/ConsentBanner';
+export { ConsentDialog } from './components/ConsentDialog';
+export type { ConsentDialogProps } from './components/ConsentDialog';
+
+export { PrivacySettingRow } from './components/PrivacySettingRow';
+export type { PrivacySettingRowProps } from './components/PrivacySettingRow';

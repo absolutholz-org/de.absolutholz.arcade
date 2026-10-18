@@ -2,6 +2,7 @@
 import { resources } from '@arcade/lib-i18n/config/i18n';
 import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { ConsentBanner } from '../../components/ConsentBanner';
 import { HeaderActions } from '../../components/HeaderActions';
 import { Logo } from '../../components/Logo';
 import { SiteFooter } from '../../components/SiteFooter';
@@ -144,4 +145,6 @@ const canonicalUrl = `${canonicalBase}${canonicalPath}`;
 		version="0.1.0"
 		resourceLinks={resourceLinks}
 	/>
+
+	<ConsentBanner client:load />
 </BaseLayout>

@@ -10,7 +10,7 @@ import {
 	onAuthStateChanged,
 	signInWithPopup,
 } from 'firebase/auth';
-import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
+import { deleteDoc, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import type { Unsubscribe, UserProfile } from '../../types.js';
 import { type FirebaseServices, getFirebaseServices } from '../firebase.js';
 
@@ -109,6 +109,20 @@ export class CloudAdapter {
 			);
 		} catch (error) {
 			console.warn(`[@arcade/lib-user] Failed to persist Firestore profile for ${profile.id}:`, error);
+		}
+	}
+
+	/**
+	 * Deletes the user profile and associated data from Cloud Firestore when
+	 * downgrading from cloud sync to local-only persistence per ADR 0003.
+	 */
+	async deleteUserData(uid: string): Promise<void> {
+		const { firestore } = this.getActiveServices();
+		try {
+			const userRef = doc(firestore, USERS_COLLECTION, uid);
+			await deleteDoc(userRef);
+		} catch (error) {
+			console.warn(`[@arcade/lib-user] Failed to delete Firestore user data for ${uid}:`, error);
 		}
 	}
 

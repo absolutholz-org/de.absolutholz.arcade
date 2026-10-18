@@ -67,6 +67,7 @@ export const DialogContainer = styled.div`
 	width: 100%;
 	min-width: ${DIALOG_MIN_WIDTH};
 	max-width: ${DIALOG_MAX_WIDTH};
+	max-height: calc(100vh - 4rem);
 	background-color: ${themeColor('surface')};
 	color: ${themeColor('text-1')};
 	border: 1px solid ${themeColor('container-2')};
@@ -84,6 +85,7 @@ export const DialogHeader = styled.header`
 	padding: 1.25rem 1.5rem;
 	border-bottom: 1px solid ${themeColor('container-2')};
 	gap: 1rem;
+	flex-shrink: 0;
 `;
 
 export const DialogHeaderStart = styled.div`
@@ -104,6 +106,9 @@ export const DialogContent = styled.div`
 	padding: 1.5rem;
 	font-size: 0.9375rem;
 	color: ${themeColor('text-2')};
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	-webkit-overflow-scrolling: touch;
 
 	> p + * {
 		margin-top: 0.75rem;

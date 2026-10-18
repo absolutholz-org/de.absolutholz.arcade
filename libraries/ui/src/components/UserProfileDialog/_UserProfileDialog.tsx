@@ -1,5 +1,7 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
+import { useState } from 'react';
 import { Button } from '../Button';
+import { ConsentDialog } from '../ConsentDialog';
 import { Dialog } from '../Dialog';
 import { Divider } from '../Divider';
 import { Icon } from '../Icon';
@@ -27,6 +29,7 @@ export function UserProfileDialog({
 	session,
 }: UserProfileDialogProps) {
 	const { t } = useI18n();
+	const [isConsentOpen, setIsConsentOpen] = useState(false);
 	const {
 		displayName,
 		email,
@@ -137,6 +140,16 @@ export function UserProfileDialog({
 									</Stack>
 								</div>
 
+								<Button
+									variant="outline"
+									size="sm"
+									type="button"
+									onClick={() => setIsConsentOpen(true)}
+									leadingIcon={<Icon name="settings" size="sm" />}
+								>
+									{t('consent.modal.title')}
+								</Button>
+
 								<Divider />
 
 								<div data-slot="actions">
@@ -161,6 +174,15 @@ export function UserProfileDialog({
 									disabled={isLoading}
 								>
 									{t('auth.enableCloudSync')}
+								</Button>
+								<Button
+									variant="outline"
+									size="sm"
+									type="button"
+									onClick={() => setIsConsentOpen(true)}
+									leadingIcon={<Icon name="settings" size="sm" />}
+								>
+									{t('consent.modal.title')}
 								</Button>
 								<div data-slot="secondary-actions">
 									<button
@@ -312,6 +334,11 @@ export function UserProfileDialog({
 						</form>
 					))}
 			</S.UserProfileDialog>
+			<ConsentDialog
+				isOpen={isConsentOpen}
+				onClose={() => setIsConsentOpen(false)}
+				isAuthenticated={session.isAuthenticated}
+			/>
 		</Dialog>
 	);
 }

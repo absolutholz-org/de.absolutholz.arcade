@@ -1,0 +1,24 @@
+{
+	"name": "@arcade/lib-consent",
+	"version": "0.1.0",
+	"private": true,
+	"description": "Zero-dependency privacy consent manager and four-tier data policy engine for Arcade monorepo",
+	"type": "module",
+	"exports": {
+		".": {
+			"types": "./src/index.ts",
+			"default": "./src/index.ts"
+		},
+		"./types": {
+			"types": "./src/types.ts",
+			"default": "./src/types.ts"
+		}
+	},
+	"scripts": {
+		"build": "tsc",
+		"typecheck": "tsc --noEmit"
+	},
+	"devDependencies": {
+		"typescript": "^5.7.2"
+	}
+}

@@ -1,3 +1,9 @@
+import {
+	type ConsentUpdatedEventDetail,
+	loadConsentPreferences,
+	saveConsentPreferences,
+	subscribeToConsent,
+} from '@arcade/lib-consent';
 import { CloudAdapter } from './internal/adapters/cloudAdapter.js';
 import { LocalAdapter } from './internal/adapters/localAdapter.js';
 import { initFirebase } from './internal/firebase.js';
@@ -59,6 +65,15 @@ class UserService implements IUserService {
 		this.notifyListeners();
 	}
 
+	private applyConsentToProfile(profile: UserProfile, isAuthenticated: boolean): UserProfile {
+		const consent = loadConsentPreferences();
+		const shouldSync = isAuthenticated && consent.cloudSync;
+		return {
+			...profile,
+			storageMode: shouldSync ? 'cloud' : 'local',
+		};
+	}
+
 	async initialize(): Promise<UserSession> {
 		if (this.initialized) {
 			return this.getSession();
@@ -69,16 +84,39 @@ class UserService implements IUserService {
 			initFirebase(this.options.firebaseConfig);
 		}
 
+		// Attach consent change listener to react to tier transitions and remote data purge
+		if (typeof window !== 'undefined') {
+			subscribeToConsent(async (detail: ConsentUpdatedEventDetail) => {
+				if (detail.action === 'delete_cloud_retain_local') {
+					if (this.session.user && this.session.isAuthenticated && this.cloudAdapter.isAvailable()) {
+						await this.cloudAdapter.deleteUserData(this.session.user.id);
+					}
+					await this.setStorageMode('local');
+				} else if (
+					detail.preferences.cloudSync &&
+					this.session.isAuthenticated &&
+					!this.session.isCloudSynced
+				) {
+					await this.setStorageMode('cloud');
+				} else if (!detail.preferences.cloudSync && this.session.isCloudSynced) {
+					await this.setStorageMode('local');
+				}
+			});
+		}
+
 		// Attach cloud auth state listener if cloud is available
 		if (this.cloudAdapter.isAvailable()) {
 			this.cloudAdapter.onAuthStateChanged(async (cloudProfile) => {
 				if (cloudProfile) {
+					const profile = this.applyConsentToProfile(cloudProfile, true);
+					const isSynced = profile.storageMode === 'cloud';
 					this.updateSession({
-						user: cloudProfile,
+						user: profile,
 						isAuthenticated: true,
-						isCloudSynced: true,
+						isCloudSynced: isSynced,
 					});
-					await this.localAdapter.saveProfile(cloudProfile);
+					await this.localAdapter.saveProfile(profile);
+					await this.localAdapter.setStorageMode(profile.storageMode);
 				} else if (this.session.isAuthenticated) {
 					// Fall back to local guest when signed out
 					const guest = await this.localAdapter.getOrCreateGuestProfile();
@@ -118,14 +156,16 @@ class UserService implements IUserService {
 	async signInAnonymously(): Promise<UserProfile> {
 		if (this.cloudAdapter.isAvailable()) {
 			const cloudProfile = await this.cloudAdapter.signInAnonymously();
+			const finalProfile = this.applyConsentToProfile(cloudProfile, true);
+			const isSynced = finalProfile.storageMode === 'cloud';
 			this.updateSession({
-				user: cloudProfile,
+				user: finalProfile,
 				isAuthenticated: true,
-				isCloudSynced: true,
+				isCloudSynced: isSynced,
 			});
-			await this.localAdapter.saveProfile(cloudProfile);
-			await this.localAdapter.setStorageMode('cloud');
-			return cloudProfile;
+			await this.localAdapter.saveProfile(finalProfile);
+			await this.localAdapter.setStorageMode(finalProfile.storageMode);
+			return finalProfile;
 		}
 
 		// Offline / local fallback
@@ -144,14 +184,16 @@ class UserService implements IUserService {
 		}
 
 		const profile = await this.cloudAdapter.signInWithGoogle();
+		const finalProfile = this.applyConsentToProfile(profile, true);
+		const isSynced = finalProfile.storageMode === 'cloud';
 		this.updateSession({
-			user: profile,
+			user: finalProfile,
 			isAuthenticated: true,
-			isCloudSynced: true,
+			isCloudSynced: isSynced,
 		});
-		await this.localAdapter.saveProfile(profile);
-		await this.localAdapter.setStorageMode('cloud');
-		return profile;
+		await this.localAdapter.saveProfile(finalProfile);
+		await this.localAdapter.setStorageMode(finalProfile.storageMode);
+		return finalProfile;
 	}
 
 	async signUpWithEmail(email: string, password: string, displayName?: string): Promise<UserProfile> {
@@ -160,14 +202,16 @@ class UserService implements IUserService {
 		}
 
 		const profile = await this.cloudAdapter.signUpWithEmail(email, password, displayName);
+		const finalProfile = this.applyConsentToProfile(profile, true);
+		const isSynced = finalProfile.storageMode === 'cloud';
 		this.updateSession({
-			user: profile,
+			user: finalProfile,
 			isAuthenticated: true,
-			isCloudSynced: true,
+			isCloudSynced: isSynced,
 		});
-		await this.localAdapter.saveProfile(profile);
-		await this.localAdapter.setStorageMode('cloud');
-		return profile;
+		await this.localAdapter.saveProfile(finalProfile);
+		await this.localAdapter.setStorageMode(finalProfile.storageMode);
+		return finalProfile;
 	}
 
 	async signInWithEmail(email: string, password: string): Promise<UserProfile> {
@@ -176,14 +220,16 @@ class UserService implements IUserService {
 		}
 
 		const profile = await this.cloudAdapter.signInWithEmail(email, password);
+		const finalProfile = this.applyConsentToProfile(profile, true);
+		const isSynced = finalProfile.storageMode === 'cloud';
 		this.updateSession({
-			user: profile,
+			user: finalProfile,
 			isAuthenticated: true,
-			isCloudSynced: true,
+			isCloudSynced: isSynced,
 		});
-		await this.localAdapter.saveProfile(profile);
-		await this.localAdapter.setStorageMode('cloud');
-		return profile;
+		await this.localAdapter.saveProfile(finalProfile);
+		await this.localAdapter.setStorageMode(finalProfile.storageMode);
+		return finalProfile;
 	}
 
 	async sendPasswordReset(email: string): Promise<void> {
@@ -250,6 +296,7 @@ class UserService implements IUserService {
 					user: updatedUser,
 					isCloudSynced: true,
 				});
+				saveConsentPreferences({ cloudSync: true }, true);
 			} else if (this.cloudAdapter.isAvailable()) {
 				await this.signInAnonymously();
 			}
@@ -258,6 +305,10 @@ class UserService implements IUserService {
 
 		// Switch to local mode
 		if (this.session.user) {
+			if (this.session.isAuthenticated && this.session.isCloudSynced && this.cloudAdapter.isAvailable()) {
+				await this.cloudAdapter.deleteUserData(this.session.user.id);
+			}
+
 			const localVersion: UserProfile = {
 				...this.session.user,
 				storageMode: 'local',
@@ -267,6 +318,7 @@ class UserService implements IUserService {
 				user: localVersion,
 				isCloudSynced: false,
 			});
+			saveConsentPreferences({ cloudSync: false, publicBroadcast: false }, this.session.isAuthenticated);
 		}
 	}
 }
