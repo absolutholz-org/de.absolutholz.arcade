@@ -10,7 +10,7 @@ import { useEffect } from 'react';
 import { toast } from '../Toast';
 
 function MedalToastListenerContent() {
-	const { t } = useI18n('medals');
+	const { t, language } = useI18n('medals');
 
 	useEffect(() => {
 		const unsubscribe = subscribeToMedalUnlocked((detail: MedalUnlockedEventDetail) => {
@@ -22,14 +22,25 @@ function MedalToastListenerContent() {
 				const title = def ? t(def.titleKey as TranslationKey) : 'Medal Unlocked!';
 				const message = def ? t(def.descriptionKey as TranslationKey) : medal.id;
 
+				const showcaseHref = `/${detail.gameId}/${language}/medals`;
+
 				toast.achievement(message, {
 					title,
+					action: {
+						label: t('showcase.widget.viewShowcase'),
+						onClick: () => {
+							if (typeof window !== 'undefined') {
+								window.location.assign(showcaseHref);
+							}
+						},
+						ariaLabel: `${t('showcase.widget.viewShowcase')} - ${title}`,
+					},
 				});
 			}
 		});
 
 		return unsubscribe;
-	}, [t]);
+	}, [t, language]);
 
 	return null;
 }

@@ -12,6 +12,11 @@ export const Toast_Host = styled.aside`
 	padding: ${space('md')};
 	box-sizing: border-box;
 	max-width: 100vw;
+	border: none;
+	background: transparent;
+	margin: 0;
+	inset: auto;
+	overflow: visible;
 
 	&[data-position='top-right'] {
 		top: 0;

@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { Button } from '../Button';
 import { Icon } from '../Icon';
 import type { IconName } from '../Icon/_Icon.types';
@@ -74,13 +75,46 @@ export function ToastContainer({
 	...restProps
 }: ToastContainerProps) {
 	const { activeToasts, dismiss } = useToastQueue(maxVisibleToasts);
+	const hostRef = useRef<HTMLElement | null>(null);
 
 	const items = controlledToasts ?? activeToasts;
 	const handleDismiss = onDismissProp ?? dismiss;
 
+	useEffect(() => {
+		const host = hostRef.current;
+		if (!host) return;
+
+		if (!host.hasAttribute('popover')) {
+			host.setAttribute('popover', 'manual');
+		}
+
+		if (items.length > 0) {
+			if (typeof host.showPopover === 'function' && !host.matches(':popover-open')) {
+				try {
+					host.showPopover();
+				} catch {
+					// Fallback if browser throws on popover state
+				}
+			}
+		} else if (typeof host.hidePopover === 'function' && host.matches(':popover-open')) {
+			try {
+				host.hidePopover();
+			} catch {
+				// Fallback if browser throws on popover state
+			}
+		}
+	}, [items.length]);
+
 	return (
-		// biome-ignore lint/a11y/useSemanticElements: ARIA role="status" is mandated by the architectural specification for persistent toast live regions
-		<S.Toast_Host role="status" aria-live="polite" aria-atomic="false" data-position={position} {...restProps}>
+		<S.Toast_Host
+			ref={hostRef}
+			// biome-ignore lint/a11y/useSemanticElements: ARIA role="status" is mandated by the architectural specification for persistent toast live regions
+			role="status"
+			aria-live="polite"
+			aria-atomic="false"
+			data-position={position}
+			{...restProps}
+		>
 			<S.Toast_List>
 				{items.map((item) => (
 					<ToastItem
