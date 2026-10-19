@@ -18,7 +18,15 @@ This document outlines the global rules and operational boundaries that all AI a
 
 All code generated, refactored, or organized across apps and libraries must strictly adhere to clean software engineering principles:
 
-- **DRY & Abstraction:** No code duplication. Actively audit the workspace for existing utilities, constants, or hooks before writing new ones. Code that can be used in multiple locations should be abstracted and moved to a shared library (`libraries/*`), where possible and appropriate. **Crucially: This architectural decision must be proposed to the human developer for approval before being implemented.**
+- **DRY & Abstraction:** No code duplication. Actively audit the workspace for existing utilities, constants, hooks, or UI components before writing new ones. Code that can be used in multiple locations should be abstracted and moved to a shared library (`libraries/*`), where possible and appropriate. **Crucially: This architectural decision must be proposed to the human developer for approval before being implemented.**
+- **Mandatory UI Library Reuse (`@arcade/lib-ui` First):**
+    - Writing custom interactive elements (`styled.button`, custom `<a>` cards, custom modals, or custom input styles) inside applications (`apps/*`) is strictly forbidden.
+    - All interactive cards, tiles, buttons, dialogs, form controls, and banners must consume shared primitives from `@arcade/lib-ui`:
+        - **Cards & Interactive Surfaces:** `<ClickableCard>` (polymorphic `as="a"` or `as="button"`), `<GameSelectionCard>`, `<QuickPlayCard>`. Never roll custom `<a>` or `<button>` card wrappers with ad-hoc box-shadows, borders, or hover transforms.
+        - **Buttons & Controls:** `<Button>` (polymorphic `as="a"`), `<Switch>`, `<SegmentedControl>`, `<TextField>`.
+        - **Overlays & Feedback:** `<Dialog>`, `<Popover>`, `<Tooltip>`, `<Toast>`.
+        - **Layout & Structure:** `<PageContainer>`, `<Stack>`, `<Hero>`, `<MarkdownContent>`.
+    - **Pre-Implementation UI Audit:** Before creating any new UI component, card, or styling any clickable container in an app or library, agents **must** audit the authoritative [Design System Component Catalog](/libraries/ui/CATALOG.md) and shared exports (`libraries/ui/src/index.ts`). Re-implementing cards or buttons with custom CSS leads to design drift, accessibility defects (loss of WCAG touch targets and focus rings), and CSS inheritance bugs (such as cascading link hover underlines).
 - **SOLID Principles:**
     - _Single Responsibility:_ Every function, hook, and component must have exactly one reason to change.
     - _Open/Closed:_ Design modules to be open for extension but closed for modification (e.g., utilize clean configuration objects or extensible token maps).

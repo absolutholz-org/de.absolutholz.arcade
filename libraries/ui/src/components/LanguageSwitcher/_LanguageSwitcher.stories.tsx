@@ -18,7 +18,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/LanguageSwitcher',
+	title: 'Components/Navigation & Shell/LanguageSwitcher',
 	decorators: [
 		(Story) => (
 			<I18nProvider>

@@ -16,7 +16,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/Tooltip',
+	title: 'Components/Overlays & Feedback/Tooltip',
 	argTypes: {
 		position: {
 			control: 'select',

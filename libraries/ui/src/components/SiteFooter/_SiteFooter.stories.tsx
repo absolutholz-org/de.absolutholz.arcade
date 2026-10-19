@@ -15,7 +15,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/SiteFooter',
+	title: 'Components/Navigation & Shell/SiteFooter',
 	argTypes: {
 		as: {
 			control: 'text',

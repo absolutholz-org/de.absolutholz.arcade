@@ -16,7 +16,23 @@ const preview: Preview = {
 		},
 		options: {
 			storySort: {
-				order: ['General', 'Foundations', 'Components', 'Templates', '*'],
+				order: [
+					'General',
+					'Foundations',
+					'Components',
+					[
+						'Cards & Surfaces',
+						'Actions & Inputs',
+						'Overlays & Feedback',
+						'Layout & Structure',
+						'Navigation & Shell',
+						'Data & Display',
+						'*',
+					],
+					'Layouts',
+					'Templates',
+					'*',
+				],
 			},
 		},
 		a11y: {

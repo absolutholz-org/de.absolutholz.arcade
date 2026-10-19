@@ -16,7 +16,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/VictoryDialog',
+	title: 'Components/Overlays & Feedback/VictoryDialog',
 	args: {
 		isOpen: true,
 		title: 'Puzzle Solved!',

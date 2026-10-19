@@ -13,7 +13,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/Divider',
+	title: 'Components/Layout & Structure/Divider',
 	argTypes: {
 		as: {
 			control: 'text',

@@ -14,7 +14,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/Badge',
+	title: 'Components/Data & Display/Badge',
 	argTypes: {
 		variant: {
 			control: 'select',

@@ -20,7 +20,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/SiteHeader',
+	title: 'Components/Navigation & Shell/SiteHeader',
 	argTypes: {
 		variant: {
 			control: 'select',

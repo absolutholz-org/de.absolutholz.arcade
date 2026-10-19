@@ -13,7 +13,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/GameSelectionCard',
+	title: 'Components/Cards & Surfaces/GameSelectionCard',
 	args: {
 		title: 'Puzzle 1',
 		subtitle: 'Standard Level',

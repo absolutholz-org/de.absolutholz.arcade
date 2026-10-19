@@ -28,6 +28,14 @@ This skill outlines the strict rules and standards for authoring interactive Sto
   - E.g., `import { Theme } from '../Theme';`
 - **Storybook MDX Imports**: When creating or updating MDX documentation files (`.mdx`), always import `Meta` from `@storybook/addon-docs/blocks` (e.g., `import { Meta } from '@storybook/addon-docs/blocks';`). Do NOT import `Meta` from `@storybook/blocks`.
 
+- **Storybook Title Hierarchy & Categorization**: All components under `Components/` must be assigned to their canonical design system category:
+  - `Components/Cards & Surfaces/<ComponentName>` (e.g. `ClickableCard`, `GameSelectionCard`, `QuickPlayCard`, `Banner`)
+  - `Components/Actions & Inputs/<ComponentName>` (e.g. `Button`, `TextField`, `Switch`, `SegmentedControl`, `Toolbar`)
+  - `Components/Overlays & Feedback/<ComponentName>` (e.g. `Dialog`, `Popover`, `Tooltip`, `Toast`, `VictoryDialog`)
+  - `Components/Layout & Structure/<ComponentName>` (e.g. `PageContainer`, `Stack`, `Divider`, `Hero`, `MarkdownContent`)
+  - `Components/Navigation & Shell/<ComponentName>` (e.g. `SiteHeader`, `SiteFooter`, `Breadcrumb`, `HeaderUserMenu`, `Logo`)
+  - `Components/Data & Display/<ComponentName>` (e.g. `Badge`, `Icon`, `Text`, `Theme`, `Timer`, `VisuallyHidden`)
+
 ### Code Example (Stories File)
 
 ```tsx
@@ -38,7 +46,7 @@ import { Button } from './_Button';
 
 const meta = {
 	component: Button,
-	title: 'Components/Button',
+	title: 'Components/Actions & Inputs/Button',
 } satisfies Meta<typeof Button>;
 
 export default meta;

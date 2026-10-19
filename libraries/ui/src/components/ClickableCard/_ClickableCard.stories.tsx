@@ -14,7 +14,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/ClickableCard',
+	title: 'Components/Cards & Surfaces/ClickableCard',
 	argTypes: {
 		density: {
 			control: 'radio',

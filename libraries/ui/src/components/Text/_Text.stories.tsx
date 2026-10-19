@@ -19,7 +19,7 @@ const meta = {
 		layout: 'centered',
 	},
 	tags: ['autodocs'],
-	title: 'Components/Text',
+	title: 'Components/Data & Display/Text',
 	argTypes: {
 		variant: {
 			control: 'select',

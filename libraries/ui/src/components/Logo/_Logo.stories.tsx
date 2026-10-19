@@ -15,7 +15,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/Logo',
+	title: 'Components/Navigation & Shell/Logo',
 	argTypes: {
 		size: {
 			control: 'select',

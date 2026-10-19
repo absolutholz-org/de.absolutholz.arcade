@@ -17,7 +17,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/Hero',
+	title: 'Components/Layout & Structure/Hero',
 	argTypes: {
 		align: {
 			control: 'inline-radio',
