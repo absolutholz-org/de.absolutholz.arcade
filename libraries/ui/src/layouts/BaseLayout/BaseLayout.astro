@@ -23,25 +23,42 @@ const {
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<!-- Theme and Scheme Meta Defaults -->
+		<meta name="color-scheme" content="dark light" />
+		<meta name="theme-color" id="meta-theme-color" content="#0b0e14" />
+		<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0e14" />
+		<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
+
 		<script is:inline>
 			(() => {
 				try {
-					const storedTheme = localStorage.getItem('arcade::ui::themeset');
-					if (storedTheme && storedTheme !== 'base') {
+					const storedTheme = localStorage.getItem("arcade::ui::themeset");
+					if (storedTheme && storedTheme !== "base") {
 						document.documentElement.dataset.themeset = storedTheme;
 					}
-					const storedScheme = localStorage.getItem('arcade::ui::scheme');
-					if (storedScheme && storedScheme !== 'system') {
+					const storedScheme = localStorage.getItem("arcade::ui::scheme");
+					const metaTheme = document.getElementById("meta-theme-color");
+
+					if (storedScheme && storedScheme !== "system") {
 						document.documentElement.style.colorScheme = storedScheme;
+						if (metaTheme) {
+							metaTheme.setAttribute("content", storedScheme === "dark" ? "#0b0e14" : "#ffffff");
+						}
+					} else {
+						const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+						if (metaTheme) {
+							metaTheme.setAttribute("content", prefersDark ? "#0b0e14" : "#ffffff");
+						}
 					}
 				} catch {}
 			})();
 		</script>
 		<script is:inline>
-			if ('serviceWorker' in navigator) {
-				window.addEventListener('load', () => {
-					navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch((err) => {
-						console.error('Service Worker registration failed:', err);
+			if ("serviceWorker" in navigator) {
+				window.addEventListener("load", () => {
+					navigator.serviceWorker.register("/sw.js", { scope: "/" }).catch((err) => {
+						console.error("Service Worker registration failed:", err);
 					});
 				});
 			}

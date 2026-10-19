@@ -23,7 +23,7 @@ export const reset = `
 	/* Ensures full viewport heights can be calculated and enables smooth scrolling by default. */
 	html,
 	body {
-		height: 100%;
+		min-height: 100dvh;
 		scroll-behavior: smooth;
 		scrollbar-gutter: stable; /* Preserves layout during scroll */
 	}
@@ -31,6 +31,7 @@ export const reset = `
 	/* Preps the browser engine window */
 	html {
 		color-scheme: light dark; /* Tells browser dark mode is supported */
+		-webkit-print-color-scheme: light dark;
 		text-rendering: optimizeLegibility; /* Forces advanced font kerning early */
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
@@ -43,9 +44,12 @@ export const reset = `
 		flex-direction: column;
 		font-synthesize: none; /* Protects font weight rendering */
 		line-height: 1.5;
-		min-height: 100vh;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
+		/* Safe-area insets: protect edges when system bars overlay content */
+		padding-top: env(safe-area-inset-top, 0px);
+		padding-left: env(safe-area-inset-left, 0px);
+		padding-right: env(safe-area-inset-right, 0px);
 		text-rendering: optimizeSpeed;
 	}
 

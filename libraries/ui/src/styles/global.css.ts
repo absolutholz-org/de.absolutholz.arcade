@@ -103,6 +103,8 @@ export const globalStyles = css`
 		}
 
 		/* CONTENT LAYER: Paints your brand tokens and typography rules */
+		/* 1. Paint both html and body with the active surface token */
+		html,
 		body {
 			background-color: var(--color-surface);
 			color: var(--color-text-1);

@@ -9,6 +9,7 @@ export const SiteFooter = styled.footer`
 	gap: ${space('md')};
 	margin-top: ${space('3xl')};
 	padding: ${space('lg')} var(--page-content-padding, ${space('xl')});
+	padding-bottom: calc(var(--space-md) + env(safe-area-inset-bottom, 0px));
 	text-align: center;
 	width: 100%;
 
