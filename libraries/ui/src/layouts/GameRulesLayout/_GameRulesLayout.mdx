@@ -1,0 +1,32 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Layouts/GameRulesLayout" />
+
+# GameRulesLayout
+
+`GameRulesLayout` is a specialized layout built on top of `StaticPageLayout` for game rules subpages.
+
+It encapsulates:
+- Hierarchical breadcrumb navigation (`Arcade / [Game Title] / Rules`)
+- Centered typography stack with `MarkdownContent`
+- Primary return/new game call-to-action button
+- Integrated `HeaderUserMenu`
+
+## Usage
+
+```astro
+---
+import GameRulesLayout from '@arcade/lib-ui/layouts/GameRulesLayout/GameRulesLayout.astro';
+---
+
+<GameRulesLayout
+  title="Sudoku Rules"
+  description="How to play Sudoku"
+  lang="en"
+  appTitle="Sudoku"
+  basePath="sudoku"
+  primaryActionLabel="New Game"
+>
+  <Content />
+</GameRulesLayout>
+```

@@ -2,6 +2,7 @@
 import { resources } from '@arcade/lib-i18n/config/i18n';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { HeaderUserMenu } from '@arcade/lib-ui';
+import type { PageContainerVariant } from '@arcade/lib-ui/components/PageContainer';
 import StaticPageLayout from '@arcade/lib-ui/layouts/StaticPageLayout/StaticPageLayout.astro';
 
 interface Props {
@@ -9,9 +10,10 @@ interface Props {
 	description?: string;
 	lang: SupportedLanguageCode;
 	currentSlug?: string;
+	containerVariant?: PageContainerVariant;
 }
 
-const { title, description, lang, currentSlug = '' } = Astro.props;
+const { title, description, lang, currentSlug = '', containerVariant } = Astro.props;
 
 const currentSudoku = resources[lang]?.sudoku ?? resources.en.sudoku;
 ---
@@ -24,6 +26,7 @@ const currentSudoku = resources[lang]?.sudoku ?? resources.en.sudoku;
 	appHomeHref={`/sudoku/${lang}/`}
 	basePath="sudoku"
 	currentSlug={currentSlug}
+	containerVariant={containerVariant}
 >
 	<slot name="head" slot="head" />
 	<slot name="header-actions" slot="header-actions">

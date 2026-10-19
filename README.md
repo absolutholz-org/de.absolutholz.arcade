@@ -89,6 +89,11 @@ pnpm build:queens
 pnpm build:tracks
 pnpm build:storybook
 pnpm build:all
+
+# Firebase Firestore rules deployment
+pnpm deploy:rules
+pnpm deploy:rules:dev
+pnpm deploy:rules:prod
 ```
 
 ## 🚢 Deployment Architecture (Webgo)

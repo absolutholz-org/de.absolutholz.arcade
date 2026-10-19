@@ -6,7 +6,6 @@ import { HeaderUserMenu, PrivacySettingRow } from '@arcade/lib-ui';
 import { Button } from '@arcade/lib-ui/components/Button';
 import { Hero } from '@arcade/lib-ui/components/Hero';
 import { LanguageSelector } from '@arcade/lib-ui/components/LanguageSelector';
-import { PageContainer } from '@arcade/lib-ui/components/PageContainer';
 import { SchemeSelector } from '@arcade/lib-ui/components/SchemeSelector';
 import { Stack } from '@arcade/lib-ui/components/Stack';
 import { ThemeSelector } from '@arcade/lib-ui/components/ThemeSelector';
@@ -29,43 +28,41 @@ const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? 
 	currentSlug="settings"
 >
 	<HeaderUserMenu slot="header-actions" client:load lang={lang as SupportedLanguageCode} />
-	<PageContainer variant="slim">
-		<Stack spacing="xl">
-			<Hero
-				title={currentTranslations.settings.title}
-				tagline={currentTranslations.settings.description}
-				align="left"
-			/>
+	<Stack spacing="xl">
+		<Hero
+			title={currentTranslations.settings.title}
+			tagline={currentTranslations.settings.description}
+			align="left"
+		/>
 
-			<section class="settings-content">
-				<LanguageSelector client:load lang={lang as SupportedLanguageCode} />
-			</section>
+		<section class="settings-content">
+			<LanguageSelector client:load lang={lang as SupportedLanguageCode} />
+		</section>
 
-			<section class="settings-content">
-				<SchemeSelector client:load lang={lang as SupportedLanguageCode} />
-			</section>
+		<section class="settings-content">
+			<SchemeSelector client:load lang={lang as SupportedLanguageCode} />
+		</section>
 
-			<section class="settings-content">
-				<ThemeSelector client:load lang={lang as SupportedLanguageCode} />
-			</section>
+		<section class="settings-content">
+			<ThemeSelector client:load lang={lang as SupportedLanguageCode} />
+		</section>
 
-			<section class="settings-content">
-				<PrivacySettingRow client:load />
-			</section>
+		<section class="settings-content">
+			<PrivacySettingRow client:load />
+		</section>
 
-			<section class="settings-content">
-				<div class="offline-setting-row">
-					<div>
-						<h2>{currentTranslations.offline.title}</h2>
-						<p class="offline-tagline">{currentTranslations.offline.description}</p>
-					</div>
-					<Button as="a" href={`/${lang}/offline`} variant="outline" size="md">
-						{currentTranslations.offline.title} →
-					</Button>
+		<section class="settings-content">
+			<div class="offline-setting-row">
+				<div>
+					<h2>{currentTranslations.offline.title}</h2>
+					<p class="offline-tagline">{currentTranslations.offline.description}</p>
 				</div>
-			</section>
-		</Stack>
-	</PageContainer>
+				<Button as="a" href={`/${lang}/offline`} variant="outline" size="md">
+					{currentTranslations.offline.title} →
+				</Button>
+			</div>
+		</section>
+	</Stack>
 </StaticPageLayout>
 
 <style>

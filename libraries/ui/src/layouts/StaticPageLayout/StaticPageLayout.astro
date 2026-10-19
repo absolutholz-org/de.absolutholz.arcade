@@ -21,6 +21,7 @@ const {
 	manifestHref,
 	headerVariant = 'standard',
 	breadcrumbItems,
+	containerVariant = 'slim',
 } = Astro.props;
 
 const currentCommon = resources[lang]?.common ?? resources.en.common;
@@ -58,12 +59,12 @@ const resolvedBreadcrumbItems: BreadcrumbItem[] =
 	<slot name="header-actions" slot="header-actions" />
 
 	<div slot="breadcrumb">
-		<PageContainer variant="slim">
+		<PageContainer variant={containerVariant}>
 			<Breadcrumb homeHref={arcadeHomeHref} items={resolvedBreadcrumbItems} />
 		</PageContainer>
 	</div>
 
-	<PageContainer variant="slim">
+	<PageContainer variant={containerVariant}>
 		<slot />
 	</PageContainer>
 </PageLayout>

@@ -3,10 +3,7 @@ import { getEntry } from 'astro:content';
 import { resources } from '@arcade/lib-i18n/config/i18n';
 import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
-import { Button } from '@arcade/lib-ui/components/Button';
-import { MarkdownContent } from '@arcade/lib-ui/components/MarkdownContent';
-import { Stack } from '@arcade/lib-ui/components/Stack';
-import TracksStaticPageLayout from '../../layouts/TracksStaticPageLayout.astro';
+import GameRulesLayout from '@arcade/lib-ui/layouts/GameRulesLayout/GameRulesLayout.astro';
 
 export function getStaticPaths() {
 	return SUPPORTED_LANGUAGES.map((item) => ({
@@ -22,19 +19,13 @@ const Content = rendered?.Content;
 const currentTracks = resources[lang as SupportedLanguageCode]?.tracks ?? resources.en.tracks;
 ---
 
-<TracksStaticPageLayout
+<GameRulesLayout
 	title={entry?.data.title ?? currentTracks.title}
 	description={entry?.data.description}
 	lang={lang as SupportedLanguageCode}
-	currentSlug="rules"
+	appTitle={currentTracks.title}
+	basePath="tracks"
+	primaryActionLabel={currentTracks.controls.play}
 >
-	<Stack align="center" spacing="3xl">
-		<MarkdownContent>
-			{Content && <Content />}
-		</MarkdownContent>
-
-		<Button as="a" href={`/tracks/${lang}/`} variant="primary" size="md">
-			{currentTracks.controls.play}
-		</Button>
-	</Stack>
-</TracksStaticPageLayout>
+	{Content && <Content />}
+</GameRulesLayout>

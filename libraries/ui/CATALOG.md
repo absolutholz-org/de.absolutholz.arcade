@@ -82,6 +82,7 @@ Structural containers and layout primitives establishing consistent spacing and 
 | **`Hero`** | `@arcade/lib-ui/components/Hero` | Top-of-page landmark with display typography, tagline, and optional logo slot. | `title`, `tagline`, `align="left" \| "center"`, `slot="logo"`. |
 | **`GameContainer`** | `@arcade/lib-ui/components/GameContainer` | Responsive aspect-ratio preserving frame for game canvases. | `children`, `aspectRatio`. |
 | **`MarkdownContent`** | `@arcade/lib-ui/components/MarkdownContent` | Standardized typographic container rendering localized Astro Markdown content collections. | `children` (rendered HTML). |
+| **`GameRulesLayout`** | `@arcade/lib-ui/layouts/GameRulesLayout/GameRulesLayout.astro` | Reusable layout for game rules subpages with breadcrumb, markdown prose container, user menu, and primary CTA. | `title`, `description`, `lang`, `appTitle`, `basePath`, `primaryActionLabel`. |
 
 ---
 

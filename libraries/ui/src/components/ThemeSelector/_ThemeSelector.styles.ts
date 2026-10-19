@@ -31,7 +31,7 @@ export const Description = styled.p`
 export const Grid = styled.div`
 	display: grid;
 	gap: ${space('md')};
-	grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr));
 	width: 100%;
 `;
 

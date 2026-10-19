@@ -3,11 +3,7 @@ import { getEntry } from 'astro:content';
 import { resources } from '@arcade/lib-i18n/config/i18n';
 import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
-import { Button } from '@arcade/lib-ui/components/Button';
-import { MarkdownContent } from '@arcade/lib-ui/components/MarkdownContent';
-import { PageContainer } from '@arcade/lib-ui/components/PageContainer';
-import { Stack } from '@arcade/lib-ui/components/Stack';
-import MinesweeperStaticPageLayout from '../../layouts/MinesweeperStaticPageLayout.astro';
+import GameRulesLayout from '@arcade/lib-ui/layouts/GameRulesLayout/GameRulesLayout.astro';
 
 export function getStaticPaths() {
 	return SUPPORTED_LANGUAGES.map((item) => ({
@@ -23,21 +19,13 @@ const Content = rendered?.Content;
 const currentMinesweeper = resources[lang as SupportedLanguageCode]?.minesweeper ?? resources.en.minesweeper;
 ---
 
-<MinesweeperStaticPageLayout
-	title={entry?.data.title ?? "Minesweeper Rules"}
+<GameRulesLayout
+	title={entry?.data.title ?? currentMinesweeper.title}
 	description={entry?.data.description}
 	lang={lang as SupportedLanguageCode}
-	currentSlug="rules"
+	appTitle={currentMinesweeper.title}
+	basePath="minesweeper"
+	primaryActionLabel={currentMinesweeper.controls.newGame}
 >
-	<PageContainer>
-		<Stack align="center" spacing="3xl">
-			<MarkdownContent>
-				{Content && <Content />}
-			</MarkdownContent>
-
-			<Button as="a" href={`/minesweeper/${lang}/`} variant="primary" size="md">
-				{currentMinesweeper.controls.newGame}
-			</Button>
-		</Stack>
-	</PageContainer>
-</MinesweeperStaticPageLayout>
+	{Content && <Content />}
+</GameRulesLayout>
