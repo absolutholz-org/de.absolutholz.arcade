@@ -32,6 +32,7 @@ Components providing interactive or informational surfaces.
 | **`GameSelectionCard`** | `@arcade/lib-ui` | Pre-styled card for game lobby levels, packs, and modes. Inherits from `ClickableCard`. | `title`, `subtitle`, `badge`, `icon`, `as="a" \| "button"`. |
 | **`QuickPlayCard`** | `@arcade/lib-ui` | High-emphasis card for instant game launching and practice modes. Inherits from `ClickableCard`. | `title`, `subtitle`, `actionLabel`, `as="a" \| "button"`. |
 | **`Banner`** | `@arcade/lib-ui/components/Banner` | Non-clickable informational callout for announcements, alerts, or status hints. | `variant="info" \| "warning" \| "success" \| "danger"`. |
+| **`MedalCard`** | `@arcade/lib-ui` | Achievement card supporting standalone single-tier feats and progressive 3-tier ladders. Consumes `MedalIcon` and `TriadBadge`. | `mode="standalone" \| "progressive"`, `title`, `description`, `tier`, `unlocked`, `bronzeUnlocked`, `silverUnlocked`, `goldUnlocked`. |
 
 > [!CAUTION]
 > **Anti-Pattern:** Never write `<a className={css\`display: flex; ...\`}>` or `styled.a` to create clickable cards. Always use `<ClickableCard as="a" href="...">`.
@@ -113,6 +114,8 @@ Primitives for data presentation, micro-indicators, typography, and styling cont
 | :--- | :--- | :--- | :--- |
 | **`Badge`** | `@arcade/lib-ui` | Compact status indicator or category pill. | `variant="default" \| "accent" \| "neutral"`, `size="sm" \| "md"`. |
 | **`Icon`** | `@arcade/lib-ui` | Accessible SVG icon component drawing from the central design system sprite. | `name: IconName`, `size="xs" \| "sm" \| "md" \| "lg"`, `aria-hidden`. |
+| **`MedalIcon`** | `@arcade/lib-ui` | Parameterized vector award medal with hanging ribbons, circular medallion, dashed border, and customizable center emblem. | `tier="bronze" \| "silver" \| "gold"`, `state="locked" \| "unlocked"`, `size={number \| string}`. |
+| **`TriadBadge`** | `@arcade/lib-ui` | Triangular 3-medal cluster badge (Silver, Bronze, Gold) for progressive ladder achievements. | `bronzeUnlocked`, `silverUnlocked`, `goldUnlocked`, `size`. |
 | **`Text`** | `@arcade/lib-ui/components/Text` | Semantic typography wrapper enforcing the modular scale and line heights. | `variant="display" \| "h1" \| "h2" \| "h3" \| "base" \| "small"`, `as="p" \| "span" \| "h1"`. |
 | **`Theme`** | `@arcade/lib-ui/components/Theme` | Scoped theme context wrapper applying theme token overrides to descendant trees. | `name: ThemesetId`, `children`. |
 | **`Timer`** | `@arcade/lib-ui/components/Timer` | Monospaced digital clock/timer display for game runtimes and speed runs. | `seconds`, `isPaused`. |

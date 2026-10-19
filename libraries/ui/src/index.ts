@@ -62,3 +62,19 @@ export type {
 } from './components/Toast/_Toast.types';
 
 export * from './components/MedalToastListener/index.js';
+
+export { MedalIcon, MedalEmblem } from './components/MedalIcon';
+export type {
+	MedalEmblemProps,
+	MedalIconProps,
+	MedalState,
+	MedalTier,
+} from './components/MedalIcon';
+
+export { MedalCard, TriadBadge } from './components/MedalCard';
+export type {
+	MedalCardMode,
+	MedalCardProps,
+	MedalProgressData,
+	TriadBadgeProps,
+} from './components/MedalCard';
