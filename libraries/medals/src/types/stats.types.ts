@@ -11,7 +11,7 @@ export interface BaseGameStats {
 	readonly lastPlayedAt: number;
 }
 
-export type SudokuDifficulty = 'easy' | 'medium' | 'hard' | 'expert';
+export type SudokuDifficulty = 'easy' | 'medium' | 'hard' | 'veryHard' | 'insane' | 'inhuman' | 'expert';
 
 export interface SudokuDifficultyStats {
 	readonly gamesPlayed: number;
@@ -23,6 +23,8 @@ export interface SudokuDifficultyStats {
 
 export interface SudokuCustomStats {
 	readonly difficulties: Record<SudokuDifficulty, SudokuDifficultyStats>;
+	readonly completedPresetIds?: string[];
+	readonly completedPresetsWithoutHints?: string[];
 }
 
 export interface NonogramPuzzleRecord {

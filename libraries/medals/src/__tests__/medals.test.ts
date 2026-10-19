@@ -139,23 +139,23 @@ describe('@arcade/lib-medals Foundation', () => {
 	it('evaluates and unlocks medals (bronze, gold)', async () => {
 		const storage = new MockMemoryStorage('sudoku');
 
-		// Win with errors Count = 0 in 100s
+		// Win on Hard with errors Count = 0, hints = 0 in 100s
 		const result = await recordGameResult(
 			{
 				gameId: 'sudoku',
 				won: true,
 				playTimeSeconds: 100,
-				levelKey: 'medium',
-				roundContext: { errorsCount: 0 },
+				levelKey: 'hard',
+				roundContext: { difficulty: 'hard', errorsCount: 0, hintsUsed: 0 },
 			},
 			{ storage, now: 5000 },
 		);
 
-		// Unlocked: first_win (bronze), speed_demon (gold: <= 180s), flawless (gold: 0 errors)
+		// Unlocked: first_victory (bronze), speed_demon (gold: <= 180s), flawless_logic (gold: 0 errors on Hard)
 		const unlockedIds = result.newlyUnlockedMedals.map((m) => m.id);
-		expect(unlockedIds).toContain('sudoku_first_win');
+		expect(unlockedIds).toContain('sudoku_first_victory');
 		expect(unlockedIds).toContain('sudoku_speed_demon');
-		expect(unlockedIds).toContain('sudoku_flawless');
+		expect(unlockedIds).toContain('sudoku_flawless_logic');
 
 		// Playing again does not re-unlock
 		const secondResult = await recordGameResult(
@@ -163,8 +163,8 @@ describe('@arcade/lib-medals Foundation', () => {
 				gameId: 'sudoku',
 				won: true,
 				playTimeSeconds: 100,
-				levelKey: 'medium',
-				roundContext: { errorsCount: 0 },
+				levelKey: 'hard',
+				roundContext: { difficulty: 'hard', errorsCount: 0, hintsUsed: 0 },
 			},
 			{ storage, now: 6000 },
 		);
@@ -385,62 +385,65 @@ describe('@arcade/lib-medals Foundation', () => {
 	it('evaluates and unlocks Sudoku pilot achievements end-to-end', async () => {
 		const storage = new MockMemoryStorage('sudoku');
 
-		// 1. Play first win: 120s, easy difficulty, 0 mistakes
+		// 1. Play first win on Hard: 120s (<=180s on Hard -> speed demon), 0 mistakes & 0 hints on Hard -> flawless logic, first win -> first_victory
 		const result1 = await recordGameResult(
 			{
 				gameId: 'sudoku',
 				won: true,
 				playTimeSeconds: 120,
-				levelKey: 'easy',
+				levelKey: 'hard',
 				roundContext: {
-					difficulty: 'easy',
+					difficulty: 'hard',
 					mistakesCount: 0,
 					errorsCount: 0,
 					hintsUsed: 0,
+					presetId: 'easy-1',
 				},
 			},
 			{ storage },
 		);
 
-		expect(result1.newlyUnlockedMedals.length).toBe(3);
+		expect(result1.newlyUnlockedMedals.length).toBe(5);
 		const unlockedIds = result1.newlyUnlockedMedals.map((m) => m.id);
-		expect(unlockedIds).toContain('sudoku_first_win');
+		expect(unlockedIds).toContain('sudoku_first_victory');
+		expect(unlockedIds).toContain('sudoku_participation');
 		expect(unlockedIds).toContain('sudoku_speed_demon');
-		expect(unlockedIds).toContain('sudoku_flawless');
+		expect(unlockedIds).toContain('sudoku_flawless_logic');
+		expect(unlockedIds).toContain('sudoku_surgical_precision');
 
-		expect(result1.updatedState.customStats.difficulties.easy.gamesWon).toBe(1);
-		expect(result1.updatedState.customStats.difficulties.easy.bestTimeSeconds).toBe(120);
+		expect(result1.updatedState.customStats.difficulties.hard.gamesWon).toBe(1);
+		expect(result1.updatedState.customStats.difficulties.hard.bestTimeSeconds).toBe(120);
+		expect(result1.updatedState.customStats.completedPresetIds).toContain('easy-1');
+		expect(result1.updatedState.customStats.completedPresetsWithoutHints).toContain('easy-1');
 
-		// 2. Play second win: 200s (too slow for speed demon), 2 mistakes (not flawless)
+		// 2. Play second win: 200s, 2 mistakes -> unlocks living_on_edge (Standalone Silver)
 		const result2 = await recordGameResult(
 			{
 				gameId: 'sudoku',
 				won: true,
 				playTimeSeconds: 200,
-				levelKey: 'easy',
+				levelKey: 'hard',
 				roundContext: {
-					difficulty: 'easy',
+					difficulty: 'hard',
 					mistakesCount: 2,
 					errorsCount: 2,
-					hintsUsed: 0,
+					hintsUsed: 1,
 				},
 			},
 			{ storage },
 		);
 
-		// No new medals unlocked
-		expect(result2.newlyUnlockedMedals.length).toBe(0);
+		expect(result2.newlyUnlockedMedals.length).toBe(1);
+		expect(result2.newlyUnlockedMedals[0].id).toBe('sudoku_living_on_edge');
+		expect(result2.newlyUnlockedMedals[0].tier).toBe('silver');
 		expect(result2.updatedState.baseStats.gamesWon).toBe(2);
-		expect(result2.updatedState.customStats.difficulties.easy.gamesWon).toBe(2);
-		// Best time remains 120s
-		expect(result2.updatedState.customStats.difficulties.easy.bestTimeSeconds).toBe(120);
 
-		// 3. Play 3rd win to unlock streak medal
+		// 3. Play 3rd win: streak reaches 3 -> unlocks sudoku_streak Bronze!
 		const result3 = await recordGameResult(
 			{
 				gameId: 'sudoku',
 				won: true,
-				playTimeSeconds: 150,
+				playTimeSeconds: 250,
 				levelKey: 'easy',
 				roundContext: {
 					difficulty: 'easy',
@@ -452,6 +455,250 @@ describe('@arcade/lib-medals Foundation', () => {
 		);
 
 		expect(result3.newlyUnlockedMedals.length).toBe(1);
-		expect(result3.newlyUnlockedMedals[0].id).toBe('sudoku_win_streak_3');
+		expect(result3.newlyUnlockedMedals[0].id).toBe('sudoku_streak');
+		expect(result3.newlyUnlockedMedals[0].tier).toBe('bronze');
+		const streakProg = result3.updatedState.medalProgress.sudoku_streak;
+		expect(streakProg.currentTier).toBe('bronze');
+		expect(streakProg.currentProgress).toBe(3);
+		expect(streakProg.nextThreshold).toBe(5);
+		expect(streakProg.bronzeUnlocked).toBe(true);
+		expect(streakProg.silverUnlocked).toBe(false);
+
+		// 4. Play remaining easy presets to complete easy campaign foundations
+		for (const id of ['easy-2', 'easy-3', 'easy-4', 'easy-5', 'easy-6']) {
+			await recordGameResult(
+				{
+					gameId: 'sudoku',
+					won: true,
+					playTimeSeconds: 100,
+					levelKey: 'easy',
+					roundContext: {
+						difficulty: 'easy',
+						presetId: id,
+						hintsUsed: 0,
+					},
+				},
+				{ storage },
+			);
+		}
+
+		const afterEasy = await getGameMedalState('sudoku', storage);
+		expect(afterEasy.unlockedMedals.sudoku_campaign_foundations).toBeDefined();
+		expect(afterEasy.unlockedMedals.sudoku_campaign_foundations.tier).toBe('bronze');
+		const foundationsProg = afterEasy.medalProgress.sudoku_campaign_foundations;
+		expect(foundationsProg.currentTier).toBe('bronze');
+		expect(foundationsProg.bronzeUnlocked).toBe(true);
+		expect(foundationsProg.nextThreshold).toBe(6);
+
+		// Streak is now 8 -> should have unlocked Silver for sudoku_streak at 5
+		expect(afterEasy.unlockedMedals.sudoku_streak.tier).toBe('silver');
+		expect(afterEasy.medalProgress.sudoku_streak.silverUnlocked).toBe(true);
+		expect(afterEasy.medalProgress.sudoku_streak.nextThreshold).toBe(10);
+	});
+
+	it('evaluates beyond_mortal and campaign_gauntlet ladder progression', async () => {
+		const storage = new MockMemoryStorage('sudoku');
+
+		// 1. Solve on Insane -> unlocks beyond_mortal and speed_demon (if <= 180s)
+		const resInsane = await recordGameResult(
+			{
+				gameId: 'sudoku',
+				won: true,
+				playTimeSeconds: 150,
+				levelKey: 'insane',
+				roundContext: {
+					difficulty: 'insane',
+					mistakesCount: 0,
+					hintsUsed: 0,
+				},
+			},
+			{ storage },
+		);
+
+		const unlockedIds = resInsane.newlyUnlockedMedals.map((m) => m.id);
+		expect(unlockedIds).toContain('sudoku_beyond_mortal');
+		expect(unlockedIds).toContain('sudoku_first_victory');
+		expect(unlockedIds).toContain('sudoku_speed_demon');
+		expect(unlockedIds).toContain('sudoku_flawless_logic');
+
+		// 2. Solve 3 Hard presets -> unlocks Bronze for sudoku_campaign_gauntlet
+		for (const id of ['hard-1', 'hard-2', 'hard-3']) {
+			await recordGameResult(
+				{
+					gameId: 'sudoku',
+					won: true,
+					playTimeSeconds: 200,
+					levelKey: 'hard',
+					roundContext: {
+						difficulty: 'hard',
+						presetId: id,
+					},
+				},
+				{ storage },
+			);
+		}
+
+		let state = await getGameMedalState('sudoku', storage);
+		expect(state.unlockedMedals.sudoku_campaign_gauntlet).toBeDefined();
+		expect(state.unlockedMedals.sudoku_campaign_gauntlet.tier).toBe('bronze');
+		expect(state.medalProgress.sudoku_campaign_gauntlet.currentTier).toBe('bronze');
+		expect(state.medalProgress.sudoku_campaign_gauntlet.bronzeUnlocked).toBe(true);
+		expect(state.medalProgress.sudoku_campaign_gauntlet.nextThreshold).toBe(6);
+
+		// 3. Solve remaining 3 Hard presets -> unlocks Silver for gauntlet
+		for (const id of ['hard-4', 'hard-5', 'hard-6']) {
+			await recordGameResult(
+				{
+					gameId: 'sudoku',
+					won: true,
+					playTimeSeconds: 200,
+					levelKey: 'hard',
+					roundContext: {
+						difficulty: 'hard',
+						presetId: id,
+					},
+				},
+				{ storage },
+			);
+		}
+
+		state = await getGameMedalState('sudoku', storage);
+		expect(state.unlockedMedals.sudoku_campaign_gauntlet.tier).toBe('silver');
+		expect(state.medalProgress.sudoku_campaign_gauntlet.currentTier).toBe('silver');
+		expect(state.medalProgress.sudoku_campaign_gauntlet.silverUnlocked).toBe(true);
+
+		// 4. Solve all 6 Very Hard presets -> unlocks Gold for gauntlet
+		for (const id of ['veryHard-1', 'veryHard-2', 'veryHard-3', 'veryHard-4', 'veryHard-5', 'veryHard-6']) {
+			await recordGameResult(
+				{
+					gameId: 'sudoku',
+					won: true,
+					playTimeSeconds: 200,
+					levelKey: 'veryHard',
+					roundContext: {
+						difficulty: 'veryHard',
+						presetId: id,
+					},
+				},
+				{ storage },
+			);
+		}
+
+		state = await getGameMedalState('sudoku', storage);
+		expect(state.unlockedMedals.sudoku_campaign_gauntlet.tier).toBe('gold');
+		expect(state.medalProgress.sudoku_campaign_gauntlet.currentTier).toBe('gold');
+		expect(state.medalProgress.sudoku_campaign_gauntlet.goldUnlocked).toBe(true);
+		expect(state.medalProgress.sudoku_campaign_gauntlet.nextThreshold).toBeNull();
+	});
+
+	it('evaluates quirky and defeat medals for Sudoku correctly', async () => {
+		const storage = new MockMemoryStorage('sudoku');
+
+		// 1. Defeat within 15 seconds -> unlocks sudoku_old_college_try (1st loss) and sudoku_speedrun_failure (<= 20s)
+		const defeatRes = await recordGameResult(
+			{
+				gameId: 'sudoku',
+				won: false,
+				playTimeSeconds: 15,
+				levelKey: 'hard',
+				roundContext: {
+					difficulty: 'hard',
+					mistakesCount: 3,
+				},
+			},
+			{ storage },
+		);
+		const defeatIds = defeatRes.newlyUnlockedMedals.map((m) => m.id);
+		expect(defeatIds).toContain('sudoku_old_college_try');
+		expect(defeatIds).toContain('sudoku_speedrun_failure');
+
+		// 2. Second defeat -> sudoku_old_college_try should NOT unlock again
+		const secondDefeat = await recordGameResult(
+			{
+				gameId: 'sudoku',
+				won: false,
+				playTimeSeconds: 10,
+				levelKey: 'hard',
+				roundContext: {
+					difficulty: 'hard',
+					mistakesCount: 3,
+				},
+			},
+			{ storage },
+		);
+		const secondDefeatIds = secondDefeat.newlyUnlockedMedals.map((m) => m.id);
+		expect(secondDefeatIds).not.toContain('sudoku_old_college_try');
+
+		// 3. Victory: first win unlocks participation, pencil pusher (notes >= 60), are you sure (undos >= 10), insomnia (2-4 AM)
+		const victoryRes1 = await recordGameResult(
+			{
+				gameId: 'sudoku',
+				won: true,
+				playTimeSeconds: 300,
+				levelKey: 'medium',
+				roundContext: {
+					difficulty: 'medium',
+					notesPlacedBeforeFirstDigit: 65,
+					consecutiveUndosMax: 12,
+					localHour: 3,
+				},
+			},
+			{ storage },
+		);
+		const victory1Ids = victoryRes1.newlyUnlockedMedals.map((m) => m.id);
+		expect(victory1Ids).toContain('sudoku_participation');
+		expect(victory1Ids).toContain('sudoku_pencil_pusher');
+		expect(victory1Ids).toContain('sudoku_are_you_sure');
+		expect(victory1Ids).toContain('sudoku_insomnia');
+
+		// 4. Analysis Paralysis (Easy puzzle won with playTimeSeconds > 1200)
+		const victoryAnalysis = await recordGameResult(
+			{
+				gameId: 'sudoku',
+				won: true,
+				playTimeSeconds: 1250,
+				levelKey: 'easy',
+				roundContext: {
+					difficulty: 'easy',
+				},
+			},
+			{ storage },
+		);
+		expect(victoryAnalysis.newlyUnlockedMedals.map((m) => m.id)).toContain('sudoku_analysis_paralysis');
+
+		// 5. Living on a Prayer (won, mistakesCount === 2, secondMistakeTimeSeconds <= 60)
+		const victoryPrayer = await recordGameResult(
+			{
+				gameId: 'sudoku',
+				won: true,
+				playTimeSeconds: 250,
+				levelKey: 'medium',
+				roundContext: {
+					difficulty: 'medium',
+					mistakesCount: 2,
+					secondMistakeTimeSeconds: 45,
+				},
+			},
+			{ storage },
+		);
+		expect(victoryPrayer.newlyUnlockedMedals.map((m) => m.id)).toContain('sudoku_living_on_prayer');
+
+		// 6. Surgical Precision (won, hard+, 0 notes, 0 hints, 0 mistakes)
+		const victoryPrecision = await recordGameResult(
+			{
+				gameId: 'sudoku',
+				won: true,
+				playTimeSeconds: 400,
+				levelKey: 'hard',
+				roundContext: {
+					difficulty: 'hard',
+					mistakesCount: 0,
+					hintsUsed: 0,
+					totalNotesPlaced: 0,
+				},
+			},
+			{ storage },
+		);
+		expect(victoryPrecision.newlyUnlockedMedals.map((m) => m.id)).toContain('sudoku_surgical_precision');
 	});
 });

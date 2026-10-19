@@ -36,8 +36,13 @@ function createInitialSudokuStats(): GameCustomStatsMap['sudoku'] {
 			easy: createDiff(),
 			medium: createDiff(),
 			hard: createDiff(),
+			veryHard: createDiff(),
+			insane: createDiff(),
+			inhuman: createDiff(),
 			expert: createDiff(),
 		},
+		completedPresetIds: [],
+		completedPresetsWithoutHints: [],
 	};
 }
 

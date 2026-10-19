@@ -34,25 +34,73 @@ export const ptMedals = {
 		},
 	},
 	sudoku: {
-		first_win: {
+		first_victory: {
 			title: 'Primeira Vitória',
-			desc: 'Vença sua primeira partida de Sudoku.',
+			desc: 'Vença sua primeira partida de Sudoku em qualquer dificuldade.',
 		},
-		win_streak_3: {
-			title: 'Sequência Vencedora',
-			desc: 'Vença 3 partidas de Sudoku seguidas.',
+		streak: {
+			title: 'Sequência Vitoriosa',
+			desc: 'Alcance vitórias consecutivas: Bronze com 3, Prata com 5 e Ouro com 10 partidas.',
 		},
-		expert_master: {
-			title: 'Grão-Mestre',
-			desc: 'Vença 10 partidas de Sudoku no nível Especialista.',
+		campaign_foundations: {
+			title: 'Campanha Fundamentos',
+			desc: 'Domine quebra-cabeças selecionados: Bronze para todos os 6 Fáceis, Prata para os 6 Médios, Ouro para os 12 sem usar dicas.',
+		},
+		campaign_gauntlet: {
+			title: 'Campanha Desafio Supremo',
+			desc: 'Supere quebra-cabeças avançados: Bronze para 3 Difíceis, Prata para todos os 6 Difíceis, Ouro para todos os 6 Muito Difíceis.',
 		},
 		speed_demon: {
-			title: 'Veloz',
-			desc: 'Resolva qualquer Sudoku em menos de 3 minutos.',
+			title: 'Velocista',
+			desc: 'Resolva um Sudoku em menos de 3 minutos na dificuldade Média ou superior.',
 		},
-		flawless: {
-			title: 'Lógica Perfeita',
-			desc: 'Complete um Sudoku sem cometer nenhum erro.',
+		flawless_logic: {
+			title: 'Lógica Impecável',
+			desc: 'Complete um Sudoku na dificuldade Difícil ou superior sem erros e sem dicas.',
+		},
+		beyond_mortal: {
+			title: 'Além dos Mortais',
+			desc: 'Resolva um quebra-cabeça na dificuldade Insano ou Desumano.',
+		},
+		living_on_edge: {
+			title: 'No Limite',
+			desc: 'Vença uma partida com exatamente 2 erros cometidos, a um passo da derrota.',
+		},
+		participation: {
+			title: 'Medalha de Participação',
+			desc: 'Resolva qualquer quebra-cabeça em qualquer dificuldade. Você conseguiu!',
+		},
+		old_college_try: {
+			title: 'Valeu a Tentativa',
+			desc: 'Sofra sua primeira derrota. Você tentou, e isso é o que importa.',
+		},
+		speedrun_failure: {
+			title: 'Fracasso Relâmpago',
+			desc: 'Cometa 3 erros e perca uma partida em menos de 20 segundos.',
+		},
+		analysis_paralysis: {
+			title: 'Paralisia por Análise',
+			desc: 'Passe mais de 20 minutos resolvendo um Fácil. Pensar duas vezes antes de agir.',
+		},
+		are_you_sure: {
+			title: 'Tem Certeza Disso?',
+			desc: 'Desfaça jogadas 10 vezes consecutivas na mesma partida.',
+		},
+		living_on_prayer: {
+			title: 'Por um Triz',
+			desc: 'Cometa dois erros no primeiro minuto e ainda saia vitorioso.',
+		},
+		pencil_pusher: {
+			title: 'Mestre do Lápis',
+			desc: 'Anote 60 notas candidatas antes de colocar o seu primeiro número confirmado.',
+		},
+		surgical_precision: {
+			title: 'Precisão Cirúrgica',
+			desc: 'Resolva um tabuleiro Difícil ou superior sem notas, sem dicas e sem erros.',
+		},
+		insomnia: {
+			title: 'Especial da Insônia',
+			desc: 'Complete um quebra-cabeça entre as 2h00 e as 4h00 da madrugada.',
 		},
 	},
 	nonogram: {

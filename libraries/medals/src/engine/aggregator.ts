@@ -69,6 +69,33 @@ export function updateCustomStats<G extends GameId>(
 					},
 				};
 			}
+
+			const presetId = (result.roundContext?.presetId ??
+				result.roundContext?.puzzleId ??
+				(typeof result.levelKey === 'string' &&
+				(result.levelKey.startsWith('easy-') ||
+					result.levelKey.startsWith('medium-') ||
+					result.levelKey.startsWith('hard-') ||
+					result.levelKey.startsWith('veryHard-') ||
+					result.levelKey.startsWith('insane-') ||
+					result.levelKey.startsWith('inhuman-'))
+					? result.levelKey
+					: undefined)) as string | undefined;
+
+			if (result.won && presetId) {
+				const completedSet = new Set(stats.completedPresetIds ?? []);
+				completedSet.add(presetId);
+				stats.completedPresetIds = Array.from(completedSet);
+
+				const hintsUsed =
+					typeof result.roundContext?.hintsUsed === 'number' ? result.roundContext.hintsUsed : 0;
+				if (hintsUsed === 0) {
+					const withoutHintsSet = new Set(stats.completedPresetsWithoutHints ?? []);
+					withoutHintsSet.add(presetId);
+					stats.completedPresetsWithoutHints = Array.from(withoutHintsSet);
+				}
+			}
+
 			return { updatedCustom: stats as GameCustomStatsMap[G], isNewBestTime };
 		}
 
@@ -217,7 +244,7 @@ export function mergeGameMedalState<G extends GameId>(
 	// Merge customStats per game
 	let mergedCustom = { ...local.customStats };
 
-	if (local.gameId === 'sudoku' || local.gameId === 'minesweeper') {
+	if (local.gameId === 'sudoku') {
 		interface DifficultyRecord {
 			readonly gamesPlayed: number;
 			readonly gamesWon: number;
@@ -226,11 +253,62 @@ export function mergeGameMedalState<G extends GameId>(
 			readonly bestStreak: number;
 		}
 
-		const localDiffs = (local.customStats as SudokuCustomStats).difficulties as unknown as Record<
+		const localCustom = local.customStats as SudokuCustomStats;
+		const remoteCustom = remote.customStats as SudokuCustomStats;
+		const localDiffs = localCustom.difficulties as unknown as Record<string, DifficultyRecord>;
+		const remoteDiffs = remoteCustom.difficulties as unknown as Record<string, DifficultyRecord>;
+		const diffs: Record<string, DifficultyRecord> = {};
+
+		for (const key of Object.keys(localDiffs)) {
+			const l = localDiffs[key];
+			const r = remoteDiffs[key];
+			if (!r) {
+				diffs[key] = l;
+				continue;
+			}
+			const bestTimeSeconds =
+				l.bestTimeSeconds !== null && r.bestTimeSeconds !== null
+					? Math.min(l.bestTimeSeconds, r.bestTimeSeconds)
+					: (l.bestTimeSeconds ?? r.bestTimeSeconds);
+
+			diffs[key] = {
+				gamesPlayed: Math.max(l.gamesPlayed, r.gamesPlayed),
+				gamesWon: Math.max(l.gamesWon, r.gamesWon),
+				bestTimeSeconds,
+				bestStreak: Math.max(l.bestStreak, r.bestStreak),
+				currentStreak: local.updatedAt >= remote.updatedAt ? l.currentStreak : r.currentStreak,
+			};
+		}
+
+		const mergedPresetIds = Array.from(
+			new Set([...(localCustom.completedPresetIds ?? []), ...(remoteCustom.completedPresetIds ?? [])]),
+		);
+		const mergedPresetsWithoutHints = Array.from(
+			new Set([
+				...(localCustom.completedPresetsWithoutHints ?? []),
+				...(remoteCustom.completedPresetsWithoutHints ?? []),
+			]),
+		);
+
+		mergedCustom = {
+			difficulties: diffs,
+			completedPresetIds: mergedPresetIds,
+			completedPresetsWithoutHints: mergedPresetsWithoutHints,
+		} as unknown as GameCustomStatsMap[G];
+	} else if (local.gameId === 'minesweeper') {
+		interface DifficultyRecord {
+			readonly gamesPlayed: number;
+			readonly gamesWon: number;
+			readonly bestTimeSeconds: number | null;
+			readonly currentStreak: number;
+			readonly bestStreak: number;
+		}
+
+		const localDiffs = (local.customStats as MinesweeperCustomStats).difficulties as unknown as Record<
 			string,
 			DifficultyRecord
 		>;
-		const remoteDiffs = (remote.customStats as SudokuCustomStats).difficulties as unknown as Record<
+		const remoteDiffs = (remote.customStats as MinesweeperCustomStats).difficulties as unknown as Record<
 			string,
 			DifficultyRecord
 		>;

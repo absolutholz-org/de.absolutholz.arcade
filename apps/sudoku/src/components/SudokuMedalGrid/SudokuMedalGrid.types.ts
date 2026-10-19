@@ -1,13 +1,19 @@
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
-import type { MedalTier } from '@arcade/lib-medals';
+import type { AchievementType, MedalTier } from '@arcade/lib-medals';
 
 export interface SudokuMedalDefinitionItem {
 	readonly id: string;
+	readonly type: AchievementType;
 	readonly tier: MedalTier;
 	readonly title: string;
 	readonly description: string;
 	readonly icon: string;
 	readonly target?: number;
+	readonly thresholds?: {
+		readonly bronze: number;
+		readonly silver: number;
+		readonly gold: number;
+	};
 }
 
 export interface SudokuMedalGridProps {

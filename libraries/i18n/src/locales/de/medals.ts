@@ -34,25 +34,73 @@ export const deMedals = {
 		},
 	},
 	sudoku: {
-		first_win: {
+		first_victory: {
 			title: 'Erster Sieg',
-			desc: 'Gewinne dein erstes Sudoku-Spiel.',
+			desc: 'Gewinne dein erstes Sudoku-Spiel auf einer beliebigen Schwierigkeitsstufe.',
 		},
-		win_streak_3: {
-			title: 'Rätsel-Serie',
-			desc: 'Gewinne 3 Sudoku-Spiele in Folge.',
+		streak: {
+			title: 'Siegesserie',
+			desc: 'Erziele aufeinanderfolgende Siege: Bronze bei 3, Silber bei 5 und Gold bei 10 Spielen.',
 		},
-		expert_master: {
-			title: 'Großmeister',
-			desc: 'Gewinne 10 Sudoku-Spiele auf Schwierigkeitsstufe Experte.',
+		campaign_foundations: {
+			title: 'Grundlagen-Kampagne',
+			desc: 'Meistere kuratierte Rätsel: Bronze für alle 6 leichten, Silber für alle 6 mittleren, Gold für alle 12 ohne Hinweise.',
+		},
+		campaign_gauntlet: {
+			title: 'Spießrutenlauf-Kampagne',
+			desc: 'Bezwinge schwere kuratierte Rätsel: Bronze für beliebige 3 schwere, Silber für alle 6 schweren, Gold für alle 6 sehr schweren.',
 		},
 		speed_demon: {
 			title: 'Geschwindigkeitsteufel',
-			desc: 'Löse ein Sudoku-Rätsel in unter 3 Minuten.',
+			desc: 'Löse ein Sudoku-Rätsel auf Stufe Mittel oder höher in unter 3 Minuten.',
 		},
-		flawless: {
+		flawless_logic: {
 			title: 'Fehlerfreie Logik',
-			desc: 'Löse ein Sudoku-Rätsel ohne einen einzigen Fehler.',
+			desc: 'Löse ein Sudoku auf Stufe Schwer oder höher ohne Fehler und ohne Hinweise.',
+		},
+		beyond_mortal: {
+			title: 'Übermenschlich',
+			desc: 'Löse ein Sudoku-Rätsel auf der Stufe Insane oder Inhuman.',
+		},
+		living_on_edge: {
+			title: 'Am seidenen Faden',
+			desc: 'Gewinne ein Spiel mit genau 2 Fehlern – haarscharf am Scheitern vorbei.',
+		},
+		participation: {
+			title: 'Teilnehmermedaille',
+			desc: 'Löse ein beliebiges Rätsel auf einer beliebigen Stufe. Du hast es geschafft!',
+		},
+		old_college_try: {
+			title: 'Hauptsache versucht',
+			desc: 'Erleide deine erste Niederlage. Du hast es versucht, und das zählt.',
+		},
+		speedrun_failure: {
+			title: 'Speedrun ins Verderben',
+			desc: 'Scheitere und verliere ein Spiel in unter 20 Sekunden.',
+		},
+		analysis_paralysis: {
+			title: 'Paralyse durch Analyse',
+			desc: 'Verbringe über 20 Minuten mit einem leichten Rätsel. Doppelt genäht hält besser.',
+		},
+		are_you_sure: {
+			title: 'Bist du dir da sicher?',
+			desc: 'Mache in einer einzigen Partie 10 Züge hintereinander rückgängig.',
+		},
+		living_on_prayer: {
+			title: 'Auf gut Glück',
+			desc: 'Mache zwei Fehler in der ersten Minute und hole trotzdem noch den Sieg.',
+		},
+		pencil_pusher: {
+			title: 'Notizenmeister',
+			desc: 'Setze 60 Notizen, bevor du deine erste feste Zahl einträgst.',
+		},
+		surgical_precision: {
+			title: 'Chirurgische Präzision',
+			desc: 'Löse ein schweres oder höheres Rätsel ganz ohne Notizen, Hinweise und Fehler.',
+		},
+		insomnia: {
+			title: 'Schlaflos-Spezial',
+			desc: 'Schließe ein Rätsel zwischen 2:00 Uhr und 4:00 Uhr morgens ab.',
 		},
 	},
 	nonogram: {

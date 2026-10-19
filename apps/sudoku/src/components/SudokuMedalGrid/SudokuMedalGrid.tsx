@@ -2,8 +2,8 @@ import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { type MedalProgress, type MedalTier, getGameMedalState, subscribeToMedalUnlocked } from '@arcade/lib-medals';
+import { MedalCard } from '@arcade/lib-ui';
 import { Button } from '@arcade/lib-ui/components/Button';
-import { Icon } from '@arcade/lib-ui/components/Icon';
 import { useCallback, useEffect, useState } from 'react';
 import * as S from './SudokuMedalGrid.styles';
 import type { SudokuMedalDefinitionItem, SudokuMedalGridProps } from './SudokuMedalGrid.types';
@@ -12,6 +12,9 @@ interface HydratedMedalItem extends SudokuMedalDefinitionItem {
 	readonly isUnlocked: boolean;
 	readonly unlockedAt?: number;
 	readonly progress?: MedalProgress;
+	readonly bronzeUnlocked?: boolean;
+	readonly silverUnlocked?: boolean;
+	readonly goldUnlocked?: boolean;
 }
 
 function SudokuMedalGridContent({
@@ -38,11 +41,33 @@ function SudokuMedalGridContent({
 				prev.map((item) => {
 					const unlock = state.unlockedMedals[item.id];
 					const progress = state.medalProgress[item.id];
+					const isLadder = item.type === 'ladder';
+
+					let bronzeUnlocked = false;
+					let silverUnlocked = false;
+					let goldUnlocked = false;
+
+					if (isLadder) {
+						bronzeUnlocked = Boolean(
+							progress?.bronzeUnlocked ||
+								unlock?.tier === 'bronze' ||
+								unlock?.tier === 'silver' ||
+								unlock?.tier === 'gold',
+						);
+						silverUnlocked = Boolean(
+							progress?.silverUnlocked || unlock?.tier === 'silver' || unlock?.tier === 'gold',
+						);
+						goldUnlocked = Boolean(progress?.goldUnlocked || unlock?.tier === 'gold');
+					}
+
 					return {
 						...item,
 						isUnlocked: Boolean(unlock),
 						unlockedAt: unlock?.unlockedAt,
 						progress: progress ?? (item.target ? { current: 0, target: item.target } : undefined),
+						bronzeUnlocked,
+						silverUnlocked,
+						goldUnlocked,
 					};
 				}),
 			);
@@ -61,10 +86,18 @@ function SudokuMedalGridContent({
 		return unsubscribe;
 	}, [hydrateMedals]);
 
-	const unlockedCount = medals.filter((m) => m.isUnlocked).length;
-	const goldCount = medals.filter((m) => m.isUnlocked && m.tier === 'gold').length;
-	const silverCount = medals.filter((m) => m.isUnlocked && m.tier === 'silver').length;
-	const bronzeCount = medals.filter((m) => m.isUnlocked && m.tier === 'bronze').length;
+	const goldCount = medals.filter(
+		(m) => m.goldUnlocked || (m.type === 'standalone' && m.isUnlocked && m.tier === 'gold'),
+	).length;
+	const silverCount = medals.filter(
+		(m) => m.silverUnlocked || (m.type === 'standalone' && m.isUnlocked && m.tier === 'silver'),
+	).length;
+	const bronzeCount = medals.filter(
+		(m) => m.bronzeUnlocked || (m.type === 'standalone' && m.isUnlocked && m.tier === 'bronze'),
+	).length;
+	const unlockedCount = medals.filter(
+		(m) => m.isUnlocked || m.bronzeUnlocked || m.silverUnlocked || m.goldUnlocked,
+	).length;
 
 	return (
 		<div className={S.Container}>
@@ -90,64 +123,84 @@ function SudokuMedalGridContent({
 				</div>
 			</section>
 
-			{/* Static/Hydrated Medals Grid */}
+			{/* Static/Hydrated Medals Grid consuming design system MedalCard */}
 			<div className={S.MedalsGrid}>
 				{medals.map((item) => {
+					const isProgressive = item.type === 'ladder';
 					const progress = item.progress;
-					const hasProgress = Boolean(progress && progress.target > 0);
-					const currentProgress = progress?.current ?? 0;
-					const targetProgress = progress?.target ?? 0;
-					const percent =
-						hasProgress && targetProgress > 0
-							? Math.min(100, Math.round((currentProgress / targetProgress) * 100))
-							: 0;
+
+					if (isProgressive) {
+						const bronzeUnlocked = Boolean(item.bronzeUnlocked);
+						const silverUnlocked = Boolean(item.silverUnlocked);
+						const goldUnlocked = Boolean(item.goldUnlocked);
+						const nextTier: MedalTier | undefined = !bronzeUnlocked
+							? 'bronze'
+							: !silverUnlocked
+								? 'silver'
+								: !goldUnlocked
+									? 'gold'
+									: undefined;
+
+						const current = progress?.currentProgress ?? progress?.current ?? 0;
+						const target =
+							progress?.nextThreshold ??
+							(nextTier === 'bronze'
+								? (item.thresholds?.bronze ?? 3)
+								: nextTier === 'silver'
+									? (item.thresholds?.silver ?? 5)
+									: (item.thresholds?.gold ?? 10));
+
+						return (
+							<MedalCard
+								key={item.id}
+								mode="progressive"
+								title={item.title}
+								description={item.description}
+								bronzeUnlocked={bronzeUnlocked}
+								silverUnlocked={silverUnlocked}
+								goldUnlocked={goldUnlocked}
+								unlockedAt={item.unlockedAt}
+								unlockedDateText={
+									item.unlockedAt
+										? tMedals('showcase.status.unlockedOn', {
+												date: new Date(item.unlockedAt).toLocaleDateString(lang),
+											})
+										: undefined
+								}
+								progressiveProgress={{
+									current,
+									target,
+									nextTier,
+								}}
+								lockedText={tMedals('showcase.status.locked')}
+							/>
+						);
+					}
 
 					return (
-						<article
+						<MedalCard
 							key={item.id}
-							className={S.MedalCard}
-							data-status={item.isUnlocked ? 'unlocked' : 'locked'}
-							data-tier={item.tier}
-						>
-							<div className={S.MedalHeader}>
-								<div className={S.MedalBadge} data-tier={item.tier} aria-hidden="true">
-									{item.isUnlocked ? (
-										<Icon name="trophy" size="md" />
-									) : (
-										<Icon name="lock" size="md" />
-									)}
-								</div>
-								<div className={S.MedalMeta}>
-									<span className={S.MedalTierBadge}>
-										{tMedals(`showcase.tiers.${item.tier}` as `showcase.tiers.${MedalTier}`)}
-									</span>
-									<h2 className={S.MedalTitle}>{item.title}</h2>
-								</div>
-							</div>
-
-							<p className={S.MedalDescription}>{item.description}</p>
-
-							<div className={S.MedalFooter}>
-								{item.isUnlocked && item.unlockedAt ? (
-									<span className={S.UnlockedDate}>
-										{tMedals('showcase.status.unlockedOn', {
+							mode="standalone"
+							tier={item.tier}
+							title={item.title}
+							description={item.description}
+							unlocked={item.isUnlocked}
+							unlockedAt={item.unlockedAt}
+							unlockedDateText={
+								item.unlockedAt
+									? tMedals('showcase.status.unlockedOn', {
 											date: new Date(item.unlockedAt).toLocaleDateString(lang),
-										})}
-									</span>
-								) : hasProgress ? (
-									<div className={S.ProgressContainer}>
-										<div className={S.ProgressBarTrack}>
-											<div className={S.ProgressBarFill} style={{ width: `${percent}%` }} />
-										</div>
-										<span className={S.ProgressLabel}>
-											{currentProgress} / {targetProgress} ({percent}%)
-										</span>
-									</div>
-								) : (
-									<span className={S.ProgressLabel}>{tMedals('showcase.status.locked')}</span>
-								)}
-							</div>
-						</article>
+										})
+									: undefined
+							}
+							progress={
+								progress && progress.target > 0
+									? { current: progress.current, target: progress.target }
+									: undefined
+							}
+							tierLabel={tMedals(`showcase.tiers.${item.tier}` as `showcase.tiers.${MedalTier}`)}
+							lockedText={tMedals('showcase.status.locked')}
+						/>
 					);
 				})}
 			</div>

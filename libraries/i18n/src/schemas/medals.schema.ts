@@ -31,11 +31,23 @@ export interface MedalsSchema {
 		};
 	};
 	readonly sudoku: {
-		readonly first_win: { readonly title: string; readonly desc: string };
-		readonly win_streak_3: { readonly title: string; readonly desc: string };
-		readonly expert_master: { readonly title: string; readonly desc: string };
+		readonly first_victory: { readonly title: string; readonly desc: string };
+		readonly streak: { readonly title: string; readonly desc: string };
+		readonly campaign_foundations: { readonly title: string; readonly desc: string };
+		readonly campaign_gauntlet: { readonly title: string; readonly desc: string };
 		readonly speed_demon: { readonly title: string; readonly desc: string };
-		readonly flawless: { readonly title: string; readonly desc: string };
+		readonly flawless_logic: { readonly title: string; readonly desc: string };
+		readonly beyond_mortal: { readonly title: string; readonly desc: string };
+		readonly living_on_edge: { readonly title: string; readonly desc: string };
+		readonly participation: { readonly title: string; readonly desc: string };
+		readonly old_college_try: { readonly title: string; readonly desc: string };
+		readonly speedrun_failure: { readonly title: string; readonly desc: string };
+		readonly analysis_paralysis: { readonly title: string; readonly desc: string };
+		readonly are_you_sure: { readonly title: string; readonly desc: string };
+		readonly living_on_prayer: { readonly title: string; readonly desc: string };
+		readonly pencil_pusher: { readonly title: string; readonly desc: string };
+		readonly surgical_precision: { readonly title: string; readonly desc: string };
+		readonly insomnia: { readonly title: string; readonly desc: string };
 	};
 	readonly nonogram: {
 		readonly first_solve: { readonly title: string; readonly desc: string };

@@ -1,6 +1,7 @@
 import type { BaseGameStats, GameCustomStatsMap, GameId } from './stats.types.js';
 
 export type MedalTier = 'bronze' | 'silver' | 'gold';
+export type AchievementType = 'standalone' | 'ladder';
 
 export interface MedalUnlock {
 	readonly id: string;
@@ -11,6 +12,12 @@ export interface MedalUnlock {
 export interface MedalProgress {
 	readonly current: number;
 	readonly target: number;
+	readonly currentProgress?: number;
+	readonly currentTier?: MedalTier | null;
+	readonly nextThreshold?: number | null;
+	readonly bronzeUnlocked?: boolean;
+	readonly silverUnlocked?: boolean;
+	readonly goldUnlocked?: boolean;
 }
 
 /**
@@ -34,17 +41,30 @@ export interface AchievementEvaluationContext<G extends GameId = GameId> {
 }
 
 export interface AchievementEvaluationResult {
-	readonly unlocked: boolean;
+	readonly unlocked?: boolean;
 	readonly progress?: number;
 	readonly target?: number;
+	readonly currentProgress?: number;
+	readonly currentTier?: MedalTier | null;
+	readonly nextThreshold?: number | null;
+	readonly bronzeUnlocked?: boolean;
+	readonly silverUnlocked?: boolean;
+	readonly goldUnlocked?: boolean;
 }
 
 export interface AchievementDefinition<G extends GameId = GameId> {
 	readonly id: string;
+	readonly type?: AchievementType;
 	readonly tier: MedalTier;
 	readonly titleKey: string;
 	readonly descriptionKey: string;
 	readonly icon: string;
+	readonly metric?: string;
+	readonly thresholds?: {
+		readonly bronze: number;
+		readonly silver: number;
+		readonly gold: number;
+	};
 	readonly evaluate: (context: AchievementEvaluationContext<G>) => AchievementEvaluationResult;
 }
 

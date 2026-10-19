@@ -23,17 +23,25 @@ const staticMedals: SudokuMedalDefinitionItem[] = SUDOKU_MEDAL_DEFINITIONS.map((
 	const key = def.id.replace('sudoku_', '') as keyof typeof currentMedals.sudoku;
 	const localized = currentMedals.sudoku[key];
 	let target: number | undefined;
-	if (def.id === 'sudoku_first_win') target = 1;
-	else if (def.id === 'sudoku_win_streak_3') target = 3;
-	else if (def.id === 'sudoku_expert_master') target = 10;
+	if (def.thresholds) {
+		target = def.thresholds.gold;
+	} else if (def.id === 'sudoku_first_victory' || def.id === 'sudoku_participation') {
+		target = 1;
+	} else if (def.id === 'sudoku_are_you_sure') {
+		target = 10;
+	} else if (def.id === 'sudoku_pencil_pusher') {
+		target = 60;
+	}
 
 	return {
 		id: def.id,
+		type: def.type ?? 'standalone',
 		tier: def.tier,
 		title: localized?.title ?? def.id,
 		description: localized?.desc ?? '',
 		icon: def.icon,
 		target,
+		thresholds: def.thresholds,
 	};
 });
 ---
