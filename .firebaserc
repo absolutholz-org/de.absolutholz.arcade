@@ -1,0 +1,6 @@
+{
+	"projects": {
+		"default": "arcade---dev",
+		"production": "arcade---prod"
+	}
+}

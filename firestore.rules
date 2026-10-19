@@ -1,0 +1,136 @@
+rules_version = '2';
+
+// ===============================================================
+// Assumed Data Model (ADR 0003 & ADR 0004)
+// ===============================================================
+//
+// 1. User Profile Document
+//    Path: /users/{userId}
+//    Document ID: {userId} (Must match request.auth.uid)
+//    Fields:
+//      - id: string (required, immutable) - Firebase Auth UID
+//      - displayName: string (required, 1-100 chars) - Player display name
+//      - storageMode: string (required, 'cloud' | 'local') - Active storage mode
+//      - createdAt: number (required, immutable) - Creation timestamp (ms since epoch)
+//      - updatedAt: number (optional) - Last update timestamp (ms since epoch)
+//      - email: string | null (optional, <= 254 chars) - Authenticated user email
+//      - photoURL: string | null (optional, <= 2048 chars) - User avatar image URL
+//
+// 2. Game Stats & Medals Subcollection
+//    Path: /users/{userId}/gameStats/{gameId}
+//    Document ID: {gameId} (Game identifier, e.g., 'sudoku', 'minesweeper', etc.)
+//    Fields:
+//      - gameId: string (required, immutable, 1-64 chars) - Game identifier matching docId
+//      - baseStats: map (required) - Aggregate counters (gamesPlayed, gamesWon, streaks, etc.)
+//      - customStats: map (optional) - Game-specific state records (puzzles, boards, etc.)
+//      - unlockedMedals: map (optional) - Unlocked medal records
+//      - medalProgress: map (optional) - Active milestone progress tracking
+//      - schemaVersion: number (optional) - Data schema version number
+//      - updatedAt: number (optional) - Update timestamp (ms since epoch)
+//
+// ===============================================================
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+
+    // Check if the request is issued by an authenticated identity
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Check if the authenticated identity is the owner of the document path
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Verify all required fields exist in incoming resource data
+    function hasRequiredFields(fields) {
+      return request.resource.data.keys().hasAll(fields);
+    }
+
+    // Verify incoming resource data only contains strictly allowed fields
+    function hasOnlyAllowedFields(fields) {
+      return request.resource.data.keys().hasOnly(fields);
+    }
+
+    // Verify immutable fields are not modified during document update
+    function areImmutableFieldsUnchanged(fields) {
+      return !request.resource.data.diff(resource.data).affectedKeys().hasAny(fields);
+    }
+
+    // ===============================================================
+    // Domain Validators
+    // ===============================================================
+
+    // Domain validator for /users/{userId} documents
+    function isValidUserDoc(userId) {
+      let data = request.resource.data;
+      let allowedFields = ['id', 'displayName', 'storageMode', 'createdAt', 'updatedAt', 'email', 'photoURL'];
+      let requiredFields = ['id', 'displayName', 'storageMode', 'createdAt'];
+
+      return hasRequiredFields(requiredFields) &&
+             hasOnlyAllowedFields(allowedFields) &&
+             data.id is string &&
+             data.id == userId &&
+             data.id == request.auth.uid &&
+             data.displayName is string &&
+             data.displayName.size() >= 1 &&
+             data.displayName.size() <= 100 &&
+             data.storageMode is string &&
+             (data.storageMode == 'cloud' || data.storageMode == 'local') &&
+             data.createdAt is number &&
+             (!('updatedAt' in data) || data.updatedAt is number) &&
+             (!('email' in data) || data.email == null || (data.email is string && data.email.size() <= 254)) &&
+             (!('photoURL' in data) || data.photoURL == null || (data.photoURL is string && data.photoURL.size() <= 2048));
+    }
+
+    // Domain validator for /users/{userId}/gameStats/{gameId} documents
+    function isValidGameStatsDoc(gameId) {
+      let data = request.resource.data;
+      let allowedFields = ['gameId', 'baseStats', 'customStats', 'unlockedMedals', 'medalProgress', 'schemaVersion', 'updatedAt'];
+      let requiredFields = ['gameId', 'baseStats'];
+
+      return hasRequiredFields(requiredFields) &&
+             hasOnlyAllowedFields(allowedFields) &&
+             data.gameId is string &&
+             data.gameId == gameId &&
+             data.gameId.size() >= 1 &&
+             data.gameId.size() <= 64 &&
+             data.baseStats is map &&
+             (!('customStats' in data) || data.customStats is map) &&
+             (!('unlockedMedals' in data) || data.unlockedMedals is map) &&
+             (!('medalProgress' in data) || data.medalProgress is map) &&
+             (!('schemaVersion' in data) || data.schemaVersion is number) &&
+             (!('updatedAt' in data) || data.updatedAt is number);
+    }
+
+    // ===============================================================
+    // Collection Rules
+    // ===============================================================
+
+    // Explicit default deny for all unmatched collections and documents
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // User Profile Document
+    // Privacy Tier 3 / 4 Cloud Persistence (ADR 0003)
+    match /users/{userId} {
+      allow read, delete: if isOwner(userId);
+      allow create: if isOwner(userId) && isValidUserDoc(userId);
+      allow update: if isOwner(userId) && isValidUserDoc(userId) && areImmutableFieldsUnchanged(['id', 'createdAt']);
+
+      // Game Aggregated Stats and Medals Subcollection
+    // Strictly scoped per user and per game ID (ADR 0004)
+      match /gameStats/{gameId} {
+        allow read, delete: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidGameStatsDoc(gameId);
+        allow update: if isOwner(userId) && isValidGameStatsDoc(gameId) && areImmutableFieldsUnchanged(['gameId']);
+      }
+    }
+  }
+}
