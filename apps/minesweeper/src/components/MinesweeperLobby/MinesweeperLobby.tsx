@@ -84,6 +84,7 @@ function LobbyContent(): JSX.Element {
 		: undefined;
 
 	const pageFooterLinks = [
+		{ label: `🏅 ${tCommon('navigation.medals')}`, href: `/minesweeper/${language}/medals` },
 		{ label: t('highScores.title'), href: `/minesweeper/${language}/high-scores` },
 		{ label: tCommon('navigation.rules'), href: `/minesweeper/${language}/rules` },
 	];

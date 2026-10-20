@@ -56,9 +56,25 @@ export interface MedalsSchema {
 		readonly swift_mind: { readonly title: string; readonly desc: string };
 	};
 	readonly minesweeper: {
-		readonly first_clear: { readonly title: string; readonly desc: string };
+		readonly clearance_initiated: { readonly title: string; readonly desc: string };
 		readonly veteran: { readonly title: string; readonly desc: string };
-		readonly demolition_expert: { readonly title: string; readonly desc: string };
+		readonly tour: { readonly title: string; readonly desc: string };
+		readonly streak: { readonly title: string; readonly desc: string };
+		readonly flagless: { readonly title: string; readonly desc: string };
+		readonly speed_small: { readonly title: string; readonly desc: string };
+		readonly expert_gold: { readonly title: string; readonly desc: string };
+		readonly college_try: { readonly title: string; readonly desc: string };
+		readonly speedrun_failure: { readonly title: string; readonly desc: string };
+		readonly chord_master: { readonly title: string; readonly desc: string };
+		readonly the_ocho: { readonly title: string; readonly desc: string };
+		readonly mine_magnet: { readonly title: string; readonly desc: string };
+		readonly great_cascade: { readonly title: string; readonly desc: string };
+		readonly flag_hoarder: { readonly title: string; readonly desc: string };
+		readonly marathon: { readonly title: string; readonly desc: string };
+		readonly corner_to_corner: { readonly title: string; readonly desc: string };
+		readonly bomb_technician: { readonly title: string; readonly desc: string };
+		readonly first_clear?: { readonly title: string; readonly desc: string };
+		readonly demolition_expert?: { readonly title: string; readonly desc: string };
 	};
 	readonly queens: {
 		readonly first_win: { readonly title: string; readonly desc: string };

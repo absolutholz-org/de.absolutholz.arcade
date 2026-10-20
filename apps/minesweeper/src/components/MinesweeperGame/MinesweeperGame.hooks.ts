@@ -1,3 +1,4 @@
+import { recordGameResult } from '@arcade/lib-medals';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import {
 	BOARD_SIZES,
@@ -22,6 +23,14 @@ import {
 	saveLastConfig,
 	saveSettings,
 } from '../../engine';
+
+const BOARD_SIZE_NAME_MAP: Record<BoardSizeId, string> = {
+	xs: 'extraSmall',
+	sm: 'small',
+	md: 'medium',
+	lg: 'large',
+	xl: 'extraLarge',
+};
 
 export function useMinesweeperGame(initialSize: BoardSizeId = 'md', initialDifficulty: DifficultyId = 'medium') {
 	const [size, setSize] = useState<BoardSizeId>(initialSize);
@@ -69,6 +78,58 @@ export function useMinesweeperGame(initialSize: BoardSizeId = 'md', initialDiffi
 	const difficultyRef = useRef(difficulty);
 	difficultyRef.current = difficulty;
 
+	const flagsPlacedRef = useRef(0);
+	const chordsUsedRef = useRef(0);
+	const maxCascadeTilesRef = useRef(0);
+	const hasRevealedEightRef = useRef(false);
+	const safeMoveIndexRef = useRef(0);
+	const cornerMovesCountRef = useRef(0);
+	const cornersClearedInFirstFourRef = useRef(false);
+	const perfectFlaggingRef = useRef(true);
+
+	const resetSessionTracking = useCallback(() => {
+		flagsPlacedRef.current = 0;
+		chordsUsedRef.current = 0;
+		maxCascadeTilesRef.current = 0;
+		hasRevealedEightRef.current = false;
+		safeMoveIndexRef.current = 0;
+		cornerMovesCountRef.current = 0;
+		cornersClearedInFirstFourRef.current = false;
+		perfectFlaggingRef.current = true;
+	}, []);
+
+	const dispatchMedalResult = useCallback((won: boolean, finalSeconds: number) => {
+		const currentSizeConfig = BOARD_SIZES[sizeRef.current];
+		const totalMines = getMineCount(currentSizeConfig.fieldCount, difficultyRef.current);
+		const safeTilesCleared = cellsRef.current.filter((c) => c.state === 'revealed' && !c.mine).length;
+		const currentSizeName = BOARD_SIZE_NAME_MAP[sizeRef.current];
+
+		void recordGameResult({
+			gameId: 'minesweeper',
+			won,
+			playTimeSeconds: finalSeconds,
+			levelKey: difficultyRef.current,
+			sizeKey: sizeRef.current,
+			roundContext: {
+				flagsPlaced: flagsPlacedRef.current,
+				chordsUsed: chordsUsedRef.current,
+				boardSize: currentSizeName,
+				size: currentSizeName,
+				difficulty: difficultyRef.current,
+				firstMoveLoss: !won && finalSeconds <= 3,
+				maxCascadeTiles: maxCascadeTilesRef.current,
+				hasRevealedEight: hasRevealedEightRef.current,
+				cornerMovesCount: cornerMovesCountRef.current,
+				cornersClearedInFirstFour: cornersClearedInFirstFourRef.current,
+				perfectFlagging: perfectFlaggingRef.current,
+				safeTilesCleared,
+				totalMines,
+			},
+		}).catch((error) => {
+			console.warn(`[@arcade/minesweeper] Failed to record ${won ? 'victory' : 'defeat'} medals result:`, error);
+		});
+	}, []);
+
 	// Load settings & active game on initial mount
 	useEffect(() => {
 		async function init() {
@@ -113,9 +174,10 @@ export function useMinesweeperGame(initialSize: BoardSizeId = 'md', initialDiffi
 			setMinesPlaced(false);
 			setStatus('not_started');
 			setElapsedSeconds(0);
+			resetSessionTracking();
 		}
 		init();
-	}, [initialSize, initialDifficulty]);
+	}, [initialSize, initialDifficulty, resetSessionTracking]);
 
 	// Timer ticker
 	useEffect(() => {
@@ -194,13 +256,52 @@ export function useMinesweeperGame(initialSize: BoardSizeId = 'md', initialDiffi
 			cellsRef.current = result.cells;
 			setCells(result.cells);
 
+			if (result.revealedCountChange > 0) {
+				maxCascadeTilesRef.current = Math.max(maxCascadeTilesRef.current, result.revealedCountChange);
+			}
+
+			if (result.cells.some((c) => c.state === 'revealed' && c.nearMineCount === 8)) {
+				hasRevealedEightRef.current = true;
+			}
+
+			if (!result.detonated && safeMoveIndexRef.current < 4) {
+				safeMoveIndexRef.current += 1;
+				const maxCol = currentSizeConfig.columns - 1;
+				const maxRow = currentSizeConfig.rows - 1;
+				const isCorner =
+					(col === 0 && row === 0) ||
+					(col === maxCol && row === 0) ||
+					(col === 0 && row === maxRow) ||
+					(col === maxCol && row === maxRow);
+
+				if (isCorner) {
+					cornerMovesCountRef.current += 1;
+				}
+
+				const isCornerRevealed = (c: number, r: number) => {
+					const cell = result.cells[r * currentSizeConfig.columns + c];
+					return cell?.state === 'revealed';
+				};
+				const allCornersRevealed =
+					isCornerRevealed(0, 0) &&
+					isCornerRevealed(maxCol, 0) &&
+					isCornerRevealed(0, maxRow) &&
+					isCornerRevealed(maxCol, maxRow);
+
+				if (allCornersRevealed) {
+					cornersClearedInFirstFourRef.current = true;
+				}
+			}
+
 			if (result.detonated) {
 				setStatus('lost');
 				setIsDefeatOpen(true);
 				await saveActiveGame(null);
+				dispatchMedalResult(false, elapsedRef.current);
 			} else if (result.won) {
 				setStatus('won');
 				const finalSeconds = elapsedRef.current;
+				dispatchMedalResult(true, finalSeconds);
 				const { position } = await recordHighScore({
 					id: `${Date.now()}`,
 					seconds: finalSeconds,
@@ -215,7 +316,7 @@ export function useMinesweeperGame(initialSize: BoardSizeId = 'md', initialDiffi
 				await saveActiveGame(null);
 			}
 		},
-		[interactionMode],
+		[interactionMode, dispatchMedalResult],
 	);
 
 	// Handle flag toggle
@@ -228,6 +329,14 @@ export function useMinesweeperGame(initialSize: BoardSizeId = 'md', initialDiffi
 		if (!cell || cell.state === 'revealed') return;
 
 		const nextState = cycleFlagState(cell.state, settingsRef.current.questionMarks);
+		if (nextState === 'flagged') {
+			flagsPlacedRef.current += 1;
+			if (!cell.mine) {
+				perfectFlaggingRef.current = false;
+			}
+		} else if (cell.state === 'flagged') {
+			perfectFlaggingRef.current = false;
+		}
 		const newCells = cellsRef.current.map((c, i) => (i === index ? { ...c, state: nextState } : c));
 		cellsRef.current = newCells;
 		setCells(newCells);
@@ -248,37 +357,58 @@ export function useMinesweeperGame(initialSize: BoardSizeId = 'md', initialDiffi
 	}, []);
 
 	// Handle chord
-	const handleChord = useCallback(async (col: number, row: number) => {
-		if (statusRef.current !== 'playing') return;
+	const handleChord = useCallback(
+		async (col: number, row: number) => {
+			if (statusRef.current !== 'playing') return;
 
-		const currentSizeConfig = BOARD_SIZES[sizeRef.current];
-		const count = getMineCount(currentSizeConfig.fieldCount, difficultyRef.current);
-		const result = chordCell(cellsRef.current, currentSizeConfig.columns, currentSizeConfig.rows, col, row, count);
+			chordsUsedRef.current += 1;
+			const currentSizeConfig = BOARD_SIZES[sizeRef.current];
+			const count = getMineCount(currentSizeConfig.fieldCount, difficultyRef.current);
+			const result = chordCell(
+				cellsRef.current,
+				currentSizeConfig.columns,
+				currentSizeConfig.rows,
+				col,
+				row,
+				count,
+			);
 
-		cellsRef.current = result.cells;
-		setCells(result.cells);
+			cellsRef.current = result.cells;
+			setCells(result.cells);
 
-		if (result.detonated) {
-			setStatus('lost');
-			setIsDefeatOpen(true);
-			await saveActiveGame(null);
-		} else if (result.won) {
-			setStatus('won');
-			const finalSeconds = elapsedRef.current;
-			const { position } = await recordHighScore({
-				id: `${Date.now()}`,
-				seconds: finalSeconds,
-				size: sizeRef.current,
-				difficulty: difficultyRef.current,
-				fields: currentSizeConfig.fieldCount,
-				mines: count,
-				timestamp: new Date().toISOString(),
-			});
-			setRankPosition(position);
-			setIsVictoryOpen(true);
-			await saveActiveGame(null);
-		}
-	}, []);
+			if (result.revealedCountChange > 0) {
+				maxCascadeTilesRef.current = Math.max(maxCascadeTilesRef.current, result.revealedCountChange);
+			}
+
+			if (result.cells.some((c) => c.state === 'revealed' && c.nearMineCount === 8)) {
+				hasRevealedEightRef.current = true;
+			}
+
+			if (result.detonated) {
+				setStatus('lost');
+				setIsDefeatOpen(true);
+				await saveActiveGame(null);
+				dispatchMedalResult(false, elapsedRef.current);
+			} else if (result.won) {
+				setStatus('won');
+				const finalSeconds = elapsedRef.current;
+				dispatchMedalResult(true, finalSeconds);
+				const { position } = await recordHighScore({
+					id: `${Date.now()}`,
+					seconds: finalSeconds,
+					size: sizeRef.current,
+					difficulty: difficultyRef.current,
+					fields: currentSizeConfig.fieldCount,
+					mines: count,
+					timestamp: new Date().toISOString(),
+				});
+				setRankPosition(position);
+				setIsVictoryOpen(true);
+				await saveActiveGame(null);
+			}
+		},
+		[dispatchMedalResult],
+	);
 
 	const handleTogglePause = useCallback(() => {
 		if (status === 'playing') {
@@ -294,24 +424,29 @@ export function useMinesweeperGame(initialSize: BoardSizeId = 'md', initialDiffi
 		setMinesPlaced(false);
 		setStatus('not_started');
 		setElapsedSeconds(0);
+		resetSessionTracking();
 		setIsVictoryOpen(false);
 		setIsDefeatOpen(false);
 		await saveActiveGame(null);
-	}, []);
+	}, [resetSessionTracking]);
 
-	const handleStartNewGame = useCallback(async (newSize: BoardSizeId, newDiff: DifficultyId) => {
-		setSize(newSize);
-		setDifficulty(newDiff);
-		saveLastConfig({ size: newSize, difficulty: newDiff });
-		const cfg = BOARD_SIZES[newSize];
-		setCells(createEmptyBoard(cfg.columns, cfg.rows));
-		setMinesPlaced(false);
-		setStatus('not_started');
-		setElapsedSeconds(0);
-		setIsVictoryOpen(false);
-		setIsDefeatOpen(false);
-		await saveActiveGame(null);
-	}, []);
+	const handleStartNewGame = useCallback(
+		async (newSize: BoardSizeId, newDiff: DifficultyId) => {
+			setSize(newSize);
+			setDifficulty(newDiff);
+			saveLastConfig({ size: newSize, difficulty: newDiff });
+			const cfg = BOARD_SIZES[newSize];
+			setCells(createEmptyBoard(cfg.columns, cfg.rows));
+			setMinesPlaced(false);
+			setStatus('not_started');
+			setElapsedSeconds(0);
+			resetSessionTracking();
+			setIsVictoryOpen(false);
+			setIsDefeatOpen(false);
+			await saveActiveGame(null);
+		},
+		[resetSessionTracking],
+	);
 
 	const handleUpdateSettings = useCallback(async (newSettings: MinesweeperSettings) => {
 		setSettings(newSettings);

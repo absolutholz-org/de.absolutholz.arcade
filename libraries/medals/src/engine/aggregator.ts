@@ -124,6 +124,12 @@ export function updateCustomStats<G extends GameId>(
 					},
 				};
 			}
+
+			const safeTilesCleared =
+				typeof result.roundContext?.safeTilesCleared === 'number' ? result.roundContext.safeTilesCleared : 0;
+			stats.lifetimeSafeTilesCleared = (stats.lifetimeSafeTilesCleared ?? 0) + safeTilesCleared;
+			stats.currentLossStreak = result.won ? 0 : (stats.currentLossStreak ?? 0) + 1;
+
 			return { updatedCustom: stats as GameCustomStatsMap[G], isNewBestTime };
 		}
 
@@ -334,7 +340,17 @@ export function mergeGameMedalState<G extends GameId>(
 				currentStreak: local.updatedAt >= remote.updatedAt ? l.currentStreak : r.currentStreak,
 			};
 		}
-		mergedCustom = { difficulties: diffs } as unknown as GameCustomStatsMap[G];
+		mergedCustom = {
+			difficulties: diffs,
+			lifetimeSafeTilesCleared: Math.max(
+				(local.customStats as MinesweeperCustomStats).lifetimeSafeTilesCleared ?? 0,
+				(remote.customStats as MinesweeperCustomStats).lifetimeSafeTilesCleared ?? 0,
+			),
+			currentLossStreak:
+				local.updatedAt >= remote.updatedAt
+					? ((local.customStats as MinesweeperCustomStats).currentLossStreak ?? 0)
+					: ((remote.customStats as MinesweeperCustomStats).currentLossStreak ?? 0),
+		} as unknown as GameCustomStatsMap[G];
 	} else if (local.gameId === 'nonogram') {
 		const localPuzzles = (local.customStats as NonogramCustomStats).puzzles;
 		const remotePuzzles = (remote.customStats as NonogramCustomStats).puzzles;

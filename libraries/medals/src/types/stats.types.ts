@@ -37,7 +37,7 @@ export interface NonogramCustomStats {
 	readonly puzzles: Record<string, NonogramPuzzleRecord>;
 }
 
-export type MinesweeperDifficulty = 'beginner' | 'intermediate' | 'expert';
+export type MinesweeperDifficulty = 'simple' | 'medium' | 'hard' | 'expert' | 'beginner' | 'intermediate';
 
 export interface MinesweeperDifficultyStats {
 	readonly gamesPlayed: number;
@@ -49,6 +49,8 @@ export interface MinesweeperDifficultyStats {
 
 export interface MinesweeperCustomStats {
 	readonly difficulties: Record<MinesweeperDifficulty, MinesweeperDifficultyStats>;
+	readonly lifetimeSafeTilesCleared?: number;
+	readonly currentLossStreak?: number;
 }
 
 export interface QueensCustomStats {

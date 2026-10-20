@@ -122,13 +122,77 @@ export const frMedals = {
 		},
 	},
 	minesweeper: {
-		first_clear: {
-			title: 'Déminage Réussi',
+		clearance_initiated: {
+			title: 'Déminage initié',
 			desc: 'Gagnez votre première partie de Démineur.',
 		},
 		veteran: {
-			title: 'Vétéran du Démineur',
-			desc: 'Gagnez 10 parties de Démineur.',
+			title: 'Vétéran du champ de mines',
+			desc: 'Cumulez les victoires : Bronze à 5, Argent à 25 et Or à 100 parties.',
+		},
+		tour: {
+			title: 'Tour des champs de mines',
+			desc: 'Domptez des grilles plus vastes : Bronze sur Petite+, Argent sur Grande (Difficile+), Or sur Très Grande (Expert).',
+		},
+		streak: {
+			title: 'Série de désamorçage',
+			desc: 'Enchaînez les victoires : Bronze à 3, Argent à 5 (Moyen+) et Or à 10 (Moyen+).',
+		},
+		flagless: {
+			title: 'Regarde maman, sans les drapeaux !',
+			desc: 'Gagnez une partie sur Moyen, Grand ou Très Grand sans poser le moindre drapeau.',
+		},
+		speed_small: {
+			title: 'Balayeur éclair',
+			desc: 'Terminez une Petite grille en Moyen en 15 secondes ou moins.',
+		},
+		expert_gold: {
+			title: "Démineur d'élite",
+			desc: 'Terminez une Très Grande grille en Expert en 90 secondes ou moins.',
+		},
+		college_try: {
+			title: "Le coup d'essai",
+			desc: 'Faites sauter une mine et subissez votre première défaite. Au moins, vous avez essayé !',
+		},
+		speedrun_failure: {
+			title: 'Premier pas fracassant',
+			desc: 'Déclenchez une mine dans les 3 secondes suivant le départ.',
+		},
+		chord_master: {
+			title: 'Maître du Chording',
+			desc: 'Gagnez une partie en effectuant au moins 15 accords.',
+		},
+		the_ocho: {
+			title: 'Le huit mythique',
+			desc: 'Révélez une case avec le chiffre 8 et désamorcez le plateau.',
+		},
+		mine_magnet: {
+			title: 'Aimant à mines',
+			desc: "Sautez sur une mine 5 parties d'affilée. Une petite pause s'impose ?",
+		},
+		great_cascade: {
+			title: 'La grande cascade',
+			desc: "Déclenchez une réaction en chaîne dégageant au moins 20 cases d'un seul clic.",
+		},
+		flag_hoarder: {
+			title: 'Collectionneur de drapeaux',
+			desc: 'Posez des drapeaux sur 150 % du total réel des mines. Deux précautions valent mieux qu’une !',
+		},
+		marathon: {
+			title: 'Mains sûres',
+			desc: "Cumul de terrain sécurisé nettoyé sur l'ensemble de vos déminages.",
+		},
+		corner_to_corner: {
+			title: "D'un coin à l'autre",
+			desc: 'Ouvrez les quatre coins lors de vos quatre premiers coups sur un grand plateau et gagnez.',
+		},
+		bomb_technician: {
+			title: 'Technicien démineur',
+			desc: 'Terminez un champ de mines Très Grand en Expert sans le moindre drapeau mal placé.',
+		},
+		first_clear: {
+			title: 'Déminage Réussi',
+			desc: 'Gagnez votre première partie de Démineur.',
 		},
 		demolition_expert: {
 			title: 'Expert en Démolition',

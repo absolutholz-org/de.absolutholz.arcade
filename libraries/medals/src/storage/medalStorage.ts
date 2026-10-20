@@ -57,10 +57,15 @@ function createInitialMinesweeperStats(): GameCustomStatsMap['minesweeper'] {
 
 	return {
 		difficulties: {
+			simple: createDiff(),
+			medium: createDiff(),
+			hard: createDiff(),
+			expert: createDiff(),
 			beginner: createDiff(),
 			intermediate: createDiff(),
-			expert: createDiff(),
 		},
+		lifetimeSafeTilesCleared: 0,
+		currentLossStreak: 0,
 	};
 }
 

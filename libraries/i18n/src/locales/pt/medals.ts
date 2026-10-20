@@ -122,13 +122,77 @@ export const ptMedals = {
 		},
 	},
 	minesweeper: {
-		first_clear: {
-			title: 'Liberação Iniciada',
-			desc: 'Vença sua primeira partida de Campo Minado.',
+		clearance_initiated: {
+			title: 'Desminagem Iniciada',
+			desc: 'Vença seu primeiro jogo de Campo Minado.',
 		},
 		veteran: {
 			title: 'Veterano do Campo Minado',
-			desc: 'Vença 10 partidas de Campo Minado.',
+			desc: 'Acumule vitórias no total: Bronze com 5, Prata com 25 e Ouro com 100 jogos.',
+		},
+		tour: {
+			title: 'Turnê do Campo Minado',
+			desc: 'Supere campos maiores e mais difíceis: Bronze em Pequeno+, Prata em Grande (Difícil+), Ouro em Extra Grande (Especialista).',
+		},
+		streak: {
+			title: 'Sequência de Desarme',
+			desc: 'Alcance vitórias consecutivas: Bronze com 3, Prata com 5 (Médio+) e Ouro com 10 (Médio+).',
+		},
+		flagless: {
+			title: 'Olha mãe, sem bandeiras!',
+			desc: 'Vença uma partida no Médio, Grande ou Extra Grande sem posicionar nenhuma bandeira.',
+		},
+		speed_small: {
+			title: 'Varredura Relâmpago',
+			desc: 'Limpe um campo Pequeno no Médio em 15 segundos ou menos.',
+		},
+		expert_gold: {
+			title: 'Demolidor Supremo',
+			desc: 'Limpe um campo Extra Grande no Especialista em 90 segundos ou menos.',
+		},
+		college_try: {
+			title: 'Valeu a Tentativa',
+			desc: 'Pise em uma mina e sofra sua primeira derrota. O que vale é a intenção!',
+		},
+		speedrun_failure: {
+			title: 'Primeiro passo em falso',
+			desc: 'Detone uma mina em até 3 segundos de jogo.',
+		},
+		chord_master: {
+			title: 'Mestre dos Acordes',
+			desc: 'Vença uma partida usando pelo menos 15 ações de acorde.',
+		},
+		the_ocho: {
+			title: 'O Oito Mítico',
+			desc: 'Revele uma casa com o número 8 e conclua a desminagem do tabuleiro.',
+		},
+		mine_magnet: {
+			title: 'Ímã de Minas',
+			desc: 'Pise em uma mina em 5 jogos seguidos. Que tal uma pausa de cinco minutos?',
+		},
+		great_cascade: {
+			title: 'A Grande Cascata',
+			desc: 'Desencadeie uma reação em cadeia que libere 20 ou mais casas com um único clique.',
+		},
+		flag_hoarder: {
+			title: 'Acumulador de Bandeiras',
+			desc: 'Posicione bandeiras em 150% do total real de minas. Pelo seguro morreu o bicho!',
+		},
+		marathon: {
+			title: 'Mãos Firmes',
+			desc: 'Total histórico de casas seguras limpas em todos os campos minados.',
+		},
+		corner_to_corner: {
+			title: 'De Canto a Canto',
+			desc: 'Abra os quatro cantos em seus primeiros quatro movimentos em um tabuleiro grande e vença.',
+		},
+		bomb_technician: {
+			title: 'Técnico Antibombas',
+			desc: 'Limpe um campo minado Extra Grande no nível Especialista sem nenhuma bandeira fora do lugar.',
+		},
+		first_clear: {
+			title: 'Liberação Iniciada',
+			desc: 'Vença sua primeira partida de Campo Minado.',
 		},
 		demolition_expert: {
 			title: 'Especialista em Demolição',

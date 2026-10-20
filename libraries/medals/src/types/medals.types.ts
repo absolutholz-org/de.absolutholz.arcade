@@ -73,6 +73,7 @@ export interface GameResultPayload<G extends GameId = GameId> {
 	readonly won: boolean;
 	readonly playTimeSeconds: number;
 	readonly levelKey?: string;
+	readonly sizeKey?: string;
 	readonly customData?: Partial<GameCustomStatsMap[G]>;
 	readonly roundContext?: Record<string, unknown>;
 }

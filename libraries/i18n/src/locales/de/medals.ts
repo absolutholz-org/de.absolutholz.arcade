@@ -122,13 +122,77 @@ export const deMedals = {
 		},
 	},
 	minesweeper: {
-		first_clear: {
-			title: 'Minenräumung begonnen',
-			desc: 'Gewinne dein erstes Minesweeper-Spiel.',
+		clearance_initiated: {
+			title: 'Räumung eingeleitet',
+			desc: 'Gewinne dein erstes Spiel Minesweeper.',
 		},
 		veteran: {
 			title: 'Minenfeld-Veteran',
-			desc: 'Gewinne 10 Minesweeper-Spiele.',
+			desc: 'Erreiche Gesamtsiege: Bronze bei 5, Silber bei 25 und Gold bei 100 Spielen.',
+		},
+		tour: {
+			title: 'Minenfeld-Tournee',
+			desc: 'Meistere größere und schwerere Minenfelder: Bronze ab Klein, Silber auf Groß (Schwer+), Gold auf Extra Groß (Experte).',
+		},
+		streak: {
+			title: 'Entschärfungsserie',
+			desc: 'Erziele Siege in Serie: Bronze bei 3, Silber bei 5 (Mittel+) und Gold bei 10 (Mittel+).',
+		},
+		flagless: {
+			title: 'Guck mal, ohne Flaggen!',
+			desc: 'Gewinne eine Partie auf Mittel, Groß oder Extra Groß, ohne eine einzige Flagge zu setzen.',
+		},
+		speed_small: {
+			title: 'Rascher Räumer',
+			desc: 'Räume ein kleines Feld auf Mittlerer Stufe in höchstens 15 Sekunden ab.',
+		},
+		expert_gold: {
+			title: 'Meister-Entschärfer',
+			desc: 'Räume ein Extra Großes Feld auf Expertenstufe in höchstens 90 Sekunden ab.',
+		},
+		college_try: {
+			title: 'Hauptsache probiert',
+			desc: 'Tritt auf eine Mine und erleide deine erste Niederlage. Der Wille zählt!',
+		},
+		speedrun_failure: {
+			title: 'Der erste Schritt tut weh',
+			desc: 'Tritt innerhalb von 3 Sekunden nach Spielbeginn auf eine Mine.',
+		},
+		chord_master: {
+			title: 'Akkord-Meister',
+			desc: 'Gewinne eine Partie mit mindestens 15 Akkord-Klicks.',
+		},
+		the_ocho: {
+			title: 'Die mythische Acht',
+			desc: 'Decke ein Feld mit der Zahl 8 auf und entschärfe das Spielfeld.',
+		},
+		mine_magnet: {
+			title: 'Minen-Magnet',
+			desc: 'Tritt in 5 Spielen hintereinander auf eine Mine. Vielleicht mal kurz durchatmen?',
+		},
+		great_cascade: {
+			title: 'Die große Kaskade',
+			desc: 'Löse eine Kettenreaktion aus, die mit einem Klick 20 oder mehr Felder freilegt.',
+		},
+		flag_hoarder: {
+			title: 'Flaggen-Hamster',
+			desc: 'Setze Flaggen auf 150 % der tatsächlichen Minenanzahl. Sicher ist sicher!',
+		},
+		marathon: {
+			title: 'Sichere Hände',
+			desc: 'Insgesamt geräumte sichere Felder über alle Minenfelder hinweg.',
+		},
+		corner_to_corner: {
+			title: 'Von Ecke zu Ecke',
+			desc: 'Öffne auf einem großen Feld alle vier Ecken in deinen ersten vier Zügen und gewinne.',
+		},
+		bomb_technician: {
+			title: 'Bombenentschärfer',
+			desc: 'Räume ein Extra Großes Experten-Minenfeld ohne eine einzige falsch gesetzte Flagge ab.',
+		},
+		first_clear: {
+			title: 'Minenräumung begonnen',
+			desc: 'Gewinne dein erstes Minesweeper-Spiel.',
 		},
 		demolition_expert: {
 			title: 'Sprengstoffexperte',

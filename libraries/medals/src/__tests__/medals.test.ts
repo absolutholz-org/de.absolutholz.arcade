@@ -701,4 +701,206 @@ describe('@arcade/lib-medals Foundation', () => {
 		);
 		expect(victoryPrecision.newlyUnlockedMedals.map((m) => m.id)).toContain('sudoku_surgical_precision');
 	});
+
+	it('evaluates and awards all Minesweeper medals correctly', async () => {
+		const storage = new MockMemoryStorage('minesweeper');
+
+		// 1. Humorous Defeat: speedrun failure & college try
+		const firstLoss = await recordGameResult(
+			{
+				gameId: 'minesweeper',
+				won: false,
+				playTimeSeconds: 2,
+				levelKey: 'medium',
+				sizeKey: 'md',
+				roundContext: {
+					flagsPlaced: 0,
+					chordsUsed: 0,
+					boardSize: 'medium',
+					size: 'medium',
+					difficulty: 'medium',
+					firstMoveLoss: true,
+				},
+			},
+			{ storage },
+		);
+		const lossIds = firstLoss.newlyUnlockedMedals.map((m) => m.id);
+		expect(lossIds).toContain('minesweeper_college_try');
+		expect(lossIds).toContain('minesweeper_speedrun_failure');
+
+		// 2. First victory: clearance_initiated, speed_small, chord_master, flagless, tour (bronze)
+		const win1 = await recordGameResult(
+			{
+				gameId: 'minesweeper',
+				won: true,
+				playTimeSeconds: 12,
+				levelKey: 'medium',
+				sizeKey: 'sm',
+				roundContext: {
+					flagsPlaced: 0,
+					chordsUsed: 16,
+					boardSize: 'small',
+					size: 'small',
+					difficulty: 'medium',
+					firstMoveLoss: false,
+				},
+			},
+			{ storage },
+		);
+		const win1Ids = win1.newlyUnlockedMedals.map((m) => m.id);
+		expect(win1Ids).toContain('minesweeper_clearance_initiated');
+		expect(win1Ids).toContain('minesweeper_speed_small');
+		expect(win1Ids).toContain('minesweeper_chord_master');
+		expect(win1Ids).toContain('minesweeper_tour');
+		expect(win1.newlyUnlockedMedals.find((m) => m.id === 'minesweeper_tour')?.tier).toBe('bronze');
+
+		// 3. Flagless on medium/large/extraLarge
+		const winFlagless = await recordGameResult(
+			{
+				gameId: 'minesweeper',
+				won: true,
+				playTimeSeconds: 40,
+				levelKey: 'medium',
+				sizeKey: 'md',
+				roundContext: {
+					flagsPlaced: 0,
+					chordsUsed: 2,
+					boardSize: 'medium',
+					size: 'medium',
+					difficulty: 'medium',
+					firstMoveLoss: false,
+				},
+			},
+			{ storage },
+		);
+		expect(winFlagless.newlyUnlockedMedals.map((m) => m.id)).toContain('minesweeper_flagless');
+
+		// 4. Tour Silver (large on hard)
+		const winTourSilver = await recordGameResult(
+			{
+				gameId: 'minesweeper',
+				won: true,
+				playTimeSeconds: 50,
+				levelKey: 'hard',
+				sizeKey: 'lg',
+				roundContext: {
+					flagsPlaced: 5,
+					chordsUsed: 4,
+					boardSize: 'large',
+					size: 'large',
+					difficulty: 'hard',
+					firstMoveLoss: false,
+				},
+			},
+			{ storage },
+		);
+		expect(winTourSilver.newlyUnlockedMedals.find((m) => m.id === 'minesweeper_tour')?.tier).toBe('silver');
+
+		// 5. Expert Gold & Tour Gold (extraLarge on expert in <= 90s)
+		// This is also 4th win (current streak 4)
+		const winTourGold = await recordGameResult(
+			{
+				gameId: 'minesweeper',
+				won: true,
+				playTimeSeconds: 75,
+				levelKey: 'expert',
+				sizeKey: 'xl',
+				roundContext: {
+					flagsPlaced: 10,
+					chordsUsed: 8,
+					boardSize: 'extraLarge',
+					size: 'extraLarge',
+					difficulty: 'expert',
+					firstMoveLoss: false,
+				},
+			},
+			{ storage },
+		);
+		const winGoldIds = winTourGold.newlyUnlockedMedals.map((m) => m.id);
+		expect(winGoldIds).toContain('minesweeper_expert_gold');
+		expect(winTourGold.newlyUnlockedMedals.find((m) => m.id === 'minesweeper_tour')?.tier).toBe('gold');
+
+		// 6. 5th consecutive win on Medium+ -> streak silver and veteran bronze (5 wins)
+		const win5 = await recordGameResult(
+			{
+				gameId: 'minesweeper',
+				won: true,
+				playTimeSeconds: 30,
+				levelKey: 'medium',
+				sizeKey: 'md',
+				roundContext: {
+					flagsPlaced: 2,
+					chordsUsed: 1,
+					boardSize: 'medium',
+					size: 'medium',
+					difficulty: 'medium',
+					firstMoveLoss: false,
+				},
+			},
+			{ storage },
+		);
+		const win5Medals = win5.newlyUnlockedMedals;
+		expect(win5Medals.find((m) => m.id === 'minesweeper_veteran')?.tier).toBe('bronze');
+		expect(win5Medals.find((m) => m.id === 'minesweeper_streak')?.tier).toBe('silver');
+
+		// 7. Test The Ocho, Great Cascade, Flag Hoarder, Corner to Corner, Bomb Technician, Marathon
+		const specialWin = await recordGameResult(
+			{
+				gameId: 'minesweeper',
+				won: true,
+				playTimeSeconds: 150,
+				levelKey: 'expert',
+				sizeKey: 'xl',
+				roundContext: {
+					flagsPlaced: 50,
+					totalMines: 30, // 50 >= floor(30 * 1.5) = 45 -> flag_hoarder
+					chordsUsed: 5,
+					boardSize: 'extraLarge',
+					size: 'extraLarge',
+					difficulty: 'expert',
+					firstMoveLoss: false,
+					maxCascadeTiles: 25, // >= 20 -> great_cascade
+					hasRevealedEight: true, // the_ocho
+					cornersClearedInFirstFour: true, // corner_to_corner
+					perfectFlagging: true, // bomb_technician
+					safeTilesCleared: 520, // marathon bronze (>= 500)
+				},
+			},
+			{ storage },
+		);
+		const specialIds = specialWin.newlyUnlockedMedals.map((m) => m.id);
+		expect(specialIds).toContain('minesweeper_the_ocho');
+		expect(specialIds).toContain('minesweeper_great_cascade');
+		expect(specialIds).toContain('minesweeper_flag_hoarder');
+		expect(specialIds).toContain('minesweeper_corner_to_corner');
+		expect(specialIds).toContain('minesweeper_bomb_technician');
+		expect(specialWin.newlyUnlockedMedals.find((m) => m.id === 'minesweeper_marathon')?.tier).toBe('bronze');
+
+		// 8. Test Mine Magnet (5 consecutive defeats)
+		let magnetUnlocked = false;
+		for (let i = 0; i < 5; i++) {
+			const lossRes = await recordGameResult(
+				{
+					gameId: 'minesweeper',
+					won: false,
+					playTimeSeconds: 10,
+					levelKey: 'medium',
+					sizeKey: 'md',
+					roundContext: {
+						flagsPlaced: 0,
+						chordsUsed: 0,
+						boardSize: 'medium',
+						size: 'medium',
+						difficulty: 'medium',
+						firstMoveLoss: false,
+					},
+				},
+				{ storage },
+			);
+			if (lossRes.newlyUnlockedMedals.some((m) => m.id === 'minesweeper_mine_magnet')) {
+				magnetUnlocked = true;
+			}
+		}
+		expect(magnetUnlocked).toBe(true);
+	});
 });

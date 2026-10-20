@@ -121,13 +121,77 @@ export const enMedals = {
 		},
 	},
 	minesweeper: {
-		first_clear: {
+		clearance_initiated: {
 			title: 'Clearance Initiated',
 			desc: 'Win your first game of Minesweeper.',
 		},
 		veteran: {
 			title: 'Minefield Veteran',
-			desc: 'Win 10 games of Minesweeper.',
+			desc: 'Achieve total victories: Bronze at 5, Silver at 25, and Gold at 100 games.',
+		},
+		tour: {
+			title: 'Minefield Tour',
+			desc: 'Conquer larger and harder minefields: Bronze on Small+, Silver on Large (Hard+), Gold on Extra Large (Expert).',
+		},
+		streak: {
+			title: 'Defusal Streak',
+			desc: 'Achieve consecutive victories: Bronze at 3, Silver at 5 (Medium+), and Gold at 10 (Medium+).',
+		},
+		flagless: {
+			title: 'Look, Ma, No Flags!',
+			desc: 'Win a match on Medium, Large, or Extra Large without placing a single flag.',
+		},
+		speed_small: {
+			title: 'Swift Sweeper',
+			desc: 'Win a match on Small (Medium) in 15 seconds or less.',
+		},
+		expert_gold: {
+			title: 'Apex Demolitionist',
+			desc: 'Win a match on Extra Large on Expert difficulty in 90 seconds or less.',
+		},
+		college_try: {
+			title: 'The Old College Try',
+			desc: 'Trigger a mine and suffer your first defeat. You tried!',
+		},
+		speedrun_failure: {
+			title: 'First Step is a Doozy',
+			desc: 'Trigger a mine within 3 seconds of starting.',
+		},
+		chord_master: {
+			title: 'Chord Master',
+			desc: 'Win a match using at least 15 chord actions.',
+		},
+		the_ocho: {
+			title: 'The Mythical Eight',
+			desc: 'Uncover a tile with the number 8 and defuse the board.',
+		},
+		mine_magnet: {
+			title: 'Mine Magnet',
+			desc: 'Hit a mine 5 games in a row. Maybe take a five-minute break?',
+		},
+		great_cascade: {
+			title: 'The Great Cascade',
+			desc: 'Trigger a chain reaction that clears 20 or more tiles in one click.',
+		},
+		flag_hoarder: {
+			title: 'Flag Hoarder',
+			desc: 'Place flags on 150% of the actual mines. Better safe than sorry!',
+		},
+		marathon: {
+			title: 'Safe Hands',
+			desc: 'Lifetime safe ground cleared across all minefields.',
+		},
+		corner_to_corner: {
+			title: 'Corner to Corner',
+			desc: 'Open all four corners in your first four moves on a large board and win.',
+		},
+		bomb_technician: {
+			title: 'Bomb Technician',
+			desc: 'Clear an Extra Large Expert minefield with zero misplaced flags.',
+		},
+		first_clear: {
+			title: 'Clearance Initiated',
+			desc: 'Win your first game of Minesweeper.',
 		},
 		demolition_expert: {
 			title: 'Demolition Expert',
