@@ -10,6 +10,11 @@ export interface MedalSyncAdapter {
 	 * Synchronizes game medals to the cloud backend (e.g. Firestore /users/{uid}/gameStats/{gameId}).
 	 */
 	syncGameMedals(gameId: GameId, state: GameMedalState): Promise<void>;
+
+	/**
+	 * Fetches game medals from the cloud backend if available.
+	 */
+	fetchGameMedals?<G extends GameId>(gameId: G): Promise<GameMedalState<G> | null>;
 }
 
 let activeSyncAdapter: MedalSyncAdapter | null = null;

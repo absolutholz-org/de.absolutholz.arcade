@@ -7,3 +7,4 @@ export * from './sync/syncAdapter.js';
 export * from './sync/syncQueue.js';
 export * from './events/medalEvents.js';
 export * from './facade/recordGameResult.js';
+export * from './engine/reconcile.js';

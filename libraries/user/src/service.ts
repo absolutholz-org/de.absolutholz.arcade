@@ -8,6 +8,7 @@ import {
 	clearMedalSyncQueue,
 	flushMedalSyncQueue,
 	initOfflineSyncBridge,
+	reconcileAllGameMedals,
 	registerMedalSyncAdapter,
 } from '@arcade/lib-medals';
 import { CloudAdapter } from './internal/adapters/cloudAdapter.js';
@@ -99,6 +100,12 @@ class UserService implements IUserService {
 					await this.cloudAdapter.saveGameMedals(this.session.user.id, gameId, state);
 				}
 			},
+			fetchGameMedals: async (gameId) => {
+				if (this.session.user && this.cloudAdapter.isAvailable()) {
+					return await this.cloudAdapter.getGameMedals(this.session.user.id, gameId);
+				}
+				return null;
+			},
 		});
 		initOfflineSyncBridge();
 
@@ -117,6 +124,7 @@ class UserService implements IUserService {
 					!this.session.isCloudSynced
 				) {
 					await this.setStorageMode('cloud');
+					await this.syncMedalsAcrossGames();
 				} else if (!detail.preferences.cloudSync && this.session.isCloudSynced) {
 					await this.setStorageMode('local');
 				}
@@ -136,6 +144,9 @@ class UserService implements IUserService {
 					});
 					await this.localAdapter.saveProfile(profile);
 					await this.localAdapter.setStorageMode(profile.storageMode);
+					if (isSynced) {
+						await this.syncMedalsAcrossGames();
+					}
 				} else if (this.session.isAuthenticated) {
 					// Fall back to local guest when signed out
 					const guest = await this.localAdapter.getOrCreateGuestProfile();
@@ -316,6 +327,7 @@ class UserService implements IUserService {
 					isCloudSynced: true,
 				});
 				saveConsentPreferences({ cloudSync: true }, true);
+				await this.syncMedalsAcrossGames();
 			} else if (this.cloudAdapter.isAvailable()) {
 				await this.signInAnonymously();
 			}
@@ -338,6 +350,16 @@ class UserService implements IUserService {
 				isCloudSynced: false,
 			});
 			saveConsentPreferences({ cloudSync: false, publicBroadcast: false }, this.session.isAuthenticated);
+		}
+	}
+
+	async syncMedalsAcrossGames(): Promise<void> {
+		if (this.session.isAuthenticated && this.session.isCloudSynced && this.session.user) {
+			try {
+				await reconcileAllGameMedals();
+			} catch (error) {
+				console.warn('[@arcade/lib-user] Cross-game medal reconciliation failed:', error);
+			}
 		}
 	}
 }
