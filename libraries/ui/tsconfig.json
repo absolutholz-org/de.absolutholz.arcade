@@ -13,9 +13,17 @@
 		"sourceMap": true,
 		"composite": true,
 		"jsx": "react-jsx",
+		"types": ["vitest/globals"],
 		"outDir": "dist",
 		"rootDir": "src"
 	},
 	"include": ["src/**/*"],
-	"exclude": ["src/stories", "src/**/*.stories.ts", "src/**/*.stories.tsx"]
+	"exclude": [
+		"src/stories",
+		"src/**/*.stories.ts",
+		"src/**/*.stories.tsx",
+		"src/**/*.test.ts",
+		"src/**/*.test.tsx",
+		"src/**/__tests__/*"
+	]
 }

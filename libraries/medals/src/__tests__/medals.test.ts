@@ -213,7 +213,7 @@ describe('@arcade/lib-medals Foundation', () => {
 		expect(merged.baseStats.gamesWon).toBe(2);
 		expect(merged.customStats.puzzles.puzzle_1.bestTimeSeconds).toBe(40);
 		expect(merged.customStats.puzzles.puzzle_2.bestTimeSeconds).toBe(80);
-		expect(merged.unlockedMedals.nonogram_first_solve).toBeDefined();
+		expect(merged.unlockedMedals.nonogram_first_brushstroke).toBeDefined();
 	});
 
 	it('dispatches medalUnlocked custom event on window when medals are earned', async () => {
@@ -902,5 +902,160 @@ describe('@arcade/lib-medals Foundation', () => {
 			}
 		}
 		expect(magnetUnlocked).toBe(true);
+	});
+
+	it('evaluates and awards all Nonogram medals correctly', async () => {
+		const storage = new MockMemoryStorage('nonogram');
+
+		// 1. First Brushstroke + Speed Sketcher (5x5 in 18s) + Playing It Safe (15 crosses before fill)
+		const res1 = await recordGameResult(
+			{
+				gameId: 'nonogram',
+				won: true,
+				playTimeSeconds: 18,
+				levelKey: 'easy',
+				sizeKey: '5x5',
+				roundContext: {
+					difficulty: 'easy',
+					size: '5x5',
+					completedPuzzleId: 'easy-heart',
+					mistakesCount: 0,
+					hintsUsed: 0,
+					crossesPlaced: 15,
+					crossesBeforeFirstFill: 15,
+					maxSameCellToggles: 1,
+				},
+			},
+			{ storage, now: 1000 },
+		);
+
+		const res1Ids = res1.newlyUnlockedMedals.map((m) => m.id);
+		expect(res1Ids).toContain('nonogram_first_brushstroke');
+		expect(res1Ids).toContain('nonogram_speed_easy');
+		expect(res1Ids).toContain('nonogram_playing_safe');
+
+		// 2. Direct Painter + Flawless Canvas + Grand Muralist (15x15 in 150s, 0 mistakes, 0 hints, 0 crosses)
+		const res2 = await recordGameResult(
+			{
+				gameId: 'nonogram',
+				won: true,
+				playTimeSeconds: 150,
+				levelKey: 'hard',
+				sizeKey: '15x15',
+				roundContext: {
+					difficulty: 'hard',
+					size: '15x15',
+					completedPuzzleId: 'hard-dragon',
+					mistakesCount: 0,
+					hintsUsed: 0,
+					crossesPlaced: 0,
+					crossesBeforeFirstFill: 0,
+					maxSameCellToggles: 6, // also triggers indecisive
+				},
+			},
+			{ storage, now: 2000 },
+		);
+
+		const res2Ids = res2.newlyUnlockedMedals.map((m) => m.id);
+		expect(res2Ids).toContain('nonogram_speed_hard');
+		expect(res2Ids).toContain('nonogram_direct_painter');
+		expect(res2Ids).toContain('nonogram_flawless_canvas');
+		expect(res2Ids).toContain('nonogram_indecisive');
+
+		// 3. College Try + Speedrun to Ruin + Abstract Expressionism on defeat
+		const defeatRes = await recordGameResult(
+			{
+				gameId: 'nonogram',
+				won: false,
+				playTimeSeconds: 12,
+				levelKey: 'hard',
+				sizeKey: '15x15',
+				roundContext: {
+					difficulty: 'hard',
+					size: '15x15',
+					completedPuzzleId: 'hard-castle',
+					mistakesCount: 3,
+					hintsUsed: 0,
+					crossesPlaced: 5,
+					crossesBeforeFirstFill: 2,
+					maxSameCellToggles: 2,
+					boardFillRatioOnDefeat: 0.8,
+				},
+			},
+			{ storage, now: 3000 },
+		);
+
+		const defeatIds = defeatRes.newlyUnlockedMedals.map((m) => m.id);
+		expect(defeatIds).toContain('nonogram_college_try');
+		expect(defeatIds).toContain('nonogram_speedrun_ruin');
+		expect(defeatIds).toContain('nonogram_abstract');
+
+		// 4. Test Artist ladder (Bronze at 5 wins)
+		for (let i = 0; i < 2; i++) {
+			await recordGameResult(
+				{
+					gameId: 'nonogram',
+					won: true,
+					playTimeSeconds: 30,
+					levelKey: 'easy',
+					sizeKey: '5x5',
+					roundContext: {
+						completedPuzzleId: `easy-dummy-${i}`,
+					},
+				},
+				{ storage, now: 4000 + i },
+			);
+		}
+		const artist5Res = await recordGameResult(
+			{
+				gameId: 'nonogram',
+				won: true,
+				playTimeSeconds: 30,
+				levelKey: 'easy',
+				sizeKey: '5x5',
+				roundContext: {
+					completedPuzzleId: 'easy-dummy-final',
+				},
+			},
+			{ storage, now: 5000 },
+		);
+		expect(artist5Res.newlyUnlockedMedals.some((m) => m.id === 'nonogram_artist')).toBe(true);
+
+		// 5. Test Gallery ladder (Bronze at 10 Easy puzzles)
+		// 4 easy puzzles already completed: easy-heart, easy-dummy-0, easy-dummy-1, easy-dummy-final.
+		// Add 5 more in loop, then 10th is galleryRes.
+		for (let i = 0; i < 5; i++) {
+			await recordGameResult(
+				{
+					gameId: 'nonogram',
+					won: true,
+					playTimeSeconds: 25,
+					levelKey: 'easy',
+					sizeKey: '5x5',
+					roundContext: {
+						difficulty: 'easy',
+						size: '5x5',
+						completedPuzzleId: `easy-puzzle-${i}`,
+					},
+				},
+				{ storage, now: 6000 + i },
+			);
+		}
+		const galleryRes = await recordGameResult(
+			{
+				gameId: 'nonogram',
+				won: true,
+				playTimeSeconds: 25,
+				levelKey: 'easy',
+				sizeKey: '5x5',
+				roundContext: {
+					difficulty: 'easy',
+					size: '5x5',
+					completedPuzzleId: 'easy-puzzle-10',
+				},
+			},
+			{ storage, now: 7000 },
+		);
+		expect(galleryRes.newlyUnlockedMedals.some((m) => m.id === 'nonogram_gallery')).toBe(true);
 	});
 });

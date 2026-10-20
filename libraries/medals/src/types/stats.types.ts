@@ -31,10 +31,19 @@ export interface NonogramPuzzleRecord {
 	readonly completed: boolean;
 	readonly bestTimeSeconds: number | null;
 	readonly completedWithoutErrors: boolean;
+	readonly difficulty?: string;
+	readonly size?: string;
 }
 
 export interface NonogramCustomStats {
 	readonly puzzles: Record<string, NonogramPuzzleRecord>;
+	readonly completedEasyPuzzles?: string[];
+	readonly completedMediumPuzzles?: string[];
+	readonly completedHardPuzzles?: string[];
+	readonly currentMediumStreak?: number;
+	readonly currentHardStreak?: number;
+	readonly bestMediumStreak?: number;
+	readonly bestHardStreak?: number;
 }
 
 export type MinesweeperDifficulty = 'simple' | 'medium' | 'hard' | 'expert' | 'beginner' | 'intermediate';

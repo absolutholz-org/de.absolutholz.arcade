@@ -103,21 +103,57 @@ export const enMedals = {
 		},
 	},
 	nonogram: {
-		first_solve: {
-			title: 'First Reveal',
-			desc: 'Solve your first picture logic puzzle.',
+		first_brushstroke: {
+			title: 'First Brushstroke',
+			desc: 'Solve your very first picture puzzle.',
 		},
-		gallery_curator: {
-			title: 'Gallery Curator',
-			desc: 'Solve 5 distinct Nonogram puzzles.',
+		gallery: {
+			title: 'The Gallery',
+			desc: 'Clear curated puzzles across Easy, Medium, and Hard collections.',
 		},
-		perfectionist: {
-			title: 'Perfectionist',
-			desc: 'Solve 10 Nonogram puzzles without making mistakes.',
+		artist: {
+			title: 'Pixel Artist',
+			desc: 'Solve puzzles and fill your lifetime gallery.',
 		},
-		swift_mind: {
-			title: 'Rapid Mind',
-			desc: 'Solve any Nonogram puzzle in under 60 seconds.',
+		streak: {
+			title: 'Unbroken Line',
+			desc: 'Build consecutive win streaks without striking out.',
+		},
+		speed_easy: {
+			title: 'Speed Sketcher',
+			desc: 'Solve a 5x5 board in under 20 seconds.',
+		},
+		speed_hard: {
+			title: 'Grand Muralist',
+			desc: 'Solve a 15x15 board in under 3 minutes.',
+		},
+		direct_painter: {
+			title: 'Direct Painter',
+			desc: 'Complete a 10x10 or 15x15 picture without placing a single cross marker.',
+		},
+		flawless_canvas: {
+			title: 'Flawless Canvas',
+			desc: 'Complete a 15x15 board with zero mistakes and zero hints.',
+		},
+		college_try: {
+			title: 'The Old College Try',
+			desc: 'Suffer your first strikeout. Every artist has rough sketches.',
+		},
+		speedrun_ruin: {
+			title: 'Speedrun to Ruin',
+			desc: 'Strike out in under 15 seconds.',
+		},
+		abstract: {
+			title: 'Abstract Expressionism',
+			desc: 'Fill over three quarters of the board before losing.',
+		},
+		playing_safe: {
+			title: 'Playing It Safe',
+			desc: 'Mark 15 crosses before committing to a single filled pixel.',
+		},
+		indecisive: {
+			title: 'Indecisive Painter',
+			desc: 'Change your mind on the same tile five times in one round.',
 		},
 	},
 	minesweeper: {

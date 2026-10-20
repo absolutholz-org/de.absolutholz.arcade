@@ -2,7 +2,7 @@ export type DifficultyId = 'easy' | 'medium' | 'hard';
 
 export type CellState = 'empty' | 'filled' | 'crossed';
 
-export type GameStatus = 'not_started' | 'playing' | 'paused' | 'won';
+export type GameStatus = 'not_started' | 'playing' | 'paused' | 'won' | 'lost';
 
 export type InteractionMode = 'fill' | 'cross';
 

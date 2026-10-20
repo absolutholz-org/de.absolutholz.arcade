@@ -50,10 +50,23 @@ export interface MedalsSchema {
 		readonly insomnia: { readonly title: string; readonly desc: string };
 	};
 	readonly nonogram: {
-		readonly first_solve: { readonly title: string; readonly desc: string };
-		readonly gallery_curator: { readonly title: string; readonly desc: string };
-		readonly perfectionist: { readonly title: string; readonly desc: string };
-		readonly swift_mind: { readonly title: string; readonly desc: string };
+		readonly first_brushstroke: { readonly title: string; readonly desc: string };
+		readonly gallery: { readonly title: string; readonly desc: string };
+		readonly artist: { readonly title: string; readonly desc: string };
+		readonly streak: { readonly title: string; readonly desc: string };
+		readonly speed_easy: { readonly title: string; readonly desc: string };
+		readonly speed_hard: { readonly title: string; readonly desc: string };
+		readonly direct_painter: { readonly title: string; readonly desc: string };
+		readonly flawless_canvas: { readonly title: string; readonly desc: string };
+		readonly college_try: { readonly title: string; readonly desc: string };
+		readonly speedrun_ruin: { readonly title: string; readonly desc: string };
+		readonly abstract: { readonly title: string; readonly desc: string };
+		readonly playing_safe: { readonly title: string; readonly desc: string };
+		readonly indecisive: { readonly title: string; readonly desc: string };
+		readonly first_solve?: { readonly title: string; readonly desc: string };
+		readonly gallery_curator?: { readonly title: string; readonly desc: string };
+		readonly perfectionist?: { readonly title: string; readonly desc: string };
+		readonly swift_mind?: { readonly title: string; readonly desc: string };
 	};
 	readonly minesweeper: {
 		readonly clearance_initiated: { readonly title: string; readonly desc: string };

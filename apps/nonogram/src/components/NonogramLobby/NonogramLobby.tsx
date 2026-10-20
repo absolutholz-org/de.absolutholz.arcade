@@ -73,7 +73,10 @@ function LobbyContent(): JSX.Element {
 				}
 			: undefined;
 
-	const pageFooterLinks = [{ label: tCommon('navigation.rules'), href: `/nonogram/${language}/rules` }];
+	const pageFooterLinks = [
+		{ label: tCommon('navigation.rules'), href: `/nonogram/${language}/rules` },
+		{ label: `🏅 ${tCommon('navigation.medals')}`, href: `/nonogram/${language}/medals` },
+	];
 
 	const difficultyItems: SegmentedControlItem[] = DIFFICULTIES.map((diff) => ({
 		id: diff,

@@ -104,21 +104,57 @@ export const ptMedals = {
 		},
 	},
 	nonogram: {
-		first_solve: {
-			title: 'Primeira Revelação',
-			desc: 'Resolva seu primeiro enigma de lógica visual.',
+		first_brushstroke: {
+			title: 'Primeira Pincelada',
+			desc: 'Resolva seu primeiro quebra-cabeça de imagem.',
 		},
-		gallery_curator: {
-			title: 'Curador da Galeria',
-			desc: 'Resolva 5 enigmas distintos de Nonograma.',
+		gallery: {
+			title: 'A Galeria',
+			desc: 'Complete quebra-cabeças selecionados nas coleções Fácil, Médio e Difícil.',
 		},
-		perfectionist: {
-			title: 'Perfeccionista',
-			desc: 'Resolva 10 enigmas de Nonograma sem erros.',
+		artist: {
+			title: 'Artista dos Pixels',
+			desc: 'Resolva quebra-cabeças e preencha sua galeria para sempre.',
 		},
-		swift_mind: {
-			title: 'Mente Ágil',
-			desc: 'Resolva um Nonograma em menos de 60 segundos.',
+		streak: {
+			title: 'Linha Contínua',
+			desc: 'Construa sequências de vitórias consecutivas sem ser eliminado.',
+		},
+		speed_easy: {
+			title: 'Desenhista Veloz',
+			desc: 'Resolva um tabuleiro 5x5 em menos de 20 segundos.',
+		},
+		speed_hard: {
+			title: 'Grande Muralista',
+			desc: 'Resolva um tabuleiro 15x15 em menos de 3 minutos.',
+		},
+		direct_painter: {
+			title: 'Pintor Direto',
+			desc: 'Complete uma imagem 10x10 ou 15x15 sem marcar uma única cruz.',
+		},
+		flawless_canvas: {
+			title: 'Tela Impecável',
+			desc: 'Complete um tabuleiro 15x15 com zero erros e zero dicas.',
+		},
+		college_try: {
+			title: 'Tentativa Válida',
+			desc: 'Sofra sua primeira eliminação. Todo artista faz rascunhos.',
+		},
+		speedrun_ruin: {
+			title: 'Corrida para a Ruína',
+			desc: 'Seja eliminado em menos de 15 segundos.',
+		},
+		abstract: {
+			title: 'Expressionismo Abstrato',
+			desc: 'Preencha mais de três quartos do tabuleiro antes de perder.',
+		},
+		playing_safe: {
+			title: 'Jogando com Cautela',
+			desc: 'Marque 15 cruzes antes de preencher um único pixel.',
+		},
+		indecisive: {
+			title: 'Pintor Indeciso',
+			desc: 'Mude de ideia na mesma célula cinco vezes em uma rodada.',
 		},
 	},
 	minesweeper: {

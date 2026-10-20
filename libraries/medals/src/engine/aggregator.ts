@@ -138,22 +138,67 @@ export function updateCustomStats<G extends GameId>(
 				...(current as NonogramCustomStats),
 				puzzles: { ...(current as NonogramCustomStats).puzzles },
 			};
-			const puzzleId = result.levelKey;
-			if (puzzleId && result.won) {
-				const prev = stats.puzzles[puzzleId];
-				const prevBest = prev?.bestTimeSeconds ?? null;
-				const achievedNewBest = prevBest === null || safeTime < prevBest;
+			const puzzleId = (result.roundContext?.completedPuzzleId as string | undefined) ?? result.levelKey;
+			const difficulty = (result.roundContext?.difficulty as string | undefined) ?? result.levelKey;
+			const size = (result.roundContext?.size as string | undefined) ?? result.sizeKey;
 
-				if (achievedNewBest) {
-					isNewBestTime = true;
+			if (result.won) {
+				const isMediumPlus =
+					difficulty === 'medium' || difficulty === 'hard' || size === '10x10' || size === '15x15';
+				const isHard = difficulty === 'hard' || size === '15x15';
+
+				const nextMedStreak = isMediumPlus ? (stats.currentMediumStreak ?? 0) + 1 : 0;
+				const nextHardStreak = isHard ? (stats.currentHardStreak ?? 0) + 1 : 0;
+
+				stats.currentMediumStreak = nextMedStreak;
+				stats.bestMediumStreak = Math.max(stats.bestMediumStreak ?? 0, nextMedStreak);
+				stats.currentHardStreak = nextHardStreak;
+				stats.bestHardStreak = Math.max(stats.bestHardStreak ?? 0, nextHardStreak);
+
+				if (puzzleId) {
+					const prev = stats.puzzles[puzzleId];
+					const prevBest = prev?.bestTimeSeconds ?? null;
+					const achievedNewBest = prevBest === null || safeTime < prevBest;
+
+					if (achievedNewBest) {
+						isNewBestTime = true;
+					}
+
+					const withoutErrors =
+						result.roundContext?.errorsCount === 0 || result.roundContext?.mistakesCount === 0;
+					stats.puzzles[puzzleId] = {
+						completed: true,
+						bestTimeSeconds: achievedNewBest ? safeTime : prevBest,
+						completedWithoutErrors: Boolean(prev?.completedWithoutErrors || withoutErrors),
+						difficulty,
+						size,
+					};
+
+					const isEasy = difficulty === 'easy' || size === '5x5' || puzzleId.startsWith('easy-');
+					const isMedium =
+						difficulty === 'medium' ||
+						size === '10x10' ||
+						puzzleId.startsWith('medium-') ||
+						puzzleId.startsWith('med-');
+					const isHardLevel = difficulty === 'hard' || size === '15x15' || puzzleId.startsWith('hard-');
+
+					if (isEasy) {
+						const easySet = new Set(stats.completedEasyPuzzles ?? []);
+						easySet.add(puzzleId);
+						stats.completedEasyPuzzles = Array.from(easySet);
+					} else if (isMedium) {
+						const medSet = new Set(stats.completedMediumPuzzles ?? []);
+						medSet.add(puzzleId);
+						stats.completedMediumPuzzles = Array.from(medSet);
+					} else if (isHardLevel) {
+						const hardSet = new Set(stats.completedHardPuzzles ?? []);
+						hardSet.add(puzzleId);
+						stats.completedHardPuzzles = Array.from(hardSet);
+					}
 				}
-
-				const withoutErrors = result.roundContext?.errorsCount === 0;
-				stats.puzzles[puzzleId] = {
-					completed: true,
-					bestTimeSeconds: achievedNewBest ? safeTime : prevBest,
-					completedWithoutErrors: Boolean(prev?.completedWithoutErrors || withoutErrors),
-				};
+			} else {
+				stats.currentMediumStreak = 0;
+				stats.currentHardStreak = 0;
 			}
 			return { updatedCustom: stats as GameCustomStatsMap[G], isNewBestTime };
 		}

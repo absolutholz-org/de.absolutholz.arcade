@@ -230,6 +230,9 @@ importers:
       '@arcade/lib-i18n':
         specifier: workspace:*
         version: link:../../libraries/i18n
+      '@arcade/lib-medals':
+        specifier: workspace:*
+        version: link:../../libraries/medals
       '@arcade/lib-storage':
         specifier: workspace:*
         version: link:../../libraries/storage

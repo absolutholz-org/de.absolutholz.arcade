@@ -9,3 +9,4 @@ export * from './PauseOverlay';
 export * from './PuzzleSelectDialog';
 export * from './SettingsDialog';
 export * from './VictoryDialog';
+export * from './NonogramMedalGrid';

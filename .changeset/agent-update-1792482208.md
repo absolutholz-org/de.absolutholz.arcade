@@ -1,0 +1,7 @@
+---
+'@arcade/nonogram': minor
+'@arcade/lib-medals': minor
+'@arcade/lib-i18n': minor
+---
+
+Add static-first Nonogram medal showcase, expand progressive and humorous medal catalog, and wire match context tracking.

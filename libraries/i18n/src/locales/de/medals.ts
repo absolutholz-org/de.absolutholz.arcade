@@ -104,21 +104,57 @@ export const deMedals = {
 		},
 	},
 	nonogram: {
-		first_solve: {
-			title: 'Erstes Bild',
-			desc: 'Löse dein erstes Nonogramm-Rätsel.',
+		first_brushstroke: {
+			title: 'Erster Pinselstrich',
+			desc: 'Löse dein allererstes Bilderrätsel.',
 		},
-		gallery_curator: {
-			title: 'Galerie-Kurator',
-			desc: 'Löse 5 verschiedene Nonogramm-Bilder.',
+		gallery: {
+			title: 'Die Galerie',
+			desc: 'Schließe kuratierte Rätsel in den Sammlungen Einfach, Mittel und Schwer ab.',
 		},
-		perfectionist: {
-			title: 'Perfektionist',
-			desc: 'Löse 10 Nonogramm-Rätsel fehlerfrei.',
+		artist: {
+			title: 'Pixelkünstler',
+			desc: 'Löse Rätsel und fülle deine lebenslange Galerie.',
 		},
-		swift_mind: {
-			title: 'Scharfer Verstand',
-			desc: 'Löse ein Nonogramm in unter 60 Sekunden.',
+		streak: {
+			title: 'Durchgehende Linie',
+			desc: 'Baue aufeinanderfolgende Siegesserien auf, ohne auszuscheiden.',
+		},
+		speed_easy: {
+			title: 'Schnellzeichner',
+			desc: 'Löse ein 5x5-Raster in unter 20 Sekunden.',
+		},
+		speed_hard: {
+			title: 'Großmuralist',
+			desc: 'Löse ein 15x15-Raster in unter 3 Minuten.',
+		},
+		direct_painter: {
+			title: 'Direktmaler',
+			desc: 'Vervollständige ein 10x10- oder 15x15-Bild, ohne ein einziges Kreuz zu setzen.',
+		},
+		flawless_canvas: {
+			title: 'Makellose Leinwand',
+			desc: 'Schließe ein 15x15-Raster ohne Fehler und ohne Hinweise ab.',
+		},
+		college_try: {
+			title: 'Aller Anfang ist schwer',
+			desc: 'Erleide dein erstes Ausscheiden. Jeder Künstler hat Skizzen verworfen.',
+		},
+		speedrun_ruin: {
+			title: 'Speedrun ins Verderben',
+			desc: 'Scheide in unter 15 Sekunden aus.',
+		},
+		abstract: {
+			title: 'Abstrakter Expressionismus',
+			desc: 'Fülle über drei Viertel des Spielfelds, bevor du verlierst.',
+		},
+		playing_safe: {
+			title: 'Auf Nummer sicher',
+			desc: 'Setze 15 Kreuze, bevor du ein einziges gefülltes Pixel platzierst.',
+		},
+		indecisive: {
+			title: 'Unentschlossener Maler',
+			desc: 'Ändere deine Meinung auf demselben Feld fünfmal in einer Runde.',
 		},
 	},
 	minesweeper: {

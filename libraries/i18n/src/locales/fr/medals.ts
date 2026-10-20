@@ -104,21 +104,57 @@ export const frMedals = {
 		},
 	},
 	nonogram: {
-		first_solve: {
-			title: 'Première Révélation',
-			desc: 'Résolvez votre premier puzzle d’image logique.',
+		first_brushstroke: {
+			title: 'Premier coup de pinceau',
+			desc: 'Résolvez votre tout premier casse-tête illustré.',
 		},
-		gallery_curator: {
-			title: 'Conservateur de Galerie',
-			desc: 'Résolvez 5 puzzles de Nonogramme distincts.',
+		gallery: {
+			title: 'La Galerie',
+			desc: 'Terminez des puzzles sélectionnés dans les collections Facile, Moyen et Difficile.',
 		},
-		perfectionist: {
-			title: 'Perfectionniste',
-			desc: 'Résolvez 10 puzzles de Nonogramme sans erreur.',
+		artist: {
+			title: 'Artiste du pixel',
+			desc: 'Résolvez des puzzles et remplissez votre galerie à vie.',
 		},
-		swift_mind: {
-			title: 'Esprit Vif',
-			desc: 'Résolvez un Nonogramme en moins de 60 secondes.',
+		streak: {
+			title: 'Ligne ininterrompue',
+			desc: 'Enchaînez des séries de victoires sans commettre d’erreur éliminatoire.',
+		},
+		speed_easy: {
+			title: 'Croqueur rapide',
+			desc: 'Résolvez une grille 5x5 en moins de 20 secondes.',
+		},
+		speed_hard: {
+			title: 'Grand muraliste',
+			desc: 'Résolvez une grille 15x15 en moins de 3 minutes.',
+		},
+		direct_painter: {
+			title: 'Peintre direct',
+			desc: 'Complétez une image 10x10 ou 15x15 sans placer une seule croix.',
+		},
+		flawless_canvas: {
+			title: 'Toile immaculée',
+			desc: 'Terminez une grille 15x15 sans aucune faute et sans indice.',
+		},
+		college_try: {
+			title: 'Le bel essai',
+			desc: 'Subissez votre premier échec. Tout artiste a ses brouillons.',
+		},
+		speedrun_ruin: {
+			title: 'Course à la ruine',
+			desc: 'Perdez une partie en moins de 15 secondes.',
+		},
+		abstract: {
+			title: 'Expressionnisme abstrait',
+			desc: 'Remplissez plus des trois quarts de la grille avant de perdre.',
+		},
+		playing_safe: {
+			title: 'Prudence avant tout',
+			desc: 'Placez 15 croix avant de remplir un seul pixel.',
+		},
+		indecisive: {
+			title: 'Peintre indécis',
+			desc: 'Changez d’avis cinq fois sur la même case au cours d’une manche.',
 		},
 	},
 	minesweeper: {

@@ -1,3 +1,4 @@
+import { recordGameResult } from '@arcade/lib-medals';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { isLineCompleted, isPuzzleSolved } from '../../engine/clues';
 import { PUZZLE_CATALOG, getDefaultPuzzle, getPuzzleById } from '../../engine/puzzles';
@@ -73,6 +74,60 @@ export function useNonogramEngine(initialDifficulty: DifficultyId = 'easy', init
 
 	const settingsRef = useRef(settings);
 	settingsRef.current = settings;
+
+	// Round context tracking for medal achievements
+	const [mistakesCount, setMistakesCount] = useState(0);
+	const [hintsUsed, setHintsUsed] = useState(0);
+
+	const mistakesCountRef = useRef(0);
+	mistakesCountRef.current = mistakesCount;
+
+	const hintsUsedRef = useRef(0);
+	hintsUsedRef.current = hintsUsed;
+
+	const crossesPlacedRef = useRef(0);
+	const crossesBeforeFirstFillRef = useRef(0);
+	const hasPlacedFirstFillRef = useRef(false);
+	const cellTogglesRef = useRef<Record<number, number>>({});
+
+	const getMaxSameCellToggles = useCallback(() => {
+		const vals = Object.values(cellTogglesRef.current);
+		return vals.length > 0 ? Math.max(...vals) : 0;
+	}, []);
+
+	const handleStrikeout = useCallback(async () => {
+		if (statusRef.current === 'won' || statusRef.current === 'lost') return;
+		setStatus('lost');
+		const curPuzzle = puzzleRef.current;
+		const finalSeconds = elapsedRef.current;
+		const filledCount = cellsRef.current.filter((c) => c === 'filled').length;
+		const totalCells = curPuzzle.width * curPuzzle.height;
+		const boardFillRatioOnDefeat = totalCells > 0 ? filledCount / totalCells : 0;
+		const maxToggles = getMaxSameCellToggles();
+
+		void recordGameResult({
+			gameId: 'nonogram',
+			won: false,
+			playTimeSeconds: finalSeconds,
+			levelKey: curPuzzle.difficulty,
+			sizeKey: `${curPuzzle.width}x${curPuzzle.height}`,
+			roundContext: {
+				mistakesCount: mistakesCountRef.current,
+				hintsUsed: hintsUsedRef.current,
+				crossesPlaced: crossesPlacedRef.current,
+				crossesBeforeFirstFill: crossesBeforeFirstFillRef.current,
+				maxSameCellToggles: maxToggles,
+				boardFillRatioOnDefeat,
+				completedPuzzleId: curPuzzle.id,
+				difficulty: curPuzzle.difficulty,
+				size: `${curPuzzle.width}x${curPuzzle.height}`,
+			},
+		}).catch((error) => {
+			console.warn('[@arcade/nonogram] Failed to record defeat medals result:', error);
+		});
+
+		await saveActiveGame(null);
+	}, [getMaxSameCellToggles]);
 
 	// Load settings & active game on mount
 	useEffect(() => {
@@ -170,14 +225,39 @@ export function useNonogramEngine(initialDifficulty: DifficultyId = 'easy', init
 	// Handle applying a stroke (single click or drag line)
 	const handleApplyStroke = useCallback(
 		async (actions: MoveAction[]) => {
-			if (statusRef.current === 'won') return;
+			if (statusRef.current === 'won' || statusRef.current === 'lost') return;
 
 			const curPuzzle = puzzleRef.current;
 			const nextCells = [...cellsRef.current];
 
+			let hasNewMistake = false;
 			for (const act of actions) {
 				const idx = act.row * curPuzzle.width + act.col;
+				cellTogglesRef.current[idx] = (cellTogglesRef.current[idx] ?? 0) + 1;
+
+				if (act.nextState === 'crossed') {
+					crossesPlacedRef.current += 1;
+					if (!hasPlacedFirstFillRef.current) {
+						crossesBeforeFirstFillRef.current += 1;
+					}
+				} else if (act.nextState === 'filled') {
+					hasPlacedFirstFillRef.current = true;
+					if (curPuzzle.grid[idx] === 0) {
+						mistakesCountRef.current += 1;
+						setMistakesCount(mistakesCountRef.current);
+						hasNewMistake = true;
+					}
+				}
+
 				nextCells[idx] = act.nextState;
+			}
+
+			// Strikeout check (3 errors committed)
+			if (hasNewMistake && mistakesCountRef.current >= 3) {
+				cellsRef.current = nextCells;
+				setCells(nextCells);
+				await handleStrikeout();
+				return;
 			}
 
 			// Auto-cross completed lines if setting enabled
@@ -232,6 +312,7 @@ export function useNonogramEngine(initialDifficulty: DifficultyId = 'easy', init
 			if (isPuzzleSolved(nextCells, curPuzzle.grid)) {
 				setStatus('won');
 				const finalSeconds = elapsedRef.current;
+				const maxToggles = getMaxSameCellToggles();
 				const { isNewBestTime: newBest, record } = await recordPuzzleCompletion(
 					curPuzzle.id,
 					finalSeconds,
@@ -241,6 +322,27 @@ export function useNonogramEngine(initialDifficulty: DifficultyId = 'easy', init
 				setSolvedRecords((prev) => ({ ...prev, [curPuzzle.id]: record }));
 				setIsVictoryOpen(true);
 				await saveActiveGame(null);
+
+				void recordGameResult({
+					gameId: 'nonogram',
+					won: true,
+					playTimeSeconds: finalSeconds,
+					levelKey: curPuzzle.difficulty,
+					sizeKey: `${curPuzzle.width}x${curPuzzle.height}`,
+					roundContext: {
+						mistakesCount: mistakesCountRef.current,
+						hintsUsed: hintsUsedRef.current,
+						crossesPlaced: crossesPlacedRef.current,
+						crossesBeforeFirstFill: crossesBeforeFirstFillRef.current,
+						maxSameCellToggles: maxToggles,
+						boardFillRatioOnDefeat: 0,
+						completedPuzzleId: curPuzzle.id,
+						difficulty: curPuzzle.difficulty,
+						size: `${curPuzzle.width}x${curPuzzle.height}`,
+					},
+				}).catch((error) => {
+					console.warn('[@arcade/nonogram] Failed to record victory medals result:', error);
+				});
 			} else {
 				saveActiveGame({
 					puzzleId: curPuzzle.id,
@@ -251,13 +353,13 @@ export function useNonogramEngine(initialDifficulty: DifficultyId = 'easy', init
 				});
 			}
 		},
-		[historyIndex],
+		[historyIndex, handleStrikeout, getMaxSameCellToggles],
 	);
 
 	// Handle single cell toggle (from keyboard or click)
 	const handleToggleCell = useCallback(
 		(col: number, row: number, mode: InteractionMode) => {
-			if (statusRef.current === 'won') return;
+			if (statusRef.current === 'won' || statusRef.current === 'lost') return;
 
 			const idx = row * puzzleRef.current.width + col;
 			const current = cellsRef.current[idx];
@@ -318,6 +420,14 @@ export function useNonogramEngine(initialDifficulty: DifficultyId = 'easy', init
 		setStatus('not_started');
 		setElapsedSeconds(0);
 		setMoves(0);
+		mistakesCountRef.current = 0;
+		setMistakesCount(0);
+		hintsUsedRef.current = 0;
+		setHintsUsed(0);
+		crossesPlacedRef.current = 0;
+		crossesBeforeFirstFillRef.current = 0;
+		hasPlacedFirstFillRef.current = false;
+		cellTogglesRef.current = {};
 		setIsVictoryOpen(false);
 		await saveActiveGame(null);
 	}, []);
@@ -336,6 +446,14 @@ export function useNonogramEngine(initialDifficulty: DifficultyId = 'easy', init
 		setStatus('not_started');
 		setElapsedSeconds(0);
 		setMoves(0);
+		mistakesCountRef.current = 0;
+		setMistakesCount(0);
+		hintsUsedRef.current = 0;
+		setHintsUsed(0);
+		crossesPlacedRef.current = 0;
+		crossesBeforeFirstFillRef.current = 0;
+		hasPlacedFirstFillRef.current = false;
+		cellTogglesRef.current = {};
 		setFocusedCell({ col: 0, row: 0 });
 		setIsVictoryOpen(false);
 		await saveActiveGame(null);
@@ -372,10 +490,13 @@ export function useNonogramEngine(initialDifficulty: DifficultyId = 'easy', init
 		cells,
 		status,
 		isPaused: status === 'paused',
-		isGameOver: status === 'won',
+		isGameOver: status === 'won' || status === 'lost',
 		isWon: status === 'won',
+		isLost: status === 'lost',
 		elapsedSeconds,
 		moves,
+		mistakesCount,
+		hintsUsed,
 		focusedCell,
 		interactionMode,
 		settings,
@@ -399,6 +520,11 @@ export function useNonogramEngine(initialDifficulty: DifficultyId = 'easy', init
 		handleNextPuzzle,
 		handleTogglePause,
 		handleUpdateSettings,
+		handleStrikeout,
+		handleUseHint: () => {
+			hintsUsedRef.current += 1;
+			setHintsUsed(hintsUsedRef.current);
+		},
 		openSettings: () => setIsSettingsOpen(true),
 		closeSettings: () => setIsSettingsOpen(false),
 		openPuzzleSelect: () => setIsPuzzleSelectOpen(true),
