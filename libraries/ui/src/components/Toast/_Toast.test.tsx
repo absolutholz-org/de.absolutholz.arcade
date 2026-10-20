@@ -300,4 +300,89 @@ describe('Toast Notification System', () => {
 			unmount();
 		});
 	});
+
+	describe('7. Animated Countdown Bar', () => {
+		it('renders progress bar when toast has a positive auto-dismiss duration', () => {
+			const { container, unmount } = render(<ToastContainer />);
+
+			act(() => {
+				toast.info('Auto-dismiss toast', { duration: 5000 });
+			});
+
+			const track = container.querySelector('[data-toast-progress-track]');
+			const bar = container.querySelector('[data-toast-progress-bar]');
+			expect(track).not.toBeNull();
+			expect(bar).not.toBeNull();
+			expect(track?.getAttribute('aria-hidden')).toBe('true');
+
+			unmount();
+		});
+
+		it('does not render progress bar when duration is 0 or showProgress is false', () => {
+			const { container, unmount } = render(<ToastContainer />);
+
+			act(() => {
+				toast.info('Persistent toast', { duration: 0 });
+			});
+
+			expect(container.querySelector('[data-toast-progress-track]')).toBeNull();
+
+			act(() => {
+				toast.info('No progress toast', { duration: 5000, showProgress: false });
+			});
+
+			const toastItems = container.querySelectorAll('[data-variant]');
+			expect(toastItems.length).toBe(2);
+			const tracks = container.querySelectorAll('[data-toast-progress-track]');
+			expect(tracks.length).toBe(0);
+
+			unmount();
+		});
+
+		it('sets data-paused on pointerenter/mouseenter and removes on pointerleave/mouseleave', () => {
+			const { container, unmount } = render(<ToastContainer />);
+
+			act(() => {
+				toast.info('Hoverable toast', { duration: 5000 });
+			});
+
+			const toastItem = container.querySelector('[data-variant]') as HTMLElement;
+			expect(toastItem.getAttribute('data-paused')).toBeNull();
+
+			act(() => {
+				toastItem.dispatchEvent(new Event('mouseenter'));
+			});
+			expect(toastItem.getAttribute('data-paused')).toBe('true');
+
+			act(() => {
+				toastItem.dispatchEvent(new Event('mouseleave'));
+			});
+			expect(toastItem.getAttribute('data-paused')).toBeNull();
+
+			unmount();
+		});
+
+		it('sets data-paused on focusin within toast and removes on focusout', () => {
+			const { container, unmount } = render(<ToastContainer />);
+
+			act(() => {
+				toast.info('Focusable toast', { duration: 5000 });
+			});
+
+			const toastItem = container.querySelector('[data-variant]') as HTMLElement;
+			const dismissBtn = container.querySelector('button[aria-label="Dismiss notification"]') as HTMLElement;
+
+			act(() => {
+				dismissBtn.dispatchEvent(new FocusEvent('focusin', { bubbles: true }));
+			});
+			expect(toastItem.getAttribute('data-paused')).toBe('true');
+
+			act(() => {
+				dismissBtn.dispatchEvent(new FocusEvent('focusout', { bubbles: true, relatedTarget: document.body }));
+			});
+			expect(toastItem.getAttribute('data-paused')).toBeNull();
+
+			unmount();
+		});
+	});
 });

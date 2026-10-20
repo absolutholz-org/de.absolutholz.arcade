@@ -67,6 +67,8 @@ export const Toast_List = styled.div`
 
 export const Toast_Item = styled.div`
 	pointer-events: auto;
+	position: relative;
+	overflow: hidden;
 	background-color: ${themeColor('surface')};
 	color: ${themeColor('text-1')};
 	border: 1px solid ${themeColor('container-2')};
@@ -99,8 +101,51 @@ export const Toast_Item = styled.div`
 		--toast-accent-color: light-dark(oklch(0.68 0.2 80), oklch(0.82 0.2 80));
 	}
 
+	&:hover,
+	&:focus-within,
+	&[data-paused='true'] {
+		& [data-toast-progress-bar] {
+			animation-play-state: paused;
+		}
+	}
+
 	@media (prefers-reduced-motion: reduce) {
 		transition: none;
+	}
+`;
+
+export const Toast_ProgressTrack = styled.div`
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 0.1875rem;
+	background-color: ${themeColor('container-2')};
+	overflow: hidden;
+`;
+
+export const Toast_ProgressBar = styled.div`
+	height: 100%;
+	width: 100%;
+	background-color: var(--toast-accent-color);
+	transform-origin: left center;
+	animation-name: toastCountdown;
+	animation-duration: var(--toast-duration, 7000ms);
+	animation-timing-function: linear;
+	animation-fill-mode: forwards;
+
+	@keyframes toastCountdown {
+		from {
+			transform: scaleX(1);
+		}
+		to {
+			transform: scaleX(0);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		animation: none;
+		display: none;
 	}
 `;
 

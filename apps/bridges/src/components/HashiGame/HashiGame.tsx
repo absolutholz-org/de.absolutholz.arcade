@@ -60,6 +60,7 @@ export function HashiGame({ initialDifficulty = 'easy', initialPuzzleId, lang }:
 					gameMode={game.settings.gameMode}
 					onTogglePause={game.handleTogglePause}
 					onOpenSettings={game.openSettings}
+					onBackToLobby={() => game.recordSurrender()}
 				/>
 			}
 			overlay={

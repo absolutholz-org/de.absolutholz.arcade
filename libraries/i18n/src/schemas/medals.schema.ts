@@ -10,6 +10,7 @@ export interface MedalsSchema {
 			readonly minesweeper: string;
 			readonly queens: string;
 			readonly tracks: string;
+			readonly bridges: string;
 		};
 		readonly status: {
 			readonly unlocked: string;
@@ -96,6 +97,21 @@ export interface MedalsSchema {
 	readonly tracks: {
 		readonly first_departure: { readonly title: string; readonly desc: string };
 		readonly transcontinental: { readonly title: string; readonly desc: string };
+	};
+	readonly bridges: {
+		readonly first_span: { readonly title: string; readonly desc: string };
+		readonly archipelago: { readonly title: string; readonly desc: string };
+		readonly builder: { readonly title: string; readonly desc: string };
+		readonly streak: { readonly title: string; readonly desc: string };
+		readonly speed_beginner: { readonly title: string; readonly desc: string };
+		readonly speed_expert: { readonly title: string; readonly desc: string };
+		readonly flawless_network: { readonly title: string; readonly desc: string };
+		readonly double_trouble: { readonly title: string; readonly desc: string };
+		readonly college_try: { readonly title: string; readonly desc: string };
+		readonly bridge_to_nowhere: { readonly title: string; readonly desc: string };
+		readonly traffic_jam: { readonly title: string; readonly desc: string };
+		readonly indecisive_engineer: { readonly title: string; readonly desc: string };
+		readonly speedrun_collapse: { readonly title: string; readonly desc: string };
 	};
 }
 

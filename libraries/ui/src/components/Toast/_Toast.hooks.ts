@@ -97,27 +97,35 @@ export function useToastTimer({ duration, onDismiss }: UseToastTimerOptions) {
 		if (!element) return;
 
 		const handlePointerEnter = () => {
+			if (isHoveredRef.current) return;
 			isHoveredRef.current = true;
+			element.setAttribute('data-paused', 'true');
 			pauseTimer();
 		};
 
 		const handlePointerLeave = () => {
+			if (!isHoveredRef.current) return;
 			isHoveredRef.current = false;
 			if (!isFocusedRef.current) {
+				element.removeAttribute('data-paused');
 				startTimer();
 			}
 		};
 
 		const handleFocusIn = () => {
+			if (isFocusedRef.current) return;
 			isFocusedRef.current = true;
+			element.setAttribute('data-paused', 'true');
 			pauseTimer();
 		};
 
 		const handleFocusOut = (event: FocusEvent) => {
 			const nextTarget = event.relatedTarget as Node | null;
 			if (!nextTarget || !element.contains(nextTarget)) {
+				if (!isFocusedRef.current) return;
 				isFocusedRef.current = false;
 				if (!isHoveredRef.current) {
+					element.removeAttribute('data-paused');
 					startTimer();
 				}
 			}
@@ -131,6 +139,7 @@ export function useToastTimer({ duration, onDismiss }: UseToastTimerOptions) {
 		element.addEventListener('focusout', handleFocusOut);
 
 		return () => {
+			element.removeAttribute('data-paused');
 			element.removeEventListener('pointerenter', handlePointerEnter);
 			element.removeEventListener('pointerleave', handlePointerLeave);
 			element.removeEventListener('mouseenter', handlePointerEnter);

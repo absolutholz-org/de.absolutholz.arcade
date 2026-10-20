@@ -27,11 +27,14 @@ export function ToastItem({
 	id,
 	message,
 	onDismiss,
+	showProgress = true,
 	title,
 	variant = 'info',
 	...restProps
 }: ToastItemProps) {
 	const iconName = icon || DEFAULT_VARIANT_ICONS[variant];
+
+	const isAutoDismiss = typeof duration === 'number' && duration > 0 && Number.isFinite(duration);
 
 	const { itemRef } = useToastTimer({
 		duration,
@@ -58,6 +61,11 @@ export function ToastItem({
 			<S.Toast_DismissButton type="button" onClick={() => onDismiss(id)} aria-label={dismissAriaLabel}>
 				<Icon name="close" size="xs" />
 			</S.Toast_DismissButton>
+			{isAutoDismiss && showProgress && (
+				<S.Toast_ProgressTrack aria-hidden="true" data-toast-progress-track>
+					<S.Toast_ProgressBar style={{ animationDuration: `${duration}ms` }} data-toast-progress-bar />
+				</S.Toast_ProgressTrack>
+			)}
 		</S.Toast_Item>
 	);
 }

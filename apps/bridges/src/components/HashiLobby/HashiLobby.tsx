@@ -106,7 +106,10 @@ function LobbyContent(): JSX.Element {
 			}
 		: undefined;
 
-	const pageFooterLinks = [{ label: tCommon('navigation.rules'), href: `/bridges/${language}/rules` }];
+	const pageFooterLinks = [
+		{ label: tCommon('navigation.rules'), href: `/bridges/${language}/rules` },
+		{ label: tCommon('navigation.medals'), href: `/bridges/${language}/medals` },
+	];
 
 	const difficultyItems: SegmentedControlItem[] = DIFFICULTY_LEVELS.map((diff) => {
 		const size = DIFFICULTY_GRID_SIZES[diff];

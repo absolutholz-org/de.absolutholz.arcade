@@ -1058,4 +1058,75 @@ describe('@arcade/lib-medals Foundation', () => {
 		);
 		expect(galleryRes.newlyUnlockedMedals.some((m) => m.id === 'nonogram_gallery')).toBe(true);
 	});
+
+	it('evaluates and unlocks Bridges medals correctly', async () => {
+		const storage = new MockMemoryStorage('bridges');
+
+		// 1. First victory & speed_beginner & double_trouble
+		const win1 = await recordGameResult(
+			{
+				gameId: 'bridges',
+				won: true,
+				playTimeSeconds: 15,
+				levelKey: 'beginner',
+				sizeKey: '6x6',
+				roundContext: {
+					doubleBridgesDrawnBeforeSingle: true,
+					bridgesDemolishedCount: 0,
+					hintsUsed: 0,
+					mistakesCount: 0,
+					bridgeCollisionAttempts: 0,
+					maxSameEdgeToggles: 1,
+					completedPresetId: 'b-1',
+				},
+			},
+			{ storage, now: 1000 },
+		);
+
+		const unlockedIds = win1.newlyUnlockedMedals.map((m) => m.id);
+		expect(unlockedIds).toContain('bridges_first_span');
+		expect(unlockedIds).toContain('bridges_speed_beginner');
+		expect(unlockedIds).toContain('bridges_double_trouble');
+
+		// 2. Humorous medals: college try & speedrun collapse
+		const loss1 = await recordGameResult(
+			{
+				gameId: 'bridges',
+				won: false,
+				playTimeSeconds: 8,
+				levelKey: 'beginner',
+				sizeKey: '6x6',
+				roundContext: {
+					isolatedLoopCreated: true,
+					bridgeCollisionAttempts: 5,
+					maxSameEdgeToggles: 6,
+				},
+			},
+			{ storage, now: 2000 },
+		);
+
+		const lossUnlockedIds = loss1.newlyUnlockedMedals.map((m) => m.id);
+		expect(lossUnlockedIds).toContain('bridges_college_try');
+		expect(lossUnlockedIds).toContain('bridges_speedrun_collapse');
+		expect(lossUnlockedIds).toContain('bridges_bridge_to_nowhere');
+		expect(lossUnlockedIds).toContain('bridges_traffic_jam');
+		expect(lossUnlockedIds).toContain('bridges_indecisive_engineer');
+
+		// 3. Flawless network on hard
+		const hardWin = await recordGameResult(
+			{
+				gameId: 'bridges',
+				won: true,
+				playTimeSeconds: 120,
+				levelKey: 'hard',
+				sizeKey: '14x14',
+				roundContext: {
+					bridgesDemolishedCount: 0,
+					hintsUsed: 0,
+				},
+			},
+			{ storage, now: 3000 },
+		);
+		expect(hardWin.newlyUnlockedMedals.some((m) => m.id === 'bridges_flawless_network')).toBe(true);
+	});
 });

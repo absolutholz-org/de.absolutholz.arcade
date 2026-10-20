@@ -1,4 +1,5 @@
 import type { AchievementDefinition, GameId } from '../types/index.js';
+import { BRIDGES_MEDAL_DEFINITIONS } from './bridges.js';
 import { MINESWEEPER_MEDAL_DEFINITIONS } from './minesweeper.js';
 import { NONOGRAM_MEDAL_DEFINITIONS } from './nonogram.js';
 import { QUEENS_MEDAL_DEFINITIONS } from './queens.js';
@@ -10,6 +11,7 @@ export * from './nonogram.js';
 export * from './minesweeper.js';
 export * from './queens.js';
 export * from './tracks.js';
+export * from './bridges.js';
 
 export function getMedalDefinitionsForGame<G extends GameId>(gameId: G): readonly AchievementDefinition<G>[] {
 	switch (gameId) {
@@ -23,6 +25,8 @@ export function getMedalDefinitionsForGame<G extends GameId>(gameId: G): readonl
 			return QUEENS_MEDAL_DEFINITIONS as unknown as readonly AchievementDefinition<G>[];
 		case 'tracks':
 			return TRACKS_MEDAL_DEFINITIONS as unknown as readonly AchievementDefinition<G>[];
+		case 'bridges':
+			return BRIDGES_MEDAL_DEFINITIONS as unknown as readonly AchievementDefinition<G>[];
 		default:
 			return [];
 	}

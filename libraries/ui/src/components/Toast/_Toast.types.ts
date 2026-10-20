@@ -30,6 +30,8 @@ export interface ToastOptions {
 	dismissAriaLabel?: string;
 	/** Optional primary action button within the toast. */
 	action?: ToastAction;
+	/** Whether to show the animated countdown progress bar for auto-dismissed toasts. Defaults to true. */
+	showProgress?: boolean;
 	/** Callback invoked when this toast is dismissed. */
 	onDismiss?: () => void;
 }
@@ -69,5 +71,6 @@ export interface ToastItemProps extends Omit<ComponentPropsWithoutRef<'div'>, 's
 	dismissAriaLabel?: string;
 	action?: ToastAction;
 	children?: ReactNode;
+	showProgress?: boolean;
 	onDismiss: (id: string) => void;
 }

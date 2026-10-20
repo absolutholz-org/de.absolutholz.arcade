@@ -12,6 +12,7 @@ export const deMedals = {
 			minesweeper: 'Minesweeper',
 			queens: 'Queens',
 			tracks: 'Tracks',
+			bridges: 'Brücken',
 		},
 		status: {
 			unlocked: 'Freigeschaltet',
@@ -253,6 +254,60 @@ export const deMedals = {
 		transcontinental: {
 			title: 'Transkontinental',
 			desc: 'Schließe 15 Zugstrecken ab.',
+		},
+	},
+	bridges: {
+		first_span: {
+			title: 'Erste Brücke',
+			desc: 'Verbinde dein allererstes Inselnetzwerk.',
+		},
+		archipelago: {
+			title: 'Archipel-Architekt',
+			desc: 'Meistere kuratierte Brückennetzwerke über alle Spielfeldgrößen.',
+		},
+		builder: {
+			title: 'Baumeister',
+			desc: 'Baue Brücken und verbinde Inseln im Laufe deiner Karriere.',
+		},
+		streak: {
+			title: 'Unterbrechungsfreier Verkehr',
+			desc: 'Löse aufeinanderfolgende Spielfelder, ohne eine Verbindung zu trennen.',
+		},
+		speed_beginner: {
+			title: 'Schnellverbindung',
+			desc: 'Verbinde ein 6x6-Anfänger-Feld in unter 20 Sekunden.',
+		},
+		speed_expert: {
+			title: 'Meister des Ingenieurwesens',
+			desc: 'Löse ein 18x18-Experten-Gitter in unter 4 Minuten.',
+		},
+		flawless_network: {
+			title: 'Makelloses Netzwerk',
+			desc: 'Schließe ein schweres oder Experten-Spielfeld ab, ohne eine einzige Brücke abzureißen.',
+		},
+		double_trouble: {
+			title: 'Doppelt hält besser',
+			desc: 'Errichte alle Doppelbrücken, bevor du eine einfache Brücke ziehst.',
+		},
+		college_try: {
+			title: 'Ein guter Versuch',
+			desc: 'Erlebe deine erste gescheiterte Verbindungslinie.',
+		},
+		bridge_to_nowhere: {
+			title: 'Brücke ins Nirgendwo',
+			desc: 'Baue eine isolierte Schleife, die das Festland abschneidet.',
+		},
+		traffic_jam: {
+			title: 'Verkehrschaos',
+			desc: 'Versuche fünfmal in einem Spiel, kreuzende Brücken zu bauen.',
+		},
+		indecisive_engineer: {
+			title: 'Unentschlossener Ingenieur',
+			desc: 'Schalte die Verbindung zwischen zwei Inseln sechsmal hin und her.',
+		},
+		speedrun_collapse: {
+			title: 'Blitz-Einsturz',
+			desc: 'Gib ein Brückenprojekt innerhalb von 10 Sekunden auf.',
 		},
 	},
 } as const satisfies MedalsTranslationContract;

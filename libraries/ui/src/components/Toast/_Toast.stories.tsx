@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { useEffect } from 'react';
 import { ToastContainer } from '.';
 import { Button } from '../Button';
 import { TOAST_POSITIONS, TOAST_VARIANTS } from './_Toast.constants';
@@ -231,4 +232,60 @@ export const InteractiveTriggers: Story = {
 			</Button>
 		</div>
 	),
+};
+
+export const AutoDismissCountdown: Story = {
+	parameters: {
+		docs: {
+			description: {
+				story: 'Toast notification featuring a bottom animated countdown bar indicating time remaining before auto-dismissal. Hovering over the toast card or placing keyboard focus within it immediately pauses both the timer and the animation.',
+			},
+		},
+	},
+	render: function AutoDismissStory(args) {
+		useEffect(() => {
+			toast.info('Hover over this notification or focus any button inside to pause the countdown bar.', {
+				title: 'Auto-Dismiss Countdown',
+				duration: 10000,
+				action: {
+					label: 'Focus Me',
+					onClick: () => toast.success('Action clicked!'),
+				},
+			});
+		}, []);
+
+		return (
+			<div style={{ padding: '2rem', display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+				<ToastContainer {...args} />
+				<Button
+					variant="primary"
+					size="sm"
+					onClick={() =>
+						toast.info('Hover or focus anywhere inside this card to pause the countdown bar.', {
+							title: 'Auto-Dismiss Countdown',
+							duration: 8000,
+							action: {
+								label: 'Undo Action',
+								onClick: () => toast.success('Undo triggered!'),
+							},
+						})
+					}
+				>
+					Trigger 8s Countdown Toast
+				</Button>
+				<Button
+					variant="secondary"
+					size="sm"
+					onClick={() =>
+						toast.warning('Connection lost. Retrying in 5 seconds...', {
+							title: 'Network Alert',
+							duration: 5000,
+						})
+					}
+				>
+					Trigger 5s Countdown Toast
+				</Button>
+			</div>
+		);
+	},
 };

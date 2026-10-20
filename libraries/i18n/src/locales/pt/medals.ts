@@ -12,6 +12,7 @@ export const ptMedals = {
 			minesweeper: 'Campo Minado',
 			queens: 'Queens',
 			tracks: 'Tracks',
+			bridges: 'Pontes',
 		},
 		status: {
 			unlocked: 'Desbloqueado',
@@ -253,6 +254,60 @@ export const ptMedals = {
 		transcontinental: {
 			title: 'Transcontinental',
 			desc: 'Complete 15 ferrovias.',
+		},
+	},
+	bridges: {
+		first_span: {
+			title: 'Primeiro Vão',
+			desc: 'Conecte sua primeiríssima rede de ilhas.',
+		},
+		archipelago: {
+			title: 'Arquiteto do Arquipélago',
+			desc: 'Conclua redes de pontes com curadoria em todos os tamanhos de grade.',
+		},
+		builder: {
+			title: 'Mestre Construtor',
+			desc: 'Construa pontes e conecte ilhas ao longo da sua carreira.',
+		},
+		streak: {
+			title: 'Trânsito Ininterrupto',
+			desc: 'Resolva tabuleiros consecutivos sem perder uma rota.',
+		},
+		speed_beginner: {
+			title: 'Trânsito Rápido',
+			desc: 'Conecte uma grade Iniciante 6x6 em menos de 20 segundos.',
+		},
+		speed_expert: {
+			title: 'Mestre da Engenharia Civil',
+			desc: 'Resolva uma grade Especialista 18x18 em menos de 4 minutos.',
+		},
+		flawless_network: {
+			title: 'Rede Impecável',
+			desc: 'Conclua um tabuleiro Difícil ou Especialista sem demolir uma única ponte.',
+		},
+		double_trouble: {
+			title: 'Problema em Dobro',
+			desc: 'Coloque todas as pontes duplas antes de desenhar qualquer vão simples.',
+		},
+		college_try: {
+			title: 'Valeu a Tentativa',
+			desc: 'Sofra sua primeira linha de trânsito fracassada.',
+		},
+		bridge_to_nowhere: {
+			title: 'Ponte para Lugar Nenhum',
+			desc: 'Construa um circuito isolado que deixe o continente ilhado.',
+		},
+		traffic_jam: {
+			title: 'Engarrafamento',
+			desc: 'Tente desenhar pontes que se cruzam cinco vezes no mesmo jogo.',
+		},
+		indecisive_engineer: {
+			title: 'Engenheiro Indeciso',
+			desc: 'Alterne a conexão entre duas ilhas seis vezes seguidas.',
+		},
+		speedrun_collapse: {
+			title: 'Colapso Relâmpago',
+			desc: 'Abandone ou colapse um projeto de pontes em menos de 10 segundos.',
 		},
 	},
 } as const satisfies MedalsTranslationContract;

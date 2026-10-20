@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { recordGameResult } from '@arcade/lib-medals';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { KeyboardEvent } from 'react';
 import { generatePuzzle } from '../../engine/generator.js';
 import { createHistory, pushState, redo, reset, undo } from '../../engine/history.js';
@@ -37,6 +38,55 @@ import {
 	getOrthogonalRaycasts,
 	toggleBridge,
 } from '../../engine/validator.js';
+
+function checkIsolatedLoop(board: BoardState): boolean {
+	if (board.islands.length < 3 || board.bridges.length < 3) return false;
+
+	const adj = new Map<string, string[]>();
+	for (const isl of board.islands) {
+		adj.set(isl.id, []);
+	}
+	for (const bridge of board.bridges) {
+		adj.get(bridge.fromId)?.push(bridge.toId);
+		adj.get(bridge.toId)?.push(bridge.fromId);
+	}
+
+	const visited = new Set<string>();
+
+	for (const island of board.islands) {
+		if (visited.has(island.id)) continue;
+
+		const component: string[] = [];
+		const queue: string[] = [island.id];
+		visited.add(island.id);
+
+		while (queue.length > 0) {
+			const curr = queue.shift();
+			if (!curr) break;
+			component.push(curr);
+			const neighbors = adj.get(curr) ?? [];
+			for (const n of neighbors) {
+				if (!visited.has(n)) {
+					visited.add(n);
+					queue.push(n);
+				}
+			}
+		}
+
+		const compSet = new Set(component);
+		const compBridges = board.bridges.filter((b) => compSet.has(b.fromId) && compSet.has(b.toId));
+
+		if (
+			component.length >= 3 &&
+			component.length < board.islands.length &&
+			compBridges.length >= component.length
+		) {
+			return true;
+		}
+	}
+
+	return false;
+}
 
 function getInitialBoardState(
 	initialDifficulty: DifficultyLevel,
@@ -131,6 +181,80 @@ export function useHashiGame(initialDifficulty: DifficultyLevel = 'easy', initia
 	const [settings, setSettings] = useState<HashiSettings>(DEFAULT_SETTINGS);
 	const [progress, setProgress] = useState<ProgressMap>({});
 	const [isLoaded, setIsLoaded] = useState(false);
+
+	const mistakesCountRef = useRef(0);
+	const hintsUsedRef = useRef(0);
+	const bridgesDemolishedCountRef = useRef(0);
+	const bridgeCollisionAttemptsRef = useRef(0);
+	const edgeTogglesRef = useRef<Record<string, number>>({});
+	const isolatedLoopCreatedRef = useRef(false);
+	const singleBridgeDrawnBeforeAllDoublesRef = useRef(false);
+	const hasRecordedResultRef = useRef(false);
+
+	const resetTrackingContext = useCallback(() => {
+		mistakesCountRef.current = 0;
+		hintsUsedRef.current = 0;
+		bridgesDemolishedCountRef.current = 0;
+		bridgeCollisionAttemptsRef.current = 0;
+		edgeTogglesRef.current = {};
+		isolatedLoopCreatedRef.current = false;
+		singleBridgeDrawnBeforeAllDoublesRef.current = false;
+		hasRecordedResultRef.current = false;
+	}, []);
+
+	const elapsedRef = useRef(elapsedSeconds);
+	elapsedRef.current = elapsedSeconds;
+	const boardRef = useRef(board);
+	boardRef.current = board;
+	const isCompleteRef = useRef(isComplete);
+	isCompleteRef.current = isComplete;
+	const puzzleIdRef = useRef(puzzleId);
+	puzzleIdRef.current = puzzleId;
+
+	const recordSurrender = useCallback((finalSeconds?: number) => {
+		const safeSeconds = finalSeconds !== undefined ? finalSeconds : elapsedRef.current;
+		const curBoard = boardRef.current;
+		if (isCompleteRef.current || hasRecordedResultRef.current) return;
+		if (safeSeconds <= 0 && curBoard.bridges.length === 0) return;
+
+		hasRecordedResultRef.current = true;
+		const maxSameEdgeToggles = Math.max(...Object.values(edgeTogglesRef.current), 0);
+		const sizeKey = `${curBoard.width}x${curBoard.height}`;
+		const levelKey = curBoard.difficulty;
+
+		void recordGameResult({
+			gameId: 'bridges',
+			won: false,
+			playTimeSeconds: safeSeconds,
+			levelKey,
+			sizeKey,
+			roundContext: {
+				mistakesCount: mistakesCountRef.current,
+				hintsUsed: hintsUsedRef.current,
+				bridgesDemolishedCount: bridgesDemolishedCountRef.current,
+				doubleBridgesDrawnBeforeSingle: false,
+				isolatedLoopCreated: isolatedLoopCreatedRef.current,
+				bridgeCollisionAttempts: bridgeCollisionAttemptsRef.current,
+				maxSameEdgeToggles,
+				difficulty: levelKey,
+				size: sizeKey,
+			},
+		}).catch((error) => {
+			console.warn('[@arcade/bridges] Failed to record surrender medals result:', error);
+		});
+	}, []);
+
+	useEffect(() => {
+		return () => {
+			if (
+				!isCompleteRef.current &&
+				!hasRecordedResultRef.current &&
+				(elapsedRef.current > 0 || boardRef.current.bridges.length > 0)
+			) {
+				recordSurrender(elapsedRef.current);
+			}
+		};
+	}, [recordSurrender]);
 
 	// Load settings, progress, and optional active game on mount
 	useEffect(() => {
@@ -293,6 +417,100 @@ export function useHashiGame(initialDifficulty: DifficultyLevel = 'easy', initia
 		return board.islands.filter((isl) => getIslandStatus(isl.id, board).status === 'satisfied').length;
 	}, [board]);
 
+	const executeBridgeToggle = useCallback(
+		(fromId: string, toId: string) => {
+			const existingBridge = board.bridges.find(
+				(b) => (b.fromId === fromId && b.toId === toId) || (b.fromId === toId && b.toId === fromId),
+			);
+
+			if (existingBridge && existingBridge.count === 2) {
+				bridgesDemolishedCountRef.current += 1;
+			}
+
+			const edgeKey = fromId < toId ? `${fromId}-${toId}` : `${toId}-${fromId}`;
+			edgeTogglesRef.current[edgeKey] = (edgeTogglesRef.current[edgeKey] ?? 0) + 1;
+
+			if (existingBridge && existingBridge.count === 1) {
+				const otherSingleExists = board.bridges.some(
+					(b) =>
+						b.count === 1 &&
+						!((b.fromId === fromId && b.toId === toId) || (b.fromId === toId && b.toId === fromId)),
+				);
+				if (otherSingleExists) {
+					singleBridgeDrawnBeforeAllDoublesRef.current = true;
+				}
+			}
+
+			const nextBoard = toggleBridge(fromId, toId, board);
+
+			const fromBefore = getIslandStatus(fromId, board).status;
+			const toBefore = getIslandStatus(toId, board).status;
+			const fromAfter = getIslandStatus(fromId, nextBoard).status;
+			const toAfter = getIslandStatus(toId, nextBoard).status;
+
+			if (
+				(fromAfter === 'overflow' && fromBefore !== 'overflow') ||
+				(toAfter === 'overflow' && toBefore !== 'overflow')
+			) {
+				mistakesCountRef.current += 1;
+			}
+
+			if (checkIsolatedLoop(nextBoard)) {
+				isolatedLoopCreatedRef.current = true;
+			}
+
+			setBoard(nextBoard);
+			setHistory((prev) => pushState(prev, nextBoard));
+			setSelectedIslandId(null);
+
+			if (checkVictory(nextBoard)) {
+				setIsComplete(true);
+				setIsVictoryOpen(true);
+				clearActiveGame();
+				hasRecordedResultRef.current = true;
+
+				const maxSameEdgeToggles = Math.max(...Object.values(edgeTogglesRef.current), 0);
+				const hasAnyDoubleBridges = nextBoard.bridges.some((b) => b.count === 2);
+				const doubleBridgesDrawnBeforeSingle =
+					hasAnyDoubleBridges && !singleBridgeDrawnBeforeAllDoublesRef.current;
+				const isProcedural = puzzleId.startsWith('procedural-');
+				const completedPresetId = isProcedural ? undefined : puzzleId;
+				const sizeKey = `${nextBoard.width}x${nextBoard.height}`;
+				const levelKey = nextBoard.difficulty;
+
+				void recordGameResult({
+					gameId: 'bridges',
+					won: true,
+					playTimeSeconds: elapsedSeconds,
+					levelKey,
+					sizeKey,
+					roundContext: {
+						mistakesCount: mistakesCountRef.current,
+						hintsUsed: hintsUsedRef.current,
+						bridgesDemolishedCount: bridgesDemolishedCountRef.current,
+						doubleBridgesDrawnBeforeSingle,
+						isolatedLoopCreated: isolatedLoopCreatedRef.current,
+						bridgeCollisionAttempts: bridgeCollisionAttemptsRef.current,
+						maxSameEdgeToggles,
+						completedPresetId,
+						difficulty: levelKey,
+						size: sizeKey,
+					},
+				}).catch((error) => {
+					console.warn('[@arcade/bridges] Failed to record victory medals result:', error);
+				});
+
+				if (!isProcedural) {
+					recordPuzzleCompletion(puzzleId, elapsedSeconds).then((res) => {
+						setIsNewBestTime(res.isNewBestTime);
+						loadProgress().then(setProgress);
+					});
+				}
+			}
+		},
+		[board, puzzleId, elapsedSeconds],
+	);
+
 	// Island click interaction
 	const handleIslandClick = useCallback(
 		(island: Island) => {
@@ -316,53 +534,61 @@ export function useHashiGame(initialDifficulty: DifficultyLevel = 'easy', initia
 			);
 
 			if (hasExistingBridge || canConnect(selectedIslandId, island.id, board)) {
-				const nextBoard = toggleBridge(selectedIslandId, island.id, board);
-				setBoard(nextBoard);
-				setHistory((prev) => pushState(prev, nextBoard));
-				setSelectedIslandId(null);
+				executeBridgeToggle(selectedIslandId, island.id);
+			} else {
+				// canConnect failed - analyze if it's an attempted crossing of spans or invalid collinear move
+				const islandA = board.islands.find((isl) => isl.id === selectedIslandId);
+				const islandB = island;
+				if (islandA && (islandA.x === islandB.x || islandA.y === islandB.y)) {
+					const isHorizontal = islandA.y === islandB.y;
+					let blockedByIsland = false;
+					if (isHorizontal) {
+						const minX = Math.min(islandA.x, islandB.x);
+						const maxX = Math.max(islandA.x, islandB.x);
+						blockedByIsland = board.islands.some(
+							(other) =>
+								other.id !== selectedIslandId &&
+								other.id !== island.id &&
+								other.y === islandA.y &&
+								other.x > minX &&
+								other.x < maxX,
+						);
+					} else {
+						const minY = Math.min(islandA.y, islandB.y);
+						const maxY = Math.max(islandA.y, islandB.y);
+						blockedByIsland = board.islands.some(
+							(other) =>
+								other.id !== selectedIslandId &&
+								other.id !== island.id &&
+								other.x === islandA.x &&
+								other.y > minY &&
+								other.y < maxY,
+						);
+					}
 
-				if (checkVictory(nextBoard)) {
-					setIsComplete(true);
-					setIsVictoryOpen(true);
-					clearActiveGame();
-					if (!puzzleId.startsWith('procedural-')) {
-						recordPuzzleCompletion(puzzleId, elapsedSeconds).then((res) => {
-							setIsNewBestTime(res.isNewBestTime);
-							loadProgress().then(setProgress);
-						});
+					if (blockedByIsland) {
+						mistakesCountRef.current += 1;
+					} else {
+						// Blocked by crossing existing bridge(s)
+						bridgeCollisionAttemptsRef.current += 1;
+						mistakesCountRef.current += 1;
 					}
 				}
-			} else {
+
 				// If not connectable, switch active selection to the clicked island
 				setSelectedIslandId(island.id);
 			}
 		},
-		[board, isComplete, puzzleId, elapsedSeconds, selectedIslandId],
+		[board, isComplete, selectedIslandId, executeBridgeToggle],
 	);
 
 	// Direct bridge click
 	const handleBridgeClick = useCallback(
 		(fromId: string, toId: string) => {
 			if (isComplete) return;
-
-			const nextBoard = toggleBridge(fromId, toId, board);
-			setBoard(nextBoard);
-			setHistory((prev) => pushState(prev, nextBoard));
-			setSelectedIslandId(null);
-
-			if (checkVictory(nextBoard)) {
-				setIsComplete(true);
-				setIsVictoryOpen(true);
-				clearActiveGame();
-				if (!puzzleId.startsWith('procedural-')) {
-					recordPuzzleCompletion(puzzleId, elapsedSeconds).then((res) => {
-						setIsNewBestTime(res.isNewBestTime);
-						loadProgress().then(setProgress);
-					});
-				}
-			}
+			executeBridgeToggle(fromId, toId);
 		},
-		[board, isComplete, puzzleId, elapsedSeconds],
+		[isComplete, executeBridgeToggle],
 	);
 
 	// Island focus
@@ -413,6 +639,7 @@ export function useHashiGame(initialDifficulty: DifficultyLevel = 'easy', initia
 
 	const handleUndo = useCallback(() => {
 		if (!canUndo) return;
+		bridgesDemolishedCountRef.current += 1;
 		const nextHistory = undo(history);
 		setHistory(nextHistory);
 		setBoard(nextHistory.present);
@@ -428,17 +655,24 @@ export function useHashiGame(initialDifficulty: DifficultyLevel = 'easy', initia
 	}, [canRedo, history]);
 
 	const handleReset = useCallback(() => {
+		if (board.bridges.length > 0) {
+			bridgesDemolishedCountRef.current += board.bridges.length;
+		}
 		const nextHistory = reset(history);
 		setHistory(nextHistory);
 		setBoard(nextHistory.present);
 		setSelectedIslandId(null);
-	}, [history]);
+	}, [board.bridges.length, history]);
 
 	const handleTogglePause = useCallback(() => {
 		setIsPaused((prev) => !prev);
 	}, []);
 
 	const handlePlayAgain = useCallback(() => {
+		if (!isComplete) {
+			recordSurrender();
+		}
+		resetTrackingContext();
 		const nextHistory = reset(history);
 		setHistory(nextHistory);
 		setBoard(nextHistory.present);
@@ -446,13 +680,17 @@ export function useHashiGame(initialDifficulty: DifficultyLevel = 'easy', initia
 		setIsComplete(false);
 		setIsVictoryOpen(false);
 		setElapsedSeconds(0);
-	}, [history]);
+	}, [isComplete, recordSurrender, resetTrackingContext, history]);
 
 	const hasNextPuzzle = useMemo(() => {
 		return !!getNextPuzzle(puzzleId);
 	}, [puzzleId]);
 
 	const handleNextPuzzle = useCallback(() => {
+		if (!isComplete) {
+			recordSurrender();
+		}
+		resetTrackingContext();
 		const next = getNextPuzzle(puzzleId);
 		if (next) {
 			const nextBoard = createBoardFromPuzzle(next.puzzle, next.difficulty);
@@ -492,7 +730,7 @@ export function useHashiGame(initialDifficulty: DifficultyLevel = 'easy', initia
 				}
 			}
 		}
-	}, [puzzleId, board.difficulty]);
+	}, [isComplete, recordSurrender, resetTrackingContext, puzzleId, board.difficulty]);
 
 	const handleUpdateSettings = useCallback((newSettings: HashiSettings) => {
 		setSettings(newSettings);
@@ -527,6 +765,7 @@ export function useHashiGame(initialDifficulty: DifficultyLevel = 'easy', initia
 		handleTogglePause,
 		handlePlayAgain,
 		handleNextPuzzle,
+		recordSurrender,
 		openSettings: () => setIsSettingsOpen(true),
 		closeSettings: () => setIsSettingsOpen(false),
 		closeVictory: () => setIsVictoryOpen(false),

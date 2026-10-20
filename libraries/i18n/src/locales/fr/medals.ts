@@ -12,6 +12,7 @@ export const frMedals = {
 			minesweeper: 'Démineur',
 			queens: 'Queens',
 			tracks: 'Tracks',
+			bridges: 'Ponts',
 		},
 		status: {
 			unlocked: 'Débloqué',
@@ -253,6 +254,60 @@ export const frMedals = {
 		transcontinental: {
 			title: 'Transcontinental',
 			desc: 'Complétez 15 voies ferrées.',
+		},
+	},
+	bridges: {
+		first_span: {
+			title: 'Première travée',
+			desc: 'Connectez votre tout premier réseau d’îles.',
+		},
+		archipelago: {
+			title: 'Architecte d’archipel',
+			desc: 'Complétez les réseaux de ponts sélectionnés sur toutes les tailles de grille.',
+		},
+		builder: {
+			title: 'Maître bâtisseur',
+			desc: 'Construisez des ponts et reliez des îles tout au long de votre carrière.',
+		},
+		streak: {
+			title: 'Transit ininterrompu',
+			desc: 'Résolvez des grilles consécutives sans interrompre la liaison.',
+		},
+		speed_beginner: {
+			title: 'Transit rapide',
+			desc: 'Connectez une grille Débutant 6x6 en moins de 20 secondes.',
+		},
+		speed_expert: {
+			title: 'Maître en génie civil',
+			desc: 'Résolvez une grille Expert 18x18 en moins de 4 minutes.',
+		},
+		flawless_network: {
+			title: 'Réseau sans faille',
+			desc: 'Terminez une grille Difficile ou Expert sans démolir un seul pont.',
+		},
+		double_trouble: {
+			title: 'Double peine',
+			desc: 'Posez tous les ponts doubles avant de tracer le moindre pont simple.',
+		},
+		college_try: {
+			title: 'Le bel essai',
+			desc: 'Subissez votre premier échec de liaison.',
+		},
+		bridge_to_nowhere: {
+			title: 'Pont vers nulle part',
+			desc: 'Construisez une boucle isolée qui laisse le continent à l’abandon.',
+		},
+		traffic_jam: {
+			title: 'Embouteillage',
+			desc: 'Tentez de tracer des ponts sécants à cinq reprises en une seule partie.',
+		},
+		indecisive_engineer: {
+			title: 'Ingénieur indécis',
+			desc: 'Basculez six fois de suite la connexion entre deux îles.',
+		},
+		speedrun_collapse: {
+			title: 'Effondrement éclair',
+			desc: 'Abandonnez ou effondrez un chantier de pont en moins de 10 secondes.',
 		},
 	},
 } as const satisfies MedalsTranslationContract;

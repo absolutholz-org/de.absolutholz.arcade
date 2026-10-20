@@ -12,6 +12,7 @@ export const enMedals = {
 			minesweeper: 'Minesweeper',
 			queens: 'Queens',
 			tracks: 'Tracks',
+			bridges: 'Bridges',
 		},
 		status: {
 			unlocked: 'Unlocked',
@@ -252,6 +253,60 @@ export const enMedals = {
 		transcontinental: {
 			title: 'Transcontinental',
 			desc: 'Complete 15 Train Tracks grids.',
+		},
+	},
+	bridges: {
+		first_span: {
+			title: 'First Span',
+			desc: 'Connect your very first network of islands.',
+		},
+		archipelago: {
+			title: 'Archipelago Architect',
+			desc: 'Complete curated bridge networks across all sizes.',
+		},
+		builder: {
+			title: 'Master Builder',
+			desc: 'Build bridges and connect islands in your lifetime career.',
+		},
+		streak: {
+			title: 'Unbroken Transit',
+			desc: 'Solve consecutive boards without disconnecting a route.',
+		},
+		speed_beginner: {
+			title: 'Rapid Transit',
+			desc: 'Connect a 6x6 Beginner board in under 20 seconds.',
+		},
+		speed_expert: {
+			title: 'Civil Engineering Master',
+			desc: 'Solve an 18x18 Expert grid in under 4 minutes.',
+		},
+		flawless_network: {
+			title: 'Flawless Network',
+			desc: 'Complete a Hard or Expert board without demolishing a single bridge.',
+		},
+		double_trouble: {
+			title: 'Double Trouble',
+			desc: 'Lay down every double bridge before drawing any single span.',
+		},
+		college_try: {
+			title: 'The Old College Try',
+			desc: 'Suffer your first failed transit line.',
+		},
+		bridge_to_nowhere: {
+			title: 'Bridge to Nowhere',
+			desc: 'Build an isolated loop that leaves the mainland stranded.',
+		},
+		traffic_jam: {
+			title: 'Traffic Jam',
+			desc: 'Attempt to draw intersecting bridges five times in one game.',
+		},
+		indecisive_engineer: {
+			title: 'Indecisive Engineer',
+			desc: 'Toggle the connection between two islands back and forth six times.',
+		},
+		speedrun_collapse: {
+			title: 'Speedrun Collapse',
+			desc: 'Abandon or collapse a bridge project within 10 seconds.',
 		},
 	},
 } as const satisfies MedalsTranslationContract;

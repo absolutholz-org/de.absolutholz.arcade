@@ -1,5 +1,7 @@
 import type {
 	BaseGameStats,
+	BridgesCustomStats,
+	BridgesDifficulty,
 	GameCustomStatsMap,
 	GameId,
 	GameMedalState,
@@ -243,6 +245,71 @@ export function updateCustomStats<G extends GameId>(
 			return { updatedCustom: stats as GameCustomStatsMap[G], isNewBestTime };
 		}
 
+		case 'bridges': {
+			const stats = { ...(current as BridgesCustomStats) };
+			const diffKey = result.levelKey as BridgesDifficulty | undefined;
+			if (diffKey && diffKey in stats.difficulties) {
+				const prev = stats.difficulties[diffKey];
+				const prevBest = prev.bestTimeSeconds;
+				const isWon = result.won;
+				const achievedNewBest = isWon && (prevBest === null || safeTime < prevBest);
+
+				if (achievedNewBest) {
+					isNewBestTime = true;
+				}
+
+				const currentStreak = isWon ? prev.currentStreak + 1 : 0;
+				stats.difficulties = {
+					...stats.difficulties,
+					[diffKey]: {
+						gamesPlayed: prev.gamesPlayed + 1,
+						gamesWon: prev.gamesWon + (isWon ? 1 : 0),
+						bestTimeSeconds: achievedNewBest ? safeTime : prevBest,
+						currentStreak,
+						bestStreak: Math.max(prev.bestStreak, currentStreak),
+					},
+				};
+			}
+
+			if (result.won) {
+				const isMediumPlus =
+					diffKey === 'medium' ||
+					diffKey === 'hard' ||
+					diffKey === 'expert' ||
+					result.sizeKey === '10x10' ||
+					result.sizeKey === '14x14' ||
+					result.sizeKey === '18x18';
+				const isHardPlus =
+					diffKey === 'hard' ||
+					diffKey === 'expert' ||
+					result.sizeKey === '14x14' ||
+					result.sizeKey === '18x18';
+
+				const nextMedStreak = isMediumPlus ? (stats.currentMediumStreak ?? 0) + 1 : 0;
+				const nextHardStreak = isHardPlus ? (stats.currentHardStreak ?? 0) + 1 : 0;
+
+				stats.currentMediumStreak = nextMedStreak;
+				stats.bestMediumStreak = Math.max(stats.bestMediumStreak ?? 0, nextMedStreak);
+				stats.currentHardStreak = nextHardStreak;
+				stats.bestHardStreak = Math.max(stats.bestHardStreak ?? 0, nextHardStreak);
+
+				const presetId = (result.roundContext?.completedPresetId ??
+					result.roundContext?.presetId ??
+					result.roundContext?.puzzleId) as string | undefined;
+
+				if (presetId) {
+					const completedSet = new Set(stats.completedPresetIds ?? []);
+					completedSet.add(presetId);
+					stats.completedPresetIds = Array.from(completedSet);
+				}
+			} else {
+				stats.currentMediumStreak = 0;
+				stats.currentHardStreak = 0;
+			}
+
+			return { updatedCustom: stats as GameCustomStatsMap[G], isNewBestTime };
+		}
+
 		default:
 			return { updatedCustom: current, isNewBestTime: false };
 	}
@@ -451,6 +518,60 @@ export function mergeGameMedalState<G extends GameId>(
 		mergedCustom = (local.gameId === 'queens'
 			? { boards: mergedBoards }
 			: { grids: mergedBoards }) as unknown as GameCustomStatsMap[G];
+	} else if (local.gameId === 'bridges') {
+		interface DifficultyRecord {
+			readonly gamesPlayed: number;
+			readonly gamesWon: number;
+			readonly bestTimeSeconds: number | null;
+			readonly currentStreak: number;
+			readonly bestStreak: number;
+		}
+
+		const localCustom = local.customStats as BridgesCustomStats;
+		const remoteCustom = remote.customStats as BridgesCustomStats;
+		const localDiffs = localCustom.difficulties as unknown as Record<string, DifficultyRecord>;
+		const remoteDiffs = remoteCustom.difficulties as unknown as Record<string, DifficultyRecord>;
+		const diffs: Record<string, DifficultyRecord> = {};
+
+		for (const key of Object.keys(localDiffs)) {
+			const l = localDiffs[key];
+			const r = remoteDiffs[key];
+			if (!r) {
+				diffs[key] = l;
+				continue;
+			}
+			const bestTimeSeconds =
+				l.bestTimeSeconds !== null && r.bestTimeSeconds !== null
+					? Math.min(l.bestTimeSeconds, r.bestTimeSeconds)
+					: (l.bestTimeSeconds ?? r.bestTimeSeconds);
+
+			diffs[key] = {
+				gamesPlayed: Math.max(l.gamesPlayed, r.gamesPlayed),
+				gamesWon: Math.max(l.gamesWon, r.gamesWon),
+				bestTimeSeconds,
+				bestStreak: Math.max(l.bestStreak, r.bestStreak),
+				currentStreak: local.updatedAt >= remote.updatedAt ? l.currentStreak : r.currentStreak,
+			};
+		}
+
+		const mergedPresetIds = Array.from(
+			new Set([...(localCustom.completedPresetIds ?? []), ...(remoteCustom.completedPresetIds ?? [])]),
+		);
+
+		mergedCustom = {
+			difficulties: diffs,
+			completedPresetIds: mergedPresetIds,
+			bestMediumStreak: Math.max(localCustom.bestMediumStreak ?? 0, remoteCustom.bestMediumStreak ?? 0),
+			currentMediumStreak:
+				local.updatedAt >= remote.updatedAt
+					? (localCustom.currentMediumStreak ?? 0)
+					: (remoteCustom.currentMediumStreak ?? 0),
+			bestHardStreak: Math.max(localCustom.bestHardStreak ?? 0, remoteCustom.bestHardStreak ?? 0),
+			currentHardStreak:
+				local.updatedAt >= remote.updatedAt
+					? (localCustom.currentHardStreak ?? 0)
+					: (remoteCustom.currentHardStreak ?? 0),
+		} as unknown as GameCustomStatsMap[G];
 	}
 
 	return {

@@ -10,4 +10,5 @@ export interface HashiGameHeaderProps {
 	gameMode: 'standard' | 'zen';
 	onTogglePause: () => void;
 	onOpenSettings: () => void;
+	onBackToLobby?: () => void;
 }

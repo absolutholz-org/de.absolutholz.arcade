@@ -1,6 +1,7 @@
 import { type GameStorage, createGameStorage } from '@arcade/lib-storage';
 import type {
 	BaseGameStats,
+	BridgesDifficultyStats,
 	GameCustomStatsMap,
 	GameId,
 	GameMedalState,
@@ -69,6 +70,31 @@ function createInitialMinesweeperStats(): GameCustomStatsMap['minesweeper'] {
 	};
 }
 
+function createInitialBridgesStats(): GameCustomStatsMap['bridges'] {
+	const createDiff = (): BridgesDifficultyStats => ({
+		gamesPlayed: 0,
+		gamesWon: 0,
+		bestTimeSeconds: null,
+		currentStreak: 0,
+		bestStreak: 0,
+	});
+
+	return {
+		difficulties: {
+			beginner: createDiff(),
+			easy: createDiff(),
+			medium: createDiff(),
+			hard: createDiff(),
+			expert: createDiff(),
+		},
+		completedPresetIds: [],
+		currentMediumStreak: 0,
+		currentHardStreak: 0,
+		bestMediumStreak: 0,
+		bestHardStreak: 0,
+	};
+}
+
 export function createInitialCustomStats<G extends GameId>(gameId: G): GameCustomStatsMap[G] {
 	switch (gameId) {
 		case 'sudoku':
@@ -81,6 +107,8 @@ export function createInitialCustomStats<G extends GameId>(gameId: G): GameCusto
 			return { boards: {} } as GameCustomStatsMap[G];
 		case 'tracks':
 			return { grids: {} } as GameCustomStatsMap[G];
+		case 'bridges':
+			return createInitialBridgesStats() as GameCustomStatsMap[G];
 		default:
 			throw new Error(`createInitialCustomStats error: Unknown gameId "${String(gameId)}"`);
 	}

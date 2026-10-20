@@ -15,6 +15,7 @@ export function HashiGameHeader({
 	gameMode,
 	onTogglePause,
 	onOpenSettings,
+	onBackToLobby,
 }: HashiGameHeaderProps): JSX.Element {
 	const { t, language } = useI18n('bridges');
 
@@ -24,7 +25,11 @@ export function HashiGameHeader({
 	return (
 		<S.HeaderContainer>
 			<S.LeftSection>
-				<a href={`/bridges/${language}/?difficulty=${difficulty}`} aria-label={t('controls.backToLobby')}>
+				<a
+					href={`/bridges/${language}/?difficulty=${difficulty}`}
+					aria-label={t('controls.backToLobby')}
+					onClick={onBackToLobby}
+				>
 					← {t('controls.backToLobby')}
 				</a>
 			</S.LeftSection>
