@@ -1,3 +1,4 @@
+import { recordGameResult } from '@arcade/lib-medals';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { KeyboardEvent, MouseEvent, PointerEvent } from 'react';
 import { getAutoCrossCells } from '../../engine/autoCross';
@@ -85,6 +86,89 @@ export function useQueensGame(initialDifficulty: Difficulty = 'easy', initialPuz
 
 	const isPausedRef = useRef(isPaused);
 	isPausedRef.current = isPaused;
+
+	// Round context tracking for @arcade/lib-medals
+	const xMarkersPlacedRef = useRef(0);
+	const xMarkersBeforeFirstCrownRef = useRef(0);
+	const hasPlacedFirstCrownRef = useRef(false);
+	const crownCollisionsTriggeredRef = useRef(0);
+	const crownsRemovedCountRef = useRef(0);
+	const cellCrownRemovalsRef = useRef<Record<string, number>>({});
+	const maxSimultaneousConflictsRef = useRef(0);
+	const hasRecordedResultRef = useRef(false);
+
+	const getMaxSameCellCrownToggles = useCallback(() => {
+		const vals = Object.values(cellCrownRemovalsRef.current);
+		return vals.length > 0 ? Math.max(...vals) : 0;
+	}, []);
+
+	const resetRoundContext = useCallback(() => {
+		xMarkersPlacedRef.current = 0;
+		xMarkersBeforeFirstCrownRef.current = 0;
+		hasPlacedFirstCrownRef.current = false;
+		crownCollisionsTriggeredRef.current = 0;
+		crownsRemovedCountRef.current = 0;
+		cellCrownRemovalsRef.current = {};
+		maxSimultaneousConflictsRef.current = 0;
+		hasRecordedResultRef.current = false;
+	}, []);
+
+	const recordSurrender = useCallback(
+		(finalSeconds: number) => {
+			if (hasRecordedResultRef.current || isCompleteRef.current) return;
+			hasRecordedResultRef.current = true;
+
+			const curPuzzle = puzzleRef.current;
+			const curBoard = boardRef.current;
+			let placedCrowns = 0;
+			for (let r = 0; r < curPuzzle.size; r++) {
+				for (let c = 0; c < curPuzzle.size; c++) {
+					if (curBoard[r]?.[c] === 'token') {
+						placedCrowns++;
+					}
+				}
+			}
+
+			const levelKey = curPuzzle.difficulty;
+			const sizeKey = `${curPuzzle.size}x${curPuzzle.size}`;
+
+			void recordGameResult({
+				gameId: 'queens',
+				won: false,
+				playTimeSeconds: finalSeconds,
+				levelKey,
+				sizeKey,
+				roundContext: {
+					xMarkersPlaced: xMarkersPlacedRef.current,
+					xMarkersBeforeFirstCrown: xMarkersBeforeFirstCrownRef.current,
+					crownCollisionsTriggered: crownCollisionsTriggeredRef.current,
+					crownsRemovedCount: crownsRemovedCountRef.current,
+					maxSameCellCrownToggles: getMaxSameCellCrownToggles(),
+					maxSimultaneousConflicts: maxSimultaneousConflictsRef.current,
+					crownsPlacedBeforeSurrender: placedCrowns,
+					completedPresetId: undefined,
+					gridSize: curPuzzle.size,
+					difficulty: levelKey,
+					size: sizeKey,
+				},
+			}).catch((error) => {
+				console.warn('[@arcade/queens] Failed to record surrender medals result:', error);
+			});
+		},
+		[getMaxSameCellCrownToggles],
+	);
+
+	useEffect(() => {
+		return () => {
+			if (
+				!isCompleteRef.current &&
+				!hasRecordedResultRef.current &&
+				(elapsedRef.current > 0 || historyRef.current.length > 0)
+			) {
+				recordSurrender(elapsedRef.current);
+			}
+		};
+	}, [recordSurrender]);
 
 	// Load storage and query params on mount
 	useEffect(() => {
@@ -198,6 +282,12 @@ export function useQueensGame(initialDifficulty: Difficulty = 'easy', initialPuz
 		return getConflicts(board, puzzle.regions, puzzle.size);
 	}, [board, puzzle.regions, puzzle.size]);
 
+	useEffect(() => {
+		if (conflicts.size > maxSimultaneousConflictsRef.current) {
+			maxSimultaneousConflictsRef.current = conflicts.size;
+		}
+	}, [conflicts]);
+
 	// Token count
 	const tokenCount = useMemo(() => {
 		let count = 0;
@@ -216,9 +306,38 @@ export function useQueensGame(initialDifficulty: Difficulty = 'easy', initialPuz
 		if (isBoardSolved(board, puzzle.regions, puzzle.size)) {
 			setIsComplete(true);
 			setIsPaused(true);
+			hasRecordedResultRef.current = true;
 			clearActiveGame();
 
-			if (!puzzle.id.startsWith('procedural-')) {
+			const levelKey = puzzle.difficulty;
+			const sizeKey = `${puzzle.size}x${puzzle.size}`;
+			const isCurated = !puzzle.id.startsWith('procedural-');
+			const completedPresetId = isCurated ? puzzle.id : undefined;
+
+			void recordGameResult({
+				gameId: 'queens',
+				won: true,
+				playTimeSeconds: elapsedSeconds,
+				levelKey,
+				sizeKey,
+				roundContext: {
+					xMarkersPlaced: xMarkersPlacedRef.current,
+					xMarkersBeforeFirstCrown: xMarkersBeforeFirstCrownRef.current,
+					crownCollisionsTriggered: crownCollisionsTriggeredRef.current,
+					crownsRemovedCount: crownsRemovedCountRef.current,
+					maxSameCellCrownToggles: getMaxSameCellCrownToggles(),
+					maxSimultaneousConflicts: maxSimultaneousConflictsRef.current,
+					crownsPlacedBeforeSurrender: 0,
+					completedPresetId,
+					gridSize: puzzle.size,
+					difficulty: levelKey,
+					size: sizeKey,
+				},
+			}).catch((error) => {
+				console.warn('[@arcade/queens] Failed to record victory medals result:', error);
+			});
+
+			if (isCurated) {
 				recordPuzzleCompletion(puzzle.id, elapsedSeconds).then(({ isNewBestTime: isBest }) => {
 					setIsNewBestTime(isBest);
 					loadProgress().then(setProgress);
@@ -228,7 +347,17 @@ export function useQueensGame(initialDifficulty: Difficulty = 'easy', initialPuz
 				setIsVictoryOpen(true);
 			}
 		}
-	}, [board, puzzle.regions, puzzle.size, isLoaded, isComplete, puzzle.id, elapsedSeconds]);
+	}, [
+		board,
+		puzzle.regions,
+		puzzle.size,
+		puzzle.difficulty,
+		puzzle.id,
+		isLoaded,
+		isComplete,
+		elapsedSeconds,
+		getMaxSameCellCrownToggles,
+	]);
 
 	// Cell toggle actions
 	const setCellAction = useCallback(
@@ -242,6 +371,32 @@ export function useQueensGame(initialDifficulty: Difficulty = 'easy', initialPuz
 				const nextBoard = cloneBoard(prev);
 				nextBoard[row][col] = nextState;
 
+				if (current === 'token' && nextState !== 'token') {
+					crownsRemovedCountRef.current += 1;
+					const cellKey = `${row},${col}`;
+					cellCrownRemovalsRef.current[cellKey] = (cellCrownRemovalsRef.current[cellKey] ?? 0) + 1;
+				}
+
+				if (nextState === 'token') {
+					hasPlacedFirstCrownRef.current = true;
+					const tempBoard = cloneBoard(prev);
+					tempBoard[row][col] = 'token';
+					const confs = getConflicts(tempBoard, puzzleRef.current.regions, puzzleRef.current.size);
+					if (confs.has(`${row},${col}`)) {
+						crownCollisionsTriggeredRef.current += 1;
+					}
+					if (confs.size > maxSimultaneousConflictsRef.current) {
+						maxSimultaneousConflictsRef.current = confs.size;
+					}
+				}
+
+				if (nextState === 'mark') {
+					xMarkersPlacedRef.current += 1;
+					if (!hasPlacedFirstCrownRef.current) {
+						xMarkersBeforeFirstCrownRef.current += 1;
+					}
+				}
+
 				let autoCrossed: { row: number; col: number; prev: CellState }[] | undefined;
 
 				// If placing a token and autoCross is enabled:
@@ -251,6 +406,10 @@ export function useQueensGame(initialDifficulty: Difficulty = 'easy', initialPuz
 						autoCrossed = targets.map((t) => ({ ...t }));
 						for (const target of targets) {
 							nextBoard[target.row][target.col] = 'mark';
+							xMarkersPlacedRef.current += 1;
+							if (!hasPlacedFirstCrownRef.current) {
+								xMarkersBeforeFirstCrownRef.current += 1;
+							}
 						}
 					}
 				}
@@ -342,6 +501,11 @@ export function useQueensGame(initialDifficulty: Difficulty = 'easy', initialPuz
 
 			const current = boardRef.current[row]?.[col];
 			if (current === 'empty') {
+				xMarkersPlacedRef.current += 1;
+				if (!hasPlacedFirstCrownRef.current) {
+					xMarkersBeforeFirstCrownRef.current += 1;
+				}
+
 				// Bulk-place mark (X) on empty cell
 				dragBatchRef.current.push({
 					row,
@@ -394,6 +558,11 @@ export function useQueensGame(initialDifficulty: Difficulty = 'easy', initialPuz
 				const nextBoard = cloneBoard(curBoard);
 				switch (actionToUndo.type) {
 					case 'setCell': {
+						if (actionToUndo.next === 'token' && actionToUndo.prev !== 'token') {
+							crownsRemovedCountRef.current += 1;
+							const cellKey = `${actionToUndo.row},${actionToUndo.col}`;
+							cellCrownRemovalsRef.current[cellKey] = (cellCrownRemovalsRef.current[cellKey] ?? 0) + 1;
+						}
 						nextBoard[actionToUndo.row][actionToUndo.col] = actionToUndo.prev;
 						if (actionToUndo.autoCrossed) {
 							for (const item of actionToUndo.autoCrossed) {
@@ -482,6 +651,16 @@ export function useQueensGame(initialDifficulty: Difficulty = 'easy', initialPuz
 		}
 
 		if (!hasAnyPlaced) return;
+
+		for (let r = 0; r < current.length; r++) {
+			for (let c = 0; c < current[r].length; c++) {
+				if (current[r][c] === 'token') {
+					crownsRemovedCountRef.current += 1;
+					const cellKey = `${r},${c}`;
+					cellCrownRemovalsRef.current[cellKey] = (cellCrownRemovalsRef.current[cellKey] ?? 0) + 1;
+				}
+			}
+		}
 
 		const resetAction: MoveAction = {
 			type: 'reset',
@@ -651,17 +830,28 @@ export function useQueensGame(initialDifficulty: Difficulty = 'easy', initialPuz
 	}, []);
 
 	// Select / start a specific puzzle
-	const handleSelectPuzzle = useCallback((newPuzzle: QueensPuzzle) => {
-		setPuzzle(newPuzzle);
-		setBoard(createEmptyBoard(newPuzzle.size));
-		setFocusedCell({ row: 0, col: 0 });
-		setElapsedSeconds(0);
-		setHistory([]);
-		setRedoStack([]);
-		setIsComplete(false);
-		setIsPaused(false);
-		setIsVictoryOpen(false);
-	}, []);
+	const handleSelectPuzzle = useCallback(
+		(newPuzzle: QueensPuzzle) => {
+			if (
+				!isCompleteRef.current &&
+				!hasRecordedResultRef.current &&
+				(elapsedRef.current > 0 || historyRef.current.length > 0)
+			) {
+				recordSurrender(elapsedRef.current);
+			}
+			resetRoundContext();
+			setPuzzle(newPuzzle);
+			setBoard(createEmptyBoard(newPuzzle.size));
+			setFocusedCell({ row: 0, col: 0 });
+			setElapsedSeconds(0);
+			setHistory([]);
+			setRedoStack([]);
+			setIsComplete(false);
+			setIsPaused(false);
+			setIsVictoryOpen(false);
+		},
+		[recordSurrender, resetRoundContext],
+	);
 
 	// Next puzzle handler
 	const handleNextPuzzle = useCallback(() => {

@@ -1129,4 +1129,92 @@ describe('@arcade/lib-medals Foundation', () => {
 		);
 		expect(hardWin.newlyUnlockedMedals.some((m) => m.id === 'bridges_flawless_network')).toBe(true);
 	});
+
+	it('evaluates and unlocks Queens medals correctly', async () => {
+		const storage = new MockMemoryStorage('queens');
+
+		// 1. First victory & speed_easy
+		const win1 = await recordGameResult(
+			{
+				gameId: 'queens',
+				won: true,
+				playTimeSeconds: 18,
+				levelKey: 'easy',
+				sizeKey: '6x6',
+				roundContext: {
+					xMarkersPlaced: 10,
+					xMarkersBeforeFirstCrown: 2,
+					crownCollisionsTriggered: 0,
+					crownsRemovedCount: 0,
+					maxSameCellCrownToggles: 0,
+					maxSimultaneousConflicts: 0,
+					crownsPlacedBeforeSurrender: 0,
+					completedPresetId: 'easy-1',
+					gridSize: 6,
+				},
+			},
+			{ storage, now: 1000 },
+		);
+
+		const unlockedIds = win1.newlyUnlockedMedals.map((m) => m.id);
+		expect(unlockedIds).toContain('queens_royal_placement');
+		expect(unlockedIds).toContain('queens_speed_easy');
+
+		// 2. Humorous medals: college_try, civil_war, abdication, paranoid_monarch, royal_indecision
+		const loss1 = await recordGameResult(
+			{
+				gameId: 'queens',
+				won: false,
+				playTimeSeconds: 45,
+				levelKey: 'easy',
+				sizeKey: '6x6',
+				roundContext: {
+					xMarkersPlaced: 30,
+					xMarkersBeforeFirstCrown: 29, // > 36 * 0.8 (28)
+					crownCollisionsTriggered: 2,
+					crownsRemovedCount: 4,
+					maxSameCellCrownToggles: 4,
+					maxSimultaneousConflicts: 2,
+					crownsPlacedBeforeSurrender: 3, // >= Math.floor(6 / 2) = 3
+					gridSize: 6,
+				},
+			},
+			{ storage, now: 2000 },
+		);
+
+		const lossUnlockedIds = loss1.newlyUnlockedMedals.map((m) => m.id);
+		expect(lossUnlockedIds).toContain('queens_college_try');
+		expect(lossUnlockedIds).toContain('queens_civil_war');
+		expect(lossUnlockedIds).toContain('queens_abdication');
+		expect(lossUnlockedIds).toContain('queens_paranoid_monarch');
+		expect(lossUnlockedIds).toContain('queens_royal_indecision');
+
+		// 3. Expert speed, blind faith, coup d'etat on 12x12
+		const expertWin = await recordGameResult(
+			{
+				gameId: 'queens',
+				won: true,
+				playTimeSeconds: 110,
+				levelKey: 'expert',
+				sizeKey: '12x12',
+				roundContext: {
+					xMarkersPlaced: 0, // blind faith
+					xMarkersBeforeFirstCrown: 0,
+					crownCollisionsTriggered: 0, // coup d'etat
+					crownsRemovedCount: 0, // coup d'etat
+					maxSameCellCrownToggles: 0,
+					maxSimultaneousConflicts: 0,
+					crownsPlacedBeforeSurrender: 0,
+					completedPresetId: 'expert-1',
+					gridSize: 12,
+				},
+			},
+			{ storage, now: 3000 },
+		);
+
+		const expertUnlocked = expertWin.newlyUnlockedMedals.map((m) => m.id);
+		expect(expertUnlocked).toContain('queens_speed_expert');
+		expect(expertUnlocked).toContain('queens_blind_faith');
+		expect(expertUnlocked).toContain('queens_coup_detat');
+	});
 });

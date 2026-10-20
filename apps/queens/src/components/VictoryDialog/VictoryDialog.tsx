@@ -13,6 +13,7 @@ export function VictoryDialog({
 	onClose,
 }: VictoryDialogProps): JSX.Element {
 	const { t, language } = useI18n('queens');
+	const { t: tCommon } = useI18n('common');
 
 	return (
 		<SharedVictoryDialog
@@ -31,6 +32,7 @@ export function VictoryDialog({
 			playAgainLabel={t('victory.playAgain')}
 			lobbyHref={`/queens/${language}/`}
 			lobbyLabel={t('controls.backToLobby')}
+			secondaryActions={<a href={`/queens/${language}/medals`}>🏅 {tCommon('navigation.medals')}</a>}
 		/>
 	);
 }

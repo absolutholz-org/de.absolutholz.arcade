@@ -91,8 +91,21 @@ export interface MedalsSchema {
 		readonly demolition_expert?: { readonly title: string; readonly desc: string };
 	};
 	readonly queens: {
-		readonly first_win: { readonly title: string; readonly desc: string };
-		readonly reign: { readonly title: string; readonly desc: string };
+		readonly royal_placement: { readonly title: string; readonly desc: string };
+		readonly reign_supreme: { readonly title: string; readonly desc: string };
+		readonly coronation_tour: { readonly title: string; readonly desc: string };
+		readonly succession_streak: { readonly title: string; readonly desc: string };
+		readonly speed_easy: { readonly title: string; readonly desc: string };
+		readonly speed_expert: { readonly title: string; readonly desc: string };
+		readonly blind_faith: { readonly title: string; readonly desc: string };
+		readonly coup_detat: { readonly title: string; readonly desc: string };
+		readonly college_try: { readonly title: string; readonly desc: string };
+		readonly civil_war: { readonly title: string; readonly desc: string };
+		readonly abdication: { readonly title: string; readonly desc: string };
+		readonly paranoid_monarch: { readonly title: string; readonly desc: string };
+		readonly royal_indecision: { readonly title: string; readonly desc: string };
+		readonly first_win?: { readonly title: string; readonly desc: string };
+		readonly reign?: { readonly title: string; readonly desc: string };
 	};
 	readonly tracks: {
 		readonly first_departure: { readonly title: string; readonly desc: string };

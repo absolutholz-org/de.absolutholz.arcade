@@ -237,6 +237,58 @@ export const deMedals = {
 		},
 	},
 	queens: {
+		royal_placement: {
+			title: 'Königliche Platzierung',
+			desc: 'Kröne dein allererstes Königreich.',
+		},
+		reign_supreme: {
+			title: 'Oberste Herrschaft',
+			desc: 'Errichte eine Dynastie im Laufe deiner Karriere als Rätsellöser.',
+		},
+		coronation_tour: {
+			title: 'Krönungsreise',
+			desc: 'Löse kuratierte Kampagnen über alle Reichgrößen hinweg.',
+		},
+		succession_streak: {
+			title: 'Königliche Thronfolge',
+			desc: 'Halte ungebrochene Siegesserien in kniffligen Reichen aufrecht.',
+		},
+		speed_easy: {
+			title: 'Blitzkrönung',
+			desc: 'Löse ein 6x6-Reich in unter 20 Sekunden.',
+		},
+		speed_expert: {
+			title: 'Großer Herrscher',
+			desc: 'Löse ein 12x12-Experten-Königreich in unter 2 Minuten.',
+		},
+		blind_faith: {
+			title: 'Blindes Vertrauen',
+			desc: 'Schließe ein Brett ab 8x8 ohne eine einzige X-Markierung ab.',
+		},
+		coup_detat: {
+			title: 'Staatsstreich',
+			desc: 'Platziere jede Krone mit absoluter Präzision ohne Konflikt oder Entfernen.',
+		},
+		college_try: {
+			title: 'Aller Anfang ist schwer',
+			desc: 'Erleide deine erste Niederlage am königlichen Hof.',
+		},
+		civil_war: {
+			title: 'Bürgerkrieg',
+			desc: 'Platziere zwei Damen, die sich gegenseitig bedrohen.',
+		},
+		abdication: {
+			title: 'Abdankung',
+			desc: 'Gib ein Reich auf, nachdem du mehr als die Hälfte der königlichen Kronen platziert hast.',
+		},
+		paranoid_monarch: {
+			title: 'Paranoider Monarch',
+			desc: 'Fülle über 80 % des Königreichs mit X-Markierungen, bevor du deine erste Krone setzt.',
+		},
+		royal_indecision: {
+			title: 'Königliche Unentschlossenheit',
+			desc: 'Platziere und entferne viermal eine Krone auf genau demselben Feld.',
+		},
 		first_win: {
 			title: 'Königliche Platzierung',
 			desc: 'Löse dein erstes Queens-Brett.',

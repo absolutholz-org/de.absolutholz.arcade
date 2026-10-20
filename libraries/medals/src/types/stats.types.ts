@@ -64,6 +64,11 @@ export interface MinesweeperCustomStats {
 
 export interface QueensCustomStats {
 	readonly boards: Record<string, { completed: boolean; bestTimeSeconds: number | null }>;
+	readonly completedPresetIds?: string[];
+	readonly currentMediumStreak?: number;
+	readonly currentHardStreak?: number;
+	readonly bestMediumStreak?: number;
+	readonly bestHardStreak?: number;
 }
 
 export interface TracksCustomStats {

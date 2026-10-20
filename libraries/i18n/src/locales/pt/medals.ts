@@ -237,6 +237,58 @@ export const ptMedals = {
 		},
 	},
 	queens: {
+		royal_placement: {
+			title: 'Colocação Real',
+			desc: 'Coroe o seu primeiro reino.',
+		},
+		reign_supreme: {
+			title: 'Reinado Supremo',
+			desc: 'Construa uma dinastia ao longo da sua carreira de desafios.',
+		},
+		coronation_tour: {
+			title: 'Tour de Coroação',
+			desc: 'Resolva campanhas selecionadas em todos os tamanhos de reino.',
+		},
+		succession_streak: {
+			title: 'Sucessão Real',
+			desc: 'Mantenha sequências invictas de vitórias em reinos desafiadores.',
+		},
+		speed_easy: {
+			title: 'Coroação Relâmpago',
+			desc: 'Resolva um reino 6x6 em menos de 20 segundos.',
+		},
+		speed_expert: {
+			title: 'Grande Soberano',
+			desc: 'Resolva um reino Especialista 12x12 em menos de 2 minutos.',
+		},
+		blind_faith: {
+			title: 'Fé Cega',
+			desc: 'Conclua um tabuleiro 8x8 ou maior sem posicionar uma única marcação X.',
+		},
+		coup_detat: {
+			title: 'Golpe de Estado',
+			desc: 'Posicione todas as coroas com precisão absoluta, sem nenhum conflito ou remoção.',
+		},
+		college_try: {
+			title: 'Valeu a Tentativa',
+			desc: 'Sofra a sua primeira derrota na corte real.',
+		},
+		civil_war: {
+			title: 'Guerra Civil',
+			desc: 'Posicione duas rainhas que se ameaçam mutuamente.',
+		},
+		abdication: {
+			title: 'Abdicação',
+			desc: 'Renda-se em um reino após posicionar mais da metade das coroas reais.',
+		},
+		paranoid_monarch: {
+			title: 'Monarca Paranoico',
+			desc: 'Preencha mais de 80% do reino com marcas X antes de posicionar sua primeira coroa.',
+		},
+		royal_indecision: {
+			title: 'Indecisão Real',
+			desc: 'Posicione e remova uma coroa do mesmo quadrado quatro vezes.',
+		},
 		first_win: {
 			title: 'Posição Real',
 			desc: 'Resolva seu primeiro tabuleiro de Queens.',

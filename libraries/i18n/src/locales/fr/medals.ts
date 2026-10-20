@@ -237,6 +237,58 @@ export const frMedals = {
 		},
 	},
 	queens: {
+		royal_placement: {
+			title: 'Placement royal',
+			desc: 'Couronnez votre tout premier royaume.',
+		},
+		reign_supreme: {
+			title: 'Règne suprême',
+			desc: 'Bâtissez une dynastie tout au long de votre carrière de joueur.',
+		},
+		coronation_tour: {
+			title: 'Tournée de couronnement',
+			desc: 'Terminez les campagnes sélectionnées pour toutes les tailles de royaume.',
+		},
+		succession_streak: {
+			title: 'Succession royale',
+			desc: 'Maintenez des séries de victoires ininterrompues dans des royaumes ardus.',
+		},
+		speed_easy: {
+			title: 'Couronnement éclair',
+			desc: 'Résolvez un royaume 6x6 en moins de 20 secondes.',
+		},
+		speed_expert: {
+			title: 'Grand souverain',
+			desc: 'Résolvez un royaume Expert 12x12 en moins de 2 minutes.',
+		},
+		blind_faith: {
+			title: 'Foi aveugle',
+			desc: 'Terminez un plateau 8x8 ou plus grand sans placer une seule marque X.',
+		},
+		coup_detat: {
+			title: "Coup d'État",
+			desc: 'Placez chaque couronne avec une précision absolue sans aucun conflit ni retrait.',
+		},
+		college_try: {
+			title: 'Bel essai',
+			desc: 'Subissez votre première défaite à la cour royale.',
+		},
+		civil_war: {
+			title: 'Guerre civile',
+			desc: 'Placez deux reines qui se menacent mutuellement.',
+		},
+		abdication: {
+			title: 'Abdication',
+			desc: 'Capitulez dans un royaume après avoir placé plus de la moitié des couronnes royales.',
+		},
+		paranoid_monarch: {
+			title: 'Monarque paranoïaque',
+			desc: 'Remplissez plus de 80 % du royaume avec des marques X avant de placer votre première couronne.',
+		},
+		royal_indecision: {
+			title: 'Indécision royale',
+			desc: 'Placez et retirez une couronne de la même case quatre fois.',
+		},
 		first_win: {
 			title: 'Placement Royal',
 			desc: 'Résolvez votre première grille de Queens.',
