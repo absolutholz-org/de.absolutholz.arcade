@@ -2,15 +2,16 @@ import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode, TranslationKey } from '@arcade/lib-i18n/types/i18n.types';
 import {
-	type AchievementDefinition,
+	type AchievementType,
 	type GameId,
-	type GameMedalState,
+	type MedalProgress,
 	type MedalTier,
 	getGameMedalState,
 	getMedalDefinitionsForGame,
+	subscribeToMedalUnlocked,
 } from '@arcade/lib-medals';
-import { Icon } from '@arcade/lib-ui';
-import { useEffect, useState } from 'react';
+import { MedalCard } from '@arcade/lib-ui';
+import { useCallback, useEffect, useState } from 'react';
 import * as S from './MedalsShowcase.styles';
 
 const REGISTERED_GAMES: readonly GameId[] = ['sudoku', 'nonogram', 'minesweeper', 'queens', 'tracks'];
@@ -18,13 +19,22 @@ const REGISTERED_GAMES: readonly GameId[] = ['sudoku', 'nonogram', 'minesweeper'
 interface MedalShowcaseItem {
 	readonly id: string;
 	readonly gameId: GameId;
+	readonly type: AchievementType;
 	readonly tier: MedalTier;
 	readonly title: string;
 	readonly description: string;
 	readonly icon: string;
+	readonly thresholds?: {
+		readonly bronze: number;
+		readonly silver: number;
+		readonly gold: number;
+	};
 	readonly isUnlocked: boolean;
 	readonly unlockedAt?: number;
-	readonly progress?: { current: number; target: number };
+	readonly progress?: MedalProgress;
+	readonly bronzeUnlocked?: boolean;
+	readonly silverUnlocked?: boolean;
+	readonly goldUnlocked?: boolean;
 }
 
 function MedalsShowcaseContent({ lang }: { lang: SupportedLanguageCode }) {
@@ -76,53 +86,88 @@ function MedalsShowcaseContent({ lang }: { lang: SupportedLanguageCode }) {
 	};
 
 	// Hydrate medals state from all registered games
-	useEffect(() => {
-		let isMounted = true;
+	const hydrateAllMedals = useCallback(async () => {
+		const allItems: MedalShowcaseItem[] = [];
 
-		async function loadAllMedals() {
-			setIsLoading(true);
-			const allItems: MedalShowcaseItem[] = [];
+		for (const gameId of REGISTERED_GAMES) {
+			const state = await getGameMedalState(gameId);
+			const definitions = getMedalDefinitionsForGame(gameId);
 
-			for (const gameId of REGISTERED_GAMES) {
-				const state = await getGameMedalState(gameId);
-				const definitions = getMedalDefinitionsForGame(gameId);
+			for (const def of definitions) {
+				const unlock = state.unlockedMedals[def.id];
+				const isUnlocked = Boolean(unlock);
+				const progress = state.medalProgress[def.id];
+				const isLadder = def.type === 'ladder';
 
-				for (const def of definitions) {
-					const unlock = state.unlockedMedals[def.id];
-					const isUnlocked = Boolean(unlock);
-					const progress = state.medalProgress[def.id];
+				let bronzeUnlocked = false;
+				let silverUnlocked = false;
+				let goldUnlocked = false;
 
-					allItems.push({
-						id: def.id,
-						gameId,
-						tier: def.tier,
-						title: t(def.titleKey as TranslationKey),
-						description: t(def.descriptionKey as TranslationKey),
-						icon: def.icon,
-						isUnlocked,
-						unlockedAt: unlock?.unlockedAt,
-						progress: progress ? { current: progress.current, target: progress.target } : undefined,
-					});
+				if (isLadder) {
+					bronzeUnlocked = Boolean(
+						progress?.bronzeUnlocked ||
+							unlock?.tier === 'bronze' ||
+							unlock?.tier === 'silver' ||
+							unlock?.tier === 'gold',
+					);
+					silverUnlocked = Boolean(
+						progress?.silverUnlocked || unlock?.tier === 'silver' || unlock?.tier === 'gold',
+					);
+					goldUnlocked = Boolean(progress?.goldUnlocked || unlock?.tier === 'gold');
 				}
-			}
 
-			if (isMounted) {
-				setItems(allItems);
-				setIsLoading(false);
+				allItems.push({
+					id: def.id,
+					gameId,
+					type: def.type ?? 'standalone',
+					tier: def.tier,
+					title: t(def.titleKey as TranslationKey),
+					description: t(def.descriptionKey as TranslationKey),
+					icon: def.icon,
+					thresholds: def.thresholds,
+					isUnlocked,
+					unlockedAt: unlock?.unlockedAt,
+					progress,
+					bronzeUnlocked,
+					silverUnlocked,
+					goldUnlocked,
+				});
 			}
 		}
 
-		loadAllMedals();
-		return () => {
-			isMounted = false;
-		};
+		setItems(allItems);
+		setIsLoading(false);
 	}, [t]);
 
-	// Calculate trophy totals
-	const unlockedCount = items.filter((i) => i.isUnlocked).length;
-	const goldCount = items.filter((i) => i.isUnlocked && i.tier === 'gold').length;
-	const silverCount = items.filter((i) => i.isUnlocked && i.tier === 'silver').length;
-	const bronzeCount = items.filter((i) => i.isUnlocked && i.tier === 'bronze').length;
+	useEffect(() => {
+		let isMounted = true;
+		hydrateAllMedals();
+
+		const unsubscribe = subscribeToMedalUnlocked(() => {
+			if (isMounted) {
+				hydrateAllMedals();
+			}
+		});
+
+		return () => {
+			isMounted = false;
+			unsubscribe();
+		};
+	}, [hydrateAllMedals]);
+
+	// Calculate trophy totals across all loaded achievements
+	const goldCount = items.filter(
+		(i) => i.goldUnlocked || (i.type === 'standalone' && i.isUnlocked && i.tier === 'gold'),
+	).length;
+	const silverCount = items.filter(
+		(i) => i.silverUnlocked || (i.type === 'standalone' && i.isUnlocked && i.tier === 'silver'),
+	).length;
+	const bronzeCount = items.filter(
+		(i) => i.bronzeUnlocked || (i.type === 'standalone' && i.isUnlocked && i.tier === 'bronze'),
+	).length;
+	const unlockedCount = items.filter(
+		(i) => i.isUnlocked || i.bronzeUnlocked || i.silverUnlocked || i.goldUnlocked,
+	).length;
 
 	// Filter items by selected game
 	const visibleItems = items.filter((item) => activeGameFilter === 'all' || item.gameId === activeGameFilter);
@@ -178,66 +223,91 @@ function MedalsShowcaseContent({ lang }: { lang: SupportedLanguageCode }) {
 				))}
 			</div>
 
-			{/* Medals Grid */}
+			{/* Medals Grid consuming design system MedalCard */}
 			<div className={S.MedalsGrid}>
 				{visibleItems.length === 0 && !isLoading && (
 					<div className={S.EmptyState}>{t('medals.showcase.empty')}</div>
 				)}
 
 				{visibleItems.map((item) => {
+					const isProgressive = item.type === 'ladder';
 					const progress = item.progress;
-					const hasProgress = Boolean(progress && progress.target > 0);
-					const currentProgress = progress?.current ?? 0;
-					const targetProgress = progress?.target ?? 0;
-					const percent =
-						hasProgress && targetProgress > 0
-							? Math.min(100, Math.round((currentProgress / targetProgress) * 100))
-							: 0;
+					const gameBadge = t(`medals.showcase.games.${item.gameId}` as TranslationKey);
+
+					if (isProgressive) {
+						const bronzeUnlocked = Boolean(item.bronzeUnlocked);
+						const silverUnlocked = Boolean(item.silverUnlocked);
+						const goldUnlocked = Boolean(item.goldUnlocked);
+						const nextTier: MedalTier | undefined = !bronzeUnlocked
+							? 'bronze'
+							: !silverUnlocked
+								? 'silver'
+								: !goldUnlocked
+									? 'gold'
+									: undefined;
+
+						const current = progress?.currentProgress ?? progress?.current ?? 0;
+						const target =
+							progress?.nextThreshold ??
+							(nextTier === 'bronze'
+								? (item.thresholds?.bronze ?? 3)
+								: nextTier === 'silver'
+									? (item.thresholds?.silver ?? 5)
+									: (item.thresholds?.gold ?? 10));
+
+						return (
+							<MedalCard
+								key={item.id}
+								mode="progressive"
+								gameBadge={gameBadge}
+								title={item.title}
+								description={item.description}
+								bronzeUnlocked={bronzeUnlocked}
+								silverUnlocked={silverUnlocked}
+								goldUnlocked={goldUnlocked}
+								unlockedAt={item.unlockedAt}
+								unlockedDateText={
+									item.unlockedAt
+										? t('medals.showcase.status.unlockedOn', {
+												date: new Date(item.unlockedAt).toLocaleDateString(lang),
+											})
+										: undefined
+								}
+								progressiveProgress={{
+									current,
+									target,
+									nextTier,
+								}}
+								lockedText={t('medals.showcase.status.locked')}
+							/>
+						);
+					}
 
 					return (
-						<article
+						<MedalCard
 							key={item.id}
-							className={S.MedalCard}
-							data-status={item.isUnlocked ? 'unlocked' : 'locked'}
-							data-tier={item.tier}
-						>
-							<div className={S.MedalHeader}>
-								<div className={S.MedalBadge} data-tier={item.tier} aria-hidden="true">
-									{item.isUnlocked ? (
-										<Icon name="trophy" size="md" />
-									) : (
-										<Icon name="lock" size="md" />
-									)}
-								</div>
-								<div className={S.MedalMeta}>
-									<span className={S.MedalGameBadge}>{item.gameId}</span>
-									<h3 className={S.MedalTitle}>{item.title}</h3>
-								</div>
-							</div>
-
-							<p className={S.MedalDescription}>{item.description}</p>
-
-							<div className={S.MedalFooter}>
-								{item.isUnlocked && item.unlockedAt ? (
-									<span className={S.UnlockedDate}>
-										{t('medals.showcase.status.unlockedOn', {
+							mode="standalone"
+							tier={item.tier}
+							gameBadge={gameBadge}
+							title={item.title}
+							description={item.description}
+							unlocked={item.isUnlocked}
+							unlockedAt={item.unlockedAt}
+							unlockedDateText={
+								item.unlockedAt
+									? t('medals.showcase.status.unlockedOn', {
 											date: new Date(item.unlockedAt).toLocaleDateString(lang),
-										})}
-									</span>
-								) : hasProgress ? (
-									<div className={S.ProgressContainer}>
-										<div className={S.ProgressBarTrack}>
-											<div className={S.ProgressBarFill} style={{ width: `${percent}%` }} />
-										</div>
-										<span className={S.ProgressLabel}>
-											{currentProgress} / {targetProgress} ({percent}%)
-										</span>
-									</div>
-								) : (
-									<span className={S.ProgressLabel}>{t('medals.showcase.status.locked')}</span>
-								)}
-							</div>
-						</article>
+										})
+									: undefined
+							}
+							progress={
+								progress && progress.target > 0
+									? { current: progress.current, target: progress.target }
+									: undefined
+							}
+							tierLabel={t(`medals.showcase.tiers.${item.tier}` as TranslationKey)}
+							lockedText={t('medals.showcase.status.locked')}
+						/>
 					);
 				})}
 			</div>
