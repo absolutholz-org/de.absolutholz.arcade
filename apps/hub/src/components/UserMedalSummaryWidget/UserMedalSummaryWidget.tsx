@@ -8,7 +8,7 @@ import { useCallback, useEffect, useState } from 'react';
 import * as S from './UserMedalSummaryWidget.styles';
 import type { UserMedalSummaryWidgetProps } from './UserMedalSummaryWidget.types';
 
-const REGISTERED_GAMES: readonly GameId[] = ['sudoku', 'nonogram', 'minesweeper', 'queens', 'tracks'];
+const REGISTERED_GAMES: readonly GameId[] = ['sudoku', 'nonogram', 'minesweeper', 'queens', 'tracks', 'bridges'];
 
 interface UserMedalData {
 	readonly totalTrophies: number;

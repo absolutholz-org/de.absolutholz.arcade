@@ -14,7 +14,7 @@ import { MedalCard } from '@arcade/lib-ui';
 import { useCallback, useEffect, useState } from 'react';
 import * as S from './MedalsShowcase.styles';
 
-const REGISTERED_GAMES: readonly GameId[] = ['sudoku', 'nonogram', 'minesweeper', 'queens', 'tracks'];
+const REGISTERED_GAMES: readonly GameId[] = ['sudoku', 'nonogram', 'minesweeper', 'queens', 'tracks', 'bridges'];
 
 interface MedalShowcaseItem {
 	readonly id: string;
