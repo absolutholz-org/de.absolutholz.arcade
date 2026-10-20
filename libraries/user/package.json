@@ -6,12 +6,12 @@
 	"type": "module",
 	"exports": {
 		".": {
-			"types": "./dist/index.d.ts",
-			"default": "./dist/index.js"
+			"types": "./src/index.ts",
+			"default": "./src/index.ts"
 		},
 		"./types": {
-			"types": "./dist/types.d.ts",
-			"default": "./dist/types.js"
+			"types": "./src/types.ts",
+			"default": "./src/types.ts"
 		}
 	},
 	"scripts": {
