@@ -73,6 +73,11 @@ export interface QueensCustomStats {
 
 export interface TracksCustomStats {
 	readonly grids: Record<string, { completed: boolean; bestTimeSeconds: number | null }>;
+	readonly completedPresetIds?: string[];
+	readonly currentMediumStreak?: number;
+	readonly currentHardStreak?: number;
+	readonly bestMediumStreak?: number;
+	readonly bestHardStreak?: number;
 }
 
 export type BridgesDifficulty = 'beginner' | 'easy' | 'medium' | 'hard' | 'expert';

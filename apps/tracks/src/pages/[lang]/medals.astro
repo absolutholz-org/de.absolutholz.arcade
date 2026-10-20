@@ -1,0 +1,60 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { TRACKS_MEDAL_DEFINITIONS } from '@arcade/lib-medals';
+import { TracksMedalGrid } from '../../components/TracksMedalGrid';
+import type { TracksMedalDefinitionItem } from '../../components/TracksMedalGrid/TracksMedalGrid.types';
+import TracksStaticPageLayout from '../../layouts/TracksStaticPageLayout.astro';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const currentLanguage = lang as SupportedLanguageCode;
+const currentTracks = resources[currentLanguage]?.tracks ?? resources.en.tracks;
+const currentMedals = resources[currentLanguage]?.medals ?? resources.en.medals;
+
+// Build-time static definitions for Tracks medals
+const staticMedals: TracksMedalDefinitionItem[] = TRACKS_MEDAL_DEFINITIONS.map((def) => {
+	const key = def.id.replace('tracks_', '') as keyof typeof currentMedals.tracks;
+	const localized = currentMedals.tracks[key];
+	let target: number | undefined;
+	if (def.thresholds) {
+		target = def.thresholds.gold;
+	} else if (
+		def.id === 'tracks_first_departure' ||
+		def.id === 'tracks_college_try' ||
+		def.id === 'tracks_derailment'
+	) {
+		target = 1;
+	} else if (def.id === 'tracks_signal_failure') {
+		target = 3;
+	} else if (def.id === 'tracks_indecisive_conductor') {
+		target = 5;
+	}
+
+	return {
+		id: def.id,
+		type: def.type ?? 'standalone',
+		tier: def.tier,
+		title: localized?.title ?? def.id,
+		description: localized?.desc ?? '',
+		icon: def.icon,
+		target,
+		thresholds: def.thresholds,
+	};
+});
+---
+
+<TracksStaticPageLayout
+	title={currentMedals.showcase.title}
+	description={`${currentTracks.title} - ${currentMedals.showcase.description}`}
+	lang={currentLanguage}
+	currentSlug="medals"
+>
+	<TracksMedalGrid client:load lang={currentLanguage} staticMedals={staticMedals} />
+</TracksStaticPageLayout>

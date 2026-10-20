@@ -300,12 +300,60 @@ export const frMedals = {
 	},
 	tracks: {
 		first_departure: {
-			title: 'Premier Départ',
-			desc: 'Complétez votre première voie ferrée.',
+			title: 'Premier départ',
+			desc: 'Posez votre première voie ferrée fonctionnelle.',
 		},
 		transcontinental: {
 			title: 'Transcontinental',
-			desc: 'Complétez 15 voies ferrées.',
+			desc: 'Posez des lignes de chemin de fer tout au long de votre carrière.',
+		},
+		grand_line: {
+			title: 'Grand Line',
+			desc: 'Terminez les réseaux ferroviaires de campagne à travers toutes les difficultés.',
+		},
+		express_service: {
+			title: 'Service express',
+			desc: 'Maintenez une série ininterrompue de livraisons ponctuelles.',
+		},
+		bullet_train: {
+			title: 'Train à grande vitesse',
+			desc: 'Posez une ligne de chemin de fer 6x6 en moins de 30 secondes.',
+		},
+		trans_siberian: {
+			title: 'Transsibérien Express',
+			desc: 'Connectez un itinéraire Expert 10x10 en moins de 3 minutes.',
+		},
+		direct_line: {
+			title: 'Ligne directe',
+			desc: 'Terminez un plateau de 8x8 ou plus sans placer la moindre tuile marqueur.',
+		},
+		smooth_rail: {
+			title: 'Voie parfaite',
+			desc: 'Terminez un plateau Difficile ou Expert sans effacer un seul morceau de voie.',
+		},
+		college_try: {
+			title: 'Beau joueur',
+			desc: 'Subissez votre premier abandon ferroviaire.',
+		},
+		derailment: {
+			title: 'Déraillement',
+			desc: 'Dirigez une voie directement dans un mur de pierre.',
+		},
+		infinite_loop: {
+			title: 'Boucle infinie',
+			desc: 'Construisez une voie ferrée qui tourne simplement en rond.',
+		},
+		wrong_way: {
+			title: 'À contresens',
+			desc: 'Posez votre voie à reculons depuis la porte de sortie.',
+		},
+		signal_failure: {
+			title: 'Panne de signalisation',
+			desc: 'Dépassez le nombre de voies autorisé sur trois rangées ou colonnes à la fois.',
+		},
+		indecisive_conductor: {
+			title: 'Conducteur indécis',
+			desc: 'Réorientez la voie sur la même case cinq fois.',
 		},
 	},
 	bridges: {

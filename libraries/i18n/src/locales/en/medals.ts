@@ -300,11 +300,59 @@ export const enMedals = {
 	tracks: {
 		first_departure: {
 			title: 'First Departure',
-			desc: 'Complete your first Train Tracks grid.',
+			desc: 'Lay down your first functioning railway.',
 		},
 		transcontinental: {
 			title: 'Transcontinental',
-			desc: 'Complete 15 Train Tracks grids.',
+			desc: 'Lay railway lines across your career.',
+		},
+		grand_line: {
+			title: 'Grand Line',
+			desc: 'Clear curated railway networks across all difficulties.',
+		},
+		express_service: {
+			title: 'Express Service',
+			desc: 'Maintain unbroken on-time delivery streaks.',
+		},
+		bullet_train: {
+			title: 'Bullet Train',
+			desc: 'Lay a 6x6 railway line in under 30 seconds.',
+		},
+		trans_siberian: {
+			title: 'Trans-Siberian Express',
+			desc: 'Connect a 10x10 Expert route in under 3 minutes.',
+		},
+		direct_line: {
+			title: 'Direct Line',
+			desc: 'Complete an 8x8 or larger board without placing a single marker tile.',
+		},
+		smooth_rail: {
+			title: 'Smooth Rail',
+			desc: 'Complete a Hard or Expert board without erasing a single track piece.',
+		},
+		college_try: {
+			title: 'The Old College Try',
+			desc: 'Suffer your first railway concession.',
+		},
+		derailment: {
+			title: 'Derailment',
+			desc: 'Run a track directly into a stone wall.',
+		},
+		infinite_loop: {
+			title: 'Infinite Loop',
+			desc: 'Build a train track that just goes round in circles.',
+		},
+		wrong_way: {
+			title: 'Wrong Way Round',
+			desc: 'Lay your track starting backwards from the exit gate.',
+		},
+		signal_failure: {
+			title: 'Signal Failure',
+			desc: 'Exceed the allowed track piece count on three rows or columns at the same time.',
+		},
+		indecisive_conductor: {
+			title: 'Indecisive Conductor',
+			desc: 'Reorient the track on the same square five times.',
 		},
 	},
 	bridges: {

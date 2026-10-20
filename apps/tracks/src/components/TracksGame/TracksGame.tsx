@@ -28,6 +28,7 @@ export function TracksGame({ initialDifficulty = 'easy', initialPuzzleId, lang }
 	});
 
 	const { changeLanguage } = useI18n();
+	const { t: tCommon } = useI18n('common');
 	const game = useTracksGame(initialDifficulty, initialPuzzleId);
 
 	const handleLanguageChange = useCallback(
@@ -124,6 +125,12 @@ export function TracksGame({ initialDifficulty = 'easy', initialPuzzleId, lang }
 					onRedo={game.handleRedo}
 					onReset={game.handleReset}
 				/>
+
+				<S.GameFooter>
+					<S.GameFooterLink href={`/tracks/${activeLang}/medals`} aria-label={tCommon('navigation.medals')}>
+						🏅 {tCommon('navigation.medals')}
+					</S.GameFooterLink>
+				</S.GameFooter>
 			</S.PlayColumn>
 		</GameContainer>
 	);

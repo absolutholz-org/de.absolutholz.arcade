@@ -301,11 +301,59 @@ export const ptMedals = {
 	tracks: {
 		first_departure: {
 			title: 'Primeira Partida',
-			desc: 'Complete sua primeira ferrovia.',
+			desc: 'Construa sua primeira ferrovia funcional.',
 		},
 		transcontinental: {
 			title: 'Transcontinental',
-			desc: 'Complete 15 ferrovias.',
+			desc: 'Construa linhas ferroviárias ao longo da sua carreira.',
+		},
+		grand_line: {
+			title: 'Grand Line',
+			desc: 'Conclua redes ferroviárias selecionadas em todas as dificuldades.',
+		},
+		express_service: {
+			title: 'Serviço Expresso',
+			desc: 'Mantenha séries ininterruptas de entregas pontuais.',
+		},
+		bullet_train: {
+			title: 'Trem-Bala',
+			desc: 'Construa uma ferrovia 6x6 em menos de 30 segundos.',
+		},
+		trans_siberian: {
+			title: 'Expresso Transiberiano',
+			desc: 'Conecte uma rota de Especialista 10x10 em menos de 3 minutos.',
+		},
+		direct_line: {
+			title: 'Linha Direta',
+			desc: 'Complete um tabuleiro 8x8 ou maior sem posicionar nenhum marcador.',
+		},
+		smooth_rail: {
+			title: 'Trilho Suave',
+			desc: 'Complete um tabuleiro Difícil ou Especialista sem apagar uma única peça de trilho.',
+		},
+		college_try: {
+			title: 'Valeu a Tentativa',
+			desc: 'Sofra sua primeira desistência ferroviária.',
+		},
+		derailment: {
+			title: 'Descarrilamento',
+			desc: 'Leve um trilho diretamente contra uma parede de pedra.',
+		},
+		infinite_loop: {
+			title: 'Loop Infinito',
+			desc: 'Construa um trilho que apenas anda em círculos.',
+		},
+		wrong_way: {
+			title: 'Sentido Contrário',
+			desc: 'Construa sua rota começando de trás para frente a partir do portão de saída.',
+		},
+		signal_failure: {
+			title: 'Falha de Sinal',
+			desc: 'Ultrapasse a quantidade permitida de trilhos em três linhas ou colunas simultaneamente.',
+		},
+		indecisive_conductor: {
+			title: 'Maquinista Indeciso',
+			desc: 'Reoriente o trilho no mesmo quadrado cinco vezes.',
 		},
 	},
 	bridges: {

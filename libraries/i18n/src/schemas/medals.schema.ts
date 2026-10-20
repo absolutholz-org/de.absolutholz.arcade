@@ -110,6 +110,18 @@ export interface MedalsSchema {
 	readonly tracks: {
 		readonly first_departure: { readonly title: string; readonly desc: string };
 		readonly transcontinental: { readonly title: string; readonly desc: string };
+		readonly grand_line: { readonly title: string; readonly desc: string };
+		readonly express_service: { readonly title: string; readonly desc: string };
+		readonly bullet_train: { readonly title: string; readonly desc: string };
+		readonly trans_siberian: { readonly title: string; readonly desc: string };
+		readonly direct_line: { readonly title: string; readonly desc: string };
+		readonly smooth_rail: { readonly title: string; readonly desc: string };
+		readonly college_try: { readonly title: string; readonly desc: string };
+		readonly derailment: { readonly title: string; readonly desc: string };
+		readonly infinite_loop: { readonly title: string; readonly desc: string };
+		readonly wrong_way: { readonly title: string; readonly desc: string };
+		readonly signal_failure: { readonly title: string; readonly desc: string };
+		readonly indecisive_conductor: { readonly title: string; readonly desc: string };
 	};
 	readonly bridges: {
 		readonly first_span: { readonly title: string; readonly desc: string };

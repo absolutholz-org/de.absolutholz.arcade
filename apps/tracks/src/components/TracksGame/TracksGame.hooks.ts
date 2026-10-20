@@ -1,3 +1,4 @@
+import { recordGameResult } from '@arcade/lib-medals';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { KeyboardEvent, MouseEvent, PointerEvent } from 'react';
 import { generateTracksPuzzle } from '../../engine/generator.js';
@@ -27,6 +28,7 @@ import {
 	DIFFICULTY_GRID_SIZES,
 	DIFFICULTY_LEVELS,
 	type DifficultyLevel,
+	type Direction,
 	type HistoryState,
 	type InputMode,
 	MAX_MISTAKES,
@@ -36,6 +38,9 @@ import {
 } from '../../engine/types.js';
 import {
 	ALL_TRACK_TYPES,
+	DIRECTION_DELTA,
+	OPPOSITE_DIRECTION,
+	TRACK_DIRECTIONS,
 	applyDragStep,
 	autoOrientBoardTracks,
 	evaluateBoard,
@@ -44,6 +49,78 @@ import {
 	inferCellTrackType,
 	isTrackType,
 } from '../../engine/validator.js';
+
+function getWallCollisionsCount(board: BoardState): number {
+	let collisions = 0;
+	for (let r = 0; r < board.size; r++) {
+		for (let c = 0; c < board.size; c++) {
+			const state = board.grid[r][c];
+			if (!isTrackType(state)) continue;
+			const dirs = TRACK_DIRECTIONS[state];
+			for (const dir of dirs) {
+				const isStartGate = r === board.start.row && c === board.start.col && dir === board.start.side;
+				const isEndGate = r === board.end.row && c === board.end.col && dir === board.end.side;
+				if (isStartGate || isEndGate) continue;
+				const nRow = r + DIRECTION_DELTA[dir].dRow;
+				const nCol = c + DIRECTION_DELTA[dir].dCol;
+				if (nRow < 0 || nRow >= board.size || nCol < 0 || nCol >= board.size) {
+					collisions++;
+				}
+			}
+		}
+	}
+	return collisions;
+}
+
+function detectClosedLoop(board: BoardState): boolean {
+	const visited = new Set<string>();
+	const adj = new Map<string, string[]>();
+
+	for (let r = 0; r < board.size; r++) {
+		for (let c = 0; c < board.size; c++) {
+			const state = board.grid[r][c];
+			if (!isTrackType(state)) continue;
+			const key = `${r},${c}`;
+			const neighbors: string[] = [];
+			for (const dir of TRACK_DIRECTIONS[state]) {
+				const nRow = r + DIRECTION_DELTA[dir].dRow;
+				const nCol = c + DIRECTION_DELTA[dir].dCol;
+				if (nRow < 0 || nRow >= board.size || nCol < 0 || nCol >= board.size) continue;
+				const nState = board.grid[nRow][nCol];
+				if (isTrackType(nState) && TRACK_DIRECTIONS[nState].includes(OPPOSITE_DIRECTION[dir])) {
+					neighbors.push(`${nRow},${nCol}`);
+				}
+			}
+			adj.set(key, neighbors);
+		}
+	}
+
+	for (const startNode of adj.keys()) {
+		if (visited.has(startNode)) continue;
+		const stack: Array<{ node: string; parent: string | null }> = [{ node: startNode, parent: null }];
+		visited.add(startNode);
+
+		while (stack.length > 0) {
+			const top = stack.pop();
+			if (!top) break;
+			const neighbors = adj.get(top.node) ?? [];
+			for (const neighbor of neighbors) {
+				if (neighbor === top.parent) continue;
+				if (visited.has(neighbor)) {
+					return true;
+				}
+				visited.add(neighbor);
+				stack.push({ node: neighbor, parent: top.node });
+			}
+		}
+	}
+	return false;
+}
+
+function isGateConnected(board: BoardState, gate: { row: number; col: number; side: Direction }): boolean {
+	const state = board.grid[gate.row]?.[gate.col];
+	return isTrackType(state) && TRACK_DIRECTIONS[state].includes(gate.side);
+}
 
 function unwrapPuzzle(
 	found: StaticPuzzleDefinition | { puzzle: StaticPuzzleDefinition; difficulty?: DifficultyLevel } | undefined,
@@ -210,6 +287,111 @@ export function useTracksGame(initialDifficulty: DifficultyLevel = 'easy', initi
 	const movesRef = useRef(movesCount);
 	movesRef.current = movesCount;
 
+	// Round context tracking for @arcade/lib-medals
+	const hasRecordedResultRef = useRef(false);
+	const isCompleteRef = useRef(false);
+	isCompleteRef.current = isComplete;
+	const mistakesRef = useRef(mistakes);
+	mistakesRef.current = mistakes;
+	const crossMarkersPlacedRef = useRef(0);
+	const tracksErasedCountRef = useRef(0);
+	const wallCollisionsCountRef = useRef(0);
+	const closedLoopCreatedRef = useRef(false);
+	const startedFromExitRef = useRef(false);
+	const startConnectedBeforeRef = useRef(false);
+	const firstMoveCellRef = useRef<{ row: number; col: number } | null>(null);
+	const maxSimultaneousRowColumnViolationsRef = useRef(0);
+	const cellTrackChangeCountsRef = useRef<Record<string, number>>({});
+	const maxSameCellTrackChangesRef = useRef(0);
+
+	const resetTrackingRefs = useCallback(() => {
+		hasRecordedResultRef.current = false;
+		crossMarkersPlacedRef.current = 0;
+		tracksErasedCountRef.current = 0;
+		wallCollisionsCountRef.current = 0;
+		closedLoopCreatedRef.current = false;
+		startedFromExitRef.current = false;
+		startConnectedBeforeRef.current = false;
+		firstMoveCellRef.current = null;
+		maxSimultaneousRowColumnViolationsRef.current = 0;
+		cellTrackChangeCountsRef.current = {};
+		maxSameCellTrackChangesRef.current = 0;
+	}, []);
+
+	const recordVictory = useCallback((playTimeSeconds: number) => {
+		if (hasRecordedResultRef.current) return;
+		hasRecordedResultRef.current = true;
+		const curPuzzle = puzzleRef.current;
+		const levelKey = curPuzzle.difficulty;
+		const sizeKey = `${curPuzzle.size}x${curPuzzle.size}`;
+		const isProcedural = curPuzzle.id.startsWith('procedural-') || curPuzzle.id.startsWith('generated-');
+		const completedPresetId = isProcedural ? undefined : curPuzzle.id;
+
+		void recordGameResult({
+			gameId: 'tracks',
+			won: true,
+			playTimeSeconds: Math.max(1, playTimeSeconds),
+			levelKey,
+			sizeKey,
+			roundContext: {
+				crossMarkersPlaced: crossMarkersPlacedRef.current,
+				tracksErasedCount: tracksErasedCountRef.current,
+				wallCollisionsCount: wallCollisionsCountRef.current,
+				closedLoopCreated: closedLoopCreatedRef.current,
+				startedFromExit: startedFromExitRef.current,
+				maxSimultaneousRowColumnViolations: maxSimultaneousRowColumnViolationsRef.current,
+				maxSameCellTrackChanges: maxSameCellTrackChangesRef.current,
+				completedPresetId,
+				size: sizeKey,
+				difficulty: levelKey,
+			},
+		}).catch((error) => {
+			console.warn('[@arcade/tracks] Failed to record victory medals result:', error);
+		});
+	}, []);
+
+	const recordSurrender = useCallback((playTimeSeconds: number) => {
+		if (hasRecordedResultRef.current) return;
+		hasRecordedResultRef.current = true;
+		const curPuzzle = puzzleRef.current;
+		const levelKey = curPuzzle.difficulty;
+		const sizeKey = `${curPuzzle.size}x${curPuzzle.size}`;
+
+		void recordGameResult({
+			gameId: 'tracks',
+			won: false,
+			playTimeSeconds: Math.max(1, playTimeSeconds),
+			levelKey,
+			sizeKey,
+			roundContext: {
+				crossMarkersPlaced: crossMarkersPlacedRef.current,
+				tracksErasedCount: tracksErasedCountRef.current,
+				wallCollisionsCount: wallCollisionsCountRef.current,
+				closedLoopCreated: closedLoopCreatedRef.current,
+				startedFromExit: startedFromExitRef.current,
+				maxSimultaneousRowColumnViolations: maxSimultaneousRowColumnViolationsRef.current,
+				maxSameCellTrackChanges: maxSameCellTrackChangesRef.current,
+				completedPresetId: undefined,
+				size: sizeKey,
+				difficulty: levelKey,
+			},
+		}).catch((error) => {
+			console.warn('[@arcade/tracks] Failed to record surrender medals result:', error);
+		});
+	}, []);
+
+	useEffect(() => {
+		return () => {
+			if (
+				!isCompleteRef.current &&
+				!hasRecordedResultRef.current &&
+				(elapsedRef.current > 0 || movesRef.current > 0)
+			) {
+				recordSurrender(elapsedRef.current);
+			}
+		};
+	}, [recordSurrender]);
+
 	// Drag tracking refs
 	const isDraggingRef = useRef(false);
 	const lastDragCellRef = useRef<{ row: number; col: number } | null>(null);
@@ -325,49 +507,124 @@ export function useTracksGame(initialDifficulty: DifficultyLevel = 'easy', initi
 	const evaluation = useMemo(() => evaluateBoard(board), [board]);
 
 	// Commit a board state transition (updates history, moves, mistakes, and checks victory)
-	const commitBoardMove = useCallback((prevBoard: BoardState, candidateBoard: BoardState) => {
-		const finalBoard = settingsRef.current.autoCross ? fillSatisfiedLinesWithCross(candidateBoard) : candidateBoard;
+	const commitBoardMove = useCallback(
+		(prevBoard: BoardState, candidateBoard: BoardState) => {
+			const finalBoard = settingsRef.current.autoCross
+				? fillSatisfiedLinesWithCross(candidateBoard)
+				: candidateBoard;
 
-		const nextMoves = movesRef.current + 1;
-		movesRef.current = nextMoves;
-		setMovesCount(nextMoves);
+			const nextMoves = movesRef.current + 1;
+			movesRef.current = nextMoves;
+			setMovesCount(nextMoves);
 
-		if (settingsRef.current.gameMode === 'standard' && didCauseNewOverflow(prevBoard, finalBoard)) {
-			setMistakes((m) => Math.min(MAX_MISTAKES, m + 1));
-		}
-
-		boardRef.current = finalBoard;
-		setBoard(finalBoard);
-		setHistory((h) => pushState(h, finalBoard));
-
-		const nextEval = evaluateBoard(finalBoard);
-		if (nextEval.isComplete) {
-			setIsComplete(true);
-			clearActiveGame();
-
-			const isProcedural =
-				puzzleRef.current.id.startsWith('procedural-') || puzzleRef.current.id.startsWith('generated-');
-			if (!isProcedural) {
-				const recordFn = recordPuzzleCompletion as (
-					id: string,
-					sec: number,
-					moves?: number,
-				) => Promise<{ isNewBestTime: boolean }>;
-
-				recordFn(puzzleRef.current.id, elapsedRef.current, nextMoves).then((res) => {
-					setIsNewBestTime(res.isNewBestTime);
-					loadProgress().then(setProgress);
-				});
+			// Track crossMarkersPlaced
+			for (let r = 0; r < finalBoard.size; r++) {
+				for (let c = 0; c < finalBoard.size; c++) {
+					if (finalBoard.grid[r][c] === 'cross' && prevBoard.grid[r][c] !== 'cross') {
+						crossMarkersPlacedRef.current++;
+					}
+				}
 			}
 
-			if (victoryTimerRef.current !== null) {
-				window.clearTimeout(victoryTimerRef.current);
+			// Track tracksErasedCount
+			for (let r = 0; r < finalBoard.size; r++) {
+				for (let c = 0; c < finalBoard.size; c++) {
+					if (isTrackType(prevBoard.grid[r][c]) && !isTrackType(finalBoard.grid[r][c])) {
+						tracksErasedCountRef.current++;
+					}
+				}
 			}
-			victoryTimerRef.current = window.setTimeout(() => {
-				setIsVictoryOpen(true);
-			}, 1200);
-		}
-	}, []);
+
+			// Track same cell track changes
+			for (let r = 0; r < finalBoard.size; r++) {
+				for (let c = 0; c < finalBoard.size; c++) {
+					const p = prevBoard.grid[r][c];
+					const n = finalBoard.grid[r][c];
+					if (p !== n && (isTrackType(p) || isTrackType(n))) {
+						const key = `${r},${c}`;
+						const count = (cellTrackChangeCountsRef.current[key] ?? 0) + 1;
+						cellTrackChangeCountsRef.current[key] = count;
+						if (count > maxSameCellTrackChangesRef.current) {
+							maxSameCellTrackChangesRef.current = count;
+						}
+					}
+				}
+			}
+
+			// Track wall collisions
+			const wallCount = getWallCollisionsCount(finalBoard);
+			wallCollisionsCountRef.current = Math.max(wallCollisionsCountRef.current, wallCount);
+
+			// Track closed loop
+			if (detectClosedLoop(finalBoard)) {
+				closedLoopCreatedRef.current = true;
+			}
+
+			// Track gates & started from exit
+			const startConnected = isGateConnected(finalBoard, finalBoard.start);
+			const endConnected = isGateConnected(finalBoard, finalBoard.end);
+			if (!startConnectedBeforeRef.current && endConnected && !startConnected) {
+				startedFromExitRef.current = true;
+			}
+			if (startConnected) {
+				startConnectedBeforeRef.current = true;
+			}
+
+			// Track max simultaneous row/col violations
+			const lineEvals = evaluateLines(finalBoard);
+			const overflows =
+				lineEvals.rows.filter((r) => r.status === 'overflow').length +
+				lineEvals.cols.filter((c) => c.status === 'overflow').length;
+			maxSimultaneousRowColumnViolationsRef.current = Math.max(
+				maxSimultaneousRowColumnViolationsRef.current,
+				overflows,
+			);
+
+			if (settingsRef.current.gameMode === 'standard' && didCauseNewOverflow(prevBoard, finalBoard)) {
+				const nextMistakes = Math.min(MAX_MISTAKES, mistakesRef.current + 1);
+				mistakesRef.current = nextMistakes;
+				setMistakes(nextMistakes);
+				if (nextMistakes >= MAX_MISTAKES) {
+					recordSurrender(elapsedRef.current);
+				}
+			}
+
+			boardRef.current = finalBoard;
+			setBoard(finalBoard);
+			setHistory((h) => pushState(h, finalBoard));
+
+			const nextEval = evaluateBoard(finalBoard);
+			if (nextEval.isComplete) {
+				setIsComplete(true);
+				isCompleteRef.current = true;
+				clearActiveGame();
+				recordVictory(elapsedRef.current);
+
+				const isProcedural =
+					puzzleRef.current.id.startsWith('procedural-') || puzzleRef.current.id.startsWith('generated-');
+				if (!isProcedural) {
+					const recordFn = recordPuzzleCompletion as (
+						id: string,
+						sec: number,
+						moves?: number,
+					) => Promise<{ isNewBestTime: boolean }>;
+
+					recordFn(puzzleRef.current.id, elapsedRef.current, nextMoves).then((res) => {
+						setIsNewBestTime(res.isNewBestTime);
+						loadProgress().then(setProgress);
+					});
+				}
+
+				if (victoryTimerRef.current !== null) {
+					window.clearTimeout(victoryTimerRef.current);
+				}
+				victoryTimerRef.current = window.setTimeout(() => {
+					setIsVictoryOpen(true);
+				}, 1200);
+			}
+		},
+		[recordSurrender, recordVictory],
+	);
 
 	// Primary cell click/tap
 	const handleCellClick = useCallback(
@@ -381,6 +638,13 @@ export function useTracksGame(initialDifficulty: DifficultyLevel = 'easy', initi
 			setFocusedCell({ row, col });
 			const curBoard = boardRef.current;
 			if (getFixedCell(curBoard, row, col)) return;
+
+			if (firstMoveCellRef.current === null) {
+				firstMoveCellRef.current = { row, col };
+				if (row === curBoard.end.row && col === curBoard.end.col) {
+					startedFromExitRef.current = true;
+				}
+			}
 
 			const current = curBoard.grid[row]?.[col] ?? 'empty';
 			const nextBoard = cloneBoardState(curBoard);
@@ -440,6 +704,13 @@ export function useTracksGame(initialDifficulty: DifficultyLevel = 'easy', initi
 			lastDragCellRef.current = { row, col };
 			dragMovedRef.current = false;
 			dragStartBoardRef.current = boardRef.current;
+
+			if (firstMoveCellRef.current === null) {
+				firstMoveCellRef.current = { row, col };
+				if (row === boardRef.current.end.row && col === boardRef.current.end.col) {
+					startedFromExitRef.current = true;
+				}
+			}
 		},
 		[isComplete, isPaused],
 	);
@@ -529,7 +800,16 @@ export function useTracksGame(initialDifficulty: DifficultyLevel = 'easy', initi
 
 	const handleUndo = useCallback(() => {
 		if (isComplete || isPaused || !checkCanUndo(history)) return;
+		const prevGrid = history.present.grid;
 		const nextHistory = undo(history);
+		const nextGrid = nextHistory.present.grid;
+		for (let r = 0; r < nextHistory.present.size; r++) {
+			for (let c = 0; c < nextHistory.present.size; c++) {
+				if (isTrackType(prevGrid[r]?.[c]) && !isTrackType(nextGrid[r]?.[c])) {
+					tracksErasedCountRef.current++;
+				}
+			}
+		}
 		setHistory(nextHistory);
 		boardRef.current = nextHistory.present;
 		setBoard(nextHistory.present);
@@ -545,7 +825,16 @@ export function useTracksGame(initialDifficulty: DifficultyLevel = 'easy', initi
 
 	const handleReset = useCallback(() => {
 		if (isComplete || isPaused) return;
+		const prevGrid = history.present.grid;
 		const nextHistory = reset(history);
+		const nextGrid = nextHistory.present.grid;
+		for (let r = 0; r < nextHistory.present.size; r++) {
+			for (let c = 0; c < nextHistory.present.size; c++) {
+				if (isTrackType(prevGrid[r]?.[c]) && !isTrackType(nextGrid[r]?.[c])) {
+					tracksErasedCountRef.current++;
+				}
+			}
+		}
 		setHistory(nextHistory);
 		boardRef.current = nextHistory.present;
 		setBoard(nextHistory.present);
@@ -720,24 +1009,37 @@ export function useTracksGame(initialDifficulty: DifficultyLevel = 'easy', initi
 	);
 
 	// Select / start a specific puzzle
-	const handleSelectPuzzle = useCallback((newPuzzle: StaticPuzzleDefinition) => {
-		if (victoryTimerRef.current !== null) {
-			window.clearTimeout(victoryTimerRef.current);
-			victoryTimerRef.current = null;
-		}
-		const freshBoard = buildBoard(newPuzzle);
-		setPuzzle(newPuzzle);
-		boardRef.current = freshBoard;
-		setBoard(freshBoard);
-		setHistory(createHistory(freshBoard));
-		setFocusedCell({ row: 0, col: 0 });
-		setElapsedSeconds(0);
-		setMovesCount(0);
-		setMistakes(0);
-		setIsComplete(false);
-		setIsPaused(false);
-		setIsVictoryOpen(false);
-	}, []);
+	const handleSelectPuzzle = useCallback(
+		(newPuzzle: StaticPuzzleDefinition) => {
+			if (
+				!isCompleteRef.current &&
+				!hasRecordedResultRef.current &&
+				(elapsedRef.current > 0 || movesRef.current > 0)
+			) {
+				recordSurrender(elapsedRef.current);
+			}
+			resetTrackingRefs();
+
+			if (victoryTimerRef.current !== null) {
+				window.clearTimeout(victoryTimerRef.current);
+				victoryTimerRef.current = null;
+			}
+			const freshBoard = buildBoard(newPuzzle);
+			setPuzzle(newPuzzle);
+			boardRef.current = freshBoard;
+			setBoard(freshBoard);
+			setHistory(createHistory(freshBoard));
+			setFocusedCell({ row: 0, col: 0 });
+			setElapsedSeconds(0);
+			setMovesCount(0);
+			setMistakes(0);
+			setIsComplete(false);
+			isCompleteRef.current = false;
+			setIsPaused(false);
+			setIsVictoryOpen(false);
+		},
+		[recordSurrender, resetTrackingRefs],
+	);
 
 	const hasNextPuzzle = useMemo(() => !!getNextPuzzle(puzzle.id), [puzzle.id]);
 

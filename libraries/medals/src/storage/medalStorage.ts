@@ -106,7 +106,14 @@ export function createInitialCustomStats<G extends GameId>(gameId: G): GameCusto
 		case 'queens':
 			return { boards: {} } as GameCustomStatsMap[G];
 		case 'tracks':
-			return { grids: {} } as GameCustomStatsMap[G];
+			return {
+				grids: {},
+				completedPresetIds: [],
+				currentMediumStreak: 0,
+				currentHardStreak: 0,
+				bestMediumStreak: 0,
+				bestHardStreak: 0,
+			} as unknown as GameCustomStatsMap[G];
 		case 'bridges':
 			return createInitialBridgesStats() as GameCustomStatsMap[G];
 		default:

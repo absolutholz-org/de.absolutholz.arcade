@@ -1217,4 +1217,97 @@ describe('@arcade/lib-medals Foundation', () => {
 		expect(expertUnlocked).toContain('queens_blind_faith');
 		expect(expertUnlocked).toContain('queens_coup_detat');
 	});
+
+	it('evaluates Tracks medals: progressive ladders, standalone feats, and humorous achievements', async () => {
+		const storage = new MockMemoryStorage('tracks');
+
+		// 1. First victory on 6x6 in 25s (qualifies for first departure and bullet train)
+		const win1 = await recordGameResult(
+			{
+				gameId: 'tracks',
+				won: true,
+				playTimeSeconds: 25,
+				levelKey: 'easy',
+				sizeKey: '6x6',
+				roundContext: {
+					crossMarkersPlaced: 2,
+					tracksErasedCount: 1,
+					wallCollisionsCount: 0,
+					closedLoopCreated: false,
+					startedFromExit: false,
+					maxSimultaneousRowColumnViolations: 0,
+					maxSameCellTrackChanges: 1,
+					completedPresetId: 'easy-1',
+					size: '6x6',
+					difficulty: 'easy',
+				},
+			},
+			{ storage, now: 1000 },
+		);
+
+		const win1UnlockedIds = win1.newlyUnlockedMedals.map((m) => m.id);
+		expect(win1UnlockedIds).toContain('tracks_first_departure');
+		expect(win1UnlockedIds).toContain('tracks_bullet_train');
+
+		// 2. Defeat recording: humorous triggers
+		const loss1 = await recordGameResult(
+			{
+				gameId: 'tracks',
+				won: false,
+				playTimeSeconds: 40,
+				levelKey: 'easy',
+				sizeKey: '6x6',
+				roundContext: {
+					crossMarkersPlaced: 5,
+					tracksErasedCount: 2,
+					wallCollisionsCount: 2, // derailment
+					closedLoopCreated: true, // infinite loop
+					startedFromExit: true, // wrong way
+					maxSimultaneousRowColumnViolations: 3, // signal failure
+					maxSameCellTrackChanges: 5, // indecisive conductor
+					completedPresetId: undefined,
+					size: '6x6',
+					difficulty: 'easy',
+				},
+			},
+			{ storage, now: 2000 },
+		);
+
+		const lossUnlockedIds = loss1.newlyUnlockedMedals.map((m) => m.id);
+		expect(lossUnlockedIds).toContain('tracks_college_try');
+		expect(lossUnlockedIds).toContain('tracks_derailment');
+		expect(lossUnlockedIds).toContain('tracks_infinite_loop');
+		expect(lossUnlockedIds).toContain('tracks_wrong_way');
+		expect(lossUnlockedIds).toContain('tracks_signal_failure');
+		expect(lossUnlockedIds).toContain('tracks_indecisive_conductor');
+
+		// 3. Expert win on 10x10 in 150s with zero crosses and zero erases
+		const expertWin = await recordGameResult(
+			{
+				gameId: 'tracks',
+				won: true,
+				playTimeSeconds: 150,
+				levelKey: 'expert',
+				sizeKey: '10x10',
+				roundContext: {
+					crossMarkersPlaced: 0, // direct line
+					tracksErasedCount: 0, // smooth rail
+					wallCollisionsCount: 0,
+					closedLoopCreated: false,
+					startedFromExit: false,
+					maxSimultaneousRowColumnViolations: 0,
+					maxSameCellTrackChanges: 1,
+					completedPresetId: 'expert-1',
+					size: '10x10',
+					difficulty: 'expert',
+				},
+			},
+			{ storage, now: 3000 },
+		);
+
+		const expertUnlocked = expertWin.newlyUnlockedMedals.map((m) => m.id);
+		expect(expertUnlocked).toContain('tracks_trans_siberian');
+		expect(expertUnlocked).toContain('tracks_direct_line');
+		expect(expertUnlocked).toContain('tracks_smooth_rail');
+	});
 });

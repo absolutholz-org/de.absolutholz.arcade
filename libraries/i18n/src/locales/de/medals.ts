@@ -301,11 +301,59 @@ export const deMedals = {
 	tracks: {
 		first_departure: {
 			title: 'Erste Abfahrt',
-			desc: 'Schließe deine erste Zugstrecke ab.',
+			desc: 'Verlege deine erste funktionierende Eisenbahnstrecke.',
 		},
 		transcontinental: {
 			title: 'Transkontinental',
-			desc: 'Schließe 15 Zugstrecken ab.',
+			desc: 'Verlege im Laufe deiner Karriere unzählige Bahnstrecken.',
+		},
+		grand_line: {
+			title: 'Grand Line',
+			desc: 'Schließe handverlesene Schienennetze aller Schwierigkeitsgrade ab.',
+		},
+		express_service: {
+			title: 'Expressdienst',
+			desc: 'Halte eine ununterbrochene Serie pünktlicher Fahrten aufrecht.',
+		},
+		bullet_train: {
+			title: 'Hochgeschwindigkeitszug',
+			desc: 'Verlege eine 6x6-Strecke in unter 30 Sekunden.',
+		},
+		trans_siberian: {
+			title: 'Transsibirische Eisenbahn',
+			desc: 'Verbinde eine 10x10-Expertenstrecke in unter 3 Minuten.',
+		},
+		direct_line: {
+			title: 'Direkte Verbindung',
+			desc: 'Schließe ein Spielfeld ab 8x8 ab, ohne eine einzige Markierung zu setzen.',
+		},
+		smooth_rail: {
+			title: 'Gleis ohne Makel',
+			desc: 'Schließe ein Schwer- oder Experten-Spielfeld ab, ohne ein einziges Schienenteil zu löschen.',
+		},
+		college_try: {
+			title: 'Aller Anfang ist schwer',
+			desc: 'Erleide deine erste Streckenaufgabe.',
+		},
+		derailment: {
+			title: 'Entgleisung',
+			desc: 'Führe ein Gleis direkt gegen eine Steinmauer.',
+		},
+		infinite_loop: {
+			title: 'Endlosschleife',
+			desc: 'Baue ein Gleis, das sich endlos im Kreis dreht.',
+		},
+		wrong_way: {
+			title: 'Falsche Richtung',
+			desc: 'Verlege deine Schienen rückwärts ausgehend vom Ausfahrtstor.',
+		},
+		signal_failure: {
+			title: 'Signalstörung',
+			desc: 'Überschreite die erlaubte Schienenanzahl auf drei Zeilen oder Spalten gleichzeitig.',
+		},
+		indecisive_conductor: {
+			title: 'Unentschlossener Schaffner',
+			desc: 'Ändere die Gleisrichtung auf demselben Feld fünfmal.',
 		},
 	},
 	bridges: {
