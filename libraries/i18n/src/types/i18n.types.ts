@@ -1,3 +1,4 @@
+import type { SoloNobleSchema, SoloNobleTranslationContract } from '../schemas/solo-noble.schema.js';
 import type { SUPPORTED_LANGUAGES } from '../constants/languages.js';
 import type { BridgesSchema, BridgesTranslationContract } from '../schemas/bridges.schema.js';
 import type { CommonSchema, CommonTranslationContract } from '../schemas/common.schema.js';
@@ -23,6 +24,7 @@ export type NonogramTranslationKey = LeafKeys<NonogramSchema>;
 export type QueensTranslationKey = LeafKeys<QueensSchema>;
 export type BridgesTranslationKey = LeafKeys<BridgesSchema>;
 export type TracksTranslationKey = LeafKeys<TracksSchema>;
+export type SoloNobleTranslationKey = LeafKeys<SoloNobleSchema>;
 export type MedalsTranslationKey = LeafKeys<MedalsSchema> | `medals.${LeafKeys<MedalsSchema>}`;
 
 export type TranslationKey =
@@ -33,6 +35,7 @@ export type TranslationKey =
 	| QueensTranslationKey
 	| BridgesTranslationKey
 	| TracksTranslationKey
+	| SoloNobleTranslationKey
 	| MedalsTranslationKey;
 
 export interface UseI18nReturn {
@@ -53,6 +56,7 @@ export type TranslationResources = Record<
 		readonly queens: QueensTranslationContract;
 		readonly bridges: BridgesTranslationContract;
 		readonly tracks: TracksTranslationContract;
+		readonly 'solo-noble': SoloNobleTranslationContract;
 		readonly medals: MedalsTranslationContract;
 	}
 >;

@@ -1,3 +1,7 @@
+import { deSoloNoble } from '../locales/de/solo-noble.js';
+import { enSoloNoble } from '../locales/en/solo-noble.js';
+import { frSoloNoble } from '../locales/fr/solo-noble.js';
+import { ptSoloNoble } from '../locales/pt/solo-noble.js';
 import i18next, { type i18n as I18nInstance } from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { SUPPORTED_LANGUAGES } from '../constants/languages.js';
@@ -45,6 +49,7 @@ export const resources: TranslationResources = {
 		queens: enQueens,
 		bridges: enBridges,
 		tracks: enTracks,
+		'solo-noble': enSoloNoble,
 		medals: enMedals,
 	},
 	de: {
@@ -55,6 +60,7 @@ export const resources: TranslationResources = {
 		queens: deQueens,
 		bridges: deBridges,
 		tracks: deTracks,
+		'solo-noble': deSoloNoble,
 		medals: deMedals,
 	},
 	fr: {
@@ -65,6 +71,7 @@ export const resources: TranslationResources = {
 		queens: frQueens,
 		bridges: frBridges,
 		tracks: frTracks,
+		'solo-noble': frSoloNoble,
 		medals: frMedals,
 	},
 	pt: {
@@ -75,6 +82,7 @@ export const resources: TranslationResources = {
 		queens: ptQueens,
 		bridges: ptBridges,
 		tracks: ptTracks,
+		'solo-noble': ptSoloNoble,
 		medals: ptMedals,
 	},
 };

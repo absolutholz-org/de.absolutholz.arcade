@@ -1,274 +1,265 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { SoloNobleEngine } from './engine.ts';
-import { BOARD_DEFINITIONS, posKey } from './layouts.ts';
+import { SoloNobleEngine } from './engine.js';
+import { BOARD_DEFINITIONS, getCompiledLayout, toCoordinateKey } from './layouts.js';
+import type { CoordinateKey } from './types.js';
 
-describe('SoloNobleEngine', () => {
-	describe('Board Layout Definitions', () => {
-		it('accurately defines all 5 layout hole counts and dimensions', () => {
-			assert.equal(BOARD_DEFINITIONS.english.holes.length, 33);
-			assert.deepEqual(BOARD_DEFINITIONS.english.center, { r: 3, c: 3 });
+describe('SoloNobleEngine - Board Geometries & Layouts', () => {
+	it('compiles all 5 board layouts with correct hole counts and centers', () => {
+		const english = getCompiledLayout('english');
+		assert.equal(english.holeKeys.size, 33);
+		assert.equal(english.centerKey, '3,3');
 
-			assert.equal(BOARD_DEFINITIONS.european.holes.length, 37);
-			assert.deepEqual(BOARD_DEFINITIONS.european.center, { r: 3, c: 3 });
+		// Assert English board boundary coordinates
+		// (0,2), (0,3), (0,4) exist
+		assert.equal(english.holeKeys.has('0,2'), true);
+		assert.equal(english.holeKeys.has('0,3'), true);
+		assert.equal(english.holeKeys.has('0,4'), true);
+		// (0,0) and (0,1) must be invalid
+		assert.equal(english.holeKeys.has('0,0'), false);
+		assert.equal(english.holeKeys.has('0,1'), false);
+		assert.equal(english.holeKeys.has('0,5'), false);
+		assert.equal(english.holeKeys.has('0,6'), false);
 
-			assert.equal(BOARD_DEFINITIONS.triangular.holes.length, 15);
-			assert.deepEqual(BOARD_DEFINITIONS.triangular.center, { r: 0, c: 0 });
+		const european = getCompiledLayout('european');
+		assert.equal(european.holeKeys.size, 37);
+		assert.equal(european.centerKey, '3,3');
 
-			assert.equal(BOARD_DEFINITIONS.diamond.holes.length, 41);
-			assert.deepEqual(BOARD_DEFINITIONS.diamond.center, { r: 4, c: 4 });
+		const triangular = getCompiledLayout('triangular');
+		assert.equal(triangular.holeKeys.size, 15);
+		assert.equal(triangular.centerKey, '0,0');
 
-			assert.equal(BOARD_DEFINITIONS.wiegleb.holes.length, 45);
-			assert.deepEqual(BOARD_DEFINITIONS.wiegleb.center, { r: 4, c: 4 });
-		});
+		const diamond = getCompiledLayout('diamond');
+		assert.equal(diamond.holeKeys.size, 41);
+		assert.equal(diamond.centerKey, '4,4');
+
+		const wiegleb = getCompiledLayout('wiegleb');
+		assert.equal(wiegleb.holeKeys.size, 45);
+		assert.equal(wiegleb.centerKey, '4,4');
 	});
 
-	describe('Jump Validation across Distinct Geometries', () => {
-		it('validates legal and illegal orthogonal moves on English board', () => {
-			const engine = new SoloNobleEngine({ layoutId: 'english', variantId: 'classic-central' });
+	it('precomputes legal jumps for orthogonal and triangular geometries', () => {
+		const english = getCompiledLayout('english');
+		// English 33 layout has 76 legal jump vectors
+		assert.equal(english.allJumps.length, 76);
 
-			assert.equal(engine.pegCount, 32);
-			assert.equal(engine.gameStatus, 'ready');
-			assert.equal(engine.hasPeg({ r: 3, c: 3 }), false); // Center is empty
+		const triangular = getCompiledLayout('triangular');
+		// 15-hole triangular layout has 36 legal jump vectors
+		assert.equal(triangular.allJumps.length, 36);
+	});
+});
 
-			// Initial legal moves jumping into center (3,3)
-			const legalMoves = engine.getLegalMoves();
-			assert.equal(legalMoves.length, 4);
+describe('SoloNobleEngine - Move Validation & Execution', () => {
+	it('validates legal and illegal jumps in English board', () => {
+		const engine = new SoloNobleEngine('english', 'classic-central');
+		assert.equal(engine.getStatus(), 'playing');
+		assert.equal(engine.getPegCount(), 32);
 
-			// (1,3) jumping over (2,3) to (3,3) should be valid
-			assert.equal(engine.isValidMove({ r: 1, c: 3 }, { r: 3, c: 3 }), true);
-			// (5,3) jumping over (4,3) to (3,3) should be valid
-			assert.equal(engine.isValidMove({ r: 5, c: 3 }, { r: 3, c: 3 }), true);
-			// (3,1) jumping over (3,2) to (3,3) should be valid
-			assert.equal(engine.isValidMove({ r: 3, c: 1 }, { r: 3, c: 3 }), true);
-			// (3,5) jumping over (3,4) to (3,3) should be valid
-			assert.equal(engine.isValidMove({ r: 3, c: 5 }, { r: 3, c: 3 }), true);
+		// Vertical jump into center (3,3) succeeds
+		assert.equal(engine.isValidMove('1,3', '3,3'), true);
+		assert.equal(engine.isValidMove('5,3', '3,3'), true);
 
-			// Illegal diagonal move on orthogonal board
-			assert.equal(engine.isValidMove({ r: 1, c: 1 }, { r: 3, c: 3 }), false);
+		// Horizontal jump into center (3,3) succeeds
+		assert.equal(engine.isValidMove('3,1', '3,3'), true);
+		assert.equal(engine.isValidMove('3,5', '3,3'), true);
 
-			// Illegal move to non-empty hole
-			assert.equal(engine.isValidMove({ r: 0, c: 2 }, { r: 2, c: 2 }), false);
+		// Diagonal jump on orthogonal board is strictly rejected
+		assert.equal(engine.isValidMove('1,2', '3,4'), false);
+		assert.equal(engine.isValidMove('1,1' as unknown as CoordinateKey, '3,3'), false);
 
-			// Illegal jump into non-hole (corner)
-			assert.equal(engine.isValidMove({ r: 2, c: 2 }, { r: 0, c: 0 }), false);
+		// Illegal jumps to occupied holes
+		assert.equal(engine.isValidMove('0,2', '0,4'), false);
+		// Jump from empty hole
+		assert.equal(engine.isValidMove('3,3', '1,3'), false);
+		// Jump off board
+		assert.equal(engine.isValidMove('0,3', '-2,3' as unknown as CoordinateKey), false);
 
-			// Execute legal move
-			const success = engine.makeMove({ r: 1, c: 3 }, { r: 3, c: 3 });
-			assert.equal(success, true);
-			assert.equal(engine.hasPeg({ r: 1, c: 3 }), false);
-			assert.equal(engine.hasPeg({ r: 2, c: 3 }), false);
-			assert.equal(engine.hasPeg({ r: 3, c: 3 }), true);
-			assert.equal(engine.pegCount, 31);
-			assert.equal(engine.moveCount, 1);
-			assert.equal(engine.gameStatus, 'playing');
-		});
+		// Execute vertical jump
+		const success = engine.executeMove('1,3', '3,3');
+		assert.equal(success, true);
+		assert.equal(engine.getPegCount(), 31);
+		assert.equal(engine.getMoveCount(), 1);
 
-		it('validates 3-axis triangular jumps on Triangular board', () => {
-			// Triangular board has 15 holes, apex (0,0) empty
-			const engine = new SoloNobleEngine({ layoutId: 'triangular', variantId: 'clear-out' });
-
-			assert.equal(engine.pegCount, 14);
-			assert.equal(engine.hasPeg({ r: 0, c: 0 }), false);
-
-			// 2 legal moves can jump into apex (0,0):
-			// 1) From (2,0) jumping over (1,0) to (0,0) (Axis: Up-Right)
-			// 2) From (2,2) jumping over (1,1) to (0,0) (Axis: Up-Left)
-			assert.equal(engine.isValidMove({ r: 2, c: 0 }, { r: 0, c: 0 }), true);
-			assert.equal(engine.isValidMove({ r: 2, c: 2 }, { r: 0, c: 0 }), true);
-
-			// (2,1) cannot jump to (0,0) because there is no collinear line
-			assert.equal(engine.isValidMove({ r: 2, c: 1 }, { r: 0, c: 0 }), false);
-
-			// Horizontal jump along a row should be valid when layout allows:
-			// Let's execute (2,0) -> (0,0)
-			assert.equal(engine.makeMove({ r: 2, c: 0 }, { r: 0, c: 0 }), true);
-			assert.equal(engine.hasPeg({ r: 2, c: 0 }), false);
-			assert.equal(engine.hasPeg({ r: 1, c: 0 }), false);
-			assert.equal(engine.hasPeg({ r: 0, c: 0 }), true);
-
-			// Now (2,0) is empty. From (2,2), can jump horizontally over (2,1) into (2,0)!
-			assert.equal(engine.isValidMove({ r: 2, c: 2 }, { r: 2, c: 0 }), true);
-			assert.equal(engine.makeMove({ r: 2, c: 2 }, { r: 2, c: 0 }), true);
-			assert.equal(engine.hasPeg({ r: 2, c: 2 }), false);
-			assert.equal(engine.hasPeg({ r: 2, c: 1 }), false);
-			assert.equal(engine.hasPeg({ r: 2, c: 0 }), true);
-			assert.equal(engine.pegCount, 12);
-		});
+		const board = engine.getBoard();
+		assert.equal(board['1,3'], false);
+		assert.equal(board['2,3'], false);
+		assert.equal(board['3,3'], true);
 	});
 
-	describe('Undo and Redo Integrity', () => {
-		it('manages undo/redo history cleanly and reverts all board changes', () => {
-			const engine = new SoloNobleEngine({ layoutId: 'english', variantId: 'classic-central' });
+	it('validates legal and illegal jumps in Triangular board', () => {
+		const engine = new SoloNobleEngine('triangular', 'classic-central');
+		assert.equal(engine.getStatus(), 'playing');
+		assert.equal(engine.getPegCount(), 14);
 
-			assert.equal(engine.canUndo, false);
-			assert.equal(engine.canRedo, false);
+		// Legal jumps into apex (0,0) along the two slanted axes
+		assert.equal(engine.isValidMove('2,0', '0,0'), true);
+		assert.equal(engine.isValidMove('2,2', '0,0'), true);
 
-			// Move 1: (1,3) -> (3,3)
-			assert.equal(engine.makeMove({ r: 1, c: 3 }, { r: 3, c: 3 }), true);
-			assert.equal(engine.canUndo, true);
-			assert.equal(engine.canRedo, false);
-			assert.equal(engine.moveCount, 1);
-			assert.equal(engine.pegCount, 31);
+		// Horizontal jump when target occupied is rejected
+		assert.equal(engine.isValidMove('2,0', '2,2'), false);
 
-			// Move 2: (4,3) -> (2,3)
-			assert.equal(engine.makeMove({ r: 4, c: 3 }, { r: 2, c: 3 }), true);
-			assert.equal(engine.moveCount, 2);
-			assert.equal(engine.pegCount, 30);
+		// Execute triangular jump
+		const moved = engine.executeMove('2,0', '0,0');
+		assert.equal(moved, true);
+		assert.equal(engine.getPegCount(), 13);
+		assert.equal(engine.getBoard()['2,0'], false);
+		assert.equal(engine.getBoard()['1,0'], false);
+		assert.equal(engine.getBoard()['0,0'], true);
+	});
+});
 
-			// Undo Move 2
-			assert.equal(engine.undo(), true);
-			assert.equal(engine.moveCount, 1);
-			assert.equal(engine.pegCount, 31);
-			assert.equal(engine.canRedo, true);
-			assert.equal(engine.hasPeg({ r: 4, c: 3 }), true);
-			assert.equal(engine.hasPeg({ r: 3, c: 3 }), true);
-			assert.equal(engine.hasPeg({ r: 2, c: 3 }), false);
+describe('SoloNobleEngine - Undo, Redo and Reset', () => {
+	it('supports full undo and redo stacks with integrity', () => {
+		const engine = new SoloNobleEngine('english', 'classic-central');
+		assert.equal(engine.canUndo(), false);
+		assert.equal(engine.canRedo(), false);
 
-			// Undo Move 1 (back to initial)
-			assert.equal(engine.undo(), true);
-			assert.equal(engine.moveCount, 0);
-			assert.equal(engine.pegCount, 32);
-			assert.equal(engine.canUndo, false);
-			assert.equal(engine.canRedo, true);
-			assert.equal(engine.gameStatus, 'ready');
-			assert.equal(engine.hasPeg({ r: 3, c: 3 }), false);
+		engine.executeMove('1,3', '3,3');
+		assert.equal(engine.canUndo(), true);
+		assert.equal(engine.canRedo(), false);
+		assert.equal(engine.getPegCount(), 31);
 
-			// Redo Move 1
-			assert.equal(engine.redo(), true);
-			assert.equal(engine.moveCount, 1);
-			assert.equal(engine.pegCount, 31);
-			assert.equal(engine.hasPeg({ r: 3, c: 3 }), true);
-			assert.equal(engine.gameStatus, 'playing');
+		// Undo move
+		const undone = engine.undo();
+		assert.equal(undone, true);
+		assert.equal(engine.canUndo(), false);
+		assert.equal(engine.canRedo(), true);
+		assert.equal(engine.getPegCount(), 32);
+		assert.equal(engine.getBoard()['1,3'], true);
+		assert.equal(engine.getBoard()['2,3'], true);
+		assert.equal(engine.getBoard()['3,3'], false);
 
-			// Redo Move 2
-			assert.equal(engine.redo(), true);
-			assert.equal(engine.moveCount, 2);
-			assert.equal(engine.pegCount, 30);
-			assert.equal(engine.canRedo, false);
+		// Redo move
+		const redone = engine.redo();
+		assert.equal(redone, true);
+		assert.equal(engine.canUndo(), true);
+		assert.equal(engine.canRedo(), false);
+		assert.equal(engine.getPegCount(), 31);
+		assert.equal(engine.getBoard()['1,3'], false);
+		assert.equal(engine.getBoard()['2,3'], false);
+		assert.equal(engine.getBoard()['3,3'], true);
 
-			// Branching history: undo 1 move and make a different move
-			assert.equal(engine.undo(), true);
-			assert.equal(engine.canRedo, true);
-
-			// Alternative move: (3,1) -> (3,3)
-			assert.equal(engine.makeMove({ r: 3, c: 1 }, { r: 3, c: 3 }), false); // (3,3) is occupied
-			// Instead: (2,3) jumping over (3,3) into (4,3) is not possible since (2,3) is empty
-			// But (2,1) -> (2,3) is valid!
-			assert.equal(engine.makeMove({ r: 2, c: 1 }, { r: 2, c: 3 }), true);
-			assert.equal(engine.canRedo, false); // Redo stack invalidated!
-		});
+		// New move clears redo stack
+		engine.undo();
+		assert.equal(engine.canRedo(), true);
+		engine.executeMove('3,1', '3,3');
+		assert.equal(engine.canRedo(), false);
+		assert.equal(engine.getPegCount(), 31);
 	});
 
-	describe('Terminal States: Won vs Stuck', () => {
-		it('detects Classic Central won state (single peg in center)', () => {
-			const engine = new SoloNobleEngine({ layoutId: 'english', variantId: 'classic-central' });
+	it('resets board to initial layout and clears history', () => {
+		const engine = new SoloNobleEngine('english', 'classic-central');
+		engine.executeMove('1,3', '3,3');
+		engine.executeMove('4,3', '2,3');
+		assert.equal(engine.getMoveCount(), 2);
 
-			// Simulate end game by directly manipulating private state via class for testing
-			// We can verify win condition behavior by simulating the final move
-			// Let's set up 2 pegs remaining: peg at (1,3) and peg at (2,3), empty at (3,3)
-			// Reset and create a small custom board or directly set pegs
-			const engineAny = engine as unknown as {
-				pegs: Set<string>;
-				updateStatus: () => void;
-				makeMove: (from: { r: number; c: number }, to: { r: number; c: number }) => boolean;
-			};
+		engine.reset();
+		assert.equal(engine.getMoveCount(), 0);
+		assert.equal(engine.canUndo(), false);
+		assert.equal(engine.canRedo(), false);
+		assert.equal(engine.getPegCount(), 32);
+		assert.equal(engine.getBoard()['3,3'], false);
+	});
+});
 
-			engineAny.pegs.clear();
-			engineAny.pegs.add(posKey(1, 3));
-			engineAny.pegs.add(posKey(2, 3));
-			engineAny.updateStatus();
+describe('SoloNobleEngine - Gameplay Variants & Terminal States', () => {
+	it('handles custom-start variant flow', () => {
+		const engine = new SoloNobleEngine('english', 'custom-start');
+		assert.equal(engine.getStatus(), 'ready');
+		assert.equal(engine.getPegCount(), 33);
+		assert.equal(engine.getLegalMoves().length, 0);
 
-			assert.equal(engine.pegCount, 2);
-			assert.equal(engine.isValidMove({ r: 1, c: 3 }, { r: 3, c: 3 }), true);
+		// Invalid empty hole selection
+		assert.equal(engine.selectInitialEmptyHole('9,9' as unknown as CoordinateKey), false);
 
-			assert.equal(engine.makeMove({ r: 1, c: 3 }, { r: 3, c: 3 }), true);
-			assert.equal(engine.pegCount, 1);
-			assert.equal(engine.hasPeg({ r: 3, c: 3 }), true);
-			assert.equal(engine.gameStatus, 'won');
-		});
-
-		it('detects stuck state when single peg remains but NOT in center for Classic Central', () => {
-			const engine = new SoloNobleEngine({ layoutId: 'english', variantId: 'classic-central' });
-			const engineAny = engine as unknown as {
-				pegs: Set<string>;
-				updateStatus: () => void;
-			};
-
-			// Setup 2 pegs: (3,1) and (3,2) jumping into (3,3) would win, but jumping into (3,0) does not
-			// Let's set pegs at (3,2) and (3,1) jumping away to (3,0)
-			engineAny.pegs.clear();
-			engineAny.pegs.add(posKey(3, 2));
-			engineAny.pegs.add(posKey(3, 1));
-			engineAny.updateStatus();
-
-			assert.equal(engine.makeMove({ r: 3, c: 2 }, { r: 3, c: 0 }), true);
-			assert.equal(engine.pegCount, 1);
-			assert.equal(engine.hasPeg({ r: 3, c: 0 }), true);
-			assert.equal(engine.gameStatus, 'stuck'); // 1 peg left, but not center!
-		});
-
-		it('detects won state for Clear Out when single peg remains anywhere', () => {
-			const engine = new SoloNobleEngine({ layoutId: 'english', variantId: 'clear-out' });
-			const engineAny = engine as unknown as {
-				pegs: Set<string>;
-				updateStatus: () => void;
-			};
-
-			engineAny.pegs.clear();
-			engineAny.pegs.add(posKey(3, 2));
-			engineAny.pegs.add(posKey(3, 1));
-			engineAny.updateStatus();
-
-			assert.equal(engine.makeMove({ r: 3, c: 2 }, { r: 3, c: 0 }), true);
-			assert.equal(engine.pegCount, 1);
-			assert.equal(engine.hasPeg({ r: 3, c: 0 }), true);
-			assert.equal(engine.gameStatus, 'won'); // Clear Out wins on any position!
-		});
-
-		it('detects stuck state when multiple pegs remain with no legal moves', () => {
-			const engine = new SoloNobleEngine({ layoutId: 'english', variantId: 'classic-central' });
-			const engineAny = engine as unknown as {
-				pegs: Set<string>;
-				updateStatus: () => void;
-			};
-
-			// Isolated pegs that cannot jump each other
-			engineAny.pegs.clear();
-			engineAny.pegs.add(posKey(0, 2));
-			engineAny.pegs.add(posKey(6, 4));
-			engineAny.updateStatus();
-
-			assert.equal(engine.pegCount, 2);
-			assert.equal(engine.hasLegalMoves(), false);
-			assert.equal(engine.gameStatus, 'stuck');
-			assert.equal(engine.getLegalMoves().length, 0);
-		});
+		// Select valid hole
+		const selected = engine.selectInitialEmptyHole('2,3');
+		assert.equal(selected, true);
+		assert.equal(engine.getStatus(), 'playing');
+		assert.equal(engine.getPegCount(), 32);
+		assert.equal(engine.getInitialEmptyKey(), '2,3');
+		assert.equal(engine.getBoard()['2,3'], false);
+		assert.ok(engine.getLegalMoves().length > 0);
 	});
 
-	describe('Custom Start Variant', () => {
-		it('supports player picking an arbitrary initial empty hole', () => {
-			const engine = new SoloNobleEngine({ layoutId: 'english', variantId: 'custom-start' });
+	it('detects stuck state when no legal moves remain with > 1 pegs', () => {
+		const engine = new SoloNobleEngine('english', 'classic-central');
 
-			assert.equal(engine.pegCount, 33);
-			assert.equal(engine.initialEmptyPosition, null);
+		// Synthesize a stuck state by directly loading a 2-peg disconnected board
+		const stuckBoard: Record<string, boolean> = {};
+		for (const key of engine.getLayout().holeKeys) {
+			stuckBoard[key] = false;
+		}
+		stuckBoard['0,2'] = true;
+		stuckBoard['6,4'] = true;
 
-			// Attempting a move before selecting empty hole should fail
-			assert.equal(engine.makeMove({ r: 1, c: 3 }, { r: 3, c: 3 }), false);
-
-			// Invalid hole selection
-			assert.equal(engine.selectInitialEmpty({ r: 0, c: 0 }), false);
-
-			// Valid selection: hole at (2,0)
-			assert.equal(engine.selectInitialEmpty({ r: 2, c: 0 }), true);
-			assert.equal(engine.pegCount, 32);
-			assert.equal(engine.hasPeg({ r: 2, c: 0 }), false);
-			assert.deepEqual(engine.initialEmptyPosition, { r: 2, c: 0 });
-
-			// Jumps into (2,0) should now be valid (e.g. from (2,2) over (2,1))
-			assert.equal(engine.isValidMove({ r: 2, c: 2 }, { r: 2, c: 0 }), true);
-			assert.equal(engine.makeMove({ r: 2, c: 2 }, { r: 2, c: 0 }), true);
-			assert.equal(engine.pegCount, 31);
+		engine.loadState({
+			layoutId: 'english',
+			variant: 'classic-central',
+			status: 'playing',
+			board: stuckBoard,
+			pegCount: 2,
+			moveCount: 10,
+			initialEmptyKey: '3,3',
 		});
+
+		assert.equal(engine.getPegCount(), 2);
+		assert.equal(engine.getLegalMoves().length, 0);
+		assert.equal(engine.getStatus(), 'stuck');
+	});
+
+	it('detects won vs stuck in classic-central variant (1 peg remaining)', () => {
+		const engine = new SoloNobleEngine('english', 'classic-central');
+		const emptyBoard: Record<string, boolean> = {};
+		for (const key of engine.getLayout().holeKeys) {
+			emptyBoard[key] = false;
+		}
+
+		// Case 1: 1 peg remaining in center (3,3) -> WON
+		const wonBoard = { ...emptyBoard, '3,3': true };
+		engine.loadState({
+			layoutId: 'english',
+			variant: 'classic-central',
+			status: 'playing',
+			board: wonBoard,
+			pegCount: 1,
+			moveCount: 31,
+			initialEmptyKey: '3,3',
+		});
+		assert.equal(engine.getStatus(), 'won');
+
+		// Case 2: 1 peg remaining NOT in center (0,2) -> STUCK
+		const notCenterBoard = { ...emptyBoard, '0,2': true };
+		engine.loadState({
+			layoutId: 'english',
+			variant: 'classic-central',
+			status: 'playing',
+			board: notCenterBoard,
+			pegCount: 1,
+			moveCount: 31,
+			initialEmptyKey: '3,3',
+		});
+		assert.equal(engine.getStatus(), 'stuck');
+	});
+
+	it('detects won in clear-out variant (1 peg anywhere)', () => {
+		const engine = new SoloNobleEngine('english', 'clear-out');
+		const emptyBoard: Record<string, boolean> = {};
+		for (const key of engine.getLayout().holeKeys) {
+			emptyBoard[key] = false;
+		}
+
+		// 1 peg not in center is a WIN in clear-out
+		const wonBoard = { ...emptyBoard, '0,2': true };
+		engine.loadState({
+			layoutId: 'english',
+			variant: 'clear-out',
+			status: 'playing',
+			board: wonBoard,
+			pegCount: 1,
+			moveCount: 31,
+			initialEmptyKey: '3,3',
+		});
+		assert.equal(engine.getStatus(), 'won');
 	});
 });

@@ -59,6 +59,15 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameDefinition>> = {
 		},
 		i18nNamespace: 'tracks',
 	},
+	'solo-noble': {
+		id: 'solo-noble',
+		name: 'Solo Noble',
+		route: '/solo-noble',
+		assets: {
+			icon: '🔴',
+		},
+		i18nNamespace: 'solo-noble',
+	},
 };
 
 /**

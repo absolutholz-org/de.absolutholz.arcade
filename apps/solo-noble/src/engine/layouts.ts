@@ -1,156 +1,202 @@
-import type { BoardDefinition, BoardLayoutId, JumpMove, JumpVector, Position } from './types.ts';
+import type {
+	BoardLayoutDefinition,
+	BoardLayoutId,
+	CompiledBoardLayout,
+	Coordinate,
+	CoordinateKey,
+	Jump,
+} from './types.js';
 
-export function posKey(r: number, c: number): string {
-	return `${r},${c}`;
+export function toCoordinateKey(row: number, col: number): CoordinateKey {
+	return `${row},${col}`;
 }
 
-const ORTHOGONAL_VECTORS: readonly JumpVector[] = Object.freeze([
-	{ dr: -1, dc: 0 },
-	{ dr: 1, dc: 0 },
-	{ dr: 0, dc: -1 },
-	{ dr: 0, dc: 1 },
-]);
-
-const TRIANGULAR_VECTORS: readonly JumpVector[] = Object.freeze([
-	{ dr: 0, dc: 1 },
-	{ dr: 0, dc: -1 },
-	{ dr: 1, dc: 1 },
-	{ dr: -1, dc: -1 },
-	{ dr: 1, dc: 0 },
-	{ dr: -1, dc: 0 },
-]);
-
-function createBoardDefinition(
-	id: BoardLayoutId,
-	name: string,
-	rowCount: number,
-	colCount: number,
-	holes: readonly Position[],
-	center: Position,
-	jumpVectors: readonly JumpVector[],
-): BoardDefinition {
-	const holeSet = new Set<string>();
-	for (const hole of holes) {
-		holeSet.add(posKey(hole.r, hole.c));
-	}
-
-	const validJumps: JumpMove[] = [];
-	const jumpLookup = new Map<string, Map<string, JumpMove>>();
-
-	for (const from of holes) {
-		const fromK = posKey(from.r, from.c);
-		const targetMap = new Map<string, JumpMove>();
-		jumpLookup.set(fromK, targetMap);
-
-		for (const vec of jumpVectors) {
-			const jumpedR = from.r + vec.dr;
-			const jumpedC = from.c + vec.dc;
-			const toR = from.r + 2 * vec.dr;
-			const toC = from.c + 2 * vec.dc;
-
-			if (holeSet.has(posKey(jumpedR, jumpedC)) && holeSet.has(posKey(toR, toC))) {
-				const jump: JumpMove = {
-					from,
-					jumped: { r: jumpedR, c: jumpedC },
-					to: { r: toR, c: toC },
-				};
-				validJumps.push(jump);
-				targetMap.set(posKey(toR, toC), jump);
-			}
-		}
-	}
-
+export function parseCoordinateKey(key: CoordinateKey): Coordinate {
+	const [rowStr, colStr] = key.split(',');
 	return {
-		id,
-		name,
-		rowCount,
-		colCount,
-		holes: Object.freeze([...holes]),
-		center,
-		jumpVectors,
-		validJumps: Object.freeze(validJumps),
-		holeSet,
-		jumpLookup,
+		row: Number.parseInt(rowStr, 10),
+		col: Number.parseInt(colStr, 10),
 	};
 }
 
-function buildEnglishLayout(): BoardDefinition {
-	const holes: Position[] = [];
-	for (let r = 0; r < 7; r++) {
-		for (let c = 0; c < 7; c++) {
-			const isArmRow = r >= 2 && r <= 4;
-			const isArmCol = c >= 2 && c <= 4;
-			if (isArmRow || isArmCol) {
-				holes.push({ r, c });
+const ORTHOGONAL_VECTORS: [number, number][] = [
+	[-2, 0],
+	[2, 0],
+	[0, -2],
+	[0, 2],
+];
+
+const TRIANGULAR_VECTORS: [number, number][] = [
+	[0, -2],
+	[0, 2],
+	[-2, 0],
+	[2, 0],
+	[-2, -2],
+	[2, 2],
+];
+
+function generateEnglishHoles(): Coordinate[] {
+	const holes: Coordinate[] = [];
+	for (let row = 0; row < 7; row++) {
+		for (let col = 0; col < 7; col++) {
+			if ((row >= 2 && row <= 4) || (col >= 2 && col <= 4)) {
+				holes.push({ row, col });
 			}
 		}
 	}
-	return createBoardDefinition('english', 'English', 7, 7, holes, { r: 3, c: 3 }, ORTHOGONAL_VECTORS);
+	return holes;
 }
 
-function buildEuropeanLayout(): BoardDefinition {
-	const holes: Position[] = [];
-	const europeanCorners = new Set(['1,1', '1,5', '5,1', '5,5']);
-	for (let r = 0; r < 7; r++) {
-		for (let c = 0; c < 7; c++) {
-			const isArmRow = r >= 2 && r <= 4;
-			const isArmCol = c >= 2 && c <= 4;
-			if (isArmRow || isArmCol || europeanCorners.has(posKey(r, c))) {
-				holes.push({ r, c });
+function generateEuropeanHoles(): Coordinate[] {
+	const holes = generateEnglishHoles();
+	const additionalCorners: Coordinate[] = [
+		{ row: 1, col: 1 },
+		{ row: 1, col: 5 },
+		{ row: 5, col: 1 },
+		{ row: 5, col: 5 },
+	];
+	holes.push(...additionalCorners);
+	return holes;
+}
+
+function generateTriangularHoles(): Coordinate[] {
+	const holes: Coordinate[] = [];
+	for (let row = 0; row < 5; row++) {
+		for (let col = 0; col <= row; col++) {
+			holes.push({ row, col });
+		}
+	}
+	return holes;
+}
+
+function generateDiamondHoles(): Coordinate[] {
+	const holes: Coordinate[] = [];
+	for (let row = 0; row < 9; row++) {
+		for (let col = 0; col < 9; col++) {
+			if (Math.abs(row - 4) + Math.abs(col - 4) <= 4) {
+				holes.push({ row, col });
 			}
 		}
 	}
-	return createBoardDefinition('european', 'European', 7, 7, holes, { r: 3, c: 3 }, ORTHOGONAL_VECTORS);
+	return holes;
 }
 
-function buildTriangularLayout(): BoardDefinition {
-	const holes: Position[] = [];
-	for (let r = 0; r < 5; r++) {
-		for (let c = 0; c <= r; c++) {
-			holes.push({ r, c });
-		}
-	}
-	return createBoardDefinition('triangular', 'Triangular', 5, 5, holes, { r: 0, c: 0 }, TRIANGULAR_VECTORS);
-}
-
-function buildDiamondLayout(): BoardDefinition {
-	const holes: Position[] = [];
-	for (let r = 0; r < 9; r++) {
-		for (let c = 0; c < 9; c++) {
-			if (Math.abs(r - 4) + Math.abs(c - 4) <= 4) {
-				holes.push({ r, c });
+function generateWieglebHoles(): Coordinate[] {
+	const holes: Coordinate[] = [];
+	for (let row = 0; row < 9; row++) {
+		for (let col = 0; col < 9; col++) {
+			if ((row >= 3 && row <= 5) || (col >= 3 && col <= 5)) {
+				holes.push({ row, col });
 			}
 		}
 	}
-	return createBoardDefinition('diamond', 'Diamond', 9, 9, holes, { r: 4, c: 4 }, ORTHOGONAL_VECTORS);
+	return holes;
 }
 
-function buildWieglebLayout(): BoardDefinition {
-	const holes: Position[] = [];
-	for (let r = 0; r < 9; r++) {
-		for (let c = 0; c < 9; c++) {
-			const isCrossRow = r >= 3 && r <= 5;
-			const isCrossCol = c >= 3 && c <= 5;
-			if (isCrossRow || isCrossCol) {
-				holes.push({ r, c });
+export const BOARD_DEFINITIONS: Record<BoardLayoutId, BoardLayoutDefinition> = {
+	english: {
+		id: 'english',
+		name: 'Classic English (33 holes)',
+		gridWidth: 7,
+		gridHeight: 7,
+		holes: generateEnglishHoles(),
+		centerHole: { row: 3, col: 3 },
+		jumpVectors: ORTHOGONAL_VECTORS,
+	},
+	european: {
+		id: 'european',
+		name: 'European / French (37 holes)',
+		gridWidth: 7,
+		gridHeight: 7,
+		holes: generateEuropeanHoles(),
+		centerHole: { row: 3, col: 3 },
+		jumpVectors: ORTHOGONAL_VECTORS,
+	},
+	triangular: {
+		id: 'triangular',
+		name: 'Triangular (15 holes)',
+		gridWidth: 5,
+		gridHeight: 5,
+		holes: generateTriangularHoles(),
+		centerHole: { row: 0, col: 0 },
+		jumpVectors: TRIANGULAR_VECTORS,
+	},
+	diamond: {
+		id: 'diamond',
+		name: 'Diamond (41 holes)',
+		gridWidth: 9,
+		gridHeight: 9,
+		holes: generateDiamondHoles(),
+		centerHole: { row: 4, col: 4 },
+		jumpVectors: ORTHOGONAL_VECTORS,
+	},
+	wiegleb: {
+		id: 'wiegleb',
+		name: 'Wiegleb German (45 holes)',
+		gridWidth: 9,
+		gridHeight: 9,
+		holes: generateWieglebHoles(),
+		centerHole: { row: 4, col: 4 },
+		jumpVectors: ORTHOGONAL_VECTORS,
+	},
+};
+
+export function compileLayout(definition: BoardLayoutDefinition): CompiledBoardLayout {
+	const holeKeys = new Set<CoordinateKey>(definition.holes.map((h) => toCoordinateKey(h.row, h.col)));
+	const centerKey = toCoordinateKey(definition.centerHole.row, definition.centerHole.col);
+	const allJumps: Jump[] = [];
+	const jumpsFrom = new Map<CoordinateKey, Jump[]>();
+	const jumpsBetween = new Map<`${CoordinateKey}->${CoordinateKey}`, Jump>();
+
+	for (const hole of definition.holes) {
+		const fromKey = toCoordinateKey(hole.row, hole.col);
+		const fromJumps: Jump[] = [];
+
+		for (const [dRow, dCol] of definition.jumpVectors) {
+			const toRow = hole.row + dRow;
+			const toCol = hole.col + dCol;
+			const jumpedRow = hole.row + dRow / 2;
+			const jumpedCol = hole.col + dCol / 2;
+
+			const toKey = toCoordinateKey(toRow, toCol);
+			const jumpedKey = toCoordinateKey(jumpedRow, jumpedCol);
+
+			if (holeKeys.has(toKey) && holeKeys.has(jumpedKey)) {
+				const jump: Jump = {
+					from: fromKey,
+					jumped: jumpedKey,
+					to: toKey,
+				};
+				fromJumps.push(jump);
+				allJumps.push(jump);
+				jumpsBetween.set(`${fromKey}->${toKey}`, jump);
 			}
 		}
+
+		jumpsFrom.set(fromKey, fromJumps);
 	}
-	return createBoardDefinition('wiegleb', 'Wiegleb', 9, 9, holes, { r: 4, c: 4 }, ORTHOGONAL_VECTORS);
+
+	return {
+		definition,
+		holeKeys,
+		centerKey,
+		allJumps,
+		jumpsFrom,
+		jumpsBetween,
+	};
 }
 
-export const BOARD_DEFINITIONS: Readonly<Record<BoardLayoutId, BoardDefinition>> = Object.freeze({
-	english: buildEnglishLayout(),
-	european: buildEuropeanLayout(),
-	triangular: buildTriangularLayout(),
-	diamond: buildDiamondLayout(),
-	wiegleb: buildWieglebLayout(),
-});
+const COMPILED_LAYOUTS_CACHE = new Map<BoardLayoutId, CompiledBoardLayout>();
 
-export function getBoardDefinition(layoutId: BoardLayoutId): BoardDefinition {
-	const def = BOARD_DEFINITIONS[layoutId];
-	if (!def) {
-		throw new Error(`Unknown board layout: ${layoutId}`);
+export function getCompiledLayout(layoutId: BoardLayoutId): CompiledBoardLayout {
+	let compiled = COMPILED_LAYOUTS_CACHE.get(layoutId);
+	if (!compiled) {
+		const def = BOARD_DEFINITIONS[layoutId];
+		if (!def) {
+			throw new Error(`Unknown board layout id: ${layoutId}`);
+		}
+		compiled = compileLayout(def);
+		COMPILED_LAYOUTS_CACHE.set(layoutId, compiled);
 	}
-	return def;
+	return compiled;
 }
