@@ -44,11 +44,12 @@ Before generating or modifying code:
 
 1. **Audit Recent Games & Documentation:** Inspect recently integrated games (e.g. `apps/tracks` and `apps/bridges`) to observe current patterns for layout wrapping, engine isolation, storage creation, and existing documentation (such as `apps/tracks/README.md` and `apps/tracks/.ai/agents/tracks-agent.md`).
 2. **Review Root Script Conventions:** Inspect the root `package.json` to observe script naming patterns (`dev:[gameId]`, `build:[gameId]`, `preview:[gameId]`).
-3. **Review Contract Boundaries:** Verify the target game design against [ADR 0005](docs/adr/0005-standard-game-contract.md) and monorepo constraints:
+3. **Inspect Deployment Pipeline:** Inspect the deployment scripts and CI workflows (`.github/workflows/deploy.yml` and `deploy/.htaccess`) to identify how game build outputs and subpaths are wired into the production assembly payload.
+4. **Review Contract Boundaries:** Verify the target game design against [ADR 0005](docs/adr/0005-standard-game-contract.md) and monorepo constraints:
     - Zero hardcoded strings ([ADR 007](docs/adr/architecture-decision-records.md)).
     - Pure static build compatibility ([ADR 002](docs/adr/architecture-decision-records.md)).
     - Strict local storage namespacing ([ADR 012](docs/adr/architecture-decision-records.md)).
-4. **Audit Component Inventory:** Inspect [libraries/ui/CATALOG.md](libraries/ui/CATALOG.md) to identify all required design system components (`ClickableCard`, `GameSelectionCard`, `SegmentedControl`, `Button`, `Dialog`, `PauseOverlay`, `VictoryDialog`, `MedalCard`).
+5. **Audit Component Inventory:** Inspect [libraries/ui/CATALOG.md](libraries/ui/CATALOG.md) to identify all required design system components (`ClickableCard`, `GameSelectionCard`, `SegmentedControl`, `Button`, `Dialog`, `PauseOverlay`, `VictoryDialog`, `MedalCard`).
 
 ---
 
@@ -110,12 +111,16 @@ Register the game in the prerequisite shared monorepo packages:
 3. **Achievement Definitions (`@arcade/lib-medals`):**
     - Author `libraries/medals/src/definitions/[gameId].ts` implementing the specification approved in Phase 2.
     - Register definitions in `libraries/medals/src/definitions/index.ts` within `getMedalDefinitionsForGame`.
-4. **Workspace Config (`pnpm-workspace.yaml`) & Root Scripts (`package.json`):**
+4. **Workspace Config (`pnpm-workspace.yaml`), Root Scripts (`package.json`) & Deployment Pipeline:**
     - Ensure the new package directory is included under workspace package globs in `pnpm-workspace.yaml`.
     - Add root convenience scripts to the monorepo `package.json`:
       - `"dev:[gameId]": "pnpm --filter @arcade/[gameId] dev"`
       - `"build:[gameId]": "pnpm --filter @arcade/[gameId] build"`
       - `"preview:[gameId]": "pnpm --filter @arcade/[gameId] preview"`
+      - Include `pnpm build:[gameId]` in the `"build:all"` task.
+    - Update the CI/CD deployment workflow (`.github/workflows/deploy.yml`):
+      - Add a build step: `- name: Build [GameName]` with `pnpm build:[gameId]`.
+      - Add payload assembly: copy `apps/[gameId]/dist/.` into `deploy_dist/[gameId]/`.
 
 ---
 
@@ -160,9 +165,17 @@ Construct the application shell and React canvas in `apps/[gameId]/`:
         pnpm --filter @arcade/[gameId] build
         ```
     - Verify that output assets in `dist/` contain pure static HTML/CSS/JS without SSR dependencies.
-4. **Central Hub Activation (Final Step):**
+4. **Central Hub Activation:**
     - Only after all static tests and builds succeed, add the game entry to `GAME_REGISTRY` in `libraries/games/src/registry.ts`.
     - Verify that rebuilding `apps/hub` (`pnpm --filter @arcade/hub build`) successfully renders the new game card in the central lobby across all languages.
+5. **Deployment Payload Verification (Final Checkpoint):**
+    - Verify that the CI deployment workflow (`.github/workflows/deploy.yml`) successfully builds the game and maps `apps/[gameId]/dist/.` into `deploy_dist/[gameId]/`.
+    - Validate assembly dry run:
+        ```bash
+        mkdir -p deploy_dist/[gameId]
+        cp -R apps/[gameId]/dist/. deploy_dist/[gameId]/
+        rm -rf deploy_dist
+        ```
 
 ---
 
