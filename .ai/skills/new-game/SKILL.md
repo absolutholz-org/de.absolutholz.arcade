@@ -44,7 +44,7 @@ Before generating or modifying code:
 
 1. **Audit Recent Games & Documentation:** Inspect recently integrated games (e.g. `apps/tracks` and `apps/bridges`) to observe current patterns for layout wrapping, engine isolation, storage creation, and existing documentation (such as `apps/tracks/README.md` and `apps/tracks/.ai/agents/tracks-agent.md`).
 2. **Review Root Script Conventions:** Inspect the root `package.json` to observe script naming patterns (`dev:[gameId]`, `build:[gameId]`, `preview:[gameId]`).
-3. **Inspect Deployment Pipeline:** Inspect the deployment scripts and CI workflows (`.github/workflows/deploy.yml` and `deploy/.htaccess`) to identify how game build outputs and subpaths are wired into the production assembly payload.
+3. **Review Deployment Pipeline Contract:** Note the deployment assembly pipeline in `.github/workflows/deploy.yml` and routing rules in `deploy/.htaccess` to align the game build output (`apps/[gameId]/dist`) and subpath (`/[gameId]`).
 4. **Review Contract Boundaries:** Verify the target game design against [ADR 0005](docs/adr/0005-standard-game-contract.md) and monorepo constraints:
     - Zero hardcoded strings ([ADR 007](docs/adr/architecture-decision-records.md)).
     - Pure static build compatibility ([ADR 002](docs/adr/architecture-decision-records.md)).
