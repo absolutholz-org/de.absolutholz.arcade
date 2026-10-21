@@ -443,5 +443,21 @@ export const enMedals = {
 			title: 'Grand Outfitter',
 			desc: 'Pitch tents beside trees across your lifetime camping career.',
 		},
+		glamping: {
+			title: 'Glamping',
+			desc: 'Fill every satisfied row and column line with grass via auto-grass.',
+		},
+		bear_encounter: {
+			title: 'Bear Encounter',
+			desc: 'Survive and win after having three or more touching tent errors at the same time.',
+		},
+		iron_will: {
+			title: 'Iron Will',
+			desc: 'Conquer an Expert campsite with all clue and violation helpers disabled.',
+		},
+		quick_pitch: {
+			title: 'Quick Pitch',
+			desc: 'Pitch three tents within the first six seconds of arriving at camp.',
+		},
 	},
 } as const satisfies MedalsTranslationContract;

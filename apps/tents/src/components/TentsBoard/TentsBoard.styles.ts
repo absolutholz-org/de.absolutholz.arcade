@@ -154,21 +154,25 @@ export const GridContainer = styled.div`
 	box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
 
 	&[data-size='6'] {
+		--grid-size: 6;
 		grid-template-columns: repeat(6, 1fr);
 		grid-template-rows: repeat(6, 1fr);
 	}
 
 	&[data-size='8'] {
+		--grid-size: 8;
 		grid-template-columns: repeat(8, 1fr);
 		grid-template-rows: repeat(8, 1fr);
 	}
 
 	&[data-size='10'] {
+		--grid-size: 10;
 		grid-template-columns: repeat(10, 1fr);
 		grid-template-rows: repeat(10, 1fr);
 	}
 
 	&[data-size='12'] {
+		--grid-size: 12;
 		grid-template-columns: repeat(12, 1fr);
 		grid-template-rows: repeat(12, 1fr);
 	}
@@ -192,6 +196,8 @@ export const CellButton = styled.button`
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	font-size: clamp(0.875rem, calc(20rem / var(--grid-size, 8)), 2rem);
+	line-height: 1;
 	cursor: pointer;
 	user-select: none;
 	touch-action: none;
@@ -229,13 +235,6 @@ export const CellButton = styled.button`
 		outline: none;
 		z-index: 3;
 		box-shadow: inset 0 0 0 3px ${themeColor('accent')};
-	}
-
-	> svg {
-		width: 76%;
-		height: 76%;
-		display: block;
-		pointer-events: none;
 	}
 `;
 

@@ -1,7 +1,7 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
+import { useThemeset } from '@arcade/lib-ui/hooks/useThemeset';
 import { type JSX, useEffect, useRef } from 'react';
 import { coordKey } from '../../engine/validator.ts';
-import { GrassIcon, TentIcon, TreeIcon } from '../TentsIcons/index.js';
 import * as S from './TentsBoard.styles.js';
 import type { TentsBoardProps } from './TentsBoard.types.js';
 
@@ -19,6 +19,8 @@ export function TentsBoard({
 	onKeyDown,
 }: TentsBoardProps): JSX.Element {
 	const { t } = useI18n('tents');
+	const [activeThemeset] = useThemeset();
+	const isChristmas = activeThemeset === 'christmas';
 	const gridRef = useRef<HTMLDivElement>(null);
 
 	const size = board.size;
@@ -182,9 +184,9 @@ export function TentsBoard({
 										onContextMenu={(e) => onCellContextMenu(r, c, e)}
 										onFocus={() => onCellFocus(r, c)}
 									>
-										{isFixedTree && <TreeIcon />}
-										{!isFixedTree && cell.mark === 'tent' && <TentIcon />}
-										{!isFixedTree && cell.mark === 'grass' && <GrassIcon />}
+										{isFixedTree && (isChristmas ? '🎄' : (r * 7 + c * 13) % 2 === 0 ? '🌲' : '🌳')}
+										{!isFixedTree && cell.mark === 'tent' && '⛺'}
+										{!isFixedTree && cell.mark === 'grass' && '🌱'}
 									</S.CellButton>
 								);
 							})}

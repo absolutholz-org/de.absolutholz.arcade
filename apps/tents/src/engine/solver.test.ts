@@ -70,7 +70,8 @@ describe('Tents & Trees - Solver Engine', () => {
 		assert.equal(result.solutions.length, 0);
 	});
 
-	it('verifies all curated presets have verified unique solutions', () => {
+	it('verifies all 40 curated presets have verified unique solutions', () => {
+		assert.equal(PRESET_PUZZLES.length, 40, 'Must have exactly 40 curated presets');
 		for (const preset of PRESET_PUZZLES) {
 			const result = solveTents(preset, 2);
 			assert.equal(

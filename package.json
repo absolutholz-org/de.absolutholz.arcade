@@ -34,10 +34,13 @@
 		"dev:tracks": "pnpm --filter @arcade/tracks dev",
 		"build:tracks": "pnpm --filter @arcade/tracks build",
 		"preview:tracks": "pnpm --filter @arcade/tracks preview",
+		"dev:tents": "pnpm --filter @arcade/tents dev",
+		"build:tents": "pnpm --filter @arcade/tents build",
+		"preview:tents": "pnpm --filter @arcade/tents preview",
 		"storybook:ui": "pnpm --filter @arcade/lib-ui storybook",
 		"storybook": "pnpm --filter @arcade/lib-ui storybook",
 		"build:storybook": "pnpm --filter @arcade/lib-ui build-storybook",
-		"build:all": "pnpm build:hub && pnpm build:sudoku && pnpm build:minesweeper && pnpm build:nonogram && pnpm build:queens && pnpm build:bridges && pnpm build:storybook && pnpm build:tracks",
+		"build:all": "pnpm build:hub && pnpm build:sudoku && pnpm build:minesweeper && pnpm build:nonogram && pnpm build:queens && pnpm build:bridges && pnpm build:storybook && pnpm build:tracks && pnpm build:tents",
 		"build": "pnpm build:all"
 	},
 	"engines": {

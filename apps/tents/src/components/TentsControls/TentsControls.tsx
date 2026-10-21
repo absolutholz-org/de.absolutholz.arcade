@@ -38,7 +38,7 @@ export function TentsControls({
 						onClick={() => onToggleMode('grass')}
 						title={t('mode.grassDesc')}
 					>
-						<S.MiniIcon>🌿</S.MiniIcon>
+						<S.MiniIcon>🌱</S.MiniIcon>
 						<span>{t('mode.grass')}</span>
 					</S.ModeButton>
 				</S.ModeToggleGroup>

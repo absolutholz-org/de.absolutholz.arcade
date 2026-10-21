@@ -282,4 +282,77 @@ export const TENTS_MEDAL_DEFINITIONS: readonly AchievementDefinition<'tents'>[] 
 			};
 		},
 	},
+	{
+		id: 'tents_glamping',
+		type: 'standalone',
+		tier: 'silver',
+		titleKey: 'medals.tents.glamping.title',
+		descriptionKey: 'medals.tents.glamping.desc',
+		icon: 'trophy-silver',
+		evaluate: ({ result }) => {
+			const used = Boolean(
+				result.won &&
+					(result.roundContext?.usedAutoGrassOnAllSatisfiedLines === true ||
+						result.roundContext?.allLinesAutoGrassed === true),
+			);
+			return {
+				unlocked: used,
+				progress: used ? 1 : 0,
+				target: 1,
+			};
+		},
+	},
+	{
+		id: 'tents_bear_encounter',
+		type: 'standalone',
+		tier: 'bronze',
+		titleKey: 'medals.tents.bear_encounter.title',
+		descriptionKey: 'medals.tents.bear_encounter.desc',
+		icon: 'trophy-bronze',
+		evaluate: ({ result }) => {
+			const maxErrors = (result.roundContext?.maxSimultaneousErrors as number | undefined) ?? 0;
+			const unlocked = Boolean(result.won && maxErrors >= 3);
+			return {
+				unlocked,
+				progress: unlocked ? 1 : 0,
+				target: 1,
+			};
+		},
+	},
+	{
+		id: 'tents_iron_will',
+		type: 'standalone',
+		tier: 'gold',
+		titleKey: 'medals.tents.iron_will.title',
+		descriptionKey: 'medals.tents.iron_will.desc',
+		icon: 'trophy-gold',
+		evaluate: ({ result }) => {
+			const level = (result.levelKey ?? result.roundContext?.difficulty) as string | undefined;
+			const isExpert = level === 'expert';
+			const clueDisabled = result.roundContext?.clueHighlightDisabled === true;
+			const violationDisabled = result.roundContext?.violationHighlightDisabled === true;
+			const unlocked = Boolean(result.won && isExpert && clueDisabled && violationDisabled);
+			return {
+				unlocked,
+				progress: unlocked ? 1 : 0,
+				target: 1,
+			};
+		},
+	},
+	{
+		id: 'tents_quick_pitch',
+		type: 'standalone',
+		tier: 'bronze',
+		titleKey: 'medals.tents.quick_pitch.title',
+		descriptionKey: 'medals.tents.quick_pitch.desc',
+		icon: 'trophy-bronze',
+		evaluate: ({ result }) => {
+			const quick = Boolean(result.won && result.roundContext?.placedThreeTentsInSixSeconds === true);
+			return {
+				unlocked: quick,
+				progress: quick ? 1 : 0,
+				target: 1,
+			};
+		},
+	},
 ];

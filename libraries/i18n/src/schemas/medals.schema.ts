@@ -148,6 +148,10 @@ export interface MedalsSchema {
 		readonly expedition_tour: { readonly title: string; readonly desc: string };
 		readonly survivalist_streak: { readonly title: string; readonly desc: string };
 		readonly grand_outfitter: { readonly title: string; readonly desc: string };
+		readonly glamping: { readonly title: string; readonly desc: string };
+		readonly bear_encounter: { readonly title: string; readonly desc: string };
+		readonly iron_will: { readonly title: string; readonly desc: string };
+		readonly quick_pitch: { readonly title: string; readonly desc: string };
 	};
 }
 

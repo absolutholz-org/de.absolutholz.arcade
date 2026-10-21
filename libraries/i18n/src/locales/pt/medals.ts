@@ -444,5 +444,21 @@ export const ptMedals = {
 			title: 'Grande Fornecedor',
 			desc: 'Arme barracas ao lado de árvores ao longo de sua jornada de acampamento.',
 		},
+		glamping: {
+			title: 'Glamping',
+			desc: 'Preencha todas as linhas e colunas satisfeitas com grama usando a grama automática.',
+		},
+		bear_encounter: {
+			title: 'Encontro com o Urso',
+			desc: 'Sobreviva e vença após cometer três ou mais erros de barracas adjacentes simultaneamente.',
+		},
+		iron_will: {
+			title: 'Vontade de Ferro',
+			desc: 'Conquiste um acampamento Especialista com todas as dicas e destaques de erros desativados.',
+		},
+		quick_pitch: {
+			title: 'Montagem Rápida',
+			desc: 'Arme três barracas nos primeiros seis segundos após chegar ao acampamento.',
+		},
 	},
 } as const satisfies MedalsTranslationContract;

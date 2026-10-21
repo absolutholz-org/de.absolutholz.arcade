@@ -42,12 +42,13 @@ Phase 6: Accessibility, Static Verification & Central Hub Activation
 
 Before generating or modifying code:
 
-1. **Audit Recent Games:** Inspect recently integrated games (e.g. `apps/tracks` and `apps/bridges`) to observe current patterns for layout wrapping, engine isolation, and storage creation.
-2. **Review Contract Boundaries:** Verify the target game design against [ADR 0005](docs/adr/0005-standard-game-contract.md) and monorepo constraints:
+1. **Audit Recent Games & Documentation:** Inspect recently integrated games (e.g. `apps/tracks` and `apps/bridges`) to observe current patterns for layout wrapping, engine isolation, storage creation, and existing documentation (such as `apps/tracks/README.md` and `apps/tracks/.ai/agents/tracks-agent.md`).
+2. **Review Root Script Conventions:** Inspect the root `package.json` to observe script naming patterns (`dev:[gameId]`, `build:[gameId]`, `preview:[gameId]`).
+3. **Review Contract Boundaries:** Verify the target game design against [ADR 0005](docs/adr/0005-standard-game-contract.md) and monorepo constraints:
     - Zero hardcoded strings ([ADR 007](docs/adr/architecture-decision-records.md)).
     - Pure static build compatibility ([ADR 002](docs/adr/architecture-decision-records.md)).
     - Strict local storage namespacing ([ADR 012](docs/adr/architecture-decision-records.md)).
-3. **Audit Component Inventory:** Inspect [libraries/ui/CATALOG.md](libraries/ui/CATALOG.md) to identify all required design system components (`ClickableCard`, `GameSelectionCard`, `SegmentedControl`, `Button`, `Dialog`, `PauseOverlay`, `VictoryDialog`, `MedalCard`).
+4. **Audit Component Inventory:** Inspect [libraries/ui/CATALOG.md](libraries/ui/CATALOG.md) to identify all required design system components (`ClickableCard`, `GameSelectionCard`, `SegmentedControl`, `Button`, `Dialog`, `PauseOverlay`, `VictoryDialog`, `MedalCard`).
 
 ---
 
@@ -109,8 +110,12 @@ Register the game in the prerequisite shared monorepo packages:
 3. **Achievement Definitions (`@arcade/lib-medals`):**
     - Author `libraries/medals/src/definitions/[gameId].ts` implementing the specification approved in Phase 2.
     - Register definitions in `libraries/medals/src/definitions/index.ts` within `getMedalDefinitionsForGame`.
-4. **Workspace Config (`pnpm-workspace.yaml`):**
-    - Ensure the new package directory is included under workspace package globs.
+4. **Workspace Config (`pnpm-workspace.yaml`) & Root Scripts (`package.json`):**
+    - Ensure the new package directory is included under workspace package globs in `pnpm-workspace.yaml`.
+    - Add root convenience scripts to the monorepo `package.json`:
+      - `"dev:[gameId]": "pnpm --filter @arcade/[gameId] dev"`
+      - `"build:[gameId]": "pnpm --filter @arcade/[gameId] build"`
+      - `"preview:[gameId]": "pnpm --filter @arcade/[gameId] preview"`
 
 ---
 
@@ -133,6 +138,9 @@ Construct the application shell and React canvas in `apps/[gameId]/`:
 4. **Result Recording & Medal Toasts:**
     - Call `recordGameResult({ gameId, won, playTimeSeconds, levelKey, sizeKey, roundContext })` upon round victory or defeat.
     - Ensure `BaseLayout` is present so `MedalToastListener` catches the `medalUnlocked` event and displays achievement notifications.
+5. **App Documentation & Local Agent Profile:**
+    - Author `apps/[gameId]/README.md` covering game overview, rules summary, difficulty matrix, engine architecture, and development commands.
+    - Author `apps/[gameId]/.ai/agents/[gameId]-agent.md` providing the local agent cheatsheet and execution boundaries matching existing agent profiles (like `tracks-agent.md`), and register it in root `AGENTS.md`.
 
 ---
 

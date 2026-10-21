@@ -444,5 +444,21 @@ export const deMedals = {
 			title: 'Großer Ausrüster',
 			desc: 'Schlage im Laufe deiner Karriere Zelte neben Bäumen auf.',
 		},
+		glamping: {
+			title: 'Glamping',
+			desc: 'Fülle jede erfüllte Zeilen- und Spaltenlinie per Auto-Gras mit Gras.',
+		},
+		bear_encounter: {
+			title: 'Bärenbegegnung',
+			desc: 'Überlebe und siege, nachdem drei oder mehr sich berührende Zelte gleichzeitig Fehler ausgelöst haben.',
+		},
+		iron_will: {
+			title: 'Eiserner Wille',
+			desc: 'Meistere einen Experten-Zeltplatz mit komplett deaktivierten Hinweis- und Fehler-Hervorhebungen.',
+		},
+		quick_pitch: {
+			title: 'Schnellaufbau',
+			desc: 'Schlage drei Zelte innerhalb der ersten sechs Sekunden nach Ankunft im Lager auf.',
+		},
 	},
 } as const satisfies MedalsTranslationContract;

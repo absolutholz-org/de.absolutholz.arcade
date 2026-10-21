@@ -444,5 +444,21 @@ export const frMedals = {
 			title: 'Grand équipementier',
 			desc: 'Plantez des tentes à côté des arbres tout au long de votre carrière de camping.',
 		},
+		glamping: {
+			title: 'Glamping',
+			desc: 'Remplissez chaque ligne et colonne complétée avec de l’herbe via l’herbe automatique.',
+		},
+		bear_encounter: {
+			title: 'Rencontre avec un ours',
+			desc: 'Survivez et gagnez après avoir provoqué au moins trois erreurs de tentes adjacentes simultanément.',
+		},
+		iron_will: {
+			title: 'Volonté de fer',
+			desc: 'Triomphez d’un campement Expert avec toutes les aides d’indices et d’erreurs désactivées.',
+		},
+		quick_pitch: {
+			title: 'Montage éclair',
+			desc: 'Plantez trois tentes dans les six premières secondes de votre arrivée au camp.',
+		},
 	},
 } as const satisfies MedalsTranslationContract;

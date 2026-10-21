@@ -128,6 +128,13 @@ export function useTentsGame(initialDifficulty: DifficultyLevel = 'easy', initia
 
 	const hasRecordedResultRef = useRef(false);
 
+	// Tracking for new medals
+	const maxSimultaneousErrorsRef = useRef(0);
+	const placedTentsTimestampsRef = useRef<number[]>([]);
+	const placedThreeTentsInSixSecondsRef = useRef(false);
+	const autoGrassedRowsRef = useRef<Set<number>>(new Set());
+	const autoGrassedColsRef = useRef<Set<number>>(new Set());
+
 	// Load storage on mount (settings, progress, optional resume)
 	useEffect(() => {
 		async function init() {
@@ -204,6 +211,7 @@ export function useTentsGame(initialDifficulty: DifficultyLevel = 'easy', initia
 		const curPuzzle = puzzleRef.current;
 		const curHistory = historyRef.current;
 		const curMistakes = mistakesRef.current;
+		const curSettings = settingsRef.current;
 		const width = curPuzzle.size;
 		const height = curPuzzle.size;
 
@@ -211,6 +219,9 @@ export function useTentsGame(initialDifficulty: DifficultyLevel = 'easy', initia
 		setIsNewBestTime(newBest);
 
 		const isProcedural = curPuzzle.id.startsWith('tents-');
+
+		const usedAutoGrassOnAllSatisfiedLines =
+			autoGrassedRowsRef.current.size === curPuzzle.size && autoGrassedColsRef.current.size === curPuzzle.size;
 
 		await recordGameResult({
 			gameId: 'tents',
@@ -225,6 +236,12 @@ export function useTentsGame(initialDifficulty: DifficultyLevel = 'easy', initia
 				levelKey: curPuzzle.difficulty,
 				totalTentsPitched: curPuzzle.trees.length,
 				completedPresetId: isProcedural ? undefined : curPuzzle.id,
+				usedAutoGrassOnAllSatisfiedLines,
+				allLinesAutoGrassed: usedAutoGrassOnAllSatisfiedLines,
+				maxSimultaneousErrors: maxSimultaneousErrorsRef.current,
+				clueHighlightDisabled: !curSettings.highlightClues,
+				violationHighlightDisabled: !curSettings.highlightViolations,
+				placedThreeTentsInSixSeconds: placedThreeTentsInSixSecondsRef.current,
 			},
 		}).catch((err) => {
 			console.warn('[@arcade/tents] Failed to record victory medals:', err);
@@ -236,10 +253,15 @@ export function useTentsGame(initialDifficulty: DifficultyLevel = 'easy', initia
 	}, []);
 
 	useEffect(() => {
-		if (isLoaded && !isComplete && evaluation.isSolved) {
-			recordVictory(elapsedRef.current);
+		if (isLoaded && !isComplete) {
+			if (evaluation.touchingTents.size > maxSimultaneousErrorsRef.current) {
+				maxSimultaneousErrorsRef.current = evaluation.touchingTents.size;
+			}
+			if (evaluation.isSolved) {
+				recordVictory(elapsedRef.current);
+			}
 		}
-	}, [isLoaded, isComplete, evaluation.isSolved, recordVictory]);
+	}, [isLoaded, isComplete, evaluation, recordVictory]);
 
 	// Auto-grass helper: surrounding placed tent & filling satisfied lines
 	const applyAutoGrass = useCallback(
@@ -273,6 +295,7 @@ export function useTentsGame(initialDifficulty: DifficultyLevel = 'easy', initia
 			const colEvals = checkColClues(testBoard);
 
 			if (rowEvals[placedRow]?.status === 'satisfied') {
+				autoGrassedRowsRef.current.add(placedRow);
 				for (let c = 0; c < testBoard.size; c++) {
 					const cell = testBoard.grid[placedRow][c];
 					if (cell.fixed !== 'tree' && cell.mark === 'none') {
@@ -282,6 +305,7 @@ export function useTentsGame(initialDifficulty: DifficultyLevel = 'easy', initia
 			}
 
 			if (colEvals[placedCol]?.status === 'satisfied') {
+				autoGrassedColsRef.current.add(placedCol);
 				for (let r = 0; r < testBoard.size; r++) {
 					const cell = testBoard.grid[r][placedCol];
 					if (cell.fixed !== 'tree' && cell.mark === 'none') {
@@ -310,9 +334,9 @@ export function useTentsGame(initialDifficulty: DifficultyLevel = 'easy', initia
 				if (cell.mark === 'none') {
 					nextMark = 'tent';
 				} else if (cell.mark === 'tent') {
-					nextMark = 'none';
+					nextMark = 'grass';
 				} else {
-					nextMark = 'tent';
+					nextMark = 'none';
 				}
 			} else {
 				if (cell.mark === 'none') {
@@ -351,6 +375,19 @@ export function useTentsGame(initialDifficulty: DifficultyLevel = 'easy', initia
 
 				if (hasViolation) {
 					setMistakesCount((prev) => prev + 1);
+				}
+
+				if (!placedThreeTentsInSixSecondsRef.current) {
+					const now = Date.now();
+					placedTentsTimestampsRef.current.push(now);
+					const times = placedTentsTimestampsRef.current;
+					if (times.length >= 3) {
+						const thirdMostRecent = times[times.length - 1];
+						const firstOfThree = times[times.length - 3];
+						if (thirdMostRecent - firstOfThree <= 6000) {
+							placedThreeTentsInSixSecondsRef.current = true;
+						}
+					}
 				}
 			}
 
@@ -409,6 +446,11 @@ export function useTentsGame(initialDifficulty: DifficultyLevel = 'easy', initia
 			}
 
 			if (cellsToGrass.length > 0) {
+				if (type === 'row') {
+					autoGrassedRowsRef.current.add(index);
+				} else {
+					autoGrassedColsRef.current.add(index);
+				}
 				const nextHist = batchSetMarks(history, cellsToGrass);
 				setHistory(nextHist);
 				setBoard(nextHist.present);
@@ -590,6 +632,11 @@ export function useTentsGame(initialDifficulty: DifficultyLevel = 'easy', initia
 		setIsComplete(false);
 		setIsVictoryOpen(false);
 		hasRecordedResultRef.current = false;
+		maxSimultaneousErrorsRef.current = 0;
+		placedTentsTimestampsRef.current = [];
+		placedThreeTentsInSixSecondsRef.current = false;
+		autoGrassedRowsRef.current = new Set();
+		autoGrassedColsRef.current = new Set();
 	}, [puzzle]);
 
 	// Next puzzle transition
@@ -608,6 +655,11 @@ export function useTentsGame(initialDifficulty: DifficultyLevel = 'easy', initia
 			setIsComplete(false);
 			setIsVictoryOpen(false);
 			hasRecordedResultRef.current = false;
+			maxSimultaneousErrorsRef.current = 0;
+			placedTentsTimestampsRef.current = [];
+			placedThreeTentsInSixSecondsRef.current = false;
+			autoGrassedRowsRef.current = new Set();
+			autoGrassedColsRef.current = new Set();
 
 			if (typeof window !== 'undefined') {
 				const url = new URL(window.location.href);
