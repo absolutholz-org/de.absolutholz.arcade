@@ -116,6 +116,15 @@ export function createInitialCustomStats<G extends GameId>(gameId: G): GameCusto
 			} as unknown as GameCustomStatsMap[G];
 		case 'bridges':
 			return createInitialBridgesStats() as GameCustomStatsMap[G];
+		case 'tents':
+			return {
+				completedPresetIds: [],
+				totalTentsPitched: 0,
+				currentMediumStreak: 0,
+				currentHardStreak: 0,
+				bestMediumStreak: 0,
+				bestHardStreak: 0,
+			} as unknown as GameCustomStatsMap[G];
 		default:
 			throw new Error(`createInitialCustomStats error: Unknown gameId "${String(gameId)}"`);
 	}

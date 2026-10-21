@@ -13,6 +13,7 @@ export const ptMedals = {
 			queens: 'Queens',
 			tracks: 'Tracks',
 			bridges: 'Pontes',
+			tents: 'Tendas',
 		},
 		status: {
 			unlocked: 'Desbloqueado',
@@ -408,6 +409,40 @@ export const ptMedals = {
 		speedrun_collapse: {
 			title: 'Colapso Relâmpago',
 			desc: 'Abandone ou colapse um projeto de pontes em menos de 10 segundos.',
+		},
+	},
+	tents: {
+		first_pitch: {
+			title: 'Primeiro Acampamento',
+			desc: 'Arme sua primeira barraca na floresta.',
+		},
+		pristine_pitch: {
+			title: 'Acampamento Impecável',
+			desc: 'Complete um quebra-cabeça Médio, Difícil ou Especialista sem nenhum erro.',
+		},
+		speed_camper: {
+			title: 'Campista Veloz',
+			desc: 'Complete um acampamento Difícil ou Especialista em 2 minutos ou menos.',
+		},
+		minimalist: {
+			title: 'Minimalista da Natureza',
+			desc: 'Complete um quebra-cabeça sem colocar nenhuma peça de grama.',
+		},
+		master_camper: {
+			title: 'Mestre Campista',
+			desc: 'Acumule vitórias de acampamento ao longo da sua carreira.',
+		},
+		expedition_tour: {
+			title: 'Turnê de Expedição',
+			desc: 'Domine acampamentos selecionados em todas as dificuldades da trilha.',
+		},
+		survivalist_streak: {
+			title: 'Sequência de Sobrevivência',
+			desc: 'Mantenha uma sequência ininterrupta de vitórias na selva.',
+		},
+		grand_outfitter: {
+			title: 'Grande Fornecedor',
+			desc: 'Arme barracas ao lado de árvores ao longo de sua jornada de acampamento.',
 		},
 	},
 } as const satisfies MedalsTranslationContract;

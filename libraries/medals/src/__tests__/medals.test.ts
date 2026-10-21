@@ -1310,4 +1310,85 @@ describe('@arcade/lib-medals Foundation', () => {
 		expect(expertUnlocked).toContain('tracks_direct_line');
 		expect(expertUnlocked).toContain('tracks_smooth_rail');
 	});
+
+	it('evaluates Tents medals correctly across standalone and ladder specifications', async () => {
+		const storage = new MockMemoryStorage('tents');
+
+		// 1. First victory on medium, 0 mistakes, 0 grass placed, 90 seconds, 8 tents
+		const res1 = await recordGameResult(
+			{
+				gameId: 'tents',
+				won: true,
+				playTimeSeconds: 90,
+				levelKey: 'medium',
+				sizeKey: '8x8',
+				customData: {
+					completedPresetIds: ['medium-1'],
+					totalTentsPitched: 8,
+				},
+				roundContext: {
+					mistakesCount: 0,
+					grassPlacedCount: 0,
+					tentsPitched: 8,
+					difficulty: 'medium',
+				},
+			},
+			{ storage, now: 1000 },
+		);
+
+		const unlockedIds1 = res1.newlyUnlockedMedals.map((m) => m.id);
+		expect(unlockedIds1).toContain('tents_first_pitch');
+		expect(unlockedIds1).toContain('tents_pristine_pitch');
+		expect(unlockedIds1).toContain('tents_minimalist');
+
+		// 2. Expert win in 100 seconds (under 120s) -> speed_camper
+		const res2 = await recordGameResult(
+			{
+				gameId: 'tents',
+				won: true,
+				playTimeSeconds: 100,
+				levelKey: 'expert',
+				sizeKey: '12x12',
+				customData: {
+					completedPresetIds: ['medium-1', 'expert-1'],
+					totalTentsPitched: 26,
+				},
+				roundContext: {
+					mistakesCount: 1,
+					grassPlacedCount: 10,
+					tentsPitched: 18,
+					difficulty: 'expert',
+				},
+			},
+			{ storage, now: 2000 },
+		);
+
+		const unlockedIds2 = res2.newlyUnlockedMedals.map((m) => m.id);
+		expect(unlockedIds2).toContain('tents_speed_camper');
+
+		// 3. Test ladder unlock: total_wins ladder (master_camper bronze at 5 wins)
+		for (let i = 3; i <= 5; i++) {
+			await recordGameResult(
+				{
+					gameId: 'tents',
+					won: true,
+					playTimeSeconds: 60,
+					levelKey: 'easy',
+					customData: {
+						totalTentsPitched: 26 + (i - 2) * 5,
+					},
+					roundContext: {
+						difficulty: 'easy',
+						tentsPitched: 5,
+					},
+				},
+				{ storage, now: 2000 + i * 100 },
+			);
+		}
+
+		const state = await getGameMedalState('tents', storage);
+		expect(state.unlockedMedals.tents_master_camper).toBeDefined();
+		expect(state.unlockedMedals.tents_master_camper.tier).toBe('bronze');
+		expect(state.medalProgress.tents_survivalist_streak.bronzeUnlocked).toBe(true);
+	});
 });

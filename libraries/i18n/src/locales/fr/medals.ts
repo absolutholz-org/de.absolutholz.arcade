@@ -13,6 +13,7 @@ export const frMedals = {
 			queens: 'Queens',
 			tracks: 'Tracks',
 			bridges: 'Ponts',
+			tents: 'Tentes',
 		},
 		status: {
 			unlocked: 'Débloqué',
@@ -408,6 +409,40 @@ export const frMedals = {
 		speedrun_collapse: {
 			title: 'Effondrement éclair',
 			desc: 'Abandonnez ou effondrez un chantier de pont en moins de 10 secondes.',
+		},
+	},
+	tents: {
+		first_pitch: {
+			title: 'Première tente',
+			desc: 'Plantez votre toute première tente dans les bois.',
+		},
+		pristine_pitch: {
+			title: 'Campement immaculé',
+			desc: 'Terminez un puzzle Moyen, Difficile ou Expert sans aucune erreur.',
+		},
+		speed_camper: {
+			title: 'Campeur éclair',
+			desc: 'Terminez un campement Difficile ou Expert en 2 minutes ou moins.',
+		},
+		minimalist: {
+			title: 'Minimaliste de la nature',
+			desc: 'Terminez un puzzle sans poser une seule tuile d’herbe.',
+		},
+		master_camper: {
+			title: 'Maître Campeur',
+			desc: 'Accumulez des victoires de camping au fil de votre carrière.',
+		},
+		expedition_tour: {
+			title: 'Tour d’expédition',
+			desc: 'Maîtrisez des campements sélectionnés à travers tous les niveaux de difficulté.',
+		},
+		survivalist_streak: {
+			title: 'Série de survie',
+			desc: 'Maintenez une série de victoires ininterrompue en pleine nature.',
+		},
+		grand_outfitter: {
+			title: 'Grand équipementier',
+			desc: 'Plantez des tentes à côté des arbres tout au long de votre carrière de camping.',
 		},
 	},
 } as const satisfies MedalsTranslationContract;

@@ -6,6 +6,7 @@ import type { MinesweeperSchema, MinesweeperTranslationContract } from '../schem
 import type { NonogramSchema, NonogramTranslationContract } from '../schemas/nonogram.schema.js';
 import type { QueensSchema, QueensTranslationContract } from '../schemas/queens.schema.js';
 import type { SudokuSchema, SudokuTranslationContract } from '../schemas/sudoku.schema.js';
+import type { TentsSchema, TentsTranslationContract } from '../schemas/tents.schema.js';
 import type { TracksSchema, TracksTranslationContract } from '../schemas/tracks.schema.js';
 
 export type SupportedLanguageCode = (typeof SUPPORTED_LANGUAGES)[number]['code'];
@@ -23,6 +24,7 @@ export type NonogramTranslationKey = LeafKeys<NonogramSchema>;
 export type QueensTranslationKey = LeafKeys<QueensSchema>;
 export type BridgesTranslationKey = LeafKeys<BridgesSchema>;
 export type TracksTranslationKey = LeafKeys<TracksSchema>;
+export type TentsTranslationKey = LeafKeys<TentsSchema>;
 export type MedalsTranslationKey = LeafKeys<MedalsSchema> | `medals.${LeafKeys<MedalsSchema>}`;
 
 export type TranslationKey =
@@ -33,6 +35,7 @@ export type TranslationKey =
 	| QueensTranslationKey
 	| BridgesTranslationKey
 	| TracksTranslationKey
+	| TentsTranslationKey
 	| MedalsTranslationKey;
 
 export interface UseI18nReturn {
@@ -53,6 +56,7 @@ export type TranslationResources = Record<
 		readonly queens: QueensTranslationContract;
 		readonly bridges: BridgesTranslationContract;
 		readonly tracks: TracksTranslationContract;
+		readonly tents: TentsTranslationContract;
 		readonly medals: MedalsTranslationContract;
 	}
 >;

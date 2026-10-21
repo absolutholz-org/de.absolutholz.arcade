@@ -14,6 +14,7 @@ import type {
 	QueensCustomStats,
 	SudokuCustomStats,
 	SudokuDifficulty,
+	TentsCustomStats,
 	TracksCustomStats,
 } from '../types/index.js';
 
@@ -391,6 +392,63 @@ export function updateCustomStats<G extends GameId>(
 			return { updatedCustom: stats as GameCustomStatsMap[G], isNewBestTime };
 		}
 
+		case 'tents': {
+			const stats = { ...(current as TentsCustomStats) };
+			if (result.won) {
+				const isMediumPlus =
+					result.levelKey === 'medium' ||
+					result.levelKey === 'hard' ||
+					result.levelKey === 'expert' ||
+					result.sizeKey === '8x8' ||
+					result.sizeKey === '10x10' ||
+					result.sizeKey === '12x12';
+				const isHardPlus =
+					result.levelKey === 'hard' ||
+					result.levelKey === 'expert' ||
+					result.sizeKey === '10x10' ||
+					result.sizeKey === '12x12';
+
+				const nextMedStreak = isMediumPlus ? (stats.currentMediumStreak ?? 0) + 1 : 0;
+				const nextHardStreak = isHardPlus ? (stats.currentHardStreak ?? 0) + 1 : 0;
+
+				stats.currentMediumStreak = nextMedStreak;
+				stats.bestMediumStreak = Math.max(stats.bestMediumStreak ?? 0, nextMedStreak);
+				stats.currentHardStreak = nextHardStreak;
+				stats.bestHardStreak = Math.max(stats.bestHardStreak ?? 0, nextHardStreak);
+
+				const presetId = (result.roundContext?.completedPresetId ??
+					(typeof result.levelKey === 'string' &&
+					(result.levelKey.startsWith('easy-') ||
+						result.levelKey.startsWith('medium-') ||
+						result.levelKey.startsWith('hard-') ||
+						result.levelKey.startsWith('expert-'))
+						? result.levelKey
+						: undefined)) as string | undefined;
+
+				if (presetId) {
+					const completedSet = new Set(stats.completedPresetIds ?? []);
+					completedSet.add(presetId);
+					stats.completedPresetIds = Array.from(completedSet);
+				}
+
+				const tentsPitchedInRound =
+					(result.roundContext?.tentsPitched as number | undefined) ??
+					(result.roundContext?.tentsCount as number | undefined) ??
+					0;
+				const tentsCustomData = result.customData as Partial<TentsCustomStats> | undefined;
+				if (tentsCustomData?.totalTentsPitched !== undefined) {
+					stats.totalTentsPitched = tentsCustomData.totalTentsPitched;
+				} else if (tentsPitchedInRound > 0) {
+					stats.totalTentsPitched = (stats.totalTentsPitched ?? 0) + tentsPitchedInRound;
+				}
+			} else {
+				stats.currentMediumStreak = 0;
+				stats.currentHardStreak = 0;
+			}
+
+			return { updatedCustom: stats as GameCustomStatsMap[G], isNewBestTime };
+		}
+
 		default:
 			return { updatedCustom: current, isNewBestTime: false };
 	}
@@ -706,6 +764,28 @@ export function mergeGameMedalState<G extends GameId>(
 		mergedCustom = {
 			difficulties: diffs,
 			completedPresetIds: mergedPresetIds,
+			bestMediumStreak: Math.max(localCustom.bestMediumStreak ?? 0, remoteCustom.bestMediumStreak ?? 0),
+			currentMediumStreak:
+				local.updatedAt >= remote.updatedAt
+					? (localCustom.currentMediumStreak ?? 0)
+					: (remoteCustom.currentMediumStreak ?? 0),
+			bestHardStreak: Math.max(localCustom.bestHardStreak ?? 0, remoteCustom.bestHardStreak ?? 0),
+			currentHardStreak:
+				local.updatedAt >= remote.updatedAt
+					? (localCustom.currentHardStreak ?? 0)
+					: (remoteCustom.currentHardStreak ?? 0),
+		} as unknown as GameCustomStatsMap[G];
+	} else if (local.gameId === 'tents') {
+		const localCustom = local.customStats as TentsCustomStats;
+		const remoteCustom = remote.customStats as TentsCustomStats;
+
+		const mergedPresetIds = Array.from(
+			new Set([...(localCustom.completedPresetIds ?? []), ...(remoteCustom.completedPresetIds ?? [])]),
+		);
+
+		mergedCustom = {
+			completedPresetIds: mergedPresetIds,
+			totalTentsPitched: Math.max(localCustom.totalTentsPitched ?? 0, remoteCustom.totalTentsPitched ?? 0),
 			bestMediumStreak: Math.max(localCustom.bestMediumStreak ?? 0, remoteCustom.bestMediumStreak ?? 0),
 			currentMediumStreak:
 				local.updatedAt >= remote.updatedAt

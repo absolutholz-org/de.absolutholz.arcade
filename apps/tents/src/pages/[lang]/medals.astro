@@ -1,0 +1,57 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { TENTS_MEDAL_DEFINITIONS } from '@arcade/lib-medals';
+import { TentsMedalGrid } from '../../components/TentsMedalGrid';
+import type { TentsMedalDefinitionItem } from '../../components/TentsMedalGrid/TentsMedalGrid.types.js';
+import TentsStaticPageLayout from '../../layouts/TentsStaticPageLayout.astro';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const currentLanguage = lang as SupportedLanguageCode;
+const currentTents = resources[currentLanguage]?.tents ?? resources.en.tents;
+const currentMedals = resources[currentLanguage]?.medals ?? resources.en.medals;
+
+// Build-time static definitions for Tents medals
+const staticMedals: TentsMedalDefinitionItem[] = TENTS_MEDAL_DEFINITIONS.map((def) => {
+	const key = def.id.replace('tents_', '') as keyof typeof currentMedals.tents;
+	const localized = currentMedals.tents[key];
+	let target: number | undefined;
+	if (def.thresholds) {
+		target = def.thresholds.gold;
+	} else if (
+		def.id === 'tents_first_pitch' ||
+		def.id === 'tents_pristine_pitch' ||
+		def.id === 'tents_speed_camper' ||
+		def.id === 'tents_minimalist'
+	) {
+		target = 1;
+	}
+
+	return {
+		id: def.id,
+		type: def.type ?? 'standalone',
+		tier: def.tier,
+		title: localized?.title ?? def.id,
+		description: localized?.desc ?? '',
+		icon: def.icon,
+		target,
+		thresholds: def.thresholds,
+	};
+});
+---
+
+<TentsStaticPageLayout
+	title={currentMedals.showcase.title}
+	description={`${currentTents.title} - ${currentMedals.showcase.description}`}
+	lang={currentLanguage}
+	currentSlug="medals"
+>
+	<TentsMedalGrid client:load lang={currentLanguage} staticMedals={staticMedals} />
+</TentsStaticPageLayout>

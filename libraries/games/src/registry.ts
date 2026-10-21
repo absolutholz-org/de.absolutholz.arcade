@@ -59,6 +59,15 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameDefinition>> = {
 		},
 		i18nNamespace: 'tracks',
 	},
+	tents: {
+		id: 'tents',
+		name: 'Tents & Trees',
+		route: '/tents',
+		assets: {
+			icon: '⛺',
+		},
+		i18nNamespace: 'tents',
+	},
 };
 
 /**
@@ -75,5 +84,5 @@ export const GAME_IDS: readonly GameId[] = Object.freeze(Object.keys(GAME_REGIST
  * Retrieves the metadata definition for a given GameId.
  */
 export function getGame(id: GameId): GameDefinition {
-	return GAME_REGISTRY[id];
+	return (GAME_REGISTRY as Record<GameId, GameDefinition>)[id];
 }

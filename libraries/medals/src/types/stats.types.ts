@@ -99,6 +99,26 @@ export interface BridgesCustomStats {
 	readonly bestHardStreak?: number;
 }
 
+export type TentsDifficulty = 'easy' | 'medium' | 'hard' | 'expert';
+
+export interface TentsDifficultyStats {
+	readonly gamesPlayed: number;
+	readonly gamesWon: number;
+	readonly bestTimeSeconds: number | null;
+	readonly currentStreak: number;
+	readonly bestStreak: number;
+}
+
+export interface TentsCustomStats {
+	readonly difficulties?: Record<TentsDifficulty, TentsDifficultyStats>;
+	readonly completedPresetIds?: string[];
+	readonly totalTentsPitched?: number;
+	readonly currentMediumStreak?: number;
+	readonly currentHardStreak?: number;
+	readonly bestMediumStreak?: number;
+	readonly bestHardStreak?: number;
+}
+
 /**
  * Game-to-Custom-Stats mapping registry.
  * Strictly maps every game to its strongly typed custom state.
@@ -110,6 +130,7 @@ export interface GameCustomStatsMap {
 	queens: QueensCustomStats;
 	tracks: TracksCustomStats;
 	bridges: BridgesCustomStats;
+	tents: TentsCustomStats;
 }
 
 export type GameId = keyof GameCustomStatsMap;

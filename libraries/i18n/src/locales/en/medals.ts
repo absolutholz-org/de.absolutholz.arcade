@@ -13,6 +13,7 @@ export const enMedals = {
 			queens: 'Queens',
 			tracks: 'Tracks',
 			bridges: 'Bridges',
+			tents: 'Tents',
 		},
 		status: {
 			unlocked: 'Unlocked',
@@ -407,6 +408,40 @@ export const enMedals = {
 		speedrun_collapse: {
 			title: 'Speedrun Collapse',
 			desc: 'Abandon or collapse a bridge project within 10 seconds.',
+		},
+	},
+	tents: {
+		first_pitch: {
+			title: 'First Pitch',
+			desc: 'Pitch your very first tent in the woods.',
+		},
+		pristine_pitch: {
+			title: 'Pristine Pitch',
+			desc: 'Complete a Medium, Hard, or Expert puzzle with zero mistakes.',
+		},
+		speed_camper: {
+			title: 'Speed Camper',
+			desc: 'Complete a Hard or Expert campsite in 2 minutes or less.',
+		},
+		minimalist: {
+			title: 'Nature Minimalist',
+			desc: 'Complete a puzzle without placing any grass tiles.',
+		},
+		master_camper: {
+			title: 'Master Camper',
+			desc: 'Accumulate campsite victories across your career.',
+		},
+		expedition_tour: {
+			title: 'Expedition Tour',
+			desc: 'Master curated campsites across all trail difficulties.',
+		},
+		survivalist_streak: {
+			title: 'Survivalist Streak',
+			desc: 'Maintain unbroken winning streaks in the wild.',
+		},
+		grand_outfitter: {
+			title: 'Grand Outfitter',
+			desc: 'Pitch tents beside trees across your lifetime camping career.',
 		},
 	},
 } as const satisfies MedalsTranslationContract;

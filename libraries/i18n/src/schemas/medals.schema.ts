@@ -11,6 +11,7 @@ export interface MedalsSchema {
 			readonly queens: string;
 			readonly tracks: string;
 			readonly bridges: string;
+			readonly tents: string;
 		};
 		readonly status: {
 			readonly unlocked: string;
@@ -137,6 +138,16 @@ export interface MedalsSchema {
 		readonly traffic_jam: { readonly title: string; readonly desc: string };
 		readonly indecisive_engineer: { readonly title: string; readonly desc: string };
 		readonly speedrun_collapse: { readonly title: string; readonly desc: string };
+	};
+	readonly tents: {
+		readonly first_pitch: { readonly title: string; readonly desc: string };
+		readonly pristine_pitch: { readonly title: string; readonly desc: string };
+		readonly speed_camper: { readonly title: string; readonly desc: string };
+		readonly minimalist: { readonly title: string; readonly desc: string };
+		readonly master_camper: { readonly title: string; readonly desc: string };
+		readonly expedition_tour: { readonly title: string; readonly desc: string };
+		readonly survivalist_streak: { readonly title: string; readonly desc: string };
+		readonly grand_outfitter: { readonly title: string; readonly desc: string };
 	};
 }
 

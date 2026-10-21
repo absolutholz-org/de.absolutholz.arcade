@@ -8,6 +8,7 @@ import { deMinesweeper } from '../locales/de/minesweeper.js';
 import { deNonogram } from '../locales/de/nonogram.js';
 import { deQueens } from '../locales/de/queens.js';
 import { deSudoku } from '../locales/de/sudoku.js';
+import { deTents } from '../locales/de/tents.js';
 import { deTracks } from '../locales/de/tracks.js';
 import { enBridges } from '../locales/en/bridges.js';
 import { enCommon } from '../locales/en/common.js';
@@ -16,6 +17,7 @@ import { enMinesweeper } from '../locales/en/minesweeper.js';
 import { enNonogram } from '../locales/en/nonogram.js';
 import { enQueens } from '../locales/en/queens.js';
 import { enSudoku } from '../locales/en/sudoku.js';
+import { enTents } from '../locales/en/tents.js';
 import { enTracks } from '../locales/en/tracks.js';
 import { frBridges } from '../locales/fr/bridges.js';
 import { frCommon } from '../locales/fr/common.js';
@@ -24,6 +26,7 @@ import { frMinesweeper } from '../locales/fr/minesweeper.js';
 import { frNonogram } from '../locales/fr/nonogram.js';
 import { frQueens } from '../locales/fr/queens.js';
 import { frSudoku } from '../locales/fr/sudoku.js';
+import { frTents } from '../locales/fr/tents.js';
 import { frTracks } from '../locales/fr/tracks.js';
 import { ptBridges } from '../locales/pt/bridges.js';
 import { ptCommon } from '../locales/pt/common.js';
@@ -32,6 +35,7 @@ import { ptMinesweeper } from '../locales/pt/minesweeper.js';
 import { ptNonogram } from '../locales/pt/nonogram.js';
 import { ptQueens } from '../locales/pt/queens.js';
 import { ptSudoku } from '../locales/pt/sudoku.js';
+import { ptTents } from '../locales/pt/tents.js';
 import { ptTracks } from '../locales/pt/tracks.js';
 import type { TranslationResources } from '../types/i18n.types.js';
 import { resolveInitialLanguage } from '../utils/detection.js';
@@ -45,6 +49,7 @@ export const resources: TranslationResources = {
 		queens: enQueens,
 		bridges: enBridges,
 		tracks: enTracks,
+		tents: enTents,
 		medals: enMedals,
 	},
 	de: {
@@ -55,6 +60,7 @@ export const resources: TranslationResources = {
 		queens: deQueens,
 		bridges: deBridges,
 		tracks: deTracks,
+		tents: deTents,
 		medals: deMedals,
 	},
 	fr: {
@@ -65,6 +71,7 @@ export const resources: TranslationResources = {
 		queens: frQueens,
 		bridges: frBridges,
 		tracks: frTracks,
+		tents: frTents,
 		medals: frMedals,
 	},
 	pt: {
@@ -75,6 +82,7 @@ export const resources: TranslationResources = {
 		queens: ptQueens,
 		bridges: ptBridges,
 		tracks: ptTracks,
+		tents: ptTents,
 		medals: ptMedals,
 	},
 };
@@ -87,7 +95,7 @@ i18n.use(initReactI18next).init({
 	fallbackLng: false,
 	supportedLngs: SUPPORTED_LANGUAGES.map((item) => item.code),
 	defaultNS: 'common',
-	ns: ['common', 'sudoku', 'minesweeper', 'nonogram', 'queens', 'bridges', 'tracks', 'medals'],
+	ns: ['common', 'sudoku', 'minesweeper', 'nonogram', 'queens', 'bridges', 'tracks', 'tents', 'medals'],
 	interpolation: {
 		escapeValue: false,
 	},

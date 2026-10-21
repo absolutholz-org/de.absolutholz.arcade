@@ -13,6 +13,7 @@ export const deMedals = {
 			queens: 'Queens',
 			tracks: 'Tracks',
 			bridges: 'Brücken',
+			tents: 'Zelte',
 		},
 		status: {
 			unlocked: 'Freigeschaltet',
@@ -408,6 +409,40 @@ export const deMedals = {
 		speedrun_collapse: {
 			title: 'Blitz-Einsturz',
 			desc: 'Gib ein Brückenprojekt innerhalb von 10 Sekunden auf.',
+		},
+	},
+	tents: {
+		first_pitch: {
+			title: 'Erstes Zelt',
+			desc: 'Schlage dein allererstes Zelt im Wald auf.',
+		},
+		pristine_pitch: {
+			title: 'Makelloses Lager',
+			desc: 'Löse ein mittleres, schweres oder Experten-Rätsel ohne einen einzigen Fehler.',
+		},
+		speed_camper: {
+			title: 'Blitz-Camper',
+			desc: 'Löse einen schweren oder Experten-Zeltplatz in 2 Minuten oder weniger.',
+		},
+		minimalist: {
+			title: 'Natur-Minimalist',
+			desc: 'Löse ein Rätsel, ohne ein einziges Grasfeld zu platzieren.',
+		},
+		master_camper: {
+			title: 'Meister-Camper',
+			desc: 'Sammle Siege auf dem Zeltplatz im Laufe deiner Karriere.',
+		},
+		expedition_tour: {
+			title: 'Expeditions-Tour',
+			desc: 'Meistere handverlesene Zeltplätze über alle Pfadschwierigkeiten hinweg.',
+		},
+		survivalist_streak: {
+			title: 'Überlebenskünstler-Serie',
+			desc: 'Halte eine ununterbrochene Siegesserie in der Wildnis aufrecht.',
+		},
+		grand_outfitter: {
+			title: 'Großer Ausrüster',
+			desc: 'Schlage im Laufe deiner Karriere Zelte neben Bäumen auf.',
 		},
 	},
 } as const satisfies MedalsTranslationContract;
