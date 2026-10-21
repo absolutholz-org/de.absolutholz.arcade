@@ -2,6 +2,20 @@
 
 This document contains the foundational architectural decisions for the Arcade Web App. All automated agents and developers must strictly adhere to these constraints.
 
+## Master Index of Detailed ADRs
+
+| ADR | Title | Status | Document |
+| :--- | :--- | :--- | :--- |
+| **0001** | Hybrid Agent Routing Architecture | Accepted | [0001-agent-routing-architecture.md](./0001-agent-routing-architecture.md) |
+| **0002** | Selective Offline Progressive Web App (PWA) Architecture | Accepted | [0002-selective-offline-pwa-architecture.md](./0002-selective-offline-pwa-architecture.md) |
+| **0003** | Modular Privacy Consent Manager, Four-Tier Data Policy, and Backend Abstraction | Accepted | [0003-consent-manager.md](./0003-consent-manager.md) |
+| **0004** | Game Aggregated Stats, Custom Game State, and Achievement System | Accepted | [0004-medals-and-achievements.md](./0004-medals-and-achievements.md) |
+| **0005** | Standard Arcade Game Integration Contract | Accepted | [0005-standard-game-contract.md](./0005-standard-game-contract.md) |
+
+---
+
+## Foundational Repository Architecture Decisions
+
 ## ADR 001: Monorepo Topology and Domain Model
 
 - **Context:** Structuring the codebase to reflect independent products while maximizing code reuse.
