@@ -215,6 +215,7 @@ export const CellButton = styled.button`
 
 	&[data-mark='grass'] {
 		color: light-dark(oklch(0.6 0.15 130), oklch(0.75 0.15 130));
+		font-size: 75%;
 	}
 
 	&[data-error='true'] {
