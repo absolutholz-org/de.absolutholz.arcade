@@ -165,9 +165,14 @@ Construct the application shell and React canvas in `apps/[gameId]/`:
         pnpm --filter @arcade/[gameId] build
         ```
     - Verify that output assets in `dist/` contain pure static HTML/CSS/JS without SSR dependencies.
-4. **Central Hub Activation:**
-    - Only after all static tests and builds succeed, add the game entry to `GAME_REGISTRY` in `libraries/games/src/registry.ts`.
-    - Verify that rebuilding `apps/hub` (`pnpm --filter @arcade/hub build`) successfully renders the new game card in the central lobby across all languages.
+4. **Central Hub & Medals Showcase Activation:**
+    - Only after all static tests and builds succeed:
+        - **Central Game Registry:** Add the game entry to `GAME_REGISTRY` in `libraries/games/src/registry.ts`.
+        - **Hub Medals Showcase:** Add the `gameId` to `REGISTERED_GAMES` in `apps/hub/src/components/MedalsShowcase/MedalsShowcase.tsx` so the game's achievements appear in the global showcase and game filter dropdown.
+        - **Hub User Medal Summary:** Add the `gameId` to `REGISTERED_GAMES` in `apps/hub/src/components/UserMedalSummaryWidget/UserMedalSummaryWidget.tsx` so the user's global trophy statistics include this game.
+    - Rebuild `apps/hub` (`pnpm --filter @arcade/hub build`) and verify that:
+        - The new game card renders in the central lobby across all languages (`/[lang]/`).
+        - The game's medals render and filter properly in the hub showcase (`/[lang]/medals`).
 5. **Deployment Payload Verification (Final Checkpoint):**
     - Verify that the CI deployment workflow (`.github/workflows/deploy.yml`) successfully builds the game and maps `apps/[gameId]/dist/.` into `deploy_dist/[gameId]/`.
     - Validate assembly dry run:
@@ -182,6 +187,7 @@ Construct the application shell and React canvas in `apps/[gameId]/`:
 ## Anti-Patterns to Avoid
 
 - ❌ **Premature Hub Listing:** Never add a game to `GAME_REGISTRY` before its application builds cleanly and passes static verification.
+- ❌ **Missing Hub Medals Showcase Registration:** Never omit registering the new game in `apps/hub`'s `MedalsShowcase.tsx` and `UserMedalSummaryWidget.tsx`; doing so leaves the game's achievements invisible in the global hub showcase and omitted from global user trophy tallies.
 - ❌ **Direct Storage Access:** Never call `localStorage.setItem` or `sessionStorage` directly; always use `createGameStorage(gameId)`.
 - ❌ **Direct Cloud SDK Calls:** Never import or invoke Firestore/Firebase directly in the game app; always route through domain storage facades and `recordGameResult`.
 - ❌ **Ad-hoc Styled Primitives:** Never create custom buttons, cards, or dialog backdrops; always reuse `@arcade/lib-ui` primitives from `CATALOG.md`.

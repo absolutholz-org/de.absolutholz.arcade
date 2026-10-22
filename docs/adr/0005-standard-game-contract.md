@@ -65,6 +65,7 @@ Every game application added under `apps/*` must strictly adhere to the followin
 - **Automatic Event Dispatch & Notifications:** `recordGameResult` automatically updates aggregate stats, evaluates unlock criteria, commits to namespaced storage, handles cloud synchronization queues, and dispatches the `medalUnlocked` custom event on `window`.
 - **Global Toast Notification:** Layouts wrapping `BaseLayout` automatically mount `MedalToastListener`, which listens to `medalUnlocked` and displays a celebratory `Toast` with the unlocked `MedalIcon`.
 - **Showcase Page:** Each game must provide a dedicated static page at `/[lang]/medals.astro` displaying all unlocked and locked medals with `MedalCard` components.
+- **Hub-Level Medal Showcase & Aggregation:** In addition to the game's local showcase page, every new game must be registered in the central hub's global Medals Showcase (`apps/hub/src/components/MedalsShowcase/MedalsShowcase.tsx`) and the user medal summary widget (`apps/hub/src/components/UserMedalSummaryWidget/UserMedalSummaryWidget.tsx`). This guarantees that medals from the new game are discoverable on the central `/medals` route, filterable by game, and aggregate into the player's total trophy count on the main hub.
 
 ### 6. Strict Engine Logic Isolation from UI Rendering
 
