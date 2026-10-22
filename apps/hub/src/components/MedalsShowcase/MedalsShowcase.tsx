@@ -10,11 +10,19 @@ import {
 	getMedalDefinitionsForGame,
 	subscribeToMedalUnlocked,
 } from '@arcade/lib-medals';
-import { MedalCard } from '@arcade/lib-ui';
+import { MedalCard, SegmentedControl, type SegmentedControlItem } from '@arcade/lib-ui';
 import { useCallback, useEffect, useState } from 'react';
 import * as S from './MedalsShowcase.styles';
 
-const REGISTERED_GAMES: readonly GameId[] = ['sudoku', 'nonogram', 'minesweeper', 'queens', 'tracks', 'bridges'];
+const REGISTERED_GAMES: readonly GameId[] = [
+	'sudoku',
+	'nonogram',
+	'minesweeper',
+	'queens',
+	'tracks',
+	'bridges',
+	'tents',
+];
 
 interface MedalShowcaseItem {
 	readonly id: string;
@@ -197,31 +205,18 @@ function MedalsShowcaseContent({ lang }: { lang: SupportedLanguageCode }) {
 			</section>
 
 			{/* Game Filter Navigation */}
-			<div className={S.FilterBar} role="tablist" aria-label="Game Filter">
-				<button
-					type="button"
-					role="tab"
-					aria-selected={activeGameFilter === 'all'}
-					data-active={activeGameFilter === 'all'}
-					className={S.FilterTab}
-					onClick={() => handleFilterChange('all')}
-				>
-					{t('medals.showcase.allGames')}
-				</button>
-				{REGISTERED_GAMES.map((gameId) => (
-					<button
-						key={gameId}
-						type="button"
-						role="tab"
-						aria-selected={activeGameFilter === gameId}
-						data-active={activeGameFilter === gameId}
-						className={S.FilterTab}
-						onClick={() => handleFilterChange(gameId)}
-					>
-						{t(`medals.showcase.games.${gameId}` as TranslationKey)}
-					</button>
-				))}
-			</div>
+			<SegmentedControl
+				items={[
+					{ id: 'all', label: t('medals.showcase.allGames') },
+					...REGISTERED_GAMES.map((gameId) => ({
+						id: gameId,
+						label: t(`medals.showcase.games.${gameId}` as TranslationKey),
+					})),
+				]}
+				value={activeGameFilter}
+				onChange={handleFilterChange}
+				ariaLabel={t('medals.showcase.allGames')}
+			/>
 
 			{/* Medals Grid consuming design system MedalCard */}
 			<div className={S.MedalsGrid}>
