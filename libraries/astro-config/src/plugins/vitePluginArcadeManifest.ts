@@ -97,6 +97,7 @@ export function vitePluginArcadeManifest(options: ArcadeManifestOptions = {}): V
 							`${cleanBase}/${locale}/settings/`,
 							`${cleanBase}/${locale}/stats/`,
 							`${cleanBase}/${locale}/high-scores/`,
+							`${cleanBase}/${locale}/medals/`,
 						]);
 
 			const version = Date.now().toString(36);

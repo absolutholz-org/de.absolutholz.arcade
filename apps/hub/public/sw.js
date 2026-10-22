@@ -1,5 +1,5 @@
 // Root Service Worker for Arcade Monorepo
-const CORE_CACHE_NAME = 'arcade-core-v1';
+const CORE_CACHE_NAME = 'arcade-core-v2';
 const GAME_CACHE_PREFIX = 'arcade-game-';
 const SUPPORTED_LOCALES = ['en', 'de', 'fr', 'pt'];
 const KNOWN_GAMES = ['sudoku', 'minesweeper', 'nonogram', 'queens', 'bridges', 'tracks'];
@@ -110,13 +110,23 @@ self.addEventListener('fetch', (event) => {
 
 						if (gameCacheName) {
 							const gameCache = await caches.open(gameCacheName);
-							const matched = await gameCache.match(request);
+							let matched = await gameCache.match(request, { ignoreSearch: true });
 							if (matched) {
 								return matched;
 							}
+
+							// Try matching alternate trailing-slash variant
+							const altPath = pathname.endsWith('/') ? pathname.slice(0, -1) : `${pathname}/`;
+							matched = await gameCache.match(altPath, { ignoreSearch: true });
+							if (matched) {
+								return matched;
+							}
+
 							// Try matching index route for this game/lang
 							const fallbackGameRoute = `/${game}/${lang}/`;
-							const matchedFallback = await gameCache.match(fallbackGameRoute);
+							const matchedFallback =
+								(await gameCache.match(fallbackGameRoute, { ignoreSearch: true })) ||
+								(await gameCache.match(`/${game}/${lang}`, { ignoreSearch: true }));
 							if (matchedFallback) {
 								return matchedFallback;
 							}
@@ -136,10 +146,14 @@ self.addEventListener('fetch', (event) => {
 
 					// Hub navigation offline fallback
 					const coreCache = await caches.open(CORE_CACHE_NAME);
+					const altHubPath = pathname.endsWith('/') ? pathname.slice(0, -1) : `${pathname}/`;
 					const hubMatch =
-						(await coreCache.match(request)) ||
+						(await coreCache.match(request, { ignoreSearch: true })) ||
+						(await coreCache.match(altHubPath, { ignoreSearch: true })) ||
 						(await coreCache.match(`/${lang}/`)) ||
-						(await coreCache.match('/en/'));
+						(await coreCache.match(`/${lang}`)) ||
+						(await coreCache.match('/en/')) ||
+						(await coreCache.match('/en'));
 
 					if (hubMatch) {
 						return hubMatch;
@@ -214,7 +228,14 @@ self.addEventListener('message', (event) => {
 							try {
 								const response = await fetch(url);
 								if (response.ok) {
-									await gameCache.put(url, response);
+									const isRoute = (manifest.routes || []).includes(url);
+									if (isRoute) {
+										await gameCache.put(url, response.clone());
+										const altUrl = url.endsWith('/') ? url.slice(0, -1) : `${url}/`;
+										await gameCache.put(altUrl, response);
+									} else {
+										await gameCache.put(url, response);
+									}
 									successCount += 1;
 								} else {
 									failCount += 1;
