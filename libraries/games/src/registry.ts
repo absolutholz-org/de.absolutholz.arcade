@@ -68,6 +68,15 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameDefinition>> = {
 		},
 		i18nNamespace: 'tents',
 	},
+	anagram: {
+		id: 'anagram',
+		name: 'Anagram Scramble',
+		route: '/anagram',
+		assets: {
+			icon: '🔤',
+		},
+		i18nNamespace: 'anagram',
+	},
 };
 
 /**

@@ -1,4 +1,5 @@
 import type { SUPPORTED_LANGUAGES } from '../constants/languages.js';
+import type { AnagramSchema, AnagramTranslationContract } from '../schemas/anagram.schema.js';
 import type { BridgesSchema, BridgesTranslationContract } from '../schemas/bridges.schema.js';
 import type { CommonSchema, CommonTranslationContract } from '../schemas/common.schema.js';
 import type { MedalsSchema, MedalsTranslationContract } from '../schemas/medals.schema.js';
@@ -25,6 +26,7 @@ export type QueensTranslationKey = LeafKeys<QueensSchema>;
 export type BridgesTranslationKey = LeafKeys<BridgesSchema>;
 export type TracksTranslationKey = LeafKeys<TracksSchema>;
 export type TentsTranslationKey = LeafKeys<TentsSchema>;
+export type AnagramTranslationKey = LeafKeys<AnagramSchema>;
 export type MedalsTranslationKey = LeafKeys<MedalsSchema> | `medals.${LeafKeys<MedalsSchema>}`;
 
 export type TranslationKey =
@@ -36,6 +38,7 @@ export type TranslationKey =
 	| BridgesTranslationKey
 	| TracksTranslationKey
 	| TentsTranslationKey
+	| AnagramTranslationKey
 	| MedalsTranslationKey;
 
 export interface UseI18nReturn {
@@ -57,6 +60,7 @@ export type TranslationResources = Record<
 		readonly bridges: BridgesTranslationContract;
 		readonly tracks: TracksTranslationContract;
 		readonly tents: TentsTranslationContract;
+		readonly anagram: AnagramTranslationContract;
 		readonly medals: MedalsTranslationContract;
 	}
 >;

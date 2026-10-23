@@ -1,0 +1,33 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { HeaderUserMenu } from '@arcade/lib-ui';
+import StaticPageLayout from '@arcade/lib-ui/layouts/StaticPageLayout/StaticPageLayout.astro';
+
+interface Props {
+	title: string;
+	description?: string;
+	lang: SupportedLanguageCode;
+	currentSlug?: string;
+}
+
+const { title, description, lang, currentSlug = '' } = Astro.props;
+
+const currentAnagram = resources[lang]?.anagram ?? resources.en.anagram;
+---
+
+<StaticPageLayout
+	lang={lang}
+	title={title}
+	description={description || currentAnagram.description}
+	appTitle={currentAnagram.title}
+	appHomeHref={`/anagram/${lang}/`}
+	basePath="anagram"
+	currentSlug={currentSlug}
+>
+	<slot name="head" slot="head" />
+	<slot name="header-actions" slot="header-actions">
+		<HeaderUserMenu client:load lang={lang} />
+	</slot>
+	<slot />
+</StaticPageLayout>

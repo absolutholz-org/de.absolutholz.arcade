@@ -1,0 +1,46 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { ANAGRAM_MEDAL_DEFINITIONS } from '@arcade/lib-medals';
+import { AnagramMedalGrid } from '../../components/AnagramMedalGrid';
+import type { AnagramMedalDefinitionItem } from '../../components/AnagramMedalGrid/AnagramMedalGrid.types';
+import AnagramStaticPageLayout from '../../layouts/AnagramStaticPageLayout.astro';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const currentLanguage = lang as SupportedLanguageCode;
+const currentAnagram = resources[currentLanguage]?.anagram ?? resources.en.anagram;
+const currentMedals = resources[currentLanguage]?.medals ?? resources.en.medals;
+
+const staticMedals: AnagramMedalDefinitionItem[] = ANAGRAM_MEDAL_DEFINITIONS.map((def) => {
+	const key = def.id.replace('anagram_', '') as keyof typeof currentMedals.anagram;
+	const localized = currentMedals.anagram[key];
+	const target = def.thresholds ? def.thresholds.gold : 1;
+
+	return {
+		id: def.id,
+		type: def.type ?? 'standalone',
+		tier: def.tier,
+		title: localized?.title ?? def.id,
+		description: localized?.desc ?? '',
+		icon: def.icon,
+		target,
+		thresholds: def.thresholds,
+	};
+});
+---
+
+<AnagramStaticPageLayout
+	title={currentMedals.showcase.title}
+	description={`${currentAnagram.title} - ${currentMedals.showcase.description}`}
+	lang={currentLanguage}
+	currentSlug="medals"
+>
+	<AnagramMedalGrid client:load lang={currentLanguage} staticMedals={staticMedals} />
+</AnagramStaticPageLayout>

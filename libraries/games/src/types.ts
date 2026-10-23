@@ -1,7 +1,7 @@
 /**
  * Canonical identifiers for all games in the Arcade monorepo.
  */
-export type GameId = 'sudoku' | 'minesweeper' | 'nonogram' | 'queens' | 'bridges' | 'tracks' | 'tents';
+export type GameId = 'sudoku' | 'minesweeper' | 'nonogram' | 'queens' | 'bridges' | 'tracks' | 'tents' | 'anagram';
 
 /**
  * Visual and media assets associated with a game.

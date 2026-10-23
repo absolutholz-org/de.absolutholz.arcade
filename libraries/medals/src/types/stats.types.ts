@@ -131,6 +131,12 @@ export interface GameCustomStatsMap {
 	tracks: TracksCustomStats;
 	bridges: BridgesCustomStats;
 	tents: TentsCustomStats;
+	anagram: AnagramCustomStats;
+}
+
+export interface AnagramCustomStats {
+	readonly totalWordsFound?: number;
+	readonly expertWins?: number;
 }
 
 export type GameId = keyof GameCustomStatsMap;

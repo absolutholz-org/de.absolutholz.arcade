@@ -1,4 +1,5 @@
 import type {
+	AnagramCustomStats,
 	BaseGameStats,
 	BridgesCustomStats,
 	BridgesDifficulty,
@@ -449,6 +450,18 @@ export function updateCustomStats<G extends GameId>(
 			return { updatedCustom: stats as GameCustomStatsMap[G], isNewBestTime };
 		}
 
+		case 'anagram': {
+			const stats = { ...(current as GameCustomStatsMap['anagram']) };
+			const wordsFoundInRound = Number(result.roundContext?.wordsFound ?? 0);
+			return {
+				updatedCustom: {
+					totalWordsFound: (stats.totalWordsFound ?? 0) + Math.max(0, wordsFoundInRound),
+					expertWins: (stats.expertWins ?? 0) + (result.won && result.levelKey === 'expert' ? 1 : 0),
+				} as GameCustomStatsMap[G],
+				isNewBestTime,
+			};
+		}
+
 		default:
 			return { updatedCustom: current, isNewBestTime: false };
 	}
@@ -796,6 +809,14 @@ export function mergeGameMedalState<G extends GameId>(
 				local.updatedAt >= remote.updatedAt
 					? (localCustom.currentHardStreak ?? 0)
 					: (remoteCustom.currentHardStreak ?? 0),
+		} as unknown as GameCustomStatsMap[G];
+	} else if (local.gameId === 'anagram') {
+		const localCustom = local.customStats as AnagramCustomStats;
+		const remoteCustom = remote.customStats as AnagramCustomStats;
+
+		mergedCustom = {
+			totalWordsFound: Math.max(localCustom.totalWordsFound ?? 0, remoteCustom.totalWordsFound ?? 0),
+			expertWins: Math.max(localCustom.expertWins ?? 0, remoteCustom.expertWins ?? 0),
 		} as unknown as GameCustomStatsMap[G];
 	}
 

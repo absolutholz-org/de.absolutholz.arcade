@@ -11,6 +11,7 @@ export interface MedalsSchema {
 			readonly queens: string;
 			readonly tracks: string;
 			readonly bridges: string;
+			readonly anagram: string;
 			readonly tents: string;
 		};
 		readonly status: {
@@ -138,6 +139,25 @@ export interface MedalsSchema {
 		readonly traffic_jam: { readonly title: string; readonly desc: string };
 		readonly indecisive_engineer: { readonly title: string; readonly desc: string };
 		readonly speedrun_collapse: { readonly title: string; readonly desc: string };
+	};
+	readonly anagram: {
+		readonly first_word: { readonly title: string; readonly desc: string };
+		readonly full_rack: { readonly title: string; readonly desc: string };
+		readonly speed_demon: { readonly title: string; readonly desc: string };
+		readonly perfectionist: { readonly title: string; readonly desc: string };
+		readonly round_champion: { readonly title: string; readonly desc: string };
+		readonly wordsmith: { readonly title: string; readonly desc: string };
+		readonly expert_scholar: { readonly title: string; readonly desc: string };
+		readonly hold_my_tiles: { readonly title: string; readonly desc: string };
+		readonly scrambled_egg: { readonly title: string; readonly desc: string };
+		readonly cat_person: { readonly title: string; readonly desc: string };
+		readonly silent_treatment: { readonly title: string; readonly desc: string };
+		readonly surrender_monkey: { readonly title: string; readonly desc: string };
+		readonly last_second_hero: { readonly title: string; readonly desc: string };
+		readonly typo_tornado: { readonly title: string; readonly desc: string };
+		readonly deja_vu: { readonly title: string; readonly desc: string };
+		readonly tiny_dictionary: { readonly title: string; readonly desc: string };
+		readonly sleeping_beauty: { readonly title: string; readonly desc: string };
 	};
 	readonly tents: {
 		readonly first_pitch: { readonly title: string; readonly desc: string };

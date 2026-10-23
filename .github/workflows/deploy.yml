@@ -72,6 +72,9 @@ jobs:
       - name: Build Tents
         run: pnpm build:tents
 
+      - name: Build Anagram
+        run: pnpm build:anagram
+
       - name: Build Storybook
         run: pnpm build:storybook
 
@@ -101,6 +104,9 @@ jobs:
           # 8. Copy Tents into /tents subpath
           mkdir -p deploy_dist/tents
           cp -R apps/tents/dist/. deploy_dist/tents/
+          # 8a. Copy Anagram into /anagram subpath
+          mkdir -p deploy_dist/anagram
+          cp -R apps/anagram/dist/. deploy_dist/anagram/
           # 9. Copy Storybook into /storybook subpath
           mkdir -p deploy_dist/storybook
           cp -R libraries/ui/storybook-static/. deploy_dist/storybook/

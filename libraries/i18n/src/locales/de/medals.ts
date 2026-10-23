@@ -13,6 +13,7 @@ export const deMedals = {
 			queens: 'Queens',
 			tracks: 'Tracks',
 			bridges: 'Brücken',
+			anagram: 'Anagram Scramble',
 			tents: 'Zelte',
 		},
 		status: {
@@ -409,6 +410,76 @@ export const deMedals = {
 		speedrun_collapse: {
 			title: 'Blitz-Einsturz',
 			desc: 'Gib ein Brückenprojekt innerhalb von 10 Sekunden auf.',
+		},
+	},
+	anagram: {
+		first_word: {
+			title: 'First Word',
+			desc: 'Find your very first word.',
+		},
+		full_rack: {
+			title: 'Full Rack',
+			desc: 'Use every tile in the rack to form a single word.',
+		},
+		speed_demon: {
+			title: 'Speed Demon',
+			desc: 'Win a timed round with at least 60 seconds left on the clock.',
+		},
+		perfectionist: {
+			title: 'Perfectionist',
+			desc: 'Find every single word in a round.',
+		},
+		round_champion: {
+			title: 'Round Champion',
+			desc: 'Win rounds across your anagram career.',
+		},
+		wordsmith: {
+			title: 'Wordsmith',
+			desc: 'Find words across all of your rounds.',
+		},
+		expert_scholar: {
+			title: 'Expert Scholar',
+			desc: 'Win rounds on Expert difficulty.',
+		},
+		hold_my_tiles: {
+			title: 'Hold My Tiles',
+			desc: 'Shuffle the rack 20 times in a single round.',
+		},
+		scrambled_egg: {
+			title: 'Scrambled Egg',
+			desc: 'Shuffle the rack three times within two seconds.',
+		},
+		cat_person: {
+			title: 'Cat Person',
+			desc: 'Find a word and its anagram partner in the same round, like "act" and "cat".',
+		},
+		silent_treatment: {
+			title: 'Silent Treatment',
+			desc: 'Win a Zen round without using Backspace or Escape.',
+		},
+		surrender_monkey: {
+			title: 'Surrender Monkey',
+			desc: 'Reveal the answers within 5 seconds of starting a round.',
+		},
+		last_second_hero: {
+			title: 'Last-Second Hero',
+			desc: 'Find the full-length word with one second or less on the clock.',
+		},
+		typo_tornado: {
+			title: 'Typo Tornado',
+			desc: 'Submit 10 invalid guesses in a single round.',
+		},
+		deja_vu: {
+			title: 'Déjà Vu',
+			desc: 'Submit an already-found word three times in one round.',
+		},
+		tiny_dictionary: {
+			title: 'Tiny Dictionary',
+			desc: 'Win an Easy round using only three-letter words plus the full-length word.',
+		},
+		sleeping_beauty: {
+			title: 'Sleeping Beauty',
+			desc: 'Pause a round for over 10 minutes, then still win it.',
 		},
 	},
 	tents: {

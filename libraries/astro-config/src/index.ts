@@ -33,7 +33,7 @@ export function createBaseConfig(overrides: AstroUserConfig = {}): AstroUserConf
 					babelOptions: {
 						presets: ['@babel/preset-typescript', '@babel/preset-react'],
 					},
-				}),
+				}) as VitePluginOption,
 				vitePluginArcadeManifest({ base: restOverrides.base }) as VitePluginOption,
 				...(overrideVite?.plugins || []),
 			],

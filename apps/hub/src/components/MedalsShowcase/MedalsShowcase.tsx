@@ -22,6 +22,7 @@ const REGISTERED_GAMES: readonly GameId[] = [
 	'tracks',
 	'bridges',
 	'tents',
+	'anagram',
 ];
 
 interface MedalShowcaseItem {
