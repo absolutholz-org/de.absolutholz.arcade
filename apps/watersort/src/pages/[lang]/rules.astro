@@ -1,0 +1,31 @@
+---
+import { getEntry } from 'astro:content';
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import GameRulesLayout from '@arcade/lib-ui/layouts/GameRulesLayout/GameRulesLayout.astro';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const entry = (await getEntry('pages', `${lang}/rules`)) ?? (await getEntry('pages', `${DEFAULT_LANGUAGE}/rules`));
+const rendered = entry ? await entry.render() : null;
+const Content = rendered?.Content;
+
+const currentWatersort = resources[lang as SupportedLanguageCode]?.watersort ?? resources.en.watersort;
+---
+
+<GameRulesLayout
+	title={entry?.data.title ?? currentWatersort.title}
+	description={entry?.data.description}
+	lang={lang as SupportedLanguageCode}
+	appTitle={currentWatersort.title}
+	basePath="watersort"
+	primaryActionLabel={currentWatersort.controls.play}
+>
+	{Content && <Content />}
+</GameRulesLayout>

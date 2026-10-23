@@ -1,0 +1,21 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import BaseLayout from '@arcade/lib-ui/layouts/BaseLayout/BaseLayout.astro';
+
+interface Props {
+	title: string;
+	description?: string;
+	lang?: string;
+	dir?: 'ltr' | 'rtl';
+	canonical?: string;
+}
+
+const props = Astro.props;
+const currentWatersort = resources[(props.lang as SupportedLanguageCode) ?? 'en']?.watersort ?? resources.en.watersort;
+---
+
+<BaseLayout {...props} appTitle={currentWatersort.title}>
+	<slot name="head" slot="head" />
+	<slot />
+</BaseLayout>

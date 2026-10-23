@@ -77,6 +77,15 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameDefinition>> = {
 		},
 		i18nNamespace: 'anagram',
 	},
+	watersort: {
+		id: 'watersort',
+		name: 'Water Sort',
+		route: '/watersort',
+		assets: {
+			icon: '🧪',
+		},
+		i18nNamespace: 'watersort',
+	},
 };
 
 /**

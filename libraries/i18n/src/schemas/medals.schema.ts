@@ -10,6 +10,7 @@ export interface MedalsSchema {
 			readonly minesweeper: string;
 			readonly queens: string;
 			readonly tracks: string;
+			readonly watersort: string;
 			readonly bridges: string;
 			readonly anagram: string;
 			readonly tents: string;
@@ -108,6 +109,24 @@ export interface MedalsSchema {
 		readonly royal_indecision: { readonly title: string; readonly desc: string };
 		readonly first_win?: { readonly title: string; readonly desc: string };
 		readonly reign?: { readonly title: string; readonly desc: string };
+	};
+	readonly watersort: {
+		readonly chemist_ladder: { readonly title: string; readonly desc: string };
+		readonly perfect_ladder: { readonly title: string; readonly desc: string };
+		readonly first_sort: { readonly title: string; readonly desc: string };
+		readonly medium_clear: { readonly title: string; readonly desc: string };
+		readonly hard_clear: { readonly title: string; readonly desc: string };
+		readonly expert_clear: { readonly title: string; readonly desc: string };
+		readonly master_suite: { readonly title: string; readonly desc: string };
+		readonly speed_pourer: { readonly title: string; readonly desc: string };
+		readonly blitz_chemist: { readonly title: string; readonly desc: string };
+		readonly expert_speed: { readonly title: string; readonly desc: string };
+		readonly par_perfection: { readonly title: string; readonly desc: string };
+		readonly theoretical_limit: { readonly title: string; readonly desc: string };
+		readonly flawless: { readonly title: string; readonly desc: string };
+		readonly comeback_kid: { readonly title: string; readonly desc: string };
+		readonly color_cascade: { readonly title: string; readonly desc: string };
+		readonly single_buffer: { readonly title: string; readonly desc: string };
 	};
 	readonly tracks: {
 		readonly first_departure: { readonly title: string; readonly desc: string };

@@ -12,6 +12,7 @@ export const ptMedals = {
 			minesweeper: 'Campo Minado',
 			queens: 'Queens',
 			tracks: 'Tracks',
+			watersort: 'Water Sort',
 			bridges: 'Pontes',
 			anagram: 'Anagram Scramble',
 			tents: 'Tendas',
@@ -298,6 +299,72 @@ export const ptMedals = {
 		reign: {
 			title: 'Reinado Supremo',
 			desc: 'Resolva 15 tabuleiros de Queens.',
+		},
+	},
+	watersort: {
+		chemist_ladder: {
+			title: 'Técnico de Laboratório',
+			desc: 'Resolva suportes de tubos ao longo da sua carreira (5 / 25 / 100).',
+		},
+		perfect_ladder: {
+			title: 'Químico de Precisão',
+			desc: 'Vença quebra-cabeças sem usar desfazer (3 / 10 / 25).',
+		},
+		first_sort: {
+			title: 'Primeira Reação',
+			desc: 'Resolva o seu primeiro quebra-cabeça.',
+		},
+		medium_clear: {
+			title: 'Química Intermediária',
+			desc: 'Complete 5 quebra-cabeças no nível Médio.',
+		},
+		hard_clear: {
+			title: 'Cromatografia',
+			desc: 'Complete 5 quebra-cabeças no nível Difícil.',
+		},
+		expert_clear: {
+			title: 'Grande Alquimista',
+			desc: 'Complete o seu primeiro quebra-cabeça no nível Especialista.',
+		},
+		master_suite: {
+			title: 'Mestre dos Elementos',
+			desc: 'Conclua pelo menos um quebra-cabeça em todos os 4 níveis de dificuldade.',
+		},
+		speed_pourer: {
+			title: 'Despejo Relâmpago',
+			desc: 'Resolva qualquer quebra-cabeça em menos de 45 segundos.',
+		},
+		blitz_chemist: {
+			title: 'Titulação Rápida',
+			desc: 'Resolva um quebra-cabeça Médio em menos de 30 segundos.',
+		},
+		expert_speed: {
+			title: 'Velocidade Calculada',
+			desc: 'Resolva um quebra-cabeça Difícil em menos de 60 segundos.',
+		},
+		par_perfection: {
+			title: 'Zero Desperdício',
+			desc: 'Complete um quebra-cabeça Médio ou Difícil no Par ou abaixo dele.',
+		},
+		theoretical_limit: {
+			title: 'Limite Teórico',
+			desc: 'Complete um quebra-cabeça Especialista em 34 jogadas ou menos.',
+		},
+		flawless: {
+			title: 'Mãos Limpas',
+			desc: 'Resolva qualquer quebra-cabeça sem usar Desfazer ou Dicas.',
+		},
+		comeback_kid: {
+			title: 'Recuperação Química',
+			desc: 'Vença um quebra-cabeça após usar 6+ ações de desfazer sem reiniciar.',
+		},
+		color_cascade: {
+			title: 'Síntese Arco-Íris',
+			desc: 'Complete 4 tubos de cor única em jogadas consecutivas.',
+		},
+		single_buffer: {
+			title: 'Margens Estreitas',
+			desc: 'Vença um quebra-cabeça utilizando apenas 1 tubo vazio como reserva.',
 		},
 	},
 	tracks: {

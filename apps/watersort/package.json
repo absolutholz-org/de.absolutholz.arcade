@@ -1,0 +1,34 @@
+{
+	"name": "@arcade/watersort",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"dev": "astro dev --port 4330",
+		"build": "astro build",
+		"preview": "astro preview",
+		"test": "node --experimental-strip-types --test src/engine/validator.test.ts src/engine/solver.test.ts src/engine/generator.test.ts src/engine/history.test.ts",
+		"typecheck": "astro sync && tsc --noEmit"
+	},
+	"dependencies": {
+		"@arcade/lib-astro-config": "workspace:*",
+		"@arcade/lib-i18n": "workspace:*",
+		"@arcade/lib-medals": "workspace:*",
+		"@arcade/lib-storage": "workspace:*",
+		"@arcade/lib-ui": "workspace:*",
+		"@arcade/lib-user": "workspace:*",
+		"@astrojs/react": "^3.6.3",
+		"@linaria/core": "catalog:",
+		"@linaria/react": "catalog:",
+		"astro": "catalog:",
+		"react": "catalog:",
+		"react-dom": "catalog:"
+	},
+	"devDependencies": {
+		"@babel/preset-react": "^7.29.7",
+		"@babel/preset-typescript": "^7.29.7",
+		"@types/react": "catalog:",
+		"@types/react-dom": "catalog:",
+		"@wyw-in-js/vite": "^1.1.0"
+	}
+}

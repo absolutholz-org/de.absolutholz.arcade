@@ -12,6 +12,7 @@ export const frMedals = {
 			minesweeper: 'Démineur',
 			queens: 'Queens',
 			tracks: 'Tracks',
+			watersort: 'Water Sort',
 			bridges: 'Ponts',
 			anagram: 'Anagram Scramble',
 			tents: 'Tentes',
@@ -298,6 +299,72 @@ export const frMedals = {
 		reign: {
 			title: 'Règne Suprême',
 			desc: 'Résolvez 15 grilles de Queens.',
+		},
+	},
+	watersort: {
+		chemist_ladder: {
+			title: 'Technicien de labo',
+			desc: 'Résolvez des supports d’éprouvettes au cours de votre carrière (5 / 25 / 100).',
+		},
+		perfect_ladder: {
+			title: 'Chimiste de précision',
+			desc: 'Gagnez des casse-têtes sans utiliser d’annulation (3 / 10 / 25).',
+		},
+		first_sort: {
+			title: 'Première réaction',
+			desc: 'Résolvez votre premier casse-tête.',
+		},
+		medium_clear: {
+			title: 'Chimie intermédiaire',
+			desc: 'Terminez 5 casse-têtes Moyen.',
+		},
+		hard_clear: {
+			title: 'Chromatographie',
+			desc: 'Terminez 5 casse-têtes Difficile.',
+		},
+		expert_clear: {
+			title: 'Grand alchimiste',
+			desc: 'Terminez votre premier casse-tête Expert.',
+		},
+		master_suite: {
+			title: 'Maître des éléments',
+			desc: 'Terminez au moins un casse-tête dans les 4 niveaux de difficulté.',
+		},
+		speed_pourer: {
+			title: 'Versement éclair',
+			desc: 'Résolvez n’importe quel casse-tête en moins de 45 secondes.',
+		},
+		blitz_chemist: {
+			title: 'Titrage rapide',
+			desc: 'Résolvez un casse-tête Moyen en moins de 30 secondes.',
+		},
+		expert_speed: {
+			title: 'Vélocité calculée',
+			desc: 'Résolvez un casse-tête Difficile en moins de 60 secondes.',
+		},
+		par_perfection: {
+			title: 'Zéro déchet',
+			desc: 'Terminez un casse-tête Moyen ou Difficile au Par ou en dessous.',
+		},
+		theoretical_limit: {
+			title: 'Limite théorique',
+			desc: 'Terminez un casse-tête Expert en 34 coups ou moins.',
+		},
+		flawless: {
+			title: 'Mains propres',
+			desc: 'Résolvez n’importe quel casse-tête sans utiliser Annuler ni Indice.',
+		},
+		comeback_kid: {
+			title: 'Récupération chimique',
+			desc: 'Gagnez un casse-tête après avoir utilisé 6+ annulations sans recommencer.',
+		},
+		color_cascade: {
+			title: 'Synthèse arc-en-ciel',
+			desc: 'Complétez 4 éprouvettes monochromes en des coups consécutifs.',
+		},
+		single_buffer: {
+			title: 'Marges étroites',
+			desc: 'Gagnez un casse-tête en n’utilisant qu’une seule éprouvette vide comme tampon.',
 		},
 	},
 	tracks: {

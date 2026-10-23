@@ -12,6 +12,7 @@ export const deMedals = {
 			minesweeper: 'Minesweeper',
 			queens: 'Queens',
 			tracks: 'Tracks',
+			watersort: 'Water Sort',
 			bridges: 'Brücken',
 			anagram: 'Anagram Scramble',
 			tents: 'Zelte',
@@ -298,6 +299,72 @@ export const deMedals = {
 		reign: {
 			title: 'Ewige Regentschaft',
 			desc: 'Löse 15 Queens-Bretter.',
+		},
+	},
+	watersort: {
+		chemist_ladder: {
+			title: 'Laborant',
+			desc: 'Löse Reagenzglas-Gestelle im Laufe deiner Karriere (5 / 25 / 100).',
+		},
+		perfect_ladder: {
+			title: 'Präzisions-Chemiker',
+			desc: 'Gewinne Rätsel ohne Rückgängig zu nutzen (3 / 10 / 25).',
+		},
+		first_sort: {
+			title: 'Erste Reaktion',
+			desc: 'Löse dein erstes Rätsel.',
+		},
+		medium_clear: {
+			title: 'Fortgeschrittene Chemie',
+			desc: 'Schließe 5 Mittel-Rätsel ab.',
+		},
+		hard_clear: {
+			title: 'Chromatographie',
+			desc: 'Schließe 5 Schwer-Rätsel ab.',
+		},
+		expert_clear: {
+			title: 'Groß-Alchemist',
+			desc: 'Schließe dein erstes Experten-Rätsel ab.',
+		},
+		master_suite: {
+			title: 'Meister der Elemente',
+			desc: 'Löse mindestens ein Rätsel auf allen 4 Schwierigkeitsgraden.',
+		},
+		speed_pourer: {
+			title: 'Blitz-Guss',
+			desc: 'Löse ein beliebiges Rätsel in unter 45 Sekunden.',
+		},
+		blitz_chemist: {
+			title: 'Schnelle Titration',
+			desc: 'Löse ein Mittel-Rätsel in unter 30 Sekunden.',
+		},
+		expert_speed: {
+			title: 'Berechnete Geschwindigkeit',
+			desc: 'Löse ein Schwer-Rätsel in unter 60 Sekunden.',
+		},
+		par_perfection: {
+			title: 'Null Ausschuss',
+			desc: 'Schließe ein Mittel- oder Schwer-Rätsel mit oder unter Par-Zügen ab.',
+		},
+		theoretical_limit: {
+			title: 'Theoretisches Limit',
+			desc: 'Schließe ein Experten-Rätsel in 34 oder weniger Zügen ab.',
+		},
+		flawless: {
+			title: 'Saubere Hände',
+			desc: 'Löse ein beliebiges Rätsel ohne Rückgängig oder Hinweise.',
+		},
+		comeback_kid: {
+			title: 'Chemische Rettung',
+			desc: 'Gewinne ein Rätsel nach mindestens 6-mal Rückgängig ohne Neustart.',
+		},
+		color_cascade: {
+			title: 'Regenbogen-Synthese',
+			desc: 'Vervollständige 4 einfarbige Reagenzgläser in aufeinanderfolgenden Zügen.',
+		},
+		single_buffer: {
+			title: 'Enge Margen',
+			desc: 'Gewinne ein Rätsel, bei dem nur 1 leeres Glas als Puffer genutzt wurde.',
 		},
 	},
 	tracks: {

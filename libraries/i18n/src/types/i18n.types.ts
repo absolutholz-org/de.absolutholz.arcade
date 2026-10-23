@@ -9,6 +9,7 @@ import type { QueensSchema, QueensTranslationContract } from '../schemas/queens.
 import type { SudokuSchema, SudokuTranslationContract } from '../schemas/sudoku.schema.js';
 import type { TentsSchema, TentsTranslationContract } from '../schemas/tents.schema.js';
 import type { TracksSchema, TracksTranslationContract } from '../schemas/tracks.schema.js';
+import type { WaterSortSchema, WaterSortTranslationContract } from '../schemas/watersort.schema.js';
 
 export type SupportedLanguageCode = (typeof SUPPORTED_LANGUAGES)[number]['code'];
 
@@ -25,6 +26,7 @@ export type NonogramTranslationKey = LeafKeys<NonogramSchema>;
 export type QueensTranslationKey = LeafKeys<QueensSchema>;
 export type BridgesTranslationKey = LeafKeys<BridgesSchema>;
 export type TracksTranslationKey = LeafKeys<TracksSchema>;
+export type WaterSortTranslationKey = LeafKeys<WaterSortSchema>;
 export type TentsTranslationKey = LeafKeys<TentsSchema>;
 export type AnagramTranslationKey = LeafKeys<AnagramSchema>;
 export type MedalsTranslationKey = LeafKeys<MedalsSchema> | `medals.${LeafKeys<MedalsSchema>}`;
@@ -37,6 +39,7 @@ export type TranslationKey =
 	| QueensTranslationKey
 	| BridgesTranslationKey
 	| TracksTranslationKey
+	| WaterSortTranslationKey
 	| TentsTranslationKey
 	| AnagramTranslationKey
 	| MedalsTranslationKey;
@@ -59,6 +62,7 @@ export type TranslationResources = Record<
 		readonly queens: QueensTranslationContract;
 		readonly bridges: BridgesTranslationContract;
 		readonly tracks: TracksTranslationContract;
+		watersort: WaterSortTranslationContract;
 		readonly tents: TentsTranslationContract;
 		readonly anagram: AnagramTranslationContract;
 		readonly medals: MedalsTranslationContract;

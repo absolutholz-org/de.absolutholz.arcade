@@ -132,6 +132,21 @@ export interface GameCustomStatsMap {
 	bridges: BridgesCustomStats;
 	tents: TentsCustomStats;
 	anagram: AnagramCustomStats;
+	watersort: WaterSortCustomStats;
+}
+
+export interface WaterSortCustomStats {
+	readonly easyWins?: number;
+	readonly mediumWins?: number;
+	readonly hardWins?: number;
+	readonly expertWins?: number;
+	readonly winsWithoutUndo?: number;
+	readonly moves?: number;
+	readonly hintsUsed?: number;
+	readonly undosUsed?: number;
+	readonly parMoves?: number;
+	readonly maxConsecutiveTubeCompletions?: number;
+	readonly emptyBuffersUsed?: number;
 }
 
 export interface AnagramCustomStats {

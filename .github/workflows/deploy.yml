@@ -75,6 +75,9 @@ jobs:
       - name: Build Anagram
         run: pnpm build:anagram
 
+      - name: Build Water Sort
+        run: pnpm build:watersort
+
       - name: Build Storybook
         run: pnpm build:storybook
 
@@ -107,6 +110,9 @@ jobs:
           # 8a. Copy Anagram into /anagram subpath
           mkdir -p deploy_dist/anagram
           cp -R apps/anagram/dist/. deploy_dist/anagram/
+          # 8b. Copy Water Sort into /watersort subpath
+          mkdir -p deploy_dist/watersort
+          cp -R apps/watersort/dist/. deploy_dist/watersort/
           # 9. Copy Storybook into /storybook subpath
           mkdir -p deploy_dist/storybook
           cp -R libraries/ui/storybook-static/. deploy_dist/storybook/

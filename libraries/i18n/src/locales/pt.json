@@ -2,5 +2,9 @@
 	"bridges": {
 		"title": "Bridges",
 		"description": "Conecte ilhas com pontes horizontais e verticais para formar uma rede única de acordo com cada cota."
+	},
+	"watersort": {
+		"title": "Water Sort",
+		"description": "Despeje e ordene líquidos coloridos em tubos de ensaio até que cada um contenha apenas uma cor."
 	}
 }

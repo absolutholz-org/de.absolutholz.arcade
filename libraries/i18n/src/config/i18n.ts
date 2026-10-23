@@ -11,6 +11,7 @@ import { deQueens } from '../locales/de/queens.js';
 import { deSudoku } from '../locales/de/sudoku.js';
 import { deTents } from '../locales/de/tents.js';
 import { deTracks } from '../locales/de/tracks.js';
+import { deWatersort } from '../locales/de/watersort.js';
 import { enAnagram } from '../locales/en/anagram.js';
 import { enBridges } from '../locales/en/bridges.js';
 import { enCommon } from '../locales/en/common.js';
@@ -21,6 +22,7 @@ import { enQueens } from '../locales/en/queens.js';
 import { enSudoku } from '../locales/en/sudoku.js';
 import { enTents } from '../locales/en/tents.js';
 import { enTracks } from '../locales/en/tracks.js';
+import { enWatersort } from '../locales/en/watersort.js';
 import { frAnagram } from '../locales/fr/anagram.js';
 import { frBridges } from '../locales/fr/bridges.js';
 import { frCommon } from '../locales/fr/common.js';
@@ -31,6 +33,7 @@ import { frQueens } from '../locales/fr/queens.js';
 import { frSudoku } from '../locales/fr/sudoku.js';
 import { frTents } from '../locales/fr/tents.js';
 import { frTracks } from '../locales/fr/tracks.js';
+import { frWatersort } from '../locales/fr/watersort.js';
 import { ptAnagram } from '../locales/pt/anagram.js';
 import { ptBridges } from '../locales/pt/bridges.js';
 import { ptCommon } from '../locales/pt/common.js';
@@ -41,6 +44,7 @@ import { ptQueens } from '../locales/pt/queens.js';
 import { ptSudoku } from '../locales/pt/sudoku.js';
 import { ptTents } from '../locales/pt/tents.js';
 import { ptTracks } from '../locales/pt/tracks.js';
+import { ptWatersort } from '../locales/pt/watersort.js';
 import type { TranslationResources } from '../types/i18n.types.js';
 import { resolveInitialLanguage } from '../utils/detection.js';
 
@@ -53,6 +57,7 @@ export const resources: TranslationResources = {
 		queens: enQueens,
 		bridges: enBridges,
 		tracks: enTracks,
+		watersort: enWatersort,
 		tents: enTents,
 		anagram: enAnagram,
 		medals: enMedals,
@@ -65,6 +70,7 @@ export const resources: TranslationResources = {
 		queens: deQueens,
 		bridges: deBridges,
 		tracks: deTracks,
+		watersort: deWatersort,
 		tents: deTents,
 		anagram: deAnagram,
 		medals: deMedals,
@@ -77,6 +83,7 @@ export const resources: TranslationResources = {
 		queens: frQueens,
 		bridges: frBridges,
 		tracks: frTracks,
+		watersort: frWatersort,
 		tents: frTents,
 		anagram: frAnagram,
 		medals: frMedals,
@@ -89,6 +96,7 @@ export const resources: TranslationResources = {
 		queens: ptQueens,
 		bridges: ptBridges,
 		tracks: ptTracks,
+		watersort: ptWatersort,
 		tents: ptTents,
 		anagram: ptAnagram,
 		medals: ptMedals,

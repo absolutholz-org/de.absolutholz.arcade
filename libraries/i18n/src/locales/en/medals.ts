@@ -12,6 +12,7 @@ export const enMedals = {
 			minesweeper: 'Minesweeper',
 			queens: 'Queens',
 			tracks: 'Tracks',
+			watersort: 'Water Sort',
 			bridges: 'Bridges',
 			anagram: 'Anagram Scramble',
 			tents: 'Tents',
@@ -297,6 +298,72 @@ export const enMedals = {
 		reign: {
 			title: 'Reign Supreme',
 			desc: 'Solve 15 Queens boards.',
+		},
+	},
+	watersort: {
+		chemist_ladder: {
+			title: 'Lab Technician',
+			desc: 'Solve test tube racks across your career (5 / 25 / 100).',
+		},
+		perfect_ladder: {
+			title: 'Precision Chemist',
+			desc: 'Win puzzles without using any undos (3 / 10 / 25).',
+		},
+		first_sort: {
+			title: 'First Reaction',
+			desc: 'Solve your first puzzle.',
+		},
+		medium_clear: {
+			title: 'Intermediate Chemistry',
+			desc: 'Complete 5 Medium puzzles.',
+		},
+		hard_clear: {
+			title: 'Chromatography',
+			desc: 'Complete 5 Hard puzzles.',
+		},
+		expert_clear: {
+			title: 'Grand Alchemist',
+			desc: 'Complete your first Expert puzzle.',
+		},
+		master_suite: {
+			title: 'Master of Elements',
+			desc: 'Clear at least one puzzle across all 4 difficulty tiers.',
+		},
+		speed_pourer: {
+			title: 'Flash Pour',
+			desc: 'Solve any puzzle in under 45 seconds.',
+		},
+		blitz_chemist: {
+			title: 'Rapid Titration',
+			desc: 'Solve a Medium puzzle in under 30 seconds.',
+		},
+		expert_speed: {
+			title: 'Calculated Velocity',
+			desc: 'Solve a Hard puzzle in under 60 seconds.',
+		},
+		par_perfection: {
+			title: 'Zero Waste',
+			desc: 'Complete a Medium or Hard puzzle at or under Par moves.',
+		},
+		theoretical_limit: {
+			title: 'Theoretical Limit',
+			desc: 'Complete an Expert puzzle in 34 moves or fewer.',
+		},
+		flawless: {
+			title: 'Clean Hands',
+			desc: 'Solve any puzzle without using Undo or Hints.',
+		},
+		comeback_kid: {
+			title: 'Chemical Recovery',
+			desc: 'Win a puzzle after using 6+ undos without restarting.',
+		},
+		color_cascade: {
+			title: 'Rainbow Synthesis',
+			desc: 'Complete 4 single-color tubes in consecutive moves.',
+		},
+		single_buffer: {
+			title: 'Narrow Margins',
+			desc: 'Win a puzzle where only 1 empty tube was ever utilized as a buffer.',
 		},
 	},
 	tracks: {

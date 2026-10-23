@@ -2,5 +2,9 @@
 	"bridges": {
 		"title": "Bridges",
 		"description": "Reliez les îles par des ponts horizontaux et verticaux pour former un réseau unique respectant chaque quota."
+	},
+	"watersort": {
+		"title": "Water Sort",
+		"description": "Versez et triez les liquides colorés dans des éprouvettes jusqu à ce que chacune n ait qu une couleur."
 	}
 }

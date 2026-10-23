@@ -2,5 +2,9 @@
 	"bridges": {
 		"title": "Bridges",
 		"description": "Verbinde Inseln mit horizontalen und vertikalen Brücken zu einem einzigen Netzwerk entsprechend aller Vorgaben."
+	},
+	"watersort": {
+		"title": "Water Sort",
+		"description": "Gieße und sortiere farbige Flüssigkeiten in Reagenzgläser, bis jedes Glas nur eine Farbe enthält."
 	}
 }
