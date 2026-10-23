@@ -34,12 +34,18 @@ export interface AnagramData {
 
 export interface GameSnapshot {
 	rack: string[];
+	words: string[];
+	fullLengthWords: string[];
 	difficulty: DifficultyLevel;
 	mode: GameMode;
 	language: LanguageCode;
 	foundWords: string[];
-	remainingSeconds?: number;
+	elapsedSeconds: number;
+	remainingSeconds: number;
 	score: number;
+	hasClearedBaseline?: boolean;
+	isComplete?: boolean;
+	lastPlayed?: number;
 }
 
 export interface LevelProgress {

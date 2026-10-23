@@ -1,9 +1,10 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import { GameLandingTemplate, GameSelectionCard, SegmentedControl, type SegmentedControlItem } from '@arcade/lib-ui';
+import { formatTime } from '@arcade/lib-ui/components/Timer';
 import { type JSX, useEffect, useState } from 'react';
-import { loadProgress } from '../../engine/storage.js';
-import type { DifficultyLevel, GameMode, ProgressMap } from '../../engine/types.js';
+import { loadActiveGame, loadProgress } from '../../engine/storage.js';
+import type { DifficultyLevel, GameMode, GameSnapshot, ProgressMap } from '../../engine/types.js';
 import * as S from './AnagramLobby.styles.js';
 import type { AnagramLobbyProps } from './AnagramLobby.types.js';
 
@@ -23,11 +24,20 @@ function getInitialMode(): GameMode {
 function LobbyContent(): JSX.Element {
 	const { t, language } = useI18n('anagram');
 	const { t: tCommon } = useI18n('common');
+	const [activeGame, setActiveGame] = useState<GameSnapshot | null>(null);
 	const [progress, setProgress] = useState<ProgressMap>({});
 	const [selectedMode, setSelectedMode] = useState<GameMode>(getInitialMode);
 
 	useEffect(() => {
-		loadProgress().then(setProgress);
+		async function init() {
+			const savedGame = await loadActiveGame();
+			if (savedGame && !savedGame.isComplete) {
+				setActiveGame(savedGame);
+			}
+			const savedProgress = await loadProgress();
+			setProgress(savedProgress);
+		}
+		init();
 	}, []);
 
 	const handleSelectMode = (mode: GameMode) => {
@@ -50,10 +60,21 @@ function LobbyContent(): JSX.Element {
 		sublabel: t(`mode.${mode}Desc`),
 	}));
 
+	const resumeState = activeGame
+		? {
+				message: `${t(`difficulty.${activeGame.difficulty}`)} • ${t(`mode.${activeGame.mode}`)} • ${t('hud.wordsFound', { found: String(activeGame.foundWords.length), total: String(activeGame.words.length) })} • ${formatTime(activeGame.mode === 'timed' ? activeGame.remainingSeconds : activeGame.elapsedSeconds)}`,
+				onResume: () => {
+					window.location.href = `/anagram/${language}/game?resume=true`;
+				},
+				buttonLabel: t('controls.resume'),
+			}
+		: undefined;
+
 	return (
 		<GameLandingTemplate
 			title={t('title')}
 			description={t('description')}
+			resumeState={resumeState}
 			pageFooterLinks={pageFooterLinks}
 			offlineGameId="anagram"
 		>
@@ -78,7 +99,7 @@ function LobbyContent(): JSX.Element {
 							<GameSelectionCard
 								key={diff}
 								as="a"
-								href={`/anagram/${language}/game?difficulty=${diff}&mode=${selectedMode}`}
+								href={`/anagram/${language}/game?difficulty=${diff}&mode=${selectedMode}&new=true`}
 								title={t(`difficulty.${diff}`)}
 								dimensions={t(`difficulty.${diff}Dimensions`)}
 								subtitle={t(`difficulty.${diff}Desc`)}

@@ -1,12 +1,13 @@
 import { recordGameResult } from '@arcade/lib-medals';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { generateRound, shuffleRack } from '../../engine/generator.js';
-import { recordRoundResult } from '../../engine/storage.js';
+import { clearActiveGame, loadActiveGame, recordRoundResult, saveActiveGame } from '../../engine/storage.js';
 import {
 	type AnagramData,
 	DIFFICULTY_CONFIGS,
 	type DifficultyLevel,
 	type GameMode,
+	type GameSnapshot,
 	type LanguageCode,
 	TIMED_MODE_BONUS_SECONDS_PER_WORD,
 	TIMED_MODE_INITIAL_SECONDS,
@@ -71,10 +72,88 @@ export function useAnagramGame(difficulty: DifficultyLevel, mode: GameMode) {
 	const [outcome, setOutcome] = useState<RoundOutcome | null>(null);
 	const [dialog, setDialog] = useState<'victory' | 'defeat' | null>(null);
 	const [hasClearedBaseline, setHasClearedBaseline] = useState(false);
+	const [isLoaded, setIsLoaded] = useState(false);
 
 	const stats = useRef<RoundStats>(createStats());
 	const elapsedRef = useRef(0);
 	elapsedRef.current = elapsedSeconds;
+
+	// Load active game on mount if resuming or matching
+	useEffect(() => {
+		async function init() {
+			try {
+				let forceNew = false;
+				let forceResume = false;
+				if (typeof window !== 'undefined') {
+					const params = new URLSearchParams(window.location.search);
+					if (params.get('new') === 'true') forceNew = true;
+					if (params.get('resume') === 'true') forceResume = true;
+				}
+
+				if (!forceNew) {
+					const saved = await loadActiveGame();
+					if (
+						saved &&
+						!saved.isComplete &&
+						(forceResume || (saved.difficulty === difficulty && saved.mode === mode))
+					) {
+						const restoredRound: AnagramData = {
+							rack: saved.rack,
+							words: saved.words,
+							fullLengthWords: saved.fullLengthWords,
+						};
+						setRound(restoredRound);
+						setTiles(createTiles(restoredRound));
+						setFoundWords(saved.foundWords);
+						setScore(saved.score);
+						setElapsedSeconds(saved.elapsedSeconds);
+						setRemainingSeconds(saved.remainingSeconds);
+						setHasClearedBaseline(Boolean(saved.hasClearedBaseline));
+						setIsPaused(true);
+						return;
+					}
+				}
+			} catch {
+				// Fallback to fresh round if error loading saved game
+			} finally {
+				setIsLoaded(true);
+			}
+		}
+		init();
+	}, [difficulty, mode]);
+
+	// Auto-save active game state
+	useEffect(() => {
+		if (!isLoaded || isEnded) return;
+
+		const snapshot: GameSnapshot = {
+			rack: round.rack,
+			words: round.words,
+			fullLengthWords: round.fullLengthWords,
+			difficulty,
+			mode,
+			language: LEXICON_LANGUAGE,
+			foundWords,
+			elapsedSeconds,
+			remainingSeconds,
+			score,
+			hasClearedBaseline,
+			isComplete: false,
+			lastPlayed: Date.now(),
+		};
+		void saveActiveGame(snapshot);
+	}, [
+		isLoaded,
+		isEnded,
+		round,
+		difficulty,
+		mode,
+		foundWords,
+		elapsedSeconds,
+		remainingSeconds,
+		score,
+		hasClearedBaseline,
+	]);
 
 	const recordRound = useCallback(
 		(finalWords: readonly string[], finalScore: number, surrendered: boolean) => {
@@ -126,6 +205,7 @@ export function useAnagramGame(difficulty: DifficultyLevel, mode: GameMode) {
 			const cleared = isRoundCleared(round, finalWords, mode);
 			setIsEnded(true);
 			setOutcome(reason);
+			void clearActiveGame();
 			if (reason === 'revealed') setIsRevealed(true);
 			if (reason === 'mastered' || (reason === 'timeUp' && cleared)) setDialog('victory');
 			if (reason === 'timeUp' && !cleared) setDialog('defeat');
@@ -135,7 +215,7 @@ export function useAnagramGame(difficulty: DifficultyLevel, mode: GameMode) {
 	);
 
 	useEffect(() => {
-		if (isEnded) return;
+		if (!isLoaded || isEnded) return;
 		const intervalId = setInterval(() => {
 			if (isPaused) {
 				stats.current.pausedSeconds += 1;
@@ -145,7 +225,7 @@ export function useAnagramGame(difficulty: DifficultyLevel, mode: GameMode) {
 			if (mode === 'timed') setRemainingSeconds((seconds) => Math.max(0, seconds - 1));
 		}, 1000);
 		return () => clearInterval(intervalId);
-	}, [isEnded, isPaused, mode]);
+	}, [isLoaded, isEnded, isPaused, mode]);
 
 	useEffect(() => {
 		if (mode === 'timed' && remainingSeconds <= 0 && !isEnded) endRound('timeUp', foundWords, score);
@@ -258,6 +338,7 @@ export function useAnagramGame(difficulty: DifficultyLevel, mode: GameMode) {
 
 	const newRound = useCallback(() => {
 		if (!isEnded) recordRound(foundWords, score, false);
+		void clearActiveGame();
 		const next = generateRound(difficulty, LEXICON_LANGUAGE);
 		stats.current = createStats();
 		setRound(next);

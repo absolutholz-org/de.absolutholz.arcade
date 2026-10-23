@@ -92,7 +92,7 @@ Implement the core game engine under `apps/[gameId]/src/engine/` before touching
     - `generator.ts`: Procedural generation or deterministic layout generators.
     - `solver.ts`: Solver algorithms verifying solution existence and uniqueness.
     - `history.ts`: Pure undo/redo move history stack.
-    - `storage.ts`: Scoped persistence adapter consuming `createGameStorage(gameId)` from `@arcade/lib-storage`.
+    - `storage.ts`: Scoped persistence adapter consuming `createGameStorage(gameId)` from `@arcade/lib-storage`, exposing `loadProgress`, `recordRoundResult`/`recordPuzzleCompletion`, `loadActiveGame`, `saveActiveGame`, and `clearActiveGame`.
 2. **Comprehensive Unit Testing:**
     - Create unit tests for validation, generation, move application, and undo/redo (`validator.test.ts`, `generator.test.ts`, `history.test.ts`).
     - Run Vitest to guarantee 100% test passing before proceeding to the UI.
@@ -136,9 +136,13 @@ Construct the application shell and React canvas in `apps/[gameId]/`:
 2. **Layout Chrome & User Identity:**
     - Wrap views in `PageLayout.astro` or `BaseLayout.astro`.
     - Mount `HeaderUserMenu client:load` in the header actions slot to expose user identity and cloud sync status.
-3. **Design System Component Usage:**
+3. **Design System Component Usage & Game Session Persistence:**
     - Canvas shell: Wrap with `GameContainer`.
     - Lobby controls: Use `ClickableCard`, `GameSelectionCard`, `QuickPlayCard`, and `SegmentedControl`.
+    - **Active Game Session Persistence (Resume Support):**
+      - In `[Game]Game.hooks.ts`: Auto-save in-progress game snapshots (`saveActiveGame(snapshot)`) and restore them on mount (when navigating to `/game?resume=true` or matching params without `?new=true`), starting in a paused state. Call `clearActiveGame()` upon victory, defeat, surrender, or starting a new round.
+      - In `[Game]Lobby.tsx`: Query `loadActiveGame()` on mount. If an uncompleted active game snapshot exists, populate the `resumeState` prop of `GameLandingTemplate` with localized round metadata and an `onResume` callback navigating to `/game?resume=true`.
+      - When starting a fresh game from lobby cards, append `&new=true` to query parameters to prevent restoring previous stale snapshots.
     - Game overlays: Implement `PauseOverlay` and `VictoryDialog` from `@arcade/lib-ui`.
 4. **Result Recording & Medal Toasts:**
     - Call `recordGameResult({ gameId, won, playTimeSeconds, levelKey, sizeKey, roundContext })` upon round victory or defeat.
