@@ -71,6 +71,14 @@ export const deWatersort: WaterSortTranslationContract = {
 		playAgain: 'Nochmal spielen',
 		nextLevel: 'Nächstes Rätsel',
 	},
+	deadlock: {
+		title: 'Keine Züge mehr',
+		description: 'Es gibt keine gültigen Züge mehr, um dieses Rätsel fortzusetzen.',
+		undo: 'Letzten Zug rückgängig machen',
+		restart: 'Von vorne beginnen',
+		newGame: 'Neues Spiel',
+		backToLobby: 'Zurück zur Übersicht',
+	},
 	colors: {
 		color0: 'Rubinrot',
 		color1: 'Kobaltblau',

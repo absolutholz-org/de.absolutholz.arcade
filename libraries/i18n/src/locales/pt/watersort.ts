@@ -71,6 +71,14 @@ export const ptWatersort: WaterSortTranslationContract = {
 		playAgain: 'Jogar novamente',
 		nextLevel: 'Próximo quebra-cabeça',
 	},
+	deadlock: {
+		title: 'Sem movimentos',
+		description: 'Não restam transferências válidas para continuar este quebra-cabeça.',
+		undo: 'Desfazer último movimento',
+		restart: 'Recomeçar',
+		newGame: 'Novo jogo',
+		backToLobby: 'Voltar ao menu',
+	},
 	colors: {
 		color0: 'Vermelho rubi',
 		color1: 'Azul cobalto',

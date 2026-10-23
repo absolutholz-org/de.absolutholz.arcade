@@ -72,6 +72,14 @@ export const frWatersort: WaterSortTranslationContract = {
 		playAgain: 'Rejouer',
 		nextLevel: 'Casse-tête suivant',
 	},
+	deadlock: {
+		title: 'Aucun coup possible',
+		description: 'Il ne reste plus aucun versement valide pour continuer ce casse-tête.',
+		undo: 'Annuler le dernier coup',
+		restart: 'Recommencer',
+		newGame: 'Nouvelle partie',
+		backToLobby: 'Retour au menu',
+	},
 	colors: {
 		color0: 'Rouge rubis',
 		color1: 'Bleu cobalt',

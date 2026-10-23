@@ -13,7 +13,7 @@ import {
 	type GameSnapshot,
 	type Move,
 } from '../../engine/types.js';
-import { applyPour, canPour, isSolved } from '../../engine/validator.js';
+import { applyPour, canPour, isDeadlocked, isSolved } from '../../engine/validator.js';
 import type { WaterSortSettings } from '../WaterSortSettingsDialog/WaterSortSettingsDialog.types.js';
 
 const DEFAULT_SETTINGS: WaterSortSettings = {
@@ -126,6 +126,8 @@ export function useWaterSortGame(initialDifficulty: DifficultyLevel = 'easy', in
 	const [settings, setSettings] = useState<WaterSortSettings>(DEFAULT_SETTINGS);
 	const [ariaAnnouncement, setAriaAnnouncement] = useState('');
 
+	const isDeadlockedState = useMemo(() => isDeadlocked(history.present), [history.present]);
+
 	const timerRef = useRef<NodeJS.Timeout | null>(null);
 
 	// Priority order for starting state:
@@ -165,7 +167,7 @@ export function useWaterSortGame(initialDifficulty: DifficultyLevel = 'easy', in
 
 	// Timer loop
 	useEffect(() => {
-		if (!isPaused && !isWon) {
+		if (!isPaused && !isWon && !isDeadlockedState) {
 			timerRef.current = setInterval(() => {
 				setElapsedSeconds((prev) => prev + 1);
 			}, 1000);
@@ -175,7 +177,7 @@ export function useWaterSortGame(initialDifficulty: DifficultyLevel = 'easy', in
 		return () => {
 			if (timerRef.current) clearInterval(timerRef.current);
 		};
-	}, [isPaused, isWon]);
+	}, [isPaused, isWon, isDeadlockedState]);
 
 	// Auto-save snapshot
 	useEffect(() => {
@@ -210,7 +212,7 @@ export function useWaterSortGame(initialDifficulty: DifficultyLevel = 'easy', in
 
 	const handleSelectTube = useCallback(
 		(index: number) => {
-			if (isWon || isPaused) return;
+			if (isWon || isPaused || isDeadlockedState) return;
 
 			if (selectedTube === null) {
 				if (history.present[index].length > 0) {
@@ -283,6 +285,7 @@ export function useWaterSortGame(initialDifficulty: DifficultyLevel = 'easy', in
 			history,
 			isWon,
 			isPaused,
+			isDeadlockedState,
 			difficulty,
 			seed,
 			elapsedSeconds,
@@ -325,14 +328,14 @@ export function useWaterSortGame(initialDifficulty: DifficultyLevel = 'easy', in
 	}, []);
 
 	const handleHint = useCallback(() => {
-		if (isWon || isPaused) return;
+		if (isWon || isPaused || isDeadlockedState) return;
 		const hintMove = suggestHint(history.present);
 		if (hintMove) {
 			setSelectedTube(hintMove.from);
 			setHintsUsed((prev) => prev + 1);
 			setAriaAnnouncement(`Hint: Pour from tube ${hintMove.from + 1} into tube ${hintMove.to + 1}`);
 		}
-	}, [history.present, isWon, isPaused]);
+	}, [history.present, isWon, isPaused, isDeadlockedState]);
 
 	const handleNextPuzzle = useCallback(() => {
 		const nextSeed = seed >= 1 && seed < 10 ? seed + 1 : Math.floor(Math.random() * 100000) + 1;
@@ -373,6 +376,7 @@ export function useWaterSortGame(initialDifficulty: DifficultyLevel = 'easy', in
 		elapsedSeconds,
 		isPaused,
 		isWon,
+		isDeadlocked: isDeadlockedState,
 		canUndo: canUndo(history),
 		canRedo: canRedo(history),
 		settings,

@@ -5,6 +5,7 @@ import type { JSX } from 'react';
 import type { DifficultyLevel } from '../../engine/types.js';
 import { WaterSortBoard } from '../WaterSortBoard/index.js';
 import { WaterSortControls } from '../WaterSortControls/index.js';
+import { WaterSortDeadlockDialog } from '../WaterSortDeadlockDialog/index.js';
 import { WaterSortHeader } from '../WaterSortHeader/index.js';
 import { WaterSortPauseOverlay } from '../WaterSortPauseOverlay/index.js';
 import { WaterSortSettingsDialog } from '../WaterSortSettingsDialog/index.js';
@@ -58,6 +59,15 @@ function GameContent({
 						elapsedSeconds={game.elapsedSeconds}
 						moves={game.moves}
 						onPlayAgain={game.onPlayAgain}
+						onNextPuzzle={game.onNextPuzzle}
+					/>
+
+					<WaterSortDeadlockDialog
+						isOpen={game.isDeadlocked}
+						canUndo={game.canUndo}
+						difficulty={game.difficulty}
+						onUndo={game.onUndo}
+						onRestart={game.onReset}
 						onNextPuzzle={game.onNextPuzzle}
 					/>
 				</>

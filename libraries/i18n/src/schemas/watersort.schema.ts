@@ -71,6 +71,14 @@ export const watersortSchema = {
 		playAgain: 'victory.playAgain',
 		nextLevel: 'victory.nextLevel',
 	},
+	deadlock: {
+		title: 'deadlock.title',
+		description: 'deadlock.description',
+		undo: 'deadlock.undo',
+		restart: 'deadlock.restart',
+		newGame: 'deadlock.newGame',
+		backToLobby: 'deadlock.backToLobby',
+	},
 	colors: {
 		color0: 'colors.color0',
 		color1: 'colors.color1',

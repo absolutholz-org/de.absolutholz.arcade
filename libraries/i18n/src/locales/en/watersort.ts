@@ -71,6 +71,14 @@ export const enWatersort: WaterSortTranslationContract = {
 		playAgain: 'Play Again',
 		nextLevel: 'Next Puzzle',
 	},
+	deadlock: {
+		title: 'No More Moves',
+		description: 'There are no valid pours remaining to continue this puzzle.',
+		undo: 'Undo Last Pour',
+		restart: 'Start Again',
+		newGame: 'New Game',
+		backToLobby: 'Back to Lobby',
+	},
 	colors: {
 		color0: 'Ruby Red',
 		color1: 'Cobalt Blue',
