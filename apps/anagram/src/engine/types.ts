@@ -1,6 +1,8 @@
 export type DifficultyLevel = 'easy' | 'medium' | 'hard' | 'expert';
 export type GameMode = 'zen' | 'timed';
-export type LanguageCode = 'en';
+export type LanguageCode = 'en' | 'de';
+
+export const SUPPORTED_VOCAB_LANGUAGES: readonly LanguageCode[] = ['en', 'de'];
 
 export interface DifficultyConfig {
 	rackSize: number;
@@ -12,7 +14,7 @@ export const DIFFICULTY_CONFIGS: Record<DifficultyLevel, DifficultyConfig> = {
 	easy: { rackSize: 5, minWordLength: 3, targetWordCount: { min: 6, max: 12 } },
 	medium: { rackSize: 6, minWordLength: 3, targetWordCount: { min: 15, max: 25 } },
 	hard: { rackSize: 7, minWordLength: 3, targetWordCount: { min: 30, max: 50 } },
-	expert: { rackSize: 7, minWordLength: 4, targetWordCount: { min: 15, max: 25 } },
+	expert: { rackSize: 8, minWordLength: 4, targetWordCount: { min: 15, max: 25 } },
 };
 
 export const TIMED_MODE_INITIAL_SECONDS = 150;
@@ -46,6 +48,10 @@ export interface GameSnapshot {
 	hasClearedBaseline?: boolean;
 	isComplete?: boolean;
 	lastPlayed?: number;
+}
+
+export interface AnagramSettings {
+	vocabLanguage?: LanguageCode;
 }
 
 export interface LevelProgress {

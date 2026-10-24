@@ -1,3 +1,4 @@
+import germanLexicon from './lexicon.data.de.json' with { type: 'json' };
 import englishLexicon from './lexicon.data.en.json' with { type: 'json' };
 import {
 	type AnagramData,
@@ -9,6 +10,7 @@ import {
 
 const LEXICONS: Record<LanguageCode, LexiconFile> = {
 	en: englishLexicon,
+	de: germanLexicon,
 };
 
 const signatureCache = new Map<LanguageCode, Map<string, string[]>>();

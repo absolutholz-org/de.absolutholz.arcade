@@ -26,6 +26,11 @@ export const anagramSchema = {
 		timed: 'mode.timed',
 		timedDesc: 'mode.timedDesc',
 	},
+	vocabulary: {
+		label: 'vocabulary.label',
+		en: 'vocabulary.en',
+		de: 'vocabulary.de',
+	},
 	controls: {
 		shuffle: 'controls.shuffle',
 		play: 'controls.play',

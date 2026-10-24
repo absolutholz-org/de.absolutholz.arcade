@@ -1,9 +1,19 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 import { getAnagramData } from './lexicon.ts';
-import { canFormWord, isRoundCleared, isRoundMastered, scoreWord, validateGuess } from './validator.ts';
+import {
+	canFormWord,
+	formatTileUppercase,
+	isRoundCleared,
+	isRoundMastered,
+	normalizeTile,
+	scoreWord,
+	validateGuess,
+} from './validator.ts';
 
 const stare = getAnagramData(['s', 't', 'a', 'r', 'e'], 'easy');
+const apfel = getAnagramData(['ä', 'p', 'f', 'e', 'l'], 'easy', 'de');
+const fuesse = getAnagramData(['f', 'ü', 'ß', 'e', 'n'], 'easy', 'de');
 
 describe('canFormWord', () => {
 	it('treats rack tiles as single-use', () => {
@@ -11,9 +21,18 @@ describe('canFormWord', () => {
 		assert.equal(canFormWord('tee', ['t', 'e', 'a', 'r']), false);
 	});
 
-	it('supports umlauts and ß as single tiles', () => {
-		assert.equal(canFormWord('füß', ['ß', 'ü', 'f']), true);
-		assert.equal(canFormWord('füß', ['s', 's', 'ü', 'f']), false);
+	it('supports umlauts and ß as single tiles (not transliterated)', () => {
+		assert.equal(canFormWord('füße', ['ß', 'ü', 'f', 'e']), true);
+		assert.equal(canFormWord('FÜẞE', ['ß', 'ü', 'f', 'e']), true);
+		assert.equal(canFormWord('füße', ['s', 's', 'ü', 'f', 'e']), false);
+		assert.equal(canFormWord('äpfel', ['a', 'e', 'p', 'f', 'e', 'l']), false);
+	});
+
+	it('normalizes and formats German uppercase tiles including ẞ', () => {
+		assert.equal(normalizeTile('ẞ'), 'ß');
+		assert.equal(normalizeTile('Ä'), 'ä');
+		assert.equal(formatTileUppercase('ß'), 'ẞ');
+		assert.equal(formatTileUppercase('ü'), 'Ü');
 	});
 });
 
@@ -30,8 +49,12 @@ describe('validateGuess', () => {
 		assert.equal(validateGuess('art', stare, [], 'expert'), 'tooShort');
 	});
 
-	it('is case-insensitive', () => {
+	it('is case-insensitive for English and German words with umlauts and ß', () => {
 		assert.equal(validateGuess('STAR', stare, [], 'easy'), 'accepted');
+		assert.equal(validateGuess('Äpfel', apfel, [], 'easy'), 'accepted');
+		assert.equal(validateGuess('ÄPFEL', apfel, ['äpfel'], 'easy'), 'duplicate');
+		assert.equal(validateGuess('Füße', fuesse, [], 'easy'), 'accepted');
+		assert.equal(validateGuess('FÜẞE', fuesse, [], 'easy'), 'accepted');
 	});
 });
 

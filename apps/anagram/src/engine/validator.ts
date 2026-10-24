@@ -2,11 +2,23 @@ import { type AnagramData, DIFFICULTY_CONFIGS, type DifficultyLevel, type GameMo
 
 export type GuessResult = 'accepted' | 'duplicate' | 'tooShort' | 'notInRack' | 'notAWord';
 
+export function normalizeTile(tile: string): string {
+	return tile === 'ẞ' ? 'ß' : tile.toLocaleLowerCase();
+}
+
+export function formatTileUppercase(tile: string): string {
+	return tile === 'ß' || tile === 'ẞ' ? 'ẞ' : tile.toLocaleUpperCase();
+}
+
 export function canFormWord(word: string, rack: readonly string[]): boolean {
 	const available = new Map<string, number>();
-	for (const tile of rack) available.set(tile, (available.get(tile) ?? 0) + 1);
+	for (const rawTile of rack) {
+		const tile = normalizeTile(rawTile);
+		available.set(tile, (available.get(tile) ?? 0) + 1);
+	}
 
-	for (const letter of Array.from(word)) {
+	for (const rawLetter of Array.from(word)) {
+		const letter = normalizeTile(rawLetter);
 		const remaining = available.get(letter) ?? 0;
 		if (remaining === 0) return false;
 		available.set(letter, remaining - 1);
@@ -20,7 +32,7 @@ export function validateGuess(
 	foundWords: readonly string[],
 	difficulty: DifficultyLevel,
 ): GuessResult {
-	const word = guess.toLocaleLowerCase();
+	const word = Array.from(guess).map(normalizeTile).join('');
 	if (Array.from(word).length < DIFFICULTY_CONFIGS[difficulty].minWordLength) return 'tooShort';
 	if (!canFormWord(word, data.rack)) return 'notInRack';
 	if (foundWords.includes(word)) return 'duplicate';

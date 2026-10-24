@@ -1,7 +1,13 @@
 import { recordGameResult } from '@arcade/lib-medals';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { generateRound, shuffleRack } from '../../engine/generator.js';
-import { clearActiveGame, loadActiveGame, recordRoundResult, saveActiveGame } from '../../engine/storage.js';
+import {
+	clearActiveGame,
+	loadActiveGame,
+	loadSettings,
+	recordRoundResult,
+	saveActiveGame,
+} from '../../engine/storage.js';
 import {
 	type AnagramData,
 	DIFFICULTY_CONFIGS,
@@ -9,14 +15,13 @@ import {
 	type GameMode,
 	type GameSnapshot,
 	type LanguageCode,
+	SUPPORTED_VOCAB_LANGUAGES,
 	TIMED_MODE_BONUS_SECONDS_PER_WORD,
 	TIMED_MODE_INITIAL_SECONDS,
 } from '../../engine/types.js';
-import { isRoundCleared, isRoundMastered, scoreWord, validateGuess } from '../../engine/validator.js';
+import { isRoundCleared, isRoundMastered, normalizeTile, scoreWord, validateGuess } from '../../engine/validator.js';
 import type { Feedback, RackTile, RoundOutcome } from './AnagramGame.types.js';
 
-// Lexicon language is independent of the UI language until more lexicons are added.
-const LEXICON_LANGUAGE: LanguageCode = 'en';
 const QUICK_SHUFFLE_COUNT = 3;
 const QUICK_SHUFFLE_WINDOW_MS = 2000;
 const LETTER_KEY_PATTERN = /^\p{L}$/u;
@@ -57,8 +62,9 @@ function hasAnagramPair(words: readonly string[]): boolean {
 	return false;
 }
 
-export function useAnagramGame(difficulty: DifficultyLevel, mode: GameMode) {
-	const [round, setRound] = useState<AnagramData>(() => generateRound(difficulty, LEXICON_LANGUAGE));
+export function useAnagramGame(difficulty: DifficultyLevel, mode: GameMode, initialVocabLanguage: LanguageCode = 'en') {
+	const [vocabLanguage, setVocabLanguage] = useState<LanguageCode>(initialVocabLanguage);
+	const [round, setRound] = useState<AnagramData>(() => generateRound(difficulty, initialVocabLanguage));
 	const [tiles, setTiles] = useState<RackTile[]>(() => createTiles(round));
 	const [stagedIds, setStagedIds] = useState<number[]>([]);
 	const [foundWords, setFoundWords] = useState<string[]>([]);
@@ -78,30 +84,42 @@ export function useAnagramGame(difficulty: DifficultyLevel, mode: GameMode) {
 	const elapsedRef = useRef(0);
 	elapsedRef.current = elapsedSeconds;
 
-	// Load active game on mount if resuming or matching
+	// Load active game or saved language setting on mount
 	useEffect(() => {
 		async function init() {
 			try {
 				let forceNew = false;
 				let forceResume = false;
+				let hasExplicitVocabParam = false;
 				if (typeof window !== 'undefined') {
 					const params = new URLSearchParams(window.location.search);
 					if (params.get('new') === 'true') forceNew = true;
 					if (params.get('resume') === 'true') forceResume = true;
+					const queryVocab = params.get('vocab') ?? params.get('lang');
+					if (queryVocab && (SUPPORTED_VOCAB_LANGUAGES as readonly string[]).includes(queryVocab)) {
+						hasExplicitVocabParam = true;
+					}
 				}
 
-				if (!forceNew) {
-					const saved = await loadActiveGame();
+				const [saved, savedSettings] = await Promise.all([loadActiveGame(), loadSettings()]);
+				const resolvedLang: LanguageCode =
+					!hasExplicitVocabParam &&
+					savedSettings.vocabLanguage &&
+					(SUPPORTED_VOCAB_LANGUAGES as readonly string[]).includes(savedSettings.vocabLanguage)
+						? savedSettings.vocabLanguage
+						: initialVocabLanguage;
+
+				if (!forceNew && saved && !saved.isComplete) {
 					if (
-						saved &&
-						!saved.isComplete &&
-						(forceResume || (saved.difficulty === difficulty && saved.mode === mode))
+						forceResume ||
+						(saved.difficulty === difficulty && saved.mode === mode && saved.language === resolvedLang)
 					) {
 						const restoredRound: AnagramData = {
 							rack: saved.rack,
 							words: saved.words,
 							fullLengthWords: saved.fullLengthWords,
 						};
+						setVocabLanguage(saved.language);
 						setRound(restoredRound);
 						setTiles(createTiles(restoredRound));
 						setFoundWords(saved.foundWords);
@@ -113,6 +131,13 @@ export function useAnagramGame(difficulty: DifficultyLevel, mode: GameMode) {
 						return;
 					}
 				}
+
+				if (resolvedLang !== initialVocabLanguage) {
+					const next = generateRound(difficulty, resolvedLang);
+					setVocabLanguage(resolvedLang);
+					setRound(next);
+					setTiles(createTiles(next));
+				}
 			} catch {
 				// Fallback to fresh round if error loading saved game
 			} finally {
@@ -120,7 +145,7 @@ export function useAnagramGame(difficulty: DifficultyLevel, mode: GameMode) {
 			}
 		}
 		init();
-	}, [difficulty, mode]);
+	}, [difficulty, mode, initialVocabLanguage]);
 
 	// Auto-save active game state
 	useEffect(() => {
@@ -132,7 +157,7 @@ export function useAnagramGame(difficulty: DifficultyLevel, mode: GameMode) {
 			fullLengthWords: round.fullLengthWords,
 			difficulty,
 			mode,
-			language: LEXICON_LANGUAGE,
+			language: vocabLanguage,
 			foundWords,
 			elapsedSeconds,
 			remainingSeconds,
@@ -148,6 +173,7 @@ export function useAnagramGame(difficulty: DifficultyLevel, mode: GameMode) {
 		round,
 		difficulty,
 		mode,
+		vocabLanguage,
 		foundWords,
 		elapsedSeconds,
 		remainingSeconds,
@@ -250,8 +276,9 @@ export function useAnagramGame(difficulty: DifficultyLevel, mode: GameMode) {
 	);
 
 	const typeLetter = useCallback(
-		(letter: string) => {
+		(rawLetter: string) => {
 			if (!isInteractive) return;
+			const letter = normalizeTile(rawLetter);
 			const freeTile = tiles.find((tile) => tile.letter === letter && !stagedIds.includes(tile.id));
 			if (freeTile) setStagedIds((ids) => [...ids, freeTile.id]);
 		},
@@ -339,7 +366,7 @@ export function useAnagramGame(difficulty: DifficultyLevel, mode: GameMode) {
 	const newRound = useCallback(() => {
 		if (!isEnded) recordRound(foundWords, score, false);
 		void clearActiveGame();
-		const next = generateRound(difficulty, LEXICON_LANGUAGE);
+		const next = generateRound(difficulty, vocabLanguage);
 		stats.current = createStats();
 		setRound(next);
 		setTiles(createTiles(next));
@@ -355,7 +382,7 @@ export function useAnagramGame(difficulty: DifficultyLevel, mode: GameMode) {
 		setOutcome(null);
 		setDialog(null);
 		setHasClearedBaseline(false);
-	}, [isEnded, recordRound, foundWords, score, difficulty]);
+	}, [isEnded, recordRound, foundWords, score, difficulty, vocabLanguage]);
 
 	const togglePause = useCallback(() => {
 		if (!isEnded && dialog === null) setIsPaused((paused) => !paused);
@@ -387,7 +414,7 @@ export function useAnagramGame(difficulty: DifficultyLevel, mode: GameMode) {
 				event.preventDefault();
 				shuffle();
 			} else if (LETTER_KEY_PATTERN.test(event.key)) {
-				typeLetter(event.key.toLocaleLowerCase());
+				typeLetter(event.key);
 			}
 		};
 		window.addEventListener('keydown', handleKeyDown, { capture: true });

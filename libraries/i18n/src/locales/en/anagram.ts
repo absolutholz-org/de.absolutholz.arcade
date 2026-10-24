@@ -17,7 +17,7 @@ export const enAnagram = {
 		hardDimensions: '7 Letters',
 		hardDesc: 'Deep vocabulary search (~30–50 words).',
 		expert: 'Expert',
-		expertDimensions: '7 Letters (Min 4)',
+		expertDimensions: '8 Letters (Min 4)',
 		expertDesc: 'No 3-letter fillers; focus on complex stems.',
 	},
 	mode: {
@@ -26,6 +26,11 @@ export const enAnagram = {
 		zenDesc: 'Relaxed • Untimed play',
 		timed: 'Timed Arcade',
 		timedDesc: '2:30 Timer • Bonus time per word',
+	},
+	vocabulary: {
+		label: 'Word Language',
+		en: 'English',
+		de: 'Deutsch',
 	},
 	controls: {
 		shuffle: 'Shuffle',

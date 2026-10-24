@@ -27,24 +27,43 @@ describe('getAnagramData', () => {
 		);
 		assert.ok(data.fullLengthWords.every((word) => word.length === 5));
 	});
+	it('resolves German anagrams with umlauts and ß via the de lexicon', () => {
+		const { words } = getAnagramData(['ä', 'p', 'f', 'e', 'l'], 'easy', 'de');
+		assert.ok(words.includes('äpfel'), 'Expected äpfel in words');
+		const fuesse = getAnagramData(['f', 'ü', 'ß', 'e', 'n'], 'easy', 'de');
+		assert.ok(fuesse.words.includes('füße'), 'Expected füße in words');
+		assert.ok(fuesse.words.includes('füßen'), 'Expected füßen in words');
+	});
 });
 
 describe('generateRound', () => {
 	const levels = Object.keys(DIFFICULTY_CONFIGS) as DifficultyLevel[];
 
-	// The starter fixture is too small to satisfy target word counts, so only structural invariants are asserted.
-	it('builds solvable rounds for every tier', () => {
-		for (const level of levels) {
-			const round = generateRound(level);
-			assert.ok(round.words.length > 0, level);
-			assert.ok(
-				round.words.every((word) => canFormWord(word, round.rack)),
-				level,
-			);
-			assert.ok(
-				round.words.every((word) => word.length >= DIFFICULTY_CONFIGS[level].minWordLength),
-				level,
-			);
+	it('builds solvable rounds for every tier in English and German', () => {
+		for (const language of ['en', 'de'] as const) {
+			for (const level of levels) {
+				const round = generateRound(level, language);
+				assert.ok(round.words.length > 0, `${language}:${level}`);
+				if (language === 'de') {
+					assert.equal(
+						round.rack.length,
+						DIFFICULTY_CONFIGS[level].rackSize,
+						`Expected ${DIFFICULTY_CONFIGS[level].rackSize} tiles for de:${level}`,
+					);
+					assert.ok(
+						round.words.length >= 6,
+						`Expected >= 6 sub-words for de:${level}, got ${round.words.length}`,
+					);
+				}
+				assert.ok(
+					round.words.every((word) => canFormWord(word, round.rack)),
+					`${language}:${level}`,
+				);
+				assert.ok(
+					round.words.every((word) => Array.from(word).length >= DIFFICULTY_CONFIGS[level].minWordLength),
+					`${language}:${level}`,
+				);
+			}
 		}
 	});
 
@@ -57,6 +76,7 @@ describe('generateRound', () => {
 			};
 		};
 		assert.deepEqual(generateRound('medium', 'en', makeRandom()), generateRound('medium', 'en', makeRandom()));
+		assert.deepEqual(generateRound('medium', 'de', makeRandom()), generateRound('medium', 'de', makeRandom()));
 	});
 
 	it('generates diverse root words across seeded rounds (at least 6 distinct words in 10 rounds)', () => {
@@ -68,17 +88,19 @@ describe('generateRound', () => {
 			};
 		};
 
-		for (const level of ['medium', 'expert'] as const) {
-			const rootSignatures = new Set<string>();
-			for (let i = 1; i <= 10; i++) {
-				const round = generateRound(level, 'en', makeRandom(i * 100 + 7));
-				const signature = [...round.rack].sort().join('');
-				rootSignatures.add(signature);
+		for (const language of ['en', 'de'] as const) {
+			for (const level of ['easy', 'medium', 'hard', 'expert'] as const) {
+				const rootSignatures = new Set<string>();
+				for (let i = 1; i <= 10; i++) {
+					const round = generateRound(level, language, makeRandom(i * 100 + 7));
+					const signature = [...round.rack].sort().join('');
+					rootSignatures.add(signature);
+				}
+				assert.ok(
+					rootSignatures.size >= 6,
+					`Expected at least 6 distinct root words for ${language}:${level}, got ${rootSignatures.size}`,
+				);
 			}
-			assert.ok(
-				rootSignatures.size >= 6,
-				`Expected at least 6 distinct root words for ${level}, got ${rootSignatures.size}`,
-			);
 		}
 	});
 });

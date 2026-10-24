@@ -5,7 +5,13 @@ import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { isSupportedLanguage } from '@arcade/lib-i18n/utils/detection';
 import { GameContainer } from '@arcade/lib-ui/components/GameContainer';
 import { type JSX, useMemo, useState } from 'react';
-import { DIFFICULTY_CONFIGS, type DifficultyLevel, type GameMode } from '../../engine/types.js';
+import {
+	DIFFICULTY_CONFIGS,
+	type DifficultyLevel,
+	type GameMode,
+	type LanguageCode,
+	SUPPORTED_VOCAB_LANGUAGES,
+} from '../../engine/types.js';
 import { AnagramControls } from '../AnagramControls/index.js';
 import { AnagramGameHeader } from '../AnagramGameHeader/index.js';
 import { AnagramRack } from '../AnagramRack/index.js';
@@ -20,17 +26,24 @@ import type { AnagramGameProps } from './AnagramGame.types.js';
 function resolveSearchParams(
 	fallbackDifficulty: DifficultyLevel,
 	fallbackMode: GameMode,
-): { difficulty: DifficultyLevel; mode: GameMode } {
+	routeLanguage: SupportedLanguageCode,
+): { difficulty: DifficultyLevel; mode: GameMode; vocabLanguage: LanguageCode } {
+	const defaultVocab: LanguageCode = routeLanguage === 'de' ? 'de' : 'en';
 	if (typeof window === 'undefined') {
-		return { difficulty: fallbackDifficulty, mode: fallbackMode };
+		return { difficulty: fallbackDifficulty, mode: fallbackMode, vocabLanguage: defaultVocab };
 	}
 	const params = new URLSearchParams(window.location.search);
 	const rawDifficulty = params.get('difficulty');
 	const rawMode = params.get('mode');
+	const rawVocab = params.get('vocab') ?? params.get('lang');
 	const difficulty: DifficultyLevel =
 		rawDifficulty && rawDifficulty in DIFFICULTY_CONFIGS ? (rawDifficulty as DifficultyLevel) : fallbackDifficulty;
 	const mode: GameMode = rawMode === 'timed' || rawMode === 'zen' ? rawMode : fallbackMode;
-	return { difficulty, mode };
+	const vocabLanguage: LanguageCode =
+		rawVocab && (SUPPORTED_VOCAB_LANGUAGES as readonly string[]).includes(rawVocab)
+			? (rawVocab as LanguageCode)
+			: defaultVocab;
+	return { difficulty, mode, vocabLanguage };
 }
 
 export function AnagramGame({ initialDifficulty = 'easy', initialMode = 'zen', lang }: AnagramGameProps): JSX.Element {
@@ -45,14 +58,14 @@ export function AnagramGame({ initialDifficulty = 'easy', initialMode = 'zen', l
 		return DEFAULT_LANGUAGE;
 	});
 
-	const { difficulty, mode } = useMemo(
-		() => resolveSearchParams(initialDifficulty, initialMode),
-		[initialDifficulty, initialMode],
+	const { difficulty, mode, vocabLanguage } = useMemo(
+		() => resolveSearchParams(initialDifficulty, initialMode, activeLang),
+		[initialDifficulty, initialMode, activeLang],
 	);
 
 	const { t } = useI18n('anagram');
 	const { t: tCommon } = useI18n('common');
-	const game = useAnagramGame(difficulty, mode);
+	const game = useAnagramGame(difficulty, mode, vocabLanguage);
 
 	const feedbackMessage = useMemo(() => {
 		if (!game.feedback) return '';
