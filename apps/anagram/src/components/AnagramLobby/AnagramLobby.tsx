@@ -36,7 +36,9 @@ function getInitialVocabLanguage(routeLanguage: string): LanguageCode {
 			return raw as LanguageCode;
 		}
 	}
-	return routeLanguage === 'de' ? 'de' : 'en';
+	if (routeLanguage === 'de') return 'de';
+	if (routeLanguage === 'pt') return 'pt';
+	return 'en';
 }
 
 function LobbyContent(): JSX.Element {

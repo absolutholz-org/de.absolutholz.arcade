@@ -1,4 +1,4 @@
-import { recordGameResult } from '@arcade/lib-medals';
+import { getGameMedalState, recordGameResult } from '@arcade/lib-medals';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { generateRound, shuffleRack } from '../../engine/generator.js';
 import {
@@ -19,7 +19,15 @@ import {
 	TIMED_MODE_BONUS_SECONDS_PER_WORD,
 	TIMED_MODE_INITIAL_SECONDS,
 } from '../../engine/types.js';
-import { isRoundCleared, isRoundMastered, normalizeTile, scoreWord, validateGuess } from '../../engine/validator.js';
+import {
+	getMatchingWords,
+	isRoundCleared,
+	isRoundMastered,
+	normalizeTile,
+	normalizeWord,
+	scoreWord,
+	validateGuess,
+} from '../../engine/validator.js';
 import type { Feedback, RackTile, RoundOutcome } from './AnagramGame.types.js';
 
 const QUICK_SHUFFLE_COUNT = 3;
@@ -194,35 +202,58 @@ export function useAnagramGame(difficulty: DifficultyLevel, mode: GameMode, init
 				finalWords.every((word) => Array.from(word).length === 3 || round.fullLengthWords.includes(word));
 			const elapsed = elapsedRef.current;
 
-			Promise.resolve(
-				recordGameResult({
-					gameId: 'anagram',
-					won: cleared,
-					playTimeSeconds: elapsed,
-					levelKey: difficulty,
-					roundContext: {
-						wordsFound: finalWords.length,
-						mode,
-						secondsLeft: mode === 'timed' ? remainingSeconds : 0,
-						foundFullRack,
-						foundAnagramPair: hasAnagramPair(finalWords),
-						mastered,
-						shuffles: stats.current.shuffles,
-						quickShuffleBurst: stats.current.quickShuffleBurst,
-						invalidGuesses: stats.current.invalidGuesses,
-						duplicateGuesses: stats.current.duplicateGuesses,
-						usedCorrections: stats.current.usedCorrections,
-						surrendered,
-						secondsBeforeSurrender: surrendered ? elapsed : 0,
-						pausedSeconds: stats.current.pausedSeconds,
-						fullRackSecondsLeft: stats.current.fullRackSecondsLeft ?? -1,
-						onlyShortWordsPlusRoot,
-					},
-				}),
-			).catch(() => undefined);
+			void (async () => {
+				try {
+					const activeState = await getGameMedalState('anagram');
+					const prevLanguages = activeState.customStats.languagesPlayed ?? {};
+					const languagesPlayed = cleared
+						? {
+								...prevLanguages,
+								[vocabLanguage]: (prevLanguages[vocabLanguage] ?? 0) + 1,
+							}
+						: prevLanguages;
+					const prevExpertLanguages = activeState.customStats.expertLanguagesWon ?? [];
+					const expertLanguagesWon =
+						cleared && difficulty === 'expert'
+							? Array.from(new Set([...prevExpertLanguages, vocabLanguage]))
+							: prevExpertLanguages;
+
+					await recordGameResult({
+						gameId: 'anagram',
+						won: cleared,
+						playTimeSeconds: elapsed,
+						levelKey: difficulty,
+						customData: {
+							languagesPlayed,
+							expertLanguagesWon,
+						},
+						roundContext: {
+							wordsFound: finalWords.length,
+							mode,
+							language: vocabLanguage,
+							secondsLeft: mode === 'timed' ? remainingSeconds : 0,
+							foundFullRack,
+							foundAnagramPair: hasAnagramPair(finalWords),
+							mastered,
+							shuffles: stats.current.shuffles,
+							quickShuffleBurst: stats.current.quickShuffleBurst,
+							invalidGuesses: stats.current.invalidGuesses,
+							duplicateGuesses: stats.current.duplicateGuesses,
+							usedCorrections: stats.current.usedCorrections,
+							surrendered,
+							secondsBeforeSurrender: surrendered ? elapsed : 0,
+							pausedSeconds: stats.current.pausedSeconds,
+							fullRackSecondsLeft: stats.current.fullRackSecondsLeft ?? -1,
+							onlyShortWordsPlusRoot,
+						},
+					});
+				} catch {
+					// Ignore storage errors during medal recording
+				}
+			})();
 			void recordRoundResult(difficulty, { cleared, mastered, score: finalScore, elapsedSeconds: elapsed });
 		},
-		[round, mode, difficulty, remainingSeconds],
+		[round, mode, difficulty, remainingSeconds, vocabLanguage],
 	);
 
 	const endRound = useCallback(
@@ -278,11 +309,11 @@ export function useAnagramGame(difficulty: DifficultyLevel, mode: GameMode, init
 	const typeLetter = useCallback(
 		(rawLetter: string) => {
 			if (!isInteractive) return;
-			const letter = normalizeTile(rawLetter);
+			const letter = vocabLanguage === 'pt' ? normalizeWord(rawLetter) : normalizeTile(rawLetter);
 			const freeTile = tiles.find((tile) => tile.letter === letter && !stagedIds.includes(tile.id));
 			if (freeTile) setStagedIds((ids) => [...ids, freeTile.id]);
 		},
-		[isInteractive, tiles, stagedIds],
+		[isInteractive, tiles, stagedIds, vocabLanguage],
 	);
 
 	const recallLast = useCallback(() => {
@@ -320,23 +351,30 @@ export function useAnagramGame(difficulty: DifficultyLevel, mode: GameMode, init
 		setStagedIds([]);
 
 		if (result !== 'accepted') {
+			const matched = getMatchingWords(word, round);
 			if (result === 'duplicate') stats.current.duplicateGuesses += 1;
 			else stats.current.invalidGuesses += 1;
-			setFeedback({ kind: result, word });
+			setFeedback({ kind: result, word: matched[0] ?? word });
 			return;
 		}
 
-		const points = scoreWord(word);
-		const nextWords = [...foundWords, word];
+		const matchedWords = getMatchingWords(word, round);
+		const displayWord = matchedWords[0] ?? word;
+		const newlyFound = matchedWords.filter((candidate) => !foundWords.includes(candidate));
+		const points = scoreWord(displayWord);
+		const nextWords = [...foundWords, ...(newlyFound.length > 0 ? newlyFound : [word])];
 		const nextScore = score + points;
 		const newlyClearedBaseline = !hasClearedBaseline && isRoundCleared(round, nextWords, mode);
 
 		setFoundWords(nextWords);
 		setScore(nextScore);
 		if (newlyClearedBaseline) setHasClearedBaseline(true);
-		setFeedback({ kind: 'accepted', word, points, clearedBaseline: newlyClearedBaseline });
+		setFeedback({ kind: 'accepted', word: displayWord, points, clearedBaseline: newlyClearedBaseline });
 
-		if (round.fullLengthWords.includes(word) && stats.current.fullRackSecondsLeft === null) {
+		if (
+			round.fullLengthWords.some((fullWord) => matchedWords.includes(fullWord) || fullWord === word) &&
+			stats.current.fullRackSecondsLeft === null
+		) {
 			stats.current.fullRackSecondsLeft = mode === 'timed' ? remainingSeconds : 0;
 		}
 		if (mode === 'timed') setRemainingSeconds((seconds) => seconds + TIMED_MODE_BONUS_SECONDS_PER_WORD);

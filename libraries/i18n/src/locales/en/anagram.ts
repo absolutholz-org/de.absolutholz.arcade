@@ -31,6 +31,7 @@ export const enAnagram = {
 		label: 'Word Language',
 		en: 'English',
 		de: 'Deutsch',
+		pt: 'Português',
 	},
 	controls: {
 		shuffle: 'Shuffle',

@@ -34,25 +34,33 @@ describe('getAnagramData', () => {
 		assert.ok(fuesse.words.includes('füße'), 'Expected füße in words');
 		assert.ok(fuesse.words.includes('füßen'), 'Expected füßen in words');
 	});
+
+	it('resolves Portuguese accented words from unaccented rack tiles via the pt lexicon', () => {
+		const { rack, words } = getAnagramData(['m', 'a', 'c', 'a', 's'], 'easy', 'pt');
+		assert.deepEqual(rack, ['m', 'a', 'c', 'a', 's']);
+		assert.ok(words.includes('maçã'), 'Expected maçã in words');
+		const agua = getAnagramData(['a', 'g', 'u', 'a', 's'], 'easy', 'pt');
+		assert.ok(agua.words.includes('água'), 'Expected água in words');
+	});
 });
 
 describe('generateRound', () => {
 	const levels = Object.keys(DIFFICULTY_CONFIGS) as DifficultyLevel[];
 
-	it('builds solvable rounds for every tier in English and German', () => {
-		for (const language of ['en', 'de'] as const) {
+	it('builds solvable rounds for every tier in English, German, and Portuguese', () => {
+		for (const language of ['en', 'de', 'pt'] as const) {
 			for (const level of levels) {
 				const round = generateRound(level, language);
 				assert.ok(round.words.length > 0, `${language}:${level}`);
-				if (language === 'de') {
+				if (language === 'de' || language === 'pt') {
 					assert.equal(
 						round.rack.length,
 						DIFFICULTY_CONFIGS[level].rackSize,
-						`Expected ${DIFFICULTY_CONFIGS[level].rackSize} tiles for de:${level}`,
+						`Expected ${DIFFICULTY_CONFIGS[level].rackSize} tiles for ${language}:${level}`,
 					);
 					assert.ok(
 						round.words.length >= 6,
-						`Expected >= 6 sub-words for de:${level}, got ${round.words.length}`,
+						`Expected >= 6 sub-words for ${language}:${level}, got ${round.words.length}`,
 					);
 				}
 				assert.ok(
@@ -77,6 +85,7 @@ describe('generateRound', () => {
 		};
 		assert.deepEqual(generateRound('medium', 'en', makeRandom()), generateRound('medium', 'en', makeRandom()));
 		assert.deepEqual(generateRound('medium', 'de', makeRandom()), generateRound('medium', 'de', makeRandom()));
+		assert.deepEqual(generateRound('medium', 'pt', makeRandom()), generateRound('medium', 'pt', makeRandom()));
 	});
 
 	it('generates diverse root words across seeded rounds (at least 6 distinct words in 10 rounds)', () => {
@@ -88,7 +97,7 @@ describe('generateRound', () => {
 			};
 		};
 
-		for (const language of ['en', 'de'] as const) {
+		for (const language of ['en', 'de', 'pt'] as const) {
 			for (const level of ['easy', 'medium', 'hard', 'expert'] as const) {
 				const rootSignatures = new Set<string>();
 				for (let i = 1; i <= 10; i++) {

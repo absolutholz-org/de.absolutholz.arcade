@@ -152,6 +152,11 @@ export interface WaterSortCustomStats {
 export interface AnagramCustomStats {
 	readonly totalWordsFound?: number;
 	readonly expertWins?: number;
+	readonly moves?: number;
+	readonly hintsUsed?: number;
+	readonly undosUsed?: number;
+	readonly languagesPlayed?: Record<string, number>;
+	readonly expertLanguagesWon?: readonly string[];
 }
 
 export type GameId = keyof GameCustomStatsMap;

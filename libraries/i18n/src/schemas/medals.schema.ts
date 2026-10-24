@@ -177,6 +177,10 @@ export interface MedalsSchema {
 		readonly deja_vu: { readonly title: string; readonly desc: string };
 		readonly tiny_dictionary: { readonly title: string; readonly desc: string };
 		readonly sleeping_beauty: { readonly title: string; readonly desc: string };
+		readonly polyglot_apprentice: { readonly title: string; readonly desc: string };
+		readonly polyglot_trio: { readonly title: string; readonly desc: string };
+		readonly tower_of_babel: { readonly title: string; readonly desc: string };
+		readonly polyglot_expert: { readonly title: string; readonly desc: string };
 	};
 	readonly tents: {
 		readonly first_pitch: { readonly title: string; readonly desc: string };

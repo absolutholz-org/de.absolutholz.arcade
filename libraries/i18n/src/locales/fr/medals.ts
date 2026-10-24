@@ -548,6 +548,22 @@ export const frMedals = {
 			title: 'Sleeping Beauty',
 			desc: 'Pause a round for over 10 minutes, then still win it.',
 		},
+		polyglot_apprentice: {
+			title: 'Apprenti Polyglotte',
+			desc: 'Résolvez au moins un puzzle dans deux langues différentes.',
+		},
+		polyglot_trio: {
+			title: 'Trio Linguistique',
+			desc: 'Résolvez au moins un puzzle en anglais, allemand et portugais.',
+		},
+		tower_of_babel: {
+			title: 'Tour de Babel',
+			desc: 'Résolvez des puzzles dans des vocabulaires secondaires.',
+		},
+		polyglot_expert: {
+			title: 'Maître Interlinguistique',
+			desc: 'Terminez un puzzle Expert dans deux langues différentes.',
+		},
 	},
 	tents: {
 		first_pitch: {

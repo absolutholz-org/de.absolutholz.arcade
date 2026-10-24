@@ -548,6 +548,22 @@ export const deMedals = {
 			title: 'Sleeping Beauty',
 			desc: 'Pause a round for over 10 minutes, then still win it.',
 		},
+		polyglot_apprentice: {
+			title: 'Polyglotter Lehrling',
+			desc: 'Löse mindestens ein Rätsel in zwei verschiedenen Sprachen.',
+		},
+		polyglot_trio: {
+			title: 'Sprachliches Trio',
+			desc: 'Löse mindestens ein Rätsel auf Englisch, Deutsch und Portugiesisch.',
+		},
+		tower_of_babel: {
+			title: 'Turm zu Babel',
+			desc: 'Löse Rätsel in Fremdsprachen.',
+		},
+		polyglot_expert: {
+			title: 'Meister der Sprachen',
+			desc: 'Meistere ein Experten-Rätsel in zwei verschiedenen Sprachen.',
+		},
 	},
 	tents: {
 		first_pitch: {

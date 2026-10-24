@@ -126,7 +126,12 @@ export function createInitialCustomStats<G extends GameId>(gameId: G): GameCusto
 				bestHardStreak: 0,
 			} as unknown as GameCustomStatsMap[G];
 		case 'anagram':
-			return { totalWordsFound: 0, expertWins: 0 } as GameCustomStatsMap[G];
+			return {
+				totalWordsFound: 0,
+				expertWins: 0,
+				languagesPlayed: {},
+				expertLanguagesWon: [],
+			} as unknown as GameCustomStatsMap[G];
 		default:
 			throw new Error(`createInitialCustomStats error: Unknown gameId "${String(gameId)}"`);
 	}

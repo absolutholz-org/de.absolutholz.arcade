@@ -7,6 +7,7 @@ import {
 	isRoundCleared,
 	isRoundMastered,
 	normalizeTile,
+	normalizeWord,
 	scoreWord,
 	validateGuess,
 } from './validator.ts';
@@ -14,6 +15,19 @@ import {
 const stare = getAnagramData(['s', 't', 'a', 'r', 'e'], 'easy');
 const apfel = getAnagramData(['ä', 'p', 'f', 'e', 'l'], 'easy', 'de');
 const fuesse = getAnagramData(['f', 'ü', 'ß', 'e', 'n'], 'easy', 'de');
+const maca = getAnagramData(['m', 'a', 'c', 'a', 's'], 'easy', 'pt');
+const pao = getAnagramData(['p', 'a', 'o', 's', 'r'], 'easy', 'pt');
+const coracao = getAnagramData(['c', 'o', 'r', 'a', 'c', 'a', 'o'], 'hard', 'pt');
+
+describe('normalizeWord', () => {
+	it('strips Portuguese diacritics via NFD decomposition and lowercases', () => {
+		assert.equal(normalizeWord('maçã'), 'maca');
+		assert.equal(normalizeWord('MAÇÃ'), 'maca');
+		assert.equal(normalizeWord('pão'), 'pao');
+		assert.equal(normalizeWord('ÁGUA'), 'agua');
+		assert.equal(normalizeWord('CORAÇÃO'), 'coracao');
+	});
+});
 
 describe('canFormWord', () => {
 	it('treats rack tiles as single-use', () => {
@@ -26,6 +40,13 @@ describe('canFormWord', () => {
 		assert.equal(canFormWord('FÜẞE', ['ß', 'ü', 'f', 'e']), true);
 		assert.equal(canFormWord('füße', ['s', 's', 'ü', 'f', 'e']), false);
 		assert.equal(canFormWord('äpfel', ['a', 'e', 'p', 'f', 'e', 'l']), false);
+	});
+
+	it('matches accented Portuguese words against unaccented rack tiles', () => {
+		assert.equal(canFormWord('maçã', ['m', 'a', 'c', 'a']), true);
+		assert.equal(canFormWord('pão', ['p', 'a', 'o']), true);
+		assert.equal(canFormWord('água', ['a', 'g', 'u', 'a']), true);
+		assert.equal(canFormWord('coração', ['c', 'o', 'r', 'a', 'c', 'a', 'o']), true);
 	});
 
 	it('normalizes and formats German uppercase tiles including ẞ', () => {
@@ -55,6 +76,17 @@ describe('validateGuess', () => {
 		assert.equal(validateGuess('ÄPFEL', apfel, ['äpfel'], 'easy'), 'duplicate');
 		assert.equal(validateGuess('Füße', fuesse, [], 'easy'), 'accepted');
 		assert.equal(validateGuess('FÜẞE', fuesse, [], 'easy'), 'accepted');
+	});
+
+	it('accepts unaccented letter inputs for accented Portuguese words', () => {
+		assert.ok(maca.words.includes('maçã'));
+		assert.equal(validateGuess('maca', maca, [], 'easy'), 'accepted');
+		assert.equal(validateGuess('MACA', maca, [], 'easy'), 'accepted');
+		assert.equal(validateGuess('maca', maca, ['maçã'], 'easy'), 'duplicate');
+		assert.ok(pao.words.includes('pão'));
+		assert.equal(validateGuess('pao', pao, [], 'easy'), 'accepted');
+		assert.ok(coracao.words.includes('coração'));
+		assert.equal(validateGuess('coracao', coracao, [], 'hard'), 'accepted');
 	});
 });
 

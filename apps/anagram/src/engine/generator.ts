@@ -137,6 +137,80 @@ export const CURATED_ROOT_WORDS: Record<LanguageCode, Record<DifficultyLevel, re
 			'geschenk',
 		],
 	},
+	pt: {
+		easy: [
+			'prato',
+			'porta',
+			'carta',
+			'costa',
+			'pedra',
+			'festa',
+			'vento',
+			'plano',
+			'corda',
+			'barco',
+			'campo',
+			'livro',
+			'ponte',
+			'sorte',
+			'terra',
+			'forma',
+			'marca',
+			'carro',
+			'canto',
+			'porto',
+		],
+		medium: [
+			'pratos',
+			'portas',
+			'cartas',
+			'pedras',
+			'campos',
+			'barcos',
+			'ventos',
+			'pontes',
+			'partes',
+			'formas',
+			'marcas',
+			'cordas',
+			'planos',
+			'festas',
+			'costas',
+			'cantos',
+		],
+		hard: [
+			'estrela',
+			'planeta',
+			'mercado',
+			'caminho',
+			'coracao',
+			'inverno',
+			'jardins',
+			'janelas',
+			'castelo',
+			'momento',
+			'partido',
+			'sistema',
+			'palacio',
+			'espelho',
+		],
+		expert: [
+			'estrelas',
+			'planetas',
+			'mercados',
+			'caminhos',
+			'castelos',
+			'momentos',
+			'partidos',
+			'sistemas',
+			'invernos',
+			'palacios',
+			'coracoes',
+			'presente',
+			'espelhos',
+			'trabalhe',
+		],
+	},
 };
 
 type RandomSource = () => number;
@@ -153,6 +227,7 @@ export function shuffleRack<T>(rack: readonly T[], random: RandomSource = Math.r
 const MIN_SOLVABLE_WORDS_BY_LANG: Record<LanguageCode, number> = {
 	en: 8,
 	de: 6,
+	pt: 6,
 };
 const MAX_SAMPLE_ATTEMPTS = 50;
 
@@ -205,7 +280,18 @@ export function generateRound(
 		}
 	}
 
-	// Fallback if random sampling didn't find >= minSolvableWords: pick a random candidate
+	// Fallback if random sampling didn't find >= minSolvableWords: prefer a curated root that meets threshold
+	if (curatedPool.length > 0) {
+		const startIndex = Math.floor(random() * curatedPool.length);
+		for (let offset = 0; offset < curatedPool.length; offset++) {
+			const candidate = curatedPool[(startIndex + offset) % curatedPool.length];
+			const data = getAnagramData(shuffleRack(Array.from(candidate), random), difficulty, language);
+			if (data.words.length >= minSolvableWords) {
+				return data;
+			}
+		}
+	}
+
 	const fallbackIndex = Math.floor(random() * availablePool.length);
 	return getAnagramData(shuffleRack(Array.from(availablePool[fallbackIndex]), random), difficulty, language);
 }

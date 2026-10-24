@@ -1,8 +1,8 @@
 export type DifficultyLevel = 'easy' | 'medium' | 'hard' | 'expert';
 export type GameMode = 'zen' | 'timed';
-export type LanguageCode = 'en' | 'de';
+export type LanguageCode = 'en' | 'de' | 'pt';
 
-export const SUPPORTED_VOCAB_LANGUAGES: readonly LanguageCode[] = ['en', 'de'];
+export const SUPPORTED_VOCAB_LANGUAGES: readonly LanguageCode[] = ['en', 'de', 'pt'];
 
 export interface DifficultyConfig {
 	rackSize: number;
@@ -20,9 +20,10 @@ export const DIFFICULTY_CONFIGS: Record<DifficultyLevel, DifficultyConfig> = {
 export const TIMED_MODE_INITIAL_SECONDS = 150;
 export const TIMED_MODE_BONUS_SECONDS_PER_WORD = 5;
 
-/** Schema of `lexicon.data.<language>.json`: a flat list of lowercase words. */
+/** Schema of `lexicon.data.<language>.json`: a flat list of lowercase words and optional normalized signature map. */
 export interface LexiconFile {
 	words: string[];
+	normalized?: Record<string, string[]>;
 }
 
 export interface AnagramData {

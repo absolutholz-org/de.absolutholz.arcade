@@ -1,5 +1,6 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import type { JSX } from 'react';
+import { normalizeWord } from '../../engine/validator.js';
 import * as S from './AnagramSlots.styles.js';
 import type { AnagramSlotsProps } from './AnagramSlots.types.js';
 
@@ -20,7 +21,10 @@ export function AnagramSlots({ words, foundWords, isRevealed }: AnagramSlotsProp
 					<h3>{t('board.wordLength', { length })}</h3>
 					<ul>
 						{(wordsByLength.get(length) ?? []).map((word) => {
-							const isFound = foundWords.includes(word);
+							const normalizedTarget = normalizeWord(word);
+							const isFound =
+								foundWords.includes(word) ||
+								foundWords.some((found) => normalizeWord(found) === normalizedTarget);
 							const state = isFound ? 'found' : isRevealed ? 'revealed' : 'hidden';
 							return (
 								<S.Slot

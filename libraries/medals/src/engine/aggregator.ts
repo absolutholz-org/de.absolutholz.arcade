@@ -452,12 +452,39 @@ export function updateCustomStats<G extends GameId>(
 
 		case 'anagram': {
 			const stats = { ...(current as GameCustomStatsMap['anagram']) };
+			const customData = result.customData as Partial<AnagramCustomStats> | undefined;
 			const wordsFoundInRound = Number(result.roundContext?.wordsFound ?? 0);
+			const roundLang =
+				typeof result.roundContext?.language === 'string' ? result.roundContext.language : undefined;
+
+			let languagesPlayed: Record<string, number> = {
+				...(stats.languagesPlayed ?? {}),
+				...(customData?.languagesPlayed ?? {}),
+			};
+			if (result.won && roundLang && !customData?.languagesPlayed) {
+				languagesPlayed = {
+					...languagesPlayed,
+					[roundLang]: (languagesPlayed[roundLang] ?? 0) + 1,
+				};
+			}
+
+			const expertLangSet = new Set<string>([
+				...(stats.expertLanguagesWon ?? []),
+				...(customData?.expertLanguagesWon ?? []),
+			]);
+			if (result.won && result.levelKey === 'expert' && roundLang) {
+				expertLangSet.add(roundLang);
+			}
+
 			return {
 				updatedCustom: {
+					...stats,
+					...customData,
 					totalWordsFound: (stats.totalWordsFound ?? 0) + Math.max(0, wordsFoundInRound),
 					expertWins: (stats.expertWins ?? 0) + (result.won && result.levelKey === 'expert' ? 1 : 0),
-				} as GameCustomStatsMap[G],
+					languagesPlayed,
+					expertLanguagesWon: Array.from(expertLangSet),
+				} as unknown as GameCustomStatsMap[G],
 				isNewBestTime,
 			};
 		}
@@ -831,10 +858,20 @@ export function mergeGameMedalState<G extends GameId>(
 	} else if (local.gameId === 'anagram') {
 		const localCustom = local.customStats as AnagramCustomStats;
 		const remoteCustom = remote.customStats as AnagramCustomStats;
+		const mergedLanguagesPlayed: Record<string, number> = { ...(remoteCustom.languagesPlayed ?? {}) };
+		for (const [lang, count] of Object.entries(localCustom.languagesPlayed ?? {})) {
+			mergedLanguagesPlayed[lang] = Math.max(count, mergedLanguagesPlayed[lang] ?? 0);
+		}
+		const mergedExpertLanguagesWon = Array.from(
+			new Set([...(localCustom.expertLanguagesWon ?? []), ...(remoteCustom.expertLanguagesWon ?? [])]),
+		);
 
 		mergedCustom = {
+			...localCustom,
 			totalWordsFound: Math.max(localCustom.totalWordsFound ?? 0, remoteCustom.totalWordsFound ?? 0),
 			expertWins: Math.max(localCustom.expertWins ?? 0, remoteCustom.expertWins ?? 0),
+			languagesPlayed: mergedLanguagesPlayed,
+			expertLanguagesWon: mergedExpertLanguagesWon,
 		} as unknown as GameCustomStatsMap[G];
 	}
 

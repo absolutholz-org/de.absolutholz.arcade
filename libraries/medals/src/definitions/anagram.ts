@@ -168,4 +168,30 @@ export const ANAGRAM_MEDAL_DEFINITIONS: readonly AchievementDefinition<'anagram'
 		{ id: 'anagram_sleeping_beauty', key: 'sleeping_beauty', tier: 'silver', icon: '' },
 		(context) => context.result.won && count(context, 'pausedSeconds') > 600,
 	),
+
+	// Polyglot medals
+	standalone(
+		{ id: 'anagram_polyglot_apprentice', key: 'polyglot_apprentice', tier: 'bronze', icon: '' },
+		(context) => {
+			const languagesPlayed = context.updatedCustomStats.languagesPlayed ?? {};
+			return Object.keys(languagesPlayed).filter((lang) => (languagesPlayed[lang] ?? 0) > 0).length >= 2;
+		},
+	),
+	standalone({ id: 'anagram_polyglot_trio', key: 'polyglot_trio', tier: 'silver', icon: '' }, (context) => {
+		const languagesPlayed = context.updatedCustomStats.languagesPlayed ?? {};
+		return (languagesPlayed.en ?? 0) >= 1 && (languagesPlayed.de ?? 0) >= 1 && (languagesPlayed.pt ?? 0) >= 1;
+	}),
+	ladder(
+		{ id: 'anagram_tower_of_babel', key: 'tower_of_babel' },
+		'secondary_language_wins',
+		{ bronze: 5, silver: 20, gold: 50 },
+		(context) => {
+			const languagesPlayed = context.updatedCustomStats.languagesPlayed ?? {};
+			return (languagesPlayed.de ?? 0) + (languagesPlayed.pt ?? 0);
+		},
+	),
+	standalone({ id: 'anagram_polyglot_expert', key: 'polyglot_expert', tier: 'gold', icon: '' }, (context) => {
+		const expertLanguagesWon = context.updatedCustomStats.expertLanguagesWon ?? [];
+		return expertLanguagesWon.length >= 2;
+	}),
 ];
