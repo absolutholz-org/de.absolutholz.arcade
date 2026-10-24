@@ -2,7 +2,6 @@ import { getAnagramData, getRackCandidates } from './lexicon.ts';
 import { type AnagramData, DIFFICULTY_CONFIGS, type DifficultyLevel, type LanguageCode } from './types.ts';
 
 const VOWELS = new Set(['a', 'e', 'i', 'o', 'u', 'ä', 'ö', 'ü', 'y']);
-const COMMON_VOWELS = new Set(['e', 'a', 'o']);
 const HIGH_FREQ_CONSONANTS = new Set(['r', 's', 't', 'l', 'n', 'd', 'p', 'm', 'c']);
 const RARE_LETTERS = new Set(['q', 'x', 'z', 'j']);
 
@@ -86,47 +85,27 @@ export function shuffleRack<T>(rack: readonly T[], random: RandomSource = Math.r
 	return shuffled;
 }
 
-function isValidFallbackCandidateRack(
-	rack: readonly string[],
-	difficulty: DifficultyLevel,
-	data: AnagramData,
-): boolean {
-	// Require candidate roots to have at least 10 solvable sub-words of 3+ letters.
-	if (data.words.length < 10) return false;
+const MIN_SOLVABLE_WORDS = 8;
+const MAX_SAMPLE_ATTEMPTS = 50;
 
+function isValidCandidateRack(rack: readonly string[], difficulty: DifficultyLevel): boolean {
 	if (difficulty === 'easy' || difficulty === 'medium') {
 		// Disallow candidate roots containing rare letters (Q, X, Z, J) on Easy and Medium tiers.
 		if (rack.some((tile) => RARE_LETTERS.has(tile))) return false;
 	}
 
+	const vowelCount = rack.filter((tile) => VOWELS.has(tile)).length;
 	if (difficulty === 'easy') {
-		const vowelCount = rack.filter((tile) => VOWELS.has(tile)).length;
 		// Enforce exactly 1 or 2 vowels for Easy roots.
 		if (vowelCount < 1 || vowelCount > 2) return false;
-
 		// Require the rack to include high-frequency consonants (R, S, T, L, N, D, P, M, C).
-		const hasHighFreqConsonant = rack.some((tile) => HIGH_FREQ_CONSONANTS.has(tile));
-		if (!hasHighFreqConsonant) return false;
+		if (!rack.some((tile) => HIGH_FREQ_CONSONANTS.has(tile))) return false;
+	} else {
+		// Ensure there is at least one vowel and at least one consonant.
+		if (vowelCount === 0 || vowelCount >= rack.length) return false;
 	}
+
 	return true;
-}
-
-// Lower is better. Word-count distance dominates; tier flavor only breaks near-ties.
-function scoreCandidate(data: AnagramData, difficulty: DifficultyLevel): number {
-	const { min, max } = DIFFICULTY_CONFIGS[difficulty].targetWordCount;
-	const count = data.words.length;
-	const rangeDistance = count < min ? min - count : count > max ? count - max : 0;
-
-	let flavorPenalty = 0;
-	if (difficulty === 'easy') {
-		const vowelCount = data.rack.filter((tile) => VOWELS.has(tile)).length;
-		// Ideal vowel balance for 5-letter easy racks is 2 vowels (40%). Penalize deviations.
-		flavorPenalty = Math.abs(vowelCount - 2) * 0.5;
-	} else if (difficulty === 'expert') {
-		const duplicates = data.rack.length - new Set(data.rack).size;
-		flavorPenalty = 1 / (1 + duplicates);
-	}
-	return rangeDistance + flavorPenalty;
 }
 
 export function generateRound(
@@ -134,26 +113,28 @@ export function generateRound(
 	language: LanguageCode = 'en',
 	random: RandomSource = Math.random,
 ): AnagramData {
+	const { rackSize } = DIFFICULTY_CONFIGS[difficulty];
 	const curatedPool = CURATED_ROOT_WORDS[language]?.[difficulty];
-	if (curatedPool && curatedPool.length > 0) {
-		const candidates = curatedPool.map((root) =>
-			getAnagramData(shuffleRack(Array.from(root), random), difficulty, language),
-		);
-		const bestScore = Math.min(...candidates.map((candidate) => scoreCandidate(candidate, difficulty)));
-		const best = candidates.filter((candidate) => scoreCandidate(candidate, difficulty) === bestScore);
-		return best[Math.floor(random() * best.length)];
+
+	// Combine curated root words with the full dictionary rack candidates
+	const dictRoots = getRackCandidates(rackSize, language);
+	const pool = Array.from(new Set([...(curatedPool ?? []), ...dictRoots])).filter((root) =>
+		isValidCandidateRack(Array.from(root), difficulty),
+	);
+
+	const availablePool = pool.length > 0 ? pool : dictRoots;
+
+	// Randomly sample candidates that satisfy the minimum solvable word threshold
+	for (let attempt = 0; attempt < MAX_SAMPLE_ATTEMPTS; attempt++) {
+		const randomIndex = Math.floor(random() * availablePool.length);
+		const chosenRoot = availablePool[randomIndex];
+		const data = getAnagramData(shuffleRack(Array.from(chosenRoot), random), difficulty, language);
+		if (data.words.length >= MIN_SOLVABLE_WORDS) {
+			return data;
+		}
 	}
 
-	// Dynamic fallback from dictionary if no curated words are defined
-	const { rackSize } = DIFFICULTY_CONFIGS[difficulty];
-	const rawRoots = getRackCandidates(rackSize, language);
-	const rawCandidates = rawRoots.map((root) =>
-		getAnagramData(shuffleRack(Array.from(root), random), difficulty, language),
-	);
-	const validCandidates = rawCandidates.filter((cand) => isValidFallbackCandidateRack(cand.rack, difficulty, cand));
-	const candidates = validCandidates.length > 0 ? validCandidates : rawCandidates;
-
-	const bestScore = Math.min(...candidates.map((candidate) => scoreCandidate(candidate, difficulty)));
-	const best = candidates.filter((candidate) => scoreCandidate(candidate, difficulty) === bestScore);
-	return best[Math.floor(random() * best.length)];
+	// Fallback if random sampling didn't find >= MIN_SOLVABLE_WORDS: pick a random candidate
+	const fallbackIndex = Math.floor(random() * availablePool.length);
+	return getAnagramData(shuffleRack(Array.from(availablePool[fallbackIndex]), random), difficulty, language);
 }

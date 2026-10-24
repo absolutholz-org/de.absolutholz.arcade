@@ -58,6 +58,29 @@ describe('generateRound', () => {
 		};
 		assert.deepEqual(generateRound('medium', 'en', makeRandom()), generateRound('medium', 'en', makeRandom()));
 	});
+
+	it('generates diverse root words across seeded rounds (at least 6 distinct words in 10 rounds)', () => {
+		const makeRandom = (initialSeed: number) => {
+			let seed = initialSeed;
+			return () => {
+				seed = (seed * 16807) % 2147483647;
+				return seed / 2147483647;
+			};
+		};
+
+		for (const level of ['medium', 'expert'] as const) {
+			const rootSignatures = new Set<string>();
+			for (let i = 1; i <= 10; i++) {
+				const round = generateRound(level, 'en', makeRandom(i * 100 + 7));
+				const signature = [...round.rack].sort().join('');
+				rootSignatures.add(signature);
+			}
+			assert.ok(
+				rootSignatures.size >= 6,
+				`Expected at least 6 distinct root words for ${level}, got ${rootSignatures.size}`,
+			);
+		}
+	});
 });
 
 describe('shuffleRack', () => {
