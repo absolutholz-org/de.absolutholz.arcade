@@ -1,8 +1,8 @@
 export type DifficultyLevel = 'easy' | 'medium' | 'hard' | 'expert';
 export type GameMode = 'zen' | 'timed';
-export type LanguageCode = 'en' | 'de' | 'pt';
+export type LanguageCode = 'en' | 'de' | 'fr' | 'pt';
 
-export const SUPPORTED_VOCAB_LANGUAGES: readonly LanguageCode[] = ['en', 'de', 'pt'];
+export const SUPPORTED_VOCAB_LANGUAGES: readonly LanguageCode[] = ['en', 'de', 'fr', 'pt'];
 
 export interface DifficultyConfig {
 	rackSize: number;

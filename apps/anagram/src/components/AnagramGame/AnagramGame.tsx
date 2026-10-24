@@ -28,7 +28,8 @@ function resolveSearchParams(
 	fallbackMode: GameMode,
 	routeLanguage: SupportedLanguageCode,
 ): { difficulty: DifficultyLevel; mode: GameMode; vocabLanguage: LanguageCode } {
-	const defaultVocab: LanguageCode = routeLanguage === 'de' ? 'de' : routeLanguage === 'pt' ? 'pt' : 'en';
+	const defaultVocab: LanguageCode =
+		routeLanguage === 'de' ? 'de' : routeLanguage === 'fr' ? 'fr' : routeLanguage === 'pt' ? 'pt' : 'en';
 	if (typeof window === 'undefined') {
 		return { difficulty: fallbackDifficulty, mode: fallbackMode, vocabLanguage: defaultVocab };
 	}

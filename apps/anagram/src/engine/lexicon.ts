@@ -1,5 +1,6 @@
 import germanLexicon from './lexicon.data.de.json' with { type: 'json' };
 import englishLexicon from './lexicon.data.en.json' with { type: 'json' };
+import frenchLexicon from './lexicon.data.fr.json' with { type: 'json' };
 import portugueseLexicon from './lexicon.data.pt.json' with { type: 'json' };
 import {
 	type AnagramData,
@@ -13,6 +14,7 @@ import { normalizeWord } from './validator.ts';
 const LEXICONS: Record<LanguageCode, LexiconFile> = {
 	en: englishLexicon,
 	de: germanLexicon,
+	fr: frenchLexicon,
 	pt: portugueseLexicon,
 };
 
@@ -52,10 +54,14 @@ function getSignatureIndex(language: LanguageCode): Map<string, string[]> {
 	return index;
 }
 
+function usesNormalizedTiles(language: LanguageCode): boolean {
+	return language === 'pt' || language === 'fr';
+}
+
 /** Returns one root word per signature whose length is closest to `rackSize`. */
 export function getRackCandidates(rackSize: number, language: LanguageCode = 'en'): string[] {
 	const roots = [...getSignatureIndex(language).values()].map((bucket) =>
-		language === 'pt' ? normalizeWord(bucket[0]) : bucket[0],
+		usesNormalizedTiles(language) ? normalizeWord(bucket[0]) : bucket[0],
 	);
 	const distance = (word: string) => Math.abs(toTiles(word).length - rackSize);
 	const closest = Math.min(...roots.map(distance));
@@ -69,7 +75,7 @@ export function getAnagramData(
 ): AnagramData {
 	const { minWordLength } = DIFFICULTY_CONFIGS[difficulty];
 	const rack = rackLetters.map((letter) =>
-		language === 'pt' ? normalizeWord(letter) : letter.toLocaleLowerCase(language),
+		usesNormalizedTiles(language) ? normalizeWord(letter) : letter.toLocaleLowerCase(language),
 	);
 	const sortedRack = [...rack].sort();
 	const index = getSignatureIndex(language);

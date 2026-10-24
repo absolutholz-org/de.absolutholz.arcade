@@ -37,6 +37,7 @@ function getInitialVocabLanguage(routeLanguage: string): LanguageCode {
 		}
 	}
 	if (routeLanguage === 'de') return 'de';
+	if (routeLanguage === 'fr') return 'fr';
 	if (routeLanguage === 'pt') return 'pt';
 	return 'en';
 }

@@ -42,17 +42,25 @@ describe('getAnagramData', () => {
 		const agua = getAnagramData(['a', 'g', 'u', 'a', 's'], 'easy', 'pt');
 		assert.ok(agua.words.includes('água'), 'Expected água in words');
 	});
+
+	it('resolves French accented words from unaccented rack tiles via the fr lexicon', () => {
+		const { rack, words } = getAnagramData(['e', 'c', 'o', 'l', 'e', 's'], 'medium', 'fr');
+		assert.deepEqual(rack, ['e', 'c', 'o', 'l', 'e', 's']);
+		assert.ok(words.includes('école') || words.includes('écoles'), 'Expected école in words');
+		const facade = getAnagramData(['f', 'a', 'c', 'a', 'd', 'e'], 'medium', 'fr');
+		assert.ok(facade.words.includes('façade'), 'Expected façade in words');
+	});
 });
 
 describe('generateRound', () => {
 	const levels = Object.keys(DIFFICULTY_CONFIGS) as DifficultyLevel[];
 
-	it('builds solvable rounds for every tier in English, German, and Portuguese', () => {
-		for (const language of ['en', 'de', 'pt'] as const) {
+	it('builds solvable rounds for every tier in English, German, Portuguese, and French', () => {
+		for (const language of ['en', 'de', 'pt', 'fr'] as const) {
 			for (const level of levels) {
 				const round = generateRound(level, language);
 				assert.ok(round.words.length > 0, `${language}:${level}`);
-				if (language === 'de' || language === 'pt') {
+				if (language === 'de' || language === 'pt' || language === 'fr') {
 					assert.equal(
 						round.rack.length,
 						DIFFICULTY_CONFIGS[level].rackSize,
@@ -86,6 +94,7 @@ describe('generateRound', () => {
 		assert.deepEqual(generateRound('medium', 'en', makeRandom()), generateRound('medium', 'en', makeRandom()));
 		assert.deepEqual(generateRound('medium', 'de', makeRandom()), generateRound('medium', 'de', makeRandom()));
 		assert.deepEqual(generateRound('medium', 'pt', makeRandom()), generateRound('medium', 'pt', makeRandom()));
+		assert.deepEqual(generateRound('medium', 'fr', makeRandom()), generateRound('medium', 'fr', makeRandom()));
 	});
 
 	it('generates diverse root words across seeded rounds (at least 6 distinct words in 10 rounds)', () => {
@@ -97,7 +106,7 @@ describe('generateRound', () => {
 			};
 		};
 
-		for (const language of ['en', 'de', 'pt'] as const) {
+		for (const language of ['en', 'de', 'pt', 'fr'] as const) {
 			for (const level of ['easy', 'medium', 'hard', 'expert'] as const) {
 				const rootSignatures = new Set<string>();
 				for (let i = 1; i <= 10; i++) {

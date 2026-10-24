@@ -18,6 +18,9 @@ const fuesse = getAnagramData(['f', 'ü', 'ß', 'e', 'n'], 'easy', 'de');
 const maca = getAnagramData(['m', 'a', 'c', 'a', 's'], 'easy', 'pt');
 const pao = getAnagramData(['p', 'a', 'o', 's', 'r'], 'easy', 'pt');
 const coracao = getAnagramData(['c', 'o', 'r', 'a', 'c', 'a', 'o'], 'hard', 'pt');
+const ecole = getAnagramData(['e', 'c', 'o', 'l', 'e', 's'], 'medium', 'fr');
+const facade = getAnagramData(['f', 'a', 'c', 'a', 'd', 'e'], 'medium', 'fr');
+const foret = getAnagramData(['f', 'o', 'r', 'e', 't', 's'], 'medium', 'fr');
 
 describe('normalizeWord', () => {
 	it('strips Portuguese diacritics via NFD decomposition and lowercases', () => {
@@ -26,6 +29,14 @@ describe('normalizeWord', () => {
 		assert.equal(normalizeWord('pão'), 'pao');
 		assert.equal(normalizeWord('ÁGUA'), 'agua');
 		assert.equal(normalizeWord('CORAÇÃO'), 'coracao');
+	});
+
+	it('strips French diacritics via NFD decomposition and lowercases', () => {
+		assert.equal(normalizeWord('école'), 'ecole');
+		assert.equal(normalizeWord('ÉCOLE'), 'ecole');
+		assert.equal(normalizeWord('façade'), 'facade');
+		assert.equal(normalizeWord('hôtel'), 'hotel');
+		assert.equal(normalizeWord('forêt'), 'foret');
 	});
 });
 
@@ -47,6 +58,13 @@ describe('canFormWord', () => {
 		assert.equal(canFormWord('pão', ['p', 'a', 'o']), true);
 		assert.equal(canFormWord('água', ['a', 'g', 'u', 'a']), true);
 		assert.equal(canFormWord('coração', ['c', 'o', 'r', 'a', 'c', 'a', 'o']), true);
+	});
+
+	it('matches accented French words against unaccented rack tiles', () => {
+		assert.equal(canFormWord('école', ['e', 'c', 'o', 'l', 'e']), true);
+		assert.equal(canFormWord('façade', ['f', 'a', 'c', 'a', 'd', 'e']), true);
+		assert.equal(canFormWord('hôtel', ['h', 'o', 't', 'e', 'l']), true);
+		assert.equal(canFormWord('forêt', ['f', 'o', 'r', 'e', 't']), true);
 	});
 
 	it('normalizes and formats German uppercase tiles including ẞ', () => {
@@ -87,6 +105,19 @@ describe('validateGuess', () => {
 		assert.equal(validateGuess('pao', pao, [], 'easy'), 'accepted');
 		assert.ok(coracao.words.includes('coração'));
 		assert.equal(validateGuess('coracao', coracao, [], 'hard'), 'accepted');
+	});
+
+	it('accepts both unaccented and accented inputs for French words', () => {
+		assert.ok(ecole.words.includes('école') || ecole.words.includes('écoles'));
+		assert.equal(validateGuess('ecole', ecole, [], 'medium'), 'accepted');
+		assert.equal(validateGuess('ÉCOLE', ecole, [], 'medium'), 'accepted');
+		assert.equal(validateGuess('ecole', ecole, ['école'], 'medium'), 'duplicate');
+		assert.ok(facade.words.includes('façade'));
+		assert.equal(validateGuess('facade', facade, [], 'medium'), 'accepted');
+		assert.equal(validateGuess('FAÇADE', facade, [], 'medium'), 'accepted');
+		assert.ok(foret.words.includes('forêt') || foret.words.includes('forêts'));
+		assert.equal(validateGuess('foret', foret, [], 'medium'), 'accepted');
+		assert.equal(validateGuess('FORÊT', foret, [], 'medium'), 'accepted');
 	});
 });
 

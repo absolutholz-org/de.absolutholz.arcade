@@ -309,7 +309,8 @@ export function useAnagramGame(difficulty: DifficultyLevel, mode: GameMode, init
 	const typeLetter = useCallback(
 		(rawLetter: string) => {
 			if (!isInteractive) return;
-			const letter = vocabLanguage === 'pt' ? normalizeWord(rawLetter) : normalizeTile(rawLetter);
+			const letter =
+				vocabLanguage === 'pt' || vocabLanguage === 'fr' ? normalizeWord(rawLetter) : normalizeTile(rawLetter);
 			const freeTile = tiles.find((tile) => tile.letter === letter && !stagedIds.includes(tile.id));
 			if (freeTile) setStagedIds((ids) => [...ids, freeTile.id]);
 		},

@@ -179,7 +179,7 @@ export const ANAGRAM_MEDAL_DEFINITIONS: readonly AchievementDefinition<'anagram'
 	),
 	standalone({ id: 'anagram_polyglot_trio', key: 'polyglot_trio', tier: 'silver', icon: '' }, (context) => {
 		const languagesPlayed = context.updatedCustomStats.languagesPlayed ?? {};
-		return (languagesPlayed.en ?? 0) >= 1 && (languagesPlayed.de ?? 0) >= 1 && (languagesPlayed.pt ?? 0) >= 1;
+		return Object.keys(languagesPlayed).filter((lang) => (languagesPlayed[lang] ?? 0) >= 1).length >= 3;
 	}),
 	ladder(
 		{ id: 'anagram_tower_of_babel', key: 'tower_of_babel' },
@@ -187,7 +187,7 @@ export const ANAGRAM_MEDAL_DEFINITIONS: readonly AchievementDefinition<'anagram'
 		{ bronze: 5, silver: 20, gold: 50 },
 		(context) => {
 			const languagesPlayed = context.updatedCustomStats.languagesPlayed ?? {};
-			return (languagesPlayed.de ?? 0) + (languagesPlayed.pt ?? 0);
+			return (languagesPlayed.de ?? 0) + (languagesPlayed.fr ?? 0) + (languagesPlayed.pt ?? 0);
 		},
 	),
 	standalone({ id: 'anagram_polyglot_expert', key: 'polyglot_expert', tier: 'gold', icon: '' }, (context) => {

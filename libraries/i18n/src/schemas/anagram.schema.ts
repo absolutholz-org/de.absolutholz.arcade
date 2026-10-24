@@ -30,6 +30,7 @@ export const anagramSchema = {
 		label: 'vocabulary.label',
 		en: 'vocabulary.en',
 		de: 'vocabulary.de',
+		fr: 'vocabulary.fr',
 		pt: 'vocabulary.pt',
 	},
 	controls: {

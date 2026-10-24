@@ -211,6 +211,80 @@ export const CURATED_ROOT_WORDS: Record<LanguageCode, Record<DifficultyLevel, re
 			'trabalhe',
 		],
 	},
+	fr: {
+		easy: [
+			'abris',
+			'batis',
+			'bales',
+			'bains',
+			'balte',
+			'baser',
+			'bails',
+			'berca',
+			'abces',
+			'basic',
+			'baste',
+			'batir',
+			'barns',
+			'beurs',
+			'bacle',
+			'becta',
+			'cabri',
+			'bater',
+			'baril',
+			'bilat',
+		],
+		medium: [
+			'balise',
+			'baiser',
+			'abetis',
+			'albite',
+			'bistra',
+			'abetir',
+			'benira',
+			'baltes',
+			'bercas',
+			'boitas',
+			'baient',
+			'braisa',
+			'cabris',
+			'bilera',
+			'abuser',
+			'baisat',
+		],
+		hard: [
+			'albites',
+			'beniras',
+			'abrites',
+			'baliser',
+			'baients',
+			'bercais',
+			'aubiers',
+			'arabise',
+			'bilames',
+			'boisera',
+			'baisers',
+			'abolies',
+			'baisote',
+			'balaies',
+			'balises',
+		],
+		expert: [
+			'abstenir',
+			'abruties',
+			'abetiras',
+			'balisent',
+			'baisoter',
+			'balisera',
+			'batelais',
+			'bleutais',
+			'badiners',
+			'aboients',
+			'abolites',
+			'baierons',
+			'bestiale',
+		],
+	},
 };
 
 type RandomSource = () => number;
@@ -227,6 +301,7 @@ export function shuffleRack<T>(rack: readonly T[], random: RandomSource = Math.r
 const MIN_SOLVABLE_WORDS_BY_LANG: Record<LanguageCode, number> = {
 	en: 8,
 	de: 6,
+	fr: 6,
 	pt: 6,
 };
 const MAX_SAMPLE_ATTEMPTS = 50;
@@ -262,9 +337,9 @@ export function generateRound(
 	);
 	const minSolvableWords = MIN_SOLVABLE_WORDS_BY_LANG[language] ?? 6;
 
-	// Combine curated root words with the full dictionary rack candidates
+	// Combine dictionary rack candidates with curated root words
 	const dictRoots = getRackCandidates(rackSize, language);
-	const pool = Array.from(new Set([...curatedPool, ...dictRoots])).filter((root) =>
+	const pool = Array.from(new Set([...dictRoots, ...curatedPool])).filter((root) =>
 		isValidCandidateRack(Array.from(root), difficulty),
 	);
 
