@@ -47,7 +47,8 @@
 		"build:watersort": "pnpm --filter @arcade/watersort build",
 		"preview:watersort": "pnpm --filter @arcade/watersort preview",
 		"build:all": "pnpm build:hub && pnpm build:sudoku && pnpm build:minesweeper && pnpm build:nonogram && pnpm build:queens && pnpm build:bridges && pnpm build:storybook && pnpm build:tracks && pnpm build:tents && pnpm build:anagram && pnpm build:watersort",
-		"build": "pnpm build:all"
+		"build": "pnpm build:all",
+		"clean": "rm -rf apps/*/.astro apps/*/dist libraries/*/dist apps/*/node_modules/.vite node_modules/.vite node_modules/.cache"
 	},
 	"engines": {
 		"node": ">=20.0.0",
