@@ -1,18 +1,54 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { useEffect, useState } from 'react';
 import { Timer } from '.';
 import { Button } from '../Button';
 import { Stack } from '../Stack';
 import { TIMER_FORMATS, TIMER_SIZES } from './_Timer.constants';
 import { useTimer } from './_Timer.hooks';
+import type { TimerProps } from './_Timer.types';
+
+function InteractiveTimerStory(props: TimerProps) {
+	const [isPaused, setIsPaused] = useState(props.isPaused ?? false);
+	const [seconds, setSeconds] = useState(props.seconds ?? 0);
+
+	useEffect(() => {
+		setIsPaused(props.isPaused ?? false);
+	}, [props.isPaused]);
+
+	useEffect(() => {
+		setSeconds(props.seconds ?? 0);
+	}, [props.seconds]);
+
+	useEffect(() => {
+		if (isPaused || props.disabled) return;
+		const timer = setInterval(() => {
+			setSeconds((prev) => prev + 1);
+		}, 1000);
+		return () => clearInterval(timer);
+	}, [isPaused, props.disabled]);
+
+	return (
+		<Timer
+			{...props}
+			seconds={seconds}
+			isPaused={isPaused}
+			onTogglePause={() => {
+				setIsPaused((prev) => !prev);
+				props.onTogglePause?.();
+			}}
+		/>
+	);
+}
 
 const meta = {
 	component: Timer,
+	render: (args) => <InteractiveTimerStory {...args} />,
 	parameters: {
 		layout: 'centered',
 		docs: {
 			description: {
 				component:
-					'The Timer component displays elapsed time using a semantic `<time>` element with tabular numerals (`tabular-nums`) to prevent layout shifts. It supports automatic or explicit hour formats, size variants, a timer icon, and pause styling.',
+					'The Timer component renders a semantic `<button type="button">` pill that displays elapsed time and doubles as an interactive pause/resume control. All stories include live mock ticking and pause/resume toggling on click or Space/Enter.',
 			},
 		},
 	},
@@ -23,10 +59,18 @@ const meta = {
 			control: { type: 'number', min: 0 },
 			description: 'Elapsed time in seconds to display',
 		},
+		isPaused: {
+			control: 'boolean',
+			description: 'Indicates whether the timer is currently paused',
+		},
+		onTogglePause: {
+			action: 'togglePause',
+			description: 'Callback invoked when the timer control is activated',
+		},
 		size: {
 			control: 'radio',
 			options: TIMER_SIZES,
-			description: 'Sizing preset dictating font size and icon scale',
+			description: 'Sizing preset dictating button scale, font size, and icons',
 		},
 		format: {
 			control: 'radio',
@@ -37,9 +81,9 @@ const meta = {
 			control: 'boolean',
 			description: 'Whether to render the leading timer/stopwatch icon',
 		},
-		isPaused: {
+		disabled: {
 			control: 'boolean',
-			description: 'Applies dimmed visual indicator when timer is paused',
+			description: 'Disables interactive state',
 		},
 	},
 	args: {
@@ -48,6 +92,7 @@ const meta = {
 		format: 'auto',
 		showIcon: true,
 		isPaused: false,
+		onTogglePause: () => {},
 	},
 } satisfies Meta<typeof Timer>;
 
@@ -58,12 +103,27 @@ export const Default: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Standard timer displaying minutes and seconds in medium scale.',
+				story: 'Standard interactive timer ticking live in running state. Click the pill to pause/resume.',
 			},
 		},
 	},
 	args: {
 		seconds: 142,
+		isPaused: false,
+	},
+};
+
+export const Paused: Story = {
+	parameters: {
+		docs: {
+			description: {
+				story: 'Timer initialized in paused state displaying resume play icon. Click to unpause and resume ticking.',
+			},
+		},
+	},
+	args: {
+		seconds: 245,
+		isPaused: true,
 	},
 };
 
@@ -78,6 +138,7 @@ export const Small: Story = {
 	args: {
 		seconds: 85,
 		size: 'sm',
+		isPaused: false,
 	},
 };
 
@@ -92,6 +153,7 @@ export const Large: Story = {
 	args: {
 		seconds: 320,
 		size: 'lg',
+		isPaused: false,
 	},
 };
 
@@ -105,6 +167,7 @@ export const WithHours: Story = {
 	},
 	args: {
 		seconds: 3745,
+		isPaused: false,
 	},
 };
 
@@ -119,20 +182,7 @@ export const ExplicitHourFormat: Story = {
 	args: {
 		seconds: 142,
 		format: 'hh:mm:ss',
-	},
-};
-
-export const Paused: Story = {
-	parameters: {
-		docs: {
-			description: {
-				story: 'Timer in paused state with dimmed visual appearance.',
-			},
-		},
-	},
-	args: {
-		seconds: 245,
-		isPaused: true,
+		isPaused: false,
 	},
 };
 
@@ -140,50 +190,63 @@ export const WithoutIcon: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Timer rendered without the leading clock icon, displaying only digits.',
+				story: 'Timer rendered without the leading clock icon, displaying only digits and action state icon.',
 			},
 		},
 	},
 	args: {
 		seconds: 75,
 		showIcon: false,
+		isPaused: false,
 	},
 };
 
-function InteractiveTickingDemo() {
+export const Disabled: Story = {
+	parameters: {
+		docs: {
+			description: {
+				story: 'Disabled interactive timer where ticking and clicks are deactivated.',
+			},
+		},
+	},
+	args: {
+		seconds: 120,
+		disabled: true,
+		isPaused: false,
+	},
+};
+
+function DedicatedHookDemo() {
 	const { seconds, isRunning, start, pause, reset } = useTimer({
 		initialSeconds: 0,
 		isRunning: true,
 	});
 
+	const handleToggle = () => {
+		if (isRunning) {
+			pause();
+		} else {
+			start();
+		}
+	};
+
 	return (
 		<Stack direction="vertical" spacing="md" align="center">
-			<Timer seconds={seconds} size="lg" isPaused={!isRunning} />
-			<Stack direction="horizontal" spacing="sm">
-				{isRunning ? (
-					<Button onClick={pause} variant="secondary" size="sm">
-						Pause
-					</Button>
-				) : (
-					<Button onClick={start} variant="primary" size="sm">
-						Resume
-					</Button>
-				)}
-				<Button onClick={() => reset(0)} variant="secondary" size="sm">
-					Reset
-				</Button>
-			</Stack>
+			<Timer seconds={seconds} size="lg" isPaused={!isRunning} onTogglePause={handleToggle} announceOnToggle />
+			<Button onClick={() => reset(0)} variant="secondary" size="sm">
+				Reset to 00:00
+			</Button>
 		</Stack>
 	);
 }
 
-export const InteractiveTicking: Story = {
+export const DedicatedHookIntegration: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Interactive demonstration using the companion useTimer hook with ticking state.',
+				story: 'Demonstrates explicit integration with the companion useTimer hook and external reset control.',
 			},
 		},
 	},
-	render: () => <InteractiveTickingDemo />,
+	render: () => <DedicatedHookDemo />,
 };

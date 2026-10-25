@@ -4,39 +4,57 @@ import type { TIMER_FORMATS, TIMER_SIZES } from './_Timer.constants';
 export type TimerSize = (typeof TIMER_SIZES)[number];
 export type TimerFormat = (typeof TIMER_FORMATS)[number];
 
-export interface TimerProps extends Omit<ComponentPropsWithoutRef<'time'>, 'style' | 'children'> {
+export interface TimerProps extends Omit<ComponentPropsWithoutRef<'button'>, 'style' | 'children' | 'type'> {
 	/**
 	 * Elapsed time in seconds to display.
 	 */
 	seconds: number;
 
 	/**
+	 * Indicates whether the timer is currently paused.
+	 * Controls whether the toggle displays a pause or play action icon.
+	 * @default false
+	 */
+	isPaused?: boolean;
+
+	/**
+	 * Callback triggered when the interactive timer button is activated (click/Enter/Space).
+	 * When omitted, the timer acts as a non-interactive display.
+	 */
+	onTogglePause?: () => void;
+
+	/**
 	 * Visual sizing preset.
-	 * @default 'md'
+	 * @default "md"
 	 */
 	size?: TimerSize;
 
 	/**
 	 * Time formatting structure.
-	 * - 'auto': Renders mm:ss unless hours >= 1, then hh:mm:ss.
-	 * - 'mm:ss': Always renders minutes and seconds (e.g. 75:12).
-	 * - 'hh:mm:ss': Always renders hours, minutes, and seconds.
-	 * @default 'auto'
+	 * - "auto": Renders mm:ss unless hours >= 1, then hh:mm:ss.
+	 * - "mm:ss": Always renders minutes and seconds (e.g. 75:12).
+	 * - "hh:mm:ss": Always renders hours, minutes, and seconds.
+	 * @default "auto"
 	 */
 	format?: TimerFormat;
 
 	/**
-	 * Whether to render the leading timer/clock icon.
+	 * Whether to render the leading timer/stopwatch icon.
 	 * @default true
 	 */
 	showIcon?: boolean;
 
 	/**
-	 * Indicates whether the timer is currently paused.
-	 * When true, applies a visual paused indicator.
+	 * Whether state toggle changes should trigger a polite live region announcement.
 	 * @default false
 	 */
-	isPaused?: boolean;
+	announceOnToggle?: boolean;
+
+	/**
+	 * Optional custom accessible label override.
+	 * If omitted, dynamic labels are automatically generated based on running/paused state.
+	 */
+	'aria-label'?: string;
 }
 
 export interface UseTimerOptions {

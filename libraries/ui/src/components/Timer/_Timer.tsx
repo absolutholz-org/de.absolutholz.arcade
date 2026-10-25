@@ -4,38 +4,68 @@ import * as S from './_Timer.styles';
 import type { TimerProps } from './_Timer.types';
 
 /**
- * Timer component renders a semantic `<time>` element with tabular numeric
- * formatting, size presets, optional icon, and pause indicator styling.
+ * Interactive Timer component rendering a semantic `<button type="button">` pill
+ * that displays elapsed time and doubles as a pause/resume toggle control.
  */
 export function Timer({
 	seconds,
+	isPaused = false,
+	onTogglePause,
 	size = 'md',
 	format = 'auto',
 	showIcon = true,
-	isPaused = false,
+	disabled = false,
+	announceOnToggle = false,
 	className,
-	'aria-label': ariaLabel,
+	'aria-label': customAriaLabel,
 	id,
+	...buttonProps
 }: TimerProps) {
 	const formattedTime = formatTime(seconds, format);
 	const durationIso = formatDurationIso(seconds);
 	const iconSize = size === 'lg' ? 'md' : 'sm';
+	const isInteractive = Boolean(onTogglePause);
+
+	const dynamicAriaLabel = isInteractive
+		? isPaused
+			? `Resume game. Paused at ${formattedTime}`
+			: `Pause game. Elapsed time: ${formattedTime}`
+		: `Elapsed time: ${formattedTime}`;
 
 	return (
-		<S.Timer
+		<S.TimerButton
 			id={id}
-			dateTime={durationIso}
+			type="button"
+			onClick={onTogglePause}
+			disabled={disabled}
 			className={className}
 			data-size={size}
+			data-interactive={isInteractive ? 'true' : 'false'}
 			data-paused={isPaused ? 'true' : undefined}
-			aria-label={ariaLabel}
+			aria-label={customAriaLabel ?? dynamicAriaLabel}
+			{...buttonProps}
 		>
 			{showIcon && (
-				<span data-slot="icon">
+				<span data-slot="leading-icon" aria-hidden="true">
 					<Icon name="timer" size={iconSize} />
 				</span>
 			)}
-			<span data-slot="digits">{formattedTime}</span>
-		</S.Timer>
+
+			<span data-slot="digits">
+				<time dateTime={durationIso}>{formattedTime}</time>
+			</span>
+
+			{isInteractive && (
+				<span data-slot="action-icon" aria-hidden="true">
+					<Icon name={isPaused ? 'play' : 'pause'} size={iconSize} />
+				</span>
+			)}
+
+			{announceOnToggle && (
+				<span data-slot="announcement" aria-live="polite" className="visually-hidden">
+					{isPaused ? `Game paused at ${formattedTime}` : 'Game resumed'}
+				</span>
+			)}
+		</S.TimerButton>
 	);
 }
