@@ -3,7 +3,7 @@ import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import { GameLandingTemplate, GameSelectionCard, SegmentedControl, type SegmentedControlItem } from '@arcade/lib-ui';
 import { formatTime } from '@arcade/lib-ui/components/Timer';
 import { type JSX, useEffect, useState } from 'react';
-import { loadActiveGame, loadProgress, loadSettings, saveSettings } from '../../engine/storage.js';
+import { loadActiveGame, loadProgress } from '../../engine/storage.js';
 import {
 	type DifficultyLevel,
 	type GameMode,
@@ -18,28 +18,23 @@ import type { AnagramLobbyProps } from './AnagramLobby.types.js';
 const DIFFICULTY_LEVELS: readonly DifficultyLevel[] = ['easy', 'medium', 'hard', 'expert'];
 const GAME_MODES: readonly GameMode[] = ['zen', 'timed'];
 
-function getInitialMode(): GameMode {
-	if (typeof window !== 'undefined') {
-		const raw = new URLSearchParams(window.location.search).get('mode');
-		if (raw && (GAME_MODES as readonly string[]).includes(raw)) {
-			return raw as GameMode;
-		}
-	}
-	return 'zen';
-}
+function parseUrlParams(routeLanguage: string): { mode: GameMode; vocab: LanguageCode } {
+	let mode: GameMode = 'zen';
+	let vocab: LanguageCode =
+		routeLanguage === 'de' ? 'de' : routeLanguage === 'fr' ? 'fr' : routeLanguage === 'pt' ? 'pt' : 'en';
 
-function getInitialVocabLanguage(routeLanguage: string): LanguageCode {
 	if (typeof window !== 'undefined') {
 		const params = new URLSearchParams(window.location.search);
-		const raw = params.get('vocab');
-		if (raw && (SUPPORTED_VOCAB_LANGUAGES as readonly string[]).includes(raw)) {
-			return raw as LanguageCode;
+		const rawMode = params.get('mode');
+		if (rawMode && (GAME_MODES as readonly string[]).includes(rawMode)) {
+			mode = rawMode as GameMode;
+		}
+		const rawVocab = params.get('vocab');
+		if (rawVocab && (SUPPORTED_VOCAB_LANGUAGES as readonly string[]).includes(rawVocab)) {
+			vocab = rawVocab as LanguageCode;
 		}
 	}
-	if (routeLanguage === 'de') return 'de';
-	if (routeLanguage === 'fr') return 'fr';
-	if (routeLanguage === 'pt') return 'pt';
-	return 'en';
+	return { mode, vocab };
 }
 
 function LobbyContent(): JSX.Element {
@@ -47,35 +42,32 @@ function LobbyContent(): JSX.Element {
 	const { t: tCommon } = useI18n('common');
 	const [activeGame, setActiveGame] = useState<GameSnapshot | null>(null);
 	const [progress, setProgress] = useState<ProgressMap>({});
-	const [selectedMode, setSelectedMode] = useState<GameMode>(getInitialMode);
-	const [vocabLanguage, setVocabLanguage] = useState<LanguageCode>(() => getInitialVocabLanguage(language));
+	const [selectedMode, setSelectedMode] = useState<GameMode>(() => parseUrlParams(language).mode);
+	const [vocabLanguage, setVocabLanguage] = useState<LanguageCode>(() => parseUrlParams(language).vocab);
+
+	useEffect(() => {
+		const syncFromUrl = () => {
+			const { mode, vocab } = parseUrlParams(language);
+			setSelectedMode(mode);
+			setVocabLanguage(vocab);
+		};
+
+		// Sync immediately on mount
+		syncFromUrl();
+
+		window.addEventListener('popstate', syncFromUrl);
+		return () => {
+			window.removeEventListener('popstate', syncFromUrl);
+		};
+	}, [language]);
 
 	useEffect(() => {
 		async function init() {
-			const [savedGame, savedProgress, savedSettings] = await Promise.all([
-				loadActiveGame(),
-				loadProgress(),
-				loadSettings(),
-			]);
+			const [savedGame, savedProgress] = await Promise.all([loadActiveGame(), loadProgress()]);
 			if (savedGame && !savedGame.isComplete) {
 				setActiveGame(savedGame);
 			}
 			setProgress(savedProgress);
-
-			if (typeof window !== 'undefined') {
-				const params = new URLSearchParams(window.location.search);
-				const queryVocab = params.get('vocab');
-				if (queryVocab && (SUPPORTED_VOCAB_LANGUAGES as readonly string[]).includes(queryVocab)) {
-					setVocabLanguage(queryVocab as LanguageCode);
-					return;
-				}
-			}
-			if (
-				savedSettings.vocabLanguage &&
-				(SUPPORTED_VOCAB_LANGUAGES as readonly string[]).includes(savedSettings.vocabLanguage)
-			) {
-				setVocabLanguage(savedSettings.vocabLanguage);
-			}
 		}
 		init();
 	}, []);
@@ -91,7 +83,6 @@ function LobbyContent(): JSX.Element {
 
 	const handleSelectVocabLanguage = (nextLang: LanguageCode) => {
 		setVocabLanguage(nextLang);
-		void saveSettings({ vocabLanguage: nextLang });
 		if (typeof window !== 'undefined') {
 			const url = new URL(window.location.href);
 			url.searchParams.delete('lang');

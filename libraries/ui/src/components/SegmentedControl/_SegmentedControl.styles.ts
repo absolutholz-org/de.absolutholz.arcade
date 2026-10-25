@@ -49,10 +49,10 @@ export const SegmentButton = styled.button`
 	}
 
 	&[data-checked='true'] {
-		background-color: ${themeColor('container-2')};
+		background-color: ${themeColor('surface')};
 		color: ${themeColor('text-1')};
 		font-weight: 600;
-		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.08);
 	}
 
 	&:focus-visible {
