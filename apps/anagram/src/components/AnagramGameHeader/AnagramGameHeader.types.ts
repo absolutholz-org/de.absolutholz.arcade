@@ -1,8 +1,9 @@
-import type { DifficultyLevel, GameMode } from '../../engine/types.js';
+import type { DifficultyLevel, GameMode, LanguageCode } from '../../engine/types.js';
 
 export interface AnagramGameHeaderProps {
 	difficulty: DifficultyLevel;
 	mode: GameMode;
+	vocabLanguage: LanguageCode;
 	score: number;
 	foundCount: number;
 	totalCount: number;

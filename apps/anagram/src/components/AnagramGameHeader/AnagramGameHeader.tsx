@@ -16,6 +16,7 @@ function formatClock(totalSeconds: number): string {
 export function AnagramGameHeader({
 	difficulty,
 	mode,
+	vocabLanguage,
 	score,
 	foundCount,
 	totalCount,
@@ -31,7 +32,7 @@ export function AnagramGameHeader({
 		<S.HeaderContainer>
 			<S.LeftSection>
 				<a
-					href={`/anagram/${language}/?difficulty=${difficulty}&mode=${mode}`}
+					href={`/anagram/${language}/?difficulty=${difficulty}&mode=${mode}&vocab=${vocabLanguage}`}
 					aria-label={t('navigation.lobby')}
 				>
 					<Icon name="chevron-left" size="sm" />
@@ -40,6 +41,8 @@ export function AnagramGameHeader({
 
 			<S.CenterSection>
 				<S.MetaRow>
+					<span>{t(`vocabulary.${vocabLanguage}`)}</span>
+					<span>•</span>
 					<span>{t(`difficulty.${difficulty}`)}</span>
 					<span>•</span>
 					<span>{t(`mode.${mode}`)}</span>

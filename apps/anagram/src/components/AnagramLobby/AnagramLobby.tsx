@@ -31,7 +31,7 @@ function getInitialMode(): GameMode {
 function getInitialVocabLanguage(routeLanguage: string): LanguageCode {
 	if (typeof window !== 'undefined') {
 		const params = new URLSearchParams(window.location.search);
-		const raw = params.get('vocab') ?? params.get('lang');
+		const raw = params.get('vocab');
 		if (raw && (SUPPORTED_VOCAB_LANGUAGES as readonly string[]).includes(raw)) {
 			return raw as LanguageCode;
 		}
@@ -64,7 +64,7 @@ function LobbyContent(): JSX.Element {
 
 			if (typeof window !== 'undefined') {
 				const params = new URLSearchParams(window.location.search);
-				const queryVocab = params.get('vocab') ?? params.get('lang');
+				const queryVocab = params.get('vocab');
 				if (queryVocab && (SUPPORTED_VOCAB_LANGUAGES as readonly string[]).includes(queryVocab)) {
 					setVocabLanguage(queryVocab as LanguageCode);
 					return;
@@ -94,7 +94,8 @@ function LobbyContent(): JSX.Element {
 		void saveSettings({ vocabLanguage: nextLang });
 		if (typeof window !== 'undefined') {
 			const url = new URL(window.location.href);
-			url.searchParams.set('lang', nextLang);
+			url.searchParams.delete('lang');
+			url.searchParams.set('vocab', nextLang);
 			window.history.replaceState(null, '', url.toString());
 		}
 	};
@@ -164,7 +165,7 @@ function LobbyContent(): JSX.Element {
 							<GameSelectionCard
 								key={diff}
 								as="a"
-								href={`/anagram/${language}/game?difficulty=${diff}&mode=${selectedMode}&vocab=${vocabLanguage}&lang=${vocabLanguage}&new=true`}
+								href={`/anagram/${language}/game?difficulty=${diff}&mode=${selectedMode}&vocab=${vocabLanguage}&new=true`}
 								title={t(`difficulty.${diff}`)}
 								dimensions={t(`difficulty.${diff}Dimensions`)}
 								subtitle={t(`difficulty.${diff}Desc`)}

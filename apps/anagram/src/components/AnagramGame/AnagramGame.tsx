@@ -36,7 +36,7 @@ function resolveSearchParams(
 	const params = new URLSearchParams(window.location.search);
 	const rawDifficulty = params.get('difficulty');
 	const rawMode = params.get('mode');
-	const rawVocab = params.get('vocab') ?? params.get('lang');
+	const rawVocab = params.get('vocab');
 	const difficulty: DifficultyLevel =
 		rawDifficulty && rawDifficulty in DIFFICULTY_CONFIGS ? (rawDifficulty as DifficultyLevel) : fallbackDifficulty;
 	const mode: GameMode = rawMode === 'timed' || rawMode === 'zen' ? rawMode : fallbackMode;
@@ -97,6 +97,7 @@ export function AnagramGame({ initialDifficulty = 'easy', initialMode = 'zen', l
 					<AnagramGameHeader
 						difficulty={difficulty}
 						mode={mode}
+						vocabLanguage={game.vocabLanguage}
 						score={game.score}
 						foundCount={game.foundWords.length}
 						totalCount={game.round.words.length}

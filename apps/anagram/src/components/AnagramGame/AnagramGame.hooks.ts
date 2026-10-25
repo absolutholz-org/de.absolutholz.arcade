@@ -103,7 +103,7 @@ export function useAnagramGame(difficulty: DifficultyLevel, mode: GameMode, init
 					const params = new URLSearchParams(window.location.search);
 					if (params.get('new') === 'true') forceNew = true;
 					if (params.get('resume') === 'true') forceResume = true;
-					const queryVocab = params.get('vocab') ?? params.get('lang');
+					const queryVocab = params.get('vocab');
 					if (queryVocab && (SUPPORTED_VOCAB_LANGUAGES as readonly string[]).includes(queryVocab)) {
 						hasExplicitVocabParam = true;
 					}
@@ -478,6 +478,7 @@ export function useAnagramGame(difficulty: DifficultyLevel, mode: GameMode, init
 		dialog,
 		hasClearedBaseline,
 		isInteractive,
+		vocabLanguage,
 		minWordLength,
 		isMastered: isRoundMastered(round, foundWords),
 		stageTile,
