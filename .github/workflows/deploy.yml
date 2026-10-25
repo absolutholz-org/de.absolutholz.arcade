@@ -46,38 +46,19 @@ jobs:
           pnpm check
           pnpm typecheck
 
-      - name: Build Hub
-        run: pnpm build:hub
+      # Cache Turbo artifacts across workflow runs
+      - name: Cache Turborepo build cache
+        uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: turbo-${{ github.ref_name }}-${{ github.sha }}
+          restore-keys: |
+            turbo-${{ github.ref_name }}-
+            turbo-
 
-      - name: Build Sudoku
-        run: pnpm build:sudoku
-
-      - name: Build Minesweeper
-        run: pnpm build:minesweeper
-
-      - name: Build Nonogram
-        run: pnpm build:nonogram
-
-      - name: Build Queens
-        run: pnpm build:queens
-
-      - name: Build Bridges
-        run: pnpm build:bridges
-
-      - name: Build Tracks
-        run: pnpm build:tracks
-
-      - name: Build Tents
-        run: pnpm build:tents
-
-      - name: Build Anagram
-        run: pnpm build:anagram
-
-      - name: Build Water Sort
-        run: pnpm build:watersort
-
-      - name: Build Storybook
-        run: pnpm build:storybook
+      # Replaces the 11 individual build steps. Unchanged apps restore from cache; changed apps rebuild.
+      - name: Build applications
+        run: pnpm build
 
       - name: Assemble deployment payload
         run: |
