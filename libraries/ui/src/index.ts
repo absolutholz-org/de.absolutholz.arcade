@@ -78,3 +78,5 @@ export type {
 	MedalProgressData,
 	TriadBadgeProps,
 } from './components/MedalCard';
+
+export * from './components/GameHeader';
