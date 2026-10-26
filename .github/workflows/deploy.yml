@@ -60,6 +60,9 @@ jobs:
       - name: Build applications
         run: pnpm build
 
+      - name: Build Storybook
+        run: pnpm build:storybook
+
       - name: Assemble deployment payload
         run: |
           mkdir -p deploy_dist

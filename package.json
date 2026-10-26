@@ -42,7 +42,7 @@
 		"preview:anagram": "pnpm --filter @arcade/anagram preview",
 		"storybook:ui": "pnpm --filter @arcade/lib-ui storybook",
 		"storybook": "pnpm --filter @arcade/lib-ui storybook",
-		"build:storybook": "pnpm --filter @arcade/lib-ui build-storybook",
+		"build:storybook": "turbo run build-storybook",
 		"dev:watersort": "pnpm --filter @arcade/watersort dev",
 		"build:watersort": "pnpm --filter @arcade/watersort build",
 		"preview:watersort": "pnpm --filter @arcade/watersort preview",
