@@ -12256,8 +12256,8 @@ const lexicon = buildFrenchLexicon();
 const jsonContent = `${JSON.stringify(lexicon, null, '\t')}\n`;
 
 const outputPaths = [
-	resolve(currentDir, '../apps/anagram/src/engine/lexicon.data.fr.json'),
-	resolve(currentDir, '../apps/anagram/src/engine/data/lexicon.data.fr.json'),
+	resolve(currentDir, '../src/engine/lexicon.data.fr.json'),
+	resolve(currentDir, '../src/engine/data/lexicon.data.fr.json'),
 ];
 
 for (const outputPath of outputPaths) {

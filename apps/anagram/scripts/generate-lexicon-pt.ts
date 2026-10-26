@@ -5412,8 +5412,8 @@ const lexicon = buildPortugueseLexicon();
 const jsonContent = `${JSON.stringify(lexicon, null, '\t')}\n`;
 
 const outputPaths = [
-	resolve(currentDir, '../apps/anagram/src/engine/lexicon.data.pt.json'),
-	resolve(currentDir, '../apps/anagram/src/engine/data/lexicon.data.pt.json'),
+	resolve(currentDir, '../src/engine/lexicon.data.pt.json'),
+	resolve(currentDir, '../src/engine/data/lexicon.data.pt.json'),
 ];
 
 for (const outputPath of outputPaths) {

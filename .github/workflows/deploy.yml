@@ -64,42 +64,7 @@ jobs:
         run: pnpm build:storybook
 
       - name: Assemble deployment payload
-        run: |
-          mkdir -p deploy_dist
-          # 1. Copy Hub to document root
-          cp -R apps/hub/dist/. deploy_dist/
-          # 2. Copy Sudoku into /sudoku subpath
-          mkdir -p deploy_dist/sudoku
-          cp -R apps/sudoku/dist/. deploy_dist/sudoku/
-          # 3. Copy Minesweeper into /minesweeper subpath
-          mkdir -p deploy_dist/minesweeper
-          cp -R apps/minesweeper/dist/. deploy_dist/minesweeper/
-          # 4. Copy Nonogram into /nonogram subpath
-          mkdir -p deploy_dist/nonogram
-          cp -R apps/nonogram/dist/. deploy_dist/nonogram/
-          # 5. Copy Queens into /queens subpath
-          mkdir -p deploy_dist/queens
-          cp -R apps/queens/dist/. deploy_dist/queens/
-          # 6. Copy Bridges into /bridges subpath
-          mkdir -p deploy_dist/bridges
-          cp -R apps/bridges/dist/. deploy_dist/bridges/
-          # 7. Copy Tracks into /tracks subpath
-          mkdir -p deploy_dist/tracks
-          cp -R apps/tracks/dist/. deploy_dist/tracks/
-          # 8. Copy Tents into /tents subpath
-          mkdir -p deploy_dist/tents
-          cp -R apps/tents/dist/. deploy_dist/tents/
-          # 8a. Copy Anagram into /anagram subpath
-          mkdir -p deploy_dist/anagram
-          cp -R apps/anagram/dist/. deploy_dist/anagram/
-          # 8b. Copy Water Sort into /watersort subpath
-          mkdir -p deploy_dist/watersort
-          cp -R apps/watersort/dist/. deploy_dist/watersort/
-          # 9. Copy Storybook into /storybook subpath
-          mkdir -p deploy_dist/storybook
-          cp -R libraries/ui/storybook-static/. deploy_dist/storybook/
-          # 10. Copy Apache production .htaccess
-          cp deploy/.htaccess deploy_dist/.htaccess
+        run: pnpm deploy:assemble
 
       - name: Deploy via SSH & rsync to Webgo
         run: |

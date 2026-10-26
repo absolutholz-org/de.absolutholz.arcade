@@ -13,6 +13,7 @@
 		"deploy:rules": "firebase deploy --only firestore:rules",
 		"deploy:rules:dev": "firebase deploy --only firestore:rules --project default",
 		"deploy:rules:prod": "firebase deploy --only firestore:rules --project production",
+		"deploy:assemble": "node --experimental-strip-types .github/scripts/assemble-deployment.ts",
 		"dev:hub": "pnpm --filter @arcade/hub dev",
 		"build:hub": "pnpm --filter @arcade/hub build",
 		"preview:hub": "pnpm --filter @arcade/hub preview",
