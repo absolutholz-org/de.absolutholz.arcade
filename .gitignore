@@ -6,6 +6,7 @@ node_modules/
 dist/
 out/
 .astro/
+.turbo/
 storybook-static/
 deploy_dist/
 *.tsbuildinfo
