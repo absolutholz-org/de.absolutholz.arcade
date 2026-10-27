@@ -2,8 +2,8 @@
 import { resources } from '@arcade/lib-i18n/config/i18n';
 import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import BaseLayoutWithSiteHeaderAndSiteFooter from '@arcade/lib-ui/layouts/BaseLayoutWithSiteHeaderAndSiteFooter/BaseLayoutWithSiteHeaderAndSiteFooter.astro';
 import { AnagramLobby } from '../../components/AnagramLobby';
-import AnagramPageLayout from '../../layouts/AnagramPageLayout.astro';
 
 export function getStaticPaths() {
 	return SUPPORTED_LANGUAGES.map((item) => ({
@@ -15,11 +15,11 @@ const { lang } = Astro.params;
 const currentAnagram = resources[lang as SupportedLanguageCode]?.anagram ?? resources.en.anagram;
 ---
 
-<AnagramPageLayout
+<BaseLayoutWithSiteHeaderAndSiteFooter
 	title={currentAnagram.title}
 	description={currentAnagram.description}
 	lang={lang as SupportedLanguageCode}
 	currentSlug=""
 >
 	<AnagramLobby client:only="react" lang={lang as SupportedLanguageCode} />
-</AnagramPageLayout>
+</BaseLayoutWithSiteHeaderAndSiteFooter>

@@ -11,6 +11,10 @@ export const SiteHeader = styled.header`
 		height: 4rem;
 		min-height: 4rem;
 
+		&[data-has-border='false'] {
+			border-bottom: none;
+		}
+
 		.header-container {
 			justify-content: space-between;
 		}
@@ -25,6 +29,10 @@ export const SiteHeader = styled.header`
 		.header-container {
 			justify-content: flex-end;
 		}
+	}
+
+	&[data-hide-brand] .header-brand {
+		display: none;
 	}
 
 	.header-container {
@@ -90,5 +98,6 @@ export const SiteHeader = styled.header`
 		align-items: center;
 		display: flex;
 		gap: ${space('sm')};
+		margin-left: auto;
 	}
 `;

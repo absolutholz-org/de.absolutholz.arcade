@@ -1,9 +1,7 @@
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { SiteHeader } from '.';
-import { LanguageSwitcher } from '../LanguageSwitcher';
 import { Logo } from '../Logo';
-import { SchemeSwitcher } from '../SchemeSwitcher';
 import { Stack } from '../Stack';
 import { Text } from '../Text';
 import { Theme } from '../Theme';
@@ -59,29 +57,21 @@ export const Default: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Default site header rendering an empty banner landmark container.',
+				story: 'Default site header self-resolving the portal brand logo, title, and link.',
 			},
 		},
 	},
 };
 
-export const StandardWithBranding: Story = {
+export const WithoutBorder: Story = {
 	args: {
 		variant: 'standard',
-		brandLogo: <Logo size="sm" />,
-		brandTitle: 'Arcade',
-		homeHref: '#',
-		actions: (
-			<Stack direction="row" align="center" spacing="xs" inline fullWidth={false}>
-				<LanguageSwitcher />
-				<SchemeSwitcher />
-			</Stack>
-		),
+		hasBorder: false,
 	},
 	parameters: {
 		docs: {
 			description: {
-				story: 'Standard site header configured with structured brand logo, title, and actions props.',
+				story: 'Standard site header without a dividing bottom border, blending into hero sections.',
 			},
 		},
 	},
@@ -90,17 +80,11 @@ export const StandardWithBranding: Story = {
 export const Minimal: Story = {
 	args: {
 		variant: 'minimal',
-		actions: (
-			<Stack direction="row" align="center" spacing="xs" inline fullWidth={false}>
-				<LanguageSwitcher />
-				<SchemeSwitcher />
-			</Stack>
-		),
 	},
 	parameters: {
 		docs: {
 			description: {
-				story: 'Minimal site header variant without a bottom border or logo, aligning actions to the upper right.',
+				story: 'Minimal site header variant without a bottom border or logo, aligning default actions to the upper right.',
 			},
 		},
 	},
@@ -108,25 +92,20 @@ export const Minimal: Story = {
 
 export const WithCustomChildren: Story = {
 	args: {
+		hideBrand: true,
 		children: (
-			<>
-				<Stack direction="row" align="center" spacing="sm" inline fullWidth={false}>
-					<Logo size="sm" />
-					<Text variant="h3" as="span">
-						Arcade
-					</Text>
-				</Stack>
-				<Stack direction="row" align="center" spacing="xs" inline fullWidth={false}>
-					<LanguageSwitcher />
-					<SchemeSwitcher />
-				</Stack>
-			</>
+			<Stack direction="row" align="center" spacing="sm" inline fullWidth={false}>
+				<Logo size="sm" />
+				<Text variant="h3" as="span">
+					Arcade Custom
+				</Text>
+			</Stack>
 		),
 	},
 	parameters: {
 		docs: {
 			description: {
-				story: 'Site header rendered with custom child elements placed directly into the container.',
+				story: 'Site header rendered with custom child elements placed directly into the container alongside default actions.',
 			},
 		},
 	},

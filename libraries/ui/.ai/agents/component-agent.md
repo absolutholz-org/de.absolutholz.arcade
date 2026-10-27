@@ -18,3 +18,8 @@ This profile outlines the strict operational standards, folder constraints, and 
 - **Zero Inline Styles & Static Data-Attributes Rule**: You are strictly forbidden from authoring dynamic prop interpolation functions inside Linaria styled components (`${({ $prop }) => ...}`). These compile into dynamic CSS custom properties rendered as inline `style="..."` attributes on the DOM element. Always express variants, sizes, layouts, and states using static CSS rules with `data-*` attribute selectors.
 - To preserve import boundaries and prevent circular dependencies, follow the import rules in [SKILL.md](../../../../.ai/skills/codebase-structure/SKILL.md).
 - **Storybook-Only Isolation**: Do not place mock data, sample texts, or testing utilities inside the production component files (such as `_ComponentName.constants.ts` or `_ComponentName.tsx`). Isolate them entirely within the story files.
+- **3-Tier Layout & Template Hierarchy (ADR 0006)**:
+  - **Tier 1 (Layouts - `src/layouts/*`)**: Must provide clean document landmarks (`<header>`, `<main id="main-content">`, `<footer>`, `<SkipLink>`). Must **NEVER** bake or enforce an internal `<PageContainer>`. The `{children}` slot must remain completely open and unconstrained.
+  - **Tier 2 (Templates - `src/layouts/*Template/`)**: Must define content boundaries and spatial rhythm by wrapping sections into explicit `<PageContainer>` variants (`slim`, `standard`, `wide`, or edge-to-edge).
+  - **Tier 3 (Pages - `apps/*/src/pages/*`)**: Assembles domain components into Tier 2 templates inside Tier 1 layouts.
+

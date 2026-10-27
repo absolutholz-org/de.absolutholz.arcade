@@ -2,8 +2,9 @@
 import { resources } from '@arcade/lib-i18n/config/i18n';
 import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { PageContainer } from '@arcade/lib-ui/components/PageContainer';
+import BaseLayoutWithSiteHeaderAndSiteFooter from '@arcade/lib-ui/layouts/BaseLayoutWithSiteHeaderAndSiteFooter/BaseLayoutWithSiteHeaderAndSiteFooter.astro';
 import { HighScoresView } from '../../components/HighScoresView';
-import MinesweeperStaticPageLayout from '../../layouts/MinesweeperStaticPageLayout.astro';
 
 export function getStaticPaths() {
 	return SUPPORTED_LANGUAGES.map((item) => ({
@@ -15,15 +16,17 @@ const { lang } = Astro.params;
 const currentMinesweeper = resources[lang as SupportedLanguageCode]?.minesweeper ?? resources.en.minesweeper;
 ---
 
-<MinesweeperStaticPageLayout
+<BaseLayoutWithSiteHeaderAndSiteFooter
 	title={currentMinesweeper.highScores.title}
 	description={`${currentMinesweeper.title} ${currentMinesweeper.highScores.title}`}
 	lang={lang as SupportedLanguageCode}
 	currentSlug="high-scores"
 >
+	<PageContainer variant="standard">
 	<h1>{currentMinesweeper.highScores.title}</h1>
 	<HighScoresView client:load lang={lang as SupportedLanguageCode} />
-</MinesweeperStaticPageLayout>
+	</PageContainer>
+</BaseLayoutWithSiteHeaderAndSiteFooter>
 
 <style>
 	h1 {

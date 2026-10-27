@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef, ElementType, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 export interface SiteFooterLinkItem {
 	/**
@@ -40,14 +40,10 @@ export interface SiteFooterCopyright {
 	currentYear?: number;
 }
 
-export interface BaseSiteFooterProps<C extends ElementType = 'footer'> {
-	/**
-	 * The HTML element or custom component to render as the root container.
-	 * @default 'footer'
-	 */
-	as?: C;
+export interface SiteFooterProps {
 	/**
 	 * Legal navigation links (Cluster A), e.g. Privacy, Accessibility.
+	 * When omitted, automatically self-resolves standard legal links using ambient i18n context.
 	 */
 	legalLinks?: SiteFooterLinkItem[];
 	/**
@@ -71,6 +67,7 @@ export interface BaseSiteFooterProps<C extends ElementType = 'footer'> {
 	version?: string | false;
 	/**
 	 * Project or resource navigation links (Cluster C), e.g., GitHub, Storybook.
+	 * When omitted, automatically self-resolves standard resource links.
 	 */
 	resourceLinks?: SiteFooterLinkItem[];
 	/**
@@ -84,5 +81,4 @@ export interface BaseSiteFooterProps<C extends ElementType = 'footer'> {
 	children?: ReactNode;
 }
 
-export type SiteFooterProps<C extends ElementType = 'footer'> = BaseSiteFooterProps<C> &
-	Omit<ComponentPropsWithoutRef<C>, keyof BaseSiteFooterProps<ElementType> | 'style'>;
+export type BaseSiteFooterProps = SiteFooterProps;

@@ -3,7 +3,8 @@ import { resources } from '@arcade/lib-i18n/config/i18n';
 import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { HeaderUserMenu } from '@arcade/lib-ui';
-import StaticPageLayout from '@arcade/lib-ui/layouts/StaticPageLayout/StaticPageLayout.astro';
+import { PageContainer } from '@arcade/lib-ui/components/PageContainer';
+import BaseLayoutWithSiteHeaderAndSiteFooter from '@arcade/lib-ui/layouts/BaseLayoutWithSiteHeaderAndSiteFooter/BaseLayoutWithSiteHeaderAndSiteFooter.astro';
 import { OfflineManager } from '../../components/OfflineManager/OfflineManager';
 
 export function getStaticPaths() {
@@ -16,36 +17,37 @@ const { lang } = Astro.params;
 const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? resources.en.common;
 ---
 
-<StaticPageLayout
+<BaseLayoutWithSiteHeaderAndSiteFooter
 	title={currentTranslations.offline.title}
 	description={currentTranslations.offline.description}
 	lang={lang as SupportedLanguageCode}
 	currentSlug="offline"
 >
-	<HeaderUserMenu slot="header-actions" client:load lang={lang as SupportedLanguageCode} />
-	<div class="offline-page">
-		<header class="offline-header">
-			<h1>{currentTranslations.offline.title}</h1>
-			<p class="offline-tagline">{currentTranslations.offline.description}</p>
-		</header>
+	<PageContainer variant="standard">
+		<div class="offline-page">
+			<header class="offline-header">
+				<h1>{currentTranslations.offline.title}</h1>
+				<p class="offline-tagline">{currentTranslations.offline.description}</p>
+			</header>
 
-		<section id="missing-game-card" class="offline-card missing-card" style="display: none;">
-			<div class="offline-status-banner">
-				<div class="offline-icon" aria-hidden="true">📡</div>
-				<h2 id="missing-game-title">{currentTranslations.offline.gameUnavailable}</h2>
-				<p>{currentTranslations.offline.notDownloaded}</p>
-			</div>
-		</section>
+			<section id="missing-game-card" class="offline-card missing-card" style="display: none;">
+				<div class="offline-status-banner">
+					<div class="offline-icon" aria-hidden="true">📡</div>
+					<h2 id="missing-game-title">{currentTranslations.offline.gameUnavailable}</h2>
+					<p>{currentTranslations.offline.notDownloaded}</p>
+				</div>
+			</section>
 
-		<section class="offline-card manager-section">
-			<OfflineManager client:load lang={lang as SupportedLanguageCode} />
-			<div class="offline-actions">
-				<a href={`/${lang}/`} class="btn-primary">
-					{currentTranslations.offline.returnToHub}
-				</a>
-			</div>
-		</section>
-	</div>
+			<section class="offline-card manager-section">
+				<OfflineManager client:load lang={lang as SupportedLanguageCode} />
+				<div class="offline-actions">
+					<a href={`/${lang}/`} class="btn-primary">
+						{currentTranslations.offline.returnToHub}
+					</a>
+				</div>
+			</section>
+		</div>
+	</PageContainer>
 
 	<script is:inline>
 		(() => {
@@ -62,7 +64,7 @@ const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? 
 			}
 		})();
 	</script>
-</StaticPageLayout>
+</BaseLayoutWithSiteHeaderAndSiteFooter>
 
 <style>
 	.offline-page {

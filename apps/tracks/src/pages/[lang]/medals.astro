@@ -3,9 +3,10 @@ import { resources } from '@arcade/lib-i18n/config/i18n';
 import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { TRACKS_MEDAL_DEFINITIONS } from '@arcade/lib-medals';
+import { PageContainer } from '@arcade/lib-ui/components/PageContainer';
+import BaseLayoutWithSiteHeaderAndSiteFooter from '@arcade/lib-ui/layouts/BaseLayoutWithSiteHeaderAndSiteFooter/BaseLayoutWithSiteHeaderAndSiteFooter.astro';
 import { TracksMedalGrid } from '../../components/TracksMedalGrid';
 import type { TracksMedalDefinitionItem } from '../../components/TracksMedalGrid/TracksMedalGrid.types';
-import TracksStaticPageLayout from '../../layouts/TracksStaticPageLayout.astro';
 
 export function getStaticPaths() {
 	return SUPPORTED_LANGUAGES.map((item) => ({
@@ -50,11 +51,13 @@ const staticMedals: TracksMedalDefinitionItem[] = TRACKS_MEDAL_DEFINITIONS.map((
 });
 ---
 
-<TracksStaticPageLayout
+<BaseLayoutWithSiteHeaderAndSiteFooter
 	title={currentMedals.showcase.title}
 	description={`${currentTracks.title} - ${currentMedals.showcase.description}`}
 	lang={currentLanguage}
 	currentSlug="medals"
 >
+	<PageContainer variant="wide">
 	<TracksMedalGrid client:load lang={currentLanguage} staticMedals={staticMedals} />
-</TracksStaticPageLayout>
+	</PageContainer>
+</BaseLayoutWithSiteHeaderAndSiteFooter>

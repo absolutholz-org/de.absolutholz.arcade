@@ -3,9 +3,10 @@ import { resources } from '@arcade/lib-i18n/config/i18n';
 import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { QUEENS_MEDAL_DEFINITIONS } from '@arcade/lib-medals';
+import { PageContainer } from '@arcade/lib-ui/components/PageContainer';
+import BaseLayoutWithSiteHeaderAndSiteFooter from '@arcade/lib-ui/layouts/BaseLayoutWithSiteHeaderAndSiteFooter/BaseLayoutWithSiteHeaderAndSiteFooter.astro';
 import { QueensMedalGrid } from '../../components/QueensMedalGrid';
 import type { QueensMedalDefinitionItem } from '../../components/QueensMedalGrid/QueensMedalGrid.types';
-import QueensStaticPageLayout from '../../layouts/QueensStaticPageLayout.astro';
 
 export function getStaticPaths() {
 	return SUPPORTED_LANGUAGES.map((item) => ({
@@ -48,11 +49,13 @@ const staticMedals: QueensMedalDefinitionItem[] = QUEENS_MEDAL_DEFINITIONS.map((
 });
 ---
 
-<QueensStaticPageLayout
+<BaseLayoutWithSiteHeaderAndSiteFooter
 	title={currentMedals.showcase.title}
 	description={`${currentQueens.title} - ${currentMedals.showcase.description}`}
 	lang={currentLanguage}
 	currentSlug="medals"
 >
+	<PageContainer variant="wide">
 	<QueensMedalGrid client:load lang={currentLanguage} staticMedals={staticMedals} />
-</QueensStaticPageLayout>
+	</PageContainer>
+</BaseLayoutWithSiteHeaderAndSiteFooter>

@@ -1,51 +1,32 @@
-import type { ComponentPropsWithoutRef, ElementType, ReactNode } from 'react';
+import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 import type { SITE_HEADER_VARIANTS } from './_SiteHeader.constants';
 
 export type SiteHeaderVariant = (typeof SITE_HEADER_VARIANTS)[number];
 
-export interface BaseSiteHeaderProps<C extends ElementType = 'header'> {
-	/**
-	 * The HTML element or custom component to render as the root container.
-	 * @default 'header'
-	 */
-	as?: C;
+export interface SiteHeaderProps extends ComponentPropsWithoutRef<'header'> {
 	/**
 	 * Layout variant for the header container.
 	 * @default 'standard'
 	 */
 	variant?: SiteHeaderVariant;
 	/**
-	 * Brand logo element.
+	 * When true, visually omits the brand logo and application title link.
+	 * @default false
 	 */
-	brandLogo?: ReactNode;
+	hideBrand?: boolean;
 	/**
-	 * Brand application title.
+	 * Whether the header renders a bottom border.
+	 * @default true
 	 */
-	brandTitle?: ReactNode;
+	hasBorder?: boolean;
 	/**
-	 * Application home URL for the brand title link.
-	 * @deprecated Use `homeHref` instead as logo and title are linked together within one element.
+	 * Current page slug for route detection in header actions.
 	 */
-	brandHref?: string;
-	/**
-	 * Site home URL for the unified brand link.
-	 * @default '/'
-	 */
-	homeHref?: string;
-	/**
-	 * Accessible label for the brand link when no visible brand title is provided.
-	 * @default 'Home'
-	 */
-	homeAriaLabel?: string;
-	/**
-	 * Actions cluster (e.g. HeaderActions or switchers toolbar).
-	 */
-	actions?: ReactNode;
+	currentSlug?: string;
 	/**
 	 * Child elements rendered inside the header container.
 	 */
 	children?: ReactNode;
 }
 
-export type SiteHeaderProps<C extends ElementType = 'header'> = BaseSiteHeaderProps<C> &
-	Omit<ComponentPropsWithoutRef<C>, keyof BaseSiteHeaderProps<ElementType> | 'style'>;
+export type BaseSiteHeaderProps = SiteHeaderProps;

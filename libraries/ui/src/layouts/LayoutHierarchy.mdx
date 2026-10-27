@@ -1,0 +1,87 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Layout Architecture" />
+
+# 3-Tier Layout & Template Architecture
+
+The Arcade design system separates document-level scaffolding from page-level spatial constraints into an **explicit 3-Tier Hierarchy** (formalized in [ADR 0006](file:///Users/swoo/Workspaces/de.absolutholz.arcade/docs/adr/0006-explicit-layout-and-template-hierarchy.md)).
+
+---
+
+## Hierarchy Overview
+
+```
+Tier 1: Document Layout (Semantic Landmarks & Document Shell)
+  └── <SkipLink href="#main-content">
+  └── <header> (<SiteHeader />)
+  └── <main id="main-content"> (Unconstrained full-width slot)
+        └── Tier 2: Structural Template (Spatial Constraints & Zones)
+              └── <PageContainer variant="slim | standard | wide">
+                    └── Tier 3: Concrete Page & Components
+  └── <footer> (<SiteFooter />)
+  └── Overlays (<Toast />, <ConsentBanner />)
+```
+
+---
+
+## The Three Tiers
+
+### Tier 1: Document Layouts (`src/layouts/*`)
+
+Document layouts establish the HTML shell, top-level landmark regions, keyboard skip navigation, and global feedback overlays.
+
+- **Components:**
+  - `BaseLayout`: Minimal shell with `<SkipLink>`, unconstrained `{children}`, `<Toast />`, and `<ConsentBanner />`.
+  - `BaseLayoutWithSiteFooter`: `BaseLayout` + unconstrained `<main id="main-content">` + `<SiteFooter />`.
+  - `BaseLayoutWithSiteHeaderAndSiteFooter`: `BaseLayout` + `<SiteHeader />` + `<main id="main-content">` + `<SiteFooter />`.
+- **Core Rule:**
+  - **Unconstrained Slot:** Tier 1 layouts must **never** include a `<PageContainer>`. The `{children}` slot remains completely unconstrained (full width) so downstream templates can establish their own container widths and padding.
+  - **Landmark Accessibility:** Ensures `<main id="main-content">` is properly wrapped as the target for keyboard skip-to-content navigation.
+
+---
+
+### Tier 2: Structural Templates (`src/layouts/*Template/`)
+
+Templates are reusable structural wrappers that define spatial rhythm, container max-widths, and functional zone slots (hero, content, actions).
+
+- **Components:**
+  - `GameLandingTemplate`: Layout for game lobbies and landing screens (hero zone, resume banner, game selection grid).
+  - `ArticleTemplate`: Layout for readable prose, rules, and documentation using narrow container widths (`slim` / `standard`).
+  - `ShowcaseTemplate`: Wide layout for dense data, medal showcases, and statistics.
+- **Core Rule:**
+  - Enforces spatial boundaries by wrapping internal zones in specific `<PageContainer>` variants (`slim`, `standard`, `wide`, or edge-to-edge).
+  - Contains no document-level boilerplate (no `<!doctype html>`, `<html>`, `<body>`, or skip links).
+
+---
+
+### Tier 3: Concrete Pages (`apps/*/src/pages/*`)
+
+The actual application routes that fetch data, manage page state, and render domain components into a Tier 2 template inside a Tier 1 layout.
+
+---
+
+## Composition Example
+
+```astro
+---
+// Tier 3: Concrete Page (e.g. apps/sudoku/src/pages/[lang]/index.astro)
+import BaseLayoutWithSiteHeaderAndSiteFooter from '@arcade/lib-ui/layouts/BaseLayoutWithSiteHeaderAndSiteFooter/BaseLayoutWithSiteHeaderAndSiteFooter.astro';
+import { GameLandingTemplate } from '@arcade/lib-ui';
+import { SudokuGridSelector } from '../components/SudokuGridSelector';
+---
+
+<!-- Tier 1: Document Layout provides landmarks, skip-link, and unconstrained slot -->
+<BaseLayoutWithSiteHeaderAndSiteFooter title="Sudoku">
+
+  <!-- Tier 2: Structural Template manages PageContainer widths and zones -->
+  <GameLandingTemplate
+    title="Sudoku"
+    description="Exercise your mind with classic number placement puzzles."
+    contentWidth="standard"
+  >
+    <!-- Tier 3: Page content placed inside template slots -->
+    <SudokuGridSelector client:load />
+  </GameLandingTemplate>
+
+</BaseLayoutWithSiteHeaderAndSiteFooter>
+```

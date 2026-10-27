@@ -3,9 +3,10 @@ import { resources } from '@arcade/lib-i18n/config/i18n';
 import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { NONOGRAM_MEDAL_DEFINITIONS } from '@arcade/lib-medals';
+import { PageContainer } from '@arcade/lib-ui/components/PageContainer';
+import BaseLayoutWithSiteHeaderAndSiteFooter from '@arcade/lib-ui/layouts/BaseLayoutWithSiteHeaderAndSiteFooter/BaseLayoutWithSiteHeaderAndSiteFooter.astro';
 import { NonogramMedalGrid } from '../../components/NonogramMedalGrid';
 import type { NonogramMedalDefinitionItem } from '../../components/NonogramMedalGrid/NonogramMedalGrid.types';
-import NonogramStaticPageLayout from '../../layouts/NonogramStaticPageLayout.astro';
 
 export function getStaticPaths() {
 	return SUPPORTED_LANGUAGES.map((item) => ({
@@ -46,11 +47,13 @@ const staticMedals: NonogramMedalDefinitionItem[] = NONOGRAM_MEDAL_DEFINITIONS.m
 });
 ---
 
-<NonogramStaticPageLayout
+<BaseLayoutWithSiteHeaderAndSiteFooter
 	title={currentMedals.showcase.title}
 	description={`${currentNonogram.title} - ${currentMedals.showcase.description}`}
 	lang={currentLanguage}
 	currentSlug="medals"
 >
+	<PageContainer variant="wide">
 	<NonogramMedalGrid client:load lang={currentLanguage} staticMedals={staticMedals} />
-</NonogramStaticPageLayout>
+	</PageContainer>
+</BaseLayoutWithSiteHeaderAndSiteFooter>

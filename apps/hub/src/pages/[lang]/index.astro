@@ -6,8 +6,8 @@ import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { Hero } from '@arcade/lib-ui/components/Hero';
 import { Logo } from '@arcade/lib-ui/components/Logo';
 import { PageContainer } from '@arcade/lib-ui/components/PageContainer';
+import BaseLayoutWithSiteHeaderAndSiteFooter from '@arcade/lib-ui/layouts/BaseLayoutWithSiteHeaderAndSiteFooter/BaseLayoutWithSiteHeaderAndSiteFooter.astro';
 import { UserMedalSummaryWidget } from '../../components/UserMedalSummaryWidget';
-import PageLayout from '../../layouts/PageLayout.astro';
 
 export function getStaticPaths() {
 	return SUPPORTED_LANGUAGES.map((item) => ({
@@ -19,12 +19,12 @@ const { lang } = Astro.params;
 const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? resources.en.common;
 ---
 
-<PageLayout
+<BaseLayoutWithSiteHeaderAndSiteFooter
 	title={currentTranslations.app.title}
 	description={currentTranslations.app.tagline}
 	lang={lang as SupportedLanguageCode}
-	currentSlug=""
-	headerVariant="minimal"
+	hideBrand={true}
+	hasBorder={false}
 >
 	<PageContainer>
 		<Hero title={currentTranslations.app.title} tagline={currentTranslations.app.tagline} align="left">
@@ -53,7 +53,7 @@ const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? 
 			</div>
 		</section>
 	</PageContainer>
-</PageLayout>
+</BaseLayoutWithSiteHeaderAndSiteFooter>
 
 <style>
 	.games-section {

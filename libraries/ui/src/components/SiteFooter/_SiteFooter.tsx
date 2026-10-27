@@ -1,27 +1,46 @@
-import type { ElementType } from 'react';
+import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import packageJson from '../../../package.json';
 import { VisuallyHidden } from '../VisuallyHidden';
 import * as S from './_SiteFooter.styles';
-import type { SiteFooterProps } from './_SiteFooter.types';
+import type { SiteFooterLinkItem, SiteFooterProps } from './_SiteFooter.types';
+
+const BASE_RESOURCE_LINKS: SiteFooterLinkItem[] = [
+	{ external: true, href: 'https://github.com/absolutholz-org/de.absolutholz.arcade', label: 'GitHub' },
+	{ external: true, href: '/storybook', label: 'Storybook' },
+];
 
 /**
  * Reusable site footer providing structured clusters for legal navigation,
  * identity / copyright notice, and project resource links.
+ * Self-resolves default links and translations from ambient i18n context if omitted.
  */
-export function SiteFooter<C extends ElementType = 'footer'>({
-	as,
+export function SiteFooter({
 	children,
 	copyright,
-	copyrightAriaLabel = 'Copyright notice',
-	legalAriaLabel = 'Legal',
+	copyrightAriaLabel,
+	legalAriaLabel,
 	legalLinks,
-	resourceLinks,
-	resourcesAriaLabel = 'Project resources',
+	resourceLinks = BASE_RESOURCE_LINKS,
+	resourcesAriaLabel,
 	version = packageJson.version,
-}: SiteFooterProps<C>) {
-	const Component = as || 'footer';
+}: SiteFooterProps) {
+	const { t, language } = useI18n('common');
+	const currentLang = language ?? 'en';
 
-	const hasLegal = Boolean(legalLinks && legalLinks.length > 0);
+	const defaultLegalLinks: SiteFooterLinkItem[] = [
+		{ href: `/${currentLang}/privacy`, label: t('navigation.privacy') },
+		{ href: `/${currentLang}/imprint`, label: t('navigation.imprint') },
+		{ href: `/${currentLang}/accessibility`, label: t('navigation.accessibility') },
+		{ href: `/${currentLang}/settings`, label: t('navigation.settings') },
+		{ href: `/${currentLang}/medals`, label: t('navigation.medals') },
+	];
+
+	const resolvedLegalLinks = legalLinks ?? defaultLegalLinks;
+	const resolvedLegalAriaLabel = legalAriaLabel ?? t('navigation.legal');
+	const resolvedResourcesAriaLabel = resourcesAriaLabel ?? 'Project resources';
+	const resolvedCopyrightAriaLabel = copyrightAriaLabel ?? 'Copyright notice';
+
+	const hasLegal = Boolean(resolvedLegalLinks && resolvedLegalLinks.length > 0);
 	const hasResources = Boolean(resourceLinks && resourceLinks.length > 0);
 	const hasIdentity = copyright !== false || Boolean(version);
 
@@ -41,11 +60,11 @@ export function SiteFooter<C extends ElementType = 'footer'>({
 	const isRange = typeof startYear === 'number' && startYear < resolvedCurrentYear;
 
 	return (
-		<S.SiteFooter as={Component}>
+		<S.SiteFooter>
 			{hasLegal ? (
-				<nav aria-label={legalAriaLabel} className="site-footer-legal">
+				<nav aria-label={resolvedLegalAriaLabel} className="site-footer-legal">
 					<ul>
-						{legalLinks?.map((link) => (
+						{resolvedLegalLinks.map((link) => (
 							<li key={link.href}>
 								<a
 									href={link.href}
@@ -66,7 +85,7 @@ export function SiteFooter<C extends ElementType = 'footer'>({
 			{hasIdentity ? (
 				<div className="site-footer-identity">
 					{copyright !== false ? (
-						<span className="site-footer-copyright" aria-label={copyrightAriaLabel}>
+						<span className="site-footer-copyright" aria-label={resolvedCopyrightAriaLabel}>
 							{typeof copyright === 'string' ? (
 								copyright
 							) : (
@@ -92,9 +111,9 @@ export function SiteFooter<C extends ElementType = 'footer'>({
 			) : null}
 
 			{hasResources ? (
-				<nav aria-label={resourcesAriaLabel} className="site-footer-resources">
+				<nav aria-label={resolvedResourcesAriaLabel} className="site-footer-resources">
 					<ul>
-						{resourceLinks?.map((link) => (
+						{resourceLinks.map((link) => (
 							<li key={link.href}>
 								<a
 									href={link.href}

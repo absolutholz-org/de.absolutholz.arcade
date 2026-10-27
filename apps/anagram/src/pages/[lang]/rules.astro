@@ -3,7 +3,8 @@ import { getEntry } from 'astro:content';
 import { resources } from '@arcade/lib-i18n/config/i18n';
 import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
-import GameRulesLayout from '@arcade/lib-ui/layouts/GameRulesLayout/GameRulesLayout.astro';
+import { Button } from '@arcade/lib-ui/components/Button';
+import MarkdownPageTemplate from '@arcade/lib-ui/templates/MarkdownPageTemplate/MarkdownPageTemplate.astro';
 
 export function getStaticPaths() {
 	return SUPPORTED_LANGUAGES.map((item) => ({
@@ -17,15 +18,23 @@ const rendered = entry ? await entry.render() : null;
 const Content = rendered?.Content;
 
 const currentAnagram = resources[lang as SupportedLanguageCode]?.anagram ?? resources.en.anagram;
+const currentCommon = resources[lang as SupportedLanguageCode]?.common ?? resources.en.common;
 ---
 
-<GameRulesLayout
+<MarkdownPageTemplate
 	title={entry?.data.title ?? currentAnagram.title}
 	description={entry?.data.description}
 	lang={lang as SupportedLanguageCode}
-	appTitle={currentAnagram.title}
-	basePath="anagram"
-	primaryActionLabel={currentAnagram.controls.play}
+	breadcrumbItems={[
+		{ label: currentCommon.app.title, href: `/${lang}/`, isHome: true },
+		{ label: currentAnagram.title, href: `/anagram/${lang}/` },
+		{ label: entry?.data.title ?? 'Rules', isCurrent: true },
+	]}
+	currentSlug="rules"
 >
 	{Content && <Content />}
-</GameRulesLayout>
+
+	<Button slot="action" as="a" href={`/anagram/${lang}/game`} variant="primary" size="lg">
+		{currentAnagram.controls.play}
+	</Button>
+</MarkdownPageTemplate>

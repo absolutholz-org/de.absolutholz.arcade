@@ -2,9 +2,9 @@
 import { resources } from '@arcade/lib-i18n/config/i18n';
 import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import BaseLayoutWithSiteHeaderAndSiteFooter from '@arcade/lib-ui/layouts/BaseLayoutWithSiteHeaderAndSiteFooter/BaseLayoutWithSiteHeaderAndSiteFooter.astro';
 import { WaterSortLobby } from '../../components/WaterSortLobby';
 import type { DifficultyLevel } from '../../engine/types.js';
-import WaterSortPageLayout from '../../layouts/WaterSortPageLayout.astro';
 
 export function getStaticPaths() {
 	return SUPPORTED_LANGUAGES.map((item) => ({
@@ -18,11 +18,11 @@ const rawDiff = Astro.url.searchParams.get('difficulty') as DifficultyLevel | nu
 const initialDifficulty = rawDiff && ['easy', 'medium', 'hard', 'expert'].includes(rawDiff) ? rawDiff : undefined;
 ---
 
-<WaterSortPageLayout
+<BaseLayoutWithSiteHeaderAndSiteFooter
 	title={currentWatersort.title}
 	description={currentWatersort.description}
 	lang={lang as SupportedLanguageCode}
 	currentSlug=""
 >
 	<WaterSortLobby client:load lang={lang as SupportedLanguageCode} initialDifficulty={initialDifficulty} />
-</WaterSortPageLayout>
+</BaseLayoutWithSiteHeaderAndSiteFooter>

@@ -2,8 +2,8 @@
 import { resources } from '@arcade/lib-i18n/config/i18n';
 import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import BaseLayoutWithSiteHeaderAndSiteFooter from '@arcade/lib-ui/layouts/BaseLayoutWithSiteHeaderAndSiteFooter/BaseLayoutWithSiteHeaderAndSiteFooter.astro';
 import { TracksLobby } from '../../components/TracksLobby';
-import TracksPageLayout from '../../layouts/TracksPageLayout.astro';
 
 export function getStaticPaths() {
 	return SUPPORTED_LANGUAGES.map((item) => ({
@@ -15,11 +15,11 @@ const { lang } = Astro.params;
 const currentTracks = resources[lang as SupportedLanguageCode]?.tracks ?? resources.en.tracks;
 ---
 
-<TracksPageLayout
+<BaseLayoutWithSiteHeaderAndSiteFooter
 	title={currentTracks.title}
 	description={currentTracks.description}
 	lang={lang as SupportedLanguageCode}
 	currentSlug=""
 >
 	<TracksLobby client:load lang={lang as SupportedLanguageCode} />
-</TracksPageLayout>
+</BaseLayoutWithSiteHeaderAndSiteFooter>

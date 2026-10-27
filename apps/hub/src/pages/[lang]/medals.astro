@@ -4,7 +4,8 @@ import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { HeaderUserMenu } from '@arcade/lib-ui';
 import { Hero } from '@arcade/lib-ui/components/Hero';
-import StaticPageLayout from '@arcade/lib-ui/layouts/StaticPageLayout/StaticPageLayout.astro';
+import { PageContainer } from '@arcade/lib-ui/components/PageContainer';
+import BaseLayoutWithSiteHeaderAndSiteFooter from '@arcade/lib-ui/layouts/BaseLayoutWithSiteHeaderAndSiteFooter/BaseLayoutWithSiteHeaderAndSiteFooter.astro';
 import { MedalsShowcase } from '../../components/MedalsShowcase/MedalsShowcase';
 
 export function getStaticPaths() {
@@ -17,18 +18,18 @@ const { lang } = Astro.params;
 const currentMedals = resources[lang as SupportedLanguageCode]?.medals ?? resources.en.medals;
 ---
 
-<StaticPageLayout
+<BaseLayoutWithSiteHeaderAndSiteFooter
 	title={currentMedals.showcase.title}
 	description={currentMedals.showcase.description}
 	lang={lang as SupportedLanguageCode}
 	currentSlug="medals"
-	containerVariant="standard"
 >
-	<HeaderUserMenu slot="header-actions" client:load lang={lang as SupportedLanguageCode} />
-	<Hero
-		title={currentMedals.showcase.title}
-		tagline={currentMedals.showcase.description}
-		align="left"
-	/>
-	<MedalsShowcase client:load lang={lang as SupportedLanguageCode} />
-</StaticPageLayout>
+	<PageContainer variant="standard">
+		<Hero
+			title={currentMedals.showcase.title}
+			tagline={currentMedals.showcase.description}
+			align="left"
+		/>
+		<MedalsShowcase client:load lang={lang as SupportedLanguageCode} />
+	</PageContainer>
+</BaseLayoutWithSiteHeaderAndSiteFooter>

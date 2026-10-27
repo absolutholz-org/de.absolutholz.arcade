@@ -90,28 +90,32 @@ This project combines static pre-rendered content (Astro) with dynamic client-si
     - Agents must follow this taxonomy automatically without asking on every routine prompt.
     - If a new feature is requested whose rendering tier is genuinely ambiguous (e.g., choosing between a static Astro component vs. an interactive React island), the agent must ask for clarification on the rendering strategy before implementing.
 
-## 8. Page Layout & Navigation Taxonomy (Breadcrumb Strategy)
+## 8. 3-Tier Layout & Template Architecture (ADR 0006)
 
-To maintain a consistent, accessible navigation hierarchy and avoid redundant landmark clutter, pages across all applications are strictly categorized into three layout tiers:
+To maintain a consistent, accessible landmark structure, prevent spatial container conflicts, and guarantee skip-navigation integrity, layout architecture is strictly categorized into three distinct tiers:
 
-1. **Interactive Game Screens (`apps/[game]/src/pages/[lang]/game.astro`)**:
-    - Must use `*BaseLayout.astro`.
-    - Dedicated full-screen canvas viewport with zero header, zero footer, and **no breadcrumbs**.
+### Tier 1: Document Layouts (`libraries/ui/src/layouts/*`)
+- **Responsibility:** Pure document scaffolding establishing top-level accessibility landmarks (`<header>`, `<main id="main-content">`, `<footer>`), skip-to-content navigation (`<SkipLink href="#main-content">`), and global feedback overlays (`<Toast />`, `<ConsentBanner />`).
+- **Invariants:**
+  - Standard layouts: `BaseLayout`, `BaseLayoutWithSiteFooter`, `BaseLayoutWithSiteHeaderAndSiteFooter`, and `GameLayout`.
+  - **Open Slot Invariant:** Tier 1 layouts must **NEVER** bake or enforce an internal `<PageContainer>`. The `{children}` slot must remain completely open and unconstrained so higher-tier templates can establish their own container widths and padding.
+  - `<main id="main-content">` must remain clean as the primary target for skip links.
 
-2. **Homepages & Lobbies (`index.astro`)**:
-    - The Hub homepage (`apps/hub/src/pages/[lang]/index.astro`) and Game lobbies (`apps/[game]/src/pages/[lang]/index.astro`).
-    - Must use standard `PageLayout.astro` (or game wrapper `*PageLayout.astro`).
-    - Serves as the root navigation landmark; must **NEVER** render breadcrumbs.
+### Tier 2: Structural Templates (`libraries/ui/src/layouts/*Template/`)
+- **Responsibility:** Reusable structural wrappers that define spatial layout constraints, section max-widths, and functional zone slots.
+- **Invariants:**
+  - Standard templates: `GameLandingTemplate`, `ArticleTemplate`, `ShowcaseTemplate`, etc.
+  - Must define content boundaries by wrapping internal zones in specific `<PageContainer>` variants (`slim`, `standard`, `wide`, or edge-to-edge).
+  - Must never manage document-level boilerplate (no `<!doctype html>`, `<html>`, `<body>`, or skip links).
 
-3. **Static Content & Informational Subpages (`rules.astro`, `stats.astro`, `high-scores.astro`, `settings.astro`, `[slug].astro`)**:
-    - Informational, documentation, settings, and legal prose pages.
-    - Must **ALWAYS** consume `StaticPageLayout.astro` (`@arcade/lib-ui/layouts/StaticPageLayout/StaticPageLayout.astro` or domain wrapper `*StaticPageLayout.astro`).
-    - `StaticPageLayout` automatically injects the W3C APG compliant `<Breadcrumb>` in a dedicated breadcrumb bar outside `<main id="main-content">`, forming the hierarchical path:
-        - Game subpages: `[Arcade Logo] / [Game Title] / [Page Title]`
-        - Hub subpages: `[Arcade Logo] / [Page Title]`
-    - Breadcrumbs are positioned outside `<main>` to preserve skip-to-content target integrity and clean landmark hierarchy.
-    - Pages and content sections wrap their content in `<PageContainer>` independently, ensuring layout containers are modular rather than forced into a single monolithic layout wrapper.
-    - **No Manual Placements:** Agents are strictly forbidden from placing `<Breadcrumb>` manually outside of `StaticPageLayout`.
+### Tier 3: Concrete Pages (`apps/*/src/pages/*`)
+- **Responsibility:** Concrete Astro routes and React pages that assemble components into Tier 2 templates, placed inside the appropriate Tier 1 layout.
+
+### Landmark & Navigation Taxonomy (Breadcrumb Strategy)
+- **Interactive Game Screens (`apps/[game]/src/pages/[lang]/game.astro`)**: Must use dedicated game layouts (`*BaseLayout.astro` / `GameLayout`) with zero header, zero footer, and **no breadcrumbs**.
+- **Hub Homepage (`apps/hub/src/pages/[lang]/index.astro`)**: Uses `BaseLayoutWithSiteFooter`; serves as the root hub navigation landmark and must **NEVER** render breadcrumbs.
+- **Game Lobbies (`apps/[game]/src/pages/[lang]/index.astro`)**: Must use `BaseLayoutWithSiteHeaderAndSiteFooter`; serves as the game's root lobby navigation landmark and must **NEVER** render breadcrumbs.
+- **Static Content & Informational Subpages (`rules.astro`, `stats.astro`, `[slug].astro`, `medals.astro`)**: Must consume `BaseLayoutWithSiteHeaderAndSiteFooter.astro`. Content is placed inside the unconstrained `<main id="main-content">` wrapped in the appropriate `<PageContainer>` variant (`slim`, `standard`, `wide`) at the template/page level.
 
 ## 9. Token Economy & Autonomous Loop Guardrails
 

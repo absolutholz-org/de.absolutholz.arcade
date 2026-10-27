@@ -80,3 +80,13 @@ export type {
 } from './components/MedalCard';
 
 export * from './components/GameHeader';
+
+export { BaseLayout } from './layouts/BaseLayout';
+export type { BaseLayoutProps } from './layouts/BaseLayout';
+export { BaseLayoutWithSiteFooter } from './layouts/BaseLayoutWithSiteFooter';
+export type { BaseLayoutWithSiteFooterProps } from './layouts/BaseLayoutWithSiteFooter';
+export { BaseLayoutWithSiteHeaderAndSiteFooter } from './layouts/BaseLayoutWithSiteHeaderAndSiteFooter';
+export type { BaseLayoutWithSiteHeaderAndSiteFooterProps } from './layouts/BaseLayoutWithSiteHeaderAndSiteFooter';
+
+export { MarkdownPageTemplate } from './templates/MarkdownPageTemplate';
+export type { MarkdownPageTemplateProps } from './templates/MarkdownPageTemplate';

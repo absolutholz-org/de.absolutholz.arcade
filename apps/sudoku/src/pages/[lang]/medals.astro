@@ -3,9 +3,10 @@ import { resources } from '@arcade/lib-i18n/config/i18n';
 import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { SUDOKU_MEDAL_DEFINITIONS } from '@arcade/lib-medals';
+import { PageContainer } from '@arcade/lib-ui/components/PageContainer';
+import BaseLayoutWithSiteHeaderAndSiteFooter from '@arcade/lib-ui/layouts/BaseLayoutWithSiteHeaderAndSiteFooter/BaseLayoutWithSiteHeaderAndSiteFooter.astro';
 import { SudokuMedalGrid } from '../../components/SudokuMedalGrid';
 import type { SudokuMedalDefinitionItem } from '../../components/SudokuMedalGrid/SudokuMedalGrid.types';
-import SudokuStaticPageLayout from '../../layouts/SudokuStaticPageLayout.astro';
 
 export function getStaticPaths() {
 	return SUPPORTED_LANGUAGES.map((item) => ({
@@ -46,12 +47,13 @@ const staticMedals: SudokuMedalDefinitionItem[] = SUDOKU_MEDAL_DEFINITIONS.map((
 });
 ---
 
-<SudokuStaticPageLayout
+<BaseLayoutWithSiteHeaderAndSiteFooter
 	title={currentMedals.showcase.title}
 	description={`${currentSudoku.title} - ${currentMedals.showcase.description}`}
 	lang={currentLanguage}
 	currentSlug="medals"
-	containerVariant="standard"
 >
+	<PageContainer variant="wide">
 	<SudokuMedalGrid client:load lang={currentLanguage} staticMedals={staticMedals} />
-</SudokuStaticPageLayout>
+	</PageContainer>
+</BaseLayoutWithSiteHeaderAndSiteFooter>

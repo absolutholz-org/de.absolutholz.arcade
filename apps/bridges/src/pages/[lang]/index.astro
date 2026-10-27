@@ -2,8 +2,8 @@
 import { resources } from '@arcade/lib-i18n/config/i18n';
 import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import BaseLayoutWithSiteHeaderAndSiteFooter from '@arcade/lib-ui/layouts/BaseLayoutWithSiteHeaderAndSiteFooter/BaseLayoutWithSiteHeaderAndSiteFooter.astro';
 import { HashiLobby } from '../../components/HashiLobby';
-import HashiPageLayout from '../../layouts/HashiPageLayout.astro';
 
 export function getStaticPaths() {
 	return SUPPORTED_LANGUAGES.map((item) => ({
@@ -15,11 +15,11 @@ const { lang } = Astro.params;
 const currentBridges = resources[lang as SupportedLanguageCode]?.bridges ?? resources.en.bridges;
 ---
 
-<HashiPageLayout
+<BaseLayoutWithSiteHeaderAndSiteFooter
 	title={currentBridges.title}
 	description={currentBridges.description}
 	lang={lang as SupportedLanguageCode}
 	currentSlug=""
 >
 	<HashiLobby client:load lang={lang as SupportedLanguageCode} />
-</HashiPageLayout>
+</BaseLayoutWithSiteHeaderAndSiteFooter>

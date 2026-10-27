@@ -1,0 +1,53 @@
+---
+import { Breadcrumb } from '../../components/Breadcrumb';
+import type { BreadcrumbItem } from '../../components/Breadcrumb/_Breadcrumb.types';
+import { MarkdownContent } from '../../components/MarkdownContent';
+import { PageContainer } from '../../components/PageContainer';
+import type { PageContainerVariant } from '../../components/PageContainer/_PageContainer.types';
+import type { BaseLayoutProps } from '../../layouts/BaseLayout/_BaseLayout.types';
+import BaseLayoutWithSiteHeaderAndSiteFooter from '../../layouts/BaseLayoutWithSiteHeaderAndSiteFooter/BaseLayoutWithSiteHeaderAndSiteFooter.astro';
+
+interface Props extends BaseLayoutProps {
+	title: string;
+	breadcrumbItems?: BreadcrumbItem[];
+	containerWidth?: PageContainerVariant;
+	currentSlug?: string;
+	hideBrand?: boolean;
+	hasBorder?: boolean;
+}
+
+const { title, breadcrumbItems, containerWidth = 'slim', ...layoutProps } = Astro.props;
+---
+
+<BaseLayoutWithSiteHeaderAndSiteFooter title={title} {...layoutProps}>
+	<slot name="head" slot="head" />
+
+	<PageContainer variant={containerWidth}>
+		{breadcrumbItems && breadcrumbItems.length > 0 ? (
+			<Breadcrumb items={breadcrumbItems} client:load />
+		) : (
+			<slot name="breadcrumb" />
+		)}
+
+		<MarkdownContent>
+			<slot />
+		</MarkdownContent>
+
+		{Astro.slots.has('action') ? (
+			<div class="template-action">
+				<slot name="action" />
+			</div>
+		) : null}
+	</PageContainer>
+</BaseLayoutWithSiteHeaderAndSiteFooter>
+
+<style>
+	.template-action {
+		align-items: center;
+		border-top: 1px solid var(--color-container-2);
+		display: flex;
+		justify-content: center;
+		margin-top: var(--space-3xl);
+		padding-top: var(--space-2xl);
+	}
+</style>

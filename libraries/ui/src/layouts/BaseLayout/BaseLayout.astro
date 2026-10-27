@@ -1,7 +1,10 @@
 ---
 import '../../styles/global.css';
+import { resources } from '@arcade/lib-i18n/config/i18n';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { ConsentBanner } from '../../components/ConsentBanner';
 import { MedalToastListener } from '../../components/MedalToastListener';
+import { SkipLink } from '../../components/SkipLink';
 import { Toast } from '../../components/Toast';
 import type { BaseLayoutProps } from './_BaseLayout.types';
 
@@ -16,6 +19,8 @@ const {
 	appTitle = 'Arcade',
 	manifestHref = '/site.webmanifest',
 } = Astro.props;
+
+const currentCommon = resources[lang as SupportedLanguageCode]?.common ?? resources.en.common;
 ---
 
 <!doctype html>
@@ -75,8 +80,10 @@ const {
 		<slot name="head" />
 	</head>
 	<body>
+		<SkipLink href="#main-content">{currentCommon.navigation.skipToContent}</SkipLink>
 		<slot />
 		<Toast client:load />
+		<ConsentBanner client:load />
 		<MedalToastListener client:load lang={lang as SupportedLanguageCode} />
 	</body>
 </html>

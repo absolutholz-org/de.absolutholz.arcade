@@ -77,13 +77,15 @@ Structural containers and layout primitives establishing consistent spacing and 
 
 | Component | Export Path | Primary Purpose | Key Props & Patterns |
 | :--- | :--- | :--- | :--- |
-| **`PageContainer`** | `@arcade/lib-ui/components/PageContainer` | Standardized page width constraint and responsive gutter padding. | `children`, `maxWidth="sm" \| "md" \| "lg" \| "xl"`. |
+| **`BaseLayout`** | `@arcade/lib-ui/layouts/BaseLayout` | Tier 1 root document shell (`<!doctype html>`, `<head>`, skip link, `<main id="main-content">`). | `title`, `description`, `lang`, `children`. |
+| **`BaseLayoutWithSiteFooter`** | `@arcade/lib-ui/layouts/BaseLayoutWithSiteFooter` | Tier 1 layout scaffolding root document with `<SiteFooter />`. | `title`, `description`, `lang`, `currentSlug`, `children`. |
+| **`BaseLayoutWithSiteHeaderAndSiteFooter`** | `@arcade/lib-ui/layouts/BaseLayoutWithSiteHeaderAndSiteFooter` | Tier 1 layout scaffolding root document with `<SiteHeader />` and `<SiteFooter />`. | `title`, `description`, `lang`, `hideBrand`, `hasBorder`, `currentSlug`, `children`. |
+| **`PageContainer`** | `@arcade/lib-ui/components/PageContainer` | Standardized page width constraint and responsive gutter padding. | `variant="slim" \| "standard" \| "wide" \| "full"`, `children`. |
 | **`Stack`** | `@arcade/lib-ui/components/Stack` | Linear layout primitive enforcing token-based spacing between children. | `direction="row" \| "column"`, `gap`, `align`, `justify`. |
 | **`Divider`** | `@arcade/lib-ui/components/Divider` | Visual rule separating distinct content sections. | `orientation="horizontal" \| "vertical"`. |
 | **`Hero`** | `@arcade/lib-ui/components/Hero` | Top-of-page landmark with display typography, tagline, and optional logo slot. | `title`, `tagline`, `align="left" \| "center"`, `slot="logo"`. |
 | **`GameContainer`** | `@arcade/lib-ui/components/GameContainer` | Responsive aspect-ratio preserving frame for game canvases. | `children`, `aspectRatio`. |
 | **`MarkdownContent`** | `@arcade/lib-ui/components/MarkdownContent` | Standardized typographic container rendering localized Astro Markdown content collections. | `children` (rendered HTML). |
-| **`GameRulesLayout`** | `@arcade/lib-ui/layouts/GameRulesLayout/GameRulesLayout.astro` | Reusable layout for game rules subpages with breadcrumb, markdown prose container, user menu, and primary CTA. | `title`, `description`, `lang`, `appTitle`, `basePath`, `primaryActionLabel`. |
 
 ---
 
@@ -95,7 +97,7 @@ App shell chrome, global navigation landmarks, and user identity controls.
 | :--- | :--- | :--- | :--- |
 | **`SiteHeader`** | `@arcade/lib-ui/components/SiteHeader` | Global landmark header bar containing brand logo, title, and action slots. | `currentSlug`, `variant="default" \| "minimal"`. |
 | **`SiteFooter`** | `@arcade/lib-ui/components/SiteFooter` | Global landmark footer with navigation links, copyright, and language selectors. | `lang`, `currentSlug`. |
-| **`Breadcrumb`** | `@arcade/lib-ui/components/Breadcrumb` | W3C APG compliant breadcrumb trail. Rendered automatically by `StaticPageLayout.astro`. | Injected by `StaticPageLayout`. |
+| **`Breadcrumb`** | `@arcade/lib-ui/components/Breadcrumb` | W3C APG compliant breadcrumb trail. | `items`, `lang`. |
 | **`HeaderActions`** | `@arcade/lib-ui/components/HeaderActions` | Flex cluster anchoring theme, language, and user profile buttons in the header. | `children`. |
 | **`HeaderUserMenu`** | `@arcade/lib-ui` | Trigger button and identity badge showing active session (`Guest` vs authenticated) and storage mode. | Integrates with `@arcade/lib-user`. |
 | **`SkipLink`** | `@arcade/lib-ui/components/SkipLink` | Accessible jump link allowing keyboard users to bypass header navigation to `#main-content`. | Built into layouts. |

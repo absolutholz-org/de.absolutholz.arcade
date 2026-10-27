@@ -3,9 +3,10 @@ import { resources } from '@arcade/lib-i18n/config/i18n';
 import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { BRIDGES_MEDAL_DEFINITIONS } from '@arcade/lib-medals';
+import { PageContainer } from '@arcade/lib-ui/components/PageContainer';
+import BaseLayoutWithSiteHeaderAndSiteFooter from '@arcade/lib-ui/layouts/BaseLayoutWithSiteHeaderAndSiteFooter/BaseLayoutWithSiteHeaderAndSiteFooter.astro';
 import { BridgesMedalGrid } from '../../components/BridgesMedalGrid';
 import type { BridgesMedalDefinitionItem } from '../../components/BridgesMedalGrid/BridgesMedalGrid.types';
-import HashiStaticPageLayout from '../../layouts/HashiStaticPageLayout.astro';
 
 export function getStaticPaths() {
 	return SUPPORTED_LANGUAGES.map((item) => ({
@@ -46,11 +47,13 @@ const staticMedals: BridgesMedalDefinitionItem[] = BRIDGES_MEDAL_DEFINITIONS.map
 });
 ---
 
-<HashiStaticPageLayout
+<BaseLayoutWithSiteHeaderAndSiteFooter
 	title={currentMedals.showcase.title}
 	description={`${currentBridges.title} - ${currentMedals.showcase.description}`}
 	lang={currentLanguage}
 	currentSlug="medals"
 >
+	<PageContainer variant="wide">
 	<BridgesMedalGrid client:load lang={currentLanguage} staticMedals={staticMedals} />
-</HashiStaticPageLayout>
+	</PageContainer>
+</BaseLayoutWithSiteHeaderAndSiteFooter>

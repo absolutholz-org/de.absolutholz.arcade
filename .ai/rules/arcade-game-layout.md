@@ -10,9 +10,10 @@ Every game package (`apps/<game>/src/pages/[lang]/`) must implement the followin
 
 | Route Path | File Entry | Responsibility | Outer Layout | Primary Client Component |
 | :--- | :--- | :--- | :--- | :--- |
-| `/[lang]/` | `index.astro` | Game Lobby & Level/Difficulty Selection | `<[Game]PageLayout>` | `<[Game]Lobby client:load lang={lang} />` |
+| `/[lang]/` | `index.astro` | Game Lobby & Level/Difficulty Selection | `<BaseLayoutWithSiteHeaderAndSiteFooter>` | `<[Game]Lobby client:load lang={lang} />` |
 | `/[lang]/game.astro` | `game.astro` | Active Gameplay View | `<[Game]BaseLayout>` | `<[Game]Game client:only="react" lang={lang} />` |
-| `/[lang]/rules.astro` | `rules.astro` | Markdown Game Rules & Documentation | `<[Game]StaticPageLayout>` | Static Astro Markdown (`<MarkdownContent>`) |
+| `/[lang]/rules.astro` | `rules.astro` | Markdown Game Rules & Documentation | `<BaseLayoutWithSiteHeaderAndSiteFooter>` | `<PageContainer variant="slim">` + Static Astro Markdown (`<MarkdownContent>`) |
+| `/[lang]/medals.astro` | `medals.astro` | Medals & Achievements Showcase | `<BaseLayoutWithSiteHeaderAndSiteFooter>` | `<PageContainer variant="wide">` + `<[Game]MedalGrid client:load />` |
 
 ### Static Path Generation
 All localized Astro routes must export `getStaticPaths()` using `SUPPORTED_LANGUAGES`:
@@ -30,44 +31,38 @@ export function getStaticPaths() {
 
 ---
 
-## 2. Standard Layout Wrapping Pipeline
+## 2. Standard Layout Architecture (ADR 0006)
 
-Game layouts follow a strict three-tier inheritance model:
+Game layouts follow the 3-Tier Layout and Template Hierarchy:
 
 ```text
-@arcade/lib-ui/layouts/BaseLayout
-  │
-  ├── Used directly by: [Game]BaseLayout.astro ──► /game.astro (Active Play)
-  │                                                  └── <GameContainer> (pins in-game header & overlay)
-  │
-  └── @arcade/lib-ui/layouts/PageLayout
-        │
-        ├── Used by: [Game]PageLayout.astro ─────► /[lang]/index.astro (Lobby)
-        │                                           └── <GameLandingTemplate> (Hero + Main + Footer)
-        │
-        └── @arcade/lib-ui/layouts/StaticPageLayout
-              │
-              └── Used by: [Game]StaticPageLayout.astro ─► /[lang]/rules.astro (Rules)
-                                                            └── <Breadcrumb> + <MarkdownContent>
+Tier 1: Document Layouts (@arcade/lib-ui/layouts/)
+  ├── BaseLayout
+  │     └── Used by: [Game]BaseLayout.astro ─────► /[lang]/game.astro (Active Play)
+  │                                                   └── <GameContainer>
+  ├── BaseLayoutWithSiteFooter
+  │     └── Used by: apps/hub ───────────────────► /[lang]/index.astro (Hub Home)
+  │                                                   └── <PageContainer>
+  └── BaseLayoutWithSiteHeaderAndSiteFooter
+        ├── Used by: Game Lobbies ───────────────► /[lang]/index.astro (Lobby)
+        ├── Used by: Rules Pages ────────────────► /[lang]/rules.astro
+        │                                             └── <PageContainer variant="slim">
+        └── Used by: Medals & Showcase Pages ────► /[lang]/medals.astro
+                                                      └── <PageContainer variant="wide">
 ```
 
-### 1. `BaseLayout` (`@arcade/lib-ui/layouts/BaseLayout/BaseLayout.astro`)
-- Lowest-level HTML scaffold (`<html>`, `<head>`, `<body>`, skip-links, global styles).
-- **Usage**: Used by `[Game]BaseLayout.astro` for `game.astro` to provide an unencumbered full-viewport canvas without outer site headers or footers.
+### 1. `BaseLayout` (`@arcade/lib-ui/layouts/BaseLayout`)
+- Bare HTML scaffold (`<html>`, `<head>`, `<body>`, skip-links, global styles) without site header or footer.
+- **Usage**: Used by `[Game]BaseLayout.astro` for `game.astro` to provide an unencumbered full-viewport canvas.
 
-### 2. `PageLayout` (`@arcade/lib-ui/layouts/PageLayout/PageLayout.astro`)
-- Standard public web shell with persistent `<SiteHeader>` and `<SiteFooter>`.
-- Slots:
-  - `header-actions`: Slots `<HeaderUserMenu client:load lang={lang} />` next to `<HeaderActions>` (i18n switcher + theme toggle).
-  - Default slot: Enclosed within `<main id="main-content">`.
-- **Usage**: Used by `[Game]PageLayout.astro` for the game lobby (`index.astro`).
+### 2. `BaseLayoutWithSiteFooter` (`@arcade/lib-ui/layouts/BaseLayoutWithSiteFooter`)
+- Document scaffold with persistent `<SiteFooter>` and an unconstrained `<main id="main-content">` slot.
+- **Usage**: Used by Arcade Hub homepage (`apps/hub/src/pages/[lang]/index.astro`).
 
-### 3. `StaticPageLayout` (`@arcade/lib-ui/layouts/StaticPageLayout/StaticPageLayout.astro`)
-- Specialized layout for text-heavy prose and help pages.
-- Inherits all `PageLayout` features and injects:
-  - Slim centered container (`<PageContainer variant="slim">`) for optimal typographic reading length.
-  - Automatic breadcrumb navigation (`<Breadcrumb>`).
-- **Usage**: Used by `[Game]StaticPageLayout.astro` for `rules.astro`.
+### 3. `BaseLayoutWithSiteHeaderAndSiteFooter` (`@arcade/lib-ui/layouts/BaseLayoutWithSiteHeaderAndSiteFooter`)
+- Standard public web shell with persistent `<SiteHeader>`, unconstrained `<main id="main-content">`, and `<SiteFooter>`.
+- Supports `appTitle` and `appHomeHref` to configure brand title and home navigation per game.
+- **Usage**: Used directly across game lobbies (`index.astro`), rules (`rules.astro`), and medals showcase (`medals.astro`).
 
 ---
 
@@ -124,16 +119,24 @@ Game lobbies (`index.astro`) mount React clients via `client:load`. The lobby UI
 Rules pages (`rules.astro`) fetch markdown content from Astro content collections (`src/content/pages/[lang]/rules.md`) and render it via `<MarkdownContent>`:
 
 ```astro
-<[Game]StaticPageLayout title={entry.data.title} lang={lang} currentSlug="rules">
-  <Stack align="center" spacing="3xl">
-    <MarkdownContent>
-      <Content />
-    </MarkdownContent>
-    <Button as="a" href={`/${game}/${lang}/`} variant="primary" size="md">
-      {playLabel}
-    </Button>
-  </Stack>
-</[Game]StaticPageLayout>
+<BaseLayoutWithSiteHeaderAndSiteFooter
+  title={entry.data.title}
+  lang={lang}
+  appTitle={gameTitle}
+  appHomeHref={`/${game}/${lang}/`}
+  currentSlug="rules"
+>
+  <PageContainer variant="slim">
+    <Stack align="center" spacing="3xl">
+      <MarkdownContent>
+        <Content />
+      </MarkdownContent>
+      <Button as="a" href={`/${game}/${lang}/`} variant="primary" size="md">
+        {playLabel}
+      </Button>
+    </Stack>
+  </PageContainer>
+</BaseLayoutWithSiteHeaderAndSiteFooter>
 ```
 
 ---

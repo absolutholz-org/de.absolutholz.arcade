@@ -11,6 +11,7 @@ This document contains the foundational architectural decisions for the Arcade W
 | **0003** | Modular Privacy Consent Manager, Four-Tier Data Policy, and Backend Abstraction | Accepted | [0003-consent-manager.md](./0003-consent-manager.md) |
 | **0004** | Game Aggregated Stats, Custom Game State, and Achievement System | Accepted | [0004-medals-and-achievements.md](./0004-medals-and-achievements.md) |
 | **0005** | Standard Arcade Game Integration Contract | Accepted | [0005-standard-game-contract.md](./0005-standard-game-contract.md) |
+| **0006** | Explicit 3-Tier Layout and Template Hierarchy | Accepted | [0006-explicit-layout-and-template-hierarchy.md](./0006-explicit-layout-and-template-hierarchy.md) |
 
 ---
 

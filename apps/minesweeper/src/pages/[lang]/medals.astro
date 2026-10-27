@@ -3,9 +3,10 @@ import { resources } from '@arcade/lib-i18n/config/i18n';
 import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { MINESWEEPER_MEDAL_DEFINITIONS } from '@arcade/lib-medals';
+import { PageContainer } from '@arcade/lib-ui/components/PageContainer';
+import BaseLayoutWithSiteHeaderAndSiteFooter from '@arcade/lib-ui/layouts/BaseLayoutWithSiteHeaderAndSiteFooter/BaseLayoutWithSiteHeaderAndSiteFooter.astro';
 import { MinesweeperMedalGrid } from '../../components/MinesweeperMedalGrid';
 import type { MinesweeperMedalDefinitionItem } from '../../components/MinesweeperMedalGrid/MinesweeperMedalGrid.types';
-import MinesweeperStaticPageLayout from '../../layouts/MinesweeperStaticPageLayout.astro';
 
 export function getStaticPaths() {
 	return SUPPORTED_LANGUAGES.map((item) => ({
@@ -46,11 +47,13 @@ const staticMedals: MinesweeperMedalDefinitionItem[] = MINESWEEPER_MEDAL_DEFINIT
 });
 ---
 
-<MinesweeperStaticPageLayout
+<BaseLayoutWithSiteHeaderAndSiteFooter
 	title={currentMedals.showcase.title}
 	description={`${currentMinesweeper.title} - ${currentMedals.showcase.description}`}
 	lang={currentLanguage}
 	currentSlug="medals"
 >
+	<PageContainer variant="wide">
 	<MinesweeperMedalGrid client:load lang={currentLanguage} staticMedals={staticMedals} />
-</MinesweeperStaticPageLayout>
+	</PageContainer>
+</BaseLayoutWithSiteHeaderAndSiteFooter>

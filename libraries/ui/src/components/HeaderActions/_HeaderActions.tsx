@@ -44,7 +44,13 @@ function HeaderActionsContent({
  * Interactive header actions cluster containing language and color scheme switchers.
  * Handles client-side navigation between localized routes with path preservation.
  */
-export function HeaderActions({ lang, currentSlug = '' }: HeaderActionsProps = {}) {
+export function HeaderActions({ lang, currentSlug }: HeaderActionsProps = {}) {
+	const derivedSlug =
+		typeof window !== 'undefined'
+			? window.location.pathname.replace(/^\/[a-z]{2}(?:\/|$)/, '').replace(/\/$/, '')
+			: '';
+	const resolvedSlug = currentSlug !== undefined ? currentSlug : derivedSlug;
+
 	const handleLanguageChange = (nextLang: SupportedLanguageCode) => {
 		persistLanguage(nextLang);
 		if (nextLang === lang) {
@@ -55,8 +61,8 @@ export function HeaderActions({ lang, currentSlug = '' }: HeaderActionsProps = {
 			const targetPath =
 				lang && currentPath.includes(`/${lang}`)
 					? currentPath.replace(new RegExp(`/${lang}(/|$)`), `/${nextLang}$1`)
-					: currentSlug
-						? `/${nextLang}/${currentSlug}`
+					: resolvedSlug
+						? `/${nextLang}/${resolvedSlug}`
 						: `/${nextLang}/`;
 			window.location.assign(targetPath + window.location.search);
 		}
@@ -64,7 +70,7 @@ export function HeaderActions({ lang, currentSlug = '' }: HeaderActionsProps = {
 
 	return (
 		<I18nProvider language={lang}>
-			<HeaderActionsContent currentSlug={currentSlug} handleLanguageChange={handleLanguageChange} lang={lang} />
+			<HeaderActionsContent currentSlug={resolvedSlug} handleLanguageChange={handleLanguageChange} lang={lang} />
 		</I18nProvider>
 	);
 }

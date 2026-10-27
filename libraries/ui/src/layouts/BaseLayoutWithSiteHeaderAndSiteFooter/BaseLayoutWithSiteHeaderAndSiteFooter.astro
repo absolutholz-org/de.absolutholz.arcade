@@ -1,0 +1,42 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { SiteFooter } from '../../components/SiteFooter';
+import SiteHeader from '../../components/SiteHeader/SiteHeader.astro';
+import BaseLayout from '../BaseLayout/BaseLayout.astro';
+import type { BaseLayoutProps } from '../BaseLayout/_BaseLayout.types';
+
+interface Props extends BaseLayoutProps {
+	currentSlug?: string;
+	hideBrand?: boolean;
+	hasBorder?: boolean;
+}
+
+const props = Astro.props;
+const lang = (props.lang ?? 'en') as SupportedLanguageCode;
+const currentCommon = resources[lang]?.common ?? resources.en.common;
+
+const baseLegalLinks = [
+	{ href: `/${lang}/privacy`, label: currentCommon.navigation.privacy },
+	{ href: `/${lang}/imprint`, label: currentCommon.navigation.imprint },
+	{ href: `/${lang}/accessibility`, label: currentCommon.navigation.accessibility },
+	{ href: `/${lang}/settings`, label: currentCommon.navigation.settings },
+	{ href: `/${lang}/medals`, label: currentCommon.navigation.medals },
+];
+---
+
+<BaseLayout {...props}>
+	<slot name="head" slot="head" />
+	<SiteHeader variant="standard" hideBrand={props.hideBrand} hasBorder={props.hasBorder} currentSlug={props.currentSlug} />
+
+	<slot name="breadcrumb" />
+
+	<main id="main-content" style="flex: 1 0 auto; width: 100%;">
+		<slot />
+	</main>
+
+	<SiteFooter
+		legalAriaLabel={currentCommon.navigation.legal}
+		legalLinks={baseLegalLinks}
+	/>
+</BaseLayout>

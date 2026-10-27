@@ -82,3 +82,18 @@ To prevent duplication and enforce a single source of truth, follow this pattern
 - **Type-Only Imports for Derivations**: When importing constants into type files (`.types.ts`) solely for type derivation (using `typeof CONSTANT`), always use a type-only import (`import type { CONSTANT }` or `import type { typographyScale }`) to prevent duplicate import errors and comply with strict type-import lint rules.
 - **Idiomatic Property Defaults**: Do not create separate, isolated constants for default component properties (such as DEFAULT_VARIANT). Assign fallback values directly within the component function's parameter destructuring signature. Never document default values inside JSDoc prop annotations, as this causes documentation drift when implementations change.
 - **Storybook-Only Data Isolation**: Keep all variables, mock strings, helper components, or utility functions that are used exclusively for Storybook stories and MDX documentation directly inside the `.stories.tsx` or `.mdx` files. Do not declare them in the component's core `_ComponentName.constants.ts`, `_ComponentName.tsx`, or implementation files to prevent polluting the production codebase with testing-only concerns (e.g., standard lorem ipsum test text blocks).
+
+## 6. Layouts & Templates Architecture (ADR 0006)
+
+When creating or modifying layouts or page templates under `src/layouts/`, adhere to the 3-Tier Hierarchy:
+
+- **Tier 1 (Document Layouts - `src/layouts/*`)**:
+  - Foundational document scaffolding establishing semantic landmarks (`<header>`, `<main id="main-content">`, `<footer>`, `<SkipLink>`) and global overlays (`<Toast />`, `<ConsentBanner />`).
+  - **Open Slot Invariant**: Tier 1 layouts must **NEVER** bake or enforce an internal `<PageContainer>`. The `{children}` slot must remain completely open and unconstrained so downstream templates can establish their own container widths and padding.
+  - Layouts: `BaseLayout`, `BaseLayoutWithSiteFooter`, `BaseLayoutWithSiteHeaderAndSiteFooter`, `GameLayout`.
+- **Tier 2 (Structural Templates - `src/layouts/*Template/`)**:
+  - Reusable structural wrappers that define spatial layout constraints, section max-widths, and functional zone slots.
+  - Must define content boundaries by wrapping internal zones in specific `<PageContainer>` variants (`slim`, `standard`, `wide`, or edge-to-edge).
+  - Templates: `GameLandingTemplate`, `ArticleTemplate`, `ShowcaseTemplate`.
+- **Tier 3 (Concrete Pages - `apps/*/src/pages/*`)**:
+  - Concrete application routes assembling domain components into Tier 2 templates inside Tier 1 layouts.

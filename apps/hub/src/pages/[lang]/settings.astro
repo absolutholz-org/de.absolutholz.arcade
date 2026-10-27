@@ -6,10 +6,11 @@ import { HeaderUserMenu, PrivacySettingRow } from '@arcade/lib-ui';
 import { Button } from '@arcade/lib-ui/components/Button';
 import { Hero } from '@arcade/lib-ui/components/Hero';
 import { LanguageSelector } from '@arcade/lib-ui/components/LanguageSelector';
+import { PageContainer } from '@arcade/lib-ui/components/PageContainer';
 import { SchemeSelector } from '@arcade/lib-ui/components/SchemeSelector';
 import { Stack } from '@arcade/lib-ui/components/Stack';
 import { ThemeSelector } from '@arcade/lib-ui/components/ThemeSelector';
-import StaticPageLayout from '@arcade/lib-ui/layouts/StaticPageLayout/StaticPageLayout.astro';
+import BaseLayoutWithSiteHeaderAndSiteFooter from '@arcade/lib-ui/layouts/BaseLayoutWithSiteHeaderAndSiteFooter/BaseLayoutWithSiteHeaderAndSiteFooter.astro';
 
 export function getStaticPaths() {
 	return SUPPORTED_LANGUAGES.map((item) => ({
@@ -21,49 +22,50 @@ const { lang } = Astro.params;
 const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? resources.en.common;
 ---
 
-<StaticPageLayout
+<BaseLayoutWithSiteHeaderAndSiteFooter
 	title={currentTranslations.settings.title}
 	description={currentTranslations.settings.description}
 	lang={lang as SupportedLanguageCode}
 	currentSlug="settings"
 >
-	<HeaderUserMenu slot="header-actions" client:load lang={lang as SupportedLanguageCode} />
-	<Stack spacing="xl">
-		<Hero
-			title={currentTranslations.settings.title}
-			tagline={currentTranslations.settings.description}
-			align="left"
-		/>
+	<PageContainer variant="slim">
+		<Stack spacing="xl">
+			<Hero
+				title={currentTranslations.settings.title}
+				tagline={currentTranslations.settings.description}
+				align="left"
+			/>
 
-		<section class="settings-content">
-			<LanguageSelector client:load lang={lang as SupportedLanguageCode} />
-		</section>
+			<section class="settings-content">
+				<LanguageSelector client:load lang={lang as SupportedLanguageCode} />
+			</section>
 
-		<section class="settings-content">
-			<SchemeSelector client:load lang={lang as SupportedLanguageCode} />
-		</section>
+			<section class="settings-content">
+				<SchemeSelector client:load lang={lang as SupportedLanguageCode} />
+			</section>
 
-		<section class="settings-content">
-			<ThemeSelector client:load lang={lang as SupportedLanguageCode} />
-		</section>
+			<section class="settings-content">
+				<ThemeSelector client:load lang={lang as SupportedLanguageCode} />
+			</section>
 
-		<section class="settings-content">
-			<PrivacySettingRow client:load />
-		</section>
+			<section class="settings-content">
+				<PrivacySettingRow client:load />
+			</section>
 
-		<section class="settings-content">
-			<div class="offline-setting-row">
-				<div>
-					<h2>{currentTranslations.offline.title}</h2>
-					<p class="offline-tagline">{currentTranslations.offline.description}</p>
+			<section class="settings-content">
+				<div class="offline-setting-row">
+					<div>
+						<h2>{currentTranslations.offline.title}</h2>
+						<p class="offline-tagline">{currentTranslations.offline.description}</p>
+					</div>
+					<Button as="a" href={`/${lang}/offline`} variant="outline" size="md">
+						{currentTranslations.offline.title} →
+					</Button>
 				</div>
-				<Button as="a" href={`/${lang}/offline`} variant="outline" size="md">
-					{currentTranslations.offline.title} →
-				</Button>
-			</div>
-		</section>
-	</Stack>
-</StaticPageLayout>
+			</section>
+		</Stack>
+	</PageContainer>
+</BaseLayoutWithSiteHeaderAndSiteFooter>
 
 <style>
 	.settings-content {

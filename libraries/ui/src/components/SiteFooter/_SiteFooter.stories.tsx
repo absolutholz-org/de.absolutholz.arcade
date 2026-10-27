@@ -17,10 +17,6 @@ const meta = {
 	tags: ['autodocs'],
 	title: 'Components/Navigation & Shell/SiteFooter',
 	argTypes: {
-		as: {
-			control: 'text',
-			description: 'The HTML element or custom component to render as the root container.',
-		},
 		legalAriaLabel: {
 			control: 'text',
 			description: 'Accessible name for the legal navigation section.',
@@ -39,7 +35,6 @@ const meta = {
 		},
 	},
 	args: {
-		as: 'footer',
 		copyright: {
 			currentYear: 2026,
 			owner: 'absolutholz',
