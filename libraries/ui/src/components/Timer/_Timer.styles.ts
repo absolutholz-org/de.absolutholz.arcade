@@ -67,6 +67,27 @@ export const TimerButton = styled.button`
 		}
 	}
 
+	/* Inline Unbordered Variant */
+	&[data-variant='inline'] {
+		background-color: transparent;
+		border: 1px solid transparent;
+		border-radius: var(--radius-sm);
+		box-shadow: none;
+		padding: 0 var(--space-2xs);
+		min-height: auto;
+		font-size: var(--font-size-md);
+		font-weight: var(--font-weight-medium);
+
+		&[data-interactive='true']:hover:not(:disabled) {
+			background-color: ${themeColor('container-1')};
+			border-color: transparent;
+		}
+
+		&[data-paused='true'] {
+			border: 1px dashed ${themeColor('accent')};
+		}
+	}
+
 	/* Sizing Presets */
 	&[data-size="sm"] {
 		min-height: 2rem;

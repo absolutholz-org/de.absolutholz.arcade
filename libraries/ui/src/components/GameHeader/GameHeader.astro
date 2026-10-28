@@ -1,0 +1,12 @@
+---
+import { GameHeader as ReactGameHeader } from './_GameHeader';
+import type { GameHeaderProps } from './_GameHeader.types';
+
+type Props = GameHeaderProps;
+
+const props = Astro.props;
+---
+
+<ReactGameHeader client:load {...props}>
+	<slot />
+</ReactGameHeader>

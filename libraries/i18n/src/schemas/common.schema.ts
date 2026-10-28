@@ -99,6 +99,14 @@ export const commonSchema = {
 	hub: {
 		gamesTitle: 'hub.gamesTitle',
 	},
+	game: {
+		pause: {
+			title: 'game.pause.title',
+			description: 'game.pause.description',
+			resume: 'game.pause.resume',
+			restart: 'game.pause.restart',
+		},
+	},
 	offline: {
 		title: 'offline.title',
 		description: 'offline.description',

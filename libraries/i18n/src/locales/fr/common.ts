@@ -108,6 +108,14 @@ export const frCommon = {
 	hub: {
 		gamesTitle: 'Jeux',
 	},
+	game: {
+		pause: {
+			title: 'Jeu en pause',
+			description: "Cliquez n'importe où ou appuyez sur Reprendre pour continuer à jouer.",
+			resume: 'Reprendre',
+			restart: 'Recommencer',
+		},
+	},
 	offline: {
 		title: 'Gestionnaire de jeux hors ligne',
 		description: 'Gérez les jeux disponibles hors ligne.',

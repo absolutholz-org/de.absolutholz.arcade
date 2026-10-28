@@ -1,37 +1,56 @@
 import type { ReactNode } from 'react';
-import type { PageContainerProps } from '../PageContainer/_PageContainer.types';
 
 export interface GameHeaderProps {
 	/**
-	 * Handler for the lobby/back button.
+	 * Navigation target URL for returning to the lobby.
 	 */
-	onLobbyClick?: () => void;
+	backHref?: string;
 	/**
-	 * Optional router href (renders semantic <a> if provided; otherwise <button type="button">).
+	 * Accessible label and tooltip for the back/lobby button.
 	 */
-	lobbyHref?: string;
+	backLabel?: string;
 	/**
-	 * Trigger for game settings popover/dialog.
+	 * Optional click callback when the lobby/back button is triggered.
 	 */
-	onOpenSettings: () => void;
+	onBackClick?: () => void;
 	/**
-	 * Trigger for user account/profile.
+	 * Optional difficulty or level indicator string (e.g. 'Easy', 'Hard').
 	 */
-	onUserClick?: () => void;
+	difficulty?: string;
 	/**
-	 * Slot for center content (e.g. Difficulty text + Timer component).
+	 * Slot or node for elapsed timer, strictly centered.
 	 */
-	children?: ReactNode;
+	timer?: ReactNode;
 	/**
-	 * Pass-through to PageContainer (default: 'full').
+	 * Trigger callback for opening game settings dialog.
 	 */
-	containerWidth?: PageContainerProps['variant'];
+	onOpenSettings?: () => void;
 	/**
-	 * Header landmark accessible label (default: 'Game Header').
+	 * Optional router link URL for settings.
+	 */
+	settingsHref?: string;
+	/**
+	 * Accessible label and tooltip for settings trigger.
+	 */
+	settingsLabel?: string;
+	/**
+	 * Whether to render the scheme switcher in the utility cluster (default: false).
+	 */
+	showSchemeSwitcher?: boolean;
+	/**
+	 * Optional additional action buttons or controls rendered in the right utility cluster.
+	 */
+	actions?: ReactNode;
+	/**
+	 * Whether to render the bottom divider border (default: true).
+	 */
+	hasBorder?: boolean;
+	/**
+	 * Accessible landmark label for the header banner (default: 'Game Header').
 	 */
 	'aria-label'?: string;
 	/**
-	 * Additional CSS class name.
+	 * Optional fallback children rendered in center slot when timer is omitted.
 	 */
-	className?: string;
+	children?: ReactNode;
 }

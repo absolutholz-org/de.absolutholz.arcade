@@ -23,6 +23,8 @@ export type {
 } from './hooks/useOfflineGame';
 export { VictoryDialog } from './components/VictoryDialog';
 export type { VictoryDialogProps, VictoryStatItem } from './components/VictoryDialog';
+export { PauseDialog } from './components/PauseDialog';
+export type { PauseDialogProps } from './components/PauseDialog';
 export { ClickableCard } from './components/ClickableCard';
 export type { ClickableCardProps } from './components/ClickableCard/_ClickableCard.types';
 export { Badge } from './components/Badge';
@@ -79,7 +81,8 @@ export type {
 	TriadBadgeProps,
 } from './components/MedalCard';
 
-export * from './components/GameHeader';
+export { GameHeader } from './components/GameHeader';
+export type { GameHeaderProps } from './components/GameHeader';
 
 export { BaseLayout } from './layouts/BaseLayout';
 export type { BaseLayoutProps } from './layouts/BaseLayout';
@@ -87,6 +90,8 @@ export { BaseLayoutWithSiteFooter } from './layouts/BaseLayoutWithSiteFooter';
 export type { BaseLayoutWithSiteFooterProps } from './layouts/BaseLayoutWithSiteFooter';
 export { BaseLayoutWithSiteHeaderAndSiteFooter } from './layouts/BaseLayoutWithSiteHeaderAndSiteFooter';
 export type { BaseLayoutWithSiteHeaderAndSiteFooterProps } from './layouts/BaseLayoutWithSiteHeaderAndSiteFooter';
+export { GameLayout } from './layouts/GameLayout';
+export type { GameLayoutProps } from './layouts/GameLayout';
 
 export { MarkdownPageTemplate } from './templates/MarkdownPageTemplate';
 export type { MarkdownPageTemplateProps } from './templates/MarkdownPageTemplate';

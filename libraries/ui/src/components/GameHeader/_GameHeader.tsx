@@ -1,95 +1,109 @@
+import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
+import { Badge } from '../Badge';
 import { Button } from '../Button';
 import { Icon } from '../Icon';
-import { PageContainer } from '../PageContainer';
+import { SchemeSwitcher } from '../SchemeSwitcher';
 import {
-	DEFAULT_CONTAINER_WIDTH,
+	DEFAULT_BACK_ARIA_LABEL,
 	DEFAULT_HEADER_ARIA_LABEL,
-	LOBBY_ARIA_LABEL,
-	SETTINGS_ARIA_LABEL,
-	USER_ARIA_LABEL,
+	DEFAULT_SETTINGS_ARIA_LABEL,
 } from './_GameHeader.constants';
 import * as S from './_GameHeader.styles';
 import type { GameHeaderProps } from './_GameHeader.types';
 
 /**
- * Mobile-first arcade game header with a strict 3-track layout:
- * - Left track: Navigation back to lobby
- * - Center track: Mathematical center for game state (mode badge, timer)
- * - Right track: User and Settings utility cluster
+ * Top landmark organism for active gameplay.
+ * Guarantees mathematical centering for the timer slot regardless
+ * of asymmetric actions between left and right zones.
  */
 export function GameHeader({
-	onLobbyClick,
-	lobbyHref,
+	backHref,
+	backLabel,
+	onBackClick,
+	difficulty,
+	timer,
 	onOpenSettings,
-	onUserClick,
-	children,
-	containerWidth = DEFAULT_CONTAINER_WIDTH,
+	settingsHref,
+	settingsLabel,
+	showSchemeSwitcher = false,
+	actions,
+	hasBorder = true,
 	'aria-label': ariaLabel = DEFAULT_HEADER_ARIA_LABEL,
-	className,
+	children,
 }: GameHeaderProps) {
+	const { t } = useI18n('common');
+
+	const resolvedBackLabel = backLabel ?? t('actions.back') ?? DEFAULT_BACK_ARIA_LABEL;
+	const resolvedSettingsLabel = settingsLabel ?? t('navigation.settings') ?? DEFAULT_SETTINGS_ARIA_LABEL;
+	const centerSlot = timer ?? children;
+
 	return (
-		<S.GameHeader aria-label={ariaLabel} className={className}>
-			<PageContainer variant={containerWidth}>
-				<div className="game-header-grid">
-					<div className="game-header-left">
-						{lobbyHref ? (
-							<Button
-								as="a"
-								href={lobbyHref}
-								onClick={onLobbyClick}
-								variant="ghost"
-								size="md"
-								isIconOnly
-								aria-label={LOBBY_ARIA_LABEL}
-								title={LOBBY_ARIA_LABEL}
-								className="game-header-btn"
-								leadingIcon={<Icon name="arrow-left" size="sm" />}
-							/>
-						) : (
-							<Button
-								type="button"
-								onClick={onLobbyClick}
-								variant="ghost"
-								size="md"
-								isIconOnly
-								aria-label={LOBBY_ARIA_LABEL}
-								title={LOBBY_ARIA_LABEL}
-								className="game-header-btn"
-								leadingIcon={<Icon name="arrow-left" size="sm" />}
-							/>
-						)}
-					</div>
+		<S.Header role="banner" aria-label={ariaLabel} data-has-border={hasBorder ? 'true' : 'false'}>
+			<div className="game-header-grid">
+				<div className="game-header-left">
+					{backHref ? (
+						<Button
+							as="a"
+							href={backHref}
+							onClick={onBackClick}
+							variant="ghost"
+							size="md"
+							isIconOnly
+							aria-label={resolvedBackLabel}
+							title={resolvedBackLabel}
+							leadingIcon={<Icon name="arrow-left" size="sm" />}
+						/>
+					) : onBackClick ? (
+						<Button
+							type="button"
+							onClick={onBackClick}
+							variant="ghost"
+							size="md"
+							isIconOnly
+							aria-label={resolvedBackLabel}
+							title={resolvedBackLabel}
+							leadingIcon={<Icon name="arrow-left" size="sm" />}
+						/>
+					) : null}
 
-					<div className="game-header-center">{children}</div>
+					{difficulty && (
+						<Badge variant="outline" size="sm">
+							{difficulty}
+						</Badge>
+					)}
+				</div>
 
-					<div className="game-header-right">
-						{onUserClick && (
-							<Button
-								type="button"
-								onClick={onUserClick}
-								variant="ghost"
-								size="md"
-								isIconOnly
-								aria-label={USER_ARIA_LABEL}
-								title={USER_ARIA_LABEL}
-								className="game-header-btn"
-								leadingIcon={<Icon name="user" size="sm" />}
-							/>
-						)}
+				<div className="game-header-center">{centerSlot}</div>
+
+				<div className="game-header-right">
+					{showSchemeSwitcher && <SchemeSwitcher size="md" variant="ghost" />}
+					{actions}
+					{settingsHref ? (
+						<Button
+							as="a"
+							href={settingsHref}
+							onClick={onOpenSettings}
+							variant="ghost"
+							size="md"
+							isIconOnly
+							aria-label={resolvedSettingsLabel}
+							title={resolvedSettingsLabel}
+							leadingIcon={<Icon name="settings" size="sm" />}
+						/>
+					) : onOpenSettings ? (
 						<Button
 							type="button"
 							onClick={onOpenSettings}
 							variant="ghost"
 							size="md"
 							isIconOnly
-							aria-label={SETTINGS_ARIA_LABEL}
-							title={SETTINGS_ARIA_LABEL}
-							className="game-header-btn"
+							aria-label={resolvedSettingsLabel}
+							title={resolvedSettingsLabel}
 							leadingIcon={<Icon name="settings" size="sm" />}
 						/>
-					</div>
+					) : null}
 				</div>
-			</PageContainer>
-		</S.GameHeader>
+			</div>
+		</S.Header>
 	);
 }

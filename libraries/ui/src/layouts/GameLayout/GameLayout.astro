@@ -1,0 +1,50 @@
+---
+import { PageContainer } from '../../components/PageContainer';
+import type { PageContainerVariant } from '../../components/PageContainer/_PageContainer.types';
+import BaseLayout from '../BaseLayout/BaseLayout.astro';
+import type { BaseLayoutProps } from '../BaseLayout/_BaseLayout.types';
+import * as S from './_GameLayout.styles';
+
+export interface Props extends BaseLayoutProps {
+	containerWidth?: PageContainerVariant;
+}
+
+const { containerWidth = 'standard', ...baseLayoutProps } = Astro.props;
+const hasNamedSlots =
+	Astro.slots.has('header') || Astro.slots.has('toolbar') || Astro.slots.has('status') || Astro.slots.has('footer');
+---
+
+<BaseLayout {...baseLayoutProps}>
+	<slot name="head" slot="head" />
+	{hasNamedSlots ? (
+		<S.Shell data-container-width={containerWidth}>
+			{Astro.slots.has('header') && (
+				<S.HeaderZone>
+					<slot name="header" />
+				</S.HeaderZone>
+			)}
+			<S.Main id="main-content">
+				<PageContainer variant={containerWidth ?? 'standard'}>
+					{Astro.slots.has('status') && (
+						<S.StatusZone>
+							<slot name="status" />
+						</S.StatusZone>
+					)}
+					<slot />
+					{Astro.slots.has('toolbar') && (
+						<S.ToolbarZone>
+							<slot name="toolbar" />
+						</S.ToolbarZone>
+					)}
+				</PageContainer>
+			</S.Main>
+			{Astro.slots.has('footer') && (
+				<S.FooterZone>
+					<slot name="footer" />
+				</S.FooterZone>
+			)}
+		</S.Shell>
+	) : (
+		<slot />
+	)}
+</BaseLayout>

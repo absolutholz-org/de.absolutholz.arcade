@@ -4,12 +4,15 @@ import { styled } from '@linaria/react';
 export const BoardContainer = styled.div`
 	position: relative;
 	width: 100%;
-	max-width: min(calc(100vw - 1rem), calc(100vh - 16rem), 34rem);
-	aspect-ratio: 1 / 1;
-	margin: 0 auto;
+	max-width: calc(100dvh - var(--game-header-height, 3.5rem) - 15rem);
+	aspect-ratio: 1;
+	margin-inline: auto;
+	min-height: 0;
+	flex-shrink: 1;
+	overflow: visible;
 
 	@media (min-width: 640px) {
-		max-width: min(calc(100vw - 2rem), calc(100vh - 14rem), 34rem);
+		max-width: calc(100dvh - var(--game-header-height, 3.5rem) - 10rem);
 	}
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);

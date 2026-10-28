@@ -107,6 +107,14 @@ export const ptCommon = {
 	hub: {
 		gamesTitle: 'Jogos',
 	},
+	game: {
+		pause: {
+			title: 'Jogo pausado',
+			description: 'Clique em qualquer lugar ou pressione Continuar para continuar a jogar.',
+			resume: 'Continuar',
+			restart: 'Reiniciar',
+		},
+	},
 	offline: {
 		title: 'Gerenciador de Jogos Offline',
 		description: 'Gerencie os jogos disponíveis para jogar offline.',

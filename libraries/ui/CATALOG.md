@@ -65,6 +65,7 @@ Transient dialogs, drawers, floating popovers, and status notifications.
 | **`Tooltip`** | `@arcade/lib-ui/components/Tooltip` | Contextual microcopy displayed on focus or hover of compact icon buttons. | `content`, `position="top" \| "bottom" \| "left" \| "right"`. |
 | **`Toast`** | `@arcade/lib-ui` | Global toast notification system with automatic queueing and auto-dismiss. | `toast.info()`, `toast.success()`, `toast.error()`, `toast.achievement()`. |
 | **`PauseOverlay`** | `@arcade/lib-ui/components/PauseOverlay` | Fullscreen modal scrim pausing game canvas execution with resume/restart actions. | `onResume`, `onRestart`, `onExit`. |
+| **`PauseDialog`** | `@arcade/lib-ui` | Standardized in-game pause dialog consuming canonical Dialog with Resume (primary) and Restart (outline) actions. | `isOpen`, `onResume`, `onRestart`. |
 | **`VictoryDialog`** | `@arcade/lib-ui` | Post-game celebration dialog showing completion stats, medal progress, and next puzzle actions. | `isOpen`, `stats: VictoryStatItem[]`, `onPlayAgain`, `onNextPuzzle`. |
 | **`UserProfileDialog`** | `@arcade/lib-ui` | Account dialog handling guest sessions, cloud sync switching, display name updates, and sign-in. | `isOpen`, `onClose`, `session`, `onSwitchStorageMode`. |
 | **`ConsentBanner` / `ConsentDialog`** | `@arcade/lib-ui` | GDPR/ePrivacy compliant cookie and cloud telemetry consent management. | Managed via `@arcade/lib-consent`. |
@@ -80,6 +81,7 @@ Structural containers and layout primitives establishing consistent spacing and 
 | **`BaseLayout`** | `@arcade/lib-ui/layouts/BaseLayout` | Tier 1 root document shell (`<!doctype html>`, `<head>`, skip link, `<main id="main-content">`). | `title`, `description`, `lang`, `children`. |
 | **`BaseLayoutWithSiteFooter`** | `@arcade/lib-ui/layouts/BaseLayoutWithSiteFooter` | Tier 1 layout scaffolding root document with `<SiteFooter />`. | `title`, `description`, `lang`, `currentSlug`, `children`. |
 | **`BaseLayoutWithSiteHeaderAndSiteFooter`** | `@arcade/lib-ui/layouts/BaseLayoutWithSiteHeaderAndSiteFooter` | Tier 1 layout scaffolding root document with `<SiteHeader />` and `<SiteFooter />`. | `title`, `description`, `lang`, `hideBrand`, `hasBorder`, `currentSlug`, `children`. |
+| **`GameLayout`** | `@arcade/lib-ui` | Tier 1 Document Layout for active puzzle sessions with mobile-first single-column flex shell and zero window scrolling. | `header`, `status`, `children`, `toolbar`, `footer`, `containerWidth="standard" \| "wide" \| "slim" \| "extraWide" \| "full"`. |
 | **`PageContainer`** | `@arcade/lib-ui/components/PageContainer` | Standardized page width constraint and responsive gutter padding. | `variant="slim" \| "standard" \| "wide" \| "full"`, `children`. |
 | **`Stack`** | `@arcade/lib-ui/components/Stack` | Linear layout primitive enforcing token-based spacing between children. | `direction="row" \| "column"`, `gap`, `align`, `justify`. |
 | **`Divider`** | `@arcade/lib-ui/components/Divider` | Visual rule separating distinct content sections. | `orientation="horizontal" \| "vertical"`. |
@@ -96,6 +98,7 @@ App shell chrome, global navigation landmarks, and user identity controls.
 | Component | Export Path | Primary Purpose | Key Props & Patterns |
 | :--- | :--- | :--- | :--- |
 | **`SiteHeader`** | `@arcade/lib-ui/components/SiteHeader` | Global landmark header bar containing brand logo, title, and action slots. | `currentSlug`, `variant="default" \| "minimal"`. |
+| **`GameHeader`** | `@arcade/lib-ui` | Top landmark organism for active gameplay with strictly centered timer slot and balanced action tracks. | `backHref`, `backLabel`, `difficulty`, `timer`, `onOpenSettings`, `hasBorder`. |
 | **`SiteFooter`** | `@arcade/lib-ui/components/SiteFooter` | Global landmark footer with navigation links, copyright, and language selectors. | `lang`, `currentSlug`. |
 | **`Breadcrumb`** | `@arcade/lib-ui/components/Breadcrumb` | W3C APG compliant breadcrumb trail. | `items`, `lang`. |
 | **`HeaderActions`** | `@arcade/lib-ui/components/HeaderActions` | Flex cluster anchoring theme, language, and user profile buttons in the header. | `children`. |

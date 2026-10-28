@@ -3,12 +3,13 @@ import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { isSupportedLanguage } from '@arcade/lib-i18n/utils/detection';
-import { GameContainer } from '@arcade/lib-ui/components/GameContainer';
+import { GameLayout } from '@arcade/lib-ui';
+import { GameHeader } from '@arcade/lib-ui/components/GameHeader';
+import { PauseDialog } from '@arcade/lib-ui/components/PauseDialog';
+import { Timer } from '@arcade/lib-ui/components/Timer';
 import { useCallback, useState } from 'react';
-import { PauseOverlay } from '../PauseOverlay/PauseOverlay';
 import { SettingsDialog } from '../SettingsDialog/SettingsDialog';
 import { SudokuBoard } from '../SudokuBoard/SudokuBoard';
-import { SudokuGameHeader } from '../SudokuGameHeader/SudokuGameHeader';
 import { SudokuKeypad } from '../SudokuKeypad/SudokuKeypad';
 import { VictoryDialog } from '../VictoryDialog/VictoryDialog';
 import { useSudokuGame } from './SudokuGame.hooks';
@@ -28,7 +29,7 @@ export function SudokuGame({ initialDifficulty = 'easy', lang }: SudokuGameProps
 	});
 
 	const { changeLanguage } = useI18n();
-	const { t: tCommon } = useI18n('common');
+	const { t } = useI18n('sudoku');
 	const game = useSudokuGame(initialDifficulty);
 
 	const handleLanguageChange = useCallback(
@@ -48,57 +49,39 @@ export function SudokuGame({ initialDifficulty = 'easy', lang }: SudokuGameProps
 	);
 
 	const content = (
-		<GameContainer
-			id="main-content"
+		<GameLayout
 			header={
-				<SudokuGameHeader
-					difficulty={game.difficulty}
-					elapsedSeconds={game.elapsedSeconds}
-					isPaused={game.isPaused}
-					onTogglePause={game.handleTogglePause}
+				<GameHeader
+					backHref={`/sudoku/${activeLang}/`}
+					backLabel={t('controls.backToLobby')}
+					difficulty={t(`difficulty.${game.difficulty}`)}
 					onOpenSettings={game.openSettings}
+					settingsLabel={t('settings.title')}
 				/>
 			}
-			overlay={
-				<PauseOverlay
-					isOpen={game.isPaused && !game.isComplete}
-					onResume={game.handleTogglePause}
-					onRestart={game.handleRestart}
-				/>
-			}
-			dialogs={
-				<>
-					<SettingsDialog
-						isOpen={game.isSettingsOpen}
-						onClose={game.closeSettings}
-						settings={game.settings}
-						onUpdateSettings={game.updateSettings}
-						activeLanguage={activeLang}
-						onLanguageChange={handleLanguageChange}
+			status={
+				<S.StatusBar>
+					<Timer
+						variant="inline"
+						seconds={game.elapsedSeconds}
+						isPaused={game.isPaused}
+						onTogglePause={game.handleTogglePause}
+						size="sm"
+						showIcon={true}
+						aria-label={t('status.timer')}
 					/>
-
-					<VictoryDialog
-						isOpen={game.isVictoryOpen}
-						elapsedSeconds={game.elapsedSeconds}
-						difficulty={game.difficulty}
-						isNewBestTime={game.isNewBestTime}
-						onPlayAgain={() => game.handleStartNewGame(game.difficulty)}
-						onClose={game.closeVictory}
-					/>
-				</>
+				</S.StatusBar>
 			}
 		>
-			<S.PlayColumn>
-				<S.BoardWrapper>
-					<SudokuBoard
-						grid={game.grid}
-						activeCell={game.activeCell}
-						conflicts={game.conflicts}
-						settings={game.settings}
-						onSelectCell={game.selectCell}
-					/>
-				</S.BoardWrapper>
+			<SudokuBoard
+				grid={game.grid}
+				activeCell={game.activeCell}
+				conflicts={game.conflicts}
+				settings={game.settings}
+				onSelectCell={game.selectCell}
+			/>
 
+			<S.KeypadWrapper>
 				<SudokuKeypad
 					digitCounts={game.digitCounts}
 					isNotesMode={game.isNotesMode}
@@ -110,15 +93,34 @@ export function SudokuGame({ initialDifficulty = 'easy', lang }: SudokuGameProps
 					onErase={game.handleErase}
 					onUndo={game.handleUndo}
 					onRedo={game.handleRedo}
+					onRestart={game.handleRestart}
 				/>
+			</S.KeypadWrapper>
 
-				<S.GameFooter>
-					<S.GameFooterLink href={`/sudoku/${activeLang}/medals`} aria-label={tCommon('navigation.medals')}>
-						🏅 {tCommon('navigation.medals')}
-					</S.GameFooterLink>
-				</S.GameFooter>
-			</S.PlayColumn>
-		</GameContainer>
+			<PauseDialog
+				isOpen={game.isPaused && !game.isComplete}
+				onResume={game.handleTogglePause}
+				onRestart={game.handleRestart}
+			/>
+
+			<SettingsDialog
+				isOpen={game.isSettingsOpen}
+				onClose={game.closeSettings}
+				settings={game.settings}
+				onUpdateSettings={game.updateSettings}
+				activeLanguage={activeLang}
+				onLanguageChange={handleLanguageChange}
+			/>
+
+			<VictoryDialog
+				isOpen={game.isVictoryOpen}
+				elapsedSeconds={game.elapsedSeconds}
+				difficulty={game.difficulty}
+				isNewBestTime={game.isNewBestTime}
+				onPlayAgain={() => game.handleStartNewGame(game.difficulty)}
+				onClose={game.closeVictory}
+			/>
+		</GameLayout>
 	);
 
 	return <I18nProvider language={activeLang}>{content}</I18nProvider>;

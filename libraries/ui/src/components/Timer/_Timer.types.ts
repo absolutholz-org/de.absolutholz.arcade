@@ -1,10 +1,19 @@
 import type { ComponentPropsWithoutRef } from 'react';
-import type { TIMER_FORMATS, TIMER_SIZES } from './_Timer.constants';
+import type { TIMER_FORMATS, TIMER_SIZES, TIMER_VARIANTS } from './_Timer.constants';
 
 export type TimerSize = (typeof TIMER_SIZES)[number];
 export type TimerFormat = (typeof TIMER_FORMATS)[number];
+export type TimerVariant = (typeof TIMER_VARIANTS)[number];
 
 export interface TimerProps extends Omit<ComponentPropsWithoutRef<'button'>, 'style' | 'children' | 'type'> {
+	/**
+	 * Visual style variant of the timer.
+	 * - "pill": Rounded container button with border and background.
+	 * - "inline": Unbordered inline metric matching plain text sub-bar displays.
+	 * @default "pill"
+	 */
+	variant?: TimerVariant;
+
 	/**
 	 * Elapsed time in seconds to display.
 	 */

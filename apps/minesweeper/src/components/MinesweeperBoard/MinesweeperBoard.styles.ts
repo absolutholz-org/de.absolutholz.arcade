@@ -4,23 +4,20 @@ import { styled } from '@linaria/react';
 export const BoardContainer = styled.div`
 	position: relative;
 	display: flex;
-	align-items: center;
+	align-items: flex-start;
 	justify-content: center;
 	width: 100%;
-	height: 100%;
 	max-width: 100%;
-	max-height: 100%;
+	min-height: 0;
 	overflow: hidden;
 `;
 
 export const BoardFrame = styled.div`
 	position: relative;
-	width: min(calc(100vw - 1rem), calc(100dvh - 7.5rem), 36rem);
 	width: min(
-		calc(100vw - 1rem),
-		calc((100dvh - 7.5rem) * var(--ratio, 1)),
-		calc(var(--columns, 9) * 3.75rem),
-		36rem
+		100%,
+		calc((100dvh - var(--game-header-height, 3.5rem) - 8rem) * var(--ratio, 1)),
+		calc(var(--columns, 9) * 3.75rem)
 	);
 	aspect-ratio: var(--columns, 9) / var(--rows, 9);
 	max-width: 100%;
@@ -28,6 +25,7 @@ export const BoardFrame = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	margin-inline: auto;
 
 	&[data-zoom='true'] {
 		width: 100%;
@@ -43,7 +41,7 @@ export const BoardInset = styled.div`
 	background: ${themeColor('container-1')};
 	border: 2px solid ${themeColor('container-2')};
 	border-radius: var(--radius-lg, 0.5rem);
-	padding: clamp(0.25rem, 1vmin, 0.5rem);
+	padding: clamp(2px, 0.5vmin, 4px);
 	box-shadow:
 		inset 0 2px 4px rgba(0, 0, 0, 0.08),
 		0 4px 6px -1px rgba(0, 0, 0, 0.05);

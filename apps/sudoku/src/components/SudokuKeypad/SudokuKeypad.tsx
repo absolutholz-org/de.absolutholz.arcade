@@ -17,11 +17,34 @@ export function SudokuKeypad({
 	onErase,
 	onUndo,
 	onRedo,
+	onRestart,
 }: SudokuKeypadProps) {
 	const { t } = useI18n('sudoku');
 
 	return (
 		<S.KeypadContainer>
+			<S.DigitsGrid data-layout={layout}>
+				{DIGITS.map((digit) => {
+					const count = digitCounts[digit] || 0;
+					const isComplete = count >= 9;
+					const remaining = Math.max(0, 9 - count);
+
+					return (
+						<S.DigitButton
+							key={digit}
+							type="button"
+							onClick={() => onDigitPress(digit)}
+							disabled={isComplete}
+							data-complete={isComplete ? 'true' : undefined}
+							aria-label={t('aria.keypadDigit', { digit })}
+						>
+							<span>{digit}</span>
+							<span data-slot="count">{remaining}</span>
+						</S.DigitButton>
+					);
+				})}
+			</S.DigitsGrid>
+
 			<Toolbar fullWidth variant="ghost" size="sm" aria-label={t('aria.actionsToolbar')}>
 				<S.ActionButton type="button" onClick={onUndo} disabled={!canUndo} aria-label={t('controls.undo')}>
 					<Icon name="undo" size="sm" />
@@ -48,29 +71,14 @@ export function SudokuKeypad({
 					<Icon name="pencil" size="sm" />
 					<span>{isNotesMode ? t('controls.notesOn') : t('controls.notes')}</span>
 				</S.ActionButton>
+
+				{onRestart && (
+					<S.ActionButton type="button" onClick={onRestart} aria-label={t('controls.restart')}>
+						<Icon name="rotate-ccw" size="sm" />
+						<span>{t('controls.restart')}</span>
+					</S.ActionButton>
+				)}
 			</Toolbar>
-
-			<S.DigitsGrid data-layout={layout}>
-				{DIGITS.map((digit) => {
-					const count = digitCounts[digit] || 0;
-					const isComplete = count >= 9;
-					const remaining = Math.max(0, 9 - count);
-
-					return (
-						<S.DigitButton
-							key={digit}
-							type="button"
-							onClick={() => onDigitPress(digit)}
-							disabled={isComplete}
-							data-complete={isComplete ? 'true' : undefined}
-							aria-label={t('aria.keypadDigit', { digit })}
-						>
-							<span>{digit}</span>
-							<span data-slot="count">{remaining}</span>
-						</S.DigitButton>
-					);
-				})}
-			</S.DigitsGrid>
 		</S.KeypadContainer>
 	);
 }

@@ -108,6 +108,14 @@ export const deCommon = {
 	hub: {
 		gamesTitle: 'Spiele',
 	},
+	game: {
+		pause: {
+			title: 'Spiel pausiert',
+			description: 'Klicke irgendwohin oder drücke auf Fortsetzen, um weiterzuspielen.',
+			resume: 'Fortsetzen',
+			restart: 'Neu starten',
+		},
+	},
 	offline: {
 		title: 'Offline-Spieleverwaltung',
 		description: 'Verwalte Spiele für das Offline-Spielen.',

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Timer } from '.';
 import { Button } from '../Button';
 import { Stack } from '../Stack';
-import { TIMER_FORMATS, TIMER_SIZES } from './_Timer.constants';
+import { TIMER_FORMATS, TIMER_SIZES, TIMER_VARIANTS } from './_Timer.constants';
 import { useTimer } from './_Timer.hooks';
 import type { TimerProps } from './_Timer.types';
 
@@ -66,6 +66,11 @@ const meta = {
 		onTogglePause: {
 			action: 'togglePause',
 			description: 'Callback invoked when the timer control is activated',
+		},
+		variant: {
+			control: 'radio',
+			options: TIMER_VARIANTS,
+			description: 'Visual variant (pill or unbordered inline)',
 		},
 		size: {
 			control: 'radio',
@@ -197,6 +202,21 @@ export const WithoutIcon: Story = {
 	args: {
 		seconds: 75,
 		showIcon: false,
+		isPaused: false,
+	},
+};
+
+export const Inline: Story = {
+	parameters: {
+		docs: {
+			description: {
+				story: 'Unbordered inline timer metric for game status sub-bars.',
+			},
+		},
+	},
+	args: {
+		seconds: 71,
+		variant: 'inline',
 		isPaused: false,
 	},
 };

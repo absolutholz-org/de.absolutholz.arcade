@@ -11,6 +11,7 @@ export function Timer({
 	seconds,
 	isPaused = false,
 	onTogglePause,
+	variant = 'pill',
 	size = 'md',
 	format = 'auto',
 	showIcon = true,
@@ -39,6 +40,7 @@ export function Timer({
 			onClick={onTogglePause}
 			disabled={disabled}
 			className={className}
+			data-variant={variant}
 			data-size={size}
 			data-interactive={isInteractive ? 'true' : 'false'}
 			data-paused={isPaused ? 'true' : undefined}

@@ -108,6 +108,14 @@ export const enCommon = {
 	hub: {
 		gamesTitle: 'Games',
 	},
+	game: {
+		pause: {
+			title: 'Game Paused',
+			description: 'Click anywhere or press Resume to continue playing.',
+			resume: 'Resume',
+			restart: 'Restart',
+		},
+	},
 	offline: {
 		title: 'Offline Game Manager',
 		description: 'Manage games available for offline play.',

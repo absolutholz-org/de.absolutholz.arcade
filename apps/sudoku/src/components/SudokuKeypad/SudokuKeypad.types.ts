@@ -11,4 +11,5 @@ export interface SudokuKeypadProps {
 	onErase: () => void;
 	onUndo: () => void;
 	onRedo: () => void;
+	onRestart?: () => void;
 }
