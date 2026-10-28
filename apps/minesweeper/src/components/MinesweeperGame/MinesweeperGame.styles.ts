@@ -46,18 +46,42 @@ export const ControlsContainer = styled.div`
 	max-width: 34rem;
 	margin-top: var(--space-md);
 	margin-inline: auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.75rem;
+`;
+
+export const ModeRow = styled.div`
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	max-width: 20rem;
+
+	> div {
+		width: 100%;
+	}
+`;
+
+export const ActionsRow = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	max-width: 20rem;
+	gap: 0.5rem;
 `;
 
 export const ActionButton = styled.button`
 	flex: 1 1 0;
-	min-height: 3rem;
+	min-height: 3.25rem;
 	min-width: 0;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 	gap: 0.25rem;
-	padding: 0.375rem 0.25rem;
+	padding: 0.375rem 0.125rem;
 	border: 1px solid ${themeColor('container-2')};
 	border-radius: var(--radius-sm);
 	background-color: ${themeColor('container-1')};
@@ -73,6 +97,7 @@ export const ActionButton = styled.button`
 		overflow: hidden;
 		text-overflow: ellipsis;
 		max-width: 100%;
+		padding: 0 0.125rem;
 		text-align: center;
 	}
 
@@ -83,16 +108,6 @@ export const ActionButton = styled.button`
 	&:disabled {
 		opacity: 0.35;
 		cursor: not-allowed;
-	}
-
-	&[data-active='true'] {
-		background-color: ${themeColor('accent')};
-		color: ${themeColor('accent-contrast')};
-		border-color: ${themeColor('accent')};
-
-		> span {
-			color: ${themeColor('accent-contrast')};
-		}
 	}
 
 	&:focus-visible {

@@ -4,13 +4,19 @@ import { styled } from '@linaria/react';
 export const BoardWrapper = styled.div`
 	position: relative;
 	width: 100%;
-	max-width: min(calc(100vw - 1.5rem), calc(100vh - 16rem), 36rem);
-	aspect-ratio: 1 / 1;
-	margin: 0 auto;
+	max-width: calc(100dvh - var(--game-header-height, 3.5rem) - 15rem);
+	aspect-ratio: 1;
+	margin-inline: auto;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	touch-action: none;
+	min-height: 0;
+	flex-shrink: 1;
+
+	@media (min-width: 640px) {
+		max-width: calc(100dvh - var(--game-header-height, 3.5rem) - 12rem);
+	}
 `;
 
 export const GridContainer = styled.div`

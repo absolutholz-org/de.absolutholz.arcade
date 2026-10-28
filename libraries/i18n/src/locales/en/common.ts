@@ -67,7 +67,13 @@ export const enCommon = {
 		save: 'Save',
 		saved: 'Saved!',
 		back: 'Back',
+		undo: 'Undo',
+		redo: 'Redo',
+		restart: 'Restart',
 	},
+	undo: 'Undo',
+	redo: 'Redo',
+	restart: 'Restart',
 	auth: {
 		profileTitle: 'Player Profile',
 		signInTitle: 'Sign In',

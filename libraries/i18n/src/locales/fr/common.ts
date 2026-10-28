@@ -67,7 +67,13 @@ export const frCommon = {
 		save: 'Enregistrer',
 		saved: 'Enregistré !',
 		back: 'Retour',
+		undo: 'Annuler',
+		redo: 'Rétablir',
+		restart: 'Recommencer',
 	},
+	undo: 'Annuler',
+	redo: 'Rétablir',
+	restart: 'Recommencer',
 	auth: {
 		profileTitle: 'Profil du joueur',
 		signInTitle: 'Connexion',

@@ -27,6 +27,13 @@ export const useI18n = (ns?: string): UseI18nReturn => {
 		(key: TranslationKey, options?: Record<string, unknown>): string => {
 			if (typeof key === 'string') {
 				const lowerKey = key.toLowerCase();
+				if (lowerKey.startsWith('common.')) {
+					const rawCommonKey = key.slice(7);
+					const translated = activeI18n.t(rawCommonKey, { ns: 'common', ...options });
+					if (translated && translated !== rawCommonKey) {
+						return translated;
+					}
+				}
 				if (lowerKey.startsWith('medals.')) {
 					const rawMedalKey = key.slice(7);
 					const normalizedKey = rawMedalKey

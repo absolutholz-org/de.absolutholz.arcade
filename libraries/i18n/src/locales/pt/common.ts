@@ -66,7 +66,13 @@ export const ptCommon = {
 		save: 'Salvar',
 		saved: 'Salvo!',
 		back: 'Voltar',
+		undo: 'Desfazer',
+		redo: 'Refazer',
+		restart: 'Reiniciar',
 	},
+	undo: 'Desfazer',
+	redo: 'Refazer',
+	restart: 'Reiniciar',
 	auth: {
 		profileTitle: 'Perfil do Jogador',
 		signInTitle: 'Entrar',

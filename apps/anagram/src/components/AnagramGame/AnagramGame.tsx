@@ -173,12 +173,6 @@ export function AnagramGame({ initialDifficulty = 'easy', initialMode = 'zen', l
 						<S.GameFooterLink href={`/anagram/${activeLang}/rules`}>
 							📖 {t('navigation.rules')}
 						</S.GameFooterLink>
-						<S.GameFooterLink
-							href={`/anagram/${activeLang}/medals`}
-							aria-label={tCommon('navigation.medals')}
-						>
-							🏅 {tCommon('navigation.medals')}
-						</S.GameFooterLink>
 					</S.GameFooter>
 				</S.PlayColumn>
 			</GameContainer>

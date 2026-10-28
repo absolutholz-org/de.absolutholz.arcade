@@ -67,7 +67,13 @@ export const deCommon = {
 		save: 'Speichern',
 		saved: 'Gespeichert!',
 		back: 'Zurück',
+		undo: 'Rückgängig',
+		redo: 'Wiederholen',
+		restart: 'Neustart',
 	},
+	undo: 'Rückgängig',
+	redo: 'Wiederholen',
+	restart: 'Neustart',
 	auth: {
 		profileTitle: 'Spielerprofil',
 		signInTitle: 'Anmelden',

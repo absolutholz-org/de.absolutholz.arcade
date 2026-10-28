@@ -6,8 +6,8 @@ export const CellButton = styled.button`
 	width: 100%;
 	height: 100%;
 	aspect-ratio: 1 / 1;
-	min-width: 18px;
-	min-height: 18px;
+	min-width: 0;
+	min-height: 0;
 	padding: 0;
 	margin: 0;
 	display: flex;
@@ -15,11 +15,6 @@ export const CellButton = styled.button`
 	justify-content: center;
 	border: 1px solid ${themeColor('container-2')};
 	background-color: ${themeColor('surface')};
-
-	@media (min-width: 480px) {
-		min-width: 24px;
-		min-height: 24px;
-	}
 	color: ${themeColor('text-1')};
 	cursor: pointer;
 	user-select: none;
@@ -53,50 +48,56 @@ export const CellButton = styled.button`
 	/* State: Crossed */
 	&[data-state='crossed'] {
 		background-color: ${themeColor('surface')};
-		color: ${themeColor('text-3')};
+		color: ${themeColor('text-2')};
 	}
 
-	/* Drag previews */
+	/* Preview states for active strokes */
 	&[data-preview='filled'] {
-		background-color: color-mix(in srgb, ${themeColor('text-1')} 60%, ${themeColor('surface')});
+		background-color: ${themeColor('container-2')};
+		opacity: 0.8;
 	}
 
 	&[data-preview='crossed'] {
-		color: ${themeColor('text-2')};
-		background-color: color-mix(in srgb, ${themeColor('accent')} 12%, ${themeColor('surface')});
+		background-color: ${themeColor('surface')};
+		color: ${themeColor('text-3')};
+		opacity: 0.8;
 	}
 
 	&[data-preview='empty'] {
-		background-color: color-mix(in srgb, #ef4444 15%, ${themeColor('surface')});
+		background-color: ${themeColor('container-1')};
+		opacity: 0.6;
 	}
 
-	/* Victory reveal mode: filled cells show puzzle art color */
-	&[data-victory='true'][data-state='filled'] {
-		background-color: var(--art-color, ${themeColor('accent')});
-		border-color: transparent;
-	}
-
-	&[data-victory='true'][data-state='crossed'] {
-		/* Crosses fade out when revealed */
-		color: transparent;
-	}
-
-	/* Focus visibility for WCAG AA compliance */
-	&:focus-visible,
+	/* Keyboard Focus ring */
 	&[data-focused='true'] {
 		outline: 2px solid ${themeColor('accent')};
-		outline-offset: -2px;
-		z-index: 5;
+		outline-offset: -1px;
+		z-index: 2;
 	}
 
-	&:disabled {
+	&:focus-visible {
+		outline: 2px solid ${themeColor('accent')};
+		outline-offset: -1px;
+		z-index: 2;
+	}
+
+	/* Victory reveal polish */
+	&[data-victory='true'] {
+		border-color: transparent;
 		cursor: default;
 	}
+`;
 
-	/* SVG cross icon styling */
+export const CellIconWrapper = styled.span`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 60%;
+	height: 60%;
+	pointer-events: none;
+
 	svg {
-		width: 60%;
-		height: 60%;
-		pointer-events: none;
+		width: 100%;
+		height: 100%;
 	}
 `;

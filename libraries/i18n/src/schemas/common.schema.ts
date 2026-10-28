@@ -59,7 +59,13 @@ export const commonSchema = {
 		save: 'actions.save',
 		saved: 'actions.saved',
 		back: 'actions.back',
+		undo: 'actions.undo',
+		redo: 'actions.redo',
+		restart: 'actions.restart',
 	},
+	undo: 'undo',
+	redo: 'redo',
+	restart: 'restart',
 	auth: {
 		profileTitle: 'auth.profileTitle',
 		signInTitle: 'auth.signInTitle',

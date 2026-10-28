@@ -4,11 +4,12 @@ import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { isSupportedLanguage } from '@arcade/lib-i18n/utils/detection';
 import { GameLayout } from '@arcade/lib-ui';
+import { Button } from '@arcade/lib-ui/components/Button';
 import { GameHeader } from '@arcade/lib-ui/components/GameHeader';
 import { Icon } from '@arcade/lib-ui/components/Icon';
 import { PauseDialog } from '@arcade/lib-ui/components/PauseDialog';
+import { SegmentedControl, type SegmentedControlOption } from '@arcade/lib-ui/components/SegmentedControl';
 import { Timer } from '@arcade/lib-ui/components/Timer';
-import { Toolbar } from '@arcade/lib-ui/components/Toolbar';
 import { useCallback, useState } from 'react';
 import type { BoardSizeId, DifficultyId } from '../../engine/types';
 import { DefeatDialog } from '../DefeatDialog/DefeatDialog';
@@ -57,6 +58,21 @@ export function MinesweeperGame({ initialSize = 'md', initialDifficulty = 'mediu
 		[activeLang, changeLanguage],
 	);
 
+	const modeOptions: SegmentedControlOption<'reveal' | 'flag'>[] = [
+		{
+			value: 'reveal',
+			label: t('controls.reveal'),
+			icon: <MineIcon />,
+			ariaLabel: t('controls.modeReveal'),
+		},
+		{
+			value: 'flag',
+			label: t('controls.flag'),
+			icon: <FlagIcon />,
+			ariaLabel: t('controls.modeFlag'),
+		},
+	];
+
 	const content = (
 		<GameLayout
 			header={
@@ -102,42 +118,28 @@ export function MinesweeperGame({ initialSize = 'md', initialDifficulty = 'mediu
 			</div>
 
 			<S.ControlsContainer>
-				<Toolbar fullWidth variant="ghost" size="sm" aria-label={t('aria.gameControls')}>
-					<S.ActionButton
-						type="button"
-						onClick={() => {
-							if (game.interactionMode !== 'reveal') {
+				{/* Top row: Reveal vs Flag Mode Switcher */}
+				<S.ModeRow>
+					<SegmentedControl
+						size="sm"
+						value={game.interactionMode}
+						onChange={(val) => {
+							if (game.interactionMode !== val) {
 								game.handleToggleInteractionMode();
 							}
 						}}
-						data-active={game.interactionMode === 'reveal' ? 'true' : undefined}
-						aria-pressed={game.interactionMode === 'reveal'}
-						aria-label={t('controls.modeReveal')}
-					>
-						<MineIcon />
-						<span>{t('controls.reveal')}</span>
-					</S.ActionButton>
+						options={modeOptions}
+						ariaLabel={t('aria.gameControls')}
+					/>
+				</S.ModeRow>
 
-					<S.ActionButton
-						type="button"
-						onClick={() => {
-							if (game.interactionMode !== 'flag') {
-								game.handleToggleInteractionMode();
-							}
-						}}
-						data-active={game.interactionMode === 'flag' ? 'true' : undefined}
-						aria-pressed={game.interactionMode === 'flag'}
-						aria-label={t('controls.modeFlag')}
-					>
-						<FlagIcon />
-						<span>{t('controls.flag')}</span>
-					</S.ActionButton>
-
-					<S.ActionButton type="button" onClick={game.handleRestart} aria-label={t('controls.restart')}>
+				{/* Bottom row: Restart Action */}
+				<S.ActionsRow>
+					<S.ActionButton type="button" onClick={game.handleRestart} aria-label={t('common.restart')}>
 						<Icon name="rotate-ccw" size="sm" />
-						<span>{t('controls.restart')}</span>
+						<span>{t('common.restart')}</span>
 					</S.ActionButton>
-				</Toolbar>
+				</S.ActionsRow>
 			</S.ControlsContainer>
 
 			<PauseDialog isOpen={game.isPaused} onResume={game.handleTogglePause} onRestart={game.handleRestart} />
@@ -158,10 +160,10 @@ export function MinesweeperGame({ initialSize = 'md', initialDifficulty = 'mediu
 				difficulty={game.difficulty}
 				rankPosition={game.rankPosition}
 				onPlayAgain={game.handleRestart}
-				onClose={game.closeVictory}
+				onClose={() => {}}
 			/>
 
-			<DefeatDialog isOpen={game.isDefeatOpen} onPlayAgain={game.handleRestart} onClose={game.closeDefeat} />
+			<DefeatDialog isOpen={game.isDefeatOpen} onPlayAgain={game.handleRestart} onClose={() => {}} />
 		</GameLayout>
 	);
 

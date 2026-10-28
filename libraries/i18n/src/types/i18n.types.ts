@@ -19,7 +19,7 @@ type LeafKeys<T extends object> = {
 	[K in keyof T & string]: T[K] extends object ? `${K}.${LeafKeys<T[K]>}` : `${K}`;
 }[keyof T & string];
 
-export type CommonTranslationKey = LeafKeys<CommonSchema>;
+export type CommonTranslationKey = LeafKeys<CommonSchema> | `common.${LeafKeys<CommonSchema>}`;
 export type SudokuTranslationKey = LeafKeys<SudokuSchema>;
 export type MinesweeperTranslationKey = LeafKeys<MinesweeperSchema>;
 export type NonogramTranslationKey = LeafKeys<NonogramSchema>;
