@@ -15,6 +15,12 @@ export const Container = styled.div`
 	scrollbar-width: thin;
 	-webkit-overflow-scrolling: touch;
 	box-sizing: border-box;
+
+	&[data-size='sm'] {
+		border-radius: ${radiusScale.md};
+		padding: 0.1875rem;
+		gap: 0.1875rem;
+	}
 `;
 
 export const SegmentButton = styled.button`
@@ -50,7 +56,7 @@ export const SegmentButton = styled.button`
 
 	&[data-checked='true'] {
 		background-color: ${themeColor('surface')};
-		color: ${themeColor('text-1')};
+		color: ${themeColor('accent')};
 		font-weight: 600;
 		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.08);
 	}
@@ -66,6 +72,34 @@ export const SegmentButton = styled.button`
 		opacity: 0.4;
 		cursor: not-allowed;
 		pointer-events: none;
+	}
+
+	&[data-size='sm'] {
+		flex-direction: row;
+		padding: 0.25rem 0.625rem;
+		border-radius: ${radiusScale.sm};
+		font-size: 0.8125rem;
+		gap: 0.375rem;
+	}
+
+	&[data-has-icon='true'] {
+		flex-direction: row;
+		gap: 0.375rem;
+	}
+
+	> [data-slot='icon'] {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+		width: 1rem;
+		height: 1rem;
+		font-size: 1rem;
+
+		svg {
+			width: 100%;
+			height: 100%;
+		}
 	}
 
 	> [data-slot='label'] {

@@ -3,13 +3,13 @@ import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { isSupportedLanguage } from '@arcade/lib-i18n/utils/detection';
-import { GameContainer } from '@arcade/lib-ui/components/GameContainer';
+import { GameHeader, GameLayout, PauseDialog } from '@arcade/lib-ui';
+import { Timer } from '@arcade/lib-ui/components/Timer';
 import { type JSX, useCallback, useState } from 'react';
-import { PauseOverlay } from '../PauseOverlay/index.js';
 import { SettingsDialog } from '../SettingsDialog/index.js';
 import { TentsBoard } from '../TentsBoard/index.js';
 import { TentsControls } from '../TentsControls/index.js';
-import { TentsGameHeader } from '../TentsGameHeader/index.js';
+import { TentIcon } from '../TentsIcons/index.js';
 import { VictoryDialog } from '../VictoryDialog/index.js';
 import { useTentsGame } from './TentsGame.hooks.js';
 import * as S from './TentsGame.styles.js';
@@ -28,6 +28,7 @@ export function TentsGame({ initialDifficulty = 'easy', initialPuzzleId, lang }:
 	});
 
 	const { changeLanguage } = useI18n();
+	const { t } = useI18n('tents');
 	const { t: tCommon } = useI18n('common');
 	const game = useTentsGame(initialDifficulty, initialPuzzleId);
 
@@ -47,54 +48,46 @@ export function TentsGame({ initialDifficulty = 'easy', initialPuzzleId, lang }:
 		[activeLang, changeLanguage],
 	);
 
-	const content = (
-		<GameContainer
-			id="main-content"
-			header={
-				<TentsGameHeader
-					difficulty={game.puzzle.difficulty}
-					puzzleId={game.puzzle.id}
-					placedTents={game.placedTents}
-					totalTrees={game.totalTrees}
-					satisfiedLines={game.evaluation.satisfiedLines}
-					totalLines={game.evaluation.totalLines}
-					elapsedSeconds={game.elapsedSeconds}
-					mistakesCount={game.mistakesCount}
-					isPaused={game.isPaused}
-					onTogglePause={game.handleTogglePause}
-					onOpenSettings={game.openSettings}
-				/>
-			}
-			overlay={
-				<PauseOverlay
-					isOpen={game.isPaused && !game.isComplete}
-					onResume={game.handleTogglePause}
-					onRestart={game.handlePlayAgain}
-				/>
-			}
-			dialogs={
-				<>
-					<SettingsDialog
-						isOpen={game.isSettingsOpen}
-						onClose={game.closeSettings}
-						settings={game.settings}
-						onUpdateSettings={game.handleUpdateSettings}
-						activeLanguage={activeLang}
-						onLanguageChange={handleLanguageChange}
-					/>
+	const difficultyLabel = t(`difficulty.${game.puzzle.difficulty}` as 'difficulty.easy');
 
-					<VictoryDialog
-						isOpen={game.isVictoryOpen}
-						elapsedSeconds={game.elapsedSeconds}
-						movesCount={game.movesCount}
-						isNewBestTime={game.isNewBestTime}
-						hasNextPuzzle={game.hasNextPuzzle}
-						onNextPuzzle={game.handleNextPuzzle}
-						onPlayAgain={game.handlePlayAgain}
-						onClose={game.closeVictory}
-						difficulty={game.puzzle.difficulty}
+	const content = (
+		<GameLayout
+			header={
+				<GameHeader
+					backHref={`/tents/${activeLang}/`}
+					backLabel={t('controls.backToLobby')}
+					difficulty={difficultyLabel}
+					onOpenSettings={game.openSettings}
+					settingsLabel={t('settings.title')}
+				/>
+			}
+			status={
+				<div className={S.statusBar}>
+					<span
+						className={S.statusMetric}
+						aria-label={t('status.tentsRemaining', {
+							current: game.placedTents,
+							total: game.totalTrees,
+						})}
+					>
+						<TentIcon />
+						<span>
+							{t('status.tentsRemaining', {
+								current: game.placedTents,
+								total: game.totalTrees,
+							})}
+						</span>
+					</span>
+					<Timer
+						variant="inline"
+						seconds={game.elapsedSeconds}
+						isPaused={game.isPaused}
+						onTogglePause={game.handleTogglePause}
+						size="sm"
+						showIcon={true}
+						aria-label={t('status.timer')}
 					/>
-				</>
+				</div>
 			}
 		>
 			<S.PlayColumn>
@@ -122,14 +115,35 @@ export function TentsGame({ initialDifficulty = 'easy', initialPuzzleId, lang }:
 					onRedo={game.handleRedo}
 					onReset={game.handleReset}
 				/>
-
-				<S.GameFooter>
-					<S.GameFooterLink href={`/tents/${activeLang}/medals`} aria-label={tCommon('navigation.medals')}>
-						🏅 {tCommon('navigation.medals')}
-					</S.GameFooterLink>
-				</S.GameFooter>
 			</S.PlayColumn>
-		</GameContainer>
+
+			<PauseDialog
+				isOpen={game.isPaused && !game.isComplete}
+				onResume={game.handleTogglePause}
+				onRestart={game.handlePlayAgain}
+			/>
+
+			<SettingsDialog
+				isOpen={game.isSettingsOpen}
+				onClose={game.closeSettings}
+				settings={game.settings}
+				onUpdateSettings={game.handleUpdateSettings}
+				activeLanguage={activeLang}
+				onLanguageChange={handleLanguageChange}
+			/>
+
+			<VictoryDialog
+				isOpen={game.isVictoryOpen}
+				elapsedSeconds={game.elapsedSeconds}
+				movesCount={game.movesCount}
+				isNewBestTime={game.isNewBestTime}
+				hasNextPuzzle={game.hasNextPuzzle}
+				onNextPuzzle={game.handleNextPuzzle}
+				onPlayAgain={game.handlePlayAgain}
+				onClose={game.closeVictory}
+				difficulty={game.puzzle.difficulty}
+			/>
+		</GameLayout>
 	);
 
 	return <I18nProvider language={activeLang}>{content}</I18nProvider>;

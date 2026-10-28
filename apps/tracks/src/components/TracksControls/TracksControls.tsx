@@ -1,6 +1,8 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { Icon } from '@arcade/lib-ui/components/Icon';
+import { SegmentedControl, type SegmentedControlOption } from '@arcade/lib-ui/components/SegmentedControl';
 import type { JSX } from 'react';
+import type { InputMode } from '../../engine/types.js';
 import { CellCross, TrackStraightHorizontal } from '../TracksSvg/index.js';
 import * as S from './TracksControls.styles.js';
 import type { TracksControlsProps } from './TracksControls.types.js';
@@ -17,36 +19,31 @@ export function TracksControls({
 }: TracksControlsProps): JSX.Element {
 	const { t } = useI18n('tracks');
 
+	const modeOptions: SegmentedControlOption<InputMode>[] = [
+		{
+			value: 'track',
+			label: t('mode.track'),
+			icon: <TrackStraightHorizontal />,
+			ariaLabel: t('mode.trackDesc'),
+		},
+		{
+			value: 'cross',
+			label: t('mode.cross'),
+			icon: <CellCross />,
+			ariaLabel: t('mode.crossDesc'),
+		},
+	];
+
 	return (
 		<S.ControlsContainer>
 			<S.MainBar>
-				<S.ModeToggleGroup aria-label={t('mode.label')}>
-					<S.ModeButton
-						type="button"
-						aria-pressed={inputMode === 'track'}
-						data-active={inputMode === 'track' ? 'true' : 'false'}
-						onClick={() => onToggleMode('track')}
-						title={t('mode.trackDesc')}
-					>
-						<S.MiniIcon>
-							<TrackStraightHorizontal />
-						</S.MiniIcon>
-						<span>{t('mode.track')}</span>
-					</S.ModeButton>
-
-					<S.ModeButton
-						type="button"
-						aria-pressed={inputMode === 'cross'}
-						data-active={inputMode === 'cross' ? 'true' : 'false'}
-						onClick={() => onToggleMode('cross')}
-						title={t('mode.crossDesc')}
-					>
-						<S.MiniIcon>
-							<CellCross />
-						</S.MiniIcon>
-						<span>{t('mode.cross')}</span>
-					</S.ModeButton>
-				</S.ModeToggleGroup>
+				<SegmentedControl
+					size="sm"
+					value={inputMode}
+					onChange={onToggleMode}
+					options={modeOptions}
+					ariaLabel={t('mode.label')}
+				/>
 
 				<S.ActionButtonGroup>
 					<S.ActionButton
@@ -60,7 +57,6 @@ export function TracksControls({
 
 					<S.ActionButton
 						type="button"
-						data-icon-only="true"
 						onClick={onUndo}
 						disabled={!canUndo}
 						aria-label={t('controls.undo')}
@@ -71,7 +67,6 @@ export function TracksControls({
 
 					<S.ActionButton
 						type="button"
-						data-icon-only="true"
 						onClick={onRedo}
 						disabled={!canRedo}
 						aria-label={t('controls.redo')}
@@ -82,7 +77,6 @@ export function TracksControls({
 
 					<S.ActionButton
 						type="button"
-						data-icon-only="true"
 						onClick={onReset}
 						aria-label={t('controls.reset')}
 						title={t('controls.reset')}

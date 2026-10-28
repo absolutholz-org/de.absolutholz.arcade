@@ -1,51 +1,86 @@
-import { type ForwardedRef, forwardRef } from 'react';
+import { type ForwardedRef, type JSX, forwardRef } from 'react';
 import { useSegmentedControlNavigation } from './_SegmentedControl.hooks';
 import * as S from './_SegmentedControl.styles';
-import type { SegmentedControlProps } from './_SegmentedControl.types';
+import type { SegmentedControlOption, SegmentedControlProps } from './_SegmentedControl.types';
 
-function SegmentedControlInner(
-	{ items, value, onChange, ariaLabel, name, ...restProps }: SegmentedControlProps,
+function normalizeOptions<T extends string>(
+	options?: readonly SegmentedControlOption<T>[],
+	items?: readonly unknown[],
+): SegmentedControlOption<T>[] {
+	if (options && options.length > 0) {
+		return [...options];
+	}
+	if (items && items.length > 0) {
+		return items.map((rawItem) => {
+			const item = rawItem as Record<string, unknown>;
+			return {
+				value: (item.value ?? item.id) as T,
+				label: item.label as SegmentedControlOption<T>['label'],
+				icon: item.icon as SegmentedControlOption<T>['icon'],
+				sublabel: item.sublabel as SegmentedControlOption<T>['sublabel'],
+				disabled: Boolean(item.disabled),
+				ariaLabel: item.ariaLabel as string | undefined,
+			};
+		});
+	}
+	return [];
+}
+
+function SegmentedControlInner<T extends string = string>(
+	{ options, items, value, onChange, size = 'md', ariaLabel, name, ...restProps }: SegmentedControlProps<T>,
 	ref: ForwardedRef<HTMLDivElement>,
-) {
+): JSX.Element {
+	const normalizedOptions = normalizeOptions(options, items);
+
+	const navigationItems = normalizedOptions.map((opt) => ({
+		id: opt.value,
+		disabled: opt.disabled,
+	}));
+
 	const { setItemRef, handleKeyDown } = useSegmentedControlNavigation({
-		items,
-		onChange,
+		items: navigationItems,
+		onChange: (id) => onChange(id as T),
 	});
 
-	const selectedItem = items.find((item) => item.id === value && !item.disabled);
-	const firstEnabledItem = items.find((item) => !item.disabled);
-	const activeFocusId = selectedItem ? selectedItem.id : firstEnabledItem?.id;
+	const selectedOption = normalizedOptions.find((opt) => opt.value === value && !opt.disabled);
+	const firstEnabledOption = normalizedOptions.find((opt) => !opt.disabled);
+	const activeFocusValue = selectedOption ? selectedOption.value : firstEnabledOption?.value;
 
 	return (
-		<S.Container ref={ref} role="radiogroup" aria-label={ariaLabel} {...restProps}>
-			{items.map((item) => {
-				const isChecked = item.id === value;
-				const isFocusable = item.id === activeFocusId;
-				const isDisabled = item.disabled;
+		<S.Container ref={ref} role="radiogroup" aria-label={ariaLabel} data-size={size} {...restProps}>
+			{normalizedOptions.map((option) => {
+				const isChecked = option.value === value;
+				const isFocusable = option.value === activeFocusValue;
+				const isDisabled = option.disabled;
+				const hasIcon = Boolean(option.icon);
 
 				return (
 					<S.SegmentButton
-						key={item.id}
-						ref={(el) => setItemRef(item.id, el)}
+						key={option.value}
+						ref={(el) => setItemRef(option.value, el)}
 						type="button"
 						// biome-ignore lint/a11y/useSemanticElements: SegmentedControl uses WAI-ARIA radiogroup pattern with buttons
 						role="radio"
 						name={name}
 						aria-checked={isChecked}
 						aria-disabled={isDisabled || undefined}
+						aria-label={option.ariaLabel}
 						disabled={isDisabled}
 						tabIndex={isFocusable ? 0 : -1}
 						data-checked={isChecked ? 'true' : undefined}
 						data-disabled={isDisabled ? 'true' : undefined}
+						data-size={size}
+						data-has-icon={hasIcon ? 'true' : undefined}
 						onClick={() => {
 							if (!isDisabled) {
-								onChange(item.id);
+								onChange(option.value);
 							}
 						}}
-						onKeyDown={(e) => handleKeyDown(e, item.id)}
+						onKeyDown={(e) => handleKeyDown(e, option.value)}
 					>
-						<span data-slot="label">{item.label}</span>
-						{item.sublabel && <span data-slot="sublabel">{item.sublabel}</span>}
+						{option.icon && <span data-slot="icon">{option.icon}</span>}
+						{option.label && <span data-slot="label">{option.label}</span>}
+						{option.sublabel && <span data-slot="sublabel">{option.sublabel}</span>}
 					</S.SegmentButton>
 				);
 			})}
@@ -57,4 +92,6 @@ function SegmentedControlInner(
  * Generic, responsive, accessible segmented control switcher primitive.
  * Implements WAI-ARIA radiogroup pattern with arrow keyboard navigation.
  */
-export const SegmentedControl = forwardRef(SegmentedControlInner);
+export const SegmentedControl = forwardRef(SegmentedControlInner) as <T extends string = string>(
+	props: SegmentedControlProps<T> & { ref?: ForwardedRef<HTMLDivElement> },
+) => JSX.Element;

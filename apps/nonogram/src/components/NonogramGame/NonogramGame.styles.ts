@@ -1,26 +1,34 @@
-import { themeColor } from '@arcade/lib-ui/styles/theme/theme.utils';
+import { css } from '@linaria/core';
 import { styled } from '@linaria/react';
 
-export const GameRoot = styled.main`
-	position: relative;
+export const statusBar = css`
 	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: flex-start;
-	width: 100vw;
-	min-height: 100dvh;
-	background-color: ${themeColor('surface')};
-	color: ${themeColor('text-1')};
-	overflow-x: hidden;
-`;
-
-export const BoardArea = styled.div`
-	position: relative;
-	display: flex;
-	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	gap: var(--space-lg);
+	padding: 0;
 	width: 100%;
-	flex: 1;
-	padding: 1rem 0.5rem;
+	background-color: transparent;
+`;
+
+export const statusMetric = css`
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-2xs);
+	font-size: var(--font-size-md);
+	font-weight: var(--font-weight-medium);
+	color: var(--color-text-1);
+	font-variant-numeric: tabular-nums;
+
+	svg {
+		width: 1.125em;
+		height: 1.125em;
+		color: var(--color-text-2);
+	}
+`;
+
+export const ControlsWrapper = styled.div`
+	margin-top: var(--space-md);
+	margin-inline: auto;
+	width: 100%;
 `;

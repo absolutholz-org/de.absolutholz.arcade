@@ -32,7 +32,9 @@ export type { BadgeProps } from './components/Badge/_Badge.types';
 export { SegmentedControl } from './components/SegmentedControl';
 export type {
 	SegmentedControlItem,
+	SegmentedControlOption,
 	SegmentedControlProps,
+	SegmentedControlSize,
 } from './components/SegmentedControl/_SegmentedControl.types';
 export { GameSelectionCard } from './components/GameSelectionCard';
 export type {

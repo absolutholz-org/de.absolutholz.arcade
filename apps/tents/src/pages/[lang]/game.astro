@@ -2,8 +2,8 @@
 import { resources } from '@arcade/lib-i18n/config/i18n';
 import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import GameLayout from '@arcade/lib-ui/layouts/GameLayout/GameLayout.astro';
 import { TentsGame } from '../../components/TentsGame';
-import TentsBaseLayout from '../../layouts/TentsBaseLayout.astro';
 
 export function getStaticPaths() {
 	return SUPPORTED_LANGUAGES.map((item) => ({
@@ -15,11 +15,12 @@ const { lang } = Astro.params;
 const currentTents = resources[lang as SupportedLanguageCode]?.tents ?? resources.en.tents;
 ---
 
-<TentsBaseLayout
+<GameLayout
 	title={`${currentTents.title} | ${currentTents.description}`}
 	description={currentTents.description}
 	lang={lang as SupportedLanguageCode}
 	canonical={`https://arcade.absolutholz.de/tents/${lang}/game`}
+	appTitle="Tents"
 >
 	<TentsGame client:only="react" lang={lang as SupportedLanguageCode} />
-</TentsBaseLayout>
+</GameLayout>

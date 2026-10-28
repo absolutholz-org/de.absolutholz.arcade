@@ -1,6 +1,8 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { Icon } from '@arcade/lib-ui/components/Icon';
+import { SegmentedControl, type SegmentedControlOption } from '@arcade/lib-ui/components/SegmentedControl';
 import type { JSX } from 'react';
+import type { InputMode } from '../../engine/types';
 import { CrownIcon, XMarkIcon } from '../QueensIcons';
 import * as S from './QueensControls.styles';
 import type { QueensControlsProps } from './QueensControls.types';
@@ -16,64 +18,66 @@ export function QueensControls({
 }: QueensControlsProps): JSX.Element {
 	const { t } = useI18n('queens');
 
+	const modeOptions: SegmentedControlOption<InputMode>[] = [
+		{
+			value: 'mark',
+			label: t('mode.mark'),
+			icon: <XMarkIcon />,
+			ariaLabel: t('mode.markDesc'),
+		},
+		{
+			value: 'token',
+			label: t('mode.token'),
+			icon: <CrownIcon />,
+			ariaLabel: t('mode.tokenDesc'),
+		},
+	];
+
 	return (
 		<S.ControlsContainer>
-			<S.MainBar>
-				<S.ModeToggleGroup aria-label={t('mode.label')}>
-					<S.ModeButton
-						type="button"
-						aria-pressed={inputMode === 'mark'}
-						data-active={inputMode === 'mark' ? 'true' : 'false'}
-						onClick={() => onToggleMode('mark')}
-						title={t('mode.markDesc')}
-					>
-						<XMarkIcon />
-						<span>{t('mode.mark')}</span>
-					</S.ModeButton>
+			<S.ModeRow>
+				<SegmentedControl
+					size="sm"
+					value={inputMode}
+					onChange={onToggleMode}
+					options={modeOptions}
+					ariaLabel={t('mode.label')}
+				/>
+			</S.ModeRow>
 
-					<S.ModeButton
-						type="button"
-						aria-pressed={inputMode === 'token'}
-						data-active={inputMode === 'token' ? 'true' : 'false'}
-						onClick={() => onToggleMode('token')}
-						title={t('mode.tokenDesc')}
-					>
-						<CrownIcon />
-						<span>{t('mode.token')}</span>
-					</S.ModeButton>
-				</S.ModeToggleGroup>
+			<S.ActionsRow>
+				<S.ActionButton
+					type="button"
+					onClick={onUndo}
+					disabled={!canUndo}
+					aria-label={t('common.undo')}
+					title={t('common.undo')}
+				>
+					<Icon name="undo" size="sm" />
+					<span>{t('common.undo')}</span>
+				</S.ActionButton>
 
-				<S.ActionButtonGroup>
-					<S.ActionButton
-						type="button"
-						onClick={onUndo}
-						disabled={!canUndo}
-						aria-label={t('controls.undo')}
-						title={t('controls.undo')}
-					>
-						<Icon name="undo" size="sm" />
-					</S.ActionButton>
+				<S.ActionButton
+					type="button"
+					onClick={onRedo}
+					disabled={!canRedo}
+					aria-label={t('common.redo')}
+					title={t('common.redo')}
+				>
+					<Icon name="redo" size="sm" />
+					<span>{t('common.redo')}</span>
+				</S.ActionButton>
 
-					<S.ActionButton
-						type="button"
-						onClick={onRedo}
-						disabled={!canRedo}
-						aria-label={t('controls.redo')}
-						title={t('controls.redo')}
-					>
-						<Icon name="redo" size="sm" />
-					</S.ActionButton>
-
-					<S.ActionButton
-						type="button"
-						onClick={onReset}
-						aria-label={t('controls.reset')}
-						title={t('controls.reset')}
-					>
-						<Icon name="rotate-ccw" size="sm" />
-					</S.ActionButton>
-				</S.ActionButtonGroup>
-			</S.MainBar>
+				<S.ActionButton
+					type="button"
+					onClick={onReset}
+					aria-label={t('common.restart')}
+					title={t('common.restart')}
+				>
+					<Icon name="rotate-ccw" size="sm" />
+					<span>{t('common.restart')}</span>
+				</S.ActionButton>
+			</S.ActionsRow>
 		</S.ControlsContainer>
 	);
 }

@@ -3,13 +3,12 @@ import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { isSupportedLanguage } from '@arcade/lib-i18n/utils/detection';
-import type { JSX } from 'react';
-import { useCallback, useState } from 'react';
+import { GameHeader, GameLayout, PauseDialog } from '@arcade/lib-ui';
+import { Timer } from '@arcade/lib-ui/components/Timer';
+import { type JSX, useCallback, useState } from 'react';
 import type { DifficultyId } from '../../engine/types';
 import { NonogramBoard } from '../NonogramBoard';
 import { NonogramControls } from '../NonogramControls';
-import { NonogramGameHeader } from '../NonogramGameHeader';
-import { PauseOverlay } from '../PauseOverlay';
 import { PuzzleSelectDialog } from '../PuzzleSelectDialog';
 import { SettingsDialog } from '../SettingsDialog';
 import { VictoryDialog } from '../VictoryDialog';
@@ -35,6 +34,7 @@ export function NonogramGame({ initialDifficulty = 'easy', initialPuzzleId, lang
 	});
 
 	const { changeLanguage } = useI18n();
+	const { t } = useI18n('nonogram');
 	const game = useNonogramEngine(initialDifficulty, initialPuzzleId);
 
 	const handleLanguageChange = useCallback(
@@ -53,34 +53,53 @@ export function NonogramGame({ initialDifficulty = 'easy', initialPuzzleId, lang
 		[activeLang, changeLanguage],
 	);
 
+	const difficultyLabel = t(`difficulty.${game.puzzle.difficulty}` as 'difficulty.easy');
+
 	const content = (
-		<S.GameRoot id="main-content">
-			<NonogramGameHeader
+		<GameLayout
+			header={
+				<GameHeader
+					backHref={`/nonogram/${activeLang}/`}
+					backLabel={t('victory.viewLobby')}
+					difficulty={difficultyLabel}
+					onOpenSettings={game.openSettings}
+					settingsLabel={t('settings.title')}
+				/>
+			}
+			status={
+				<div className={S.statusBar}>
+					<span className={S.statusMetric} aria-label={`${t('status.moves')}: ${game.moves}`}>
+						<span>
+							{t('status.moves')}: {game.moves}
+						</span>
+					</span>
+					<Timer
+						variant="inline"
+						seconds={game.elapsedSeconds}
+						isPaused={game.isPaused}
+						onTogglePause={game.handleTogglePause}
+						size="sm"
+						showIcon={true}
+						aria-label={t('status.timer')}
+					/>
+				</div>
+			}
+		>
+			<NonogramBoard
 				puzzle={game.puzzle}
-				elapsedSeconds={game.elapsedSeconds}
-				moves={game.moves}
-				isPaused={game.isPaused}
-				onTogglePause={game.handleTogglePause}
-				onOpenPuzzleSelect={game.openPuzzleSelect}
-				onOpenSettings={game.openSettings}
-				onReset={game.handleReset}
+				cells={game.cells}
+				focusedCell={game.focusedCell}
+				isGameOver={game.isGameOver}
+				isWon={game.isWon}
+				interactionMode={game.interactionMode}
+				onApplyStroke={game.handleApplyStroke}
+				onSetFocus={(col, row) => game.setFocusedCell({ col, row })}
+				onToggleCell={game.handleToggleCell}
+				onUndo={game.handleUndo}
+				onRedo={game.handleRedo}
 			/>
 
-			<S.BoardArea>
-				<NonogramBoard
-					puzzle={game.puzzle}
-					cells={game.cells}
-					focusedCell={game.focusedCell}
-					isGameOver={game.isGameOver}
-					isWon={game.isWon}
-					interactionMode={game.interactionMode}
-					onApplyStroke={game.handleApplyStroke}
-					onSetFocus={(col, row) => game.setFocusedCell({ col, row })}
-					onToggleCell={game.handleToggleCell}
-					onUndo={game.handleUndo}
-					onRedo={game.handleRedo}
-				/>
-
+			<S.ControlsWrapper>
 				<NonogramControls
 					interactionMode={game.interactionMode}
 					canUndo={game.canUndo}
@@ -91,9 +110,9 @@ export function NonogramGame({ initialDifficulty = 'easy', initialPuzzleId, lang
 					onRedo={game.handleRedo}
 					onReset={game.handleReset}
 				/>
+			</S.ControlsWrapper>
 
-				<PauseOverlay isOpen={game.isPaused} onResume={game.handleTogglePause} onRestart={game.handleReset} />
-			</S.BoardArea>
+			<PauseDialog isOpen={game.isPaused} onResume={game.handleTogglePause} onRestart={game.handleReset} />
 
 			<SettingsDialog
 				isOpen={game.isSettingsOpen}
@@ -124,7 +143,7 @@ export function NonogramGame({ initialDifficulty = 'easy', initialPuzzleId, lang
 				onOpenPuzzleSelect={game.openPuzzleSelect}
 				onClose={game.closeVictory}
 			/>
-		</S.GameRoot>
+		</GameLayout>
 	);
 
 	return <I18nProvider language={activeLang}>{content}</I18nProvider>;

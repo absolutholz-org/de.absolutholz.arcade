@@ -1,11 +1,15 @@
 import { useCallback, useRef } from 'react';
-import type { SegmentedControlItem } from './_SegmentedControl.types';
+
+export interface SegmentedControlNavigableItem {
+	id: string;
+	disabled?: boolean;
+}
 
 export function useSegmentedControlNavigation({
 	items,
 	onChange,
 }: {
-	items: readonly SegmentedControlItem[];
+	items: readonly SegmentedControlNavigableItem[];
 	onChange: (id: string) => void;
 }) {
 	const itemRefs = useRef<Map<string, HTMLButtonElement | null>>(new Map());

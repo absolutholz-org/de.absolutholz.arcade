@@ -3,12 +3,12 @@ import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { isSupportedLanguage } from '@arcade/lib-i18n/utils/detection';
-import { GameContainer } from '@arcade/lib-ui/components/GameContainer';
+import { GameHeader, GameLayout, PauseDialog } from '@arcade/lib-ui';
+import { Timer } from '@arcade/lib-ui/components/Timer';
 import { type JSX, useCallback, useState } from 'react';
-import { PauseOverlay } from '../PauseOverlay';
 import { QueensBoard } from '../QueensBoard';
 import { QueensControls } from '../QueensControls';
-import { QueensGameHeader } from '../QueensGameHeader';
+import { CrownIcon } from '../QueensIcons';
 import { SettingsDialog } from '../SettingsDialog';
 import { VictoryDialog } from '../VictoryDialog';
 import { useQueensGame } from './QueensGame.hooks';
@@ -28,7 +28,7 @@ export function QueensGame({ initialDifficulty = 'easy', initialPuzzleId, lang }
 	});
 
 	const { changeLanguage } = useI18n();
-	const { t: tCommon } = useI18n('common');
+	const { t } = useI18n('queens');
 	const game = useQueensGame(initialDifficulty, initialPuzzleId);
 
 	const handleLanguageChange = useCallback(
@@ -48,68 +48,60 @@ export function QueensGame({ initialDifficulty = 'easy', initialPuzzleId, lang }
 	);
 
 	const content = (
-		<GameContainer
-			id="main-content"
+		<GameLayout
 			header={
-				<QueensGameHeader
-					difficulty={game.puzzle.difficulty}
-					puzzleId={game.puzzle.id}
-					tokenCount={game.tokenCount}
-					totalTokens={game.puzzle.size}
-					elapsedSeconds={game.elapsedSeconds}
-					isPaused={game.isPaused}
-					onTogglePause={game.handleTogglePause}
+				<GameHeader
+					backHref={`/queens/${activeLang}/`}
+					backLabel={t('controls.backToLobby')}
+					difficulty={t(`difficulty.${game.puzzle.difficulty}`)}
 					onOpenSettings={game.openSettings}
+					settingsLabel={t('settings.title')}
 				/>
 			}
-			overlay={
-				<PauseOverlay
-					isOpen={game.isPaused && !game.isComplete}
-					onResume={game.handleTogglePause}
-					onRestart={game.handlePlayAgain}
-				/>
-			}
-			dialogs={
-				<>
-					<SettingsDialog
-						isOpen={game.isSettingsOpen}
-						onClose={game.closeSettings}
-						settings={game.settings}
-						onUpdateSettings={game.handleUpdateSettings}
-						activeLanguage={activeLang}
-						onLanguageChange={handleLanguageChange}
+			status={
+				<div className={S.statusBar}>
+					<span
+						className={S.statusMetric}
+						aria-label={t('status.tokensPlaced', {
+							current: game.tokenCount,
+							total: game.puzzle.size,
+						})}
+					>
+						<CrownIcon />
+						<span>
+							{game.tokenCount} / {game.puzzle.size}
+						</span>
+					</span>
+					<Timer
+						variant="inline"
+						seconds={game.elapsedSeconds}
+						isPaused={game.isPaused}
+						onTogglePause={game.handleTogglePause}
+						size="sm"
+						showIcon={true}
+						aria-label={t('status.timer')}
 					/>
-
-					<VictoryDialog
-						isOpen={game.isVictoryOpen}
-						elapsedSeconds={game.elapsedSeconds}
-						isNewBestTime={game.isNewBestTime}
-						hasNextPuzzle={game.hasNextPuzzle}
-						onNextPuzzle={game.handleNextPuzzle}
-						onPlayAgain={game.handlePlayAgain}
-						onClose={game.closeVictory}
-					/>
-				</>
+				</div>
 			}
 		>
-			<S.PlayColumn>
-				<QueensBoard
-					size={game.puzzle.size}
-					regions={game.puzzle.regions}
-					board={game.board}
-					conflicts={game.conflicts}
-					focusedCell={game.focusedCell}
-					inputMode={game.inputMode}
-					onCellClick={game.handleCellClick}
-					onCellDoubleClick={game.handleCellDoubleClick}
-					onCellContextMenu={game.handleCellContextMenu}
-					onCellFocus={game.handleCellFocus}
-					onDragStart={game.handleDragStart}
-					onDragEnter={game.handleDragEnter}
-					onDragEnd={game.handleDragEnd}
-					onKeyDown={game.handleKeyDown}
-				/>
+			<QueensBoard
+				size={game.puzzle.size}
+				regions={game.puzzle.regions}
+				board={game.board}
+				conflicts={game.conflicts}
+				focusedCell={game.focusedCell}
+				inputMode={game.inputMode}
+				onCellClick={game.handleCellClick}
+				onCellDoubleClick={game.handleCellDoubleClick}
+				onCellContextMenu={game.handleCellContextMenu}
+				onCellFocus={game.handleCellFocus}
+				onDragStart={game.handleDragStart}
+				onDragEnter={game.handleDragEnter}
+				onDragEnd={game.handleDragEnd}
+				onKeyDown={game.handleKeyDown}
+			/>
 
+			<S.ControlsWrapper>
 				<QueensControls
 					inputMode={game.inputMode}
 					canUndo={game.canUndo}
@@ -119,14 +111,33 @@ export function QueensGame({ initialDifficulty = 'easy', initialPuzzleId, lang }
 					onRedo={game.handleRedo}
 					onReset={game.handleReset}
 				/>
+			</S.ControlsWrapper>
 
-				<S.GameFooter>
-					<S.GameFooterLink href={`/queens/${activeLang}/medals`} aria-label={tCommon('navigation.medals')}>
-						🏅 {tCommon('navigation.medals')}
-					</S.GameFooterLink>
-				</S.GameFooter>
-			</S.PlayColumn>
-		</GameContainer>
+			<PauseDialog
+				isOpen={game.isPaused && !game.isComplete}
+				onResume={game.handleTogglePause}
+				onRestart={game.handlePlayAgain}
+			/>
+
+			<SettingsDialog
+				isOpen={game.isSettingsOpen}
+				onClose={game.closeSettings}
+				settings={game.settings}
+				onUpdateSettings={game.handleUpdateSettings}
+				activeLanguage={activeLang}
+				onLanguageChange={handleLanguageChange}
+			/>
+
+			<VictoryDialog
+				isOpen={game.isVictoryOpen}
+				elapsedSeconds={game.elapsedSeconds}
+				isNewBestTime={game.isNewBestTime}
+				hasNextPuzzle={game.hasNextPuzzle}
+				onNextPuzzle={game.handleNextPuzzle}
+				onPlayAgain={game.handlePlayAgain}
+				onClose={game.closeVictory}
+			/>
+		</GameLayout>
 	);
 
 	return <I18nProvider language={activeLang}>{content}</I18nProvider>;

@@ -1,6 +1,8 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { Icon } from '@arcade/lib-ui/components/Icon';
+import { SegmentedControl, type SegmentedControlOption } from '@arcade/lib-ui/components/SegmentedControl';
 import type { JSX } from 'react';
+import { GrassIcon, TentIcon } from '../TentsIcons/index.js';
 import * as S from './TentsControls.styles.js';
 import type { TentsControlsProps } from './TentsControls.types.js';
 
@@ -16,32 +18,31 @@ export function TentsControls({
 }: TentsControlsProps): JSX.Element {
 	const { t } = useI18n('tents');
 
+	const modeOptions: SegmentedControlOption<'tent' | 'grass'>[] = [
+		{
+			value: 'tent',
+			label: t('mode.tent'),
+			icon: <TentIcon />,
+			ariaLabel: t('mode.tentDesc'),
+		},
+		{
+			value: 'grass',
+			label: t('mode.grass'),
+			icon: <GrassIcon />,
+			ariaLabel: t('mode.grassDesc'),
+		},
+	];
+
 	return (
 		<S.ControlsContainer>
 			<S.MainBar>
-				<S.ModeToggleGroup aria-label={t('mode.label')}>
-					<S.ModeButton
-						type="button"
-						aria-pressed={inputMode === 'tent'}
-						data-active={inputMode === 'tent' ? 'true' : 'false'}
-						onClick={() => onToggleMode('tent')}
-						title={t('mode.tentDesc')}
-					>
-						<S.MiniIcon>⛺</S.MiniIcon>
-						<span>{t('mode.tent')}</span>
-					</S.ModeButton>
-
-					<S.ModeButton
-						type="button"
-						aria-pressed={inputMode === 'grass'}
-						data-active={inputMode === 'grass' ? 'true' : 'false'}
-						onClick={() => onToggleMode('grass')}
-						title={t('mode.grassDesc')}
-					>
-						<S.MiniIcon>🌱</S.MiniIcon>
-						<span>{t('mode.grass')}</span>
-					</S.ModeButton>
-				</S.ModeToggleGroup>
+				<SegmentedControl
+					size="sm"
+					value={inputMode}
+					onChange={onToggleMode}
+					options={modeOptions}
+					ariaLabel={t('mode.label')}
+				/>
 
 				<S.ActionButtonGroup>
 					{onHint && (

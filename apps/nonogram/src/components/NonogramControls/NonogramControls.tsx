@@ -1,6 +1,6 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
-import { Button } from '@arcade/lib-ui/components/Button';
 import { Icon } from '@arcade/lib-ui/components/Icon';
+import { SegmentedControl, type SegmentedControlOption } from '@arcade/lib-ui/components/SegmentedControl';
 import type { JSX } from 'react';
 import type { InteractionMode } from '../../engine/types';
 import { CrossIcon, FillIcon } from '../NonogramIcons';
@@ -28,62 +28,50 @@ export function NonogramControls({
 }: NonogramControlsProps): JSX.Element {
 	const { t } = useI18n('nonogram');
 
+	const modeOptions: SegmentedControlOption<InteractionMode>[] = [
+		{
+			value: 'fill',
+			label: t('controls.fill'),
+			icon: <FillIcon />,
+			ariaLabel: t('controls.modeFill'),
+		},
+		{
+			value: 'cross',
+			label: t('controls.cross'),
+			icon: <CrossIcon />,
+			ariaLabel: t('controls.modeCross'),
+		},
+	];
+
 	return (
 		<S.ControlsRoot aria-label={t('aria.gameControls')}>
-			{/* Mobile / Touch Fill vs Cross Mode Selector */}
-			<S.ModeToggleGroup aria-label={t('controls.modeFill')}>
-				<Button
-					type="button"
-					variant={interactionMode === 'fill' ? 'primary' : 'ghost'}
+			{/* Top row: Mode Selector */}
+			<S.ModeRow>
+				<SegmentedControl
 					size="sm"
-					onClick={() => onSetMode('fill')}
-					aria-label={t('controls.modeFill')}
-					aria-pressed={interactionMode === 'fill'}
-				>
-					<FillIcon />
-					<span>{t('controls.fill')}</span>
-				</Button>
+					value={interactionMode}
+					onChange={onSetMode}
+					options={modeOptions}
+					ariaLabel={t('controls.modeFill')}
+				/>
+			</S.ModeRow>
 
-				<Button
-					type="button"
-					variant={interactionMode === 'cross' ? 'primary' : 'ghost'}
-					size="sm"
-					onClick={() => onSetMode('cross')}
-					aria-label={t('controls.modeCross')}
-					aria-pressed={interactionMode === 'cross'}
-				>
-					<CrossIcon />
-					<span>{t('controls.cross')}</span>
-				</Button>
-			</S.ModeToggleGroup>
-
-			{/* Undo / Redo / Reset Action Group */}
+			{/* Bottom row: Undo / Redo / Restart Action Group */}
 			<S.ActionGroup>
-				<Button
-					type="button"
-					variant="ghost"
-					size="sm"
-					onClick={onUndo}
-					disabled={!canUndo}
-					aria-label={t('controls.undo')}
-				>
+				<S.ActionButton type="button" onClick={onUndo} disabled={!canUndo} aria-label={t('common.undo')}>
 					<Icon name="undo" size="sm" />
-				</Button>
+					<span>{t('common.undo')}</span>
+				</S.ActionButton>
 
-				<Button
-					type="button"
-					variant="ghost"
-					size="sm"
-					onClick={onRedo}
-					disabled={!canRedo}
-					aria-label={t('controls.redo')}
-				>
+				<S.ActionButton type="button" onClick={onRedo} disabled={!canRedo} aria-label={t('common.redo')}>
 					<Icon name="redo" size="sm" />
-				</Button>
+					<span>{t('common.redo')}</span>
+				</S.ActionButton>
 
-				<Button type="button" variant="ghost" size="sm" onClick={onReset} aria-label={t('controls.resetBoard')}>
+				<S.ActionButton type="button" onClick={onReset} aria-label={t('common.restart')}>
 					<Icon name="rotate-ccw" size="sm" />
-				</Button>
+					<span>{t('common.restart')}</span>
+				</S.ActionButton>
 			</S.ActionGroup>
 		</S.ControlsRoot>
 	);
