@@ -113,6 +113,41 @@ export class IndexedDbDriver implements StorageDriver {
 
 ---
 
+## 📊 Unified Statistics Subsystem (ADR 0008)
+
+`@arcade/lib-storage` provides the normalized domain contract, pure reducer, and persistence methods for game statistics across all Arcade games, persisted under `arcade::[gameId]::stats`.
+
+### Schema & Types
+
+- `DifficultyBucketStats`: Tracks granular gameplay metrics (played, won, lost, current streak, best streak, best time, total play time, best moves, best score, flawless wins) within a specific difficulty bucket or overall.
+- `GameStats<TBucketKey, TCustomMetrics>`: Schema version 1 document containing `overall` bucket stats, keyed `byBucket` records, and accumulated `lifetimeMetrics`.
+- `RoundStatsInput`: Telemetry payload emitted upon round completion.
+
+### Usage Example
+
+```ts
+import { recordGameStats, getGameStats, updateStatsWithRound } from "@arcade/lib-storage";
+
+// Record round completion telemetry
+const updatedStats = await recordGameStats({
+	gameId: "sudoku",
+	won: true,
+	bucketKey: "medium",
+	playTimeSeconds: 145,
+	moves: 38,
+	score: 2400,
+	isFlawless: true,
+	customMetrics: { undosUsed: 0, hintsUsed: 0 },
+});
+
+// Retrieve current statistics
+const stats = await getGameStats("sudoku");
+console.log(`Current streak: ${stats.overall.currentStreak}`);
+console.log(`Medium best time: ${stats.byBucket.medium?.bestTimeSeconds}s`);
+```
+
+---
+
 ## 🛡️ Architecture & Boundaries
 
 - **Never call native `window.localStorage` directly** in application code (`apps/*`).

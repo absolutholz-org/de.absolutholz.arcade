@@ -81,3 +81,18 @@ class ScopedGameStorage implements GameStorage {
 export function createGameStorage(appName: string, options?: GameStorageOptions): GameStorage {
 	return new ScopedGameStorage(appName, options);
 }
+
+export type {
+	DifficultyBucketStats,
+	GameId,
+	GameStats,
+	RoundStatsInput,
+} from './types/stats.types.js';
+export {
+	GAME_STATS_STORAGE_KEY,
+	createEmptyDifficultyBucketStats,
+	createEmptyGameStats,
+	getGameStats,
+	recordGameStats,
+	updateStatsWithRound,
+} from './stats.js';

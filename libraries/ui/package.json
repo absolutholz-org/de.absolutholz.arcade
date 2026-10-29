@@ -57,11 +57,12 @@
 	"dependencies": {
 		"@arcade/lib-consent": "workspace:*",
 		"@arcade/lib-i18n": "workspace:*",
+		"@arcade/lib-medals": "workspace:*",
+		"@arcade/lib-storage": "workspace:*",
 		"@arcade/lib-user": "workspace:*",
 		"@linaria/babel-preset": "^5.0.4",
 		"@linaria/core": "catalog:",
 		"@linaria/react": "catalog:",
-		"react-i18next": "catalog:",
-		"@arcade/lib-medals": "workspace:*"
+		"react-i18next": "catalog:"
 	}
 }

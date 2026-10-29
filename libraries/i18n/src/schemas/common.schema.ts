@@ -150,6 +150,25 @@ export const commonSchema = {
 			halloween: 'settings.themes.halloween',
 		},
 	},
+	stats: {
+		title: 'stats.title',
+		overall: 'stats.overall',
+		gamesPlayed: 'stats.gamesPlayed',
+		gamesWon: 'stats.gamesWon',
+		gamesLost: 'stats.gamesLost',
+		winRate: 'stats.winRate',
+		currentStreak: 'stats.currentStreak',
+		bestStreak: 'stats.bestStreak',
+		bestTime: 'stats.bestTime',
+		totalPlayTime: 'stats.totalPlayTime',
+		bestMoves: 'stats.bestMoves',
+		bestScore: 'stats.bestScore',
+		flawlessWins: 'stats.flawlessWins',
+		emptyTitle: 'stats.emptyTitle',
+		emptyDescription: 'stats.emptyDescription',
+		playNow: 'stats.playNow',
+		bucketSelectorAria: 'stats.bucketSelectorAria',
+	},
 } as const;
 
 export type CommonSchema = typeof commonSchema;

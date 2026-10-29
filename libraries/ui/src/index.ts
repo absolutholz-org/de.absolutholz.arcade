@@ -86,6 +86,9 @@ export type {
 export { GameMedalGrid } from './components/GameMedalGrid';
 export type { GameMedalGridProps } from './components/GameMedalGrid';
 
+export { GameStatsDashboard } from './components/GameStatsDashboard';
+export type { GameStatsDashboardProps } from './components/GameStatsDashboard';
+
 export { GameHeader } from './components/GameHeader';
 export type { GameHeaderProps } from './components/GameHeader';
 

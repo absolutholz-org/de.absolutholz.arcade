@@ -841,6 +841,9 @@ importers:
       typescript:
         specifier: ^5.7.2
         version: 5.9.3
+      vitest:
+        specifier: ^4.1.8
+        version: 4.1.11(@types/node@26.6.3)(@vitest/browser-playwright@4.1.11)(@vitest/coverage-v8@4.1.11)(happy-dom@20.14.5)(vite@8.3.3(@types/node@26.6.3))
 
   libraries/ui:
     dependencies:
@@ -853,6 +856,9 @@ importers:
       '@arcade/lib-medals':
         specifier: workspace:*
         version: link:../medals
+      '@arcade/lib-storage':
+        specifier: workspace:*
+        version: link:../storage
       '@arcade/lib-user':
         specifier: workspace:*
         version: link:../user
