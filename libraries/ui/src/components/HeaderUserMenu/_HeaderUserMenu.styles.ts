@@ -5,7 +5,7 @@ export const HeaderUserMenu = styled.div`
 	display: inline-flex;
 	align-items: center;
 
-	.user-profile-button {
+	.user-profile-button[data-size='md'] {
 		gap: 0.5rem;
 		padding: 0 0.875rem;
 
@@ -52,20 +52,17 @@ export const HeaderUserMenu = styled.div`
 		}
 
 		@media (max-width: 640px) {
+			width: 2.625rem;
+			min-width: 2.625rem;
+			max-width: 2.625rem;
+			height: 2.625rem;
 			padding: 0.625rem;
+			aspect-ratio: 1 / 1;
+			justify-content: center;
 
 			.user-name,
 			> span[data-slot='content'] {
 				display: none;
-			}
-
-			.user-avatar {
-				width: 1rem;
-				height: 1rem;
-
-				.user-avatar-initials {
-					font-size: 0.5625rem;
-				}
 			}
 		}
 	}
