@@ -39,7 +39,7 @@ export const enAnagram = {
 		play: 'Play',
 		clear: 'Clear',
 		submit: 'Submit',
-		reveal: 'Reveal Answers',
+		reveal: 'Reveal',
 		newRound: 'New Round',
 		pause: 'Pause',
 		resume: 'Resume',
