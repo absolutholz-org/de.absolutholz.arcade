@@ -1,7 +1,6 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { HeaderActions } from '../HeaderActions';
-import { HeaderUserMenu } from '../HeaderUserMenu';
 import { Logo } from '../Logo';
 import { PageContainer } from '../PageContainer';
 import * as S from './_SiteHeader.styles';
@@ -10,7 +9,7 @@ import type { SiteHeaderProps } from './_SiteHeader.types';
 /**
  * Canonical portal landmark banner component.
  * Self-resolves brand logo, title, home link to the Arcade Hub root,
- * and standard header utility actions (language, theme switchers, user menu).
+ * and standard header utility actions (language, theme switchers, settings, and user menu).
  */
 export function SiteHeader({
 	children,
@@ -46,7 +45,6 @@ export function SiteHeader({
 					{children}
 					<div className="header-actions">
 						<HeaderActions lang={currentLang} currentSlug={currentSlug} />
-						<HeaderUserMenu lang={currentLang} />
 					</div>
 				</div>
 			</PageContainer>

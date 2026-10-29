@@ -1,14 +1,13 @@
-import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import { Button } from '../Button';
 import { Icon } from '../Icon';
 import { UserProfileDialog } from '../UserProfileDialog';
+import { getInitials } from './_HeaderUserMenu.functions';
 import { useHeaderUserMenu } from './_HeaderUserMenu.hooks';
 import * as S from './_HeaderUserMenu.styles';
 import type { HeaderUserMenuProps } from './_HeaderUserMenu.types';
 
 function HeaderUserMenuContent({ className }: { className?: string }) {
-	const { t } = useI18n('common');
 	const {
 		errorMessage,
 		handleCloseDialog,
@@ -24,9 +23,10 @@ function HeaderUserMenuContent({ className }: { className?: string }) {
 		session,
 	} = useHeaderUserMenu();
 
-	const isCloud = session.user?.storageMode === 'cloud';
-	const displayName = session.user?.displayName || (session.isAuthenticated ? 'User' : 'Guest');
-	const triggerAriaLabel = `${displayName} - ${isCloud ? t('auth.cloudSyncLabel') : 'Local'}`;
+	const userName = session.user?.displayName || '';
+	const initials = session.isAuthenticated && userName ? getInitials(userName) : null;
+	const displayName = userName || (session.isAuthenticated ? 'User' : 'Guest');
+	const triggerAriaLabel = session.isAuthenticated ? `User profile: ${userName || 'User'}` : 'User profile';
 
 	return (
 		<S.HeaderUserMenu className={className}>
@@ -38,14 +38,18 @@ function HeaderUserMenuContent({ className }: { className?: string }) {
 				aria-expanded={isDialogOpen}
 				aria-label={triggerAriaLabel}
 				title={triggerAriaLabel}
-				leadingIcon={<Icon name="user" size="sm" />}
-			>
-				<span className="user-trigger-content">
-					<span className="user-name">{displayName}</span>
-					<span className="sync-badge" aria-hidden="true">
-						<Icon name={isCloud ? 'cloud' : 'hard-drive'} size="xs" />
+				className="user-profile-button"
+				leadingIcon={
+					<span className="user-avatar" aria-hidden="true">
+						{initials ? (
+							<span className="user-avatar-initials">{initials}</span>
+						) : (
+							<Icon name="user" size="xs" />
+						)}
 					</span>
-				</span>
+				}
+			>
+				<span className="user-name">{displayName}</span>
 			</Button>
 
 			<UserProfileDialog

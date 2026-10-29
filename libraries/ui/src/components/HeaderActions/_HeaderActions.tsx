@@ -3,6 +3,7 @@ import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { persistLanguage } from '@arcade/lib-i18n/utils/detection';
 import { Button } from '../Button';
+import { HeaderUserMenu } from '../HeaderUserMenu';
 import { Icon } from '../Icon';
 import { LanguageSwitcher } from '../LanguageSwitcher';
 import { SchemeSwitcher } from '../SchemeSwitcher';
@@ -36,12 +37,14 @@ function HeaderActionsContent({
 				title={t('navigation.settings')}
 				leadingIcon={<Icon name="settings" size="sm" />}
 			/>
+			<HeaderUserMenu lang={lang} />
 		</Toolbar>
 	);
 }
 
 /**
- * Interactive header actions cluster containing language and color scheme switchers.
+ * Interactive header actions cluster containing language, color scheme switchers,
+ * settings shortcut, and user profile authentication menu.
  * Handles client-side navigation between localized routes with path preservation.
  */
 export function HeaderActions({ lang, currentSlug }: HeaderActionsProps = {}) {

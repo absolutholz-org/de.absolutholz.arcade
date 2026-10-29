@@ -18,7 +18,9 @@ function isItemDisabled(element: HTMLElement): boolean {
  * contained within the toolbar.
  */
 function isInsideCompositeWidget(element: HTMLElement, container: HTMLElement): boolean {
-	const popupAncestor = element.parentElement?.closest('[role="listbox"], [role="menu"], [role="dialog"], [popover]');
+	const popupAncestor = element.parentElement?.closest(
+		'dialog, [role="listbox"], [role="menu"], [role="dialog"], [popover]',
+	);
 	return Boolean(popupAncestor && container.contains(popupAncestor));
 }
 
