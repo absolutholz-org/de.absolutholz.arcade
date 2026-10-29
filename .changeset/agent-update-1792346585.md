@@ -1,6 +1,5 @@
 ---
 '@arcade/hub': minor
-'@arcade/solo-noble': minor
 '@arcade/sudoku': minor
 '@arcade/lib-i18n': minor
 '@arcade/lib-medals': minor

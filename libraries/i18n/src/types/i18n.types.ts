@@ -6,7 +6,6 @@ import type { MedalsSchema, MedalsTranslationContract } from '../schemas/medals.
 import type { MinesweeperSchema, MinesweeperTranslationContract } from '../schemas/minesweeper.schema.js';
 import type { NonogramSchema, NonogramTranslationContract } from '../schemas/nonogram.schema.js';
 import type { QueensSchema, QueensTranslationContract } from '../schemas/queens.schema.js';
-import type { SoloNobleSchema, SoloNobleTranslationContract } from '../schemas/solonoble.schema.js';
 import type { SudokuSchema, SudokuTranslationContract } from '../schemas/sudoku.schema.js';
 import type { TentsSchema, TentsTranslationContract } from '../schemas/tents.schema.js';
 import type { TracksSchema, TracksTranslationContract } from '../schemas/tracks.schema.js';
@@ -28,7 +27,6 @@ export type QueensTranslationKey = LeafKeys<QueensSchema>;
 export type BridgesTranslationKey = LeafKeys<BridgesSchema>;
 export type TracksTranslationKey = LeafKeys<TracksSchema>;
 export type WaterSortTranslationKey = LeafKeys<WaterSortSchema>;
-export type SoloNobleTranslationKey = LeafKeys<SoloNobleSchema>;
 export type TentsTranslationKey = LeafKeys<TentsSchema>;
 export type AnagramTranslationKey = LeafKeys<AnagramSchema>;
 export type MedalsTranslationKey = LeafKeys<MedalsSchema> | `medals.${LeafKeys<MedalsSchema>}`;
@@ -42,7 +40,6 @@ export type TranslationKey =
 	| BridgesTranslationKey
 	| TracksTranslationKey
 	| WaterSortTranslationKey
-	| SoloNobleTranslationKey
 	| TentsTranslationKey
 	| AnagramTranslationKey
 	| MedalsTranslationKey;
@@ -66,7 +63,6 @@ export type TranslationResources = Record<
 		readonly bridges: BridgesTranslationContract;
 		readonly tracks: TracksTranslationContract;
 		watersort: WaterSortTranslationContract;
-		readonly solonoble: SoloNobleTranslationContract;
 		readonly tents: TentsTranslationContract;
 		readonly anagram: AnagramTranslationContract;
 		readonly medals: MedalsTranslationContract;

@@ -47,10 +47,7 @@
 		"dev:watersort": "pnpm --filter @arcade/watersort dev",
 		"build:watersort": "pnpm --filter @arcade/watersort build",
 		"preview:watersort": "pnpm --filter @arcade/watersort preview",
-		"dev:solonoble": "pnpm --filter @arcade/solonoble dev",
-		"build:solonoble": "pnpm --filter @arcade/solonoble build",
-		"preview:solonoble": "pnpm --filter @arcade/solonoble preview",
-		"build:all": "pnpm build:hub && pnpm build:sudoku && pnpm build:minesweeper && pnpm build:nonogram && pnpm build:queens && pnpm build:bridges && pnpm build:storybook && pnpm build:tracks && pnpm build:tents && pnpm build:anagram && pnpm build:watersort && pnpm build:solonoble",
+		"build:all": "pnpm build:hub && pnpm build:sudoku && pnpm build:minesweeper && pnpm build:nonogram && pnpm build:queens && pnpm build:bridges && pnpm build:storybook && pnpm build:tracks && pnpm build:tents && pnpm build:anagram && pnpm build:watersort",
 		"build": "turbo run build",
 		"clean": "rm -rf apps/*/.astro apps/*/dist libraries/*/dist apps/*/node_modules/.vite node_modules/.vite node_modules/.cache"
 	},

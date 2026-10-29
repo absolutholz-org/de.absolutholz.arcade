@@ -10,8 +10,7 @@ export type GameId =
 	| 'tracks'
 	| 'tents'
 	| 'anagram'
-	| 'watersort'
-	| 'solonoble';
+	| 'watersort';
 
 /**
  * Visual and media assets associated with a game.
