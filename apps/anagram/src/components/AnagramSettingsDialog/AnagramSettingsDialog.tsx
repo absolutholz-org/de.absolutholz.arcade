@@ -18,7 +18,7 @@ export function AnagramSettingsDialog({
 		<Dialog isOpen={isOpen} onCancel={onClose} title={tCommon('settings.title')} showCloseButton={true}>
 			<S.SettingsContent>
 				<S.Section>
-					<h3>{tCommon('settings.appearanceSectionTitle')}</h3>
+					<h3>{tCommon('switchers.toolbarLabel')}</h3>
 
 					<S.SiteControlsRow>
 						<span>{tCommon('settings.schemeSectionTitle')}</span>
