@@ -14,7 +14,7 @@ This profile outlines the operational rules, boundaries, and safety protocols fo
 
 ## Core Responsibilities
 
-1. **Maintain Asynchronous Contracts (ADR 008):** Keep all client storage interfaces asynchronous (`Promise`-based) to ensure clean transitions to cloud databases and sync engines.
+1. **Maintain Asynchronous Contracts & Unified Telemetry (ADR 0008 & ADR 012):** Keep all client storage interfaces asynchronous (`Promise`-based) and maintain `recordGameStats(gameId, roundResult)` persisting normalized per-game statistics under `arcade::[gameId]::stats`.
 2. **Driver Extensibility:** Ensure storage drivers (`LocalStorageDriver`, `SessionStorageDriver`, `MemoryStorageDriver`, and future `IndexedDbDriver` / `FirebaseDriver`) implement the standard `StorageDriver` contract.
 3. **Multi-Tenant Scope Safety:** Ensure `.clear()` and bulk operations only touch the keys belonging to the invoking application scope, never wiping the global origin storage.
 4. **SSR & Environment Robustness:** Ensure all storage code remains safely executable during static build pre-rendering (Node.js/Astro) by providing in-memory fallbacks when browser APIs are absent.

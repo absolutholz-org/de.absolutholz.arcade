@@ -35,3 +35,28 @@ This skill defines the mandatory file layout, import architecture, and package e
 
 - **Self-Explanatory Naming**: Variables, parameters, functions, types, and constants must be inherently self-documenting. Favor clear, descriptive identifiers over cryptic abbreviations.
 - **Concise Logic Comments**: Where complex logic, non-trivial mathematical formulas, or state machines are implemented, provide brief, clear comments that directly explain the rationale and non-obvious mechanisms. Avoid verbose or redundant commentary on self-evident code.
+
+
+## Standard Per-Game Package Blueprint (ADR 0008)
+
+Every game application under `apps/[gameId]` must conform to the ADR 0008 6-route shell and subsystem layout:
+
+```text
+apps/[gameId]/src/
+├── config/
+│   └── settings.ts                 # GameSettingsConfig schema (@arcade/lib-games)
+├── content/
+│   ├── config.ts                   # Astro Content Collection config
+│   └── pages/[lang]/rules.md       # Single Source of Truth rules prose
+├── engine/                         # 100% headless TypeScript engine (types, generator, solver, validator, history, storage)
+├── components/                     # Game playfield, lobby, and controls consuming @arcade/lib-ui
+└── pages/
+    ├── index.astro                 # Root language detection & redirect
+    └── [lang]/
+        ├── index.astro             # 1. Landing / Lobby Page
+        ├── game.astro              # 2. Gameplay Page (injects <MarkdownContent slot="rulesContent">)
+        ├── rules.astro             # 3. Standalone Rules Page (MarkdownPageTemplate)
+        ├── settings.astro          # 4. Standalone Settings Page (<GameSettingsPanel mode="detailed" />)
+        ├── stats.astro             # 5. Standalone Statistics Page (<GameStatsDashboard gameId={gameId} />)
+        └── medals.astro            # 6. Standalone Medals Showcase (<GameMedalGrid gameId={gameId} />)
+```

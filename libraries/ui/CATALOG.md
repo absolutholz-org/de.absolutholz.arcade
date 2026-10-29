@@ -33,6 +33,8 @@ Components providing interactive or informational surfaces.
 | **`QuickPlayCard`** | `@arcade/lib-ui` | High-emphasis card for instant game launching and practice modes. Inherits from `ClickableCard`. | `title`, `subtitle`, `actionLabel`, `as="a" \| "button"`. |
 | **`Banner`** | `@arcade/lib-ui/components/Banner` | Non-clickable informational callout for announcements, alerts, or status hints. | `variant="info" \| "warning" \| "success" \| "danger"`. |
 | **`MedalCard`** | `@arcade/lib-ui` | Achievement card supporting standalone single-tier feats and progressive 3-tier ladders. Consumes `MedalIcon` and `TriadBadge`. | `mode="standalone" \| "progressive"`, `title`, `description`, `tier`, `unlocked`, `bronzeUnlocked`, `silverUnlocked`, `goldUnlocked`. |
+| **`GameMedalGrid`** | `@arcade/lib-ui` | Consolidated ADR 0008 achievement showcase grid rendering all medals for a `gameId` on `/[lang]/medals.astro`. | `gameId: GameId`, `lang: SupportedLanguageCode`. |
+| **`GameStatsDashboard`** | `@arcade/lib-ui` | Standardized ADR 0008 statistics & high scores view rendering `arcade::[gameId]::stats` on `/[lang]/stats.astro`. | `gameId: GameId`, `lang: SupportedLanguageCode`. |
 
 > [!CAUTION]
 > **Anti-Pattern:** Never write `<a className={css\`display: flex; ...\`}>` or `styled.a` to create clickable cards. Always use `<ClickableCard as="a" href="...">`.
@@ -51,6 +53,7 @@ Interactive controls for user commands, choices, and data input.
 | **`SegmentedControl`** | `@arcade/lib-ui` | Pill-shaped radio group for mutually exclusive options (e.g. difficulty, modes). | `items: SegmentedControlItem[]`, `value`, `onChange`, `name`. |
 | **`CollapsibleListbox`** | `@arcade/lib-ui/components/CollapsibleListbox` | Expandable single-select listbox with full keyboard arrow navigation. | `items`, `selectedValue`, `onSelect`. |
 | **`Toolbar`** | `@arcade/lib-ui/components/Toolbar` | Container providing standardized gap, alignment, and wrapping for action groups. | `align="start" \| "center" \| "end"`, `children`. |
+| **`GameSettingsPanel`** | `@arcade/lib-ui` | Dual-mode ADR 0008 settings renderer consuming `GameSettingsConfig` (`src/config/settings.ts`). | `mode="compact" \| "detailed"`, `config: GameSettingsConfig`. |
 
 ---
 
@@ -87,7 +90,8 @@ Structural containers and layout primitives establishing consistent spacing and 
 | **`Divider`** | `@arcade/lib-ui/components/Divider` | Visual rule separating distinct content sections. | `orientation="horizontal" \| "vertical"`. |
 | **`Hero`** | `@arcade/lib-ui/components/Hero` | Top-of-page landmark with display typography, tagline, and optional logo slot. | `title`, `tagline`, `align="left" \| "center"`, `slot="logo"`. |
 | **`GameContainer`** | `@arcade/lib-ui/components/GameContainer` | Responsive aspect-ratio preserving frame for game canvases. | `children`, `aspectRatio`. |
-| **`MarkdownContent`** | `@arcade/lib-ui/components/MarkdownContent` | Standardized typographic container rendering localized Astro Markdown content collections. | `children` (rendered HTML). |
+| **`MarkdownContent`** | `@arcade/lib-ui/components/MarkdownContent` | Standardized typographic container rendering localized Astro Markdown content collections (used in `MarkdownPageTemplate` and `slot="rulesContent"` per ADR 0008). | `children` (rendered HTML). |
+| **`MarkdownPageTemplate`** | `@arcade/lib-ui/templates/MarkdownPageTemplate` | Tier 2 template for standalone Markdown pages (`/[lang]/rules.astro`). | `title`, `description`, `lang`, `breadcrumbItems`, `currentSlug`. |
 
 ---
 

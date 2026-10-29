@@ -1,13 +1,13 @@
 ---
 id: new-game
 name: New Game Integration Workflow
-description: Step-by-step workflow and quality gate for planning, specifying, and implementing a new arcade game adhering to ADR 0005.
+description: Step-by-step workflow and quality gate for planning, specifying, and implementing a new arcade game adhering to ADR 0005 and ADR 0008.
 targets: ["apps/**/*", "libraries/games/**/*", "libraries/medals/**/*", "libraries/i18n/**/*"]
 ---
 
 # New Game Integration Workflow
 
-This skill guides the end-to-end planning, specification, and implementation of new arcade games in the monorepo, enforcing full adherence to [ADR 0005: Standard Arcade Game Integration Contract](docs/adr/0005-standard-game-contract.md).
+This skill guides the end-to-end planning, specification, and implementation of new arcade games in the monorepo, enforcing full adherence to [ADR 0005: Standard Arcade Game Integration Contract](docs/adr/0005-standard-game-contract.md) and [ADR 0008: Standard Game Shell & Per-Game Subsystem Contracts](docs/adr/0008-game-shell-and-subsystem-contract.md).
 
 ## When to Apply
 
@@ -45,11 +45,11 @@ Before generating or modifying code:
 1. **Audit Recent Games & Documentation:** Inspect recently integrated games (e.g. `apps/tracks` and `apps/bridges`) to observe current patterns for layout wrapping, engine isolation, storage creation, and existing documentation (such as `apps/tracks/README.md` and `apps/tracks/.ai/agents/tracks-agent.md`).
 2. **Review Root Script Conventions:** Inspect the root `package.json` to observe script naming patterns (`dev:[gameId]`, `build:[gameId]`, `preview:[gameId]`).
 3. **Review Deployment Pipeline Contract:** Note the deployment assembly pipeline in `.github/workflows/deploy.yml` and routing rules in `deploy/.htaccess` to align the game build output (`apps/[gameId]/dist`) and subpath (`/[gameId]`).
-4. **Review Contract Boundaries:** Verify the target game design against [ADR 0005](docs/adr/0005-standard-game-contract.md) and monorepo constraints:
+4. **Review Contract Boundaries:** Verify the target game design against [ADR 0005](docs/adr/0005-standard-game-contract.md), [ADR 0008](docs/adr/0008-game-shell-and-subsystem-contract.md), and monorepo constraints:
     - Zero hardcoded strings ([ADR 007](docs/adr/architecture-decision-records.md)).
     - Pure static build compatibility ([ADR 002](docs/adr/architecture-decision-records.md)).
     - Strict local storage namespacing ([ADR 012](docs/adr/architecture-decision-records.md)).
-5. **Audit Component Inventory:** Inspect [libraries/ui/CATALOG.md](libraries/ui/CATALOG.md) to identify all required design system components (`ClickableCard`, `GameSelectionCard`, `SegmentedControl`, `Button`, `Dialog`, `PauseOverlay`, `VictoryDialog`, `MedalCard`).
+5. **Audit Component Inventory:** Inspect [libraries/ui/CATALOG.md](libraries/ui/CATALOG.md) to identify all required design system components (`ClickableCard`, `GameSelectionCard`, `SegmentedControl`, `Button`, `Dialog`, `PauseOverlay`, `VictoryDialog`, `MedalCard`, `GameHeader`, `GameSettingsPanel`, `GameStatsDashboard`, `GameMedalGrid`, `MarkdownContent`, `MarkdownPageTemplate`, `GameLayout`).
 
 ---
 
@@ -75,10 +75,11 @@ Before generating or modifying code:
     - Complete roster of medals (standalone and progressive 3-tier ladders).
     - Milestone targets, unlock criteria, and tier thresholds (`bronze`, `silver`, `gold`).
     - Metric keys tracked in `roundContext` and `customStats`.
-5. **State Persistence & UI Component Mapping:**
-    - Active game session snapshot structure.
-    - Level progress map structure (best times, completion flags, star ratings).
-    - Catalog of specific `@arcade/lib-ui` components targeted for reuse in HUD, board, and overlays.
+5. **Settings, Statistics & UI Component Mapping (ADR 0008):**
+    - Declarative settings schema (`src/config/settings.ts` implementing `GameSettingsConfig` from `@arcade/lib-games`) distinguishing `availableInGame` compact toggles from standalone `/settings` fields.
+    - Statistics & telemetry schema (`arcade::[gameId]::stats` persisted via `recordGameStats(gameId, roundResult)` from `@arcade/lib-storage`).
+    - Active game session snapshot structure and level progress map structure.
+    - Catalog of specific `@arcade/lib-ui` components targeted for reuse (`GameLayout`, `GameHeader`, `GameSettingsPanel`, `GameStatsDashboard`, `GameMedalGrid`, `MarkdownContent`, `Dialog`, `PauseOverlay`, `VictoryDialog`).
 
 ---
 
@@ -92,7 +93,8 @@ Implement the core game engine under `apps/[gameId]/src/engine/` before touching
     - `generator.ts`: Procedural generation or deterministic layout generators.
     - `solver.ts`: Solver algorithms verifying solution existence and uniqueness.
     - `history.ts`: Pure undo/redo move history stack.
-    - `storage.ts`: Scoped persistence adapter consuming `createGameStorage(gameId)` from `@arcade/lib-storage`, exposing `loadProgress`, `recordRoundResult`/`recordPuzzleCompletion`, `loadActiveGame`, `saveActiveGame`, and `clearActiveGame`.
+    - `storage.ts`: Scoped persistence adapter consuming `createGameStorage(gameId)` and `recordGameStats(gameId, roundResult)` from `@arcade/lib-storage`, exposing `loadProgress`, `recordRoundResult`/`recordPuzzleCompletion`, `loadActiveGame`, `saveActiveGame`, `clearActiveGame`, `loadSettings`, and `saveSettings`.
+    - `../config/settings.ts`: Declarative `GameSettingsConfig` schema from `@arcade/lib-games`.
 2. **Comprehensive Unit Testing:**
     - Create unit tests for validation, generation, move application, and undo/redo (`validator.test.ts`, `generator.test.ts`, `history.test.ts`).
     - Run Vitest to guarantee 100% test passing before proceeding to the UI.
@@ -128,11 +130,14 @@ Register the game in the prerequisite shared monorepo packages:
 
 Construct the application shell and React canvas in `apps/[gameId]/`:
 
-1. **Astro Route Shells:**
-    - `src/pages/[lang]/index.astro`: Pre-rendered lobby mounting `[Game]Lobby` with `client:load`.
-    - `src/pages/[lang]/game.astro`: Game view mounting `[Game]Game` with `client:only="react"`.
-    - `src/pages/[lang]/rules.astro`: Static rules page using `GameRulesLayout.astro` from `@arcade/lib-ui`.
-    - `src/pages/[lang]/medals.astro`: Static achievement showcase rendering catalog medals with `MedalCard`.
+1. **6 Canonical Astro Routes & Dual-Mode Subsystems (ADR 0008):**
+    - `src/pages/index.astro`: Root language detection and redirect to `/[gameId]/[lang]/`.
+    - `src/pages/[lang]/index.astro`: Landing / Lobby page mounting `[Game]Lobby` with `client:load` inside `BaseLayoutWithSiteHeaderAndSiteFooter`.
+    - `src/pages/[lang]/game.astro`: Gameplay page wrapped in `GameLayout`, mounting `[Game]Game` with `client:only="react"`. Must pre-render `src/content/pages/[lang]/rules.md` server-side and inject it into the React root via `<MarkdownContent slot="rulesContent">` for the in-game Rules `<Dialog>` (triggered via `GameHeader`).
+    - `src/pages/[lang]/rules.astro`: Standalone how-to-play page authoring prose in `src/content/pages/[lang]/rules.md` and rendering via `MarkdownPageTemplate`.
+    - `src/pages/[lang]/settings.astro`: Standalone explanatory settings page rendering `<GameSettingsPanel mode="detailed" />` from `@arcade/lib-ui` (while the in-game settings `<Dialog>` renders `<GameSettingsPanel mode="compact" />`).
+    - `src/pages/[lang]/stats.astro`: Standalone historical statistics & high scores page rendering `<GameStatsDashboard gameId={gameId} />` from `@arcade/lib-ui`.
+    - `src/pages/[lang]/medals.astro`: Standalone medals showcase rendering `<GameMedalGrid gameId={gameId} lang={lang} />` directly from `@arcade/lib-ui` (never create duplicate `[Game]MedalGrid` components or custom threshold logic).
 2. **Layout Chrome & User Identity:**
     - Wrap views in `PageLayout.astro` or `BaseLayout.astro`.
     - Mount `HeaderUserMenu client:load` in the header actions slot to expose user identity and cloud sync status.
@@ -144,9 +149,10 @@ Construct the application shell and React canvas in `apps/[gameId]/`:
       - In `[Game]Lobby.tsx`: Query `loadActiveGame()` on mount. If an uncompleted active game snapshot exists, populate the `resumeState` prop of `GameLandingTemplate` with localized round metadata and an `onResume` callback navigating to `/game?resume=true`.
       - When starting a fresh game from lobby cards, append `&new=true` to query parameters to prevent restoring previous stale snapshots.
     - Game overlays: Implement `PauseOverlay` and `VictoryDialog` from `@arcade/lib-ui`.
-4. **Result Recording & Medal Toasts:**
-    - Call `recordGameResult({ gameId, won, playTimeSeconds, levelKey, sizeKey, roundContext })` upon round victory or defeat.
-    - Ensure `BaseLayout` is present so `MedalToastListener` catches the `medalUnlocked` event and displays achievement notifications.
+4. **Result Recording, Telemetry & Medal Toasts (ADR 0008):**
+    - Call `recordGameStats(gameId, roundResult)` from `@arcade/lib-storage` to persist normalized bucket and lifetime telemetry under `arcade::[gameId]::stats`.
+    - Call `recordGameResult({ gameId, won, playTimeSeconds, levelKey, sizeKey, roundContext })` from `@arcade/lib-medals` upon round victory or defeat.
+    - Ensure `BaseLayout` / `GameLayout` is present so `MedalToastListener` catches the `medalUnlocked` event and displays achievement notifications.
 5. **App Documentation & Local Agent Profile:**
     - Author `apps/[gameId]/README.md` covering game overview, rules summary, difficulty matrix, engine architecture, and development commands.
     - Author `apps/[gameId]/.ai/agents/[gameId]-agent.md` providing the local agent cheatsheet and execution boundaries matching existing agent profiles (like `tracks-agent.md`), and register it in root `AGENTS.md`.
@@ -198,3 +204,6 @@ Construct the application shell and React canvas in `apps/[gameId]/`:
 - ❌ **Framework Leaks in Engine:** Never import React, hooks, or DOM types in `src/engine/`.
 - ❌ **SSR Evaluation of Canvas:** Never use `client:load` for canvas components; always enforce `client:only="react"`.
 - ❌ **Hardcoded UI Copy:** Never write literal English strings in `.tsx` or `.astro` templates; always use `@arcade/lib-i18n`.
+- ❌ **Incomplete Route Shell (ADR 0008):** Never omit `/[lang]/settings.astro` or `/[lang]/stats.astro`; all 6 localized routes plus `src/pages/index.astro` are mandatory.
+- ❌ **Client-Side Markdown Parsers:** Never bundle client-side Markdown parsers for in-game rules; always pre-render `rules.md` in `game.astro` and inject via `<MarkdownContent slot="rulesContent">`.
+- ❌ **Bespoke Medal Grids:** Never create custom `[Game]MedalGrid` components or inline threshold branches in `medals.astro`; always render `<GameMedalGrid gameId={gameId} />`.

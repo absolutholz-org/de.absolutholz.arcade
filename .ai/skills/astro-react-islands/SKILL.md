@@ -48,3 +48,11 @@ import { SudokuGame } from '@arcade/sudoku';
 
 - **Self-Explanatory Identifiers**: Interactive game mechanics, state machines, props, and hooks in `.tsx` files must use descriptive, self-explanatory variable and function names.
 - **Concise Logic Commentary**: Accompany complex game logic (such as game loop ticks, board validation algorithms, coordinate transforms, or canvas rendering routines) with brief, focused comments that directly explain the non-obvious rationale. Avoid verbose or redundant commentary on self-evident code.
+
+
+## Dual-Mode Rules Delivery via Astro Named Slots (ADR 0008)
+
+Never bundle a client-side Markdown parser inside a `client:only="react"` game island to display in-game rules. Instead:
+1. Author rules prose once in `src/content/pages/[lang]/rules.md`.
+2. Render standalone `src/pages/[lang]/rules.astro` via `MarkdownPageTemplate`.
+3. In `src/pages/[lang]/game.astro`, pre-render `const { Content } = await rulesEntry.render()` server-side at build time and pass it into the React game island via `<MarkdownContent slot="rulesContent"><Content /></MarkdownContent>`, where `GameHeader` opens an in-game `<Dialog>` displaying the projected `rulesContent` prop.

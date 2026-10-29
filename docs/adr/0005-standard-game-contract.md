@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted
+Accepted (Extended by [ADR 0008: Standard Game Shell & Per-Game Subsystem Contracts](./0008-game-shell-and-subsystem-contract.md))
 
 ## Context
 
@@ -25,11 +25,13 @@ Every game application added under `apps/*` must strictly adhere to the followin
 
 - **Canonical Identification:** Every game must declare its canonical ID (`GameId` in `libraries/games/src/types.ts`) and register its metadata in `GAME_REGISTRY` in `libraries/games/src/registry.ts` (defining `id`, fallback `name`, root `route: '/${id}'`, emoji icon in `assets.icon`, and `i18nNamespace`).
 - **Pre-rendered Hub Integration:** The central lobby (`apps/hub/src/pages/[lang]/index.astro`) automatically iterates over `ALL_GAMES` from `@arcade/lib-games` to generate pre-rendered static cards linking to `${game.route}/${lang}/`.
-- **Static Multilingual Pages:** Dedicated game applications must generate static routes for all `SUPPORTED_LANGUAGES`:
+- **Static Multilingual Pages (ADR 0008 6-Route Shell):** Dedicated game applications must generate the root language redirect (`src/pages/index.astro`) and 6 canonical static routes for all `SUPPORTED_LANGUAGES`:
   - `/[lang]/index.astro`: Pre-rendered game lobby featuring difficulty/puzzle selection.
-  - `/[lang]/game.astro`: Interactive game canvas mounting the React island.
-  - `/[lang]/rules.astro`: Pre-rendered instructions page utilizing `GameRulesLayout`.
-  - `/[lang]/medals.astro`: Pre-rendered achievement showcase page utilizing `MedalCard`.
+  - `/[lang]/game.astro`: Interactive game canvas mounting the React island, pre-rendering rules Markdown server-side into `<MarkdownContent slot="rulesContent">` for the in-game Rules `<Dialog>` triggered via `GameHeader`.
+  - `/[lang]/rules.astro`: Standalone instructions page rendering `src/content/pages/[lang]/rules.md` via `MarkdownPageTemplate`.
+  - `/[lang]/settings.astro`: Standalone explanatory settings page rendering `<GameSettingsPanel mode="detailed" />` backed by `src/config/settings.ts` (`GameSettingsConfig` from `@arcade/lib-games`); in-game settings modal uses `<GameSettingsPanel mode="compact" />`.
+  - `/[lang]/stats.astro`: Standalone historical statistics & high scores page rendering `<GameStatsDashboard gameId={gameId} />` backed by `arcade::[gameId]::stats` (`recordGameStats(gameId, roundResult)` from `@arcade/lib-storage`).
+  - `/[lang]/medals.astro`: Standalone achievement showcase page rendering `<GameMedalGrid gameId={gameId} />` directly (no bespoke per-game medal grid components or custom inline threshold logic).
 - **Localization Strategy (ADR 007):** Hardcoded UI strings are strictly forbidden. All labels, rules prose, difficulty tags, and achievement microcopy must route through `@arcade/lib-i18n` under the game's namespace.
 
 ### 2. Mandatory Shared UI Library & UX Pattern Reuse

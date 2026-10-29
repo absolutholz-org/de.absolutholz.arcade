@@ -37,3 +37,10 @@ This profile outlines the operational rules, boundaries, and quality protocols f
    - Lobby (`index.astro`): Must use `NonogramPageLayout.astro` (never render breadcrumbs).
    - Game Canvas (`game.astro`): Must use `NonogramBaseLayout.astro` (never render breadcrumbs).
    - Static Subpages (`rules.astro`): Must use `NonogramStaticPageLayout.astro` to ensure automatic, standardized breadcrumb navigation (`Arcade > Nonogram > Page`).
+
+## Standard 6-Route Shell & Subsystem Contracts (ADR 0008)
+
+- **6 Canonical Localized Routes (`src/pages/[lang]/`):** Must maintain `index.astro` (Lobby), `game.astro` (Gameplay), `rules.astro` (Rules via `MarkdownPageTemplate`), `settings.astro` (`<GameSettingsPanel mode="detailed" />`), `stats.astro` (`<GameStatsDashboard gameId={gameId} />`), and `medals.astro` (`<GameMedalGrid gameId={gameId} />`), plus root `src/pages/index.astro`.
+- **Dual-Mode Rules (`slot="rulesContent"`):** Author rules strictly in `src/content/pages/[lang]/rules.md`. Pre-render in `game.astro` and inject via `<MarkdownContent slot="rulesContent">` for the in-game Rules `<Dialog>` triggered from `GameHeader`.
+- **Declarative Settings (`src/config/settings.ts`):** Define game options via `GameSettingsConfig` (`@arcade/lib-games`) and render with `<GameSettingsPanel mode="compact" | "detailed" />`.
+- **Unified Telemetry (`arcade::[gameId]::stats`):** Persist match results via `recordGameStats(gameId, roundResult)` (`@arcade/lib-storage`) alongside `recordGameResult` (`@arcade/lib-medals`).

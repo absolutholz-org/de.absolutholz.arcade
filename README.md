@@ -28,7 +28,7 @@ This project is structured as a strict multi-app monorepo utilizing `pnpm worksp
 
 If you are an AI agent or LLM assisting in this repository, **you must read and adhere to the following files before generating any code or commands:**
 
-1.  **`docs/adr/architecture-decision-records.md`**: The absolute source of truth for architectural constraints (No SSR, No Tailwind, No Module Federation).
+1.  **`docs/adr/architecture-decision-records.md` & `docs/adr/0008-game-shell-and-subsystem-contract.md`**: The absolute source of truth for architectural constraints (No SSR, No Tailwind, No Module Federation, and the Standard 6-Route Game Shell & Subsystem Contracts).
 2.  **`.ai/rules.md`**: Global development rules regarding code deduplication, DRY principles, and self-documenting code standards.
 3.  **`AGENTS.md`**: The routing registry to find specific skill files based on your current task.
 

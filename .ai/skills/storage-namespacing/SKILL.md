@@ -51,6 +51,8 @@ arcade::[app-name]::[key]
 - **Feature Key**: The specific camelCase state key (e.g., `highScore`, `activeSession`, `volumeLevel`).
 
 ### Examples:
+- **Valid**: `arcade::sudoku::stats` (ADR 0008 unified statistics contract via `recordGameStats(gameId, roundResult)`)
+- **Valid**: `arcade::sudoku::settings` (ADR 0008 settings contract)
 - **Valid**: `arcade::sudoku::highScore`
 - **Valid**: `arcade::minesweeper::bestTime`
 - **Valid**: `arcade::hub::themePreference`

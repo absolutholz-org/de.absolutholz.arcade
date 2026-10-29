@@ -50,6 +50,9 @@ const sudokuStorage = createGameStorage('sudoku');
 // Always await storage operations
 await sudokuStorage.set('activeGame', gameState);
 const savedState = await sudokuStorage.get<GameState>('activeGame');
+
+// Record unified game statistics under arcade::[gameId]::stats per ADR 0008
+await recordGameStats('sudoku', roundResult);
 ```
 
 ## 4. Testing & Verification

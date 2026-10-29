@@ -23,7 +23,7 @@ This document serves as the central routing system for AI agents in this monorep
 | Intent / Domain                                            | Target Agent Profile / Skill                                                   | Description                                                                                          |
 | :---                                                       | :---                                                                           | :---                                                                                                 |
 | Scoped workflows / Quota-sensitive execution               | [Scoped Task Runner](/.ai/skills/scoped-task-runner/SKILL.md)                  | Enforces 8-call execution limits, forbids FS archeology, and stops iterative scratch loops.          |
-| New game integration / Game planning                      | [New Game Skill](/.ai/skills/new-game/SKILL.md)                                | Standardized 6-phase workflow for specifying and integrating new arcade games per ADR 0005.          |
+| New game integration / Game planning                      | [New Game Skill](/.ai/skills/new-game/SKILL.md)                                | Standardized 6-phase workflow for specifying and integrating new arcade games per ADR 0005 & ADR 0008. |
 
 ## General Rules
 

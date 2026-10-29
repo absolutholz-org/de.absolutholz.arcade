@@ -1,19 +1,22 @@
-# Arcade Game Layout & Routing Architecture
+# Arcade Game Layout & Routing Architecture (ADR 0006 & ADR 0008)
 
-This rule defines the mandatory layout hierarchy, routing patterns, and container standards for all game applications within the Arcade monorepo.
+This rule defines the mandatory 6-route layout hierarchy, dual-mode overlay patterns, and subsystem container standards for all game applications within the Arcade monorepo per [ADR 0006](../../docs/adr/0006-explicit-layout-and-template-hierarchy.md) and [ADR 0008](../../docs/adr/0008-game-shell-and-subsystem-contract.md).
 
 ---
 
-## 1. Mandatory Game Page Routing Hierarchy
+## 1. Mandatory 6-Route Game Page Hierarchy (ADR 0008)
 
-Every game package (`apps/<game>/src/pages/[lang]/`) must implement the following three canonical routes:
+Every game package (`apps/[gameId]/src/pages/`) must implement the root language redirect (`src/pages/index.astro`) and the following **6 canonical localized routes** under `src/pages/[lang]/`:
 
-| Route Path | File Entry | Responsibility | Outer Layout | Primary Client Component |
+| Route Path | File Entry | Responsibility | Outer Layout / Template | Primary Component / Subsystem Contract |
 | :--- | :--- | :--- | :--- | :--- |
-| `/[lang]/` | `index.astro` | Game Lobby & Level/Difficulty Selection | `<BaseLayoutWithSiteHeaderAndSiteFooter>` | `<[Game]Lobby client:load lang={lang} />` |
-| `/[lang]/game.astro` | `game.astro` | Active Gameplay View | `<[Game]BaseLayout>` | `<[Game]Game client:only="react" lang={lang} />` |
-| `/[lang]/rules.astro` | `rules.astro` | Markdown Game Rules & Documentation | `<BaseLayoutWithSiteHeaderAndSiteFooter>` | `<PageContainer variant="slim">` + Static Astro Markdown (`<MarkdownContent>`) |
-| `/[lang]/medals.astro` | `medals.astro` | Medals & Achievements Showcase | `<BaseLayoutWithSiteHeaderAndSiteFooter>` | `<PageContainer variant="wide">` + `<[Game]MedalGrid client:load />` |
+| `/` | `src/pages/index.astro` | Root language detection & redirect | Redirect script / meta | Redirects to `/[gameId]/[lang]/` |
+| `/[lang]/` | `src/pages/[lang]/index.astro` | 1. Landing / Lobby Page | `<BaseLayoutWithSiteHeaderAndSiteFooter>` | `<[Game]Lobby client:load lang={lang} />` (`GameLandingTemplate`) |
+| `/[lang]/game` | `src/pages/[lang]/game.astro` | 2. Gameplay Playfield & In-Game Overlays | `<GameLayout>` | `<[Game]Game client:only="react">` with server-rendered `<MarkdownContent slot="rulesContent">` |
+| `/[lang]/rules` | `src/pages/[lang]/rules.astro` | 3. Standalone Rules & How-To-Play | `<MarkdownPageTemplate>` | Renders `src/content/pages/[lang]/rules.md` via `<MarkdownContent>` |
+| `/[lang]/settings` | `src/pages/[lang]/settings.astro` | 4. Standalone Explanatory Settings | `<BaseLayoutWithSiteHeaderAndSiteFooter>` | `<PageContainer variant="slim">` + `<GameSettingsPanel mode="detailed" />` (`src/config/settings.ts`) |
+| `/[lang]/stats` | `src/pages/[lang]/stats.astro` | 5. Standalone Statistics & High Scores | `<BaseLayoutWithSiteHeaderAndSiteFooter>` | `<PageContainer variant="standard">` + `<GameStatsDashboard gameId={gameId} />` (`arcade::[gameId]::stats`) |
+| `/[lang]/medals` | `src/pages/[lang]/medals.astro` | 6. Standalone Medals Showcase | `<BaseLayoutWithSiteHeaderAndSiteFooter>` | `<PageContainer variant="wide">` + `<GameMedalGrid gameId={gameId} lang={lang} />` |
 
 ### Static Path Generation
 All localized Astro routes must export `getStaticPaths()` using `SUPPORTED_LANGUAGES`:
@@ -31,135 +34,43 @@ export function getStaticPaths() {
 
 ---
 
-## 2. Standard Layout Architecture (ADR 0006)
+## 2. Standard Layout Architecture (ADR 0006 & ADR 0008)
 
 Game layouts follow the 3-Tier Layout and Template Hierarchy:
 
 ```text
 Tier 1: Document Layouts (@arcade/lib-ui/layouts/)
-  ├── BaseLayout
-  │     └── Used by: [Game]BaseLayout.astro ─────► /[lang]/game.astro (Active Play)
-  │                                                   └── <GameContainer>
+  ├── GameLayout (built on BaseLayout)
+  │     └── Used by: /[lang]/game.astro (Active Playfield + In-Game Overlays)
   ├── BaseLayoutWithSiteFooter
   │     └── Used by: apps/hub ───────────────────► /[lang]/index.astro (Hub Home)
-  │                                                   └── <PageContainer>
   └── BaseLayoutWithSiteHeaderAndSiteFooter
-        ├── Used by: Game Lobbies ───────────────► /[lang]/index.astro (Lobby)
-        ├── Used by: Rules Pages ────────────────► /[lang]/rules.astro
-        │                                             └── <PageContainer variant="slim">
-        └── Used by: Medals & Showcase Pages ────► /[lang]/medals.astro
-                                                      └── <PageContainer variant="wide">
-```
-
-### 1. `BaseLayout` (`@arcade/lib-ui/layouts/BaseLayout`)
-- Bare HTML scaffold (`<html>`, `<head>`, `<body>`, skip-links, global styles) without site header or footer.
-- **Usage**: Used by `[Game]BaseLayout.astro` for `game.astro` to provide an unencumbered full-viewport canvas.
-
-### 2. `BaseLayoutWithSiteFooter` (`@arcade/lib-ui/layouts/BaseLayoutWithSiteFooter`)
-- Document scaffold with persistent `<SiteFooter>` and an unconstrained `<main id="main-content">` slot.
-- **Usage**: Used by Arcade Hub homepage (`apps/hub/src/pages/[lang]/index.astro`).
-
-### 3. `BaseLayoutWithSiteHeaderAndSiteFooter` (`@arcade/lib-ui/layouts/BaseLayoutWithSiteHeaderAndSiteFooter`)
-- Standard public web shell with persistent `<SiteHeader>`, unconstrained `<main id="main-content">`, and `<SiteFooter>`.
-- Supports `appTitle` and `appHomeHref` to configure brand title and home navigation per game.
-- **Usage**: Used directly across game lobbies (`index.astro`), rules (`rules.astro`), and medals showcase (`medals.astro`).
-
----
-
-## 3. Component Mounting & Container Standards
-
-### A. Active Gameplay: `<GameContainer>`
-Active gameplay pages (`game.astro`) mount React clients via `client:only="react"`. The root React component must mount directly inside `<GameContainer>` from `@arcade/lib-ui`:
-
-```tsx
-<GameContainer
-  id="main-content"
-  header={
-    <[Game]GameHeader
-      elapsedSeconds={...}
-      isPaused={...}
-      onTogglePause={...}
-      onOpenSettings={...}
-    />
-  }
-  overlay={
-    <PauseOverlay
-      isOpen={isPaused && !isComplete}
-      onResume={...}
-      onRestart={...}
-    />
-  }
-  dialogs={
-    <>
-      <SettingsDialog isOpen={isSettingsOpen} onClose={...} />
-      <VictoryDialog isOpen={isVictoryOpen} onClose={...} />
-    </>
-  }
->
-  <PlayColumn>
-    <[Game]Board ... />
-    <[Game]Controls ... />
-  </PlayColumn>
-</GameContainer>
-```
-
-- **Header Zone**: Dedicated slot for in-game persistent header (back link to lobby, timer, difficulty, pause, settings).
-- **Overlay Layer**: Dedicated slot for modal overlays covering the active board (e.g. `PauseOverlay`).
-- **Dialogs Layer**: Dedicated slot for non-modal or secondary dialogs (`SettingsDialog`, `VictoryDialog`).
-- **Children**: The interactive board and control inputs.
-
-### B. Game Lobby: `<GameLandingTemplate>`
-Game lobbies (`index.astro`) mount React clients via `client:load`. The lobby UI must utilize `<GameLandingTemplate>` from `@arcade/lib-ui`:
-
-- **Zone 1 (Header/Intro)**: `<Hero>` with game title, description, and an optional resume `<Banner>`.
-- **Zone 2 (Main Area)**: Difficulty tabs, level selection grids, and progress indicators.
-- **Zone 3 (Footer Links)**: Navigation links to rules (`/${game}/${lang}/rules`) and related game resources.
-
-### C. Game Rules: Astro Content Collection
-Rules pages (`rules.astro`) fetch markdown content from Astro content collections (`src/content/pages/[lang]/rules.md`) and render it via `<MarkdownContent>`:
-
-```astro
-<BaseLayoutWithSiteHeaderAndSiteFooter
-  title={entry.data.title}
-  lang={lang}
-  appTitle={gameTitle}
-  appHomeHref={`/${game}/${lang}/`}
-  currentSlug="rules"
->
-  <PageContainer variant="slim">
-    <Stack align="center" spacing="3xl">
-      <MarkdownContent>
-        <Content />
-      </MarkdownContent>
-      <Button as="a" href={`/${game}/${lang}/`} variant="primary" size="md">
-        {playLabel}
-      </Button>
-    </Stack>
-  </PageContainer>
-</BaseLayoutWithSiteHeaderAndSiteFooter>
+        ├── Used by: Game Lobbies ───────────────► /[lang]/index.astro (GameLandingTemplate)
+        ├── Used by: Rules Pages ────────────────► /[lang]/rules.astro (via MarkdownPageTemplate)
+        ├── Used by: Settings Pages ─────────────► /[lang]/settings.astro (<PageContainer variant="slim">)
+        ├── Used by: Statistics Pages ───────────► /[lang]/stats.astro (<PageContainer variant="standard">)
+        └── Used by: Medals Showcase Pages ──────► /[lang]/medals.astro (<PageContainer variant="wide">)
 ```
 
 ---
 
-## 4. Header Actions & Breadcrumb Wiring Rules
+## 3. Subsystem Integration Contracts (ADR 0008)
 
-1. **Global Site Header (Lobby & Rules)**:
-   - Brand link always points to the monorepo root Arcade Hub (`/${lang}/`).
-   - Action controls must always include `<HeaderActions>` (theme toggle + language switcher) and `<HeaderUserMenu client:load>` for user auth.
-2. **Breadcrumb Wiring**:
-   - In `StaticPageLayout`, breadcrumbs are resolved automatically via the `basePath` prop:
-     `[Arcade Home] / [Game Title] / [Rules (current)]`.
-   - Individual games must NEVER manually render or duplicate breadcrumb markup.
-3. **In-Game Header (Active Gameplay)**:
-   - Must contain a prominent home/back link pointing to the game lobby (`/${game}/${lang}/`).
-   - Must feature a `<Timer>` component displaying elapsed time with pause support.
-   - In-game language or theme switches must be routed through the in-game `<SettingsDialog>` rather than cluttering the active game board.
+### A. Rules Dual-Mode Delivery (Zero Client-Side Markdown Parser)
+- **Single Source of Truth:** Rules prose must be authored strictly in `src/content/pages/[lang]/rules.md`.
+- **Standalone Page (`/[lang]/rules.astro`):** Renders via `MarkdownPageTemplate`.
+- **In-Game Modal (`/[lang]/game.astro`):** Pre-renders `<Content />` server-side at build time and injects it into the client React game root via `<MarkdownContent slot="rulesContent">`. In-game rules are triggered from `GameHeader` and displayed inside an accessible `<Dialog>` while pausing gameplay timers.
 
----
+### B. Settings Contract (`src/config/settings.ts`)
+- Declare game-specific options via `GameSettingsConfig` from `@arcade/lib-games` in `src/config/settings.ts`.
+- Surface controls via the shared `<GameSettingsPanel />` component from `@arcade/lib-ui`:
+  - `mode="compact"` inside the in-game Settings `<Dialog>` (triggered from `GameHeader`).
+  - `mode="detailed"` on the standalone `/[lang]/settings.astro` route.
 
-## 5. Zero Duplication & Anti-Patterns
+### C. Statistics Contract (`arcade::[gameId]::stats`)
+- Persist round telemetry via `@arcade/lib-storage` using `recordGameStats(gameId, roundResult)`.
+- Surface historical metrics, streaks, win rates, and personal bests via `<GameStatsDashboard gameId={gameId} />` from `@arcade/lib-ui` on `/[lang]/stats.astro`.
 
-- **No Custom HTML Shells**: Game packages must not implement custom `<html>`, `<head>`, or `<body>` wrappers. All layout shells must wrap `@arcade/lib-ui/layouts/*`.
-- **No Custom Site Headers/Footers**: Games must not write custom site header, footer, or breadcrumb components.
-- **No Local Shell CSS**: Local layout files (`apps/<game>/src/layouts/*.astro`) must remain thin pass-through adapters under 40 lines of code, passing only `basePath`, `appTitle`, and localized strings.
-- **No Inline Page Layout in Game Views**: Active game canvases must strictly use `BaseLayout` + `<GameContainer>`. Wrapping an active game in `PageLayout` is an anti-pattern as the outer header and footer compress the gameplay viewport.
+### D. Consolidated Medals Showcase (`/[lang]/medals.astro`)
+- `/[lang]/medals.astro` must **never** maintain bespoke per-game `[Game]MedalGrid` components or inline custom threshold branching.
+- Render `<GameMedalGrid gameId={gameId} lang={lang} />` directly from `@arcade/lib-ui`.
