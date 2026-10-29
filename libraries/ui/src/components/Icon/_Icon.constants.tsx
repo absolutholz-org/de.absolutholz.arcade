@@ -402,4 +402,74 @@ export const ICON_CATALOG: Record<string, () => JSX.Element> = {
 			<path d="M3 3v5h5" />
 		</svg>
 	),
+	shuffle: () => (
+		<svg
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			strokeWidth={2}
+			strokeLinecap="round"
+			strokeLinejoin="round"
+			focusable="false"
+			aria-hidden="true"
+		>
+			<polyline points="16 3 21 3 21 8" stroke="var(--icon-accent, currentColor)" />
+			<line x1="4" y1="20" x2="21" y2="3" />
+			<polyline points="21 16 21 21 16 21" stroke="var(--icon-accent, currentColor)" />
+			<line x1="15" y1="15" x2="21" y2="21" />
+			<line x1="4" y1="4" x2="9" y2="9" />
+		</svg>
+	),
+	eye: () => (
+		<svg
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			strokeWidth={2}
+			strokeLinecap="round"
+			strokeLinejoin="round"
+			focusable="false"
+			aria-hidden="true"
+		>
+			<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+			<circle cx="12" cy="12" r="3" stroke="var(--icon-accent, currentColor)" />
+		</svg>
+	),
+	sparkles: () => (
+		<svg
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			strokeWidth={2}
+			strokeLinecap="round"
+			strokeLinejoin="round"
+			focusable="false"
+			aria-hidden="true"
+		>
+			<path
+				d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"
+				stroke="var(--icon-accent, currentColor)"
+			/>
+			<path d="M5 3v4" />
+			<path d="M19 17v4" />
+			<path d="M3 5h4" />
+			<path d="M17 19h4" />
+		</svg>
+	),
+	lightbulb: () => (
+		<svg
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			strokeWidth={2}
+			strokeLinecap="round"
+			strokeLinejoin="round"
+			focusable="false"
+			aria-hidden="true"
+		>
+			<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-1 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" />
+			<path d="M9 18h6" />
+			<path d="M10 22h4" stroke="var(--icon-accent, currentColor)" />
+		</svg>
+	),
 } as const;

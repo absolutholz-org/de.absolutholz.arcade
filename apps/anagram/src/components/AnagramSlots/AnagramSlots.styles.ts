@@ -5,13 +5,13 @@ export const SlotsCard = styled.section`
 	width: 100%;
 	max-width: 38rem;
 	margin: 0 auto;
-	padding: 1rem 1.25rem;
+	padding: 0.75rem 1rem;
 	border-radius: var(--radius-md);
 	background-color: ${themeColor('surface')};
 	border: 1px solid ${themeColor('container-2')};
 	display: flex;
 	flex-direction: column;
-	gap: 1rem;
+	gap: 0.75rem;
 `;
 
 export const LengthGroup = styled.div`

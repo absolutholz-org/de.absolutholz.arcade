@@ -6,7 +6,7 @@ export const boardArea = css`
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	gap: 1.25rem;
+	gap: 0.75rem;
 	min-height: 0;
 	min-width: 0;
 	width: 100%;

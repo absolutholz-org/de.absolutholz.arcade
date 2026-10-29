@@ -5,7 +5,7 @@ export const PlayArea = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 0.75rem;
+	gap: 0.375rem;
 	width: 100%;
 	max-width: 38rem;
 	margin: 0 auto;
@@ -18,9 +18,9 @@ export const StagedTray = styled.fieldset`
 	justify-content: center;
 	gap: 0.5rem;
 	width: 100%;
-	min-height: 4.25rem;
+	min-height: 3.75rem;
 	margin: 0;
-	padding: 0.5rem 0.75rem;
+	padding: 0.375rem 0.625rem;
 	border-radius: var(--radius-md);
 	border: 1px solid ${themeColor('container-2')};
 	background-color: ${themeColor('container-1')};
@@ -34,8 +34,9 @@ export const StagedTray = styled.fieldset`
 
 export const FeedbackBanner = styled.output`
 	display: block;
-	min-height: 1.375rem;
-	font-size: 0.875rem;
+	min-height: 1.25rem;
+	font-size: 0.8125rem;
+	line-height: 1.25rem;
 	font-weight: 600;
 	text-align: center;
 	color: ${themeColor('text-2')};
@@ -52,7 +53,7 @@ export const RackRow = styled.fieldset`
 	justify-content: center;
 	gap: 0.5rem;
 	width: 100%;
-	min-height: 3.75rem;
+	min-height: 3.25rem;
 	margin: 0;
 	padding: 0;
 	border: 0;
