@@ -1,5 +1,6 @@
 import { recordGameResult } from '@arcade/lib-medals';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { MINESWEEPER_MEDAL_DEFINITIONS } from '../../config/medals';
 import {
 	BOARD_SIZES,
 	type BoardSizeId,
@@ -104,28 +105,31 @@ export function useMinesweeperGame(initialSize: BoardSizeId = 'md', initialDiffi
 		const safeTilesCleared = cellsRef.current.filter((c) => c.state === 'revealed' && !c.mine).length;
 		const currentSizeName = BOARD_SIZE_NAME_MAP[sizeRef.current];
 
-		void recordGameResult({
-			gameId: 'minesweeper',
-			won,
-			playTimeSeconds: finalSeconds,
-			levelKey: difficultyRef.current,
-			sizeKey: sizeRef.current,
-			roundContext: {
-				flagsPlaced: flagsPlacedRef.current,
-				chordsUsed: chordsUsedRef.current,
-				boardSize: currentSizeName,
-				size: currentSizeName,
-				difficulty: difficultyRef.current,
-				firstMoveLoss: !won && finalSeconds <= 3,
-				maxCascadeTiles: maxCascadeTilesRef.current,
-				hasRevealedEight: hasRevealedEightRef.current,
-				cornerMovesCount: cornerMovesCountRef.current,
-				cornersClearedInFirstFour: cornersClearedInFirstFourRef.current,
-				perfectFlagging: perfectFlaggingRef.current,
-				safeTilesCleared,
-				totalMines,
+		void recordGameResult(
+			{
+				gameId: 'minesweeper',
+				won,
+				playTimeSeconds: finalSeconds,
+				levelKey: difficultyRef.current,
+				sizeKey: sizeRef.current,
+				roundContext: {
+					flagsPlaced: flagsPlacedRef.current,
+					chordsUsed: chordsUsedRef.current,
+					boardSize: currentSizeName,
+					size: currentSizeName,
+					difficulty: difficultyRef.current,
+					firstMoveLoss: !won && finalSeconds <= 3,
+					maxCascadeTiles: maxCascadeTilesRef.current,
+					hasRevealedEight: hasRevealedEightRef.current,
+					cornerMovesCount: cornerMovesCountRef.current,
+					cornersClearedInFirstFour: cornersClearedInFirstFourRef.current,
+					perfectFlagging: perfectFlaggingRef.current,
+					safeTilesCleared,
+					totalMines,
+				},
 			},
-		}).catch((error) => {
+			{ definitions: MINESWEEPER_MEDAL_DEFINITIONS },
+		).catch((error) => {
 			console.warn(`[@arcade/minesweeper] Failed to record ${won ? 'victory' : 'defeat'} medals result:`, error);
 		});
 	}, []);

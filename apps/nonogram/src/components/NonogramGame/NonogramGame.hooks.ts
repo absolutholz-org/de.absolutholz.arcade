@@ -1,5 +1,6 @@
 import { recordGameResult } from '@arcade/lib-medals';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { NONOGRAM_MEDAL_DEFINITIONS } from '../../config/medals';
 import { isLineCompleted, isPuzzleSolved } from '../../engine/clues';
 import { PUZZLE_CATALOG, getDefaultPuzzle, getPuzzleById } from '../../engine/puzzles';
 import {
@@ -105,24 +106,27 @@ export function useNonogramEngine(initialDifficulty: DifficultyId = 'easy', init
 		const boardFillRatioOnDefeat = totalCells > 0 ? filledCount / totalCells : 0;
 		const maxToggles = getMaxSameCellToggles();
 
-		void recordGameResult({
-			gameId: 'nonogram',
-			won: false,
-			playTimeSeconds: finalSeconds,
-			levelKey: curPuzzle.difficulty,
-			sizeKey: `${curPuzzle.width}x${curPuzzle.height}`,
-			roundContext: {
-				mistakesCount: mistakesCountRef.current,
-				hintsUsed: hintsUsedRef.current,
-				crossesPlaced: crossesPlacedRef.current,
-				crossesBeforeFirstFill: crossesBeforeFirstFillRef.current,
-				maxSameCellToggles: maxToggles,
-				boardFillRatioOnDefeat,
-				completedPuzzleId: curPuzzle.id,
-				difficulty: curPuzzle.difficulty,
-				size: `${curPuzzle.width}x${curPuzzle.height}`,
+		void recordGameResult(
+			{
+				gameId: 'nonogram',
+				won: false,
+				playTimeSeconds: finalSeconds,
+				levelKey: curPuzzle.difficulty,
+				sizeKey: `${curPuzzle.width}x${curPuzzle.height}`,
+				roundContext: {
+					mistakesCount: mistakesCountRef.current,
+					hintsUsed: hintsUsedRef.current,
+					crossesPlaced: crossesPlacedRef.current,
+					crossesBeforeFirstFill: crossesBeforeFirstFillRef.current,
+					maxSameCellToggles: maxToggles,
+					boardFillRatioOnDefeat,
+					completedPuzzleId: curPuzzle.id,
+					difficulty: curPuzzle.difficulty,
+					size: `${curPuzzle.width}x${curPuzzle.height}`,
+				},
 			},
-		}).catch((error) => {
+			{ definitions: NONOGRAM_MEDAL_DEFINITIONS },
+		).catch((error) => {
 			console.warn('[@arcade/nonogram] Failed to record defeat medals result:', error);
 		});
 
@@ -323,24 +327,27 @@ export function useNonogramEngine(initialDifficulty: DifficultyId = 'easy', init
 				setIsVictoryOpen(true);
 				await saveActiveGame(null);
 
-				void recordGameResult({
-					gameId: 'nonogram',
-					won: true,
-					playTimeSeconds: finalSeconds,
-					levelKey: curPuzzle.difficulty,
-					sizeKey: `${curPuzzle.width}x${curPuzzle.height}`,
-					roundContext: {
-						mistakesCount: mistakesCountRef.current,
-						hintsUsed: hintsUsedRef.current,
-						crossesPlaced: crossesPlacedRef.current,
-						crossesBeforeFirstFill: crossesBeforeFirstFillRef.current,
-						maxSameCellToggles: maxToggles,
-						boardFillRatioOnDefeat: 0,
-						completedPuzzleId: curPuzzle.id,
-						difficulty: curPuzzle.difficulty,
-						size: `${curPuzzle.width}x${curPuzzle.height}`,
+				void recordGameResult(
+					{
+						gameId: 'nonogram',
+						won: true,
+						playTimeSeconds: finalSeconds,
+						levelKey: curPuzzle.difficulty,
+						sizeKey: `${curPuzzle.width}x${curPuzzle.height}`,
+						roundContext: {
+							mistakesCount: mistakesCountRef.current,
+							hintsUsed: hintsUsedRef.current,
+							crossesPlaced: crossesPlacedRef.current,
+							crossesBeforeFirstFill: crossesBeforeFirstFillRef.current,
+							maxSameCellToggles: maxToggles,
+							boardFillRatioOnDefeat: 0,
+							completedPuzzleId: curPuzzle.id,
+							difficulty: curPuzzle.difficulty,
+							size: `${curPuzzle.width}x${curPuzzle.height}`,
+						},
 					},
-				}).catch((error) => {
+					{ definitions: NONOGRAM_MEDAL_DEFINITIONS },
+				).catch((error) => {
 					console.warn('[@arcade/nonogram] Failed to record victory medals result:', error);
 				});
 			} else {

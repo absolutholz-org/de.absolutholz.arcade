@@ -1,6 +1,7 @@
 import { recordGameResult } from '@arcade/lib-medals';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { KeyboardEvent } from 'react';
+import { BRIDGES_MEDAL_DEFINITIONS } from '../../config/medals.js';
 import { generatePuzzle } from '../../engine/generator.js';
 import { createHistory, pushState, redo, reset, undo } from '../../engine/history.js';
 import {
@@ -222,24 +223,27 @@ export function useHashiGame(initialDifficulty: DifficultyLevel = 'easy', initia
 		const sizeKey = `${curBoard.width}x${curBoard.height}`;
 		const levelKey = curBoard.difficulty;
 
-		void recordGameResult({
-			gameId: 'bridges',
-			won: false,
-			playTimeSeconds: safeSeconds,
-			levelKey,
-			sizeKey,
-			roundContext: {
-				mistakesCount: mistakesCountRef.current,
-				hintsUsed: hintsUsedRef.current,
-				bridgesDemolishedCount: bridgesDemolishedCountRef.current,
-				doubleBridgesDrawnBeforeSingle: false,
-				isolatedLoopCreated: isolatedLoopCreatedRef.current,
-				bridgeCollisionAttempts: bridgeCollisionAttemptsRef.current,
-				maxSameEdgeToggles,
-				difficulty: levelKey,
-				size: sizeKey,
+		void recordGameResult(
+			{
+				gameId: 'bridges',
+				won: false,
+				playTimeSeconds: safeSeconds,
+				levelKey,
+				sizeKey,
+				roundContext: {
+					mistakesCount: mistakesCountRef.current,
+					hintsUsed: hintsUsedRef.current,
+					bridgesDemolishedCount: bridgesDemolishedCountRef.current,
+					doubleBridgesDrawnBeforeSingle: false,
+					isolatedLoopCreated: isolatedLoopCreatedRef.current,
+					bridgeCollisionAttempts: bridgeCollisionAttemptsRef.current,
+					maxSameEdgeToggles,
+					difficulty: levelKey,
+					size: sizeKey,
+				},
 			},
-		}).catch((error) => {
+			{ definitions: BRIDGES_MEDAL_DEFINITIONS },
+		).catch((error) => {
 			console.warn('[@arcade/bridges] Failed to record surrender medals result:', error);
 		});
 	}, []);
@@ -478,25 +482,28 @@ export function useHashiGame(initialDifficulty: DifficultyLevel = 'easy', initia
 				const sizeKey = `${nextBoard.width}x${nextBoard.height}`;
 				const levelKey = nextBoard.difficulty;
 
-				void recordGameResult({
-					gameId: 'bridges',
-					won: true,
-					playTimeSeconds: elapsedSeconds,
-					levelKey,
-					sizeKey,
-					roundContext: {
-						mistakesCount: mistakesCountRef.current,
-						hintsUsed: hintsUsedRef.current,
-						bridgesDemolishedCount: bridgesDemolishedCountRef.current,
-						doubleBridgesDrawnBeforeSingle,
-						isolatedLoopCreated: isolatedLoopCreatedRef.current,
-						bridgeCollisionAttempts: bridgeCollisionAttemptsRef.current,
-						maxSameEdgeToggles,
-						completedPresetId,
-						difficulty: levelKey,
-						size: sizeKey,
+				void recordGameResult(
+					{
+						gameId: 'bridges',
+						won: true,
+						playTimeSeconds: elapsedSeconds,
+						levelKey,
+						sizeKey,
+						roundContext: {
+							mistakesCount: mistakesCountRef.current,
+							hintsUsed: hintsUsedRef.current,
+							bridgesDemolishedCount: bridgesDemolishedCountRef.current,
+							doubleBridgesDrawnBeforeSingle,
+							isolatedLoopCreated: isolatedLoopCreatedRef.current,
+							bridgeCollisionAttempts: bridgeCollisionAttemptsRef.current,
+							maxSameEdgeToggles,
+							completedPresetId,
+							difficulty: levelKey,
+							size: sizeKey,
+						},
 					},
-				}).catch((error) => {
+					{ definitions: BRIDGES_MEDAL_DEFINITIONS },
+				).catch((error) => {
 					console.warn('[@arcade/bridges] Failed to record victory medals result:', error);
 				});
 

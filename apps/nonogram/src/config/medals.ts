@@ -1,4 +1,4 @@
-import type { AchievementDefinition, MedalTier } from '../types/index.js';
+import type { AchievementDefinition, MedalTier } from '@arcade/lib-medals';
 
 function getSizeFromResult(result: {
 	sizeKey?: string;
@@ -20,6 +20,7 @@ export const NONOGRAM_MEDAL_DEFINITIONS: readonly AchievementDefinition<'nonogra
 		id: 'nonogram_first_brushstroke',
 		type: 'standalone',
 		tier: 'bronze',
+		target: 1,
 		titleKey: 'medals.nonogram.first_brushstroke.title',
 		descriptionKey: 'medals.nonogram.first_brushstroke.desc',
 		icon: 'trophy-bronze',
@@ -291,6 +292,7 @@ export const NONOGRAM_MEDAL_DEFINITIONS: readonly AchievementDefinition<'nonogra
 		id: 'nonogram_college_try',
 		type: 'standalone',
 		tier: 'bronze',
+		target: 1,
 		titleKey: 'medals.nonogram.college_try.title',
 		descriptionKey: 'medals.nonogram.college_try.desc',
 		icon: 'trophy-bronze',
@@ -330,6 +332,7 @@ export const NONOGRAM_MEDAL_DEFINITIONS: readonly AchievementDefinition<'nonogra
 		id: 'nonogram_playing_safe',
 		type: 'standalone',
 		tier: 'bronze',
+		target: 15,
 		titleKey: 'medals.nonogram.playing_safe.title',
 		descriptionKey: 'medals.nonogram.playing_safe.desc',
 		icon: 'trophy-bronze',
@@ -346,6 +349,7 @@ export const NONOGRAM_MEDAL_DEFINITIONS: readonly AchievementDefinition<'nonogra
 		id: 'nonogram_indecisive',
 		type: 'standalone',
 		tier: 'bronze',
+		target: 5,
 		titleKey: 'medals.nonogram.indecisive.title',
 		descriptionKey: 'medals.nonogram.indecisive.desc',
 		icon: 'trophy-bronze',
@@ -359,3 +363,5 @@ export const NONOGRAM_MEDAL_DEFINITIONS: readonly AchievementDefinition<'nonogra
 		},
 	},
 ];
+
+export default NONOGRAM_MEDAL_DEFINITIONS;

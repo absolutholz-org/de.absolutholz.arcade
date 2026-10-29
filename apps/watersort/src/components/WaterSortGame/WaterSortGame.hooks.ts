@@ -1,5 +1,6 @@
 import { recordGameResult } from '@arcade/lib-medals';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { WATERSORT_MEDAL_DEFINITIONS } from '../../config/medals.js';
 import { generatePuzzle } from '../../engine/generator.js';
 import { canRedo, canUndo, createHistory, pushState, redo, reset, undo } from '../../engine/history.js';
 import { type PresetPuzzleDefinition, getPreset, getPresetById } from '../../engine/presets/index.js';
@@ -257,23 +258,26 @@ export function useWaterSortGame(initialDifficulty: DifficultyLevel = 'easy', in
 					setIsWon(true);
 					clearActiveGame();
 					recordRoundResult(difficulty, elapsedSeconds, nextMoves, seed);
-					recordGameResult({
-						gameId: 'watersort',
-						won: true,
-						playTimeSeconds: elapsedSeconds,
-						levelKey: difficulty,
-						sizeKey: `${history.present.length}tubes`,
-						roundContext: {
-							moves: nextMoves,
-							undosUsed,
-							hintsUsed,
-							elapsedSeconds,
-							difficulty,
-							parMoves,
-							maxConsecutiveTubeCompletions: nextMaxConsecutive,
-							emptyBuffersUsed: nextUsedBufferTubes.length,
+					recordGameResult(
+						{
+							gameId: 'watersort',
+							won: true,
+							playTimeSeconds: elapsedSeconds,
+							levelKey: difficulty,
+							sizeKey: `${history.present.length}tubes`,
+							roundContext: {
+								moves: nextMoves,
+								undosUsed,
+								hintsUsed,
+								elapsedSeconds,
+								difficulty,
+								parMoves,
+								maxConsecutiveTubeCompletions: nextMaxConsecutive,
+								emptyBuffersUsed: nextUsedBufferTubes.length,
+							},
 						},
-					});
+						{ definitions: WATERSORT_MEDAL_DEFINITIONS },
+					);
 				}
 			} else {
 				setSelectedTube(null);

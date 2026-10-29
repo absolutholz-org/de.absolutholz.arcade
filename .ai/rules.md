@@ -122,7 +122,7 @@ To maintain a consistent, accessible landmark structure, prevent spatial contain
   3. `rules.astro` (Standalone how-to-play via `MarkdownPageTemplate`)
   4. `settings.astro` (Standalone explanatory settings via `<GameSettingsPanel mode="detailed" />` backed by `src/config/settings.ts` and `GameSettingsConfig` from `@arcade/lib-games`)
   5. `stats.astro` (Standalone statistics & high scores via `<GameStatsDashboard gameId={gameId} />` backed by `arcade::[gameId]::stats` and `recordGameStats(gameId, roundResult)` from `@arcade/lib-storage`)
-  6. `medals.astro` (Standalone medals showcase rendering `<GameMedalGrid gameId={gameId} />` directly without duplicate grid components or custom threshold logic)
+  6. `medals.astro` (Standalone medals showcase rendering `<GameMedalGrid gameId={gameId} definitions={...} lang={lang} />` backed by `src/config/medals.ts` without duplicate grid components or custom threshold logic)
 
 ## 9. Token Economy & Autonomous Loop Guardrails
 

@@ -1,10 +1,11 @@
-import type { AchievementDefinition, MedalTier } from '../types/index.js';
+import type { AchievementDefinition, MedalTier } from '@arcade/lib-medals';
 
 export const MINESWEEPER_MEDAL_DEFINITIONS: readonly AchievementDefinition<'minesweeper'>[] = [
 	{
 		id: 'minesweeper_clearance_initiated',
 		type: 'standalone',
 		tier: 'bronze',
+		target: 1,
 		titleKey: 'medals.minesweeper.clearance_initiated.title',
 		descriptionKey: 'medals.minesweeper.clearance_initiated.desc',
 		icon: 'trophy-bronze',
@@ -248,6 +249,7 @@ export const MINESWEEPER_MEDAL_DEFINITIONS: readonly AchievementDefinition<'mine
 		id: 'minesweeper_college_try',
 		type: 'standalone',
 		tier: 'bronze',
+		target: 1,
 		titleKey: 'medals.minesweeper.college_try.title',
 		descriptionKey: 'medals.minesweeper.college_try.desc',
 		icon: 'trophy-bronze',
@@ -276,6 +278,7 @@ export const MINESWEEPER_MEDAL_DEFINITIONS: readonly AchievementDefinition<'mine
 		id: 'minesweeper_chord_master',
 		type: 'standalone',
 		tier: 'bronze',
+		target: 15,
 		titleKey: 'medals.minesweeper.chord_master.title',
 		descriptionKey: 'medals.minesweeper.chord_master.desc',
 		icon: 'trophy-bronze',
@@ -321,6 +324,7 @@ export const MINESWEEPER_MEDAL_DEFINITIONS: readonly AchievementDefinition<'mine
 		id: 'minesweeper_great_cascade',
 		type: 'standalone',
 		tier: 'silver',
+		target: 20,
 		titleKey: 'medals.minesweeper.great_cascade.title',
 		descriptionKey: 'medals.minesweeper.great_cascade.desc',
 		icon: 'trophy-silver',
@@ -434,3 +438,5 @@ export const MINESWEEPER_MEDAL_DEFINITIONS: readonly AchievementDefinition<'mine
 		},
 	},
 ];
+
+export default MINESWEEPER_MEDAL_DEFINITIONS;

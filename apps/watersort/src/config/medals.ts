@@ -1,4 +1,4 @@
-import type { AchievementDefinition, MedalTier } from '../types/index.js';
+import type { AchievementDefinition, MedalTier } from '@arcade/lib-medals';
 
 export const WATERSORT_MEDAL_DEFINITIONS: readonly AchievementDefinition<'watersort'>[] = [
 	{
@@ -85,6 +85,7 @@ export const WATERSORT_MEDAL_DEFINITIONS: readonly AchievementDefinition<'waters
 		id: 'watersort_first_sort',
 		type: 'standalone',
 		tier: 'bronze',
+		target: 1,
 		titleKey: 'medals.watersort.first_sort.title',
 		descriptionKey: 'medals.watersort.first_sort.desc',
 		icon: 'trophy-bronze',
@@ -98,6 +99,7 @@ export const WATERSORT_MEDAL_DEFINITIONS: readonly AchievementDefinition<'waters
 		id: 'watersort_medium_clear',
 		type: 'standalone',
 		tier: 'bronze',
+		target: 5,
 		titleKey: 'medals.watersort.medium_clear.title',
 		descriptionKey: 'medals.watersort.medium_clear.desc',
 		icon: 'trophy-bronze',
@@ -114,6 +116,7 @@ export const WATERSORT_MEDAL_DEFINITIONS: readonly AchievementDefinition<'waters
 		id: 'watersort_hard_clear',
 		type: 'standalone',
 		tier: 'silver',
+		target: 5,
 		titleKey: 'medals.watersort.hard_clear.title',
 		descriptionKey: 'medals.watersort.hard_clear.desc',
 		icon: 'trophy-silver',
@@ -130,6 +133,7 @@ export const WATERSORT_MEDAL_DEFINITIONS: readonly AchievementDefinition<'waters
 		id: 'watersort_expert_clear',
 		type: 'standalone',
 		tier: 'gold',
+		target: 1,
 		titleKey: 'medals.watersort.expert_clear.title',
 		descriptionKey: 'medals.watersort.expert_clear.desc',
 		icon: 'trophy-gold',
@@ -146,6 +150,7 @@ export const WATERSORT_MEDAL_DEFINITIONS: readonly AchievementDefinition<'waters
 		id: 'watersort_master_suite',
 		type: 'standalone',
 		tier: 'gold',
+		target: 4,
 		titleKey: 'medals.watersort.master_suite.title',
 		descriptionKey: 'medals.watersort.master_suite.desc',
 		icon: 'trophy-gold',
@@ -166,6 +171,7 @@ export const WATERSORT_MEDAL_DEFINITIONS: readonly AchievementDefinition<'waters
 		id: 'watersort_speed_pourer',
 		type: 'standalone',
 		tier: 'bronze',
+		target: 1,
 		titleKey: 'medals.watersort.speed_pourer.title',
 		descriptionKey: 'medals.watersort.speed_pourer.desc',
 		icon: 'trophy-bronze',
@@ -183,6 +189,7 @@ export const WATERSORT_MEDAL_DEFINITIONS: readonly AchievementDefinition<'waters
 		id: 'watersort_blitz_chemist',
 		type: 'standalone',
 		tier: 'silver',
+		target: 1,
 		titleKey: 'medals.watersort.blitz_chemist.title',
 		descriptionKey: 'medals.watersort.blitz_chemist.desc',
 		icon: 'trophy-silver',
@@ -201,6 +208,7 @@ export const WATERSORT_MEDAL_DEFINITIONS: readonly AchievementDefinition<'waters
 		id: 'watersort_expert_speed',
 		type: 'standalone',
 		tier: 'gold',
+		target: 1,
 		titleKey: 'medals.watersort.expert_speed.title',
 		descriptionKey: 'medals.watersort.expert_speed.desc',
 		icon: 'trophy-gold',
@@ -219,6 +227,7 @@ export const WATERSORT_MEDAL_DEFINITIONS: readonly AchievementDefinition<'waters
 		id: 'watersort_par_perfection',
 		type: 'standalone',
 		tier: 'silver',
+		target: 1,
 		titleKey: 'medals.watersort.par_perfection.title',
 		descriptionKey: 'medals.watersort.par_perfection.desc',
 		icon: 'trophy-silver',
@@ -239,6 +248,7 @@ export const WATERSORT_MEDAL_DEFINITIONS: readonly AchievementDefinition<'waters
 		id: 'watersort_theoretical_limit',
 		type: 'standalone',
 		tier: 'gold',
+		target: 1,
 		titleKey: 'medals.watersort.theoretical_limit.title',
 		descriptionKey: 'medals.watersort.theoretical_limit.desc',
 		icon: 'trophy-gold',
@@ -257,6 +267,7 @@ export const WATERSORT_MEDAL_DEFINITIONS: readonly AchievementDefinition<'waters
 		id: 'watersort_flawless',
 		type: 'standalone',
 		tier: 'bronze',
+		target: 1,
 		titleKey: 'medals.watersort.flawless.title',
 		descriptionKey: 'medals.watersort.flawless.desc',
 		icon: 'trophy-bronze',
@@ -275,6 +286,7 @@ export const WATERSORT_MEDAL_DEFINITIONS: readonly AchievementDefinition<'waters
 		id: 'watersort_comeback_kid',
 		type: 'standalone',
 		tier: 'bronze',
+		target: 6,
 		titleKey: 'medals.watersort.comeback_kid.title',
 		descriptionKey: 'medals.watersort.comeback_kid.desc',
 		icon: 'trophy-bronze',
@@ -292,6 +304,7 @@ export const WATERSORT_MEDAL_DEFINITIONS: readonly AchievementDefinition<'waters
 		id: 'watersort_color_cascade',
 		type: 'standalone',
 		tier: 'silver',
+		target: 4,
 		titleKey: 'medals.watersort.color_cascade.title',
 		descriptionKey: 'medals.watersort.color_cascade.desc',
 		icon: 'trophy-silver',
@@ -309,6 +322,7 @@ export const WATERSORT_MEDAL_DEFINITIONS: readonly AchievementDefinition<'waters
 		id: 'watersort_single_buffer',
 		type: 'standalone',
 		tier: 'silver',
+		target: 1,
 		titleKey: 'medals.watersort.single_buffer.title',
 		descriptionKey: 'medals.watersort.single_buffer.desc',
 		icon: 'trophy-silver',
@@ -323,3 +337,5 @@ export const WATERSORT_MEDAL_DEFINITIONS: readonly AchievementDefinition<'waters
 		},
 	},
 ];
+
+export default WATERSORT_MEDAL_DEFINITIONS;

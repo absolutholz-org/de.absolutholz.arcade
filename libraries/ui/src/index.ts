@@ -83,6 +83,9 @@ export type {
 	TriadBadgeProps,
 } from './components/MedalCard';
 
+export { GameMedalGrid } from './components/GameMedalGrid';
+export type { GameMedalGridProps } from './components/GameMedalGrid';
+
 export { GameHeader } from './components/GameHeader';
 export type { GameHeaderProps } from './components/GameHeader';
 

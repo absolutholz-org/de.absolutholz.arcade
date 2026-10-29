@@ -1,6 +1,7 @@
 import { recordGameResult } from '@arcade/lib-medals';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { KeyboardEvent, MouseEvent, PointerEvent } from 'react';
+import { QUEENS_MEDAL_DEFINITIONS } from '../../config/medals';
 import { getAutoCrossCells } from '../../engine/autoCross';
 import { generateQueensPuzzle } from '../../engine/generator';
 import { cloneBoard } from '../../engine/history';
@@ -132,26 +133,29 @@ export function useQueensGame(initialDifficulty: Difficulty = 'easy', initialPuz
 			const levelKey = curPuzzle.difficulty;
 			const sizeKey = `${curPuzzle.size}x${curPuzzle.size}`;
 
-			void recordGameResult({
-				gameId: 'queens',
-				won: false,
-				playTimeSeconds: finalSeconds,
-				levelKey,
-				sizeKey,
-				roundContext: {
-					xMarkersPlaced: xMarkersPlacedRef.current,
-					xMarkersBeforeFirstCrown: xMarkersBeforeFirstCrownRef.current,
-					crownCollisionsTriggered: crownCollisionsTriggeredRef.current,
-					crownsRemovedCount: crownsRemovedCountRef.current,
-					maxSameCellCrownToggles: getMaxSameCellCrownToggles(),
-					maxSimultaneousConflicts: maxSimultaneousConflictsRef.current,
-					crownsPlacedBeforeSurrender: placedCrowns,
-					completedPresetId: undefined,
-					gridSize: curPuzzle.size,
-					difficulty: levelKey,
-					size: sizeKey,
+			void recordGameResult(
+				{
+					gameId: 'queens',
+					won: false,
+					playTimeSeconds: finalSeconds,
+					levelKey,
+					sizeKey,
+					roundContext: {
+						xMarkersPlaced: xMarkersPlacedRef.current,
+						xMarkersBeforeFirstCrown: xMarkersBeforeFirstCrownRef.current,
+						crownCollisionsTriggered: crownCollisionsTriggeredRef.current,
+						crownsRemovedCount: crownsRemovedCountRef.current,
+						maxSameCellCrownToggles: getMaxSameCellCrownToggles(),
+						maxSimultaneousConflicts: maxSimultaneousConflictsRef.current,
+						crownsPlacedBeforeSurrender: placedCrowns,
+						completedPresetId: undefined,
+						gridSize: curPuzzle.size,
+						difficulty: levelKey,
+						size: sizeKey,
+					},
 				},
-			}).catch((error) => {
+				{ definitions: QUEENS_MEDAL_DEFINITIONS },
+			).catch((error) => {
 				console.warn('[@arcade/queens] Failed to record surrender medals result:', error);
 			});
 		},
@@ -314,26 +318,29 @@ export function useQueensGame(initialDifficulty: Difficulty = 'easy', initialPuz
 			const isCurated = !puzzle.id.startsWith('procedural-');
 			const completedPresetId = isCurated ? puzzle.id : undefined;
 
-			void recordGameResult({
-				gameId: 'queens',
-				won: true,
-				playTimeSeconds: elapsedSeconds,
-				levelKey,
-				sizeKey,
-				roundContext: {
-					xMarkersPlaced: xMarkersPlacedRef.current,
-					xMarkersBeforeFirstCrown: xMarkersBeforeFirstCrownRef.current,
-					crownCollisionsTriggered: crownCollisionsTriggeredRef.current,
-					crownsRemovedCount: crownsRemovedCountRef.current,
-					maxSameCellCrownToggles: getMaxSameCellCrownToggles(),
-					maxSimultaneousConflicts: maxSimultaneousConflictsRef.current,
-					crownsPlacedBeforeSurrender: 0,
-					completedPresetId,
-					gridSize: puzzle.size,
-					difficulty: levelKey,
-					size: sizeKey,
+			void recordGameResult(
+				{
+					gameId: 'queens',
+					won: true,
+					playTimeSeconds: elapsedSeconds,
+					levelKey,
+					sizeKey,
+					roundContext: {
+						xMarkersPlaced: xMarkersPlacedRef.current,
+						xMarkersBeforeFirstCrown: xMarkersBeforeFirstCrownRef.current,
+						crownCollisionsTriggered: crownCollisionsTriggeredRef.current,
+						crownsRemovedCount: crownsRemovedCountRef.current,
+						maxSameCellCrownToggles: getMaxSameCellCrownToggles(),
+						maxSimultaneousConflicts: maxSimultaneousConflictsRef.current,
+						crownsPlacedBeforeSurrender: 0,
+						completedPresetId,
+						gridSize: puzzle.size,
+						difficulty: levelKey,
+						size: sizeKey,
+					},
 				},
-			}).catch((error) => {
+				{ definitions: QUEENS_MEDAL_DEFINITIONS },
+			).catch((error) => {
 				console.warn('[@arcade/queens] Failed to record victory medals result:', error);
 			});
 

@@ -60,6 +60,7 @@ export interface AchievementDefinition<G extends GameId = GameId> {
 	readonly descriptionKey: string;
 	readonly icon: string;
 	readonly metric?: string;
+	readonly target?: number;
 	readonly thresholds?: {
 		readonly bronze: number;
 		readonly silver: number;
@@ -67,6 +68,8 @@ export interface AchievementDefinition<G extends GameId = GameId> {
 	};
 	readonly evaluate: (context: AchievementEvaluationContext<G>) => AchievementEvaluationResult;
 }
+
+export type MedalDefinition<G extends GameId = GameId> = AchievementDefinition<G>;
 
 export interface GameResultPayload<G extends GameId = GameId> {
 	readonly gameId: G;

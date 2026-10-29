@@ -1,4 +1,4 @@
-import type { AchievementDefinition, MedalTier } from '../types/index.js';
+import type { AchievementDefinition, MedalTier } from '@arcade/lib-medals';
 
 const EASY_PRESETS = ['easy-1', 'easy-2', 'easy-3', 'easy-4', 'easy-5', 'easy-6'] as const;
 const MEDIUM_PRESETS = ['medium-1', 'medium-2', 'medium-3', 'medium-4', 'medium-5', 'medium-6'] as const;
@@ -18,6 +18,7 @@ export const SUDOKU_MEDAL_DEFINITIONS: readonly AchievementDefinition<'sudoku'>[
 		id: 'sudoku_first_victory',
 		type: 'standalone',
 		tier: 'bronze',
+		target: 1,
 		titleKey: 'medals.sudoku.first_victory.title',
 		descriptionKey: 'medals.sudoku.first_victory.desc',
 		icon: 'trophy-bronze',
@@ -251,6 +252,7 @@ export const SUDOKU_MEDAL_DEFINITIONS: readonly AchievementDefinition<'sudoku'>[
 		id: 'sudoku_participation',
 		type: 'standalone',
 		tier: 'bronze',
+		target: 1,
 		titleKey: 'medals.sudoku.participation.title',
 		descriptionKey: 'medals.sudoku.participation.desc',
 		icon: 'trophy-bronze',
@@ -303,6 +305,7 @@ export const SUDOKU_MEDAL_DEFINITIONS: readonly AchievementDefinition<'sudoku'>[
 		id: 'sudoku_are_you_sure',
 		type: 'standalone',
 		tier: 'bronze',
+		target: 10,
 		titleKey: 'medals.sudoku.are_you_sure.title',
 		descriptionKey: 'medals.sudoku.are_you_sure.desc',
 		icon: 'trophy-bronze',
@@ -342,6 +345,7 @@ export const SUDOKU_MEDAL_DEFINITIONS: readonly AchievementDefinition<'sudoku'>[
 		id: 'sudoku_pencil_pusher',
 		type: 'standalone',
 		tier: 'silver',
+		target: 60,
 		titleKey: 'medals.sudoku.pencil_pusher.title',
 		descriptionKey: 'medals.sudoku.pencil_pusher.desc',
 		icon: 'trophy-silver',
@@ -400,3 +404,5 @@ export const SUDOKU_MEDAL_DEFINITIONS: readonly AchievementDefinition<'sudoku'>[
 		},
 	},
 ];
+
+export default SUDOKU_MEDAL_DEFINITIONS;

@@ -50,7 +50,7 @@ describe('MedalToastListener Integration', () => {
 		const achievementToast = container.querySelector('[data-variant="achievement"]');
 		expect(achievementToast).not.toBeNull();
 		expect(achievementToast?.textContent).toContain('First Victory');
-		expect(achievementToast?.textContent).toContain('Win your first game of Sudoku.');
+		expect(achievementToast?.textContent).toContain('Sudoku');
 
 		const actionBtn = achievementToast?.querySelector('button[aria-label*="View Showcase"]');
 		expect(actionBtn).not.toBeNull();

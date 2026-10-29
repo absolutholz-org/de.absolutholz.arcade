@@ -1,6 +1,7 @@
 import { recordGameResult } from '@arcade/lib-medals';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { KeyboardEvent, MouseEvent } from 'react';
+import { TENTS_MEDAL_DEFINITIONS } from '../../config/medals.ts';
 import { generateTentsPuzzle } from '../../engine/generator.ts';
 import {
 	batchSetMarks,
@@ -223,27 +224,30 @@ export function useTentsGame(initialDifficulty: DifficultyLevel = 'easy', initia
 		const usedAutoGrassOnAllSatisfiedLines =
 			autoGrassedRowsRef.current.size === curPuzzle.size && autoGrassedColsRef.current.size === curPuzzle.size;
 
-		await recordGameResult({
-			gameId: 'tents',
-			won: true,
-			playTimeSeconds: Math.max(1, time),
-			levelKey: curPuzzle.difficulty,
-			sizeKey: `${width}x${height}`,
-			roundContext: {
-				mistakesCount: curMistakes,
-				grassPlacedCount: curHistory.grassPlacedCount,
-				difficulty: curPuzzle.difficulty,
+		await recordGameResult(
+			{
+				gameId: 'tents',
+				won: true,
+				playTimeSeconds: Math.max(1, time),
 				levelKey: curPuzzle.difficulty,
-				totalTentsPitched: curPuzzle.trees.length,
-				completedPresetId: isProcedural ? undefined : curPuzzle.id,
-				usedAutoGrassOnAllSatisfiedLines,
-				allLinesAutoGrassed: usedAutoGrassOnAllSatisfiedLines,
-				maxSimultaneousErrors: maxSimultaneousErrorsRef.current,
-				clueHighlightDisabled: !curSettings.highlightClues,
-				violationHighlightDisabled: !curSettings.highlightViolations,
-				placedThreeTentsInSixSeconds: placedThreeTentsInSixSecondsRef.current,
+				sizeKey: `${width}x${height}`,
+				roundContext: {
+					mistakesCount: curMistakes,
+					grassPlacedCount: curHistory.grassPlacedCount,
+					difficulty: curPuzzle.difficulty,
+					levelKey: curPuzzle.difficulty,
+					totalTentsPitched: curPuzzle.trees.length,
+					completedPresetId: isProcedural ? undefined : curPuzzle.id,
+					usedAutoGrassOnAllSatisfiedLines,
+					allLinesAutoGrassed: usedAutoGrassOnAllSatisfiedLines,
+					maxSimultaneousErrors: maxSimultaneousErrorsRef.current,
+					clueHighlightDisabled: !curSettings.highlightClues,
+					violationHighlightDisabled: !curSettings.highlightViolations,
+					placedThreeTentsInSixSeconds: placedThreeTentsInSixSecondsRef.current,
+				},
 			},
-		}).catch((err) => {
+			{ definitions: TENTS_MEDAL_DEFINITIONS },
+		).catch((err) => {
 			console.warn('[@arcade/tents] Failed to record victory medals:', err);
 		});
 

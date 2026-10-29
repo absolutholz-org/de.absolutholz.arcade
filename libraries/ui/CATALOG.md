@@ -33,7 +33,7 @@ Components providing interactive or informational surfaces.
 | **`QuickPlayCard`** | `@arcade/lib-ui` | High-emphasis card for instant game launching and practice modes. Inherits from `ClickableCard`. | `title`, `subtitle`, `actionLabel`, `as="a" \| "button"`. |
 | **`Banner`** | `@arcade/lib-ui/components/Banner` | Non-clickable informational callout for announcements, alerts, or status hints. | `variant="info" \| "warning" \| "success" \| "danger"`. |
 | **`MedalCard`** | `@arcade/lib-ui` | Achievement card supporting standalone single-tier feats and progressive 3-tier ladders. Consumes `MedalIcon` and `TriadBadge`. | `mode="standalone" \| "progressive"`, `title`, `description`, `tier`, `unlocked`, `bronzeUnlocked`, `silverUnlocked`, `goldUnlocked`. |
-| **`GameMedalGrid`** | `@arcade/lib-ui` | Consolidated ADR 0008 achievement showcase grid rendering all medals for a `gameId` on `/[lang]/medals.astro`. | `gameId: GameId`, `lang: SupportedLanguageCode`. |
+| **`GameMedalGrid`** | `@arcade/lib-ui` | Consolidated ADR 0008 achievement showcase grid rendering all medals for a `gameId` on `/[lang]/medals.astro` with accessible `<ul role="list">` semantics, trophy summary bar, and live storage hydration (`<GameMedalGrid gameId="sudoku" definitions={SUDOKU_MEDAL_DEFINITIONS} lang={lang} />`). | `gameId: G`, `definitions: readonly MedalDefinition<G>[]`, `lang: SupportedLanguageCode \| string`, `className?: string`. |
 | **`GameStatsDashboard`** | `@arcade/lib-ui` | Standardized ADR 0008 statistics & high scores view rendering `arcade::[gameId]::stats` on `/[lang]/stats.astro`. | `gameId: GameId`, `lang: SupportedLanguageCode`. |
 
 > [!CAUTION]

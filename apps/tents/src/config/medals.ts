@@ -1,4 +1,4 @@
-import type { AchievementDefinition, MedalTier } from '../types/index.js';
+import type { AchievementDefinition, MedalTier } from '@arcade/lib-medals';
 
 const EASY_PRESETS = Array.from({ length: 25 }, (_, i) => `easy-${i + 1}`);
 const MEDIUM_PRESETS = Array.from({ length: 25 }, (_, i) => `medium-${i + 1}`);
@@ -11,6 +11,7 @@ export const TENTS_MEDAL_DEFINITIONS: readonly AchievementDefinition<'tents'>[] 
 		id: 'tents_first_pitch',
 		type: 'standalone',
 		tier: 'bronze',
+		target: 1,
 		titleKey: 'medals.tents.first_pitch.title',
 		descriptionKey: 'medals.tents.first_pitch.desc',
 		icon: 'trophy-bronze',
@@ -24,6 +25,7 @@ export const TENTS_MEDAL_DEFINITIONS: readonly AchievementDefinition<'tents'>[] 
 		id: 'tents_pristine_pitch',
 		type: 'standalone',
 		tier: 'silver',
+		target: 1,
 		titleKey: 'medals.tents.pristine_pitch.title',
 		descriptionKey: 'medals.tents.pristine_pitch.desc',
 		icon: 'trophy-silver',
@@ -43,6 +45,7 @@ export const TENTS_MEDAL_DEFINITIONS: readonly AchievementDefinition<'tents'>[] 
 		id: 'tents_speed_camper',
 		type: 'standalone',
 		tier: 'gold',
+		target: 1,
 		titleKey: 'medals.tents.speed_camper.title',
 		descriptionKey: 'medals.tents.speed_camper.desc',
 		icon: 'trophy-gold',
@@ -63,6 +66,7 @@ export const TENTS_MEDAL_DEFINITIONS: readonly AchievementDefinition<'tents'>[] 
 		id: 'tents_minimalist',
 		type: 'standalone',
 		tier: 'silver',
+		target: 1,
 		titleKey: 'medals.tents.minimalist.title',
 		descriptionKey: 'medals.tents.minimalist.desc',
 		icon: 'trophy-silver',
@@ -286,6 +290,7 @@ export const TENTS_MEDAL_DEFINITIONS: readonly AchievementDefinition<'tents'>[] 
 		id: 'tents_glamping',
 		type: 'standalone',
 		tier: 'silver',
+		target: 1,
 		titleKey: 'medals.tents.glamping.title',
 		descriptionKey: 'medals.tents.glamping.desc',
 		icon: 'trophy-silver',
@@ -306,6 +311,7 @@ export const TENTS_MEDAL_DEFINITIONS: readonly AchievementDefinition<'tents'>[] 
 		id: 'tents_bear_encounter',
 		type: 'standalone',
 		tier: 'bronze',
+		target: 1,
 		titleKey: 'medals.tents.bear_encounter.title',
 		descriptionKey: 'medals.tents.bear_encounter.desc',
 		icon: 'trophy-bronze',
@@ -323,6 +329,7 @@ export const TENTS_MEDAL_DEFINITIONS: readonly AchievementDefinition<'tents'>[] 
 		id: 'tents_iron_will',
 		type: 'standalone',
 		tier: 'gold',
+		target: 1,
 		titleKey: 'medals.tents.iron_will.title',
 		descriptionKey: 'medals.tents.iron_will.desc',
 		icon: 'trophy-gold',
@@ -343,6 +350,7 @@ export const TENTS_MEDAL_DEFINITIONS: readonly AchievementDefinition<'tents'>[] 
 		id: 'tents_quick_pitch',
 		type: 'standalone',
 		tier: 'bronze',
+		target: 1,
 		titleKey: 'medals.tents.quick_pitch.title',
 		descriptionKey: 'medals.tents.quick_pitch.desc',
 		icon: 'trophy-bronze',
@@ -356,3 +364,5 @@ export const TENTS_MEDAL_DEFINITIONS: readonly AchievementDefinition<'tents'>[] 
 		},
 	},
 ];
+
+export default TENTS_MEDAL_DEFINITIONS;

@@ -2,7 +2,7 @@ export * from './types/index.js';
 export * from './storage/medalStorage.js';
 export * from './engine/aggregator.js';
 export * from './engine/evaluator.js';
-export * from './definitions/index.js';
+export * from './engine/registry.js';
 export * from './sync/syncAdapter.js';
 export * from './sync/syncQueue.js';
 export * from './events/medalEvents.js';

@@ -7,11 +7,11 @@ import {
 	type MedalProgress,
 	type MedalTier,
 	getGameMedalState,
-	getMedalDefinitionsForGame,
 	subscribeToMedalUnlocked,
 } from '@arcade/lib-medals';
 import { MedalCard, SegmentedControl, type SegmentedControlItem } from '@arcade/lib-ui';
 import { useCallback, useEffect, useState } from 'react';
+import { getHubMedalDefinitionsForGame } from '../../config/medals';
 import * as S from './MedalsShowcase.styles';
 
 const REGISTERED_GAMES: readonly GameId[] = [
@@ -101,7 +101,7 @@ function MedalsShowcaseContent({ lang }: { lang: SupportedLanguageCode }) {
 
 		for (const gameId of REGISTERED_GAMES) {
 			const state = await getGameMedalState(gameId);
-			const definitions = getMedalDefinitionsForGame(gameId);
+			const definitions = getHubMedalDefinitionsForGame(gameId);
 
 			for (const def of definitions) {
 				const unlock = state.unlockedMedals[def.id];

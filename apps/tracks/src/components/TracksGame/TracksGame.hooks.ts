@@ -1,6 +1,7 @@
 import { recordGameResult } from '@arcade/lib-medals';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { KeyboardEvent, MouseEvent, PointerEvent } from 'react';
+import { TRACKS_MEDAL_DEFINITIONS } from '../../config/medals.js';
 import { generateTracksPuzzle } from '../../engine/generator.js';
 import {
 	canRedo as checkCanRedo,
@@ -327,25 +328,28 @@ export function useTracksGame(initialDifficulty: DifficultyLevel = 'easy', initi
 		const isProcedural = curPuzzle.id.startsWith('procedural-') || curPuzzle.id.startsWith('generated-');
 		const completedPresetId = isProcedural ? undefined : curPuzzle.id;
 
-		void recordGameResult({
-			gameId: 'tracks',
-			won: true,
-			playTimeSeconds: Math.max(1, playTimeSeconds),
-			levelKey,
-			sizeKey,
-			roundContext: {
-				crossMarkersPlaced: crossMarkersPlacedRef.current,
-				tracksErasedCount: tracksErasedCountRef.current,
-				wallCollisionsCount: wallCollisionsCountRef.current,
-				closedLoopCreated: closedLoopCreatedRef.current,
-				startedFromExit: startedFromExitRef.current,
-				maxSimultaneousRowColumnViolations: maxSimultaneousRowColumnViolationsRef.current,
-				maxSameCellTrackChanges: maxSameCellTrackChangesRef.current,
-				completedPresetId,
-				size: sizeKey,
-				difficulty: levelKey,
+		void recordGameResult(
+			{
+				gameId: 'tracks',
+				won: true,
+				playTimeSeconds: Math.max(1, playTimeSeconds),
+				levelKey,
+				sizeKey,
+				roundContext: {
+					crossMarkersPlaced: crossMarkersPlacedRef.current,
+					tracksErasedCount: tracksErasedCountRef.current,
+					wallCollisionsCount: wallCollisionsCountRef.current,
+					closedLoopCreated: closedLoopCreatedRef.current,
+					startedFromExit: startedFromExitRef.current,
+					maxSimultaneousRowColumnViolations: maxSimultaneousRowColumnViolationsRef.current,
+					maxSameCellTrackChanges: maxSameCellTrackChangesRef.current,
+					completedPresetId,
+					size: sizeKey,
+					difficulty: levelKey,
+				},
 			},
-		}).catch((error) => {
+			{ definitions: TRACKS_MEDAL_DEFINITIONS },
+		).catch((error) => {
 			console.warn('[@arcade/tracks] Failed to record victory medals result:', error);
 		});
 	}, []);
@@ -357,25 +361,28 @@ export function useTracksGame(initialDifficulty: DifficultyLevel = 'easy', initi
 		const levelKey = curPuzzle.difficulty;
 		const sizeKey = `${curPuzzle.size}x${curPuzzle.size}`;
 
-		void recordGameResult({
-			gameId: 'tracks',
-			won: false,
-			playTimeSeconds: Math.max(1, playTimeSeconds),
-			levelKey,
-			sizeKey,
-			roundContext: {
-				crossMarkersPlaced: crossMarkersPlacedRef.current,
-				tracksErasedCount: tracksErasedCountRef.current,
-				wallCollisionsCount: wallCollisionsCountRef.current,
-				closedLoopCreated: closedLoopCreatedRef.current,
-				startedFromExit: startedFromExitRef.current,
-				maxSimultaneousRowColumnViolations: maxSimultaneousRowColumnViolationsRef.current,
-				maxSameCellTrackChanges: maxSameCellTrackChangesRef.current,
-				completedPresetId: undefined,
-				size: sizeKey,
-				difficulty: levelKey,
+		void recordGameResult(
+			{
+				gameId: 'tracks',
+				won: false,
+				playTimeSeconds: Math.max(1, playTimeSeconds),
+				levelKey,
+				sizeKey,
+				roundContext: {
+					crossMarkersPlaced: crossMarkersPlacedRef.current,
+					tracksErasedCount: tracksErasedCountRef.current,
+					wallCollisionsCount: wallCollisionsCountRef.current,
+					closedLoopCreated: closedLoopCreatedRef.current,
+					startedFromExit: startedFromExitRef.current,
+					maxSimultaneousRowColumnViolations: maxSimultaneousRowColumnViolationsRef.current,
+					maxSameCellTrackChanges: maxSameCellTrackChangesRef.current,
+					completedPresetId: undefined,
+					size: sizeKey,
+					difficulty: levelKey,
+				},
 			},
-		}).catch((error) => {
+			{ definitions: TRACKS_MEDAL_DEFINITIONS },
+		).catch((error) => {
 			console.warn('[@arcade/tracks] Failed to record surrender medals result:', error);
 		});
 	}, []);

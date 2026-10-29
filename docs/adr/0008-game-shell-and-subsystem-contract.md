@@ -44,15 +44,19 @@ We need a standardized per-game shell and subsystem contract so that existing ga
 Chosen Option: **Option 3**. Every game package in `apps/*` must implement a standard 6-route topology and conform to shared contracts for rules, settings, statistics, and medals.
 
 ```text
-apps/[gameId]/src/pages/
-├── index.astro                 # Root language detection and redirect
-└── [lang]/
-	├── index.astro             # 1. Landing / Lobby Page
-	├── game.astro              # 2. Gameplay Page (Playfield + In-Game Overlays)
-	├── rules.astro             # 3. Standalone Rules & How-To-Play Page
-	├── settings.astro          # 4. Standalone Extended Settings Page
-	├── stats.astro             # 5. Standalone Statistics & High Scores Page
-	└── medals.astro            # 6. Standalone Medals Showcase Page
+apps/[gameId]/src/
+├── config/
+│	├── medals.ts               # Co-located game medal definitions (MedalDefinition<GameId>[])
+│	└── settings.ts             # Co-located game settings schema (GameSettingsConfig)
+└── pages/
+	├── index.astro             # Root language detection and redirect
+	└── [lang]/
+		├── index.astro         # 1. Landing / Lobby Page
+		├── game.astro          # 2. Gameplay Page (Playfield + In-Game Overlays)
+		├── rules.astro         # 3. Standalone Rules & How-To-Play Page
+		├── settings.astro      # 4. Standalone Extended Settings Page
+		├── stats.astro         # 5. Standalone Statistics & High Scores Page
+		└── medals.astro        # 6. Standalone Medals Showcase Page
 ```
 
 ---
@@ -178,10 +182,10 @@ export interface GameStats<
 
 ### 4. Consolidated Medals Showcase
 
-To eliminate copy-pasted `[Game]MedalGrid` components across apps:
+To eliminate copy-pasted `[Game]MedalGrid` components across apps while keeping `@arcade/lib-medals` a pure domain engine:
 
-1. **Explicit Thresholds:** `MedalDefinition` in `@arcade/lib-medals` is extended so that standalone medals explicitly declare their numerical `target` (defaulting to `1`), eliminating inline `if (def.id === ...)` branch logic.
-2. **Shared Component:** Apps render medals solely via `<GameMedalGrid gameId="{gameId}" lang="{lang}"/>` from `@arcade/lib-ui`, which directly consumes definitions and state from `@arcade/lib-medals`.
+1. **Co-located Definitions & Explicit Thresholds:** Each game co-locates its `MedalDefinition<G>[]` array in `apps/[gameId]/src/config/medals.ts`. Standalone medals explicitly declare their numerical `target` (defaulting to `1`), eliminating inline `if (def.id === ...)` branch logic.
+2. **Shared Component:** Apps render medals solely via `<GameMedalGrid gameId={gameId} definitions={MEDAL_DEFINITIONS} lang={lang} />` from `@arcade/lib-ui`, which hydrates unlocked state and progress from `@arcade/lib-medals` using the co-located `definitions`.
 
 ---
 

@@ -1,6 +1,7 @@
 import { type SudokuDifficulty, recordGameResult } from '@arcade/lib-medals';
 import { createGameStorage } from '@arcade/lib-storage';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { SUDOKU_MEDAL_DEFINITIONS } from '../../config/medals';
 import { generateSudoku } from '../../engine/generator';
 import { applyMove, autoClearPeerNotes, undoMove } from '../../engine/history';
 import { createGridFromClues, getPuzzleById } from '../../engine/puzzles';
@@ -307,25 +308,28 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 				const hints = hintsRef.current;
 				const currentPreset = currentPuzzleIdRef.current;
 
-				await recordGameResult({
-					gameId: 'sudoku',
-					won: true,
-					playTimeSeconds: finalTime,
-					levelKey: medalDiff,
-					roundContext: {
-						difficulty: currentDiff,
-						originalDifficulty: currentDiff,
-						mistakesCount: mistakes,
-						errorsCount: mistakes,
-						hintsUsed: hints,
-						presetId: currentPreset,
-						puzzleId: currentPreset,
-						consecutiveUndosMax: maxUndoStreakRef.current,
-						notesPlacedBeforeFirstDigit: notesBeforeFirstDigitRef.current,
-						secondMistakeTimeSeconds: secondMistakeTimeRef.current,
-						totalNotesPlaced: totalNotesPlacedRef.current,
+				await recordGameResult(
+					{
+						gameId: 'sudoku',
+						won: true,
+						playTimeSeconds: finalTime,
+						levelKey: medalDiff,
+						roundContext: {
+							difficulty: currentDiff,
+							originalDifficulty: currentDiff,
+							mistakesCount: mistakes,
+							errorsCount: mistakes,
+							hintsUsed: hints,
+							presetId: currentPreset,
+							puzzleId: currentPreset,
+							consecutiveUndosMax: maxUndoStreakRef.current,
+							notesPlacedBeforeFirstDigit: notesBeforeFirstDigitRef.current,
+							secondMistakeTimeSeconds: secondMistakeTimeRef.current,
+							totalNotesPlaced: totalNotesPlacedRef.current,
+						},
 					},
-				});
+					{ definitions: SUDOKU_MEDAL_DEFINITIONS },
+				);
 			} catch (error) {
 				console.warn('[@arcade/sudoku] Failed to record game medals result:', error);
 			}
@@ -427,22 +431,25 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 								// Fallback gracefully
 							}
 
-							void recordGameResult({
-								gameId: 'sudoku',
-								won: false,
-								playTimeSeconds: finalTime,
-								levelKey: medalDiff,
-								roundContext: {
-									difficulty: medalDiff,
-									originalDifficulty: currentDiff,
-									mistakesCount: nextMistakes,
-									hintsUsed: currentHints,
-									consecutiveUndosMax: maxUndoStreakRef.current,
-									notesPlacedBeforeFirstDigit: notesBeforeFirstDigitRef.current,
-									secondMistakeTimeSeconds: secondMistakeTimeRef.current,
-									totalNotesPlaced: totalNotesPlacedRef.current,
+							void recordGameResult(
+								{
+									gameId: 'sudoku',
+									won: false,
+									playTimeSeconds: finalTime,
+									levelKey: medalDiff,
+									roundContext: {
+										difficulty: medalDiff,
+										originalDifficulty: currentDiff,
+										mistakesCount: nextMistakes,
+										hintsUsed: currentHints,
+										consecutiveUndosMax: maxUndoStreakRef.current,
+										notesPlacedBeforeFirstDigit: notesBeforeFirstDigitRef.current,
+										secondMistakeTimeSeconds: secondMistakeTimeRef.current,
+										totalNotesPlaced: totalNotesPlacedRef.current,
+									},
 								},
-							}).catch((error) => {
+								{ definitions: SUDOKU_MEDAL_DEFINITIONS },
+							).catch((error) => {
 								console.warn('[@arcade/sudoku] Failed to record defeat medals result:', error);
 							});
 						}

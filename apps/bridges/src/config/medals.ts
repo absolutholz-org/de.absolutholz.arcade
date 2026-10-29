@@ -1,4 +1,4 @@
-import type { AchievementDefinition, MedalTier } from '../types/index.js';
+import type { AchievementDefinition, MedalTier } from '@arcade/lib-medals';
 
 const BEGINNER_PRESETS = ['b-1', 'b-2', 'b-3', 'b-4', 'b-5', 'b-6', 'b-7', 'b-8', 'b-9', 'b-10'] as const;
 const EASY_PRESETS = ['e-1', 'e-2', 'e-3', 'e-4', 'e-5', 'e-6', 'e-7', 'e-8', 'e-9', 'e-10'] as const;
@@ -11,6 +11,7 @@ export const BRIDGES_MEDAL_DEFINITIONS: readonly AchievementDefinition<'bridges'
 		id: 'bridges_first_span',
 		type: 'standalone',
 		tier: 'bronze',
+		target: 1,
 		titleKey: 'medals.bridges.first_span.title',
 		descriptionKey: 'medals.bridges.first_span.desc',
 		icon: 'trophy-bronze',
@@ -238,6 +239,7 @@ export const BRIDGES_MEDAL_DEFINITIONS: readonly AchievementDefinition<'bridges'
 		id: 'bridges_college_try',
 		type: 'standalone',
 		tier: 'bronze',
+		target: 1,
 		titleKey: 'medals.bridges.college_try.title',
 		descriptionKey: 'medals.bridges.college_try.desc',
 		icon: 'trophy-bronze',
@@ -263,6 +265,7 @@ export const BRIDGES_MEDAL_DEFINITIONS: readonly AchievementDefinition<'bridges'
 		id: 'bridges_traffic_jam',
 		type: 'standalone',
 		tier: 'bronze',
+		target: 5,
 		titleKey: 'medals.bridges.traffic_jam.title',
 		descriptionKey: 'medals.bridges.traffic_jam.desc',
 		icon: 'trophy-bronze',
@@ -279,6 +282,7 @@ export const BRIDGES_MEDAL_DEFINITIONS: readonly AchievementDefinition<'bridges'
 		id: 'bridges_indecisive_engineer',
 		type: 'standalone',
 		tier: 'bronze',
+		target: 6,
 		titleKey: 'medals.bridges.indecisive_engineer.title',
 		descriptionKey: 'medals.bridges.indecisive_engineer.desc',
 		icon: 'trophy-bronze',
@@ -303,3 +307,5 @@ export const BRIDGES_MEDAL_DEFINITIONS: readonly AchievementDefinition<'bridges'
 		}),
 	},
 ];
+
+export default BRIDGES_MEDAL_DEFINITIONS;

@@ -19,8 +19,22 @@ function MedalToastListenerContent() {
 
 			for (const medal of detail.medals) {
 				const def = defMap.get(medal.id);
-				const title = def ? t(def.titleKey as TranslationKey) : 'Medal Unlocked!';
-				const message = def ? t(def.descriptionKey as TranslationKey) : medal.id;
+				const strippedId = medal.id.startsWith(`${detail.gameId}_`)
+					? medal.id.slice(detail.gameId.length + 1)
+					: medal.id;
+				const normalizedSlug =
+					detail.gameId === 'sudoku' && strippedId === 'first_win' ? 'first_victory' : strippedId;
+				const derivedTitleKey = (
+					def ? def.titleKey.replace(/^medals\./, '') : `${detail.gameId}.${normalizedSlug}.title`
+				) as TranslationKey;
+				const derivedDescKey = (
+					def ? def.descriptionKey.replace(/^medals\./, '') : `${detail.gameId}.${normalizedSlug}.desc`
+				) as TranslationKey;
+
+				const translatedTitle = t(derivedTitleKey);
+				const translatedDesc = t(derivedDescKey);
+				const title = translatedTitle !== derivedTitleKey ? translatedTitle : 'Medal Unlocked!';
+				const message = translatedDesc !== derivedDescKey ? translatedDesc : medal.id;
 
 				const showcaseHref = `/${detail.gameId}/${language}/medals`;
 

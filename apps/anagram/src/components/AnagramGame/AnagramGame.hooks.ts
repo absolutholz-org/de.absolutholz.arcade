@@ -1,5 +1,6 @@
 import { getGameMedalState, recordGameResult } from '@arcade/lib-medals';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { ANAGRAM_MEDAL_DEFINITIONS } from '../../config/medals.js';
 import { generateRound, shuffleRack } from '../../engine/generator.js';
 import {
 	clearActiveGame,
@@ -218,35 +219,38 @@ export function useAnagramGame(difficulty: DifficultyLevel, mode: GameMode, init
 							? Array.from(new Set([...prevExpertLanguages, vocabLanguage]))
 							: prevExpertLanguages;
 
-					await recordGameResult({
-						gameId: 'anagram',
-						won: cleared,
-						playTimeSeconds: elapsed,
-						levelKey: difficulty,
-						customData: {
-							languagesPlayed,
-							expertLanguagesWon,
+					await recordGameResult(
+						{
+							gameId: 'anagram',
+							won: cleared,
+							playTimeSeconds: elapsed,
+							levelKey: difficulty,
+							customData: {
+								languagesPlayed,
+								expertLanguagesWon,
+							},
+							roundContext: {
+								wordsFound: finalWords.length,
+								mode,
+								language: vocabLanguage,
+								secondsLeft: mode === 'timed' ? remainingSeconds : 0,
+								foundFullRack,
+								foundAnagramPair: hasAnagramPair(finalWords),
+								mastered,
+								shuffles: stats.current.shuffles,
+								quickShuffleBurst: stats.current.quickShuffleBurst,
+								invalidGuesses: stats.current.invalidGuesses,
+								duplicateGuesses: stats.current.duplicateGuesses,
+								usedCorrections: stats.current.usedCorrections,
+								surrendered,
+								secondsBeforeSurrender: surrendered ? elapsed : 0,
+								pausedSeconds: stats.current.pausedSeconds,
+								fullRackSecondsLeft: stats.current.fullRackSecondsLeft ?? -1,
+								onlyShortWordsPlusRoot,
+							},
 						},
-						roundContext: {
-							wordsFound: finalWords.length,
-							mode,
-							language: vocabLanguage,
-							secondsLeft: mode === 'timed' ? remainingSeconds : 0,
-							foundFullRack,
-							foundAnagramPair: hasAnagramPair(finalWords),
-							mastered,
-							shuffles: stats.current.shuffles,
-							quickShuffleBurst: stats.current.quickShuffleBurst,
-							invalidGuesses: stats.current.invalidGuesses,
-							duplicateGuesses: stats.current.duplicateGuesses,
-							usedCorrections: stats.current.usedCorrections,
-							surrendered,
-							secondsBeforeSurrender: surrendered ? elapsed : 0,
-							pausedSeconds: stats.current.pausedSeconds,
-							fullRackSecondsLeft: stats.current.fullRackSecondsLeft ?? -1,
-							onlyShortWordsPlusRoot,
-						},
-					});
+						{ definitions: ANAGRAM_MEDAL_DEFINITIONS },
+					);
 				} catch {
 					// Ignore storage errors during medal recording
 				}

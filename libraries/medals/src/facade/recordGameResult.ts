@@ -1,7 +1,7 @@
 import type { GameStorage } from '@arcade/lib-storage';
-import { getMedalDefinitionsForGame } from '../definitions/index.js';
 import { updateBaseStats, updateCustomStats } from '../engine/aggregator.js';
 import { evaluateAchievements } from '../engine/evaluator.js';
+import { getMedalDefinitionsForGame, registerMedalDefinitions } from '../engine/registry.js';
 import { dispatchMedalUnlockedEvent } from '../events/medalEvents.js';
 import { getGameMedalState, setGameMedalState } from '../storage/medalStorage.js';
 import { type MedalSyncAdapter, getMedalSyncAdapter } from '../sync/syncAdapter.js';
@@ -48,6 +48,9 @@ export async function recordGameResult<G extends GameId>(
 	const { updatedCustom, isNewBestTime } = updateCustomStats(payload.gameId, priorState.customStats, payload);
 
 	// 3. Local achievement evaluation
+	if (options?.definitions) {
+		registerMedalDefinitions(payload.gameId, options.definitions);
+	}
 	const definitions = options?.definitions ?? getMedalDefinitionsForGame(payload.gameId);
 	const { newlyUnlocked, updatedProgress } = evaluateAchievements(
 		{

@@ -1,4 +1,4 @@
-import type { AchievementDefinition, MedalTier } from '../types/index.js';
+import type { AchievementDefinition, MedalTier } from '@arcade/lib-medals';
 
 const EASY_PRESETS = Array.from({ length: 15 }, (_, i) => `easy-${i + 1}`);
 const MEDIUM_PRESETS = Array.from({ length: 15 }, (_, i) => `medium-${i + 1}`);
@@ -11,6 +11,7 @@ export const TRACKS_MEDAL_DEFINITIONS: readonly AchievementDefinition<'tracks'>[
 		id: 'tracks_first_departure',
 		type: 'standalone',
 		tier: 'bronze',
+		target: 1,
 		titleKey: 'medals.tracks.first_departure.title',
 		descriptionKey: 'medals.tracks.first_departure.desc',
 		icon: 'trophy-bronze',
@@ -250,6 +251,7 @@ export const TRACKS_MEDAL_DEFINITIONS: readonly AchievementDefinition<'tracks'>[
 		id: 'tracks_college_try',
 		type: 'standalone',
 		tier: 'bronze',
+		target: 1,
 		titleKey: 'medals.tracks.college_try.title',
 		descriptionKey: 'medals.tracks.college_try.desc',
 		icon: 'trophy-bronze',
@@ -264,6 +266,7 @@ export const TRACKS_MEDAL_DEFINITIONS: readonly AchievementDefinition<'tracks'>[
 		id: 'tracks_derailment',
 		type: 'standalone',
 		tier: 'bronze',
+		target: 1,
 		titleKey: 'medals.tracks.derailment.title',
 		descriptionKey: 'medals.tracks.derailment.desc',
 		icon: 'trophy-bronze',
@@ -306,6 +309,7 @@ export const TRACKS_MEDAL_DEFINITIONS: readonly AchievementDefinition<'tracks'>[
 		id: 'tracks_signal_failure',
 		type: 'standalone',
 		tier: 'bronze',
+		target: 3,
 		titleKey: 'medals.tracks.signal_failure.title',
 		descriptionKey: 'medals.tracks.signal_failure.desc',
 		icon: 'trophy-bronze',
@@ -320,6 +324,7 @@ export const TRACKS_MEDAL_DEFINITIONS: readonly AchievementDefinition<'tracks'>[
 		id: 'tracks_indecisive_conductor',
 		type: 'standalone',
 		tier: 'bronze',
+		target: 5,
 		titleKey: 'medals.tracks.indecisive_conductor.title',
 		descriptionKey: 'medals.tracks.indecisive_conductor.desc',
 		icon: 'trophy-bronze',
@@ -333,3 +338,5 @@ export const TRACKS_MEDAL_DEFINITIONS: readonly AchievementDefinition<'tracks'>[
 		},
 	},
 ];
+
+export default TRACKS_MEDAL_DEFINITIONS;

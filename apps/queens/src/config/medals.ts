@@ -1,4 +1,4 @@
-import type { AchievementDefinition, MedalTier } from '../types/index.js';
+import type { AchievementDefinition, MedalTier } from '@arcade/lib-medals';
 
 const EASY_PRESETS = Array.from({ length: 25 }, (_, i) => `easy-${i + 1}`);
 const MEDIUM_PRESETS = Array.from({ length: 25 }, (_, i) => `medium-${i + 1}`);
@@ -11,6 +11,7 @@ export const QUEENS_MEDAL_DEFINITIONS: readonly AchievementDefinition<'queens'>[
 		id: 'queens_royal_placement',
 		type: 'standalone',
 		tier: 'bronze',
+		target: 1,
 		titleKey: 'medals.queens.royal_placement.title',
 		descriptionKey: 'medals.queens.royal_placement.desc',
 		icon: 'trophy-bronze',
@@ -248,6 +249,7 @@ export const QUEENS_MEDAL_DEFINITIONS: readonly AchievementDefinition<'queens'>[
 		id: 'queens_college_try',
 		type: 'standalone',
 		tier: 'bronze',
+		target: 1,
 		titleKey: 'medals.queens.college_try.title',
 		descriptionKey: 'medals.queens.college_try.desc',
 		icon: 'trophy-bronze',
@@ -262,6 +264,7 @@ export const QUEENS_MEDAL_DEFINITIONS: readonly AchievementDefinition<'queens'>[
 		id: 'queens_civil_war',
 		type: 'standalone',
 		tier: 'bronze',
+		target: 1,
 		titleKey: 'medals.queens.civil_war.title',
 		descriptionKey: 'medals.queens.civil_war.desc',
 		icon: 'trophy-bronze',
@@ -316,6 +319,7 @@ export const QUEENS_MEDAL_DEFINITIONS: readonly AchievementDefinition<'queens'>[
 		id: 'queens_royal_indecision',
 		type: 'standalone',
 		tier: 'bronze',
+		target: 4,
 		titleKey: 'medals.queens.royal_indecision.title',
 		descriptionKey: 'medals.queens.royal_indecision.desc',
 		icon: 'trophy-bronze',
@@ -329,3 +333,5 @@ export const QUEENS_MEDAL_DEFINITIONS: readonly AchievementDefinition<'queens'>[
 		},
 	},
 ];
+
+export default QUEENS_MEDAL_DEFINITIONS;

@@ -3,7 +3,7 @@ import type {
 	AchievementEvaluationContext,
 	AchievementEvaluationResult,
 	MedalTier,
-} from '../types/index.js';
+} from '@arcade/lib-medals';
 
 type AnagramContext = AchievementEvaluationContext<'anagram'>;
 type MedalMeta = Pick<AchievementDefinition<'anagram'>, 'id' | 'tier' | 'icon'> & { key: string };
@@ -37,6 +37,7 @@ function standalone(
 		id,
 		type: 'standalone',
 		tier,
+		target: 1,
 		titleKey: `medals.anagram.${key}.title`,
 		descriptionKey: `medals.anagram.${key}.desc`,
 		icon: ICON_BY_TIER[tier],
@@ -195,3 +196,5 @@ export const ANAGRAM_MEDAL_DEFINITIONS: readonly AchievementDefinition<'anagram'
 		return expertLanguagesWon.length >= 2;
 	}),
 ];
+
+export default ANAGRAM_MEDAL_DEFINITIONS;

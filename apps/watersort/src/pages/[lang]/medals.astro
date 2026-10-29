@@ -2,11 +2,10 @@
 import { resources } from '@arcade/lib-i18n/config/i18n';
 import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
-import { WATERSORT_MEDAL_DEFINITIONS } from '@arcade/lib-medals';
+import { GameMedalGrid } from '@arcade/lib-ui';
 import { PageContainer } from '@arcade/lib-ui/components/PageContainer';
 import BaseLayoutWithSiteHeaderAndSiteFooter from '@arcade/lib-ui/layouts/BaseLayoutWithSiteHeaderAndSiteFooter/BaseLayoutWithSiteHeaderAndSiteFooter.astro';
-import { WaterSortMedalGrid } from '../../components/WaterSortMedalGrid';
-import type { WaterSortMedalDefinitionItem } from '../../components/WaterSortMedalGrid/WaterSortMedalGrid.types';
+import { WATERSORT_MEDAL_DEFINITIONS } from '../../config/medals';
 
 export function getStaticPaths() {
 	return SUPPORTED_LANGUAGES.map((item) => ({
@@ -18,34 +17,6 @@ const { lang } = Astro.params;
 const currentLanguage = lang as SupportedLanguageCode;
 const currentWatersort = resources[currentLanguage]?.watersort ?? resources.en.watersort;
 const currentMedals = resources[currentLanguage]?.medals ?? resources.en.medals;
-
-const staticMedals: WaterSortMedalDefinitionItem[] = WATERSORT_MEDAL_DEFINITIONS.map((def) => {
-	const key = def.id.replace('watersort_', '') as keyof typeof currentMedals.watersort;
-	const localized = currentMedals.watersort[key];
-	let target: number | undefined;
-	if (def.thresholds) {
-		target = def.thresholds.gold;
-	} else if (def.id === 'watersort_medium_clear' || def.id === 'watersort_hard_clear') {
-		target = 5;
-	} else if (def.id === 'watersort_master_suite' || def.id === 'watersort_color_cascade') {
-		target = 4;
-	} else if (def.id === 'watersort_comeback_kid') {
-		target = 6;
-	} else {
-		target = 1;
-	}
-
-	return {
-		id: def.id,
-		type: def.type ?? 'standalone',
-		tier: def.tier,
-		title: localized?.title ?? def.id,
-		description: localized?.desc ?? '',
-		icon: def.icon,
-		target,
-		thresholds: def.thresholds,
-	};
-});
 ---
 
 <BaseLayoutWithSiteHeaderAndSiteFooter
@@ -55,6 +26,6 @@ const staticMedals: WaterSortMedalDefinitionItem[] = WATERSORT_MEDAL_DEFINITIONS
 	currentSlug="medals"
 >
 	<PageContainer variant="wide">
-	<WaterSortMedalGrid client:load lang={currentLanguage} staticMedals={staticMedals} />
+		<GameMedalGrid client:load gameId="watersort" definitions={WATERSORT_MEDAL_DEFINITIONS} lang={currentLanguage} />
 	</PageContainer>
 </BaseLayoutWithSiteHeaderAndSiteFooter>
