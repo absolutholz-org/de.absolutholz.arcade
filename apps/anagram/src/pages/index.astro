@@ -2,7 +2,7 @@
 import { resources } from '@arcade/lib-i18n/config/i18n';
 import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import { LanguageRedirectFallback } from '@arcade/lib-ui/components/LanguageRedirectFallback';
-import AnagramBaseLayout from '../layouts/AnagramBaseLayout.astro';
+import BaseLayout from '@arcade/lib-ui/layouts/BaseLayout/BaseLayout.astro';
 
 const currentCommon = resources[DEFAULT_LANGUAGE].common;
 const currentAnagram = resources[DEFAULT_LANGUAGE].anagram;
@@ -14,10 +14,11 @@ const languageItems = SUPPORTED_LANGUAGES.map((item) => ({
 }));
 ---
 
-<AnagramBaseLayout
+<BaseLayout
 	lang={DEFAULT_LANGUAGE}
 	title={currentAnagram.title}
 	canonical="https://arcade.absolutholz.de/anagram/en/"
+	appTitle="Anagram Scramble"
 >
 	<Fragment slot="head">
 		{/* Non-JS fallback redirect to default English */}
@@ -53,4 +54,4 @@ const languageItems = SUPPORTED_LANGUAGES.map((item) => ({
 		languagesAriaLabel={currentCommon.switchers.language.ariaLabel}
 		languages={languageItems}
 	/>
-</AnagramBaseLayout>
+</BaseLayout>

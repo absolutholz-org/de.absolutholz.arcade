@@ -3,8 +3,9 @@ import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { isSupportedLanguage } from '@arcade/lib-i18n/utils/detection';
-import { GameContainer } from '@arcade/lib-ui/components/GameContainer';
-import { type JSX, useMemo, useState } from 'react';
+import { GameHeader, GameLayout, PauseDialog } from '@arcade/lib-ui';
+import { Timer } from '@arcade/lib-ui/components/Timer';
+import { type JSX, useCallback, useMemo, useState } from 'react';
 import {
 	DIFFICULTY_CONFIGS,
 	type DifficultyLevel,
@@ -13,11 +14,10 @@ import {
 	SUPPORTED_VOCAB_LANGUAGES,
 } from '../../engine/types.js';
 import { AnagramControls } from '../AnagramControls/index.js';
-import { AnagramGameHeader } from '../AnagramGameHeader/index.js';
 import { AnagramRack } from '../AnagramRack/index.js';
+import { AnagramSettingsDialog } from '../AnagramSettingsDialog/index.js';
 import { AnagramSlots } from '../AnagramSlots/index.js';
 import { DefeatDialog } from '../DefeatDialog/index.js';
-import { PauseOverlay } from '../PauseOverlay/index.js';
 import { VictoryDialog } from '../VictoryDialog/index.js';
 import { useAnagramGame } from './AnagramGame.hooks.js';
 import * as S from './AnagramGame.styles.js';
@@ -47,8 +47,15 @@ function resolveSearchParams(
 	return { difficulty, mode, vocabLanguage };
 }
 
+function formatClock(totalSeconds: number): string {
+	const safe = Math.max(0, Math.floor(totalSeconds));
+	const minutes = Math.floor(safe / 60);
+	const seconds = safe % 60;
+	return `${minutes}:${String(seconds).padStart(2, '0')}`;
+}
+
 export function AnagramGame({ initialDifficulty = 'easy', initialMode = 'zen', lang }: AnagramGameProps): JSX.Element {
-	const [activeLang] = useState<SupportedLanguageCode>(() => {
+	const [activeLang, setActiveLang] = useState<SupportedLanguageCode>(() => {
 		if (lang && isSupportedLanguage(lang)) return lang;
 		if (typeof window !== 'undefined') {
 			const match = window.location.pathname.match(/\/anagram\/([a-z]{2})(\/|$)/);
@@ -59,6 +66,8 @@ export function AnagramGame({ initialDifficulty = 'easy', initialMode = 'zen', l
 		return DEFAULT_LANGUAGE;
 	});
 
+	const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+
 	const { difficulty, mode, vocabLanguage } = useMemo(
 		() => resolveSearchParams(initialDifficulty, initialMode, activeLang),
 		[initialDifficulty, initialMode, activeLang],
@@ -67,6 +76,15 @@ export function AnagramGame({ initialDifficulty = 'easy', initialMode = 'zen', l
 	const { t } = useI18n('anagram');
 	const { t: tCommon } = useI18n('common');
 	const game = useAnagramGame(difficulty, mode, vocabLanguage);
+
+	const handleLanguageChange = useCallback((nextLang: SupportedLanguageCode) => {
+		setActiveLang(nextLang);
+		if (typeof window !== 'undefined') {
+			const url = new URL(window.location.href);
+			url.pathname = url.pathname.replace(/\/anagram\/[a-z]{2}\//, `/anagram/${nextLang}/`);
+			window.location.assign(url.toString());
+		}
+	}, []);
 
 	const feedbackMessage = useMemo(() => {
 		if (!game.feedback) return '';
@@ -88,58 +106,66 @@ export function AnagramGame({ initialDifficulty = 'easy', initialMode = 'zen', l
 	}, [game.feedback, game.minWordLength, t]);
 
 	const displaySeconds = mode === 'timed' ? game.remainingSeconds : game.elapsedSeconds;
+	const difficultyLabel = `${t(`vocabulary.${game.vocabLanguage}`)} • ${t(`difficulty.${difficulty}`)} • ${t(`mode.${mode}`)}`;
 
 	return (
 		<I18nProvider language={activeLang}>
-			<GameContainer
-				id="main-content"
+			<GameLayout
 				header={
-					<AnagramGameHeader
-						difficulty={difficulty}
-						mode={mode}
-						vocabLanguage={game.vocabLanguage}
-						score={game.score}
-						foundCount={game.foundWords.length}
-						totalCount={game.round.words.length}
-						displaySeconds={displaySeconds}
-						isPaused={game.isPaused}
+					<GameHeader
+						backHref={`/anagram/${activeLang}/?difficulty=${difficulty}&mode=${mode}&vocab=${vocabLanguage}`}
+						backLabel={t('navigation.lobby')}
+						difficulty={difficultyLabel}
+						onOpenSettings={() => setIsSettingsOpen(true)}
+						settingsLabel={tCommon('settings.title')}
+					/>
+				}
+				status={
+					<div className={S.statusBar}>
+						<span
+							className={S.statusMetric}
+							aria-label={t('hud.wordsFound', {
+								found: String(game.foundWords.length),
+								total: String(game.round.words.length),
+							})}
+						>
+							<span>
+								{t('hud.wordsFound', {
+									found: String(game.foundWords.length),
+									total: String(game.round.words.length),
+								})}
+							</span>
+						</span>
+						<Timer
+							variant="inline"
+							seconds={displaySeconds}
+							isPaused={game.isPaused}
+							onTogglePause={game.togglePause}
+							size="sm"
+							showIcon={true}
+							aria-label={t('hud.timeLeft', { time: formatClock(displaySeconds) })}
+						/>
+						<span className={S.statusMetric} aria-label={t('hud.score', { score: String(game.score) })}>
+							<span>{t('hud.score', { score: String(game.score) })}</span>
+						</span>
+					</div>
+				}
+				toolbar={
+					<AnagramControls
+						canSubmit={game.stagedIds.length > 0}
+						isDisabled={!game.isInteractive}
 						isEnded={game.isEnded}
-						onTogglePause={game.togglePause}
+						hasClearedBaseline={game.hasClearedBaseline}
+						showReveal={mode === 'zen'}
+						onShuffle={game.shuffle}
+						onClear={game.clearStaged}
+						onSubmit={game.submit}
+						onReveal={game.reveal}
 						onNewRound={game.newRound}
 					/>
 				}
-				overlay={
-					<PauseOverlay
-						isOpen={game.isPaused && !game.isEnded}
-						onResume={game.togglePause}
-						onRestart={game.newRound}
-					/>
-				}
-				dialogs={
-					<>
-						<VictoryDialog
-							isOpen={game.dialog === 'victory'}
-							isMastered={game.isMastered}
-							foundCount={game.foundWords.length}
-							totalCount={game.round.words.length}
-							score={game.score}
-							elapsedSeconds={game.elapsedSeconds}
-							difficulty={difficulty}
-							mode={mode}
-							onPlayAgain={game.newRound}
-							onClose={game.closeDialog}
-						/>
-						<DefeatDialog
-							isOpen={game.dialog === 'defeat'}
-							foundCount={game.foundWords.length}
-							totalCount={game.round.words.length}
-							onPlayAgain={game.newRound}
-							onClose={game.closeDialog}
-						/>
-					</>
-				}
 			>
-				<S.PlayColumn>
+				<div className={S.boardArea}>
 					<AnagramSlots
 						words={game.round.words}
 						foundWords={game.foundWords}
@@ -155,27 +181,42 @@ export function AnagramGame({ initialDifficulty = 'easy', initialMode = 'zen', l
 						onStageTile={game.stageTile}
 						onRecallTile={game.recallTile}
 					/>
+				</div>
 
-					<AnagramControls
-						canSubmit={game.stagedIds.length > 0}
-						isDisabled={!game.isInteractive}
-						isEnded={game.isEnded}
-						hasClearedBaseline={game.hasClearedBaseline}
-						showReveal={mode === 'zen'}
-						onShuffle={game.shuffle}
-						onClear={game.clearStaged}
-						onSubmit={game.submit}
-						onReveal={game.reveal}
-						onNewRound={game.newRound}
-					/>
+				<PauseDialog
+					isOpen={game.isPaused && !game.isEnded}
+					onResume={game.togglePause}
+					onRestart={game.newRound}
+				/>
 
-					<S.GameFooter>
-						<S.GameFooterLink href={`/anagram/${activeLang}/rules`}>
-							📖 {t('navigation.rules')}
-						</S.GameFooterLink>
-					</S.GameFooter>
-				</S.PlayColumn>
-			</GameContainer>
+				<AnagramSettingsDialog
+					isOpen={isSettingsOpen}
+					onClose={() => setIsSettingsOpen(false)}
+					activeLanguage={activeLang}
+					onLanguageChange={handleLanguageChange}
+				/>
+
+				<VictoryDialog
+					isOpen={game.dialog === 'victory'}
+					isMastered={game.isMastered}
+					foundCount={game.foundWords.length}
+					totalCount={game.round.words.length}
+					score={game.score}
+					elapsedSeconds={game.elapsedSeconds}
+					difficulty={difficulty}
+					mode={mode}
+					onPlayAgain={game.newRound}
+					onClose={game.closeDialog}
+				/>
+
+				<DefeatDialog
+					isOpen={game.dialog === 'defeat'}
+					foundCount={game.foundWords.length}
+					totalCount={game.round.words.length}
+					onPlayAgain={game.newRound}
+					onClose={game.closeDialog}
+				/>
+			</GameLayout>
 		</I18nProvider>
 	);
 }

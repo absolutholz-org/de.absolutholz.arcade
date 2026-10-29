@@ -1,5 +1,4 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
-import { Button } from '@arcade/lib-ui/components/Button';
 import { Icon } from '@arcade/lib-ui/components/Icon';
 import type { JSX } from 'react';
 import * as S from './AnagramControls.styles.js';
@@ -9,7 +8,7 @@ export function AnagramControls({
 	canSubmit,
 	isDisabled,
 	isEnded,
-	hasClearedBaseline,
+	hasClearedBaseline: _hasClearedBaseline,
 	showReveal,
 	onShuffle,
 	onClear,
@@ -21,41 +20,63 @@ export function AnagramControls({
 
 	return (
 		<S.ControlsContainer>
-			<S.MainBar>
-				<S.ButtonGroup>
-					<Button variant="primary" size="sm" disabled={isDisabled || !canSubmit} onClick={onSubmit}>
-						{t('controls.submit')}
-					</Button>
-					<Button variant="secondary" size="sm" disabled={isDisabled} onClick={onShuffle}>
-						{t('controls.shuffle')}
-					</Button>
-					<Button
-						variant="ghost"
-						size="sm"
-						disabled={isDisabled || !canSubmit}
-						leadingIcon={<Icon name="undo" size="xs" />}
-						onClick={onClear}
-					>
-						{t('controls.clear')}
-					</Button>
-				</S.ButtonGroup>
+			<S.ActionsRow>
+				<S.ActionButton
+					type="button"
+					disabled={isDisabled || !canSubmit}
+					onClick={onSubmit}
+					aria-label={t('controls.submit')}
+					title={t('controls.submit')}
+				>
+					<Icon name="check" size="sm" />
+					<span>{t('controls.submit')}</span>
+				</S.ActionButton>
 
-				<S.ButtonGroup>
-					{showReveal && !isEnded && (
-						<Button variant="outline" size="sm" disabled={isDisabled} onClick={onReveal}>
-							{t('controls.reveal')}
-						</Button>
-					)}
-					<Button
-						variant={hasClearedBaseline ? 'secondary' : 'ghost'}
-						size="sm"
-						leadingIcon={<Icon name="rotate-ccw" size="xs" />}
-						onClick={onNewRound}
+				<S.ActionButton
+					type="button"
+					disabled={isDisabled}
+					onClick={onShuffle}
+					aria-label={t('controls.shuffle')}
+					title={t('controls.shuffle')}
+				>
+					<Icon name="shuffle" size="sm" />
+					<span>{t('controls.shuffle')}</span>
+				</S.ActionButton>
+
+				<S.ActionButton
+					type="button"
+					disabled={isDisabled || !canSubmit}
+					onClick={onClear}
+					aria-label={t('controls.clear')}
+					title={t('controls.clear')}
+				>
+					<Icon name="undo" size="sm" />
+					<span>{t('controls.clear')}</span>
+				</S.ActionButton>
+
+				{showReveal && !isEnded && (
+					<S.ActionButton
+						type="button"
+						disabled={isDisabled}
+						onClick={onReveal}
+						aria-label={t('controls.reveal')}
+						title={t('controls.reveal')}
 					>
-						{t('controls.newRound')}
-					</Button>
-				</S.ButtonGroup>
-			</S.MainBar>
+						<Icon name="eye" size="sm" />
+						<span>{t('controls.reveal')}</span>
+					</S.ActionButton>
+				)}
+
+				<S.ActionButton
+					type="button"
+					onClick={onNewRound}
+					aria-label={t('controls.newRound')}
+					title={t('controls.newRound')}
+				>
+					<Icon name="rotate-ccw" size="sm" />
+					<span>{t('controls.newRound')}</span>
+				</S.ActionButton>
+			</S.ActionsRow>
 		</S.ControlsContainer>
 	);
 }
