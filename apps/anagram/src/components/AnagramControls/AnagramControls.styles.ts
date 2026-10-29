@@ -69,6 +69,27 @@ export const ActionButton = styled.button`
 		outline-offset: 2px;
 	}
 
+	&[data-variant='primary'] {
+		background-color: ${themeColor('accent')};
+		border-color: ${themeColor('accent')};
+		color: ${themeColor('accent-contrast')};
+
+		&:hover:not(:disabled) {
+			background-color: oklch(from ${themeColor('accent')} calc(l + 0.04) c h);
+			border-color: oklch(from ${themeColor('accent')} calc(l + 0.04) c h);
+		}
+
+		&:focus-visible {
+			outline: 2px solid ${themeColor('accent')};
+			outline-offset: 2px;
+		}
+
+		&:disabled {
+			opacity: 0.35;
+			cursor: not-allowed;
+		}
+	}
+
 	@media (min-width: 640px) {
 		flex-direction: row;
 		flex: 1 1 0;

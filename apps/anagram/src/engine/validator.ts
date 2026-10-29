@@ -108,3 +108,32 @@ export function isRoundMastered(data: AnagramData, foundWords: readonly string[]
 export function scoreWord(word: string): number {
 	return Array.from(word).length ** 2 * 10;
 }
+
+export interface TileLike {
+	id: number;
+	letter: string;
+}
+
+export function resolveWordTileIds(word: string, tiles: readonly TileLike[]): number[] {
+	const selectedIds: number[] = [];
+	const hasGermanSpecial =
+		GERMAN_SPECIAL_PATTERN.test(word) || tiles.some((tile) => GERMAN_SPECIAL_PATTERN.test(tile.letter));
+
+	for (const rawChar of Array.from(word)) {
+		const charTile = normalizeTile(rawChar);
+		const charWord = normalizeWord(rawChar);
+
+		const match = tiles.find(
+			(tile) =>
+				!selectedIds.includes(tile.id) &&
+				(normalizeTile(tile.letter) === charTile ||
+					(!hasGermanSpecial && normalizeWord(tile.letter) === charWord)),
+		);
+
+		if (match !== undefined) {
+			selectedIds.push(match.id);
+		}
+	}
+
+	return selectedIds;
+}

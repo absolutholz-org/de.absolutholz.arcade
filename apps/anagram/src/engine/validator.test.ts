@@ -8,6 +8,7 @@ import {
 	isRoundMastered,
 	normalizeTile,
 	normalizeWord,
+	resolveWordTileIds,
 	scoreWord,
 	validateGuess,
 } from './validator.ts';
@@ -142,5 +143,82 @@ describe('round outcome', () => {
 	it('scores longer words quadratically', () => {
 		assert.equal(scoreWord('art'), 90);
 		assert.equal(scoreWord('star'), 160);
+	});
+});
+
+describe('resolveWordTileIds', () => {
+	const stareTiles = [
+		{ id: 10, letter: 's' },
+		{ id: 11, letter: 't' },
+		{ id: 12, letter: 'a' },
+		{ id: 13, letter: 'r' },
+		{ id: 14, letter: 'e' },
+	];
+
+	it('resolves simple words and returns tile IDs in character order', () => {
+		assert.deepEqual(resolveWordTileIds('tar', stareTiles), [11, 12, 13]);
+		assert.deepEqual(resolveWordTileIds('rate', stareTiles), [13, 12, 11, 14]);
+		assert.deepEqual(resolveWordTileIds('STAR', stareTiles), [10, 11, 12, 13]);
+	});
+
+	it('correctly handles duplicate letters in word and rack', () => {
+		const eagerTiles = [
+			{ id: 1, letter: 'e' },
+			{ id: 2, letter: 'a' },
+			{ id: 3, letter: 'g' },
+			{ id: 4, letter: 'e' },
+			{ id: 5, letter: 'r' },
+		];
+		assert.deepEqual(resolveWordTileIds('eager', eagerTiles), [1, 2, 3, 4, 5]);
+		assert.deepEqual(resolveWordTileIds('gee', eagerTiles), [3, 1, 4]);
+	});
+
+	it('resolves accented Portuguese words using unaccented rack tiles', () => {
+		const macaTiles = [
+			{ id: 0, letter: 'm' },
+			{ id: 1, letter: 'a' },
+			{ id: 2, letter: 'c' },
+			{ id: 3, letter: 'a' },
+			{ id: 4, letter: 's' },
+		];
+		assert.deepEqual(resolveWordTileIds('maçã', macaTiles), [0, 1, 2, 3]);
+	});
+
+	it('resolves accented French words using unaccented rack tiles', () => {
+		const ecoleTiles = [
+			{ id: 0, letter: 'e' },
+			{ id: 1, letter: 'c' },
+			{ id: 2, letter: 'o' },
+			{ id: 3, letter: 'l' },
+			{ id: 4, letter: 'e' },
+			{ id: 5, letter: 's' },
+		];
+		assert.deepEqual(resolveWordTileIds('école', ecoleTiles), [0, 1, 2, 3, 4]);
+	});
+
+	it('resolves German umlauts and ß matching exact tiles', () => {
+		const fuesseTiles = [
+			{ id: 0, letter: 'f' },
+			{ id: 1, letter: 'ü' },
+			{ id: 2, letter: 'ß' },
+			{ id: 3, letter: 'e' },
+			{ id: 4, letter: 'n' },
+		];
+		assert.deepEqual(resolveWordTileIds('füße', fuesseTiles), [0, 1, 2, 3]);
+
+		const apfelTiles = [
+			{ id: 0, letter: 'a' },
+			{ id: 1, letter: 'p' },
+			{ id: 2, letter: 'f' },
+			{ id: 3, letter: 'e' },
+			{ id: 4, letter: 'l' },
+		];
+		// 'ä' cannot use unaccented 'a' in German
+		assert.deepEqual(resolveWordTileIds('äpfel', apfelTiles), [1, 2, 3, 4]);
+	});
+
+	it('returns empty array when word is empty or tiles are empty', () => {
+		assert.deepEqual(resolveWordTileIds('', stareTiles), []);
+		assert.deepEqual(resolveWordTileIds('star', []), []);
 	});
 });

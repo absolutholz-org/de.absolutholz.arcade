@@ -170,6 +170,8 @@ export function AnagramGame({ initialDifficulty = 'easy', initialMode = 'zen', l
 						words={game.round.words}
 						foundWords={game.foundWords}
 						isRevealed={game.isRevealed || game.outcome === 'timeUp'}
+						onSelectWord={game.selectWord}
+						isDisabled={!game.isInteractive}
 					/>
 
 					<AnagramRack

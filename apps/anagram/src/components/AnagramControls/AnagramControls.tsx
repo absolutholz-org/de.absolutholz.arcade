@@ -24,6 +24,7 @@ export function AnagramControls({
 			<S.ActionsRow>
 				<S.ActionButton
 					type="button"
+					data-variant="primary"
 					disabled={isDisabled || !canSubmit}
 					onClick={onSubmit}
 					aria-label={t('controls.submit')}

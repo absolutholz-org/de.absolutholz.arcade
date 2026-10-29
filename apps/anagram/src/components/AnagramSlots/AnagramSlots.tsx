@@ -4,7 +4,13 @@ import { normalizeWord } from '../../engine/validator.js';
 import * as S from './AnagramSlots.styles.js';
 import type { AnagramSlotsProps } from './AnagramSlots.types.js';
 
-export function AnagramSlots({ words, foundWords, isRevealed }: AnagramSlotsProps): JSX.Element {
+export function AnagramSlots({
+	words,
+	foundWords,
+	isRevealed,
+	onSelectWord,
+	isDisabled = false,
+}: AnagramSlotsProps): JSX.Element {
 	const { t } = useI18n('anagram');
 
 	const wordsByLength = new Map<number, string[]>();
@@ -26,18 +32,30 @@ export function AnagramSlots({ words, foundWords, isRevealed }: AnagramSlotsProp
 								foundWords.includes(word) ||
 								foundWords.some((found) => normalizeWord(found) === normalizedTarget);
 							const state = isFound ? 'found' : isRevealed ? 'revealed' : 'hidden';
+							const label =
+								state === 'hidden'
+									? t('aria.slotHidden', { length })
+									: t('aria.slotRevealed', { word });
+
 							return (
-								<S.Slot
-									key={word}
-									data-state={state}
-									aria-label={
-										state === 'hidden'
-											? t('aria.slotHidden', { length })
-											: t('aria.slotRevealed', { word })
-									}
-								>
-									{state === 'hidden' ? Array.from(word, () => '_').join(' ') : word}
-								</S.Slot>
+								<S.SlotItem key={word}>
+									{state === 'hidden' ? (
+										<S.SlotPlaceholder aria-label={label}>
+											{Array.from(word, () => '_').join(' ')}
+										</S.SlotPlaceholder>
+									) : (
+										<S.SlotButton
+											type="button"
+											data-state={state}
+											disabled={isDisabled}
+											onClick={() => onSelectWord?.(word)}
+											aria-label={label}
+											title={label}
+										>
+											{word}
+										</S.SlotButton>
+									)}
+								</S.SlotItem>
 							);
 						})}
 					</ul>

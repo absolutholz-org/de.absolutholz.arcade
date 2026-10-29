@@ -26,6 +26,7 @@ import {
 	isRoundMastered,
 	normalizeTile,
 	normalizeWord,
+	resolveWordTileIds,
 	scoreWord,
 	validateGuess,
 } from '../../engine/validator.js';
@@ -433,6 +434,17 @@ export function useAnagramGame(difficulty: DifficultyLevel, mode: GameMode, init
 
 	const closeDialog = useCallback(() => setDialog(null), []);
 
+	const selectWord = useCallback(
+		(word: string) => {
+			if (!isInteractive) return;
+			stats.current.usedCorrections = true;
+			const nextIds = resolveWordTileIds(word, tiles);
+			setStagedIds(nextIds);
+			setFeedback(null);
+		},
+		[isInteractive, tiles],
+	);
+
 	useEffect(() => {
 		const handleKeyDown = (event: KeyboardEvent) => {
 			if (event.key === 'Backspace') {
@@ -454,6 +466,7 @@ export function useAnagramGame(difficulty: DifficultyLevel, mode: GameMode, init
 				event.preventDefault();
 				clearStaged();
 			} else if (event.key === ' ') {
+				if (isButtonTarget) return;
 				event.preventDefault();
 				shuffle();
 			} else if (LETTER_KEY_PATTERN.test(event.key)) {
@@ -494,5 +507,6 @@ export function useAnagramGame(difficulty: DifficultyLevel, mode: GameMode, init
 		newRound,
 		togglePause,
 		closeDialog,
+		selectWord,
 	};
 }
