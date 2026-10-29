@@ -8,6 +8,7 @@ import { deMedals } from '../locales/de/medals.js';
 import { deMinesweeper } from '../locales/de/minesweeper.js';
 import { deNonogram } from '../locales/de/nonogram.js';
 import { deQueens } from '../locales/de/queens.js';
+import { deSoloNoble } from '../locales/de/solonoble.js';
 import { deSudoku } from '../locales/de/sudoku.js';
 import { deTents } from '../locales/de/tents.js';
 import { deTracks } from '../locales/de/tracks.js';
@@ -19,6 +20,7 @@ import { enMedals } from '../locales/en/medals.js';
 import { enMinesweeper } from '../locales/en/minesweeper.js';
 import { enNonogram } from '../locales/en/nonogram.js';
 import { enQueens } from '../locales/en/queens.js';
+import { enSoloNoble } from '../locales/en/solonoble.js';
 import { enSudoku } from '../locales/en/sudoku.js';
 import { enTents } from '../locales/en/tents.js';
 import { enTracks } from '../locales/en/tracks.js';
@@ -30,6 +32,7 @@ import { frMedals } from '../locales/fr/medals.js';
 import { frMinesweeper } from '../locales/fr/minesweeper.js';
 import { frNonogram } from '../locales/fr/nonogram.js';
 import { frQueens } from '../locales/fr/queens.js';
+import { frSoloNoble } from '../locales/fr/solonoble.js';
 import { frSudoku } from '../locales/fr/sudoku.js';
 import { frTents } from '../locales/fr/tents.js';
 import { frTracks } from '../locales/fr/tracks.js';
@@ -41,6 +44,7 @@ import { ptMedals } from '../locales/pt/medals.js';
 import { ptMinesweeper } from '../locales/pt/minesweeper.js';
 import { ptNonogram } from '../locales/pt/nonogram.js';
 import { ptQueens } from '../locales/pt/queens.js';
+import { ptSoloNoble } from '../locales/pt/solonoble.js';
 import { ptSudoku } from '../locales/pt/sudoku.js';
 import { ptTents } from '../locales/pt/tents.js';
 import { ptTracks } from '../locales/pt/tracks.js';
@@ -58,6 +62,7 @@ export const resources: TranslationResources = {
 		bridges: enBridges,
 		tracks: enTracks,
 		watersort: enWatersort,
+		solonoble: enSoloNoble,
 		tents: enTents,
 		anagram: enAnagram,
 		medals: enMedals,
@@ -71,6 +76,7 @@ export const resources: TranslationResources = {
 		bridges: deBridges,
 		tracks: deTracks,
 		watersort: deWatersort,
+		solonoble: deSoloNoble,
 		tents: deTents,
 		anagram: deAnagram,
 		medals: deMedals,
@@ -84,6 +90,7 @@ export const resources: TranslationResources = {
 		bridges: frBridges,
 		tracks: frTracks,
 		watersort: frWatersort,
+		solonoble: frSoloNoble,
 		tents: frTents,
 		anagram: frAnagram,
 		medals: frMedals,
@@ -97,6 +104,7 @@ export const resources: TranslationResources = {
 		bridges: ptBridges,
 		tracks: ptTracks,
 		watersort: ptWatersort,
+		solonoble: ptSoloNoble,
 		tents: ptTents,
 		anagram: ptAnagram,
 		medals: ptMedals,
@@ -111,7 +119,20 @@ i18n.use(initReactI18next).init({
 	fallbackLng: false,
 	supportedLngs: SUPPORTED_LANGUAGES.map((item) => item.code),
 	defaultNS: 'common',
-	ns: ['common', 'sudoku', 'minesweeper', 'nonogram', 'queens', 'bridges', 'tracks', 'tents', 'anagram', 'medals'],
+	ns: [
+		'common',
+		'sudoku',
+		'minesweeper',
+		'nonogram',
+		'queens',
+		'bridges',
+		'tracks',
+		'watersort',
+		'solonoble',
+		'tents',
+		'anagram',
+		'medals',
+	],
 	interpolation: {
 		escapeValue: false,
 	},

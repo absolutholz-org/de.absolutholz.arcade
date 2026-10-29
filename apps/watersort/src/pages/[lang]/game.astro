@@ -2,9 +2,9 @@
 import { resources } from '@arcade/lib-i18n/config/i18n';
 import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import GameLayout from '@arcade/lib-ui/layouts/GameLayout/GameLayout.astro';
 import { WaterSortGame } from '../../components/WaterSortGame';
 import type { DifficultyLevel } from '../../engine/types.js';
-import WaterSortBaseLayout from '../../layouts/WaterSortBaseLayout.astro';
 
 export function getStaticPaths() {
 	return SUPPORTED_LANGUAGES.map((item) => ({
@@ -21,11 +21,12 @@ const parsedSeed = rawSeed !== null ? Number.parseInt(rawSeed, 10) : Number.NaN;
 const initialSeed = !Number.isNaN(parsedSeed) && parsedSeed > 0 ? parsedSeed : undefined;
 ---
 
-<WaterSortBaseLayout
+<GameLayout
 	title={`${currentWatersort.title} | ${currentWatersort.description}`}
 	description={currentWatersort.description}
 	lang={lang as SupportedLanguageCode}
 	canonical={`https://arcade.absolutholz.de/watersort/${lang}/game`}
+	appTitle="Water Sort"
 >
 	<WaterSortGame
 		client:only="react"
@@ -33,4 +34,4 @@ const initialSeed = !Number.isNaN(parsedSeed) && parsedSeed > 0 ? parsedSeed : u
 		initialDifficulty={initialDifficulty}
 		initialSeed={initialSeed}
 	/>
-</WaterSortBaseLayout>
+</GameLayout>
