@@ -29,7 +29,6 @@ export function TentsGame({ initialDifficulty = 'easy', initialPuzzleId, lang }:
 
 	const { changeLanguage } = useI18n();
 	const { t } = useI18n('tents');
-	const { t: tCommon } = useI18n('common');
 	const game = useTentsGame(initialDifficulty, initialPuzzleId);
 
 	const handleLanguageChange = useCallback(
@@ -90,7 +89,7 @@ export function TentsGame({ initialDifficulty = 'easy', initialPuzzleId, lang }:
 				</div>
 			}
 		>
-			<S.PlayColumn>
+			<div className={S.boardArea}>
 				<TentsBoard
 					board={game.board}
 					evaluation={game.evaluation}
@@ -104,7 +103,9 @@ export function TentsGame({ initialDifficulty = 'easy', initialPuzzleId, lang }:
 					onClueClick={game.handleClueClick}
 					onKeyDown={game.handleKeyDown}
 				/>
+			</div>
 
+			<S.ControlsWrapper>
 				<TentsControls
 					inputMode={game.inputMode}
 					canUndo={game.canUndo}
@@ -115,7 +116,7 @@ export function TentsGame({ initialDifficulty = 'easy', initialPuzzleId, lang }:
 					onRedo={game.handleRedo}
 					onReset={game.handleReset}
 				/>
-			</S.PlayColumn>
+			</S.ControlsWrapper>
 
 			<PauseDialog
 				isOpen={game.isPaused && !game.isComplete}

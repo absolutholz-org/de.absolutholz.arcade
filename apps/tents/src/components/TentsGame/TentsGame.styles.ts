@@ -1,6 +1,18 @@
 import { css } from '@linaria/core';
 import { styled } from '@linaria/react';
 
+export const boardArea = css`
+	position: relative;
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	min-height: 0;
+	min-width: 0;
+	width: 100%;
+	padding: 0;
+	overflow: hidden;
+`;
+
 export const statusBar = css`
 	display: flex;
 	align-items: center;
@@ -27,15 +39,8 @@ export const statusMetric = css`
 	}
 `;
 
-export const PlayColumn = styled.div`
-	flex: 1;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	padding: 1rem 0.75rem 1.5rem;
+export const ControlsWrapper = styled.div`
+	margin-top: var(--space-md);
+	margin-inline: auto;
 	width: 100%;
-	max-width: 44rem;
-	margin: 0 auto;
-	user-select: none;
 `;

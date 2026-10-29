@@ -9,6 +9,7 @@ import { type JSX, useCallback, useState } from 'react';
 import { SettingsDialog } from '../SettingsDialog/index.js';
 import { TracksBoard } from '../TracksBoard/index.js';
 import { TracksControls } from '../TracksControls/index.js';
+import { TrackStraightHorizontal } from '../TracksSvg/index.js';
 import { VictoryDialog } from '../VictoryDialog/index.js';
 import { useTracksGame } from './TracksGame.hooks.js';
 import * as S from './TracksGame.styles.js';
@@ -28,7 +29,6 @@ export function TracksGame({ initialDifficulty = 'easy', initialPuzzleId, lang }
 
 	const { changeLanguage } = useI18n();
 	const { t } = useI18n('tracks');
-	const { t: tCommon } = useI18n('common');
 	const game = useTracksGame(initialDifficulty, initialPuzzleId);
 
 	const handleLanguageChange = useCallback(
@@ -69,6 +69,7 @@ export function TracksGame({ initialDifficulty = 'easy', initialPuzzleId, lang }
 							total: game.evaluation.totalLines,
 						})}
 					>
+						<TrackStraightHorizontal />
 						<span>
 							{t('status.linesSatisfied', {
 								current: game.evaluation.satisfiedLines,
@@ -88,7 +89,7 @@ export function TracksGame({ initialDifficulty = 'easy', initialPuzzleId, lang }
 				</div>
 			}
 		>
-			<S.PlayColumn>
+			<div className={S.boardArea}>
 				<TracksBoard
 					board={game.board}
 					evaluation={game.evaluation}
@@ -104,7 +105,9 @@ export function TracksGame({ initialDifficulty = 'easy', initialPuzzleId, lang }
 					onClueClick={game.handleClueClick}
 					onKeyDown={game.handleKeyDown}
 				/>
+			</div>
 
+			<S.ControlsWrapper>
 				<TracksControls
 					inputMode={game.inputMode}
 					canUndo={game.canUndo}
@@ -115,7 +118,7 @@ export function TracksGame({ initialDifficulty = 'easy', initialPuzzleId, lang }
 					onRedo={game.handleRedo}
 					onReset={game.handleReset}
 				/>
-			</S.PlayColumn>
+			</S.ControlsWrapper>
 
 			<PauseDialog
 				isOpen={game.isPaused && !game.isComplete}

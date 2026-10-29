@@ -5,7 +5,7 @@ export interface TracksControlsProps {
 	canUndo: boolean;
 	canRedo: boolean;
 	onToggleMode: (mode: InputMode) => void;
-	onHint: () => void;
+	onHint?: () => void;
 	onUndo: () => void;
 	onRedo: () => void;
 	onReset: () => void;

@@ -20,6 +20,12 @@ export const BoardMatrix = styled.div`
 	grid-template-columns: 3rem 1fr;
 	grid-template-rows: 3rem 1fr;
 	gap: 0.375rem;
+
+	@media (max-width: 480px) {
+		grid-template-columns: 2.25rem 1fr;
+		grid-template-rows: 2.25rem 1fr;
+		gap: 0.25rem;
+	}
 `;
 
 export const CornerCell = styled.div`
@@ -92,13 +98,13 @@ export const ClueButton = styled.button`
 	transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
 
 	.clue-target {
-		font-size: 0.9375rem;
+		font-size: clamp(0.75rem, 2.5vw, 0.9375rem);
 		font-weight: 700;
 		line-height: 1.1;
 	}
 
 	.clue-current {
-		font-size: 0.6875rem;
+		font-size: clamp(0.5625rem, 1.8vw, 0.6875rem);
 		font-weight: 600;
 		color: ${themeColor('text-3')};
 		line-height: 1;

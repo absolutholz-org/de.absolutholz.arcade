@@ -11,7 +11,6 @@ export function TentsControls({
 	canUndo,
 	canRedo,
 	onToggleMode,
-	onHint,
 	onUndo,
 	onRedo,
 	onReset,
@@ -35,7 +34,7 @@ export function TentsControls({
 
 	return (
 		<S.ControlsContainer>
-			<S.MainBar>
+			<S.ModeRow>
 				<SegmentedControl
 					size="sm"
 					value={inputMode}
@@ -43,52 +42,41 @@ export function TentsControls({
 					options={modeOptions}
 					ariaLabel={t('mode.label')}
 				/>
+			</S.ModeRow>
 
-				<S.ActionButtonGroup>
-					{onHint && (
-						<S.ActionButton
-							type="button"
-							onClick={onHint}
-							aria-label={t('controls.hint')}
-							title={t('controls.hintDesc')}
-						>
-							<span>{t('controls.hint')}</span>
-						</S.ActionButton>
-					)}
+			<S.ActionsRow>
+				<S.ActionButton
+					type="button"
+					onClick={onUndo}
+					disabled={!canUndo}
+					aria-label={t('common.undo')}
+					title={t('common.undo')}
+				>
+					<Icon name="undo" size="sm" />
+					<span>{t('common.undo')}</span>
+				</S.ActionButton>
 
-					<S.ActionButton
-						type="button"
-						data-icon-only="true"
-						onClick={onUndo}
-						disabled={!canUndo}
-						aria-label={t('controls.undo')}
-						title={t('controls.undo')}
-					>
-						<Icon name="undo" size="sm" />
-					</S.ActionButton>
+				<S.ActionButton
+					type="button"
+					onClick={onRedo}
+					disabled={!canRedo}
+					aria-label={t('common.redo')}
+					title={t('common.redo')}
+				>
+					<Icon name="redo" size="sm" />
+					<span>{t('common.redo')}</span>
+				</S.ActionButton>
 
-					<S.ActionButton
-						type="button"
-						data-icon-only="true"
-						onClick={onRedo}
-						disabled={!canRedo}
-						aria-label={t('controls.redo')}
-						title={t('controls.redo')}
-					>
-						<Icon name="redo" size="sm" />
-					</S.ActionButton>
-
-					<S.ActionButton
-						type="button"
-						data-icon-only="true"
-						onClick={onReset}
-						aria-label={t('controls.reset')}
-						title={t('controls.reset')}
-					>
-						<Icon name="rotate-ccw" size="sm" />
-					</S.ActionButton>
-				</S.ActionButtonGroup>
-			</S.MainBar>
+				<S.ActionButton
+					type="button"
+					onClick={onReset}
+					aria-label={t('common.restart')}
+					title={t('common.restart')}
+				>
+					<Icon name="rotate-ccw" size="sm" />
+					<span>{t('common.restart')}</span>
+				</S.ActionButton>
+			</S.ActionsRow>
 		</S.ControlsContainer>
 	);
 }
