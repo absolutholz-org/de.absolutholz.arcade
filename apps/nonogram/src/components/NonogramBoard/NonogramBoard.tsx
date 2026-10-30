@@ -1,6 +1,6 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import type { CSSProperties, JSX, KeyboardEvent, PointerEvent } from 'react';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { isLineCompleted } from '../../engine/clues';
 import type { CellState, InteractionMode, MoveAction, NonogramPuzzle } from '../../engine/types';
 import { NonogramCell } from '../NonogramCell';
@@ -44,19 +44,23 @@ export function NonogramBoard({
 	onRedo,
 }: NonogramBoardProps): JSX.Element {
 	const { t } = useI18n('nonogram');
-	const boardRef = useRef<HTMLDivElement>(null);
+	const boardRef = useRef<HTMLElement>(null);
+	const gridRef = useRef<HTMLDivElement>(null);
 	const [previewMap, setPreviewMap] = useState<Record<number, CellState>>({});
+	const previewMapRef = useRef<Record<number, CellState>>({});
 	const dragStateRef = useRef<DragState | null>(null);
 
 	const { width, height, rowClues, colClues } = puzzle;
 
-	// Line completion status for clues auto-dimming
-	const completedRows = rowClues.map((clue, r) => {
+	// Line completion status for clues auto-dimming with boundary safety
+	const completedRows = (rowClues ?? []).map((clue, r) => {
+		if (!clue) return false;
 		const rowCells = cells.slice(r * width, (r + 1) * width);
 		return isLineCompleted(rowCells, clue);
 	});
 
-	const completedCols = colClues.map((clue, c) => {
+	const completedCols = (colClues ?? []).map((clue, c) => {
+		if (!clue) return false;
 		const colCells: CellState[] = [];
 		for (let r = 0; r < height; r++) {
 			colCells.push(cells[r * width + c]);
@@ -64,8 +68,53 @@ export function NonogramBoard({
 		return isLineCompleted(colCells, clue);
 	});
 
+	const handlePointerEnd = useCallback(
+		(_e?: PointerEvent<HTMLElement> | globalThis.PointerEvent) => {
+			const drag = dragStateRef.current;
+			if (!drag || !drag.active) return;
+
+			if (boardRef.current && typeof boardRef.current.hasPointerCapture === 'function') {
+				try {
+					if (boardRef.current.hasPointerCapture(drag.pointerId)) {
+						boardRef.current.releasePointerCapture(drag.pointerId);
+					}
+				} catch {
+					// Ignore pointer capture release errors
+				}
+			}
+
+			dragStateRef.current = null;
+
+			// Synchronously retrieve preview changes (immune to async state render lag on fast taps)
+			let currentPreview = previewMapRef.current;
+			if (Object.keys(currentPreview).length === 0) {
+				currentPreview = { [drag.startRow * width + drag.startCol]: drag.targetState };
+			}
+
+			previewMapRef.current = {};
+			setPreviewMap({});
+
+			const actions: MoveAction[] = [];
+			for (const [idxStr, nextState] of Object.entries(currentPreview)) {
+				const idx = Number(idxStr);
+				if (idx < 0 || idx >= cells.length) continue;
+				const col = idx % width;
+				const row = Math.floor(idx / width);
+				const previousState = cells[idx];
+				if (previousState !== nextState) {
+					actions.push({ col, row, previousState, nextState });
+				}
+			}
+
+			if (actions.length > 0) {
+				onApplyStroke(actions);
+			}
+		},
+		[cells, width, onApplyStroke],
+	);
+
 	const handlePointerDown = useCallback(
-		(e: PointerEvent<HTMLDivElement>) => {
+		(e: PointerEvent<HTMLElement>) => {
 			if (isGameOver || isWon) return;
 
 			const targetBtn = (e.target as HTMLElement).closest<HTMLButtonElement>('button[data-col]');
@@ -73,6 +122,7 @@ export function NonogramBoard({
 
 			const startCol = Number(targetBtn.dataset.col);
 			const startRow = Number(targetBtn.dataset.row);
+			if (startCol < 0 || startCol >= width || startRow < 0 || startRow >= height) return;
 			const startIndex = startRow * width + startCol;
 
 			// Right click or Shift+click triggers cross action
@@ -97,33 +147,53 @@ export function NonogramBoard({
 				pointerId: e.pointerId,
 			};
 
-			setPreviewMap({ [startIndex]: targetState });
+			const initialPreview: Record<number, CellState> = { [startIndex]: targetState };
+			previewMapRef.current = initialPreview;
+			setPreviewMap(initialPreview);
 			onSetFocus(startCol, startRow);
 
-			try {
-				boardRef.current?.setPointerCapture(e.pointerId);
-			} catch {
-				// Ignore pointer capture errors on older browsers
+			if (boardRef.current && typeof boardRef.current.setPointerCapture === 'function') {
+				try {
+					boardRef.current.setPointerCapture(e.pointerId);
+				} catch {
+					// Ignore pointer capture errors on unsupported platforms
+				}
 			}
 
 			e.preventDefault();
 		},
-		[isGameOver, isWon, interactionMode, cells, width, onSetFocus],
+		[isGameOver, isWon, interactionMode, cells, width, height, onSetFocus],
 	);
 
 	const handlePointerMove = useCallback(
-		(e: PointerEvent<HTMLDivElement>) => {
+		(e: PointerEvent<HTMLElement>) => {
 			const drag = dragStateRef.current;
 			if (!drag || !drag.active) return;
 
 			e.preventDefault();
 
+			// Resolve cell by target element or fallback to clamped grid coordinates
+			let curCol: number | null = null;
+			let curRow: number | null = null;
+
 			const el = document.elementFromPoint(e.clientX, e.clientY);
 			const targetBtn = el?.closest<HTMLButtonElement>('button[data-col]');
-			if (!targetBtn || !targetBtn.dataset.col || !targetBtn.dataset.row) return;
+			if (targetBtn?.dataset.col && targetBtn.dataset.row) {
+				curCol = Number(targetBtn.dataset.col);
+				curRow = Number(targetBtn.dataset.row);
+			} else if (gridRef.current) {
+				const rect = gridRef.current.getBoundingClientRect();
+				if (rect.width > 0 && rect.height > 0) {
+					const clampedX = Math.max(0, Math.min(rect.width - 1, e.clientX - rect.left));
+					const clampedY = Math.max(0, Math.min(rect.height - 1, e.clientY - rect.top));
+					curCol = Math.min(width - 1, Math.max(0, Math.floor((clampedX / rect.width) * width)));
+					curRow = Math.min(height - 1, Math.max(0, Math.floor((clampedY / rect.height) * height)));
+				}
+			}
 
-			const curCol = Number(targetBtn.dataset.col);
-			const curRow = Number(targetBtn.dataset.row);
+			if (curCol === null || curRow === null) return;
+			curCol = Math.max(0, Math.min(width - 1, curCol));
+			curRow = Math.max(0, Math.min(height - 1, curRow));
 
 			// Lock axis once moved away from start cell
 			let lockedAxis = drag.lockedAxis;
@@ -146,14 +216,14 @@ export function NonogramBoard({
 			const nextPreview: Record<number, CellState> = {};
 
 			if (lockedAxis === 'horizontal') {
-				const minC = Math.min(drag.startCol, curCol);
-				const maxC = Math.max(drag.startCol, curCol);
+				const minC = Math.max(0, Math.min(drag.startCol, curCol));
+				const maxC = Math.min(width - 1, Math.max(drag.startCol, curCol));
 				for (let c = minC; c <= maxC; c++) {
 					nextPreview[drag.startRow * width + c] = drag.targetState;
 				}
 			} else if (lockedAxis === 'vertical') {
-				const minR = Math.min(drag.startRow, curRow);
-				const maxR = Math.max(drag.startRow, curRow);
+				const minR = Math.max(0, Math.min(drag.startRow, curRow));
+				const maxR = Math.min(height - 1, Math.max(drag.startRow, curRow));
 				for (let r = minR; r <= maxR; r++) {
 					nextPreview[r * width + drag.startCol] = drag.targetState;
 				}
@@ -161,47 +231,30 @@ export function NonogramBoard({
 				nextPreview[drag.startRow * width + drag.startCol] = drag.targetState;
 			}
 
+			previewMapRef.current = nextPreview;
 			setPreviewMap(nextPreview);
 		},
-		[width],
+		[width, height],
 	);
 
-	const handlePointerEnd = useCallback(
-		(e: PointerEvent<HTMLDivElement>) => {
-			const drag = dragStateRef.current;
-			if (!drag || !drag.active) return;
-
-			try {
-				boardRef.current?.releasePointerCapture(drag.pointerId);
-			} catch {
-				// Ignore
+	// Global pointerup/cancel safety listener so drag is never trapped when releasing outside
+	useEffect(() => {
+		const handleGlobalPointerEnd = (e: globalThis.PointerEvent) => {
+			if (dragStateRef.current?.active) {
+				handlePointerEnd(e);
 			}
+		};
 
-			dragStateRef.current = null;
-
-			// Commit preview changes
-			const actions: MoveAction[] = [];
-			for (const [idxStr, nextState] of Object.entries(previewMap)) {
-				const idx = Number(idxStr);
-				const col = idx % width;
-				const row = Math.floor(idx / width);
-				const previousState = cells[idx];
-				if (previousState !== nextState) {
-					actions.push({ col, row, previousState, nextState });
-				}
-			}
-
-			setPreviewMap({});
-
-			if (actions.length > 0) {
-				onApplyStroke(actions);
-			}
-		},
-		[cells, previewMap, width, onApplyStroke],
-	);
+		window.addEventListener('pointerup', handleGlobalPointerEnd);
+		window.addEventListener('pointercancel', handleGlobalPointerEnd);
+		return () => {
+			window.removeEventListener('pointerup', handleGlobalPointerEnd);
+			window.removeEventListener('pointercancel', handleGlobalPointerEnd);
+		};
+	}, [handlePointerEnd]);
 
 	const handleKeyDown = useCallback(
-		(e: KeyboardEvent<HTMLDivElement>) => {
+		(e: KeyboardEvent<HTMLElement>) => {
 			if (isGameOver || isWon) return;
 
 			const current = focusedCell ?? { col: 0, row: 0 };
@@ -306,6 +359,7 @@ export function NonogramBoard({
 				onPointerMove={handlePointerMove}
 				onPointerUp={handlePointerEnd}
 				onPointerCancel={handlePointerEnd}
+				onLostPointerCapture={handlePointerEnd}
 			>
 				{/* Top-Left Corner Spacer */}
 				<S.CornerCell aria-hidden="true">
@@ -362,7 +416,11 @@ export function NonogramBoard({
 
 				{/* Main Grid of Cells */}
 				{/* biome-ignore lint/a11y/useSemanticElements: Nonogram is an interactive 2D grid widget adhering to WAI-ARIA Grid pattern */}
-				<S.GridContainer role="grid" aria-label={t('aria.boardGrid', { cols: width, rows: height })}>
+				<S.GridContainer
+					role="grid"
+					ref={gridRef}
+					aria-label={t('aria.boardGrid', { cols: width, rows: height })}
+				>
 					{Array.from({ length: height }).map((_, r) =>
 						Array.from({ length: width }).map((__, c) => {
 							const index = r * width + c;

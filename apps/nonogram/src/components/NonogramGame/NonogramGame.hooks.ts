@@ -52,6 +52,8 @@ export function useNonogramEngine(initialDifficulty: DifficultyId = 'easy', init
 
 	const [history, setHistory] = useState<StrokeHistory[]>([]);
 	const [historyIndex, setHistoryIndex] = useState(-1);
+	const historyIndexRef = useRef(-1);
+	historyIndexRef.current = historyIndex;
 
 	// Dialog states
 	const [isVictoryOpen, setIsVictoryOpen] = useState(false);
@@ -247,7 +249,14 @@ export function useNonogramEngine(initialDifficulty: DifficultyId = 'easy', init
 
 			let hasNewMistake = false;
 			for (const act of actions) {
+				if (act.col < 0 || act.col >= curPuzzle.width || act.row < 0 || act.row >= curPuzzle.height) {
+					continue;
+				}
 				const idx = act.row * curPuzzle.width + act.col;
+				if (idx < 0 || idx >= curPuzzle.grid.length) {
+					continue;
+				}
+
 				cellTogglesRef.current[idx] = (cellTogglesRef.current[idx] ?? 0) + 1;
 
 				if (act.nextState === 'crossed') {
@@ -279,8 +288,10 @@ export function useNonogramEngine(initialDifficulty: DifficultyId = 'easy', init
 			if (settingsRef.current.autoCross) {
 				// Check rows
 				for (let r = 0; r < curPuzzle.height; r++) {
+					const rowClue = curPuzzle.rowClues?.[r];
+					if (!rowClue) continue;
 					const rowSlice = nextCells.slice(r * curPuzzle.width, (r + 1) * curPuzzle.width);
-					if (isLineCompleted(rowSlice, curPuzzle.rowClues[r])) {
+					if (isLineCompleted(rowSlice, rowClue)) {
 						for (let c = 0; c < curPuzzle.width; c++) {
 							const idx = r * curPuzzle.width + c;
 							if (nextCells[idx] === 'empty') {
@@ -291,11 +302,13 @@ export function useNonogramEngine(initialDifficulty: DifficultyId = 'easy', init
 				}
 				// Check cols
 				for (let c = 0; c < curPuzzle.width; c++) {
+					const colClue = curPuzzle.colClues?.[c];
+					if (!colClue) continue;
 					const colSlice: CellState[] = [];
 					for (let r = 0; r < curPuzzle.height; r++) {
 						colSlice.push(nextCells[r * curPuzzle.width + c]);
 					}
-					if (isLineCompleted(colSlice, curPuzzle.colClues[c])) {
+					if (isLineCompleted(colSlice, colClue)) {
 						for (let r = 0; r < curPuzzle.height; r++) {
 							const idx = r * curPuzzle.width + c;
 							if (nextCells[idx] === 'empty') {
@@ -309,12 +322,14 @@ export function useNonogramEngine(initialDifficulty: DifficultyId = 'easy', init
 			cellsRef.current = nextCells;
 			setCells(nextCells);
 
-			// Record in undo/redo history
+			// Record in undo/redo history using ref to prevent stale closures on rapid inputs
+			const nextHistoryIdx = historyIndexRef.current + 1;
+			historyIndexRef.current = nextHistoryIdx;
+			setHistoryIndex(nextHistoryIdx);
 			setHistory((prev) => {
-				const trimmed = prev.slice(0, historyIndex + 1);
+				const trimmed = prev.slice(0, nextHistoryIdx);
 				return [...trimmed, { actions }];
 			});
-			setHistoryIndex((prev) => prev + 1);
 
 			const nextMoves = movesRef.current + 1;
 			setMoves(nextMoves);
@@ -380,7 +395,7 @@ export function useNonogramEngine(initialDifficulty: DifficultyId = 'easy', init
 				});
 			}
 		},
-		[historyIndex, handleStrikeout, getMaxSameCellToggles],
+		[handleStrikeout, getMaxSameCellToggles],
 	);
 
 	// Handle single cell toggle (from keyboard or click)
@@ -388,7 +403,9 @@ export function useNonogramEngine(initialDifficulty: DifficultyId = 'easy', init
 		(col: number, row: number, mode: InteractionMode) => {
 			if (statusRef.current === 'won' || statusRef.current === 'lost') return;
 
-			const idx = row * puzzleRef.current.width + col;
+			const curPuzzle = puzzleRef.current;
+			if (col < 0 || col >= curPuzzle.width || row < 0 || row >= curPuzzle.height) return;
+			const idx = row * curPuzzle.width + col;
 			const current = cellsRef.current[idx];
 			let nextState: CellState = 'empty';
 
@@ -405,37 +422,47 @@ export function useNonogramEngine(initialDifficulty: DifficultyId = 'easy', init
 
 	// Undo action
 	const handleUndo = useCallback(() => {
-		if (historyIndex < 0 || statusRef.current === 'won') return;
+		const curIdx = historyIndexRef.current;
+		if (curIdx < 0 || statusRef.current === 'won') return;
 
-		const stroke = history[historyIndex];
+		const stroke = history[curIdx];
+		if (!stroke) return;
 		const nextCells = [...cellsRef.current];
 
 		for (const act of stroke.actions) {
 			const idx = act.row * puzzleRef.current.width + act.col;
-			nextCells[idx] = act.previousState;
+			if (idx >= 0 && idx < nextCells.length) {
+				nextCells[idx] = act.previousState;
+			}
 		}
 
 		cellsRef.current = nextCells;
 		setCells(nextCells);
-		setHistoryIndex((prev) => prev - 1);
-	}, [history, historyIndex]);
+		historyIndexRef.current = curIdx - 1;
+		setHistoryIndex(curIdx - 1);
+	}, [history]);
 
 	// Redo action
 	const handleRedo = useCallback(() => {
-		if (historyIndex >= history.length - 1 || statusRef.current === 'won') return;
+		const curIdx = historyIndexRef.current;
+		if (curIdx >= history.length - 1 || statusRef.current === 'won') return;
 
-		const nextStroke = history[historyIndex + 1];
+		const nextStroke = history[curIdx + 1];
+		if (!nextStroke) return;
 		const nextCells = [...cellsRef.current];
 
 		for (const act of nextStroke.actions) {
 			const idx = act.row * puzzleRef.current.width + act.col;
-			nextCells[idx] = act.nextState;
+			if (idx >= 0 && idx < nextCells.length) {
+				nextCells[idx] = act.nextState;
+			}
 		}
 
 		cellsRef.current = nextCells;
 		setCells(nextCells);
-		setHistoryIndex((prev) => prev + 1);
-	}, [history, historyIndex]);
+		historyIndexRef.current = curIdx + 1;
+		setHistoryIndex(curIdx + 1);
+	}, [history]);
 
 	// Reset board to initial empty state
 	const handleReset = useCallback(async () => {
@@ -443,6 +470,7 @@ export function useNonogramEngine(initialDifficulty: DifficultyId = 'easy', init
 		setCells(emptyCells);
 		cellsRef.current = emptyCells;
 		setHistory([]);
+		historyIndexRef.current = -1;
 		setHistoryIndex(-1);
 		setStatus('not_started');
 		setElapsedSeconds(0);
@@ -469,6 +497,7 @@ export function useNonogramEngine(initialDifficulty: DifficultyId = 'easy', init
 		setCells(emptyCells);
 		cellsRef.current = emptyCells;
 		setHistory([]);
+		historyIndexRef.current = -1;
 		setHistoryIndex(-1);
 		setStatus('not_started');
 		setElapsedSeconds(0);

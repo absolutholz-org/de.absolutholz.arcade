@@ -8,6 +8,7 @@
 		"build": "astro build",
 		"preview": "astro preview",
 		"typecheck": "astro sync && tsc --noEmit",
+		"test": "node --experimental-strip-types --test src/engine/clues.test.ts src/engine/drag.test.ts",
 		"verify:puzzles": "node --experimental-strip-types scripts/verify-puzzles.mjs"
 	},
 	"dependencies": {

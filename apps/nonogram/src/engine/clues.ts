@@ -54,7 +54,14 @@ export function computeClues(
 /**
  * Checks if the player's currently filled cells in a line match the target clue runs.
  */
-export function isLineCompleted(currentLineCells: CellState[], targetClue: number[]): boolean {
+export function isLineCompleted(
+	currentLineCells: readonly CellState[] | undefined,
+	targetClue: readonly number[] | undefined,
+): boolean {
+	if (!currentLineCells || !targetClue || !Array.isArray(targetClue) || targetClue.length === 0) {
+		return false;
+	}
+
 	const currentFilledRuns: number[] = [];
 	let currentRun = 0;
 
@@ -96,8 +103,11 @@ export function isLineCompleted(currentLineCells: CellState[], targetClue: numbe
  * Validates victory: triggers automatically when all filled cells match the solution
  * (ignoring extra X placements).
  */
-export function isPuzzleSolved(cells: CellState[], solution: number[]): boolean {
-	if (cells.length !== solution.length) {
+export function isPuzzleSolved(
+	cells: readonly CellState[] | undefined,
+	solution: readonly number[] | undefined,
+): boolean {
+	if (!cells || !solution || cells.length !== solution.length) {
 		return false;
 	}
 

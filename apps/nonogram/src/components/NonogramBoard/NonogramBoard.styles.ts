@@ -25,15 +25,14 @@ export const BoardContainer = styled.section`
 	border-radius: var(--radius-lg, 0.5rem);
 	padding: clamp(0.25rem, 1vmin, 0.5rem);
 	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-	width: 100%;
-	max-width: calc(100dvh - var(--game-header-height, 3.5rem) - 15rem);
-	aspect-ratio: 1;
+	width: fit-content;
+	max-width: min(100%, calc(100dvh - var(--game-header-height, 3.5rem) - 13rem));
 	margin-inline: auto;
 	touch-action: none;
 	box-sizing: border-box;
 
 	@media (min-width: 640px) {
-		max-width: calc(100dvh - var(--game-header-height, 3.5rem) - 12rem);
+		max-width: min(100%, calc(100dvh - var(--game-header-height, 3.5rem) - 10rem));
 	}
 `;
 
