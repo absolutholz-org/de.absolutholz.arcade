@@ -2,16 +2,16 @@ import { styled } from '@linaria/react';
 import { space } from '../../styles/spacing';
 
 export const Container = styled.div`
-	display: flex;
-	flex-direction: column;
-	gap: ${space('xl')};
-	padding-block: ${space('xl')} ${space('3xl')};
+	display: block;
+	padding-block: ${space('md')} ${space('xl')};
+
+	& > * + * {
+		margin-top: ${space('lg')};
+	}
 `;
 
 export const Hero = styled.header`
-	display: flex;
-	flex-direction: column;
-	gap: ${space('xs')};
+	display: block;
 `;
 
 export const Title = styled.h1`
@@ -20,6 +20,10 @@ export const Title = styled.h1`
 	font-weight: 800;
 	line-height: 1.2;
 	margin: 0;
+
+	&:has(+ p) {
+		margin-bottom: ${space('xs')};
+	}
 `;
 
 export const Subtitle = styled.p`
@@ -29,13 +33,8 @@ export const Subtitle = styled.p`
 	margin: 0;
 `;
 
-export const ActionArea = styled.div`
-	align-items: center;
+export const Footer = styled.footer`
 	border-top: 1px solid var(--color-container-2);
-	display: flex;
-	flex-wrap: wrap;
-	gap: ${space('md')};
-	justify-content: center;
-	margin-top: ${space('2xl')};
-	padding-top: ${space('2xl')};
+	margin-top: ${space('xl')};
+	padding-top: ${space('xl')};
 `;

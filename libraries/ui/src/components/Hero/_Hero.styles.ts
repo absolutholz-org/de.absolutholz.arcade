@@ -35,20 +35,24 @@ export const Hero_Visual = styled.div`
 `;
 
 export const Hero_Body = styled.div`
-	display: flex;
-	flex-direction: column;
-	gap: ${space('2xs')};
+	display: block;
+
+	& > * + * {
+		margin-top: ${space('2xs')};
+	}
 `;
 
 export const Hero_Title = styled.h1`
 	color: ${themeColor('text-1')};
 	font: ${generateFontShorthand('display', 'bold')};
+	margin: 0;
 	/* letter-spacing: -0.03em; */
 `;
 
 export const Hero_Tagline = styled.p`
 	color: ${themeColor('text-2')};
 	font: ${generateFontShorthand('h3', 'regular')};
+	margin: 0;
 `;
 
 export const Hero_Actions = styled.div`

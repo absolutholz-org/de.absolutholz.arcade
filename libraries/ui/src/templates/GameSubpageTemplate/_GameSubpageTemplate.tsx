@@ -2,6 +2,7 @@ import type { JSX, ReactNode } from 'react';
 import { Breadcrumb } from '../../components/Breadcrumb';
 import { Button } from '../../components/Button';
 import { PageContainer } from '../../components/PageContainer';
+import { Stack } from '../../components/Stack';
 import { BaseLayoutWithSiteHeaderAndSiteFooter } from '../../layouts/BaseLayoutWithSiteHeaderAndSiteFooter';
 import * as S from './_GameSubpageTemplate.styles';
 import type { GameSubpageActionItem, GameSubpageTemplateProps } from './_GameSubpageTemplate.types';
@@ -54,10 +55,12 @@ export function GameSubpageTemplate({
 					{children}
 
 					{hasActions ? (
-						<S.ActionArea>
-							{primaryAction ? renderAction(primaryAction, 'primary') : null}
-							{secondaryAction ? renderAction(secondaryAction, 'secondary') : null}
-						</S.ActionArea>
+						<S.Footer>
+							<Stack align="center" direction="row" spacing="md" justify="center" wrap>
+								{primaryAction ? renderAction(primaryAction, 'primary') : null}
+								{secondaryAction ? renderAction(secondaryAction, 'secondary') : null}
+							</Stack>
+						</S.Footer>
 					) : null}
 				</S.Container>
 			</PageContainer>

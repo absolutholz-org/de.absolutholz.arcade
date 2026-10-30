@@ -1,6 +1,6 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
-import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import type { SupportedLanguageCode, TranslationKey } from '@arcade/lib-i18n/types/i18n.types';
 import type { JSX } from 'react';
 import { Button } from '../Button';
 import { SegmentedControl } from '../SegmentedControl';
@@ -8,6 +8,43 @@ import { formatDurationIso, formatTime } from '../Timer';
 import { resolveSupportedLanguage, useGameStatsDashboard } from './_GameStatsDashboard.hooks';
 import * as S from './_GameStatsDashboard.styles';
 import type { GameStatsDashboardProps } from './_GameStatsDashboard.types';
+
+function capitalizeWord(word: string): string {
+	if (!word) return '';
+	return word.charAt(0).toUpperCase() + word.slice(1);
+}
+
+function resolveBucketLabel(
+	key: string,
+	bucketLabels: Record<string, string> | undefined,
+	tGame: (k: TranslationKey) => string,
+): string {
+	if (bucketLabels?.[key]) {
+		return bucketLabels[key];
+	}
+
+	// Try compound keys like "easy:zen"
+	if (key.includes(':')) {
+		const parts = key.split(':');
+		const resolvedParts = parts.map((part) => {
+			if (bucketLabels?.[part]) return bucketLabels[part];
+			const directDiff = tGame(`difficulty.${part}` as TranslationKey);
+			if (directDiff && directDiff !== `difficulty.${part}`) return directDiff;
+			const directMode = tGame(`mode.${part}` as TranslationKey);
+			if (directMode && directMode !== `mode.${part}`) return directMode;
+			return capitalizeWord(part);
+		});
+		if (resolvedParts.length === 2) {
+			return `${resolvedParts[0]} (${resolvedParts[1]})`;
+		}
+		return resolvedParts.join(' • ');
+	}
+
+	const directDiff = tGame(`difficulty.${key}` as TranslationKey);
+	if (directDiff && directDiff !== `difficulty.${key}`) return directDiff;
+
+	return capitalizeWord(key);
+}
 
 function GameStatsDashboardContent({
 	gameId,
@@ -19,6 +56,7 @@ function GameStatsDashboardContent({
 	className,
 }: GameStatsDashboardProps): JSX.Element {
 	const { t } = useI18n('common');
+	const { t: tGame } = useI18n(gameId);
 	const { stats, isLoading, activeTab, setActiveTab, bucketKeys, activeBucketStats, winRate } = useGameStatsDashboard(
 		gameId,
 		preloadedStats,
@@ -67,7 +105,7 @@ function GameStatsDashboardContent({
 		{ value: 'overall', label: t('stats.overall') },
 		...bucketKeys.map((key) => ({
 			value: key,
-			label: bucketLabels?.[key] ?? key,
+			label: resolveBucketLabel(key, bucketLabels, tGame),
 		})),
 	];
 

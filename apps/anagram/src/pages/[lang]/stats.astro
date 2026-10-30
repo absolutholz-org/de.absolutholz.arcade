@@ -19,7 +19,6 @@ const currentCommon = resources[currentLanguage]?.common ?? resources.en.common;
 
 <GameSubpageTemplate
 	title={currentCommon.stats.title}
-	subtitle={`${currentAnagram.title} — ${currentCommon.stats.title}`}
 	description={`${currentAnagram.title} - ${currentCommon.stats.title}`}
 	lang={currentLanguage}
 	breadcrumbItems={[
@@ -48,6 +47,14 @@ const currentCommon = resources[currentLanguage]?.common ?? resources.en.common;
 			medium: currentAnagram.difficulty.medium,
 			hard: currentAnagram.difficulty.hard,
 			expert: currentAnagram.difficulty.expert,
+			'easy:zen': `${currentAnagram.difficulty.easy} (${currentAnagram.mode.zen})`,
+			'easy:timed': `${currentAnagram.difficulty.easy} (${currentAnagram.mode.timed})`,
+			'medium:zen': `${currentAnagram.difficulty.medium} (${currentAnagram.mode.zen})`,
+			'medium:timed': `${currentAnagram.difficulty.medium} (${currentAnagram.mode.timed})`,
+			'hard:zen': `${currentAnagram.difficulty.hard} (${currentAnagram.mode.zen})`,
+			'hard:timed': `${currentAnagram.difficulty.hard} (${currentAnagram.mode.timed})`,
+			'expert:zen': `${currentAnagram.difficulty.expert} (${currentAnagram.mode.zen})`,
+			'expert:timed': `${currentAnagram.difficulty.expert} (${currentAnagram.mode.timed})`,
 		}}
 		playHref={`/anagram/${currentLanguage}/game`}
 	/>

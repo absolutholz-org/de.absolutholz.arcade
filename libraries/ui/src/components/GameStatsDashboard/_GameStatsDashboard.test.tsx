@@ -165,6 +165,27 @@ describe('GameStatsDashboard', () => {
 		expect(result?.container.textContent).toContain('75%');
 	});
 
+	it('resolves and formats compound bucket keys like easy:zen cleanly', () => {
+		const compoundStats: GameStats = {
+			...MOCK_POPULATED_STATS,
+			gameId: 'anagram',
+			byBucket: {
+				'easy:zen': {
+					...MOCK_POPULATED_STATS.byBucket.easy,
+				},
+				'hard:timed': {
+					...MOCK_POPULATED_STATS.byBucket.hard,
+				},
+			},
+		};
+
+		const { container } = render(<GameStatsDashboard gameId="anagram" lang="en" stats={compoundStats} />);
+
+		// Should resolve through direct translation or compound fallback: "Easy (Zen)"
+		expect(container.textContent).toContain('Easy (Zen)');
+		expect(container.textContent).toContain('Hard (Timed Arcade)');
+	});
+
 	it('supports localized rendering in German', () => {
 		const { container } = render(<GameStatsDashboard gameId="sudoku" lang="de" stats={MOCK_POPULATED_STATS} />);
 
