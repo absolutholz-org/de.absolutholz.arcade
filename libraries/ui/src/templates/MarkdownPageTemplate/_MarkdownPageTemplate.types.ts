@@ -5,9 +5,10 @@ import type { BaseLayoutWithSiteHeaderAndSiteFooterProps } from '../../layouts/B
 
 export interface MarkdownPageTemplateProps extends Omit<BaseLayoutWithSiteHeaderAndSiteFooterProps, 'children'> {
 	/**
-	 * Document title used for metadata and tab title.
+	 * Document title used for metadata, Hero heading, and tab title.
+	 * If omitted, inferred from the first H1 in the markdown content.
 	 */
-	title: string;
+	title?: string;
 	/**
 	 * Optional breadcrumb items rendered above the markdown content.
 	 */

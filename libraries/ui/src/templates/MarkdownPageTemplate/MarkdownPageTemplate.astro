@@ -1,6 +1,7 @@
 ---
 import { Breadcrumb } from '../../components/Breadcrumb';
 import type { BreadcrumbItem } from '../../components/Breadcrumb/_Breadcrumb.types';
+import { Hero } from '../../components/Hero';
 import { MarkdownContent } from '../../components/MarkdownContent';
 import { PageContainer } from '../../components/PageContainer';
 import type { PageContainerVariant } from '../../components/PageContainer/_PageContainer.types';
@@ -8,7 +9,7 @@ import type { BaseLayoutProps } from '../../layouts/BaseLayout/_BaseLayout.types
 import BaseLayoutWithSiteHeaderAndSiteFooter from '../../layouts/BaseLayoutWithSiteHeaderAndSiteFooter/BaseLayoutWithSiteHeaderAndSiteFooter.astro';
 
 interface Props extends BaseLayoutProps {
-	title: string;
+	title?: string;
 	breadcrumbItems?: BreadcrumbItem[];
 	containerWidth?: PageContainerVariant;
 	currentSlug?: string;
@@ -16,10 +17,23 @@ interface Props extends BaseLayoutProps {
 	hasBorder?: boolean;
 }
 
-const { title, breadcrumbItems, containerWidth = 'slim', ...layoutProps } = Astro.props;
+const { title: propTitle, breadcrumbItems, containerWidth = 'slim', ...layoutProps } = Astro.props;
+
+let contentHtml = Astro.slots.has('default') ? await Astro.slots.render('default') : '';
+let resolvedTitle = propTitle;
+
+// Recognize and extract the first H1 from the rendered markdown content
+const h1Match = contentHtml.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i);
+if (h1Match) {
+	if (!resolvedTitle) {
+		resolvedTitle = h1Match[1].replace(/<[^>]+>/g, '').trim();
+	}
+	// Strip the H1 from the markdown content so it is not rendered twice
+	contentHtml = contentHtml.replace(/<h1[^>]*>[\s\S]*?<\/h1>/i, '');
+}
 ---
 
-<BaseLayoutWithSiteHeaderAndSiteFooter title={title} {...layoutProps}>
+<BaseLayoutWithSiteHeaderAndSiteFooter title={resolvedTitle ?? ''} {...layoutProps}>
 	<slot name="head" slot="head" />
 
 	<PageContainer variant={containerWidth}>
@@ -29,9 +43,19 @@ const { title, breadcrumbItems, containerWidth = 'slim', ...layoutProps } = Astr
 			<slot name="breadcrumb" />
 		)}
 
+		<Hero title={resolvedTitle ?? ''} />
+
 		<MarkdownContent>
-			<slot />
+			<Fragment set:html={contentHtml} />
 		</MarkdownContent>
+
+		{Astro.slots.has('action') ? (
+			<div class="template-action">
+				<slot name="action" />
+			</div>
+		) : null}
+	</PageContainer>
+</BaseLayoutWithSiteHeaderAndSiteFooter>
 
 		{Astro.slots.has('action') ? (
 			<div class="template-action">
