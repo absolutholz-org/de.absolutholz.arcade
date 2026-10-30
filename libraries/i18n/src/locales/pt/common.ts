@@ -139,6 +139,18 @@ export const ptCommon = {
 	settings: {
 		title: 'Configurações',
 		description: 'Personalize sua experiência no arcade.',
+		gameSectionTitle: 'Preferências do Jogo',
+		gameSectionDescription: 'Personalize as opções de jogo e assistências.',
+		appearanceSectionTitle: 'Aparência',
+		appearanceSectionDescription: 'Escolha suas preferências de esquema de cores, tema e idioma.',
+		dataSectionTitle: 'Gerenciamento de Dados',
+		dataSectionDescription: 'Gerencie o progresso, configurações e recordes salvos localmente.',
+		resetProgressButton: 'Redefinir Progresso e Estatísticas',
+		resetProgressConfirmTitle: 'Redefinir Progresso e Estatísticas?',
+		resetProgressConfirmMessage:
+			'Esta ação apagará permanentemente suas estatísticas de jogo locais, sequências e melhores tempos. Isso não pode ser desfeito.',
+		resetProgressConfirmButton: 'Sim, Redefinir Progresso',
+		resetProgressCancelButton: 'Cancelar',
 		languageSectionTitle: 'Idioma',
 		languageSectionDescription: 'Escolha o seu idioma de exibição preferido.',
 		schemeSectionTitle: 'Esquema de cores',

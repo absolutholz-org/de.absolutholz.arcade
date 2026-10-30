@@ -3,9 +3,10 @@ import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { isSupportedLanguage } from '@arcade/lib-i18n/utils/detection';
-import { GameHeader, GameLayout, PauseDialog } from '@arcade/lib-ui';
+import { Dialog, GameHeader, GameLayout, GameSettingsPanel, PauseDialog } from '@arcade/lib-ui';
 import { Timer } from '@arcade/lib-ui/components/Timer';
 import { type JSX, useCallback, useMemo, useState } from 'react';
+import { ANAGRAM_SETTINGS_CONFIG } from '../../config/settings.js';
 import {
 	DIFFICULTY_CONFIGS,
 	type DifficultyLevel,
@@ -15,7 +16,6 @@ import {
 } from '../../engine/types.js';
 import { AnagramControls } from '../AnagramControls/index.js';
 import { AnagramRack } from '../AnagramRack/index.js';
-import { AnagramSettingsDialog } from '../AnagramSettingsDialog/index.js';
 import { AnagramSlots } from '../AnagramSlots/index.js';
 import { DefeatDialog } from '../DefeatDialog/index.js';
 import { VictoryDialog } from '../VictoryDialog/index.js';
@@ -54,8 +54,13 @@ function formatClock(totalSeconds: number): string {
 	return `${minutes}:${String(seconds).padStart(2, '0')}`;
 }
 
-export function AnagramGame({ initialDifficulty = 'easy', initialMode = 'zen', lang }: AnagramGameProps): JSX.Element {
-	const [activeLang, setActiveLang] = useState<SupportedLanguageCode>(() => {
+export function AnagramGame({
+	initialDifficulty = 'easy',
+	initialMode = 'zen',
+	lang,
+	rulesContent,
+}: AnagramGameProps): JSX.Element {
+	const [activeLang] = useState<SupportedLanguageCode>(() => {
 		if (lang && isSupportedLanguage(lang)) return lang;
 		if (typeof window !== 'undefined') {
 			const match = window.location.pathname.match(/\/anagram\/([a-z]{2})(\/|$)/);
@@ -67,6 +72,7 @@ export function AnagramGame({ initialDifficulty = 'easy', initialMode = 'zen', l
 	});
 
 	const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+	const [isRulesOpen, setIsRulesOpen] = useState(false);
 
 	const { difficulty, mode, vocabLanguage } = useMemo(
 		() => resolveSearchParams(initialDifficulty, initialMode, activeLang),
@@ -77,14 +83,33 @@ export function AnagramGame({ initialDifficulty = 'easy', initialMode = 'zen', l
 	const { t: tCommon } = useI18n('common');
 	const game = useAnagramGame(difficulty, mode, vocabLanguage);
 
-	const handleLanguageChange = useCallback((nextLang: SupportedLanguageCode) => {
-		setActiveLang(nextLang);
-		if (typeof window !== 'undefined') {
-			const url = new URL(window.location.href);
-			url.pathname = url.pathname.replace(/\/anagram\/[a-z]{2}\//, `/anagram/${nextLang}/`);
-			window.location.assign(url.toString());
+	const openSettings = useCallback(() => {
+		if (!game.isPaused && !game.isEnded) {
+			game.togglePause();
 		}
-	}, []);
+		setIsSettingsOpen(true);
+	}, [game]);
+
+	const closeSettings = useCallback(() => {
+		setIsSettingsOpen(false);
+		if (game.isPaused && !game.isEnded) {
+			game.togglePause();
+		}
+	}, [game]);
+
+	const openRules = useCallback(() => {
+		if (!game.isPaused && !game.isEnded) {
+			game.togglePause();
+		}
+		setIsRulesOpen(true);
+	}, [game]);
+
+	const closeRules = useCallback(() => {
+		setIsRulesOpen(false);
+		if (game.isPaused && !game.isEnded) {
+			game.togglePause();
+		}
+	}, [game]);
 
 	const feedbackMessage = useMemo(() => {
 		if (!game.feedback) return '';
@@ -116,7 +141,9 @@ export function AnagramGame({ initialDifficulty = 'easy', initialMode = 'zen', l
 						backHref={`/anagram/${activeLang}/?difficulty=${difficulty}&mode=${mode}&vocab=${vocabLanguage}`}
 						backLabel={t('navigation.lobby')}
 						difficulty={difficultyLabel}
-						onOpenSettings={() => setIsSettingsOpen(true)}
+						onOpenRules={openRules}
+						rulesLabel={tCommon('navigation.rules')}
+						onOpenSettings={openSettings}
 						settingsLabel={tCommon('settings.title')}
 					/>
 				}
@@ -186,17 +213,30 @@ export function AnagramGame({ initialDifficulty = 'easy', initialMode = 'zen', l
 				</div>
 
 				<PauseDialog
-					isOpen={game.isPaused && !game.isEnded}
+					isOpen={game.isPaused && !game.isEnded && !isSettingsOpen && !isRulesOpen}
 					onResume={game.togglePause}
 					onRestart={game.newRound}
 				/>
 
-				<AnagramSettingsDialog
+				{/* In-game Rules Modal */}
+				<Dialog
+					isOpen={isRulesOpen}
+					onCancel={closeRules}
+					title={tCommon('navigation.rules')}
+					showCloseButton={true}
+				>
+					{rulesContent}
+				</Dialog>
+
+				{/* In-game Settings Modal (compact mode) */}
+				<Dialog
 					isOpen={isSettingsOpen}
-					onClose={() => setIsSettingsOpen(false)}
-					activeLanguage={activeLang}
-					onLanguageChange={handleLanguageChange}
-				/>
+					onCancel={closeSettings}
+					title={tCommon('settings.title')}
+					showCloseButton={true}
+				>
+					<GameSettingsPanel config={ANAGRAM_SETTINGS_CONFIG} lang={activeLang} mode="compact" />
+				</Dialog>
 
 				<VictoryDialog
 					isOpen={game.dialog === 'victory'}

@@ -21,6 +21,8 @@ export type {
 	OfflineGameStatus,
 	UseOfflineGameResult,
 } from './hooks/useOfflineGame';
+export { Dialog } from './components/Dialog';
+export type { DialogProps } from './components/Dialog';
 export { VictoryDialog } from './components/VictoryDialog';
 export type { VictoryDialogProps, VictoryStatItem } from './components/VictoryDialog';
 export { PauseDialog } from './components/PauseDialog';
@@ -89,6 +91,18 @@ export type { GameMedalGridProps } from './components/GameMedalGrid';
 export { GameStatsDashboard } from './components/GameStatsDashboard';
 export type { GameStatsDashboardProps } from './components/GameStatsDashboard';
 
+export { GameSettingsPanel } from './components/GameSettingsPanel';
+export type {
+	GameSettingsPanelMode,
+	GameSettingsPanelProps,
+} from './components/GameSettingsPanel';
+export type {
+	GameSettingsConfig,
+	SettingControlType,
+	SettingFieldDescriptor,
+	SettingFieldOption,
+} from '@arcade/lib-games';
+
 export { GameHeader } from './components/GameHeader';
 export type { GameHeaderProps } from './components/GameHeader';
 
@@ -103,3 +117,8 @@ export type { GameLayoutProps } from './layouts/GameLayout';
 
 export { MarkdownPageTemplate } from './templates/MarkdownPageTemplate';
 export type { MarkdownPageTemplateProps } from './templates/MarkdownPageTemplate';
+export { GameSubpageTemplate } from './templates/GameSubpageTemplate';
+export type {
+	GameSubpageActionItem,
+	GameSubpageTemplateProps,
+} from './templates/GameSubpageTemplate';

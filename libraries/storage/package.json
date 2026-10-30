@@ -29,6 +29,14 @@
 			"types": "./src/stats.ts",
 			"default": "./src/stats.ts"
 		},
+		"./settings": {
+			"types": "./src/settings.ts",
+			"default": "./src/settings.ts"
+		},
+		"./settings.js": {
+			"types": "./src/settings.ts",
+			"default": "./src/settings.ts"
+		},
 		"./pwa/*": {
 			"types": "./src/pwa/*.ts",
 			"default": "./src/pwa/*.ts"

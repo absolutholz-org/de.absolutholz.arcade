@@ -1,7 +1,9 @@
 ---
+import { getEntry } from 'astro:content';
 import { resources } from '@arcade/lib-i18n/config/i18n';
-import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { MarkdownContent } from '@arcade/lib-ui/components/MarkdownContent';
 import GameLayout from '@arcade/lib-ui/layouts/GameLayout/GameLayout.astro';
 import { SudokuGame } from '../../components/SudokuGame';
 
@@ -12,15 +14,26 @@ export function getStaticPaths() {
 }
 
 const { lang } = Astro.params;
-const currentSudoku = resources[lang as SupportedLanguageCode]?.sudoku ?? resources.en.sudoku;
+const currentLanguage = lang as SupportedLanguageCode;
+const currentSudoku = resources[currentLanguage]?.sudoku ?? resources.en.sudoku;
+
+const rulesEntry = (await getEntry('pages', `${lang}/rules`)) ?? (await getEntry('pages', `${DEFAULT_LANGUAGE}/rules`));
+const renderedRules = rulesEntry ? await rulesEntry.render() : null;
+const RulesContent = renderedRules?.Content;
 ---
 
 <GameLayout
 	title={`${currentSudoku.title} | ${currentSudoku.description}`}
 	description={currentSudoku.description}
-	lang={lang as SupportedLanguageCode}
+	lang={currentLanguage}
 	canonical={`https://arcade.absolutholz.de/sudoku/${lang}/game`}
 	appTitle="Sudoku"
 >
-	<SudokuGame client:only="react" lang={lang as SupportedLanguageCode} />
+	<SudokuGame client:only="react" lang={currentLanguage}>
+		<div slot="rulesContent">
+			<MarkdownContent>
+				{RulesContent && <RulesContent />}
+			</MarkdownContent>
+		</div>
+	</SudokuGame>
 </GameLayout>

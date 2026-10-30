@@ -1,4 +1,5 @@
 import { recordGameResult } from '@arcade/lib-medals';
+import { recordGameStats } from '@arcade/lib-storage';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { KeyboardEvent, MouseEvent } from 'react';
 import { TENTS_MEDAL_DEFINITIONS } from '../../config/medals.ts';
@@ -97,6 +98,7 @@ export function useTentsGame(initialDifficulty: DifficultyLevel = 'easy', initia
 	const [isPaused, setIsPaused] = useState(false);
 	const [isComplete, setIsComplete] = useState(false);
 	const [isVictoryOpen, setIsVictoryOpen] = useState(false);
+	const [isRulesOpen, setIsRulesOpen] = useState(false);
 	const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 	const [isNewBestTime, setIsNewBestTime] = useState(false);
 	const [settings, setSettings] = useState<TentsSettings>(DEFAULT_SETTINGS);
@@ -195,14 +197,14 @@ export function useTentsGame(initialDifficulty: DifficultyLevel = 'easy', initia
 
 	// Timer interval
 	useEffect(() => {
-		if (isPaused || isComplete || !isLoaded) return;
+		if (isPaused || isComplete || !isLoaded || isSettingsOpen || isRulesOpen) return;
 
 		const interval = setInterval(() => {
 			setElapsedSeconds((prev) => prev + 1);
 		}, 1000);
 
 		return () => clearInterval(interval);
-	}, [isPaused, isComplete, isLoaded]);
+	}, [isPaused, isComplete, isLoaded, isSettingsOpen, isRulesOpen]);
 
 	// Victory check and medal recording
 	const recordVictory = useCallback(async (time: number) => {
@@ -218,6 +220,15 @@ export function useTentsGame(initialDifficulty: DifficultyLevel = 'easy', initia
 
 		const { isNewBestTime: newBest } = await recordPuzzleCompletion(curPuzzle.id, time);
 		setIsNewBestTime(newBest);
+
+		void recordGameStats({
+			gameId: 'tents',
+			won: true,
+			bucketKey: curPuzzle.difficulty,
+			playTimeSeconds: Math.max(1, time),
+			moves: curHistory.moveCount,
+			isFlawless: curMistakes === 0,
+		});
 
 		const isProcedural = curPuzzle.id.startsWith('tents-');
 
@@ -614,6 +625,17 @@ export function useTentsGame(initialDifficulty: DifficultyLevel = 'easy', initia
 
 	const closeSettings = useCallback(() => {
 		setIsSettingsOpen(false);
+		setIsPaused(false);
+	}, []);
+
+	const openRules = useCallback(() => {
+		setIsPaused(true);
+		setIsRulesOpen(true);
+	}, []);
+
+	const closeRules = useCallback(() => {
+		setIsRulesOpen(false);
+		setIsPaused(false);
 	}, []);
 
 	const handleUpdateSettings = useCallback((next: TentsSettings) => {
@@ -699,6 +721,7 @@ export function useTentsGame(initialDifficulty: DifficultyLevel = 'easy', initia
 		isPaused,
 		isComplete,
 		isVictoryOpen,
+		isRulesOpen,
 		isSettingsOpen,
 		isNewBestTime,
 		settings,
@@ -718,6 +741,8 @@ export function useTentsGame(initialDifficulty: DifficultyLevel = 'easy', initia
 		handleHint: puzzle.solution ? handleHint : undefined,
 		handleKeyDown,
 		handleTogglePause,
+		openRules,
+		closeRules,
 		openSettings,
 		closeSettings,
 		handleUpdateSettings,

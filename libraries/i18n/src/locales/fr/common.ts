@@ -140,6 +140,18 @@ export const frCommon = {
 	settings: {
 		title: 'Paramètres',
 		description: 'Personnalisez votre expérience arcade.',
+		gameSectionTitle: 'Préférences de jeu',
+		gameSectionDescription: 'Personnalisez les options de jeu et les aides.',
+		appearanceSectionTitle: 'Apparence',
+		appearanceSectionDescription: 'Choisissez vos préférences de mode, thème et langue.',
+		dataSectionTitle: 'Gestion des données',
+		dataSectionDescription: 'Gérez la progression, les paramètres et les scores enregistrés localement.',
+		resetProgressButton: 'Réinitialiser la progression et les statistiques',
+		resetProgressConfirmTitle: 'Réinitialiser la progression ?',
+		resetProgressConfirmMessage:
+			'Cette action effacera définitivement vos statistiques locales, séries et meilleurs temps. Cette opération est irréversible.',
+		resetProgressConfirmButton: 'Oui, réinitialiser',
+		resetProgressCancelButton: 'Annuler',
 		languageSectionTitle: 'Langue',
 		languageSectionDescription: 'Choisissez votre langue d’affichage préférée.',
 		schemeSectionTitle: 'Mode d’affichage',

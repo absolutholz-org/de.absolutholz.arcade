@@ -850,6 +850,9 @@ importers:
       '@arcade/lib-consent':
         specifier: workspace:*
         version: link:../consent
+      '@arcade/lib-games':
+        specifier: workspace:*
+        version: link:../games
       '@arcade/lib-i18n':
         specifier: workspace:*
         version: link:../i18n

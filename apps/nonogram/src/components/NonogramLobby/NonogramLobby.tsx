@@ -74,7 +74,9 @@ function LobbyContent(): JSX.Element {
 			: undefined;
 
 	const pageFooterLinks = [
-		{ label: tCommon('navigation.rules'), href: `/nonogram/${language}/rules` },
+		{ label: `📖 ${tCommon('navigation.rules')}`, href: `/nonogram/${language}/rules` },
+		{ label: `⚙️ ${tCommon('navigation.settings')}`, href: `/nonogram/${language}/settings` },
+		{ label: `📊 ${tCommon('stats.title')}`, href: `/nonogram/${language}/stats` },
 		{ label: `🏅 ${tCommon('navigation.medals')}`, href: `/nonogram/${language}/medals` },
 	];
 

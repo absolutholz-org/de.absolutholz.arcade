@@ -148,6 +148,37 @@ console.log(`Medium best time: ${stats.byBucket.medium?.bestTimeSeconds}s`);
 
 ---
 
+## ⚙️ Declarative Game Settings (ADR 0008)
+
+`@arcade/lib-storage` provides standard storage helpers for persisting and retrieving declarative game settings under `arcade::[gameId]::settings`.
+
+### Functions
+
+- `getGameSettings<T>(gameId: GameId, defaults: T): Promise<T>`: Reads persisted settings and merges them over `defaults` to guarantee any newly added schema fields are safely initialized.
+- `saveGameSettings<T>(gameId: GameId, settings: T): Promise<void>`: Persists the updated settings object under `arcade::[gameId]::settings`.
+
+### Usage Example
+
+```ts
+import { getGameSettings, saveGameSettings } from "@arcade/lib-storage";
+
+const DEFAULT_SETTINGS = {
+	highlightErrors: true,
+	autoClearNotes: false,
+};
+
+// Retrieve settings (merged over defaults)
+const settings = await getGameSettings("sudoku", DEFAULT_SETTINGS);
+
+// Save updated settings
+await saveGameSettings("sudoku", {
+	...settings,
+	highlightErrors: false,
+});
+```
+
+---
+
 ## 🛡️ Architecture & Boundaries
 
 - **Never call native `window.localStorage` directly** in application code (`apps/*`).

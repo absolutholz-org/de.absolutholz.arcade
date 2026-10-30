@@ -1,31 +1,48 @@
 # @arcade/queens
 
-Queens (Star Battle) logic puzzle game for the Absolutholz Arcade.
+Queens (Star Battle) logic puzzle web application for the Arcade monorepo. Built as a hybrid application using **Astro** for static multi-page routing and internationalized layouts, and **React** for the zero-runtime interactive game canvas island. Implemented per **ADR 0008 (Game Shell & Subsystem Contract)**.
 
-## Features
+---
 
-- **4 Difficulty Tiers & Board Sizes:**
-  - Easy: 6×6 grid (6 regions, 6 crowns)
-  - Medium: 8×8 grid (8 regions, 8 crowns)
-  - Hard: 10×10 grid (10 regions, 10 crowns)
-  - Expert: 12×12 grid (12 regions, 12 crowns)
-- **Rules & Validation:**
-  - Exactly 1 crown per row and column
-  - Exactly 1 crown per contiguous color region
-  - King's distance rule: crowns cannot touch horizontally, vertically, or diagonally
-  - Real-time soft error collision highlighting for row, column, region, and adjacency violations
-- **Interactions:**
-  - Tap / click to toggle marks (X)
-  - Double tap / secondary click to place crowns
-  - Drag to bulk-eliminate empty squares with X
-  - Mode switch toggle for mobile touch play (Crown Mode vs Mark Mode)
-  - Undo and Redo history stack
-  - Reset board button
-  - Optional Auto-cross helper
-- **Accessibility & i18n:**
-  - WAI-ARIA grid pattern with full keyboard navigation
-  - 100% localized in English, German, French, and Portuguese via `@arcade/lib-i18n`
-  - High-contrast OKLCH theme colors supporting light, dark, and custom themes
-- **Storage & State:**
-  - Local persistence via `@arcade/lib-storage` with `arcade::queens::*` namespacing
-  - Track completed status, solve times, and best times
+## 🎯 Features
+
+- **4 Difficulty Tiers:** `easy`, `medium`, `hard`, and `expert`.
+- **Unique Solution Puzzles:** Procedural generator and curated puzzle sets ensuring exactly one Queen per row, column, and colored region.
+- **Accessible Grid & Controls:** WAI-ARIA grid navigation, pointer drag selection, and keyboard navigation.
+- **Auto-Cross Helper:** Automatically places elimination marks in adjacent and orthogonal cells around placed crowns (configurable in Settings).
+- **Undo / Redo Stack:** Unlimited history navigation.
+- **State Persistence & Telemetry:**
+  - `arcade::queens::activeGame`: Preserves incomplete puzzle state and timer.
+  - `arcade::queens::settings`: Persists declarative settings via `@arcade/lib-storage`.
+  - `arcade::queens::stats`: Tracks overall and per-difficulty games played, win rate, best streaks, and best times.
+  - `@arcade/lib-medals`: Tracks achievements and progressive medals.
+- **Multilingual Support:** Fully translated into English (`en`), German (`de`), French (`fr`), and Portuguese (`pt`) via `@arcade/lib-i18n`. Zero hardcoded UI strings.
+
+---
+
+## 🗺️ Canonical 6-Route Architecture (ADR 0008)
+
+| Route | Description | Template / Island |
+| :--- | :--- | :--- |
+| `/queens/` | Root language redirector | Static SSG + Client redirect |
+| `/queens/[lang]/` | 1. Lobby / Landing with puzzle picker & resume | `<GameLandingTemplate>` + `<QueensLobby client:load />` |
+| `/queens/[lang]/game` | 2. Gameplay canvas with in-game Rules & Settings modals | `<GameLayout>` + `<QueensGame client:only="react" />` projecting `<MarkdownContent slot="rulesContent">` |
+| `/queens/[lang]/rules` | 3. Standalone How-to-Play Rules guide | `<MarkdownPageTemplate>` rendering localized `rules.md` |
+| `/queens/[lang]/settings` | 4. Standalone Settings page | `<GameSubpageTemplate>` + `<GameSettingsPanel mode="detailed" client:load />` |
+| `/queens/[lang]/stats` | 5. Standalone Statistics dashboard | `<GameSubpageTemplate>` + `<GameStatsDashboard client:load />` |
+| `/queens/[lang]/medals` | 6. Standalone Medal Showcase | `<GameSubpageTemplate>` + `<GameMedalGrid client:load />` |
+
+---
+
+## 💻 Development Commands
+
+```bash
+# Start Queens dev server
+pnpm dev:queens
+
+# Typecheck TypeScript code
+pnpm --filter @arcade/queens typecheck
+
+# Check formatting and lint rules with Biome
+pnpm biome check apps/queens
+```

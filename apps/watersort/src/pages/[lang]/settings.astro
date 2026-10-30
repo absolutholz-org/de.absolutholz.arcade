@@ -1,0 +1,48 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { GameSettingsPanel } from '@arcade/lib-ui';
+import GameSubpageTemplate from '@arcade/lib-ui/templates/GameSubpageTemplate/GameSubpageTemplate.astro';
+import { WATERSORT_SETTINGS_CONFIG } from '../../config/settings';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const currentLanguage = lang as SupportedLanguageCode;
+const currentWatersort = resources[currentLanguage]?.watersort ?? resources.en.watersort;
+const currentCommon = resources[currentLanguage]?.common ?? resources.en.common;
+---
+
+<GameSubpageTemplate
+	title={currentWatersort.settings.title}
+	subtitle={`${currentWatersort.title} — ${currentWatersort.settings.title}`}
+	description={`${currentWatersort.title} - ${currentWatersort.settings.title}`}
+	lang={currentLanguage}
+	breadcrumbItems={[
+		{ label: currentCommon.app.title, href: `/${currentLanguage}/`, isHome: true },
+		{ label: currentWatersort.title, href: `/watersort/${currentLanguage}/` },
+		{ label: currentWatersort.settings.title, isCurrent: true },
+	]}
+	primaryAction={{
+		label: currentWatersort.controls.play,
+		href: `/watersort/${currentLanguage}/game`,
+	}}
+	secondaryAction={{
+		label: currentWatersort.controls.backToLobby,
+		href: `/watersort/${currentLanguage}/`,
+	}}
+	containerWidth="standard"
+	currentSlug="settings"
+>
+	<GameSettingsPanel
+		client:load
+		config={WATERSORT_SETTINGS_CONFIG}
+		lang={currentLanguage}
+		mode="detailed"
+	/>
+</GameSubpageTemplate>

@@ -92,8 +92,10 @@ function LobbyContent(): JSX.Element {
 	};
 
 	const pageFooterLinks = [
+		{ label: `📖 ${tCommon('navigation.rules')}`, href: `/anagram/${language}/rules` },
+		{ label: `⚙️ ${tCommon('settings.title')}`, href: `/anagram/${language}/settings` },
+		{ label: `📊 ${tCommon('stats.title')}`, href: `/anagram/${language}/stats` },
 		{ label: `🏅 ${tCommon('navigation.medals')}`, href: `/anagram/${language}/medals` },
-		{ label: tCommon('navigation.rules'), href: `/anagram/${language}/rules` },
 	];
 
 	const vocabItems: SegmentedControlItem[] = SUPPORTED_VOCAB_LANGUAGES.map((code) => ({

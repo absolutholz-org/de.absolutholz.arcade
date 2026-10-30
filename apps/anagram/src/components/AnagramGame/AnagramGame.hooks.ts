@@ -1,4 +1,5 @@
 import { getGameMedalState, recordGameResult } from '@arcade/lib-medals';
+import { recordGameStats } from '@arcade/lib-storage';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ANAGRAM_MEDAL_DEFINITIONS } from '../../config/medals.js';
 import { generateRound, shuffleRack } from '../../engine/generator.js';
@@ -219,6 +220,15 @@ export function useAnagramGame(difficulty: DifficultyLevel, mode: GameMode, init
 						cleared && difficulty === 'expert'
 							? Array.from(new Set([...prevExpertLanguages, vocabLanguage]))
 							: prevExpertLanguages;
+
+					void recordGameStats({
+						gameId: 'anagram',
+						won: cleared,
+						bucketKey: `${difficulty}:${mode}`,
+						playTimeSeconds: Math.max(1, elapsed),
+						moves: finalWords.length,
+						isFlawless: stats.current.invalidGuesses === 0,
+					});
 
 					await recordGameResult(
 						{

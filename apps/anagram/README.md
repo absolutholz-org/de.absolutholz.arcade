@@ -1,30 +1,53 @@
-# Anagram Scramble (`@arcade/anagram`)
+# @arcade/anagram
 
-Single-player anagram puzzle game where players discover sub-words from a randomized rack of letter tiles across four difficulty tiers and two game modes.
+Lexicon anagram rack puzzle web application for the Arcade monorepo. Built as a hybrid application using **Astro** for static multi-page routing and internationalized layouts, and **React** for the zero-runtime interactive game canvas island. Implemented per **ADR 0008 (Game Shell & Subsystem Contract)**.
 
-## Difficulty Matrix
+---
 
-| Tier | Rack Size | Min Word Length | Target Words |
-| :--- | :--- | :--- | :--- |
-| `easy` | 5 | 3 | 6–12 |
-| `medium` | 6 | 3 | 15–25 |
-| `hard` | 7 | 3 | 30–50 |
-| `expert` | 7 | 4 | 15–25 |
+## 🎯 Features
 
-## Modes & Win Rules
+- **4 Difficulty Tiers:** `easy` (5 tiles), `medium` (6 tiles), `hard` (7 tiles), and `expert` (8 tiles).
+- **4 Lexicon Vocabularies:** English (`en`), German (`de`), French (`fr`), and Portuguese (`pt`).
+- **Dual Game Modes:**
+  - **Zen Mode:** Untimed solving with optional word reveal helper.
+  - **Timed Mode:** Countdown clock with time bonuses awarded for valid words found.
+- **Accessible Letter Rack & Keyboard Controls:**
+  - Typing directly stages letters from the rack into the input slot.
+  - Clicking letters or slots stages or returns tiles.
+  - Spacebar to shuffle the rack, Backspace to clear/recall, Enter to submit.
+  - Clicking any uncovered word slot populates staged tiles.
+- **State Persistence & Telemetry:**
+  - `arcade::anagram::activeGame`: Preserves incomplete puzzle state, timer, and rack.
+  - `arcade::anagram::settings`: Persists vocabulary language via `@arcade/lib-storage`.
+  - `arcade::anagram::stats`: Telemetry recording win rate, words found, and time per tier and mode.
+  - `@arcade/lib-medals`: Tracks achievements and progressive anagram badges.
+- **Multilingual Support:** Fully translated into English (`en`), German (`de`), French (`fr`), and Portuguese (`pt`) via `@arcade/lib-i18n`. Zero hardcoded UI strings.
 
-- **Zen (`zen`):** Untimed, includes a Reveal Answers action. Clearing a round requires finding at least one full-length root word OR at least 50% of all solvable words. Finding 100% of solvable words achieves Mastery.
-- **Timed Arcade (`timed`):** Starts with 150 seconds (`2:30`) and awards +5 bonus seconds per valid word found. Clearing requires finding at least one full-length word before time expires.
+---
 
-## Engine & Lexicon Schema
+## 🗺️ Canonical 6-Route Architecture (ADR 0008)
 
-- `src/engine/lexicon.data.<lang>.json` follows `{ "words": string[] }`.
-- `getAnagramData(rackLetters, difficulty, language = "en")` indexes words by sorted Unicode code-point signatures (`Array.from(word)`), supporting UTF-8 characters such as `ä`, `ö`, `ü`, and `ß`.
+| Route | Description | Template / Island |
+| :--- | :--- | :--- |
+| `/anagram/` | Root language redirector | Static SSG + Client redirect |
+| `/anagram/[lang]/` | 1. Lobby / Landing with vocabulary, mode, and difficulty selectors | `<GameLandingTemplate>` + `<AnagramLobby client:load />` |
+| `/anagram/[lang]/game` | 2. Gameplay canvas with in-game Rules & Settings modals | `<GameLayout>` + `<AnagramGame client:only="react" />` projecting `<MarkdownContent slot="rulesContent">` |
+| `/anagram/[lang]/rules` | 3. Standalone How-to-Play Rules guide | `<MarkdownPageTemplate>` rendering localized `rules.md` |
+| `/anagram/[lang]/settings` | 4. Standalone Settings page | `<GameSubpageTemplate>` + `<GameSettingsPanel mode="detailed" client:load />` |
+| `/anagram/[lang]/stats` | 5. Standalone Statistics dashboard | `<GameSubpageTemplate>` + `<GameStatsDashboard client:load />` |
+| `/anagram/[lang]/medals` | 6. Standalone Medal Showcase | `<GameSubpageTemplate>` + `<GameMedalGrid client:load />` |
 
-## Development
+---
+
+## 💻 Development Commands
 
 ```bash
+# Start Anagram dev server
 pnpm dev:anagram
-pnpm --filter @arcade/anagram test
+
+# Typecheck TypeScript code
 pnpm --filter @arcade/anagram typecheck
+
+# Check formatting and lint rules with Biome
+pnpm biome check apps/anagram
 ```

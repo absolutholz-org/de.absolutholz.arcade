@@ -3,12 +3,10 @@ import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { isSupportedLanguage } from '@arcade/lib-i18n/utils/detection';
-import { GameLayout } from '@arcade/lib-ui';
-import { GameHeader } from '@arcade/lib-ui/components/GameHeader';
-import { PauseDialog } from '@arcade/lib-ui/components/PauseDialog';
+import { Dialog, GameHeader, GameLayout, GameSettingsPanel, PauseDialog } from '@arcade/lib-ui';
 import { Timer } from '@arcade/lib-ui/components/Timer';
-import { useCallback, useState } from 'react';
-import { SettingsDialog } from '../SettingsDialog/SettingsDialog';
+import { type JSX, useState } from 'react';
+import { SUDOKU_SETTINGS_CONFIG } from '../../config/settings';
 import { SudokuBoard } from '../SudokuBoard/SudokuBoard';
 import { SudokuKeypad } from '../SudokuKeypad/SudokuKeypad';
 import { VictoryDialog } from '../VictoryDialog/VictoryDialog';
@@ -16,8 +14,8 @@ import { useSudokuGame } from './SudokuGame.hooks';
 import * as S from './SudokuGame.styles';
 import type { SudokuGameProps } from './SudokuGame.types';
 
-export function SudokuGame({ initialDifficulty = 'easy', lang }: SudokuGameProps) {
-	const [activeLang, setActiveLang] = useState<SupportedLanguageCode>(() => {
+export function SudokuGame({ initialDifficulty = 'easy', lang, rulesContent }: SudokuGameProps): JSX.Element {
+	const [activeLang] = useState<SupportedLanguageCode>(() => {
 		if (lang && isSupportedLanguage(lang)) return lang;
 		if (typeof window !== 'undefined') {
 			const match = window.location.pathname.match(/\/sudoku\/([a-z]{2})(\/|$)/);
@@ -28,25 +26,9 @@ export function SudokuGame({ initialDifficulty = 'easy', lang }: SudokuGameProps
 		return DEFAULT_LANGUAGE;
 	});
 
-	const { changeLanguage } = useI18n();
 	const { t } = useI18n('sudoku');
+	const { t: tCommon } = useI18n('common');
 	const game = useSudokuGame(initialDifficulty);
-
-	const handleLanguageChange = useCallback(
-		(nextLang: SupportedLanguageCode) => {
-			setActiveLang(nextLang);
-			changeLanguage(nextLang);
-			if (typeof window !== 'undefined') {
-				const currentPath = window.location.pathname;
-				const targetPath =
-					activeLang && currentPath.includes(`/${activeLang}`)
-						? currentPath.replace(new RegExp(`/${activeLang}(/|$)`), `/${nextLang}$1`)
-						: `/sudoku/${nextLang}/game`;
-				window.history.replaceState(null, '', targetPath + window.location.search);
-			}
-		},
-		[activeLang, changeLanguage],
-	);
 
 	const content = (
 		<GameLayout
@@ -55,6 +37,8 @@ export function SudokuGame({ initialDifficulty = 'easy', lang }: SudokuGameProps
 					backHref={`/sudoku/${activeLang}/`}
 					backLabel={t('controls.backToLobby')}
 					difficulty={t(`difficulty.${game.difficulty}`)}
+					onOpenRules={game.openRules}
+					rulesLabel={tCommon('navigation.rules')}
 					onOpenSettings={game.openSettings}
 					settingsLabel={t('settings.title')}
 				/>
@@ -98,19 +82,35 @@ export function SudokuGame({ initialDifficulty = 'easy', lang }: SudokuGameProps
 			</S.KeypadWrapper>
 
 			<PauseDialog
-				isOpen={game.isPaused && !game.isComplete}
+				isOpen={game.isPaused && !game.isComplete && !game.isSettingsOpen && !game.isRulesOpen}
 				onResume={game.handleTogglePause}
 				onRestart={game.handleRestart}
 			/>
 
-			<SettingsDialog
+			{/* In-game Rules Modal */}
+			<Dialog
+				isOpen={game.isRulesOpen}
+				onCancel={game.closeRules}
+				title={tCommon('navigation.rules')}
+				showCloseButton={true}
+			>
+				{rulesContent}
+			</Dialog>
+
+			{/* In-game Settings Modal (compact mode) */}
+			<Dialog
 				isOpen={game.isSettingsOpen}
-				onClose={game.closeSettings}
-				settings={game.settings}
-				onUpdateSettings={game.updateSettings}
-				activeLanguage={activeLang}
-				onLanguageChange={handleLanguageChange}
-			/>
+				onCancel={game.closeSettings}
+				title={t('settings.title')}
+				showCloseButton={true}
+			>
+				<GameSettingsPanel
+					config={SUDOKU_SETTINGS_CONFIG}
+					lang={activeLang}
+					mode="compact"
+					onSettingsChange={game.updateSettings}
+				/>
+			</Dialog>
 
 			<VictoryDialog
 				isOpen={game.isVictoryOpen}

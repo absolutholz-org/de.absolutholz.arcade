@@ -50,12 +50,14 @@ export const DIFFICULTY_GRID_SIZES: Record<DifficultyLevel, { width: number; hei
 };
 
 export interface HashiSettings {
+	zenMode?: boolean;
 	gameMode: 'standard' | 'zen';
 	highlightSatisfied: boolean;
 	highlightOverflow: boolean;
 }
 
 export const DEFAULT_SETTINGS: HashiSettings = {
+	zenMode: false,
 	gameMode: 'standard',
 	highlightSatisfied: true,
 	highlightOverflow: true,

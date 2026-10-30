@@ -53,7 +53,7 @@ Interactive controls for user commands, choices, and data input.
 | **`SegmentedControl`** | `@arcade/lib-ui` | Pill-shaped radio group for mutually exclusive options (e.g. difficulty, modes). | `items: SegmentedControlItem[]`, `value`, `onChange`, `name`. |
 | **`CollapsibleListbox`** | `@arcade/lib-ui/components/CollapsibleListbox` | Expandable single-select listbox with full keyboard arrow navigation. | `items`, `selectedValue`, `onSelect`. |
 | **`Toolbar`** | `@arcade/lib-ui/components/Toolbar` | Container providing standardized gap, alignment, and wrapping for action groups. | `align="start" \| "center" \| "end"`, `children`. |
-| **`GameSettingsPanel`** | `@arcade/lib-ui` | Dual-mode ADR 0008 settings renderer consuming `GameSettingsConfig` (`src/config/settings.ts`). | `mode="compact" \| "detailed"`, `config: GameSettingsConfig`. |
+| **`GameSettingsPanel`** | `@arcade/lib-ui` | Dual-mode ADR 0008 declarative settings component rendering game options from `GameSettingsConfig`. In `mode="compact"` (in-game modal), renders only `availableInGame === true` toggles. In `mode="detailed"` (`/[lang]/settings.astro`), renders all options with descriptions, global appearance pickers (`SchemeSelector`, `ThemeSelector`, `LanguageSelector`), and destructive reset progress confirmation. | `config: GameSettingsConfig<T>`, `lang: SupportedLanguage`, `mode: "compact" \| "detailed"`, `onSettingsChange?: (settings: T) => void`, `onResetProgress?: () => void`, `className?: string`. |
 
 ---
 

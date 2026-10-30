@@ -1,0 +1,54 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { GameStatsDashboard } from '@arcade/lib-ui';
+import GameSubpageTemplate from '@arcade/lib-ui/templates/GameSubpageTemplate/GameSubpageTemplate.astro';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const currentLanguage = lang as SupportedLanguageCode;
+const currentAnagram = resources[currentLanguage]?.anagram ?? resources.en.anagram;
+const currentCommon = resources[currentLanguage]?.common ?? resources.en.common;
+---
+
+<GameSubpageTemplate
+	title={currentCommon.stats.title}
+	subtitle={`${currentAnagram.title} — ${currentCommon.stats.title}`}
+	description={`${currentAnagram.title} - ${currentCommon.stats.title}`}
+	lang={currentLanguage}
+	breadcrumbItems={[
+		{ label: currentCommon.app.title, href: `/${currentLanguage}/`, isHome: true },
+		{ label: currentAnagram.title, href: `/anagram/${currentLanguage}/` },
+		{ label: currentCommon.stats.title, isCurrent: true },
+	]}
+	primaryAction={{
+		label: currentAnagram.controls.play,
+		href: `/anagram/${currentLanguage}/game`,
+	}}
+	secondaryAction={{
+		label: currentAnagram.navigation.lobby,
+		href: `/anagram/${currentLanguage}/`,
+	}}
+	containerWidth="standard"
+	currentSlug="stats"
+>
+	<GameStatsDashboard
+		client:load
+		gameId="anagram"
+		lang={currentLanguage}
+		hideTitle
+		bucketLabels={{
+			easy: currentAnagram.difficulty.easy,
+			medium: currentAnagram.difficulty.medium,
+			hard: currentAnagram.difficulty.hard,
+			expert: currentAnagram.difficulty.expert,
+		}}
+		playHref={`/anagram/${currentLanguage}/game`}
+	/>
+</GameSubpageTemplate>

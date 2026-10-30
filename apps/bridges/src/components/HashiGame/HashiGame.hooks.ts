@@ -1,4 +1,5 @@
 import { recordGameResult } from '@arcade/lib-medals';
+import { recordGameStats } from '@arcade/lib-storage';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { KeyboardEvent } from 'react';
 import { BRIDGES_MEDAL_DEFINITIONS } from '../../config/medals.js';
@@ -177,6 +178,7 @@ export function useHashiGame(initialDifficulty: DifficultyLevel = 'easy', initia
 	const [isPaused, setIsPaused] = useState(false);
 	const [isComplete, setIsComplete] = useState(false);
 	const [isVictoryOpen, setIsVictoryOpen] = useState(false);
+	const [isRulesOpen, setIsRulesOpen] = useState(false);
 	const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 	const [isNewBestTime, setIsNewBestTime] = useState(false);
 	const [settings, setSettings] = useState<HashiSettings>(DEFAULT_SETTINGS);
@@ -222,6 +224,15 @@ export function useHashiGame(initialDifficulty: DifficultyLevel = 'easy', initia
 		const maxSameEdgeToggles = Math.max(...Object.values(edgeTogglesRef.current), 0);
 		const sizeKey = `${curBoard.width}x${curBoard.height}`;
 		const levelKey = curBoard.difficulty;
+
+		void recordGameStats({
+			gameId: 'bridges',
+			won: false,
+			bucketKey: levelKey,
+			playTimeSeconds: Math.max(1, safeSeconds),
+			moves: curBoard.bridges.length,
+			isFlawless: false,
+		});
 
 		void recordGameResult(
 			{
@@ -482,6 +493,15 @@ export function useHashiGame(initialDifficulty: DifficultyLevel = 'easy', initia
 				const sizeKey = `${nextBoard.width}x${nextBoard.height}`;
 				const levelKey = nextBoard.difficulty;
 
+				void recordGameStats({
+					gameId: 'bridges',
+					won: true,
+					bucketKey: levelKey,
+					playTimeSeconds: Math.max(1, elapsedSeconds),
+					moves: nextBoard.bridges.length,
+					isFlawless: mistakesCountRef.current === 0 && hintsUsedRef.current === 0,
+				});
+
 				void recordGameResult(
 					{
 						gameId: 'bridges',
@@ -740,8 +760,34 @@ export function useHashiGame(initialDifficulty: DifficultyLevel = 'easy', initia
 	}, [isComplete, recordSurrender, resetTrackingContext, puzzleId, board.difficulty]);
 
 	const handleUpdateSettings = useCallback((newSettings: HashiSettings) => {
-		setSettings(newSettings);
-		saveSettings(newSettings);
+		const gameMode = newSettings.zenMode ? 'zen' : (newSettings.gameMode ?? 'standard');
+		const resolved: HashiSettings = {
+			...newSettings,
+			zenMode: gameMode === 'zen',
+			gameMode,
+		};
+		setSettings(resolved);
+		saveSettings(resolved);
+	}, []);
+
+	const openSettings = useCallback(() => {
+		setIsPaused(true);
+		setIsSettingsOpen(true);
+	}, []);
+
+	const closeSettings = useCallback(() => {
+		setIsSettingsOpen(false);
+		setIsPaused(false);
+	}, []);
+
+	const openRules = useCallback(() => {
+		setIsPaused(true);
+		setIsRulesOpen(true);
+	}, []);
+
+	const closeRules = useCallback(() => {
+		setIsRulesOpen(false);
+		setIsPaused(false);
 	}, []);
 
 	return {
@@ -753,6 +799,7 @@ export function useHashiGame(initialDifficulty: DifficultyLevel = 'easy', initia
 		isPaused,
 		isComplete,
 		isVictoryOpen,
+		isRulesOpen,
 		isSettingsOpen,
 		isNewBestTime,
 		settings,
@@ -773,8 +820,10 @@ export function useHashiGame(initialDifficulty: DifficultyLevel = 'easy', initia
 		handlePlayAgain,
 		handleNextPuzzle,
 		recordSurrender,
-		openSettings: () => setIsSettingsOpen(true),
-		closeSettings: () => setIsSettingsOpen(false),
+		openSettings,
+		closeSettings,
+		openRules,
+		closeRules,
 		closeVictory: () => setIsVictoryOpen(false),
 		handleUpdateSettings,
 	};

@@ -1,7 +1,9 @@
 import { recordGameResult } from '@arcade/lib-medals';
+import { recordGameStats } from '@arcade/lib-storage';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { KeyboardEvent, MouseEvent, PointerEvent } from 'react';
 import { QUEENS_MEDAL_DEFINITIONS } from '../../config/medals';
+import type { QueensSettings } from '../../config/settings';
 import { getAutoCrossCells } from '../../engine/autoCross';
 import { generateQueensPuzzle } from '../../engine/generator';
 import { cloneBoard } from '../../engine/history';
@@ -50,6 +52,7 @@ export function useQueensGame(initialDifficulty: Difficulty = 'easy', initialPuz
 	const [isPaused, setIsPaused] = useState(false);
 	const [isComplete, setIsComplete] = useState(false);
 	const [isVictoryOpen, setIsVictoryOpen] = useState(false);
+	const [isRulesOpen, setIsRulesOpen] = useState(false);
 	const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 	const [isNewBestTime, setIsNewBestTime] = useState(false);
 	const [history, setHistory] = useState<MoveAction[]>([]);
@@ -132,6 +135,15 @@ export function useQueensGame(initialDifficulty: Difficulty = 'easy', initialPuz
 
 			const levelKey = curPuzzle.difficulty;
 			const sizeKey = `${curPuzzle.size}x${curPuzzle.size}`;
+
+			void recordGameStats({
+				gameId: 'queens',
+				won: false,
+				bucketKey: levelKey,
+				playTimeSeconds: finalSeconds,
+				moves: historyRef.current.length,
+				isFlawless: false,
+			});
 
 			void recordGameResult(
 				{
@@ -254,14 +266,14 @@ export function useQueensGame(initialDifficulty: Difficulty = 'easy', initialPuz
 
 	// Timer interval
 	useEffect(() => {
-		if (!isLoaded || isPaused || isComplete) return;
+		if (!isLoaded || isPaused || isComplete || isSettingsOpen || isRulesOpen) return;
 
 		const timer = setInterval(() => {
 			setElapsedSeconds((prev) => prev + 1);
 		}, 1000);
 
 		return () => clearInterval(timer);
-	}, [isLoaded, isPaused, isComplete]);
+	}, [isLoaded, isPaused, isComplete, isSettingsOpen, isRulesOpen]);
 
 	// Auto-save active game snapshot on board or history changes
 	useEffect(() => {
@@ -318,6 +330,15 @@ export function useQueensGame(initialDifficulty: Difficulty = 'easy', initialPuz
 			const isCurated = !puzzle.id.startsWith('procedural-');
 			const completedPresetId = isCurated ? puzzle.id : undefined;
 
+			void recordGameStats({
+				gameId: 'queens',
+				won: true,
+				bucketKey: levelKey,
+				playTimeSeconds: elapsedSeconds,
+				moves: history.length,
+				isFlawless: crownCollisionsTriggeredRef.current === 0,
+			});
+
 			void recordGameResult(
 				{
 					gameId: 'queens',
@@ -363,6 +384,7 @@ export function useQueensGame(initialDifficulty: Difficulty = 'easy', initialPuz
 		isLoaded,
 		isComplete,
 		elapsedSeconds,
+		history.length,
 		getMaxSameCellCrownToggles,
 	]);
 
@@ -831,10 +853,13 @@ export function useQueensGame(initialDifficulty: Difficulty = 'easy', initialPuz
 	);
 
 	// Update settings
-	const handleUpdateSettings = useCallback(async (newSettings: GameSettings) => {
-		setSettings(newSettings);
-		await saveSettings(newSettings);
-	}, []);
+	const handleUpdateSettings = useCallback(
+		async (newSettings: QueensSettings) => {
+			setSettings((prev) => ({ ...prev, ...newSettings }));
+			await saveSettings({ ...settings, ...newSettings });
+		},
+		[settings],
+	);
 
 	// Select / start a specific puzzle
 	const handleSelectPuzzle = useCallback(
@@ -889,6 +914,7 @@ export function useQueensGame(initialDifficulty: Difficulty = 'easy', initialPuz
 		isPaused,
 		isComplete,
 		isVictoryOpen,
+		isRulesOpen,
 		isSettingsOpen,
 		isNewBestTime,
 		settings,
@@ -898,11 +924,22 @@ export function useQueensGame(initialDifficulty: Difficulty = 'easy', initialPuz
 		hasNextPuzzle: !!getNextPuzzle(puzzle.id),
 		setInputMode,
 		setSettings,
+		openRules: () => {
+			setIsPaused(true);
+			setIsRulesOpen(true);
+		},
+		closeRules: () => {
+			setIsRulesOpen(false);
+			setIsPaused(false);
+		},
 		openSettings: () => {
 			setIsPaused(true);
 			setIsSettingsOpen(true);
 		},
-		closeSettings: () => setIsSettingsOpen(false),
+		closeSettings: () => {
+			setIsSettingsOpen(false);
+			setIsPaused(false);
+		},
 		closeVictory: () => setIsVictoryOpen(false),
 		handleCellClick,
 		handleCellDoubleClick,

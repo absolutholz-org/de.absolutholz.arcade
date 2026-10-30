@@ -3,10 +3,10 @@ import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { isSupportedLanguage } from '@arcade/lib-i18n/utils/detection';
-import { GameHeader, GameLayout, PauseDialog } from '@arcade/lib-ui';
+import { Dialog, GameHeader, GameLayout, GameSettingsPanel, PauseDialog } from '@arcade/lib-ui';
 import { Timer } from '@arcade/lib-ui/components/Timer';
-import { type JSX, useCallback, useState } from 'react';
-import { SettingsDialog } from '../SettingsDialog/index.js';
+import { type JSX, useState } from 'react';
+import { TENTS_SETTINGS_CONFIG } from '../../config/settings.js';
 import { TentsBoard } from '../TentsBoard/index.js';
 import { TentsControls } from '../TentsControls/index.js';
 import { TentIcon } from '../TentsIcons/index.js';
@@ -15,8 +15,13 @@ import { useTentsGame } from './TentsGame.hooks.js';
 import * as S from './TentsGame.styles.js';
 import type { TentsGameProps } from './TentsGame.types.js';
 
-export function TentsGame({ initialDifficulty = 'easy', initialPuzzleId, lang }: TentsGameProps): JSX.Element {
-	const [activeLang, setActiveLang] = useState<SupportedLanguageCode>(() => {
+export function TentsGame({
+	initialDifficulty = 'easy',
+	initialPuzzleId,
+	lang,
+	rulesContent,
+}: TentsGameProps): JSX.Element {
+	const [activeLang] = useState<SupportedLanguageCode>(() => {
 		if (lang && isSupportedLanguage(lang)) return lang;
 		if (typeof window !== 'undefined') {
 			const match = window.location.pathname.match(/\/tents\/([a-z]{2})(\/|$)/);
@@ -27,25 +32,9 @@ export function TentsGame({ initialDifficulty = 'easy', initialPuzzleId, lang }:
 		return DEFAULT_LANGUAGE;
 	});
 
-	const { changeLanguage } = useI18n();
 	const { t } = useI18n('tents');
+	const { t: tCommon } = useI18n('common');
 	const game = useTentsGame(initialDifficulty, initialPuzzleId);
-
-	const handleLanguageChange = useCallback(
-		(nextLang: SupportedLanguageCode) => {
-			setActiveLang(nextLang);
-			changeLanguage(nextLang);
-			if (typeof window !== 'undefined') {
-				const currentPath = window.location.pathname;
-				const targetPath =
-					activeLang && currentPath.includes(`/${activeLang}`)
-						? currentPath.replace(new RegExp(`/${activeLang}(/|$)`), `/${nextLang}$1`)
-						: `/tents/${nextLang}/game`;
-				window.history.replaceState(null, '', targetPath + window.location.search);
-			}
-		},
-		[activeLang, changeLanguage],
-	);
 
 	const difficultyLabel = t(`difficulty.${game.puzzle.difficulty}` as 'difficulty.easy');
 
@@ -56,6 +45,8 @@ export function TentsGame({ initialDifficulty = 'easy', initialPuzzleId, lang }:
 					backHref={`/tents/${activeLang}/`}
 					backLabel={t('controls.backToLobby')}
 					difficulty={difficultyLabel}
+					onOpenRules={game.openRules}
+					rulesLabel={tCommon('navigation.rules')}
 					onOpenSettings={game.openSettings}
 					settingsLabel={t('settings.title')}
 				/>
@@ -119,19 +110,35 @@ export function TentsGame({ initialDifficulty = 'easy', initialPuzzleId, lang }:
 			</S.ControlsWrapper>
 
 			<PauseDialog
-				isOpen={game.isPaused && !game.isComplete}
+				isOpen={game.isPaused && !game.isComplete && !game.isSettingsOpen && !game.isRulesOpen}
 				onResume={game.handleTogglePause}
 				onRestart={game.handlePlayAgain}
 			/>
 
-			<SettingsDialog
+			{/* In-game Rules Modal */}
+			<Dialog
+				isOpen={game.isRulesOpen}
+				onCancel={game.closeRules}
+				title={tCommon('navigation.rules')}
+				showCloseButton={true}
+			>
+				{rulesContent}
+			</Dialog>
+
+			{/* In-game Settings Modal (compact mode) */}
+			<Dialog
 				isOpen={game.isSettingsOpen}
-				onClose={game.closeSettings}
-				settings={game.settings}
-				onUpdateSettings={game.handleUpdateSettings}
-				activeLanguage={activeLang}
-				onLanguageChange={handleLanguageChange}
-			/>
+				onCancel={game.closeSettings}
+				title={t('settings.title')}
+				showCloseButton={true}
+			>
+				<GameSettingsPanel
+					config={TENTS_SETTINGS_CONFIG}
+					lang={activeLang}
+					mode="compact"
+					onSettingsChange={game.handleUpdateSettings}
+				/>
+			</Dialog>
 
 			<VictoryDialog
 				isOpen={game.isVictoryOpen}

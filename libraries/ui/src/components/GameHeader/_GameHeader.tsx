@@ -6,6 +6,7 @@ import { SchemeSwitcher } from '../SchemeSwitcher';
 import {
 	DEFAULT_BACK_ARIA_LABEL,
 	DEFAULT_HEADER_ARIA_LABEL,
+	DEFAULT_RULES_ARIA_LABEL,
 	DEFAULT_SETTINGS_ARIA_LABEL,
 } from './_GameHeader.constants';
 import * as S from './_GameHeader.styles';
@@ -22,6 +23,8 @@ export function GameHeader({
 	onBackClick,
 	difficulty,
 	timer,
+	onOpenRules,
+	rulesLabel,
 	onOpenSettings,
 	settingsHref,
 	settingsLabel,
@@ -34,6 +37,7 @@ export function GameHeader({
 	const { t } = useI18n('common');
 
 	const resolvedBackLabel = backLabel ?? t('actions.back') ?? DEFAULT_BACK_ARIA_LABEL;
+	const resolvedRulesLabel = rulesLabel ?? t('navigation.rules') ?? DEFAULT_RULES_ARIA_LABEL;
 	const resolvedSettingsLabel = settingsLabel ?? t('navigation.settings') ?? DEFAULT_SETTINGS_ARIA_LABEL;
 	const centerSlot = timer ?? children;
 
@@ -78,6 +82,18 @@ export function GameHeader({
 				<div className="game-header-right">
 					{showSchemeSwitcher && <SchemeSwitcher size="md" variant="ghost" />}
 					{actions}
+					{onOpenRules ? (
+						<Button
+							type="button"
+							onClick={onOpenRules}
+							variant="ghost"
+							size="md"
+							isIconOnly
+							aria-label={resolvedRulesLabel}
+							title={resolvedRulesLabel}
+							leadingIcon={<Icon name="info" size="sm" />}
+						/>
+					) : null}
 					{settingsHref ? (
 						<Button
 							as="a"

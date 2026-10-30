@@ -5,6 +5,4 @@ export * from './NonogramGame';
 export * from './NonogramIcons';
 export * from './NonogramLobby';
 export * from './PuzzleSelectDialog';
-export * from './SettingsDialog';
 export * from './VictoryDialog';
-export * from './NonogramMedalGrid';

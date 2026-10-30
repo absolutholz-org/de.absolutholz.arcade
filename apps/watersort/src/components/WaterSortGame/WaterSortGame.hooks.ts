@@ -1,6 +1,8 @@
 import { recordGameResult } from '@arcade/lib-medals';
+import { getGameSettings, recordGameStats, saveGameSettings } from '@arcade/lib-storage';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { WATERSORT_MEDAL_DEFINITIONS } from '../../config/medals.js';
+import { DEFAULT_WATERSORT_SETTINGS, type WaterSortSettings } from '../../config/settings.js';
 import { generatePuzzle } from '../../engine/generator.js';
 import { canRedo, canUndo, createHistory, pushState, redo, reset, undo } from '../../engine/history.js';
 import { type PresetPuzzleDefinition, getPreset, getPresetById } from '../../engine/presets/index.js';
@@ -15,12 +17,6 @@ import {
 	type Move,
 } from '../../engine/types.js';
 import { applyPour, canPour, isDeadlocked, isSolved } from '../../engine/validator.js';
-import type { WaterSortSettings } from '../WaterSortSettingsDialog/WaterSortSettingsDialog.types.js';
-
-const DEFAULT_SETTINGS: WaterSortSettings = {
-	colorblindPatterns: false,
-	fluidAnimations: true,
-};
 
 function parseUrlLaunchParams(
 	initialDifficulty: DifficultyLevel,
@@ -120,16 +116,32 @@ export function useWaterSortGame(initialDifficulty: DifficultyLevel = 'easy', in
 	const [isWon, setIsWon] = useState(false);
 	const [hintsUsed, setHintsUsed] = useState(0);
 	const [undosUsed, setUndosUsed] = useState(0);
+	const [restartsUsed, setRestartsUsed] = useState(0);
 	const [consecutiveCompletions, setConsecutiveCompletions] = useState(0);
 	const [maxConsecutiveCompletions, setMaxConsecutiveCompletions] = useState(0);
 	const [usedBufferTubes, setUsedBufferTubes] = useState<readonly number[]>([]);
+	const [rulesOpen, setRulesOpen] = useState(false);
 	const [settingsOpen, setSettingsOpen] = useState(false);
-	const [settings, setSettings] = useState<WaterSortSettings>(DEFAULT_SETTINGS);
+	const [settings, setSettings] = useState<WaterSortSettings>(DEFAULT_WATERSORT_SETTINGS);
 	const [ariaAnnouncement, setAriaAnnouncement] = useState('');
 
 	const isDeadlockedState = useMemo(() => isDeadlocked(history.present), [history.present]);
 
 	const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+	useEffect(() => {
+		let isMounted = true;
+		getGameSettings('watersort', DEFAULT_WATERSORT_SETTINGS)
+			.then((persisted) => {
+				if (isMounted) {
+					setSettings(persisted);
+				}
+			})
+			.catch(() => {});
+		return () => {
+			isMounted = false;
+		};
+	}, []);
 
 	// Priority order for starting state:
 	// 1. If isResume and snapshot exists: resume snapshot.
@@ -168,7 +180,7 @@ export function useWaterSortGame(initialDifficulty: DifficultyLevel = 'easy', in
 
 	// Timer loop
 	useEffect(() => {
-		if (!isPaused && !isWon && !isDeadlockedState) {
+		if (!isPaused && !isWon && !isDeadlockedState && !rulesOpen && !settingsOpen) {
 			timerRef.current = setInterval(() => {
 				setElapsedSeconds((prev) => prev + 1);
 			}, 1000);
@@ -178,7 +190,7 @@ export function useWaterSortGame(initialDifficulty: DifficultyLevel = 'easy', in
 		return () => {
 			if (timerRef.current) clearInterval(timerRef.current);
 		};
-	}, [isPaused, isWon, isDeadlockedState]);
+	}, [isPaused, isWon, isDeadlockedState, rulesOpen, settingsOpen]);
 
 	// Auto-save snapshot
 	useEffect(() => {
@@ -258,6 +270,14 @@ export function useWaterSortGame(initialDifficulty: DifficultyLevel = 'easy', in
 					setIsWon(true);
 					clearActiveGame();
 					recordRoundResult(difficulty, elapsedSeconds, nextMoves, seed);
+					void recordGameStats({
+						gameId: 'watersort',
+						won: true,
+						bucketKey: difficulty,
+						playTimeSeconds: elapsedSeconds,
+						moves: nextMoves,
+						isFlawless: undosUsed === 0 && restartsUsed === 0,
+					});
 					recordGameResult(
 						{
 							gameId: 'watersort',
@@ -296,6 +316,7 @@ export function useWaterSortGame(initialDifficulty: DifficultyLevel = 'easy', in
 			moves,
 			hintsUsed,
 			undosUsed,
+			restartsUsed,
 			parMoves,
 			consecutiveCompletions,
 			maxConsecutiveCompletions,
@@ -325,6 +346,7 @@ export function useWaterSortGame(initialDifficulty: DifficultyLevel = 'easy', in
 		setHistory((prev) => reset(prev));
 		setSelectedTube(null);
 		setUndosUsed(0);
+		setRestartsUsed((prev) => prev + 1);
 		setConsecutiveCompletions(0);
 		setMaxConsecutiveCompletions(0);
 		setUsedBufferTubes([]);
@@ -342,6 +364,17 @@ export function useWaterSortGame(initialDifficulty: DifficultyLevel = 'easy', in
 	}, [history.present, isWon, isPaused, isDeadlockedState]);
 
 	const handleNextPuzzle = useCallback(() => {
+		if (isDeadlockedState && !isWon) {
+			void recordGameStats({
+				gameId: 'watersort',
+				won: false,
+				bucketKey: difficulty,
+				playTimeSeconds: elapsedSeconds,
+				moves,
+				isFlawless: false,
+			});
+		}
+
 		const nextSeed = seed >= 1 && seed < 10 ? seed + 1 : Math.floor(Math.random() * 100000) + 1;
 		let nextBoard: Board;
 		let nextParMoves: number;
@@ -364,11 +397,37 @@ export function useWaterSortGame(initialDifficulty: DifficultyLevel = 'easy', in
 		setSelectedTube(null);
 		setHintsUsed(0);
 		setUndosUsed(0);
+		setRestartsUsed(0);
 		setConsecutiveCompletions(0);
 		setMaxConsecutiveCompletions(0);
 		setUsedBufferTubes([]);
 		setHistory(createHistory(nextBoard));
-	}, [difficulty, seed]);
+	}, [difficulty, seed, isDeadlockedState, isWon, elapsedSeconds, moves]);
+
+	const handleOpenRules = useCallback(() => {
+		setRulesOpen(true);
+		setIsPaused(true);
+	}, []);
+
+	const handleCloseRules = useCallback(() => {
+		setRulesOpen(false);
+		setIsPaused(false);
+	}, []);
+
+	const handleOpenSettings = useCallback(() => {
+		setSettingsOpen(true);
+		setIsPaused(true);
+	}, []);
+
+	const handleCloseSettings = useCallback(() => {
+		setSettingsOpen(false);
+		setIsPaused(false);
+	}, []);
+
+	const handleUpdateSettings = useCallback((newSettings: WaterSortSettings) => {
+		setSettings(newSettings);
+		void saveGameSettings('watersort', newSettings);
+	}, []);
 
 	return {
 		difficulty,
@@ -384,6 +443,7 @@ export function useWaterSortGame(initialDifficulty: DifficultyLevel = 'easy', in
 		canUndo: canUndo(history),
 		canRedo: canRedo(history),
 		settings,
+		rulesOpen,
 		settingsOpen,
 		ariaAnnouncement,
 		totalColorTubes: DIFFICULTY_CONFIG[difficulty].colorCount,
@@ -394,9 +454,11 @@ export function useWaterSortGame(initialDifficulty: DifficultyLevel = 'easy', in
 		onReset: handleReset,
 		onHint: handleHint,
 		onTogglePause: () => setIsPaused((prev) => !prev),
-		onOpenSettings: () => setSettingsOpen(true),
-		onCloseSettings: () => setSettingsOpen(false),
-		onUpdateSettings: setSettings,
+		onOpenRules: handleOpenRules,
+		onCloseRules: handleCloseRules,
+		onOpenSettings: handleOpenSettings,
+		onCloseSettings: handleCloseSettings,
+		onUpdateSettings: handleUpdateSettings,
 		onPlayAgain: () => {
 			setIsWon(false);
 			handleReset();

@@ -4,6 +4,8 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
+		"test": "pnpm test:conformance",
+		"test:conformance": "node --experimental-strip-types --test tests/architecture/game-structure.test.ts",
 		"format": "biome format --write .",
 		"lint": "biome lint .",
 		"check": "biome check .",

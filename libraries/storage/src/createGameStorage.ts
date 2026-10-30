@@ -96,3 +96,8 @@ export {
 	recordGameStats,
 	updateStatsWithRound,
 } from './stats.js';
+export {
+	GAME_SETTINGS_STORAGE_KEY,
+	getGameSettings,
+	saveGameSettings,
+} from './settings.js';

@@ -1,0 +1,48 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { GameSettingsPanel } from '@arcade/lib-ui';
+import GameSubpageTemplate from '@arcade/lib-ui/templates/GameSubpageTemplate/GameSubpageTemplate.astro';
+import { SUDOKU_SETTINGS_CONFIG } from '../../config/settings';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const currentLanguage = lang as SupportedLanguageCode;
+const currentSudoku = resources[currentLanguage]?.sudoku ?? resources.en.sudoku;
+const currentCommon = resources[currentLanguage]?.common ?? resources.en.common;
+---
+
+<GameSubpageTemplate
+	title={currentSudoku.settings.title}
+	subtitle={`${currentSudoku.title} — ${currentSudoku.settings.title}`}
+	description={`${currentSudoku.title} - ${currentSudoku.settings.title}`}
+	lang={currentLanguage}
+	breadcrumbItems={[
+		{ label: currentCommon.app.title, href: `/${currentLanguage}/`, isHome: true },
+		{ label: currentSudoku.title, href: `/sudoku/${currentLanguage}/` },
+		{ label: currentSudoku.settings.title, isCurrent: true },
+	]}
+	primaryAction={{
+		label: currentSudoku.controls.newGame,
+		href: `/sudoku/${currentLanguage}/game`,
+	}}
+	secondaryAction={{
+		label: currentSudoku.controls.backToLobby,
+		href: `/sudoku/${currentLanguage}/`,
+	}}
+	containerWidth="standard"
+	currentSlug="settings"
+>
+	<GameSettingsPanel
+		client:load
+		config={SUDOKU_SETTINGS_CONFIG}
+		lang={currentLanguage}
+		mode="detailed"
+	/>
+</GameSubpageTemplate>

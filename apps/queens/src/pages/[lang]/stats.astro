@@ -1,0 +1,54 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { GameStatsDashboard } from '@arcade/lib-ui';
+import GameSubpageTemplate from '@arcade/lib-ui/templates/GameSubpageTemplate/GameSubpageTemplate.astro';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const currentLanguage = lang as SupportedLanguageCode;
+const currentQueens = resources[currentLanguage]?.queens ?? resources.en.queens;
+const currentCommon = resources[currentLanguage]?.common ?? resources.en.common;
+---
+
+<GameSubpageTemplate
+	title={currentCommon.stats.title}
+	subtitle={`${currentQueens.title} — ${currentCommon.stats.title}`}
+	description={`${currentQueens.title} - ${currentCommon.stats.title}`}
+	lang={currentLanguage}
+	breadcrumbItems={[
+		{ label: currentCommon.app.title, href: `/${currentLanguage}/`, isHome: true },
+		{ label: currentQueens.title, href: `/queens/${currentLanguage}/` },
+		{ label: currentCommon.stats.title, isCurrent: true },
+	]}
+	primaryAction={{
+		label: currentQueens.controls.play,
+		href: `/queens/${currentLanguage}/game`,
+	}}
+	secondaryAction={{
+		label: currentQueens.controls.backToLobby,
+		href: `/queens/${currentLanguage}/`,
+	}}
+	containerWidth="standard"
+	currentSlug="stats"
+>
+	<GameStatsDashboard
+		client:load
+		gameId="queens"
+		lang={currentLanguage}
+		hideTitle
+		bucketLabels={{
+			easy: currentQueens.difficulty.easy,
+			medium: currentQueens.difficulty.medium,
+			hard: currentQueens.difficulty.hard,
+			expert: currentQueens.difficulty.expert,
+		}}
+		playHref={`/queens/${currentLanguage}/game`}
+	/>
+</GameSubpageTemplate>

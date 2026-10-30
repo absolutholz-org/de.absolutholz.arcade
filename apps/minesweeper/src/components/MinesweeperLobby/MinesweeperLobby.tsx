@@ -84,9 +84,10 @@ function LobbyContent(): JSX.Element {
 		: undefined;
 
 	const pageFooterLinks = [
+		{ label: `📖 ${tCommon('navigation.rules')}`, href: `/minesweeper/${language}/rules` },
+		{ label: `⚙️ ${tCommon('navigation.settings')}`, href: `/minesweeper/${language}/settings` },
+		{ label: `📊 ${tCommon('stats.title')}`, href: `/minesweeper/${language}/stats` },
 		{ label: `🏅 ${tCommon('navigation.medals')}`, href: `/minesweeper/${language}/medals` },
-		{ label: t('highScores.title'), href: `/minesweeper/${language}/high-scores` },
-		{ label: tCommon('navigation.rules'), href: `/minesweeper/${language}/rules` },
 	];
 
 	const sizeItems: SegmentedControlItem[] = BOARD_SIZE_LIST.map((sizeConfig) => ({

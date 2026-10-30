@@ -1,7 +1,9 @@
 ---
+import { getEntry } from 'astro:content';
 import { resources } from '@arcade/lib-i18n/config/i18n';
-import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { MarkdownContent } from '@arcade/lib-ui/components/MarkdownContent';
 import GameLayout from '@arcade/lib-ui/layouts/GameLayout/GameLayout.astro';
 import { WaterSortGame } from '../../components/WaterSortGame';
 import type { DifficultyLevel } from '../../engine/types.js';
@@ -13,25 +15,36 @@ export function getStaticPaths() {
 }
 
 const { lang } = Astro.params;
-const currentWatersort = resources[lang as SupportedLanguageCode]?.watersort ?? resources.en.watersort;
+const currentLanguage = lang as SupportedLanguageCode;
+const currentWatersort = resources[currentLanguage]?.watersort ?? resources.en.watersort;
 const rawDiff = Astro.url.searchParams.get('difficulty') as DifficultyLevel | null;
 const initialDifficulty = rawDiff && ['easy', 'medium', 'hard', 'expert'].includes(rawDiff) ? rawDiff : undefined;
 const rawSeed = Astro.url.searchParams.get('seed');
 const parsedSeed = rawSeed !== null ? Number.parseInt(rawSeed, 10) : Number.NaN;
 const initialSeed = !Number.isNaN(parsedSeed) && parsedSeed > 0 ? parsedSeed : undefined;
+
+const rulesEntry = (await getEntry('pages', `${lang}/rules`)) ?? (await getEntry('pages', `${DEFAULT_LANGUAGE}/rules`));
+const renderedRules = rulesEntry ? await rulesEntry.render() : null;
+const RulesContent = renderedRules?.Content;
 ---
 
 <GameLayout
 	title={`${currentWatersort.title} | ${currentWatersort.description}`}
 	description={currentWatersort.description}
-	lang={lang as SupportedLanguageCode}
+	lang={currentLanguage}
 	canonical={`https://arcade.absolutholz.de/watersort/${lang}/game`}
 	appTitle="Water Sort"
 >
 	<WaterSortGame
 		client:only="react"
-		lang={lang as SupportedLanguageCode}
+		lang={currentLanguage}
 		initialDifficulty={initialDifficulty}
 		initialSeed={initialSeed}
-	/>
+	>
+		<div slot="rulesContent">
+			<MarkdownContent>
+				{RulesContent && <RulesContent />}
+			</MarkdownContent>
+		</div>
+	</WaterSortGame>
 </GameLayout>

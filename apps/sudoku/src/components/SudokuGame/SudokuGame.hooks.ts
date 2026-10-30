@@ -1,5 +1,5 @@
 import { type SudokuDifficulty, recordGameResult } from '@arcade/lib-medals';
-import { createGameStorage } from '@arcade/lib-storage';
+import { createGameStorage, recordGameStats } from '@arcade/lib-storage';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { SUDOKU_MEDAL_DEFINITIONS } from '../../config/medals';
 import { generateSudoku } from '../../engine/generator';
@@ -36,6 +36,7 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 	const [isPaused, setIsPaused] = useState(false);
 	const [isComplete, setIsComplete] = useState(false);
 	const [isVictoryOpen, setIsVictoryOpen] = useState(false);
+	const [isRulesOpen, setIsRulesOpen] = useState(false);
 	const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 	const [isNewBestTime, setIsNewBestTime] = useState(false);
 	const [history, setHistory] = useState<MoveAction[]>([]);
@@ -296,6 +297,15 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 
 				await storage.set('stats', updatedStats);
 				await storage.remove('activeGame');
+
+				void recordGameStats({
+					gameId: 'sudoku',
+					won: true,
+					bucketKey: difficultyRef.current,
+					playTimeSeconds: finalTime,
+					moves: historyRef.current.length,
+					isFlawless: mistakesRef.current === 0 && hintsRef.current === 0,
+				});
 			} catch {
 				// Fallback gracefully
 			}
@@ -427,6 +437,15 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 								};
 								await storage.set('stats', updatedStats);
 								await storage.remove('activeGame');
+
+								void recordGameStats({
+									gameId: 'sudoku',
+									won: false,
+									bucketKey: difficultyRef.current,
+									playTimeSeconds: finalTime,
+									moves: historyRef.current.length,
+									isFlawless: false,
+								});
 							} catch {
 								// Fallback gracefully
 							}
@@ -615,7 +634,7 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 	// Keyboard shortcuts listener
 	useEffect(() => {
 		function handleKeyDown(e: KeyboardEvent) {
-			if (isSettingsOpen || isVictoryOpen) return;
+			if (isSettingsOpen || isVictoryOpen || isRulesOpen) return;
 			if (e.defaultPrevented) return;
 
 			// Pause toggle ('p' or 'P' or 'Escape')
@@ -734,7 +753,37 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 
 		window.addEventListener('keydown', handleKeyDown);
 		return () => window.removeEventListener('keydown', handleKeyDown);
-	}, [isSettingsOpen, isVictoryOpen, isPaused, isComplete, handleDigitPress, handleErase, handleUndo, handleRedo]);
+	}, [
+		isSettingsOpen,
+		isRulesOpen,
+		isVictoryOpen,
+		isPaused,
+		isComplete,
+		handleDigitPress,
+		handleErase,
+		handleUndo,
+		handleRedo,
+	]);
+
+	const openSettings = useCallback(() => {
+		setIsPaused(true);
+		setIsSettingsOpen(true);
+	}, []);
+
+	const closeSettings = useCallback(() => {
+		setIsSettingsOpen(false);
+		setIsPaused(false);
+	}, []);
+
+	const openRules = useCallback(() => {
+		setIsPaused(true);
+		setIsRulesOpen(true);
+	}, []);
+
+	const closeRules = useCallback(() => {
+		setIsRulesOpen(false);
+		setIsPaused(false);
+	}, []);
 
 	return {
 		difficulty,
@@ -749,6 +798,7 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 		isPaused,
 		isComplete,
 		isVictoryOpen,
+		isRulesOpen,
 		isSettingsOpen,
 		isNewBestTime,
 		conflicts,
@@ -766,8 +816,10 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 		handleRestart,
 		handleStartNewGame,
 		updateSettings,
-		openSettings: () => setIsSettingsOpen(true),
-		closeSettings: () => setIsSettingsOpen(false),
+		openSettings,
+		closeSettings,
+		openRules,
+		closeRules,
 		closeVictory: () => setIsVictoryOpen(false),
 	};
 }

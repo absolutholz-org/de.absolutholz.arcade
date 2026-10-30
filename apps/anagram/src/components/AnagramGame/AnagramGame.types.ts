@@ -1,4 +1,5 @@
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import type { ReactNode } from 'react';
 import type { DifficultyLevel, GameMode } from '../../engine/types.js';
 import type { GuessResult } from '../../engine/validator.js';
 
@@ -20,4 +21,5 @@ export interface AnagramGameProps {
 	initialDifficulty?: DifficultyLevel;
 	initialMode?: GameMode;
 	lang?: SupportedLanguageCode;
+	rulesContent?: ReactNode;
 }

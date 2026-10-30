@@ -1,0 +1,55 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { GameStatsDashboard } from '@arcade/lib-ui';
+import GameSubpageTemplate from '@arcade/lib-ui/templates/GameSubpageTemplate/GameSubpageTemplate.astro';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const currentLanguage = lang as SupportedLanguageCode;
+const currentBridges = resources[currentLanguage]?.bridges ?? resources.en.bridges;
+const currentCommon = resources[currentLanguage]?.common ?? resources.en.common;
+---
+
+<GameSubpageTemplate
+	title={currentCommon.stats.title}
+	subtitle={`${currentBridges.title} — ${currentCommon.stats.title}`}
+	description={`${currentBridges.title} - ${currentCommon.stats.title}`}
+	lang={currentLanguage}
+	breadcrumbItems={[
+		{ label: currentCommon.app.title, href: `/${currentLanguage}/`, isHome: true },
+		{ label: currentBridges.title, href: `/bridges/${currentLanguage}/` },
+		{ label: currentCommon.stats.title, isCurrent: true },
+	]}
+	primaryAction={{
+		label: currentBridges.controls.play,
+		href: `/bridges/${currentLanguage}/game`,
+	}}
+	secondaryAction={{
+		label: currentBridges.controls.backToLobby,
+		href: `/bridges/${currentLanguage}/`,
+	}}
+	containerWidth="standard"
+	currentSlug="stats"
+>
+	<GameStatsDashboard
+		client:load
+		gameId="bridges"
+		lang={currentLanguage}
+		hideTitle
+		bucketLabels={{
+			beginner: currentBridges.difficulty.beginner,
+			easy: currentBridges.difficulty.easy,
+			medium: currentBridges.difficulty.medium,
+			hard: currentBridges.difficulty.hard,
+			expert: currentBridges.difficulty.expert,
+		}}
+		playHref={`/bridges/${currentLanguage}/game`}
+	/>
+</GameSubpageTemplate>

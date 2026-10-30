@@ -85,12 +85,14 @@ export interface HistoryState {
 }
 
 export interface TracksSettings {
+	casualMode?: boolean;
 	gameMode: 'standard' | 'casual';
 	highlightClues: boolean;
 	autoCross: boolean;
 }
 
 export const DEFAULT_SETTINGS: TracksSettings = {
+	casualMode: false,
 	gameMode: 'standard',
 	highlightClues: true,
 	autoCross: false,

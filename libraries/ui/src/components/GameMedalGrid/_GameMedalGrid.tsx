@@ -13,11 +13,13 @@ function GameMedalGridContent<G extends GameId = GameId>({
 	gameId,
 	definitions,
 	lang,
+	hideActions = false,
 	className,
 }: {
 	readonly gameId: G;
 	readonly definitions: readonly MedalDefinition<G>[];
 	readonly lang: SupportedLanguageCode;
+	readonly hideActions?: boolean;
 	readonly className?: string;
 }) {
 	const { t: tMedals } = useI18n('medals');
@@ -128,11 +130,19 @@ function GameMedalGridContent<G extends GameId = GameId>({
 				})}
 			</S.MedalsList>
 
-			<S.Actions>
-				<Button as="a" href={`/${gameId}/${lang}/`} variant="primary" size="md" aria-label={backToLobbyLabel}>
-					{backToLobbyLabel}
-				</Button>
-			</S.Actions>
+			{!hideActions && (
+				<S.Actions>
+					<Button
+						as="a"
+						href={`/${gameId}/${lang}/`}
+						variant="primary"
+						size="md"
+						aria-label={backToLobbyLabel}
+					>
+						{backToLobbyLabel}
+					</Button>
+				</S.Actions>
+			)}
 		</S.Container>
 	);
 }
@@ -145,13 +155,20 @@ export function GameMedalGrid<G extends GameId = GameId>({
 	gameId,
 	definitions,
 	lang,
+	hideActions,
 	className,
 }: GameMedalGridProps<G>): JSX.Element {
 	const resolvedLang = resolveSupportedLanguage(lang);
 
 	return (
 		<I18nProvider language={resolvedLang}>
-			<GameMedalGridContent gameId={gameId} definitions={definitions} lang={resolvedLang} className={className} />
+			<GameMedalGridContent
+				gameId={gameId}
+				definitions={definitions}
+				lang={resolvedLang}
+				hideActions={hideActions}
+				className={className}
+			/>
 		</I18nProvider>
 	);
 }

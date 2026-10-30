@@ -3,8 +3,7 @@ import { resources } from '@arcade/lib-i18n/config/i18n';
 import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { GameMedalGrid } from '@arcade/lib-ui';
-import { PageContainer } from '@arcade/lib-ui/components/PageContainer';
-import BaseLayoutWithSiteHeaderAndSiteFooter from '@arcade/lib-ui/layouts/BaseLayoutWithSiteHeaderAndSiteFooter/BaseLayoutWithSiteHeaderAndSiteFooter.astro';
+import GameSubpageTemplate from '@arcade/lib-ui/templates/GameSubpageTemplate/GameSubpageTemplate.astro';
 import { WATERSORT_MEDAL_DEFINITIONS } from '../../config/medals';
 
 export function getStaticPaths() {
@@ -16,16 +15,36 @@ export function getStaticPaths() {
 const { lang } = Astro.params;
 const currentLanguage = lang as SupportedLanguageCode;
 const currentWatersort = resources[currentLanguage]?.watersort ?? resources.en.watersort;
+const currentCommon = resources[currentLanguage]?.common ?? resources.en.common;
 const currentMedals = resources[currentLanguage]?.medals ?? resources.en.medals;
 ---
 
-<BaseLayoutWithSiteHeaderAndSiteFooter
+<GameSubpageTemplate
 	title={currentMedals.showcase.title}
+	subtitle={currentMedals.showcase.description}
 	description={`${currentWatersort.title} - ${currentMedals.showcase.description}`}
 	lang={currentLanguage}
+	breadcrumbItems={[
+		{ label: currentCommon.app.title, href: `/${currentLanguage}/`, isHome: true },
+		{ label: currentWatersort.title, href: `/watersort/${currentLanguage}/` },
+		{ label: currentMedals.showcase.title, isCurrent: true },
+	]}
+	primaryAction={{
+		label: currentWatersort.controls.play,
+		href: `/watersort/${currentLanguage}/game`,
+	}}
+	secondaryAction={{
+		label: currentWatersort.controls.backToLobby,
+		href: `/watersort/${currentLanguage}/`,
+	}}
+	containerWidth="wide"
 	currentSlug="medals"
 >
-	<PageContainer variant="wide">
-		<GameMedalGrid client:load gameId="watersort" definitions={WATERSORT_MEDAL_DEFINITIONS} lang={currentLanguage} />
-	</PageContainer>
-</BaseLayoutWithSiteHeaderAndSiteFooter>
+	<GameMedalGrid
+		client:load
+		gameId="watersort"
+		definitions={WATERSORT_MEDAL_DEFINITIONS}
+		lang={currentLanguage}
+		hideActions
+	/>
+</GameSubpageTemplate>

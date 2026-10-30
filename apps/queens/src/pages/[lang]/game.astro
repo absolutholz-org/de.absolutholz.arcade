@@ -1,7 +1,9 @@
 ---
+import { getEntry } from 'astro:content';
 import { resources } from '@arcade/lib-i18n/config/i18n';
-import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { MarkdownContent } from '@arcade/lib-ui/components/MarkdownContent';
 import GameLayout from '@arcade/lib-ui/layouts/GameLayout/GameLayout.astro';
 import { QueensGame } from '../../components/QueensGame';
 
@@ -12,15 +14,26 @@ export function getStaticPaths() {
 }
 
 const { lang } = Astro.params;
-const currentQueens = resources[lang as SupportedLanguageCode]?.queens ?? resources.en.queens;
+const currentLanguage = lang as SupportedLanguageCode;
+const currentQueens = resources[currentLanguage]?.queens ?? resources.en.queens;
+
+const rulesEntry = (await getEntry('pages', `${lang}/rules`)) ?? (await getEntry('pages', `${DEFAULT_LANGUAGE}/rules`));
+const renderedRules = rulesEntry ? await rulesEntry.render() : null;
+const RulesContent = renderedRules?.Content;
 ---
 
 <GameLayout
 	title={`${currentQueens.title} | ${currentQueens.description}`}
 	description={currentQueens.description}
-	lang={lang as SupportedLanguageCode}
+	lang={currentLanguage}
 	canonical={`https://arcade.absolutholz.de/queens/${lang}/game`}
 	appTitle="Queens"
 >
-	<QueensGame client:only="react" lang={lang as SupportedLanguageCode} />
+	<QueensGame client:only="react" lang={currentLanguage}>
+		<div slot="rulesContent">
+			<MarkdownContent>
+				{RulesContent && <RulesContent />}
+			</MarkdownContent>
+		</div>
+	</QueensGame>
 </GameLayout>

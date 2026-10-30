@@ -14,6 +14,8 @@ export interface GameStatsDashboardProps {
 	readonly bucketLabels?: Record<string, string>;
 	/** Optional URL target for the empty-state 'Play Now' button (defaults to `/${lang}/game`) */
 	readonly playHref?: string;
+	/** Whether to hide the redundant title header (e.g. when rendered within a page hero) */
+	readonly hideTitle?: boolean;
 	/** Optional CSS class name */
 	readonly className?: string;
 }

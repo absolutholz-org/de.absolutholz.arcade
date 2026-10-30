@@ -15,6 +15,7 @@ function GameStatsDashboardContent({
 	stats: preloadedStats,
 	bucketLabels,
 	playHref,
+	hideTitle = false,
 	className,
 }: GameStatsDashboardProps): JSX.Element {
 	const { t } = useI18n('common');
@@ -29,9 +30,11 @@ function GameStatsDashboardContent({
 	if (isLoading) {
 		return (
 			<S.Container className={className} aria-label={titleText}>
-				<S.Header>
-					<h2>{titleText}</h2>
-				</S.Header>
+				{!hideTitle && (
+					<S.Header>
+						<h2>{titleText}</h2>
+					</S.Header>
+				)}
 			</S.Container>
 		);
 	}
@@ -41,9 +44,11 @@ function GameStatsDashboardContent({
 	if (!hasPlayedGames) {
 		return (
 			<S.Container className={className} aria-label={titleText}>
-				<S.Header>
-					<h2>{titleText}</h2>
-				</S.Header>
+				{!hideTitle && (
+					<S.Header>
+						<h2>{titleText}</h2>
+					</S.Header>
+				)}
 				<S.EmptyStateCard>
 					<span data-slot="icon" aria-hidden="true">
 						📊
@@ -80,9 +85,11 @@ function GameStatsDashboardContent({
 
 	return (
 		<S.Container className={className} aria-label={titleText}>
-			<S.Header>
-				<h2>{titleText}</h2>
-			</S.Header>
+			{!hideTitle && (
+				<S.Header>
+					<h2>{titleText}</h2>
+				</S.Header>
+			)}
 
 			{bucketKeys.length > 0 && (
 				<S.SwitcherContainer>

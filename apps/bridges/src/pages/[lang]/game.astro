@@ -1,7 +1,9 @@
 ---
+import { getEntry } from 'astro:content';
 import { resources } from '@arcade/lib-i18n/config/i18n';
-import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { MarkdownContent } from '@arcade/lib-ui/components/MarkdownContent';
 import GameLayout from '@arcade/lib-ui/layouts/GameLayout/GameLayout.astro';
 import { HashiGame } from '../../components/HashiGame';
 
@@ -12,15 +14,26 @@ export function getStaticPaths() {
 }
 
 const { lang } = Astro.params;
-const currentBridges = resources[lang as SupportedLanguageCode]?.bridges ?? resources.en.bridges;
+const currentLanguage = lang as SupportedLanguageCode;
+const currentBridges = resources[currentLanguage]?.bridges ?? resources.en.bridges;
+
+const rulesEntry = (await getEntry('pages', `${lang}/rules`)) ?? (await getEntry('pages', `${DEFAULT_LANGUAGE}/rules`));
+const renderedRules = rulesEntry ? await rulesEntry.render() : null;
+const RulesContent = renderedRules?.Content;
 ---
 
 <GameLayout
 	title={`${currentBridges.title} | ${currentBridges.description}`}
 	description={currentBridges.description}
-	lang={lang as SupportedLanguageCode}
+	lang={currentLanguage}
 	canonical={`https://arcade.absolutholz.de/bridges/${lang}/game`}
 	appTitle="Bridges"
 >
-	<HashiGame client:only="react" lang={lang as SupportedLanguageCode} />
+	<HashiGame client:only="react" lang={currentLanguage}>
+		<div slot="rulesContent">
+			<MarkdownContent>
+				{RulesContent && <RulesContent />}
+			</MarkdownContent>
+		</div>
+	</HashiGame>
 </GameLayout>

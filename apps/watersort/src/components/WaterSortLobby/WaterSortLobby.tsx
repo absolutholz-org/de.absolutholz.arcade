@@ -99,8 +99,10 @@ function LobbyContent({ initialDifficulty }: { initialDifficulty?: DifficultyLev
 		: undefined;
 
 	const pageFooterLinks = [
-		{ label: `🏅 ${tCommon('navigation.medals')}`, href: `/watersort/${language}/medals` },
 		{ label: `📖 ${tCommon('navigation.rules')}`, href: `/watersort/${language}/rules` },
+		{ label: `⚙️ ${tCommon('navigation.settings')}`, href: `/watersort/${language}/settings` },
+		{ label: `📊 ${tCommon('stats.title')}`, href: `/watersort/${language}/stats` },
+		{ label: `🏅 ${tCommon('navigation.medals')}`, href: `/watersort/${language}/medals` },
 	];
 
 	const presets = getPresetsByDifficulty(selectedDifficulty);

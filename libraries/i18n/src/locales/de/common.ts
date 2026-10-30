@@ -140,6 +140,18 @@ export const deCommon = {
 	settings: {
 		title: 'Einstellungen',
 		description: 'Passe dein Arcade-Erlebnis an.',
+		gameSectionTitle: 'Spiel-Einstellungen',
+		gameSectionDescription: 'Passe Spieloptionen und Hilfen an.',
+		appearanceSectionTitle: 'Erscheinungsbild',
+		appearanceSectionDescription: 'Wähle dein bevorzugtes Farbschema, Farbthema und Sprache.',
+		dataSectionTitle: 'Datenverwaltung',
+		dataSectionDescription: 'Verwalte lokal gespeicherte Fortschritte, Einstellungen und Bestzeiten.',
+		resetProgressButton: 'Fortschritt & Statistiken zurücksetzen',
+		resetProgressConfirmTitle: 'Fortschritt & Statistiken zurücksetzen?',
+		resetProgressConfirmMessage:
+			'Diese Aktion löscht deine lokalen Spielstatistiken, Serien und Bestzeiten dauerhaft. Dies kann nicht rückgängig gemacht werden.',
+		resetProgressConfirmButton: 'Ja, Fortschritt zurücksetzen',
+		resetProgressCancelButton: 'Abbrechen',
 		languageSectionTitle: 'Sprache',
 		languageSectionDescription: 'Wähle deine bevorzugte Anzeigesprache.',
 		schemeSectionTitle: 'Farbschema',

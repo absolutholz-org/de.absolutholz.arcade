@@ -76,8 +76,9 @@ function LobbyContent(): JSX.Element {
 		: undefined;
 
 	const pageFooterLinks = [
-		{ label: tCommon('navigation.rules'), href: `/sudoku/${language}/rules` },
-		{ label: t('stats.title'), href: `/sudoku/${language}/stats` },
+		{ label: `📖 ${tCommon('navigation.rules')}`, href: `/sudoku/${language}/rules` },
+		{ label: `⚙️ ${tCommon('navigation.settings')}`, href: `/sudoku/${language}/settings` },
+		{ label: `📊 ${tCommon('stats.title')}`, href: `/sudoku/${language}/stats` },
 		{ label: `🏅 ${tCommon('navigation.medals')}`, href: `/sudoku/${language}/medals` },
 	];
 

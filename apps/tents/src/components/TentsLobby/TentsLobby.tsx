@@ -107,8 +107,10 @@ function LobbyContent(): JSX.Element {
 		: undefined;
 
 	const pageFooterLinks = [
+		{ label: `📖 ${tCommon('navigation.rules')}`, href: `/tents/${language}/rules` },
+		{ label: `⚙️ ${tCommon('navigation.settings')}`, href: `/tents/${language}/settings` },
+		{ label: `📊 ${tCommon('stats.title')}`, href: `/tents/${language}/stats` },
 		{ label: `🏅 ${tCommon('navigation.medals')}`, href: `/tents/${language}/medals` },
-		{ label: tCommon('navigation.rules'), href: `/tents/${language}/rules` },
 	];
 
 	const difficultyItems: SegmentedControlItem[] = DIFFICULTY_LEVELS.map((diff) => {

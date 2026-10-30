@@ -3,14 +3,14 @@ import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { isSupportedLanguage } from '@arcade/lib-i18n/utils/detection';
-import { GameHeader, GameLayout, PauseDialog } from '@arcade/lib-ui';
+import { Dialog, GameHeader, GameLayout, GameSettingsPanel, PauseDialog } from '@arcade/lib-ui';
 import { Timer } from '@arcade/lib-ui/components/Timer';
-import { type JSX, useCallback, useState } from 'react';
+import { type JSX, type ReactNode, useState } from 'react';
+import { WATERSORT_SETTINGS_CONFIG } from '../../config/settings.js';
 import type { DifficultyLevel } from '../../engine/types.js';
 import { WaterSortBoard } from '../WaterSortBoard/index.js';
 import { WaterSortControls } from '../WaterSortControls/index.js';
 import { WaterSortDeadlockDialog } from '../WaterSortDeadlockDialog/index.js';
-import { WaterSortSettingsDialog } from '../WaterSortSettingsDialog/index.js';
 import { WaterSortVictoryDialog } from '../WaterSortVictoryDialog/index.js';
 import { useWaterSortGame } from './WaterSortGame.hooks.js';
 import * as S from './WaterSortGame.styles.js';
@@ -20,8 +20,15 @@ function GameContent({
 	initialDifficulty,
 	initialSeed,
 	activeLang,
-}: { initialDifficulty?: DifficultyLevel; initialSeed?: number; activeLang: SupportedLanguageCode }): JSX.Element {
+	rulesContent,
+}: {
+	initialDifficulty?: DifficultyLevel;
+	initialSeed?: number;
+	activeLang: SupportedLanguageCode;
+	rulesContent?: ReactNode;
+}): JSX.Element {
 	const { t } = useI18n('watersort');
+	const { t: tCommon } = useI18n('common');
 	const game = useWaterSortGame(initialDifficulty, initialSeed);
 
 	const difficultyLabel = t(`difficulty.${game.difficulty}` as 'difficulty.easy');
@@ -33,6 +40,8 @@ function GameContent({
 					backHref={`/watersort/${activeLang}/`}
 					backLabel={t('controls.backToLobby')}
 					difficulty={difficultyLabel}
+					onOpenRules={game.onOpenRules}
+					rulesLabel={tCommon('navigation.rules')}
 					onOpenSettings={game.onOpenSettings}
 					settingsLabel={t('settings.title')}
 				/>
@@ -69,14 +78,36 @@ function GameContent({
 				/>
 			</div>
 
-			<PauseDialog isOpen={game.isPaused && !game.isWon} onResume={game.onTogglePause} onRestart={game.onReset} />
-
-			<WaterSortSettingsDialog
-				isOpen={game.settingsOpen}
-				settings={game.settings}
-				onClose={game.onCloseSettings}
-				onUpdateSettings={game.onUpdateSettings}
+			<PauseDialog
+				isOpen={game.isPaused && !game.isWon && !game.settingsOpen && !game.rulesOpen}
+				onResume={game.onTogglePause}
+				onRestart={game.onReset}
 			/>
+
+			{/* In-game Rules Modal */}
+			<Dialog
+				isOpen={game.rulesOpen}
+				onCancel={game.onCloseRules}
+				title={tCommon('navigation.rules')}
+				showCloseButton={true}
+			>
+				{rulesContent}
+			</Dialog>
+
+			{/* In-game Settings Modal (compact mode) */}
+			<Dialog
+				isOpen={game.settingsOpen}
+				onCancel={game.onCloseSettings}
+				title={t('settings.title')}
+				showCloseButton={true}
+			>
+				<GameSettingsPanel
+					config={WATERSORT_SETTINGS_CONFIG}
+					lang={activeLang}
+					mode="compact"
+					onSettingsChange={game.onUpdateSettings}
+				/>
+			</Dialog>
 
 			<WaterSortVictoryDialog
 				isOpen={game.isWon}
@@ -98,7 +129,7 @@ function GameContent({
 	);
 }
 
-export function WaterSortGame({ initialDifficulty, initialSeed, lang }: WaterSortGameProps): JSX.Element {
+export function WaterSortGame({ initialDifficulty, initialSeed, lang, rulesContent }: WaterSortGameProps): JSX.Element {
 	const [activeLang] = useState<SupportedLanguageCode>(() => {
 		if (lang && isSupportedLanguage(lang)) return lang;
 		if (typeof window !== 'undefined') {
@@ -112,7 +143,12 @@ export function WaterSortGame({ initialDifficulty, initialSeed, lang }: WaterSor
 
 	return (
 		<I18nProvider language={activeLang}>
-			<GameContent initialDifficulty={initialDifficulty} initialSeed={initialSeed} activeLang={activeLang} />
+			<GameContent
+				initialDifficulty={initialDifficulty}
+				initialSeed={initialSeed}
+				activeLang={activeLang}
+				rulesContent={rulesContent}
+			/>
 		</I18nProvider>
 	);
 }

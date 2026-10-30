@@ -1,4 +1,5 @@
 import { recordGameResult } from '@arcade/lib-medals';
+import { recordGameStats } from '@arcade/lib-storage';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { KeyboardEvent, MouseEvent, PointerEvent } from 'react';
 import { TRACKS_MEDAL_DEFINITIONS } from '../../config/medals.js';
@@ -266,6 +267,7 @@ export function useTracksGame(initialDifficulty: DifficultyLevel = 'easy', initi
 	const [isPaused, setIsPaused] = useState(false);
 	const [isComplete, setIsComplete] = useState(false);
 	const [isVictoryOpen, setIsVictoryOpen] = useState(false);
+	const [isRulesOpen, setIsRulesOpen] = useState(false);
 	const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 	const [isNewBestTime, setIsNewBestTime] = useState(false);
 	const [settings, setSettings] = useState<TracksSettings>(DEFAULT_SETTINGS);
@@ -328,6 +330,15 @@ export function useTracksGame(initialDifficulty: DifficultyLevel = 'easy', initi
 		const isProcedural = curPuzzle.id.startsWith('procedural-') || curPuzzle.id.startsWith('generated-');
 		const completedPresetId = isProcedural ? undefined : curPuzzle.id;
 
+		void recordGameStats({
+			gameId: 'tracks',
+			won: true,
+			bucketKey: levelKey,
+			playTimeSeconds: Math.max(1, playTimeSeconds),
+			moves: movesRef.current,
+			isFlawless: mistakesRef.current === 0,
+		});
+
 		void recordGameResult(
 			{
 				gameId: 'tracks',
@@ -360,6 +371,15 @@ export function useTracksGame(initialDifficulty: DifficultyLevel = 'easy', initi
 		const curPuzzle = puzzleRef.current;
 		const levelKey = curPuzzle.difficulty;
 		const sizeKey = `${curPuzzle.size}x${curPuzzle.size}`;
+
+		void recordGameStats({
+			gameId: 'tracks',
+			won: false,
+			bucketKey: levelKey,
+			playTimeSeconds: Math.max(1, playTimeSeconds),
+			moves: movesRef.current,
+			isFlawless: false,
+		});
 
 		void recordGameResult(
 			{
@@ -1068,9 +1088,35 @@ export function useTracksGame(initialDifficulty: DifficultyLevel = 'easy', initi
 	}, [puzzle, handleSelectPuzzle]);
 
 	const handleUpdateSettings = useCallback(async (newSettings: TracksSettings) => {
-		setSettings(newSettings);
-		settingsRef.current = newSettings;
-		await saveSettings(newSettings);
+		const gameMode = newSettings.casualMode ? 'casual' : (newSettings.gameMode ?? 'standard');
+		const resolved: TracksSettings = {
+			...newSettings,
+			casualMode: gameMode === 'casual',
+			gameMode,
+		};
+		setSettings(resolved);
+		settingsRef.current = resolved;
+		await saveSettings(resolved);
+	}, []);
+
+	const openSettings = useCallback(() => {
+		setIsPaused(true);
+		setIsSettingsOpen(true);
+	}, []);
+
+	const closeSettings = useCallback(() => {
+		setIsSettingsOpen(false);
+		setIsPaused(false);
+	}, []);
+
+	const openRules = useCallback(() => {
+		setIsPaused(true);
+		setIsRulesOpen(true);
+	}, []);
+
+	const closeRules = useCallback(() => {
+		setIsRulesOpen(false);
+		setIsPaused(false);
 	}, []);
 
 	return {
@@ -1086,6 +1132,7 @@ export function useTracksGame(initialDifficulty: DifficultyLevel = 'easy', initi
 		isPaused,
 		isComplete,
 		isVictoryOpen,
+		isRulesOpen,
 		isSettingsOpen,
 		isNewBestTime,
 		settings,
@@ -1094,11 +1141,10 @@ export function useTracksGame(initialDifficulty: DifficultyLevel = 'easy', initi
 		canRedo,
 		hasNextPuzzle,
 		setInputMode,
-		openSettings: () => {
-			setIsPaused(true);
-			setIsSettingsOpen(true);
-		},
-		closeSettings: () => setIsSettingsOpen(false),
+		openSettings,
+		closeSettings,
+		openRules,
+		closeRules,
 		closeVictory: () => setIsVictoryOpen(false),
 		handleCellClick,
 		handleCellContextMenu,

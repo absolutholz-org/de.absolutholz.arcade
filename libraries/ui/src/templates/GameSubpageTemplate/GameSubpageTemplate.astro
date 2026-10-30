@@ -1,0 +1,138 @@
+---
+import { Breadcrumb } from '../../components/Breadcrumb';
+import type { BreadcrumbItem } from '../../components/Breadcrumb/_Breadcrumb.types';
+import { Button } from '../../components/Button';
+import { PageContainer } from '../../components/PageContainer';
+import type { PageContainerVariant } from '../../components/PageContainer/_PageContainer.types';
+import type { BaseLayoutProps } from '../../layouts/BaseLayout/_BaseLayout.types';
+import BaseLayoutWithSiteHeaderAndSiteFooter from '../../layouts/BaseLayoutWithSiteHeaderAndSiteFooter/BaseLayoutWithSiteHeaderAndSiteFooter.astro';
+import type { GameSubpageActionItem } from './_GameSubpageTemplate.types';
+
+interface Props extends BaseLayoutProps {
+	title: string;
+	subtitle?: string;
+	breadcrumbItems?: BreadcrumbItem[];
+	containerWidth?: PageContainerVariant;
+	currentSlug?: string;
+	hideBrand?: boolean;
+	hasBorder?: boolean;
+	primaryAction?: GameSubpageActionItem;
+	secondaryAction?: GameSubpageActionItem;
+}
+
+const {
+	title,
+	subtitle,
+	breadcrumbItems,
+	containerWidth = 'standard',
+	primaryAction,
+	secondaryAction,
+	...layoutProps
+} = Astro.props;
+
+const hasSlotActions = Astro.slots.has('action') || Astro.slots.has('actions');
+const hasActionProps = Boolean(primaryAction || secondaryAction);
+const hasActions = hasSlotActions || hasActionProps;
+---
+
+<BaseLayoutWithSiteHeaderAndSiteFooter title={title} {...layoutProps}>
+	<slot name="head" slot="head" />
+
+	<PageContainer variant={containerWidth}>
+		<div class="subpage-wrapper">
+			{breadcrumbItems && breadcrumbItems.length > 0 ? (
+				<Breadcrumb items={breadcrumbItems} client:load />
+			) : (
+				<slot name="breadcrumb" />
+			)}
+
+			{Astro.slots.has('hero') ? (
+				<slot name="hero" />
+			) : (
+				<header class="subpage-hero">
+					<h1 class="subpage-title">{title}</h1>
+					{subtitle ? <p class="subpage-subtitle">{subtitle}</p> : null}
+				</header>
+			)}
+
+			<slot />
+
+			{hasActions ? (
+				<div class="subpage-actions">
+					{hasSlotActions ? (
+						<>
+							<slot name="action" />
+							<slot name="actions" />
+						</>
+					) : (
+						<>
+							{primaryAction && (
+								<Button
+									as="a"
+									href={primaryAction.href}
+									variant="primary"
+									size="lg"
+									aria-label={primaryAction.ariaLabel}
+								>
+									{primaryAction.label}
+								</Button>
+							)}
+							{secondaryAction && (
+								<Button
+									as="a"
+									href={secondaryAction.href}
+									variant="secondary"
+									size="lg"
+									aria-label={secondaryAction.ariaLabel}
+								>
+									{secondaryAction.label}
+								</Button>
+							)}
+						</>
+					)}
+				</div>
+			) : null}
+		</div>
+	</PageContainer>
+</BaseLayoutWithSiteHeaderAndSiteFooter>
+
+<style>
+	.subpage-wrapper {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-xl);
+		padding-block: var(--space-xl) var(--space-3xl);
+	}
+
+	.subpage-hero {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-xs);
+	}
+
+	.subpage-title {
+		color: var(--color-text-primary);
+		font-size: 2.25rem;
+		font-weight: 800;
+		line-height: 1.2;
+		margin: 0;
+	}
+
+	.subpage-subtitle {
+		color: var(--color-text-secondary);
+		font-size: 1.125rem;
+		line-height: 1.5;
+		margin: 0;
+	}
+
+	.subpage-actions {
+		align-items: center;
+		border-top: 1px solid var(--color-container-2);
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-md);
+		justify-content: center;
+		margin-top: var(--space-2xl);
+		padding-top: var(--space-2xl);
+	}
+</style>

@@ -103,3 +103,44 @@ export interface RoundStatsInput<TCustomMetrics extends Record<string, number> =
 	readonly isFlawless?: boolean;
 	readonly customMetrics?: TCustomMetrics;
 }
+
+/**
+ * Supported control types for declarative game settings.
+ * Adheres to ADR 0008.
+ */
+export type SettingControlType = 'boolean' | 'segmented' | 'select';
+
+/**
+ * Option descriptor for segmented or select setting controls.
+ */
+export interface SettingFieldOption<TValue = unknown> {
+	readonly value: TValue;
+	readonly labelKey: string;
+}
+
+/**
+ * Declarative descriptor for a single game setting field.
+ * Adheres to ADR 0008.
+ */
+export interface SettingFieldDescriptor<TValue = unknown> {
+	readonly key: string;
+	readonly control: SettingControlType;
+	readonly defaultValue: TValue;
+	/** Whether this setting can be modified safely mid-round inside the in-game modal */
+	readonly availableInGame: boolean;
+	readonly i18n: {
+		readonly labelKey: string;
+		readonly descriptionKey?: string;
+	};
+	readonly options?: readonly SettingFieldOption<TValue>[];
+}
+
+/**
+ * Declarative configuration schema for a game's settings.
+ * Adheres to ADR 0008.
+ */
+export interface GameSettingsConfig<TSettings extends Record<string, unknown> = Record<string, unknown>> {
+	readonly gameId: GameId;
+	readonly defaults: TSettings;
+	readonly fields: readonly SettingFieldDescriptor[];
+}

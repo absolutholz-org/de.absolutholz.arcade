@@ -1,4 +1,5 @@
 import { recordGameResult } from '@arcade/lib-medals';
+import { recordGameStats } from '@arcade/lib-storage';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { MINESWEEPER_MEDAL_DEFINITIONS } from '../../config/medals';
 import {
@@ -49,6 +50,7 @@ export function useMinesweeperGame(initialSize: BoardSizeId = 'md', initialDiffi
 	const [rankPosition, setRankPosition] = useState(-1);
 	const [isVictoryOpen, setIsVictoryOpen] = useState(false);
 	const [isDefeatOpen, setIsDefeatOpen] = useState(false);
+	const [isRulesOpen, setIsRulesOpen] = useState(false);
 	const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
 	const sizeConfig = BOARD_SIZES[size] ?? BOARD_SIZES.md;
@@ -104,6 +106,15 @@ export function useMinesweeperGame(initialSize: BoardSizeId = 'md', initialDiffi
 		const totalMines = getMineCount(currentSizeConfig.fieldCount, difficultyRef.current);
 		const safeTilesCleared = cellsRef.current.filter((c) => c.state === 'revealed' && !c.mine).length;
 		const currentSizeName = BOARD_SIZE_NAME_MAP[sizeRef.current];
+
+		void recordGameStats({
+			gameId: 'minesweeper',
+			won,
+			bucketKey: difficultyRef.current,
+			playTimeSeconds: Math.max(1, finalSeconds),
+			moves: safeMoveIndexRef.current,
+			isFlawless: won && perfectFlaggingRef.current,
+		});
 
 		void recordGameResult(
 			{
@@ -490,6 +501,7 @@ export function useMinesweeperGame(initialSize: BoardSizeId = 'md', initialDiffi
 		rankPosition,
 		isVictoryOpen,
 		isDefeatOpen,
+		isRulesOpen,
 		isSettingsOpen,
 		setFocusedCell,
 		handleReveal,
@@ -501,8 +513,22 @@ export function useMinesweeperGame(initialSize: BoardSizeId = 'md', initialDiffi
 		handleUpdateSettings,
 		handleToggleInteractionMode,
 		handleToggleFitToScreen,
-		openSettings: () => setIsSettingsOpen(true),
-		closeSettings: () => setIsSettingsOpen(false),
+		openSettings: () => {
+			setStatus((prev) => (prev === 'playing' ? 'paused' : prev));
+			setIsSettingsOpen(true);
+		},
+		closeSettings: () => {
+			setIsSettingsOpen(false);
+			setStatus((prev) => (prev === 'paused' ? 'playing' : prev));
+		},
+		openRules: () => {
+			setStatus((prev) => (prev === 'playing' ? 'paused' : prev));
+			setIsRulesOpen(true);
+		},
+		closeRules: () => {
+			setIsRulesOpen(false);
+			setStatus((prev) => (prev === 'paused' ? 'playing' : prev));
+		},
 		closeVictory: () => setIsVictoryOpen(false),
 		closeDefeat: () => setIsDefeatOpen(false),
 	};

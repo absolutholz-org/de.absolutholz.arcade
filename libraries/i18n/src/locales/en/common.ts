@@ -140,6 +140,18 @@ export const enCommon = {
 	settings: {
 		title: 'Settings',
 		description: 'Customize your arcade experience.',
+		gameSectionTitle: 'Game Preferences',
+		gameSectionDescription: 'Customize gameplay options and assists.',
+		appearanceSectionTitle: 'Appearance',
+		appearanceSectionDescription: 'Choose your color scheme, theme, and language preferences.',
+		dataSectionTitle: 'Data Management',
+		dataSectionDescription: 'Manage locally stored progress, settings, and high scores.',
+		resetProgressButton: 'Reset Progress & Stats',
+		resetProgressConfirmTitle: 'Reset Progress & Stats?',
+		resetProgressConfirmMessage:
+			'This action will permanently erase your local gameplay statistics, streaks, and best times. This cannot be undone.',
+		resetProgressConfirmButton: 'Yes, Reset Progress',
+		resetProgressCancelButton: 'Cancel',
 		languageSectionTitle: 'Language',
 		languageSectionDescription: 'Choose your preferred display language.',
 		schemeSectionTitle: 'Color Scheme',

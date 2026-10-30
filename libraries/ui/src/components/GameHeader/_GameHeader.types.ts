@@ -22,6 +22,14 @@ export interface GameHeaderProps {
 	 */
 	timer?: ReactNode;
 	/**
+	 * Trigger callback for opening game rules dialog.
+	 */
+	onOpenRules?: () => void;
+	/**
+	 * Accessible label and tooltip for rules trigger.
+	 */
+	rulesLabel?: string;
+	/**
 	 * Trigger callback for opening game settings dialog.
 	 */
 	onOpenSettings?: () => void;

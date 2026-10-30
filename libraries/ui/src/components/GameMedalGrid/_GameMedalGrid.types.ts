@@ -37,6 +37,8 @@ export interface GameMedalGridProps<G extends GameId = GameId> {
 	readonly definitions: readonly MedalDefinition<G>[];
 	/** Active locale code */
 	readonly lang: SupportedLanguageCode | string;
+	/** Whether to hide the redundant bottom action button (e.g. when handled by a page template) */
+	readonly hideActions?: boolean;
 	/** Optional CSS class name */
 	readonly className?: string;
 }

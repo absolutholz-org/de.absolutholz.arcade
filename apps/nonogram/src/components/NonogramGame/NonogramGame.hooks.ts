@@ -1,4 +1,5 @@
 import { recordGameResult } from '@arcade/lib-medals';
+import { recordGameStats } from '@arcade/lib-storage';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { NONOGRAM_MEDAL_DEFINITIONS } from '../../config/medals';
 import { isLineCompleted, isPuzzleSolved } from '../../engine/clues';
@@ -54,6 +55,7 @@ export function useNonogramEngine(initialDifficulty: DifficultyId = 'easy', init
 
 	// Dialog states
 	const [isVictoryOpen, setIsVictoryOpen] = useState(false);
+	const [isRulesOpen, setIsRulesOpen] = useState(false);
 	const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 	const [isPuzzleSelectOpen, setIsPuzzleSelectOpen] = useState(false);
 
@@ -105,6 +107,15 @@ export function useNonogramEngine(initialDifficulty: DifficultyId = 'easy', init
 		const totalCells = curPuzzle.width * curPuzzle.height;
 		const boardFillRatioOnDefeat = totalCells > 0 ? filledCount / totalCells : 0;
 		const maxToggles = getMaxSameCellToggles();
+
+		void recordGameStats({
+			gameId: 'nonogram',
+			won: false,
+			bucketKey: curPuzzle.difficulty,
+			playTimeSeconds: finalSeconds,
+			moves: movesRef.current,
+			isFlawless: false,
+		});
 
 		void recordGameResult(
 			{
@@ -327,6 +338,15 @@ export function useNonogramEngine(initialDifficulty: DifficultyId = 'easy', init
 				setIsVictoryOpen(true);
 				await saveActiveGame(null);
 
+				void recordGameStats({
+					gameId: 'nonogram',
+					won: true,
+					bucketKey: curPuzzle.difficulty,
+					playTimeSeconds: finalSeconds,
+					moves: nextMoves,
+					isFlawless: mistakesCountRef.current === 0 && hintsUsedRef.current === 0,
+				});
+
 				void recordGameResult(
 					{
 						gameId: 'nonogram',
@@ -513,6 +533,7 @@ export function useNonogramEngine(initialDifficulty: DifficultyId = 'easy', init
 		canRedo: historyIndex < history.length - 1,
 		hasNextPuzzle,
 		isVictoryOpen,
+		isRulesOpen,
 		isSettingsOpen,
 		isPuzzleSelectOpen,
 		setFocusedCell,
@@ -532,8 +553,22 @@ export function useNonogramEngine(initialDifficulty: DifficultyId = 'easy', init
 			hintsUsedRef.current += 1;
 			setHintsUsed(hintsUsedRef.current);
 		},
-		openSettings: () => setIsSettingsOpen(true),
-		closeSettings: () => setIsSettingsOpen(false),
+		openSettings: () => {
+			setStatus((prev) => (prev === 'playing' ? 'paused' : prev));
+			setIsSettingsOpen(true);
+		},
+		closeSettings: () => {
+			setIsSettingsOpen(false);
+			setStatus((prev) => (prev === 'paused' ? 'playing' : prev));
+		},
+		openRules: () => {
+			setStatus((prev) => (prev === 'playing' ? 'paused' : prev));
+			setIsRulesOpen(true);
+		},
+		closeRules: () => {
+			setIsRulesOpen(false);
+			setStatus((prev) => (prev === 'paused' ? 'playing' : prev));
+		},
 		openPuzzleSelect: () => setIsPuzzleSelectOpen(true),
 		closePuzzleSelect: () => setIsPuzzleSelectOpen(false),
 		closeVictory: () => setIsVictoryOpen(false),
