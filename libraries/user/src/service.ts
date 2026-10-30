@@ -326,7 +326,13 @@ class UserService implements IUserService {
 					user: updatedUser,
 					isCloudSynced: true,
 				});
-				saveConsentPreferences({ cloudSync: true }, true);
+				saveConsentPreferences(
+					{ cloudSync: true },
+					{
+						isAuthenticated: true,
+						hasLocalProfile: Boolean(updatedUser?.displayName && updatedUser.displayName !== 'Guest'),
+					},
+				);
 				await this.syncMedalsAcrossGames();
 			} else if (this.cloudAdapter.isAvailable()) {
 				await this.signInAnonymously();
@@ -349,7 +355,13 @@ class UserService implements IUserService {
 				user: localVersion,
 				isCloudSynced: false,
 			});
-			saveConsentPreferences({ cloudSync: false, publicBroadcast: false }, this.session.isAuthenticated);
+			saveConsentPreferences(
+				{ cloudSync: false, publicBroadcast: false },
+				{
+					isAuthenticated: this.session.isAuthenticated,
+					hasLocalProfile: Boolean(localVersion?.displayName && localVersion.displayName !== 'Guest'),
+				},
+			);
 		}
 	}
 
@@ -373,4 +385,29 @@ class UserService implements IUserService {
  */
 export function createUserService(options?: UserServiceOptions): IUserService {
 	return new UserService(options);
+}
+
+let sharedUserServiceInstance: IUserService | null = null;
+
+/**
+ * Returns a shared, singleton instance of IUserService across all application components.
+ * Ensures consistent session subscription, token state, and prevents multiple listener churn.
+ */
+export function getSharedUserService(options?: UserServiceOptions): IUserService {
+	if (!sharedUserServiceInstance) {
+		sharedUserServiceInstance = createUserService(options);
+		if (typeof window !== 'undefined') {
+			sharedUserServiceInstance.initialize().catch((err) => {
+				console.error('[@arcade/lib-user] Failed to initialize shared user service:', err);
+			});
+		}
+	}
+	return sharedUserServiceInstance;
+}
+
+/**
+ * Resets the shared user service singleton (primarily used for test isolation).
+ */
+export function resetSharedUserService(): void {
+	sharedUserServiceInstance = null;
 }

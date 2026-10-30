@@ -19,9 +19,11 @@ export const enCommon = {
 			cloudSyncTitle: 'Cloud Synchronization (Private)',
 			cloudSyncDescription:
 				'Sync your game scores and progress securely to your account for cross-device play. Your data remains private.',
+			cloudSyncDisabledHint: 'Sign in to enable cloud sync.',
 			publicBroadcastTitle: 'Public Leaderboards & Stats',
 			publicBroadcastDescription:
 				'Share your high scores and achievements on public leaderboards and player profiles. Requires cloud sync.',
+			publicBroadcastDisabledHint: 'Requires cloud sync to be enabled.',
 			analyticsTitle: 'Performance & Error Telemetry',
 			analyticsDescription: 'Help improve the arcade by sharing anonymous performance and error diagnostics.',
 			savePreferences: 'Save Preferences',
@@ -29,9 +31,9 @@ export const enCommon = {
 		},
 		tiers: {
 			tier1: 'Tier 1: Anonymous Local',
-			tier2: 'Tier 2: Logged-In Local-Only',
-			tier3: 'Tier 3: Logged-In Cloud-Synced (Private)',
-			tier4: 'Tier 4: Logged-In Cloud-Synced (Public)',
+			tier2: 'Tier 2: Local Profile',
+			tier3: 'Tier 3: Cloud-Synced (Private)',
+			tier4: 'Tier 4: Cloud-Synced (Public)',
 		},
 		warnings: {
 			title: 'Confirm Data Storage Change',

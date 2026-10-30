@@ -1,2 +1,2 @@
 export * from './types.js';
-export { createUserService } from './service.js';
+export { createUserService, getSharedUserService, resetSharedUserService } from './service.js';

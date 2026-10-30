@@ -66,6 +66,14 @@ export const CardDescription = styled.p`
 	color: var(--color-text-2);
 `;
 
+export const CardHint = styled.span`
+	display: block;
+	font-size: 0.75rem;
+	font-weight: 600;
+	color: var(--color-accent);
+	margin-top: 0.25rem;
+`;
+
 export const WarningBox = styled.div`
 	padding: 1rem;
 	background-color: var(--color-container-1);

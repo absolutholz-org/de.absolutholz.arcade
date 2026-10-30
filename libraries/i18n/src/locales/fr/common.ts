@@ -19,9 +19,11 @@ export const frCommon = {
 			cloudSyncTitle: 'Synchronisation Cloud (Privée)',
 			cloudSyncDescription:
 				'Synchronisez vos scores en toute sécurité pour jouer sur plusieurs appareils. Vos données restent privées.',
+			cloudSyncDisabledHint: 'Connectez-vous pour activer la synchronisation dans le cloud.',
 			publicBroadcastTitle: 'Classements publics',
 			publicBroadcastDescription:
 				'Partagez vos meilleurs scores sur les classements mondiaux. Nécessite la synchronisation cloud.',
+			publicBroadcastDisabledHint: 'Nécessite l’activation de la synchronisation cloud.',
 			analyticsTitle: 'Télémétrie et diagnostics',
 			analyticsDescription: "Aide à améliorer les jeux en partageant des diagnostics d'erreur anonymes.",
 			savePreferences: 'Enregistrer les préférences',
@@ -29,9 +31,9 @@ export const frCommon = {
 		},
 		tiers: {
 			tier1: 'Niveau 1 : Anonyme Local',
-			tier2: 'Niveau 2 : Connecté Local Uniquement',
-			tier3: 'Niveau 3 : Connecté Synchronisé Cloud (Privé)',
-			tier4: 'Niveau 4 : Connecté Synchronisé Cloud (Public)',
+			tier2: 'Niveau 2 : Profil local',
+			tier3: 'Niveau 3 : Synchronisé Cloud (Privé)',
+			tier4: 'Niveau 4 : Synchronisé Cloud (Public)',
 		},
 		warnings: {
 			title: 'Confirmer la modification du stockage',

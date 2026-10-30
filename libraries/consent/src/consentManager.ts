@@ -4,11 +4,18 @@ import type {
 	TierTransitionAction,
 	TransitionWarning,
 	UserDataTier,
+	UserTierResolutionContext,
 } from './types.js';
 
 export const CONSENT_STORAGE_KEY = 'arcade::consent::preferences';
 export const CONSENT_EVENT_NAME = 'consentUpdated';
+export const CONSENT_BROADCAST_CHANNEL = 'arcade::consent::channel';
 export const CURRENT_CONSENT_VERSION = 1;
+
+const CLIENT_INSTANCE_ID =
+	typeof crypto !== 'undefined' && 'randomUUID' in crypto
+		? crypto.randomUUID()
+		: `tab_${Math.random().toString(36).substring(2, 9)}`;
 
 export const DEFAULT_CONSENT_PREFERENCES: ConsentPreferences = {
 	essentialStorage: true,
@@ -20,19 +27,30 @@ export const DEFAULT_CONSENT_PREFERENCES: ConsentPreferences = {
 };
 
 /**
- * Resolves the active UserDataTier based on authentication status and consent.
+ * Resolves the active UserDataTier dynamically based on authentication, local profile, and consent.
+ * - Tier 1: Anonymous Local (unauthenticated guest, purely local device storage)
+ * - Tier 2: Local Profile (local named profile or authenticated with sync disabled)
+ * - Tier 3: Cloud-Synced (Private) (authenticated with cloud sync enabled, leaderboards disabled)
+ * - Tier 4: Cloud-Synced (Public) (authenticated with cloud sync and leaderboards enabled)
  */
-export function resolveUserDataTier(isAuthenticated: boolean, preferences: ConsentPreferences): UserDataTier {
-	if (!isAuthenticated) {
-		return 1; // Tier 1: Anonymous Local
+export function resolveUserDataTier(
+	contextOrAuth: boolean | UserTierResolutionContext,
+	preferences: ConsentPreferences,
+): UserDataTier {
+	const isAuthenticated = typeof contextOrAuth === 'boolean' ? contextOrAuth : Boolean(contextOrAuth.isAuthenticated);
+	const hasLocalProfile = typeof contextOrAuth === 'boolean' ? false : Boolean(contextOrAuth.hasLocalProfile);
+
+	if (isAuthenticated) {
+		if (!preferences.cloudSync) {
+			return 2; // Tier 2: Logged-In Local-Only
+		}
+		if (!preferences.publicBroadcast) {
+			return 3; // Tier 3: Cloud-Synced (Private)
+		}
+		return 4; // Tier 4: Cloud-Synced (Public)
 	}
-	if (!preferences.cloudSync) {
-		return 2; // Tier 2: Logged-In Local-Only
-	}
-	if (!preferences.publicBroadcast) {
-		return 3; // Tier 3: Logged-In Cloud-Synced Private
-	}
-	return 4; // Tier 4: Logged-In Cloud-Synced Public
+
+	return hasLocalProfile ? 2 : 1;
 }
 
 /**
@@ -91,16 +109,18 @@ export function loadConsentPreferences(): ConsentPreferences {
 }
 
 /**
- * Persists consent preferences, evaluates tier change, and dispatches 'consentUpdated' event.
+ * Persists consent preferences, enforces dependency invariants, evaluates tier changes,
+ * and broadcasts updates across windows/tabs.
  */
 export function saveConsentPreferences(
 	updates: Partial<ConsentPreferences>,
-	isAuthenticated = false,
+	contextOrAuth: boolean | UserTierResolutionContext = false,
 ): ConsentPreferences {
 	const current = loadConsentPreferences();
-	const previousTier = resolveUserDataTier(isAuthenticated, current);
+	const previousTier = resolveUserDataTier(contextOrAuth, current);
+	const isAuthenticated = typeof contextOrAuth === 'boolean' ? contextOrAuth : Boolean(contextOrAuth.isAuthenticated);
 
-	// Public broadcast strictly requires cloudSync to be enabled
+	// Dependency Rule: Public broadcast strictly requires cloudSync to be enabled.
 	const resolvedCloudSync = updates.cloudSync ?? current.cloudSync;
 	const resolvedPublicBroadcast = resolvedCloudSync ? (updates.publicBroadcast ?? current.publicBroadcast) : false;
 
@@ -114,7 +134,7 @@ export function saveConsentPreferences(
 		version: CURRENT_CONSENT_VERSION,
 	};
 
-	const newTier = resolveUserDataTier(isAuthenticated, updated);
+	const newTier = resolveUserDataTier(contextOrAuth, updated);
 	const { action } = evaluateTransitionWarning(previousTier, newTier);
 
 	if (typeof window !== 'undefined') {
@@ -131,29 +151,91 @@ export function saveConsentPreferences(
 			action,
 		};
 
+		// 1. Same-window custom event
 		window.dispatchEvent(new CustomEvent<ConsentUpdatedEventDetail>(CONSENT_EVENT_NAME, { detail }));
+
+		// 2. Cross-tab/window BroadcastChannel
+		if (typeof BroadcastChannel !== 'undefined') {
+			try {
+				const channel = new BroadcastChannel(CONSENT_BROADCAST_CHANNEL);
+				(channel as unknown as { unref?: () => void }).unref?.();
+				channel.postMessage({ type: 'CONSENT_UPDATED', detail, senderId: CLIENT_INSTANCE_ID });
+				channel.close();
+			} catch {
+				// BroadcastChannel fallback handled by storage event
+			}
+		}
 	}
 
 	return updated;
 }
 
 /**
- * Subscribes to window consent change events (SSR-safe).
+ * Subscribes to consent changes across local component state, dialogs,
+ * and other open tabs/windows via BroadcastChannel and StorageEvent.
  */
-export function subscribeToConsent(callback: (detail: ConsentUpdatedEventDetail) => void): () => void {
+export function subscribeToConsent(
+	callback: (detail: ConsentUpdatedEventDetail) => void,
+	contextOrAuth: boolean | UserTierResolutionContext = false,
+): () => void {
 	if (typeof window === 'undefined') {
 		return () => {};
 	}
 
+	// 1. Same-window event listener
 	const listener = (event: Event) => {
 		const customEvent = event as CustomEvent<ConsentUpdatedEventDetail>;
 		if (customEvent.detail) {
 			callback(customEvent.detail);
 		}
 	};
-
 	window.addEventListener(CONSENT_EVENT_NAME, listener);
+
+	// 2. Cross-window BroadcastChannel listener
+	let channel: BroadcastChannel | null = null;
+	if (typeof BroadcastChannel !== 'undefined') {
+		try {
+			channel = new BroadcastChannel(CONSENT_BROADCAST_CHANNEL);
+			(channel as unknown as { unref?: () => void }).unref?.();
+			channel.onmessage = (event: MessageEvent) => {
+				if (
+					event.data?.type === 'CONSENT_UPDATED' &&
+					event.data.detail &&
+					event.data.senderId !== CLIENT_INSTANCE_ID
+				) {
+					callback(event.data.detail);
+				}
+			};
+		} catch {
+			channel = null;
+		}
+	}
+
+	// 3. Fallback cross-window storage event listener
+	const storageListener = (event: StorageEvent) => {
+		if (event.key === CONSENT_STORAGE_KEY && event.newValue) {
+			try {
+				const updated = loadConsentPreferences();
+				const currentTier = resolveUserDataTier(contextOrAuth, updated);
+				const detail: ConsentUpdatedEventDetail = {
+					preferences: updated,
+					tier: currentTier,
+					previousTier: currentTier,
+					action: 'none',
+				};
+				callback(detail);
+			} catch {
+				// Ignore parsing errors
+			}
+		}
+	};
+	window.addEventListener('storage', storageListener);
+
 	return () => {
 		window.removeEventListener(CONSENT_EVENT_NAME, listener);
+		window.removeEventListener('storage', storageListener);
+		if (channel) {
+			channel.close();
+		}
 	};
 }

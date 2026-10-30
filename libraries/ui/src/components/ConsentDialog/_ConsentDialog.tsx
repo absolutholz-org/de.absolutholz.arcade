@@ -9,6 +9,7 @@ import {
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import type React from 'react';
 import { useEffect, useState } from 'react';
+import { useUserDataTier } from '../../hooks/useUserDataTier';
 import { Button } from '../Button';
 import { Dialog } from '../Dialog';
 import { Divider } from '../Divider';
@@ -17,8 +18,17 @@ import { Text } from '../Text';
 import * as S from './_ConsentDialog.styles';
 import type { ConsentDialogProps } from './_ConsentDialog.types';
 
-export function ConsentDialog({ id = 'consent-dialog', isOpen, onClose, isAuthenticated = false }: ConsentDialogProps) {
+export function ConsentDialog({
+	id = 'consent-dialog',
+	isOpen,
+	onClose,
+	isAuthenticated: propIsAuthenticated,
+}: ConsentDialogProps) {
 	const { t } = useI18n();
+	const dataTier = useUserDataTier();
+	const resolvedIsAuthenticated = propIsAuthenticated !== undefined ? propIsAuthenticated : dataTier.isAuthenticated;
+	const hasLocalProfile = dataTier.hasLocalProfile;
+
 	const [prefs, setPrefs] = useState<ConsentPreferences>(loadConsentPreferences);
 	const [pendingUpdates, setPendingUpdates] = useState<Partial<ConsentPreferences>>({});
 	const [activeWarning, setActiveWarning] = useState<TransitionWarning | null>(null);
@@ -32,15 +42,26 @@ export function ConsentDialog({ id = 'consent-dialog', isOpen, onClose, isAuthen
 		}
 	}, [isOpen]);
 
-	const currentTier = resolveUserDataTier(isAuthenticated, prefs);
-	const targetCloudSync = pendingUpdates.cloudSync ?? prefs.cloudSync;
-	const targetPublicBroadcast = targetCloudSync ? (pendingUpdates.publicBroadcast ?? prefs.publicBroadcast) : false;
+	// Toggle Dependency Invariant: A disabled toggle must never render in the "ON" state.
+	// 1. Unauthenticated -> Cloud Sync is forced OFF and disabled.
+	const canEnableCloudSync = resolvedIsAuthenticated;
+	const effectiveCloudSync = canEnableCloudSync ? (pendingUpdates.cloudSync ?? prefs.cloudSync) : false;
 
-	const simulatedTier = resolveUserDataTier(isAuthenticated, {
-		...prefs,
-		cloudSync: targetCloudSync,
-		publicBroadcast: targetPublicBroadcast,
-	});
+	// 2. Cloud Sync OFF -> Public Broadcast is forced OFF and disabled.
+	const canEnablePublicBroadcast = effectiveCloudSync;
+	const effectivePublicBroadcast = canEnablePublicBroadcast
+		? (pendingUpdates.publicBroadcast ?? prefs.publicBroadcast)
+		: false;
+
+	const currentTier = resolveUserDataTier({ isAuthenticated: resolvedIsAuthenticated, hasLocalProfile }, prefs);
+	const simulatedTier = resolveUserDataTier(
+		{ isAuthenticated: resolvedIsAuthenticated, hasLocalProfile },
+		{
+			...prefs,
+			cloudSync: effectiveCloudSync,
+			publicBroadcast: effectivePublicBroadcast,
+		},
+	);
 
 	const tierLabels: Record<number, string> = {
 		1: t('consent.tiers.tier1'),
@@ -50,14 +71,18 @@ export function ConsentDialog({ id = 'consent-dialog', isOpen, onClose, isAuthen
 	};
 
 	const handleCloudSyncToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (!canEnableCloudSync) return;
 		const nextSync = e.target.checked;
 		const nextPublic = nextSync ? (pendingUpdates.publicBroadcast ?? prefs.publicBroadcast) : false;
 
-		const nextTier = resolveUserDataTier(isAuthenticated, {
-			...prefs,
-			cloudSync: nextSync,
-			publicBroadcast: nextPublic,
-		});
+		const nextTier = resolveUserDataTier(
+			{ isAuthenticated: resolvedIsAuthenticated, hasLocalProfile },
+			{
+				...prefs,
+				cloudSync: nextSync,
+				publicBroadcast: nextPublic,
+			},
+		);
 
 		const warning = evaluateTransitionWarning(currentTier, nextTier);
 		if (warning.requiresConfirmation) {
@@ -74,11 +99,17 @@ export function ConsentDialog({ id = 'consent-dialog', isOpen, onClose, isAuthen
 	};
 
 	const handlePublicBroadcastToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const nextTier = resolveUserDataTier(isAuthenticated, {
-			...prefs,
-			cloudSync: targetCloudSync,
-			publicBroadcast: e.target.checked,
-		});
+		if (!canEnablePublicBroadcast) return;
+		const nextPublic = e.target.checked;
+
+		const nextTier = resolveUserDataTier(
+			{ isAuthenticated: resolvedIsAuthenticated, hasLocalProfile },
+			{
+				...prefs,
+				cloudSync: effectiveCloudSync,
+				publicBroadcast: nextPublic,
+			},
+		);
 
 		const warning = evaluateTransitionWarning(currentTier, nextTier);
 		if (warning.requiresConfirmation) {
@@ -89,7 +120,7 @@ export function ConsentDialog({ id = 'consent-dialog', isOpen, onClose, isAuthen
 
 		setPendingUpdates((prev) => ({
 			...prev,
-			publicBroadcast: e.target.checked,
+			publicBroadcast: nextPublic,
 		}));
 	};
 
@@ -101,7 +132,14 @@ export function ConsentDialog({ id = 'consent-dialog', isOpen, onClose, isAuthen
 	};
 
 	const handleSave = () => {
-		const updated = saveConsentPreferences(pendingUpdates, isAuthenticated);
+		const updated = saveConsentPreferences(
+			{
+				...pendingUpdates,
+				cloudSync: effectiveCloudSync,
+				publicBroadcast: effectivePublicBroadcast,
+			},
+			{ isAuthenticated: resolvedIsAuthenticated, hasLocalProfile },
+		);
 		setPrefs(updated);
 		onClose();
 	};
@@ -154,26 +192,30 @@ export function ConsentDialog({ id = 'consent-dialog', isOpen, onClose, isAuthen
 					<S.CardHeader>
 						<S.CardTitle>{t('consent.modal.cloudSyncTitle')}</S.CardTitle>
 						<Switch
-							checked={targetCloudSync}
+							checked={effectiveCloudSync}
 							onChange={handleCloudSyncToggle}
-							disabled={!isAuthenticated}
+							disabled={!canEnableCloudSync}
 							aria-label={t('consent.modal.cloudSyncTitle')}
 						/>
 					</S.CardHeader>
 					<S.CardDescription>{t('consent.modal.cloudSyncDescription')}</S.CardDescription>
+					{!canEnableCloudSync && <S.CardHint>{t('consent.modal.cloudSyncDisabledHint')}</S.CardHint>}
 				</S.PreferenceCard>
 
 				<S.PreferenceCard>
 					<S.CardHeader>
 						<S.CardTitle>{t('consent.modal.publicBroadcastTitle')}</S.CardTitle>
 						<Switch
-							checked={targetPublicBroadcast}
+							checked={effectivePublicBroadcast}
 							onChange={handlePublicBroadcastToggle}
-							disabled={!targetCloudSync}
+							disabled={!canEnablePublicBroadcast}
 							aria-label={t('consent.modal.publicBroadcastTitle')}
 						/>
 					</S.CardHeader>
 					<S.CardDescription>{t('consent.modal.publicBroadcastDescription')}</S.CardDescription>
+					{!canEnablePublicBroadcast && (
+						<S.CardHint>{t('consent.modal.publicBroadcastDisabledHint')}</S.CardHint>
+					)}
 				</S.PreferenceCard>
 
 				<S.PreferenceCard>

@@ -3,6 +3,14 @@
  */
 export type UserDataTier = 1 | 2 | 3 | 4;
 
+/**
+ * Contextual state for deterministic data tier evaluation.
+ */
+export interface UserTierResolutionContext {
+	readonly isAuthenticated: boolean;
+	readonly hasLocalProfile?: boolean;
+}
+
 export interface UserDataTierInfo {
 	readonly tier: UserDataTier;
 	readonly name: string;

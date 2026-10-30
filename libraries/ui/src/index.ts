@@ -56,6 +56,11 @@ export type { ConsentDialogProps } from './components/ConsentDialog';
 export { PrivacySettingRow } from './components/PrivacySettingRow';
 export type { PrivacySettingRowProps } from './components/PrivacySettingRow';
 
+export { useUserSession } from './hooks/useUserSession';
+export type { UseUserSessionReturn } from './hooks/useUserSession';
+export { useUserDataTier } from './hooks/useUserDataTier';
+export type { UseUserDataTierReturn } from './hooks/useUserDataTier';
+
 export { Toast, ToastContainer, ToastItem, toast } from './components/Toast';
 export type {
 	ToastAction,

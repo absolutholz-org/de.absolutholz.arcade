@@ -1,6 +1,5 @@
-import { loadConsentPreferences, resolveUserDataTier, subscribeToConsent } from '@arcade/lib-consent';
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button } from '../Button';
 import { ConsentDialog } from '../ConsentDialog';
 import * as S from './_PrivacySettingRow.styles';

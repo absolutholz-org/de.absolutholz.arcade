@@ -18,9 +18,11 @@ export const ptCommon = {
 			cloudSyncTitle: 'Sincronização em Nuvem (Privada)',
 			cloudSyncDescription:
 				'Sincronize suas pontuações com segurança para jogar em múltiplos dispositivos. Seus dados permanecem privados.',
+			cloudSyncDisabledHint: 'Inicie sessão para ativar a sincronização na nuvem.',
 			publicBroadcastTitle: 'Placares públicos',
 			publicBroadcastDescription:
 				'Compartilhe seus recordes nos placares globais. Requer sincronização em nuvem.',
+			publicBroadcastDisabledHint: 'Requer que a sincronização na nuvem esteja ativada.',
 			analyticsTitle: 'Telemetria e diagnósticos',
 			analyticsDescription: 'Ajuda a aprimorar os jogos compartilhando diagnósticos anônimos.',
 			savePreferences: 'Salvar preferências',
@@ -28,9 +30,9 @@ export const ptCommon = {
 		},
 		tiers: {
 			tier1: 'Nível 1: Anônimo Local',
-			tier2: 'Nível 2: Conectado Apenas Local',
-			tier3: 'Nível 3: Conectado Sincronizado em Nuvem (Privado)',
-			tier4: 'Nível 4: Conectado Sincronizado em Nuvem (Público)',
+			tier2: 'Nível 2: Perfil local',
+			tier3: 'Nível 3: Sincronizado em Nuvem (Privado)',
+			tier4: 'Nível 4: Sincronizado em Nuvem (Público)',
 		},
 		warnings: {
 			title: 'Confirmar alteração de armazenamento',

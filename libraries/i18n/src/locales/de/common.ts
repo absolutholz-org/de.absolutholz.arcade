@@ -19,9 +19,11 @@ export const deCommon = {
 			cloudSyncTitle: 'Cloud-Synchronisierung (Privat)',
 			cloudSyncDescription:
 				'Sichert Ihre Punkte und Fortschritte sicher in Ihrem Konto für geräteübergreifendes Spielen. Ihre Daten bleiben privat.',
+			cloudSyncDisabledHint: 'Melden Sie sich an, um die Cloud-Synchronisierung zu aktivieren.',
 			publicBroadcastTitle: 'Öffentliche Bestenlisten',
 			publicBroadcastDescription:
 				'Teilt Ihre Bestzeiten auf globalen Ranglisten. Erfordert Cloud-Synchronisierung.',
+			publicBroadcastDisabledHint: 'Erfordert aktivierte Cloud-Synchronisierung.',
 			analyticsTitle: 'Leistungs- & Fehleranalyse',
 			analyticsDescription: 'Hilft bei der Optimierung der Spiele durch anonyme Fehlerdiagnose.',
 			savePreferences: 'Einstellungen speichern',
@@ -29,9 +31,9 @@ export const deCommon = {
 		},
 		tiers: {
 			tier1: 'Stufe 1: Anonym Lokal',
-			tier2: 'Stufe 2: Angemeldet Nur-Lokal',
-			tier3: 'Stufe 3: Angemeldet Cloud-Synchronisiert (Privat)',
-			tier4: 'Stufe 4: Angemeldet Cloud-Synchronisiert (Öffentlich)',
+			tier2: 'Stufe 2: Lokales Profil',
+			tier3: 'Stufe 3: Cloud-Synchronisiert (Privat)',
+			tier4: 'Stufe 4: Cloud-Synchronisiert (Öffentlich)',
 		},
 		warnings: {
 			title: 'Änderung der Datenspeicherung bestätigen',
