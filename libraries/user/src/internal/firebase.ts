@@ -40,11 +40,32 @@ function initFirestoreInstance(app: FirebaseApp): Firestore {
  * Attempts to resolve Firebase credentials from environment variables
  * across Astro / Vite (import.meta.env) or Node (process.env).
  */
-function resolveEnvConfig(): FirebaseOptions | null {
-	const metaEnv =
-		typeof import.meta !== 'undefined' && 'env' in import.meta
-			? (import.meta as { env?: Record<string, string | undefined> }).env
-			: undefined;
+export function resolveEnvConfig(): {
+	readonly apiKey: string;
+	readonly authDomain?: string;
+	readonly projectId: string;
+	readonly storageBucket?: string;
+	readonly messagingSenderId?: string;
+	readonly appId: string;
+} | null {
+	let apiKey: string | undefined;
+	let projectId: string | undefined;
+	let authDomain: string | undefined;
+	let storageBucket: string | undefined;
+	let messagingSenderId: string | undefined;
+	let appId: string | undefined;
+
+	try {
+		// Explicit literal accesses so Vite / Astro static define replaces them at bundle time
+		apiKey = import.meta.env.PUBLIC_FIREBASE_API_KEY;
+		projectId = import.meta.env.PUBLIC_FIREBASE_PROJECT_ID;
+		authDomain = import.meta.env.PUBLIC_FIREBASE_AUTH_DOMAIN;
+		storageBucket = import.meta.env.PUBLIC_FIREBASE_STORAGE_BUCKET;
+		messagingSenderId = import.meta.env.PUBLIC_FIREBASE_MESSAGING_SENDER_ID;
+		appId = import.meta.env.PUBLIC_FIREBASE_APP_ID;
+	} catch {
+		// In pure Node or non-ESM environments, import.meta.env may throw or be undefined
+	}
 
 	const globalScope =
 		typeof globalThis !== 'undefined'
@@ -52,30 +73,25 @@ function resolveEnvConfig(): FirebaseOptions | null {
 			: undefined;
 	const nodeEnv = globalScope?.process?.env;
 
-	const apiKey = metaEnv?.PUBLIC_FIREBASE_API_KEY ?? nodeEnv?.PUBLIC_FIREBASE_API_KEY ?? nodeEnv?.FIREBASE_API_KEY;
-	const projectId =
-		metaEnv?.PUBLIC_FIREBASE_PROJECT_ID ?? nodeEnv?.PUBLIC_FIREBASE_PROJECT_ID ?? nodeEnv?.FIREBASE_PROJECT_ID;
+	apiKey = apiKey ?? nodeEnv?.PUBLIC_FIREBASE_API_KEY ?? nodeEnv?.FIREBASE_API_KEY;
+	projectId = projectId ?? nodeEnv?.PUBLIC_FIREBASE_PROJECT_ID ?? nodeEnv?.FIREBASE_PROJECT_ID;
+	authDomain = authDomain ?? nodeEnv?.PUBLIC_FIREBASE_AUTH_DOMAIN ?? nodeEnv?.FIREBASE_AUTH_DOMAIN;
+	storageBucket = storageBucket ?? nodeEnv?.PUBLIC_FIREBASE_STORAGE_BUCKET ?? nodeEnv?.FIREBASE_STORAGE_BUCKET;
+	messagingSenderId =
+		messagingSenderId ?? nodeEnv?.PUBLIC_FIREBASE_MESSAGING_SENDER_ID ?? nodeEnv?.FIREBASE_MESSAGING_SENDER_ID;
+	appId = appId ?? nodeEnv?.PUBLIC_FIREBASE_APP_ID ?? nodeEnv?.FIREBASE_APP_ID;
 
-	if (!apiKey || !projectId) {
+	if (!apiKey || !projectId || !appId) {
 		return null;
 	}
 
 	return {
 		apiKey,
-		authDomain:
-			metaEnv?.PUBLIC_FIREBASE_AUTH_DOMAIN ??
-			nodeEnv?.PUBLIC_FIREBASE_AUTH_DOMAIN ??
-			nodeEnv?.FIREBASE_AUTH_DOMAIN,
+		authDomain,
 		projectId,
-		storageBucket:
-			metaEnv?.PUBLIC_FIREBASE_STORAGE_BUCKET ??
-			nodeEnv?.PUBLIC_FIREBASE_STORAGE_BUCKET ??
-			nodeEnv?.FIREBASE_STORAGE_BUCKET,
-		messagingSenderId:
-			metaEnv?.PUBLIC_FIREBASE_MESSAGING_SENDER_ID ??
-			nodeEnv?.PUBLIC_FIREBASE_MESSAGING_SENDER_ID ??
-			nodeEnv?.FIREBASE_MESSAGING_SENDER_ID,
-		appId: metaEnv?.PUBLIC_FIREBASE_APP_ID ?? nodeEnv?.PUBLIC_FIREBASE_APP_ID ?? nodeEnv?.FIREBASE_APP_ID,
+		storageBucket,
+		messagingSenderId,
+		appId,
 	};
 }
 

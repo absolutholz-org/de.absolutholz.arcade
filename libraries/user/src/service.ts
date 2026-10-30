@@ -13,7 +13,7 @@ import {
 } from '@arcade/lib-medals';
 import { CloudAdapter } from './internal/adapters/cloudAdapter.js';
 import { LocalAdapter } from './internal/adapters/localAdapter.js';
-import { initFirebase } from './internal/firebase.js';
+import { initFirebase, resolveEnvConfig } from './internal/firebase.js';
 import type { IUserService, StorageMode, Unsubscribe, UserProfile, UserServiceOptions, UserSession } from './types.js';
 
 /**
@@ -86,9 +86,10 @@ class UserService implements IUserService {
 			return this.getSession();
 		}
 
-		// Initialize modular Firebase if config was passed
-		if (this.options?.firebaseConfig) {
-			initFirebase(this.options.firebaseConfig);
+		// Initialize modular Firebase if config was passed or can be resolved from env
+		const fbConfig = this.options?.firebaseConfig ?? resolveEnvConfig() ?? undefined;
+		if (fbConfig) {
+			initFirebase(fbConfig);
 		}
 
 		// Register medals sync adapter for Tier 3 & Tier 4 cloud synchronization
@@ -395,12 +396,20 @@ let sharedUserServiceInstance: IUserService | null = null;
  */
 export function getSharedUserService(options?: UserServiceOptions): IUserService {
 	if (!sharedUserServiceInstance) {
-		sharedUserServiceInstance = createUserService(options);
+		const envConfig = resolveEnvConfig() ?? undefined;
+		const resolvedOptions: UserServiceOptions | undefined = options?.firebaseConfig
+			? options
+			: envConfig
+				? { ...options, firebaseConfig: envConfig }
+				: options;
+		sharedUserServiceInstance = createUserService(resolvedOptions);
 		if (typeof window !== 'undefined') {
 			sharedUserServiceInstance.initialize().catch((err) => {
 				console.error('[@arcade/lib-user] Failed to initialize shared user service:', err);
 			});
 		}
+	} else if (options?.firebaseConfig) {
+		initFirebase(options.firebaseConfig);
 	}
 	return sharedUserServiceInstance;
 }
