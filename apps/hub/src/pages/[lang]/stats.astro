@@ -1,0 +1,34 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { Hero } from '@arcade/lib-ui/components/Hero';
+import { PageContainer } from '@arcade/lib-ui/components/PageContainer';
+import BaseLayoutWithSiteHeaderAndSiteFooter from '@arcade/lib-ui/layouts/BaseLayoutWithSiteHeaderAndSiteFooter/BaseLayoutWithSiteHeaderAndSiteFooter.astro';
+import { HubStatsDashboard } from '../../components/HubStatsDashboard/HubStatsDashboard';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const currentCommon = resources[lang as SupportedLanguageCode]?.common ?? resources.en.common;
+---
+
+<BaseLayoutWithSiteHeaderAndSiteFooter
+	title={currentCommon.navigation?.stats ?? 'Statistics'}
+	description="Global statistics and records aggregated across all Arcade games"
+	lang={lang as SupportedLanguageCode}
+	currentSlug="stats"
+>
+	<PageContainer variant="wide">
+		<Hero
+			title={currentCommon.navigation?.stats ?? 'Statistics'}
+			tagline="Global gameplay statistics, win rates, streaks, and personal bests"
+			align="left"
+		/>
+		<HubStatsDashboard client:load lang={lang as SupportedLanguageCode} />
+	</PageContainer>
+</BaseLayoutWithSiteHeaderAndSiteFooter>

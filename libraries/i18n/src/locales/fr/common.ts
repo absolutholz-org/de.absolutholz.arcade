@@ -111,6 +111,7 @@ export const frCommon = {
 		settings: 'Paramètres',
 		rules: 'Règles',
 		medals: 'Vitrine des médailles',
+		stats: 'Statistiques',
 		breadcrumb: 'Fil d’Ariane',
 	},
 	hub: {

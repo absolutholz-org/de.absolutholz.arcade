@@ -101,3 +101,18 @@ export {
 	getGameSettings,
 	saveGameSettings,
 } from './settings.js';
+export type {
+	AggregatedGameStats,
+	GameSessionResult,
+	HubGlobalStats,
+} from './stats/types.js';
+export {
+	STATS_UPDATED_EVENT,
+	AGGREGATED_STATS_STORAGE_KEY,
+	createInitialAggregatedGameStats,
+	updateAggregatedGameStats,
+	recordGameSession,
+	getGlobalStats,
+	subscribeToStatsUpdated,
+	getGameStats as getAggregatedGameStats,
+} from './stats/store.js';

@@ -1,4 +1,5 @@
 import { createGameStorage } from './createGameStorage.js';
+import { recordGameSession } from './stats/store.js';
 import type { DifficultyBucketStats, GameId, GameStats, RoundStatsInput } from './types/stats.types.js';
 import type { GameStorage, GameStorageOptions } from './types/storage.types.js';
 
@@ -202,5 +203,22 @@ export async function recordGameStats<
 	const currentStats = await getGameStats<TBucketKey, TCustomMetrics>(input.gameId, storage);
 	const updatedStats = updateStatsWithRound<TBucketKey, TCustomMetrics>(currentStats, input);
 	await storage.set(GAME_STATS_STORAGE_KEY, updatedStats);
+
+	// Synchronize with cross-game session aggregator
+	try {
+		await recordGameSession(
+			{
+				gameId: input.gameId,
+				timestamp: Date.now(),
+				durationMs: Math.max(0, input.playTimeSeconds) * 1000,
+				won: input.won,
+				difficulty: input.bucketKey,
+			},
+			storage,
+		);
+	} catch {
+		// Non-blocking fallback if session recording fails
+	}
+
 	return updatedStats;
 }

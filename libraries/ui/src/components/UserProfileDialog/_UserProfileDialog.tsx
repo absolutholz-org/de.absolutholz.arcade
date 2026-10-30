@@ -110,9 +110,18 @@ export function UserProfileDialog({
 								size="sm"
 								as="a"
 								href={`/${language}/medals`}
-								leadingIcon={<Icon name="trophy" size="sm" />}
+								leadingIcon={<Icon emoji="🏅" size="sm" />}
 							>
 								{t('auth.viewMedals')}
+							</Button>
+							<Button
+								variant="outline"
+								size="sm"
+								as="a"
+								href={`/${language}/stats`}
+								leadingIcon={<Icon emoji="📊" size="sm" />}
+							>
+								{t('navigation.stats')}
 							</Button>
 						</div>
 

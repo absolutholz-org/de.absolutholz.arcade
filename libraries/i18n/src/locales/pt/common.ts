@@ -110,6 +110,7 @@ export const ptCommon = {
 		settings: 'Configurações',
 		rules: 'Regras',
 		medals: 'Galeria de Medalhas',
+		stats: 'Estatísticas',
 		breadcrumb: 'Trilha de navegação',
 	},
 	hub: {

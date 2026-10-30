@@ -94,6 +94,35 @@ export const SiteHeader = styled.header`
 		transition: color 120ms ease;
 	}
 
+	.header-nav {
+		align-items: center;
+		display: inline-flex;
+		gap: ${space('sm')};
+		margin-left: ${space('lg')};
+	}
+
+	.header-nav-link {
+		align-items: center;
+		border-radius: var(--radius-sm);
+		color: var(--color-text-2);
+		display: inline-flex;
+		font-size: 0.9375rem;
+		font-weight: 500;
+		padding: ${space('xs')} ${space('sm')};
+		text-decoration: none;
+		transition: color 120ms ease, background-color 120ms ease;
+
+		&:hover {
+			color: var(--color-text-1);
+			text-decoration: none;
+		}
+
+		&[aria-current='page'] {
+			color: var(--color-accent);
+			font-weight: 600;
+		}
+	}
+
 	.header-actions {
 		align-items: center;
 		display: flex;

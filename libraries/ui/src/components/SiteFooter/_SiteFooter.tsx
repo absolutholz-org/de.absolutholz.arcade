@@ -33,6 +33,7 @@ export function SiteFooter({
 		{ href: `/${currentLang}/accessibility`, label: t('navigation.accessibility') },
 		{ href: `/${currentLang}/settings`, label: t('navigation.settings') },
 		{ href: `/${currentLang}/medals`, label: t('navigation.medals') },
+		{ href: `/${currentLang}/stats`, label: t('navigation.stats') },
 	];
 
 	const resolvedLegalLinks = legalLinks ?? defaultLegalLinks;

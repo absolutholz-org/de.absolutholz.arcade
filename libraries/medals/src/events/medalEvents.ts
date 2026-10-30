@@ -27,8 +27,24 @@ export function subscribeToMedalUnlocked(listener: (detail: MedalUnlockedEventDe
 		}
 	};
 
+	const storageHandler = (event: StorageEvent) => {
+		if (!event.key) return;
+		if (event.key.includes('medals')) {
+			// Extract gameId if present in key: arcade:medals:[gameId] or arcade::[gameId]::medals
+			let matchedGameId: GameId = 'sudoku';
+			if (event.key.startsWith('arcade:medals:')) {
+				matchedGameId = event.key.slice('arcade:medals:'.length) as GameId;
+			} else if (event.key.startsWith('arcade::') && event.key.endsWith('::medals')) {
+				matchedGameId = event.key.split('::')[1] as GameId;
+			}
+			listener({ gameId: matchedGameId, medals: [] });
+		}
+	};
+
 	window.addEventListener(MEDAL_UNLOCKED_EVENT, handler);
+	window.addEventListener('storage', storageHandler);
 	return () => {
 		window.removeEventListener(MEDAL_UNLOCKED_EVENT, handler);
+		window.removeEventListener('storage', storageHandler);
 	};
 }

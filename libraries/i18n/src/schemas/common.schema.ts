@@ -102,6 +102,7 @@ export const commonSchema = {
 		settings: 'navigation.settings',
 		rules: 'navigation.rules',
 		medals: 'navigation.medals',
+		stats: 'navigation.stats',
 		breadcrumb: 'navigation.breadcrumb',
 	},
 	hub: {

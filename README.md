@@ -20,9 +20,10 @@ This project is structured as a strict multi-app monorepo utilizing `pnpm worksp
     *   `libraries/games`: Central game registry, metadata definitions, canonical game IDs, and visual assets (`@arcade/lib-games`).
     *   `libraries/ui`: Shared design system components styled exclusively with **Linaria**.
     *   `libraries/i18n`: Shared localization engine, language constants, dictionaries, and React hook abstraction (`useI18n`).
-    *   `libraries/storage`: Namespaced wrappers for LocalStorage/IndexedDB to prevent cross-game data collisions.
+    *   `libraries/storage`: Namespaced wrappers for LocalStorage/IndexedDB to prevent cross-game data collisions, session telemetry, and global statistics aggregation (`@arcade/lib-storage`).
     *   `libraries/user`: User identity facade, session management, local persistence, and Firebase Cloud synchronization.
     *   `libraries/medals`: Unified medals progression, local achievement evaluation engine, and multi-device field-level merge conflict resolution (`@arcade/lib-medals`).
+    *   `packages/core`: Shared core domain schemas, statistics aggregation engine, and session tracking (`@arcade/core`).
 
 ## 🤖 AI Agent Instructions (READ FIRST)
 

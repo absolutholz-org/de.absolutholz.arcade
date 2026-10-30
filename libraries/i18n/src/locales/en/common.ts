@@ -111,6 +111,7 @@ export const enCommon = {
 		settings: 'Settings',
 		rules: 'Rules',
 		medals: 'Medal Showcase',
+		stats: 'Statistics',
 		breadcrumb: 'Breadcrumb',
 	},
 	hub: {

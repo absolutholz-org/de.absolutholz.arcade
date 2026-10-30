@@ -1,5 +1,5 @@
 import { type SudokuDifficulty, recordGameResult } from '@arcade/lib-medals';
-import { createGameStorage, recordGameStats } from '@arcade/lib-storage';
+import { createGameStorage, recordGameSession, recordGameStats } from '@arcade/lib-storage';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { SUDOKU_MEDAL_DEFINITIONS } from '../../config/medals';
 import { generateSudoku } from '../../engine/generator';
@@ -306,6 +306,16 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 					moves: historyRef.current.length,
 					isFlawless: mistakesRef.current === 0 && hintsRef.current === 0,
 				});
+
+				void recordGameSession({
+					gameId: 'sudoku',
+					timestamp: Date.now(),
+					durationMs: finalTime * 1000,
+					won: true,
+					difficulty: difficultyRef.current,
+					hintsUsed: hintsRef.current,
+					mistakes: mistakesRef.current,
+				});
 			} catch {
 				// Fallback gracefully
 			}
@@ -449,6 +459,16 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 							} catch {
 								// Fallback gracefully
 							}
+
+							void recordGameSession({
+								gameId: 'sudoku',
+								timestamp: Date.now(),
+								durationMs: finalTime * 1000,
+								won: false,
+								difficulty: currentDiff,
+								hintsUsed: currentHints,
+								mistakes: nextMistakes,
+							});
 
 							void recordGameResult(
 								{

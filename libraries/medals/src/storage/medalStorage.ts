@@ -132,6 +132,14 @@ export function createInitialCustomStats<G extends GameId>(gameId: G): GameCusto
 				languagesPlayed: {},
 				expertLanguagesWon: [],
 			} as unknown as GameCustomStatsMap[G];
+		case 'watersort':
+			return {
+				easyWins: 0,
+				mediumWins: 0,
+				hardWins: 0,
+				expertWins: 0,
+				winsWithoutUndo: 0,
+			} as unknown as GameCustomStatsMap[G];
 		default:
 			throw new Error(`createInitialCustomStats error: Unknown gameId "${String(gameId)}"`);
 	}
@@ -158,7 +166,25 @@ export async function getGameMedalState<G extends GameId>(
 	customStorage?: GameStorage,
 ): Promise<GameMedalState<G>> {
 	const storage = customStorage ?? createGameStorage(gameId);
-	const rawState = await storage.get<GameMedalState<G>>(MEDALS_STORAGE_KEY);
+	let rawState = await storage.get<GameMedalState<G>>(MEDALS_STORAGE_KEY);
+
+	// Fallback check against localStorage for colon or alternative namespaced formats
+	if (!rawState && typeof window !== 'undefined' && window.localStorage) {
+		const alternativeKeys = [`arcade:medals:${gameId}`, `arcade::${gameId}::medals`, `arcade:medals_${gameId}`];
+		for (const altKey of alternativeKeys) {
+			const rawAlt = window.localStorage.getItem(altKey);
+			if (rawAlt) {
+				try {
+					rawState = JSON.parse(rawAlt) as GameMedalState<G>;
+					// Persist forward into canonical storage
+					await storage.set(MEDALS_STORAGE_KEY, rawState);
+					break;
+				} catch {
+					// Ignore invalid JSON in alternative key
+				}
+			}
+		}
+	}
 
 	if (!rawState) {
 		return createInitialMedalState(gameId);
@@ -189,4 +215,15 @@ export async function setGameMedalState<G extends GameId>(
 ): Promise<void> {
 	const storage = customStorage ?? createGameStorage(state.gameId);
 	await storage.set(MEDALS_STORAGE_KEY, state);
+
+	// Mirror to localStorage under canonical and colon-delimited fallback keys for cross-client sync
+	if (typeof window !== 'undefined' && window.localStorage) {
+		try {
+			const serialized = JSON.stringify(state);
+			window.localStorage.setItem(`arcade::${state.gameId}::medals`, serialized);
+			window.localStorage.setItem(`arcade:medals:${state.gameId}`, serialized);
+		} catch {
+			// Ignore quota exceeded or private browsing restrictions
+		}
+	}
 }

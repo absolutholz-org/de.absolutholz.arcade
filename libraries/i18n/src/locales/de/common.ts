@@ -111,6 +111,7 @@ export const deCommon = {
 		settings: 'Einstellungen',
 		rules: 'Regeln',
 		medals: 'Medaillen-Vitrine',
+		stats: 'Statistiken',
 		breadcrumb: 'Brotkrümelnavigation',
 	},
 	hub: {

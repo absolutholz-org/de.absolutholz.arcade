@@ -47,15 +47,21 @@ interface MedalShowcaseItem {
 	readonly goldUnlocked?: boolean;
 }
 
+const normalizeGameParam = (param: string | null): string => {
+	if (!param) return 'all';
+	const lower = param.toLowerCase().trim();
+	if (lower === 'all' || REGISTERED_GAMES.includes(lower as GameId)) {
+		return lower;
+	}
+	return 'all';
+};
+
 function MedalsShowcaseContent({ lang }: { lang: SupportedLanguageCode }) {
 	const { t } = useI18n('medals');
 	const [activeGameFilter, setActiveGameFilter] = useState<string>(() => {
 		if (typeof window !== 'undefined') {
 			const params = new URLSearchParams(window.location.search);
-			const gameParam = params.get('game');
-			if (gameParam && (gameParam === 'all' || REGISTERED_GAMES.includes(gameParam as GameId))) {
-				return gameParam;
-			}
+			return normalizeGameParam(params.get('game'));
 		}
 		return 'all';
 	});
@@ -67,12 +73,7 @@ function MedalsShowcaseContent({ lang }: { lang: SupportedLanguageCode }) {
 		const updateFromUrl = () => {
 			if (typeof window !== 'undefined') {
 				const params = new URLSearchParams(window.location.search);
-				const gameParam = params.get('game');
-				if (gameParam && (gameParam === 'all' || REGISTERED_GAMES.includes(gameParam as GameId))) {
-					setActiveGameFilter(gameParam);
-				} else if (!gameParam) {
-					setActiveGameFilter('all');
-				}
+				setActiveGameFilter(normalizeGameParam(params.get('game')));
 			}
 		};
 
@@ -83,13 +84,14 @@ function MedalsShowcaseContent({ lang }: { lang: SupportedLanguageCode }) {
 
 	// Handle filter change and update URL
 	const handleFilterChange = (filter: string) => {
-		setActiveGameFilter(filter);
+		const normalized = normalizeGameParam(filter);
+		setActiveGameFilter(normalized);
 		if (typeof window !== 'undefined') {
 			const url = new URL(window.location.href);
-			if (filter === 'all') {
+			if (normalized === 'all') {
 				url.searchParams.delete('game');
 			} else {
-				url.searchParams.set('game', filter);
+				url.searchParams.set('game', normalized);
 			}
 			window.history.replaceState({}, '', url.toString());
 		}
@@ -100,48 +102,52 @@ function MedalsShowcaseContent({ lang }: { lang: SupportedLanguageCode }) {
 		const allItems: MedalShowcaseItem[] = [];
 
 		for (const gameId of REGISTERED_GAMES) {
-			const state = await getGameMedalState(gameId);
-			const definitions = getHubMedalDefinitionsForGame(gameId);
+			try {
+				const state = await getGameMedalState(gameId);
+				const definitions = getHubMedalDefinitionsForGame(gameId);
 
-			for (const def of definitions) {
-				const unlock = state.unlockedMedals[def.id];
-				const isUnlocked = Boolean(unlock);
-				const progress = state.medalProgress[def.id];
-				const isLadder = def.type === 'ladder';
+				for (const def of definitions) {
+					const unlock = state.unlockedMedals[def.id];
+					const isUnlocked = Boolean(unlock);
+					const progress = state.medalProgress[def.id];
+					const isLadder = def.type === 'ladder';
 
-				let bronzeUnlocked = false;
-				let silverUnlocked = false;
-				let goldUnlocked = false;
+					let bronzeUnlocked = false;
+					let silverUnlocked = false;
+					let goldUnlocked = false;
 
-				if (isLadder) {
-					bronzeUnlocked = Boolean(
-						progress?.bronzeUnlocked ||
-							unlock?.tier === 'bronze' ||
-							unlock?.tier === 'silver' ||
-							unlock?.tier === 'gold',
-					);
-					silverUnlocked = Boolean(
-						progress?.silverUnlocked || unlock?.tier === 'silver' || unlock?.tier === 'gold',
-					);
-					goldUnlocked = Boolean(progress?.goldUnlocked || unlock?.tier === 'gold');
+					if (isLadder) {
+						bronzeUnlocked = Boolean(
+							progress?.bronzeUnlocked ||
+								unlock?.tier === 'bronze' ||
+								unlock?.tier === 'silver' ||
+								unlock?.tier === 'gold',
+						);
+						silverUnlocked = Boolean(
+							progress?.silverUnlocked || unlock?.tier === 'silver' || unlock?.tier === 'gold',
+						);
+						goldUnlocked = Boolean(progress?.goldUnlocked || unlock?.tier === 'gold');
+					}
+
+					allItems.push({
+						id: def.id,
+						gameId,
+						type: def.type ?? 'standalone',
+						tier: def.tier,
+						title: t(def.titleKey as TranslationKey),
+						description: t(def.descriptionKey as TranslationKey),
+						icon: def.icon,
+						thresholds: def.thresholds,
+						isUnlocked,
+						unlockedAt: unlock?.unlockedAt,
+						progress,
+						bronzeUnlocked,
+						silverUnlocked,
+						goldUnlocked,
+					});
 				}
-
-				allItems.push({
-					id: def.id,
-					gameId,
-					type: def.type ?? 'standalone',
-					tier: def.tier,
-					title: t(def.titleKey as TranslationKey),
-					description: t(def.descriptionKey as TranslationKey),
-					icon: def.icon,
-					thresholds: def.thresholds,
-					isUnlocked,
-					unlockedAt: unlock?.unlockedAt,
-					progress,
-					bronzeUnlocked,
-					silverUnlocked,
-					goldUnlocked,
-				});
+			} catch (error) {
+				console.error(`Failed to hydrate ${gameId} medals:`, error);
 			}
 		}
 
@@ -165,22 +171,24 @@ function MedalsShowcaseContent({ lang }: { lang: SupportedLanguageCode }) {
 		};
 	}, [hydrateAllMedals]);
 
-	// Calculate trophy totals across all loaded achievements
-	const goldCount = items.filter(
-		(i) => i.goldUnlocked || (i.type === 'standalone' && i.isUnlocked && i.tier === 'gold'),
-	).length;
-	const silverCount = items.filter(
-		(i) => i.silverUnlocked || (i.type === 'standalone' && i.isUnlocked && i.tier === 'silver'),
-	).length;
-	const bronzeCount = items.filter(
-		(i) => i.bronzeUnlocked || (i.type === 'standalone' && i.isUnlocked && i.tier === 'bronze'),
-	).length;
-	const unlockedCount = items.filter(
-		(i) => i.isUnlocked || i.bronzeUnlocked || i.silverUnlocked || i.goldUnlocked,
-	).length;
-
 	// Filter items by selected game
 	const visibleItems = items.filter((item) => activeGameFilter === 'all' || item.gameId === activeGameFilter);
+
+	// Calculate trophy totals for active scope (filtered game or all games)
+	const summaryItems = activeGameFilter === 'all' ? items : visibleItems;
+	const goldCount = summaryItems.filter(
+		(i) => i.goldUnlocked || (i.type === 'standalone' && i.isUnlocked && i.tier === 'gold'),
+	).length;
+	const silverCount = summaryItems.filter(
+		(i) => i.silverUnlocked || (i.type === 'standalone' && i.isUnlocked && i.tier === 'silver'),
+	).length;
+	const bronzeCount = summaryItems.filter(
+		(i) => i.bronzeUnlocked || (i.type === 'standalone' && i.isUnlocked && i.tier === 'bronze'),
+	).length;
+	const unlockedCount = summaryItems.filter(
+		(i) => i.isUnlocked || i.bronzeUnlocked || i.silverUnlocked || i.goldUnlocked,
+	).length;
+	const totalTrophies = summaryItems.length;
 
 	return (
 		<div className={S.ShowcaseContainer}>
@@ -188,7 +196,7 @@ function MedalsShowcaseContent({ lang }: { lang: SupportedLanguageCode }) {
 			<section className={S.TrophyBar} aria-label={t('medals.showcase.trophiesSummary')}>
 				<div className={S.TrophyCard}>
 					<span className={S.TrophyCount}>
-						{unlockedCount} / {items.length}
+						{unlockedCount} / {totalTrophies}
 					</span>
 					<span className={S.TrophyLabel}>{t('medals.showcase.trophiesSummary')}</span>
 				</div>
