@@ -149,25 +149,31 @@ function GameSettingsPanelContent<T extends Record<string, unknown>>({
 							<p>{tCommon('settings.appearanceSectionDescription')}</p>
 						</S.SectionHeader>
 
-						<S.AppearanceGrid>
-							<S.AppearanceCard>
-								<h3>{tCommon('settings.schemeSectionTitle')}</h3>
-								<p>{tCommon('settings.schemeSectionDescription')}</p>
-								<SchemeSelector />
-							</S.AppearanceCard>
+						<S.AppearanceList>
+							<S.AppearanceBlock>
+								<S.BlockHeader>
+									<h3>{tCommon('settings.schemeSectionTitle')}</h3>
+									<p>{tCommon('settings.schemeSectionDescription')}</p>
+								</S.BlockHeader>
+								<SchemeSelector hideHeader />
+							</S.AppearanceBlock>
 
-							<S.AppearanceCard>
-								<h3>{tCommon('settings.themeSectionTitle')}</h3>
-								<p>{tCommon('settings.themeSectionDescription')}</p>
-								<ThemeSelector />
-							</S.AppearanceCard>
+							<S.AppearanceBlock>
+								<S.BlockHeader>
+									<h3>{tCommon('settings.themeSectionTitle')}</h3>
+									<p>{tCommon('settings.themeSectionDescription')}</p>
+								</S.BlockHeader>
+								<ThemeSelector hideHeader />
+							</S.AppearanceBlock>
 
-							<S.AppearanceCard>
-								<h3>{tCommon('settings.languageSectionTitle')}</h3>
-								<p>{tCommon('settings.languageSectionDescription')}</p>
-								<LanguageSelector />
-							</S.AppearanceCard>
-						</S.AppearanceGrid>
+							<S.AppearanceBlock>
+								<S.BlockHeader>
+									<h3>{tCommon('settings.languageSectionTitle')}</h3>
+									<p>{tCommon('settings.languageSectionDescription')}</p>
+								</S.BlockHeader>
+								<LanguageSelector hideHeader />
+							</S.AppearanceBlock>
+						</S.AppearanceList>
 					</S.Section>
 
 					{/* Data Management & Destructive Reset Action */}

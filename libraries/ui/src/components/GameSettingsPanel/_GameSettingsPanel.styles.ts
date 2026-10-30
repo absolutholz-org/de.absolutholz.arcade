@@ -128,25 +128,24 @@ export const ControlContainer = styled.div`
 	}
 `;
 
-export const AppearanceGrid = styled.div`
-	display: grid;
-	grid-template-columns: 1fr;
-	gap: 1.25rem;
+export const AppearanceList = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
 	width: 100%;
-
-	@media (min-width: 640px) {
-		grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
-	}
 `;
 
-export const AppearanceCard = styled.div`
+export const AppearanceBlock = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 0.75rem;
-	padding: 1rem;
-	border-radius: ${radiusScale.md};
-	background: ${themeColor('container-1')};
-	border: 1px solid ${themeColor('container-2')};
+	width: 100%;
+`;
+
+export const BlockHeader = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
 
 	h3 {
 		margin: 0;

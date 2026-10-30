@@ -8,10 +8,12 @@ import type { LanguageSelectorProps } from './_LanguageSelector.types';
 
 function LanguageSelectorInner({
 	className,
+	hideHeader = false,
 	lang,
 	onLanguageChange,
 }: {
 	className?: string;
+	hideHeader?: boolean;
 	lang?: SupportedLanguageCode;
 	onLanguageChange?: (lang: SupportedLanguageCode) => void;
 }) {
@@ -22,10 +24,12 @@ function LanguageSelectorInner({
 
 	return (
 		<S.Container className={className}>
-			<S.Header>
-				<S.Title>{t('settings.languageSectionTitle')}</S.Title>
-				<S.Description>{t('settings.languageSectionDescription')}</S.Description>
-			</S.Header>
+			{!hideHeader && (
+				<S.Header>
+					<S.Title>{t('settings.languageSectionTitle')}</S.Title>
+					<S.Description>{t('settings.languageSectionDescription')}</S.Description>
+				</S.Header>
+			)}
 
 			<S.Grid aria-label={t('settings.languageSectionTitle')}>
 				{LANGUAGE_OPTIONS.map((item) => {
@@ -59,10 +63,20 @@ function LanguageSelectorInner({
  * LanguageSelector component renders an accessible card grid displaying
  * all available supported languages in their native names with persistent selection.
  */
-export function LanguageSelector({ lang, className, onLanguageChange }: LanguageSelectorProps = {}) {
+export function LanguageSelector({
+	lang,
+	hideHeader = false,
+	className,
+	onLanguageChange,
+}: LanguageSelectorProps = {}) {
 	return (
 		<I18nProvider language={lang}>
-			<LanguageSelectorInner className={className} lang={lang} onLanguageChange={onLanguageChange} />
+			<LanguageSelectorInner
+				className={className}
+				hideHeader={hideHeader}
+				lang={lang}
+				onLanguageChange={onLanguageChange}
+			/>
 		</I18nProvider>
 	);
 }

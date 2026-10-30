@@ -6,16 +6,24 @@ import { Icon } from '../Icon';
 import * as S from './_ThemeSelector.styles';
 import type { ThemeSelectorProps } from './_ThemeSelector.types';
 
-function ThemeSelectorInner({ className }: { className?: string }) {
+function ThemeSelectorInner({
+	className,
+	hideHeader = false,
+}: {
+	className?: string;
+	hideHeader?: boolean;
+}) {
 	const { t } = useI18n('common');
 	const [activeThemeset, setActiveThemeset] = useThemeset();
 
 	return (
 		<S.Container className={className}>
-			<S.Header>
-				<S.Title>{t('settings.themeSectionTitle')}</S.Title>
-				<S.Description>{t('settings.themeSectionDescription')}</S.Description>
-			</S.Header>
+			{!hideHeader && (
+				<S.Header>
+					<S.Title>{t('settings.themeSectionTitle')}</S.Title>
+					<S.Description>{t('settings.themeSectionDescription')}</S.Description>
+				</S.Header>
+			)}
 
 			<S.Grid aria-label={t('settings.themeSectionTitle')}>
 				{THEMESET_IDS.map((id: ThemesetId) => {
@@ -54,10 +62,10 @@ function ThemeSelectorInner({ className }: { className?: string }) {
  * ThemeSelector component renders an accessible card grid displaying
  * all available themesets with preview swatches and persistent selection.
  */
-export function ThemeSelector({ lang, className }: ThemeSelectorProps = {}) {
+export function ThemeSelector({ lang, hideHeader = false, className }: ThemeSelectorProps = {}) {
 	return (
 		<I18nProvider language={lang}>
-			<ThemeSelectorInner className={className} />
+			<ThemeSelectorInner className={className} hideHeader={hideHeader} />
 		</I18nProvider>
 	);
 }

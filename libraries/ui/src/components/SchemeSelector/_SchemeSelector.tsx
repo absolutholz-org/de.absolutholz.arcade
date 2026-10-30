@@ -9,9 +9,11 @@ import type { SchemeSelectorProps } from './_SchemeSelector.types';
 
 function SchemeSelectorInner({
 	className,
+	hideHeader = false,
 	onSchemeChange,
 }: {
 	className?: string;
+	hideHeader?: boolean;
 	onSchemeChange?: (scheme: Scheme) => void;
 }) {
 	const { t } = useI18n('common');
@@ -25,10 +27,12 @@ function SchemeSelectorInner({
 
 	return (
 		<S.Container className={className}>
-			<S.Header>
-				<S.Title>{t('settings.schemeSectionTitle')}</S.Title>
-				<S.Description>{t('settings.schemeSectionDescription')}</S.Description>
-			</S.Header>
+			{!hideHeader && (
+				<S.Header>
+					<S.Title>{t('settings.schemeSectionTitle')}</S.Title>
+					<S.Description>{t('settings.schemeSectionDescription')}</S.Description>
+				</S.Header>
+			)}
 
 			<S.Grid aria-label={t('settings.schemeSectionTitle')}>
 				{options.map((item) => {
@@ -62,10 +66,10 @@ function SchemeSelectorInner({
  * SchemeSelector component renders an accessible card grid displaying
  * light, dark, and system color scheme options with preview swatches and persistent selection.
  */
-export function SchemeSelector({ lang, className, onSchemeChange }: SchemeSelectorProps = {}) {
+export function SchemeSelector({ lang, hideHeader = false, className, onSchemeChange }: SchemeSelectorProps = {}) {
 	return (
 		<I18nProvider language={lang}>
-			<SchemeSelectorInner className={className} onSchemeChange={onSchemeChange} />
+			<SchemeSelectorInner className={className} hideHeader={hideHeader} onSchemeChange={onSchemeChange} />
 		</I18nProvider>
 	);
 }

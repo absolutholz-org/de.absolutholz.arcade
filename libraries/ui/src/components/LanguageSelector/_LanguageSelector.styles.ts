@@ -6,7 +6,7 @@ import { themeColor } from '../../styles/theme/theme.utils';
 export const Container = styled.div`
 	display: flex;
 	flex-direction: column;
-	gap: ${space('md')};
+	gap: ${space('sm')};
 	width: 100%;
 `;
 
@@ -21,17 +21,19 @@ export const Title = styled.h2`
 	font-size: 1.25rem;
 	font-weight: 700;
 	line-height: 1.3;
+	margin: 0;
 `;
 
 export const Description = styled.p`
 	color: ${themeColor('text-2')};
 	font-size: 0.9375rem;
+	margin: 0;
 `;
 
 export const Grid = styled.div`
 	display: grid;
-	gap: ${space('md')};
-	grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr));
+	gap: ${space('sm')};
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, 12rem), 1fr));
 	width: 100%;
 `;
 
