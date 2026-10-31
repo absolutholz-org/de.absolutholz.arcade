@@ -13,6 +13,8 @@ export interface SegmentedControlOption<T extends string = string> {
 	disabled?: boolean;
 	/** Optional accessible label for assistive tech */
 	ariaLabel?: string;
+	/** Optional controlled element ID for tablist pattern */
+	ariaControls?: string;
 }
 
 /** Legacy backwards-compatible interface */
@@ -29,6 +31,8 @@ export interface SegmentedControlItem {
 	disabled?: boolean;
 	/** Optional accessible label for assistive tech */
 	ariaLabel?: string;
+	/** Optional controlled element ID for tablist pattern */
+	ariaControls?: string;
 }
 
 export type SegmentedControlSize = 'sm' | 'md';
@@ -45,8 +49,10 @@ export interface SegmentedControlProps<T extends string = string>
 	onChange: (value: T) => void;
 	/** Sizing variant ('sm' for compact toolbars, 'md' for standard pickers) */
 	size?: SegmentedControlSize;
-	/** Optional accessible name for the radiogroup */
+	/** Optional accessible name for the radiogroup/tablist */
 	ariaLabel?: string;
 	/** Optional name for form grouping */
 	name?: string;
+	/** ARIA grouping role: 'radiogroup' (default) or 'tablist' */
+	role?: 'radiogroup' | 'tablist';
 }

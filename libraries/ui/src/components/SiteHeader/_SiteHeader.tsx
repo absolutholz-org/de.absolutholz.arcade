@@ -42,24 +42,6 @@ export function SiteHeader({
 							</a>
 						</div>
 					) : null}
-					{variant === 'standard' ? (
-						<nav aria-label={t('navigation.breadcrumb')} className="header-nav">
-							<a
-								href={`/${currentLang}/medals`}
-								className="header-nav-link"
-								aria-current={currentSlug === 'medals' ? 'page' : undefined}
-							>
-								{t('navigation.medals')}
-							</a>
-							<a
-								href={`/${currentLang}/stats`}
-								className="header-nav-link"
-								aria-current={currentSlug === 'stats' ? 'page' : undefined}
-							>
-								{t('navigation.stats')}
-							</a>
-						</nav>
-					) : null}
 					{children}
 					<div className="header-actions">
 						<HeaderActions lang={currentLang} currentSlug={currentSlug} />

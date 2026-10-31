@@ -1,3 +1,4 @@
+import { GAME_REGISTRY } from '@arcade/lib-games';
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode, TranslationKey } from '@arcade/lib-i18n/types/i18n.types';
@@ -9,7 +10,7 @@ import {
 	getGameMedalState,
 	subscribeToMedalUnlocked,
 } from '@arcade/lib-medals';
-import { MedalCard, SegmentedControl, type SegmentedControlItem } from '@arcade/lib-ui';
+import { GameSegmentedControl, type GameSegmentedOption, MedalCard } from '@arcade/lib-ui';
 import { useCallback, useEffect, useState } from 'react';
 import { getHubMedalDefinitionsForGame } from '../../config/medals';
 import * as S from './MedalsShowcase.styles';
@@ -215,16 +216,17 @@ function MedalsShowcaseContent({ lang }: { lang: SupportedLanguageCode }) {
 			</section>
 
 			{/* Game Filter Navigation */}
-			<SegmentedControl
-				items={[
+			<GameSegmentedControl
+				options={[
 					{ id: 'all', label: t('medals.showcase.allGames') },
 					...REGISTERED_GAMES.map((gameId) => ({
 						id: gameId,
 						label: t(`medals.showcase.games.${gameId}` as TranslationKey),
+						icon: GAME_REGISTRY[gameId]?.assets?.icon,
 					})),
 				]}
-				value={activeGameFilter}
-				onChange={handleFilterChange}
+				selectedId={activeGameFilter}
+				onSelect={handleFilterChange}
 				ariaLabel={t('medals.showcase.allGames')}
 			/>
 

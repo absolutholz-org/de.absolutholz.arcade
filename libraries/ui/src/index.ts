@@ -27,6 +27,8 @@ export { VictoryDialog } from './components/VictoryDialog';
 export type { VictoryDialogProps, VictoryStatItem } from './components/VictoryDialog';
 export { PauseDialog } from './components/PauseDialog';
 export type { PauseDialogProps } from './components/PauseDialog';
+export { Breadcrumb } from './components/Breadcrumb';
+export type { BreadcrumbItem, BreadcrumbProps } from './components/Breadcrumb/_Breadcrumb.types';
 export { ClickableCard } from './components/ClickableCard';
 export type { ClickableCardProps } from './components/ClickableCard/_ClickableCard.types';
 export { Badge } from './components/Badge';
@@ -38,6 +40,11 @@ export type {
 	SegmentedControlProps,
 	SegmentedControlSize,
 } from './components/SegmentedControl/_SegmentedControl.types';
+export { GameSegmentedControl } from './components/GameSegmentedControl';
+export type {
+	GameSegmentedControlProps,
+	GameSegmentedOption,
+} from './components/GameSegmentedControl/_GameSegmentedControl.types';
 export { GameSelectionCard } from './components/GameSelectionCard';
 export type {
 	GameSelectionCardBadge,

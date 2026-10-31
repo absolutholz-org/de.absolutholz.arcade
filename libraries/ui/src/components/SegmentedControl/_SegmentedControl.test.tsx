@@ -110,4 +110,29 @@ describe('SegmentedControl', () => {
 
 		unmount();
 	});
+
+	it('renders as a tablist with tab items when role="tablist"', () => {
+		const { container, unmount } = render(
+			<SegmentedControl
+				items={items.map((i) => ({ ...i, ariaControls: `panel-${i.id}` }))}
+				value="medium"
+				onChange={() => {}}
+				role="tablist"
+				ariaLabel="Tabs"
+			/>,
+		);
+
+		const tablist = container.querySelector('[role="tablist"]');
+		expect(tablist).not.toBeNull();
+		expect(tablist?.getAttribute('aria-label')).toBe('Tabs');
+
+		const tabs = container.querySelectorAll<HTMLButtonElement>('[role="tab"]');
+		expect(tabs.length).toBe(4);
+		expect(tabs[0].getAttribute('aria-selected')).toBe('false');
+		expect(tabs[1].getAttribute('aria-selected')).toBe('true');
+		expect(tabs[0].getAttribute('aria-controls')).toBe('panel-easy');
+		expect(tabs[1].getAttribute('aria-controls')).toBe('panel-medium');
+
+		unmount();
+	});
 });

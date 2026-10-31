@@ -20,6 +20,7 @@ function normalizeOptions<T extends string>(
 				sublabel: item.sublabel as SegmentedControlOption<T>['sublabel'],
 				disabled: Boolean(item.disabled),
 				ariaLabel: item.ariaLabel as string | undefined,
+				ariaControls: (item.ariaControls ?? item['aria-controls']) as string | undefined,
 			};
 		});
 	}
@@ -27,10 +28,21 @@ function normalizeOptions<T extends string>(
 }
 
 function SegmentedControlInner<T extends string = string>(
-	{ options, items, value, onChange, size = 'md', ariaLabel, name, ...restProps }: SegmentedControlProps<T>,
+	{
+		options,
+		items,
+		value,
+		onChange,
+		size = 'md',
+		ariaLabel,
+		name,
+		role = 'radiogroup',
+		...restProps
+	}: SegmentedControlProps<T>,
 	ref: ForwardedRef<HTMLDivElement>,
 ): JSX.Element {
 	const normalizedOptions = normalizeOptions(options, items);
+	const isTablist = role === 'tablist';
 
 	const navigationItems = normalizedOptions.map((opt) => ({
 		id: opt.value,
@@ -47,7 +59,7 @@ function SegmentedControlInner<T extends string = string>(
 	const activeFocusValue = selectedOption ? selectedOption.value : firstEnabledOption?.value;
 
 	return (
-		<S.Container ref={ref} role="radiogroup" aria-label={ariaLabel} data-size={size} {...restProps}>
+		<S.Container ref={ref} role={role} aria-label={ariaLabel} data-size={size} {...restProps}>
 			{normalizedOptions.map((option) => {
 				const isChecked = option.value === value;
 				const isFocusable = option.value === activeFocusValue;
@@ -59,10 +71,11 @@ function SegmentedControlInner<T extends string = string>(
 						key={option.value}
 						ref={(el) => setItemRef(option.value, el)}
 						type="button"
-						// biome-ignore lint/a11y/useSemanticElements: SegmentedControl uses WAI-ARIA radiogroup pattern with buttons
-						role="radio"
-						name={name}
-						aria-checked={isChecked}
+						role={isTablist ? 'tab' : 'radio'}
+						name={isTablist ? undefined : name}
+						aria-checked={isTablist ? undefined : isChecked}
+						aria-selected={isTablist ? isChecked : undefined}
+						aria-controls={option.ariaControls}
 						aria-disabled={isDisabled || undefined}
 						aria-label={option.ariaLabel}
 						disabled={isDisabled}

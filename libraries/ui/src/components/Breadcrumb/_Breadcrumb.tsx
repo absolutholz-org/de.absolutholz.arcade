@@ -8,7 +8,7 @@ function renderBreadcrumbItem(item: ProcessedBreadcrumbItem): ReactNode {
 	const accessibleName =
 		item['aria-label'] || (typeof item.resolvedLabel === 'string' ? item.resolvedLabel : undefined);
 
-	const itemContent = isHome ? 'Arcade Home' : item.resolvedLabel;
+	const itemContent = item.resolvedLabel || (isHome ? 'Arcade Home' : undefined);
 
 	// The current page is always rendered as non-interactive text per WCAG and W3C APG best practice
 	if (item.isCurrent) {

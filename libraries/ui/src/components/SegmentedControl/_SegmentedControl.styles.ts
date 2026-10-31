@@ -12,9 +12,14 @@ export const Container = styled.div`
 	border-radius: ${radiusScale.lg};
 	max-width: 100%;
 	overflow-x: auto;
-	scrollbar-width: thin;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
 	-webkit-overflow-scrolling: touch;
 	box-sizing: border-box;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
 
 	&[data-size='sm'] {
 		border-radius: ${radiusScale.md};
@@ -46,8 +51,12 @@ export const SegmentButton = styled.button`
 	outline: none;
 	transition: background-color 140ms ease, color 140ms ease, box-shadow 140ms ease;
 
-	/* Enforce WCAG 2.2 AA minimum touch target */
-	min-height: 24px;
+	/* Enforce WCAG 2.2 AA minimum touch target (44px) */
+	min-height: 2.75rem;
+
+	&[data-size='sm'] {
+		min-height: 1.5rem;
+	}
 
 	&:hover:not(:disabled):not([data-checked='true']) {
 		background-color: ${themeColor('container-2')};

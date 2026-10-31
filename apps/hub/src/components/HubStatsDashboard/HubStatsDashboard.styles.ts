@@ -3,8 +3,16 @@ import { css } from '@linaria/core';
 export const Container = css`
 	display: flex;
 	flex-direction: column;
-	gap: 2.5rem;
+	gap: 2rem;
 	width: 100%;
+`;
+
+export const TabPanel = css`
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+	width: 100%;
+	outline: none;
 `;
 
 export const KpiGrid = css`
@@ -13,7 +21,7 @@ export const KpiGrid = css`
 	gap: 1rem;
 	width: 100%;
 
-	@media (min-width: 768px) {
+	@media (min-width: 640px) {
 		grid-template-columns: repeat(4, 1fr);
 	}
 `;
@@ -23,13 +31,15 @@ export const KpiCard = css`
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	padding: 1.25rem 1rem;
-	border-radius: 0.75rem;
+	padding: 1rem;
+	border-radius: var(--radius-md, 0.75rem);
 	border: 1px solid var(--color-container-2);
 	background: var(--color-surface);
 	text-align: center;
-	gap: 0.375rem;
-	transition: border-color 150ms ease;
+	gap: 0.25rem;
+	min-height: 5.5rem;
+	box-sizing: border-box;
+	transition: border-color 150ms ease, box-shadow 150ms ease;
 
 	&:hover {
 		border-color: var(--color-accent);
@@ -37,11 +47,15 @@ export const KpiCard = css`
 `;
 
 export const KpiValue = css`
-	font-size: 1.75rem;
+	font-size: 1.5rem;
 	font-weight: 700;
 	line-height: 1.2;
 	color: var(--color-text-1);
 	font-variant-numeric: tabular-nums;
+
+	@media (min-width: 640px) {
+		font-size: 1.75rem;
+	}
 `;
 
 export const KpiLabel = css`
@@ -52,10 +66,17 @@ export const KpiLabel = css`
 	letter-spacing: 0.03em;
 `;
 
+export const KpiSubline = css`
+	font-size: 0.8125rem;
+	font-weight: 600;
+	color: var(--color-accent);
+	margin-top: 0.125rem;
+`;
+
 export const Section = css`
 	display: flex;
 	flex-direction: column;
-	gap: 1.25rem;
+	gap: 1rem;
 	width: 100%;
 `;
 
@@ -65,87 +86,48 @@ export const SectionHeader = css`
 	justify-content: space-between;
 
 	h2 {
-		font-size: 1.25rem;
+		font-size: 1.125rem;
 		font-weight: 700;
 		color: var(--color-text-1);
 		margin: 0;
 	}
 `;
 
-export const TableWrapper = css`
+export const CompactGrid = css`
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 0.75rem;
 	width: 100%;
-	overflow-x: auto;
-	border: 1px solid var(--color-container-2);
-	border-radius: 0.75rem;
-	background: var(--color-surface);
-	-webkit-overflow-scrolling: touch;
-`;
 
-export const Table = css`
-	width: 100%;
-	border-collapse: collapse;
-	text-align: left;
-	font-variant-numeric: tabular-nums;
-`;
-
-export const Th = css`
-	background: var(--color-container-1);
-	color: var(--color-text-2);
-	font-size: 0.8125rem;
-	font-weight: 600;
-	text-transform: uppercase;
-	letter-spacing: 0.04em;
-	padding: 0.875rem 1rem;
-	border-bottom: 1px solid var(--color-container-2);
-	white-space: nowrap;
-
-	&[data-align='right'] {
-		text-align: right;
+	@media (min-width: 540px) {
+		grid-template-columns: repeat(2, 1fr);
 	}
 
-	&[data-align='center'] {
-		text-align: center;
+	@media (min-width: 900px) {
+		grid-template-columns: repeat(3, 1fr);
+		gap: 1rem;
 	}
 `;
 
-export const Tr = css`
-	border-bottom: 1px solid var(--color-container-1);
-	transition: background-color 120ms ease;
-
-	&:last-child {
-		border-bottom: none;
-	}
-
-	&:hover {
-		background: var(--color-container-1);
-	}
-`;
-
-export const Td = css`
+export const CompactCard = css`
+	display: flex;
+	flex-direction: column;
+	gap: 0.875rem;
 	padding: 1rem;
-	color: var(--color-text-1);
-	font-size: 0.9375rem;
-	vertical-align: middle;
-	white-space: nowrap;
-
-	&[data-align='right'] {
-		text-align: right;
-	}
-
-	&[data-align='center'] {
-		text-align: center;
-	}
+	text-align: left;
+	width: 100%;
+	box-sizing: border-box;
+	cursor: pointer;
+	border-radius: var(--radius-md, 0.75rem);
 `;
 
-export const GameCell = css`
+export const CompactCardHeader = css`
 	display: flex;
 	align-items: center;
-	gap: 0.75rem;
-	font-weight: 600;
-	color: var(--color-text-1);
+	gap: 0.625rem;
 `;
 
-export const GameIcon = css`
+export const CompactGameIcon = css`
 	font-size: 1.5rem;
 	line-height: 1;
 	display: inline-flex;
@@ -153,43 +135,79 @@ export const GameIcon = css`
 	justify-content: center;
 `;
 
-export const ActionsCell = css`
-	display: flex;
-	align-items: center;
-	gap: 0.5rem;
+export const CompactGameTitle = css`
+	font-size: 1.0625rem;
+	font-weight: 600;
+	color: var(--color-text-1);
+	line-height: 1.2;
 `;
 
-export const ActionLink = css`
+export const CompactMetricsGrid = css`
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 0.375rem;
+	width: 100%;
+	padding-top: 0.5rem;
+	border-top: 1px solid var(--color-container-2);
+`;
+
+export const MetricItem = css`
+	display: flex;
+	flex-direction: column;
+	gap: 0.125rem;
+`;
+
+export const MetricLabel = css`
+	font-size: 0.6875rem;
+	font-weight: 500;
+	color: var(--color-text-2);
+	text-transform: uppercase;
+	letter-spacing: 0.02em;
+`;
+
+export const MetricValue = css`
+	font-size: 0.9375rem;
+	font-weight: 600;
+	color: var(--color-text-1);
+	font-variant-numeric: tabular-nums;
+`;
+
+export const GameHeaderBanner = css`
+	display: flex;
+	align-items: center;
+	gap: 0.875rem;
+	padding: 1rem 1.25rem;
+	border-radius: var(--radius-md, 0.75rem);
+	background: var(--color-container-1);
+	border: 1px solid var(--color-container-2);
+`;
+
+export const GameHeaderIcon = css`
+	font-size: 2rem;
+	line-height: 1;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	gap: 0.25rem;
+`;
+
+export const GameHeaderContent = css`
+	display: flex;
+	flex-direction: column;
+	gap: 0.125rem;
+`;
+
+export const GameHeaderTitle = css`
+	font-size: 1.25rem;
+	font-weight: 700;
+	color: var(--color-text-1);
+	margin: 0;
+	line-height: 1.2;
+`;
+
+export const GameHeaderSubtitle = css`
 	font-size: 0.8125rem;
 	font-weight: 500;
 	color: var(--color-text-2);
-	border: 1px solid var(--color-container-2);
-	background: var(--color-surface);
-	border-radius: 0.375rem;
-	padding: 0.375rem 0.625rem;
-	text-decoration: none;
-	transition:
-		color 120ms ease,
-		border-color 120ms ease,
-		background-color 120ms ease;
-
-	&:hover {
-		color: var(--color-accent);
-		border-color: var(--color-accent);
-		text-decoration: none;
-	}
-
-	&[data-primary='true'] {
-		color: var(--color-accent);
-		border-color: var(--color-accent);
-		background: color-mix(in srgb, var(--color-accent) 8%, var(--color-surface));
-
-		&:hover {
-			background: color-mix(in srgb, var(--color-accent) 16%, var(--color-surface));
-		}
-	}
+	text-transform: uppercase;
+	letter-spacing: 0.03em;
 `;
