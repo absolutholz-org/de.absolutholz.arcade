@@ -1,3 +1,4 @@
+import { themeColor } from '@arcade/lib-ui/styles/theme/theme.utils';
 import { css } from '@linaria/core';
 
 export const gridWrapper = css`
@@ -19,10 +20,10 @@ export const grid = css`
 	max-width: 560px;
 	max-height: 560px;
 	aspect-ratio: 1 / 1;
-	background: var(--color-surface-sunken);
+	background: ${themeColor('surface')};
 	padding: 0.5rem;
 	border-radius: var(--radius-xl);
-	border: 1px solid var(--color-border-subtle);
+	border: 1px solid ${themeColor('container-2')};
 	box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.25);
 	user-select: none;
 `;
@@ -40,9 +41,9 @@ export const tileButton = css`
 	height: 100%;
 	padding: 0;
 	margin: 0;
-	border: 1px solid var(--color-border-subtle);
+	border: 1px solid ${themeColor('container-2')};
 	border-radius: var(--radius-md);
-	background: var(--color-surface-raised);
+	background: ${themeColor('container-1')};
 	cursor: pointer;
 	outline: none;
 	transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
@@ -50,24 +51,24 @@ export const tileButton = css`
 	min-height: 28px;
 
 	&:hover:not(:disabled) {
-		background: var(--color-surface-hover);
-		border-color: var(--color-border-strong);
+		background: ${themeColor('container-2')};
+		border-color: ${themeColor('accent')};
 	}
 
 	&:focus-visible {
-		outline: 2px solid var(--color-primary-main);
+		outline: 2px solid ${themeColor('accent')};
 		outline-offset: 2px;
 		z-index: 2;
 	}
 
 	&[data-locked='true'] {
 		cursor: default;
-		background: var(--color-surface-sunken);
-		border-color: var(--color-border-subtle);
+		background: ${themeColor('surface')};
+		border-color: ${themeColor('container-2')};
 	}
 
 	&[data-root='true'] {
-		box-shadow: 0 0 8px rgba(0, 200, 255, 0.25);
+		box-shadow: 0 0 8px color-mix(in srgb, ${themeColor('accent')} 40%, transparent);
 	}
 
 	&:disabled {
@@ -97,7 +98,7 @@ export const lockBadge = css`
 	right: 2px;
 	width: 14px;
 	height: 14px;
-	color: var(--color-text-muted);
+	color: ${themeColor('text-3')};
 	pointer-events: none;
 	opacity: 0.8;
 	z-index: 1;

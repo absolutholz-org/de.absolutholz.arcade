@@ -52,6 +52,10 @@ export type {
 } from './components/GameSelectionCard/_GameSelectionCard.types';
 export { QuickPlayCard } from './components/QuickPlayCard';
 export type { QuickPlayCardProps } from './components/QuickPlayCard/_QuickPlayCard.types';
+export { Button } from './components/Button';
+export type { ButtonProps } from './components/Button';
+export { Toolbar } from './components/Toolbar';
+export type { ToolbarProps } from './components/Toolbar';
 export { Icon } from './components/Icon';
 export type { IconName, IconProps, IconSize } from './components/Icon/_Icon.types';
 

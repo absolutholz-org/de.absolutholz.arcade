@@ -1,3 +1,4 @@
+import { themeColor } from '@arcade/lib-ui/styles/theme/theme.utils';
 import { type JSX, type KeyboardEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { countPorts, getTileShape, hasDirection } from '../../engine/rotator.ts';
 import { type Board, type Cell, DIR_EAST, DIR_NORTH, DIR_SOUTH, DIR_WEST } from '../../engine/types.ts';
@@ -100,9 +101,11 @@ export function NetCanvas({
 		const shape = getTileShape(solutionMask);
 		const ports = countPorts(solutionMask);
 
-		const cableCoreColor = isEnergized ? '#00e5ff' : 'var(--color-border-strong)';
-		const cableBgColor = isEnergized ? '#005b66' : 'var(--color-surface-sunken)';
-		const centerAccentColor = isEnergized ? '#00f0ff' : 'var(--color-text-muted)';
+		const cableCoreColor = isEnergized ? themeColor('accent') : themeColor('text-3');
+		const cableBgColor = isEnergized
+			? `color-mix(in srgb, ${themeColor('accent')} 30%, ${themeColor('surface')})`
+			: themeColor('container-2');
+		const centerAccentColor = isEnergized ? themeColor('accent') : themeColor('text-3');
 
 		return (
 			<svg
@@ -198,8 +201,8 @@ export function NetCanvas({
 							width="44"
 							height="44"
 							rx="8"
-							fill="var(--color-surface-sunken)"
-							stroke={isEnergized ? '#00e5ff' : 'var(--color-border-strong)'}
+							fill={themeColor('surface')}
+							stroke={isEnergized ? themeColor('accent') : themeColor('container-2')}
 							strokeWidth="4"
 						/>
 						{/* Server Drive Bays / LEDs */}
@@ -221,9 +224,32 @@ export function NetCanvas({
 							strokeWidth="3"
 							strokeLinecap="round"
 						/>
-						<circle cx="37" cy="56" r="3" fill={isEnergized ? '#10b981' : '#64748b'} />
-						<circle cx="47" cy="56" r="3" fill={isEnergized ? '#00e5ff' : '#64748b'} />
-						<circle cx="57" cy="56" r="3" fill={isEnergized ? '#f59e0b' : '#64748b'} />
+						<circle
+							cx="37"
+							cy="56"
+							r="3"
+							fill={
+								isEnergized
+									? 'light-dark(oklch(0.55 0.18 145), oklch(0.7 0.18 145))'
+									: themeColor('text-3')
+							}
+						/>
+						<circle
+							cx="47"
+							cy="56"
+							r="3"
+							fill={isEnergized ? themeColor('accent') : themeColor('text-3')}
+						/>
+						<circle
+							cx="57"
+							cy="56"
+							r="3"
+							fill={
+								isEnergized
+									? 'light-dark(oklch(0.65 0.18 75), oklch(0.78 0.18 75))'
+									: themeColor('text-3')
+							}
+						/>
 					</g>
 				) : ports === 1 ? (
 					// Computer Terminal / Workstation
@@ -234,8 +260,8 @@ export function NetCanvas({
 							width="34"
 							height="26"
 							rx="4"
-							fill="var(--color-surface-sunken)"
-							stroke={isEnergized ? '#00e5ff' : 'var(--color-border-strong)'}
+							fill={themeColor('surface')}
+							stroke={isEnergized ? themeColor('accent') : themeColor('container-2')}
 							strokeWidth="3"
 						/>
 						<rect
@@ -244,7 +270,11 @@ export function NetCanvas({
 							width="24"
 							height="16"
 							rx="2"
-							fill={isEnergized ? 'rgba(0, 229, 255, 0.25)' : 'rgba(100, 116, 139, 0.15)'}
+							fill={
+								isEnergized
+									? `color-mix(in srgb, ${themeColor('accent')} 25%, transparent)`
+									: `color-mix(in srgb, ${themeColor('container-2')} 40%, transparent)`
+							}
 						/>
 						<line x1="50" y1="56" x2="50" y2="65" stroke={cableCoreColor} strokeWidth="4" />
 						<line

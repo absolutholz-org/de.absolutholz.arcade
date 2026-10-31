@@ -3,8 +3,7 @@ import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { isSupportedLanguage } from '@arcade/lib-i18n/utils/detection';
-import { Dialog, GameHeader, GameLayout, GameSettingsPanel, PauseDialog } from '@arcade/lib-ui';
-import { Button } from '@arcade/lib-ui/components/Button';
+import { Button, Dialog, GameHeader, GameLayout, GameSettingsPanel, Icon, PauseDialog, Toolbar } from '@arcade/lib-ui';
 import { Timer } from '@arcade/lib-ui/components/Timer';
 import { VisuallyHidden } from '@arcade/lib-ui/components/VisuallyHidden';
 import { type JSX, type ReactNode, useCallback, useState } from 'react';
@@ -118,20 +117,43 @@ function NetGameInner({
 				/>
 			</div>
 
-			<S.ControlsWrapper>
-				<Button variant="secondary" size="sm" onClick={game.handleUndo} disabled={!game.canUndo}>
+			<Toolbar fullWidth variant="ghost" size="sm" align="center" aria-label={t('aria.actionsToolbar')}>
+				<Button
+					variant="secondary"
+					size="sm"
+					leadingIcon={<Icon name="undo" size="sm" />}
+					onClick={game.handleUndo}
+					disabled={!game.canUndo}
+				>
 					{t('controls.undo')}
 				</Button>
-				<Button variant="secondary" size="sm" onClick={game.handleRedo} disabled={!game.canRedo}>
+				<Button
+					variant="secondary"
+					size="sm"
+					leadingIcon={<Icon name="redo" size="sm" />}
+					onClick={game.handleRedo}
+					disabled={!game.canRedo}
+				>
 					{t('controls.redo')}
 				</Button>
-				<Button variant="secondary" size="sm" onClick={game.handleReset} disabled={game.movesCount === 0}>
+				<Button
+					variant="secondary"
+					size="sm"
+					leadingIcon={<Icon name="rotate-ccw" size="sm" />}
+					onClick={game.handleReset}
+					disabled={game.movesCount === 0}
+				>
 					{t('controls.reset')}
 				</Button>
-				<Button variant="primary" size="sm" onClick={() => game.handleNewPuzzle()}>
+				<Button
+					variant="secondary"
+					size="sm"
+					leadingIcon={<Icon name="sparkles" size="sm" />}
+					onClick={() => game.handleNewPuzzle()}
+				>
 					{t('controls.newPuzzle')}
 				</Button>
-			</S.ControlsWrapper>
+			</Toolbar>
 
 			<PauseDialog
 				isOpen={game.isPaused && !game.isComplete && !game.isSettingsOpen && !game.isRulesOpen}
