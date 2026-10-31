@@ -1,7 +1,6 @@
 import type { ComponentPropsWithoutRef, ElementType, ReactNode } from 'react';
-import type { HERO_ALIGN_OPTIONS, HERO_HEADING_LEVELS } from './_Hero.constants';
+import type { HERO_HEADING_LEVELS } from './_Hero.constants';
 
-export type HeroAlign = (typeof HERO_ALIGN_OPTIONS)[number];
 export type HeroHeadingLevel = (typeof HERO_HEADING_LEVELS)[number];
 
 export interface BaseHeroProps<C extends ElementType = 'header'> {
@@ -22,11 +21,6 @@ export interface BaseHeroProps<C extends ElementType = 'header'> {
 	 * Visual element such as a large Logo or icon graphic.
 	 */
 	logo?: ReactNode;
-	/**
-	 * Visual alignment layout of the hero content.
-	 * @default 'left'
-	 */
-	align?: HeroAlign;
 	/**
 	 * Semantic HTML heading level for the title element.
 	 * @default 'h1'

@@ -15,7 +15,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/Navigation & Shell/HeaderUserMenu',
+	title: 'Layouts/Base Layout/HeaderUserMenu',
 	argTypes: {
 		lang: {
 			control: 'select',

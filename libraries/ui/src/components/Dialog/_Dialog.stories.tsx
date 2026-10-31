@@ -18,7 +18,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/Overlays & Feedback/Dialog',
+	title: 'Components/Dialog',
 	argTypes: {
 		isOpen: {
 			control: 'boolean',

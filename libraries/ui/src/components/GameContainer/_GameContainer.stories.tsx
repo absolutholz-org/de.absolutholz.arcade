@@ -45,7 +45,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/Layout & Structure/GameContainer',
+	title: 'Layouts/Game Layout/GameContainer',
 	args: {
 		header: (
 			<SimulatedHeader>

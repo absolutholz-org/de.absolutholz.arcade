@@ -14,7 +14,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/Actions & Inputs/TextField',
+	title: 'Components/TextField',
 	argTypes: {
 		size: {
 			control: 'radio',

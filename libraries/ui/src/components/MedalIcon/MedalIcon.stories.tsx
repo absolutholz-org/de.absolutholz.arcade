@@ -13,7 +13,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/Data & Display/MedalIcon',
+	title: 'Templates/Game Subpage Template/MedalIcon',
 	argTypes: {
 		tier: {
 			control: 'radio',

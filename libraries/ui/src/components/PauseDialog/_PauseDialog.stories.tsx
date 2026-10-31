@@ -13,7 +13,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/Overlays & Feedback/PauseDialog',
+	title: 'Layouts/Game Layout/PauseDialog',
 	argTypes: {
 		isOpen: {
 			control: 'boolean',

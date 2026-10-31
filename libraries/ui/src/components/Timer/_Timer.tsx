@@ -29,8 +29,8 @@ export function Timer({
 
 	const dynamicAriaLabel = isInteractive
 		? isPaused
-			? `Resume game. Paused at ${formattedTime}`
-			: `Pause game. Elapsed time: ${formattedTime}`
+			? `Resume. Paused at ${formattedTime}`
+			: `Pause. Elapsed time: ${formattedTime}`
 		: `Elapsed time: ${formattedTime}`;
 
 	return (
@@ -65,7 +65,7 @@ export function Timer({
 
 			{announceOnToggle && (
 				<span data-slot="announcement" aria-live="polite" className="visually-hidden">
-					{isPaused ? `Game paused at ${formattedTime}` : 'Game resumed'}
+					{isPaused ? `Timer paused at ${formattedTime}` : 'Timer resumed'}
 				</span>
 			)}
 		</S.TimerButton>

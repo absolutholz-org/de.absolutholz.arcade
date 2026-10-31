@@ -89,7 +89,7 @@ Structural containers and layout primitives establishing consistent spacing and 
 | **`PageContainer`** | `@arcade/lib-ui/components/PageContainer` | Standardized page width constraint and responsive gutter padding. | `variant="slim" \| "standard" \| "wide" \| "full"`, `children`. |
 | **`Stack`** | `@arcade/lib-ui/components/Stack` | Linear layout primitive enforcing token-based spacing between children. | `direction="row" \| "column"`, `gap`, `align`, `justify`. |
 | **`Divider`** | `@arcade/lib-ui/components/Divider` | Visual rule separating distinct content sections. | `orientation="horizontal" \| "vertical"`. |
-| **`Hero`** | `@arcade/lib-ui/components/Hero` | Top-of-page landmark with display typography, tagline, and optional logo slot. | `title`, `tagline`, `align="left" \| "center"`, `slot="logo"`. |
+| **`Hero`** | `@arcade/lib-ui/components/Hero` | Top-of-page landmark with display typography, tagline, and optional logo slot. | `title`, `tagline`, `logo`, `headingLevel`. |
 | **`GameContainer`** | `@arcade/lib-ui/components/GameContainer` | Responsive aspect-ratio preserving frame for game canvases. | `children`, `aspectRatio`. |
 | **`MarkdownContent`** | `@arcade/lib-ui/components/MarkdownContent` | Standardized typographic container rendering localized Astro Markdown content collections (used in `MarkdownPageTemplate` and `slot="rulesContent"` per ADR 0008). | `children` (rendered HTML). |
 | **`MarkdownPageTemplate`** | `@arcade/lib-ui/templates/MarkdownPageTemplate` | Tier 2 template for standalone Markdown pages (`/[lang]/rules.astro`). | `title`, `description`, `lang`, `breadcrumbItems`, `currentSlug`. |
@@ -141,6 +141,9 @@ Primitives for data presentation, micro-indicators, typography, and styling cont
    - For all action triggers, use `<Button>`.
    - For all layouts, use `<PageContainer>` and `<Stack>`.
 2. **Storybook Synchronization**:
-   - When introducing a new component in `libraries/ui/src/components/`, you **must**:
-     1. Add its story titled `Components/<Category>/<ComponentName>` matching the categories above.
+   - When introducing a new component, layout, or template in `@arcade/lib-ui`, you **must**:
+     1. Add its story titled according to our architecture taxonomy:
+        - `Components/<ComponentName>` for general reusable UI building blocks (Button, ClickableCard, Dialog, TextField, Stack, Timer, Hero, selectors, etc.).
+        - `Layouts/<LayoutGroup>/<ComponentName>` for Tier 1 root document shells and their exclusive chrome children (e.g. `Base Layout`, `Game Layout`).
+        - `Templates/<TemplateGroup>/<ComponentName>` for Tier 2 structural templates and their exclusive children (e.g. `Game Landing Template`, `Game Subpage Template`, `Markdown Page Template`).
      2. Add an entry to this `CATALOG.md` under the appropriate category table.

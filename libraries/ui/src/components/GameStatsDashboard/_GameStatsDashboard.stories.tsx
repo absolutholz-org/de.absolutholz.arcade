@@ -83,7 +83,7 @@ const SAMPLE_EMPTY_STATS: GameStats = {
 };
 
 const meta: Meta<typeof GameStatsDashboard> = {
-	title: 'Subsystems/GameStatsDashboard',
+	title: 'Templates/Game Subpage Template/GameStatsDashboard',
 	component: GameStatsDashboard,
 	tags: ['autodocs'],
 	parameters: {

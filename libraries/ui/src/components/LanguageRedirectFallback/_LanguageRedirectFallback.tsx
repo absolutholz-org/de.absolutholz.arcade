@@ -1,5 +1,8 @@
+import { Button } from '../Button';
+import { Hero } from '../Hero';
+import { PageContainer } from '../PageContainer';
+import { Stack } from '../Stack';
 import { DEFAULT_LANGUAGES_ARIA_LABEL, DEFAULT_REDIRECT_MESSAGE } from './_LanguageRedirectFallback.constants';
-import * as S from './_LanguageRedirectFallback.styles';
 import type { LanguageRedirectFallbackProps } from './_LanguageRedirectFallback.types';
 
 /**
@@ -11,30 +14,28 @@ export function LanguageRedirectFallback({
 	message = DEFAULT_REDIRECT_MESSAGE,
 	languagesAriaLabel = DEFAULT_LANGUAGES_ARIA_LABEL,
 	languages,
-	...rest
 }: LanguageRedirectFallbackProps) {
 	return (
-		<S.LanguageRedirectFallback {...rest}>
-			<h1>{title}</h1>
-			{message && <p>{message}</p>}
+		<PageContainer variant="slim">
+			<Hero title={title} tagline={message} />
 			<nav aria-label={languagesAriaLabel}>
-				<ul>
+				<Stack as="ul" direction="row" wrap spacing="md">
 					{languages.map((lang) => (
 						<li key={lang.code}>
-							<a href={lang.href} hrefLang={lang.code}>
-								{lang.flag && (
-									<span data-slot="flag" aria-hidden="true">
-										{lang.flag}
-									</span>
-								)}
-								<span data-slot="label" lang={lang.code}>
-									{lang.label}
-								</span>
-							</a>
+							<Button
+								as="a"
+								href={lang.href}
+								hrefLang={lang.code}
+								variant="secondary"
+								size="md"
+								leadingIcon={lang.flag ? <span aria-hidden="true">{lang.flag}</span> : undefined}
+							>
+								<span lang={lang.code}>{lang.label}</span>
+							</Button>
 						</li>
 					))}
-				</ul>
+				</Stack>
 			</nav>
-		</S.LanguageRedirectFallback>
+		</PageContainer>
 	);
 }

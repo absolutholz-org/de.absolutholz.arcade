@@ -7,7 +7,7 @@ import { Timer } from '../../components/Timer';
 import { GameLayout } from './_GameLayout';
 
 const meta = {
-	title: 'Layouts/GameLayout',
+	title: 'Layouts/Game Layout/GameLayout',
 	component: GameLayout,
 	parameters: {
 		layout: 'fullscreen',

@@ -68,7 +68,7 @@ const ANAGRAM_STORY_DEFINITIONS: readonly MedalDefinition<'anagram'>[] = [
 ];
 
 const meta = {
-	title: 'Components/Cards & Surfaces/GameMedalGrid',
+	title: 'Templates/Game Subpage Template/GameMedalGrid',
 	component: GameMedalGrid,
 	parameters: {
 		layout: 'padded',

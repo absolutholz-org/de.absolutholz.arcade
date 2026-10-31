@@ -23,7 +23,7 @@ export function GameLandingTemplate({
 			{/* Zone 1: Header / Intro */}
 			<S.HeaderZone>
 				<PageContainer>
-					<Hero title={title} tagline={description} logo={heroIcon} align="left" />
+					<Hero title={title} tagline={description} logo={heroIcon} />
 				</PageContainer>
 				{resumeState && (
 					<PageContainer>

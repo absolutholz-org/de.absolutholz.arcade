@@ -85,7 +85,7 @@ const MOCK_CONFIG: GameSettingsConfig<MockSettings> = {
 };
 
 const meta: Meta<typeof GameSettingsPanel> = {
-	title: 'Components/GameSettingsPanel',
+	title: 'Templates/Game Subpage Template/GameSettingsPanel',
 	component: GameSettingsPanel,
 	parameters: {
 		layout: 'padded',

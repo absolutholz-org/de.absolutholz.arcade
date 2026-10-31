@@ -7,7 +7,6 @@ import type { HeroProps } from './_Hero.types';
  * optional visual logo/graphic, title, tagline, and action items.
  */
 export function Hero<C extends ElementType = 'header'>({
-	align = 'left',
 	as,
 	children,
 	headingLevel = 'h1',
@@ -19,7 +18,7 @@ export function Hero<C extends ElementType = 'header'>({
 	const HeadingTag = headingLevel;
 
 	return (
-		<S.Hero as={Component} data-align={align}>
+		<S.Hero as={Component}>
 			{logo ? <S.Hero_Visual>{logo}</S.Hero_Visual> : null}
 			<S.Hero_Body>
 				<S.Hero_Title as={HeadingTag}>{title}</S.Hero_Title>

@@ -3,7 +3,7 @@ import { Timer } from '../Timer';
 import { GameHeader } from './_GameHeader';
 
 const meta = {
-	title: 'Components/Navigation/GameHeader',
+	title: 'Layouts/Game Layout/GameHeader',
 	component: GameHeader,
 	parameters: {
 		layout: 'fullscreen',

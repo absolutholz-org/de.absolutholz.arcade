@@ -13,7 +13,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/Cards & Surfaces/MedalCard',
+	title: 'Templates/Game Subpage Template/MedalCard',
 	args: {
 		title: 'Speed Demon',
 		description: 'Complete a puzzle in under 3 minutes.',

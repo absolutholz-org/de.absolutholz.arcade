@@ -15,7 +15,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/Overlays & Feedback/UserProfileDialog',
+	title: 'Layouts/Base Layout/UserProfileDialog',
 	args: {
 		errorMessage: null,
 		isLoading: false,

@@ -28,7 +28,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/Actions & Inputs/SegmentedControl',
+	title: 'Components/SegmentedControl',
 	args: {
 		items: SAMPLE_ITEMS,
 		value: 'medium',

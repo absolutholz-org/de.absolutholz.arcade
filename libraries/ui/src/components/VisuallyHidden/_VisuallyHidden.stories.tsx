@@ -17,7 +17,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/Data & Display/VisuallyHidden',
+	title: 'Components/VisuallyHidden',
 	argTypes: {
 		as: {
 			control: 'text',

@@ -11,7 +11,7 @@ const meta = {
 		layout: 'fullscreen',
 	},
 	tags: ['autodocs'],
-	title: 'Components/Layout & Structure/PageContainer',
+	title: 'Components/PageContainer',
 	argTypes: {
 		variant: {
 			control: 'select',

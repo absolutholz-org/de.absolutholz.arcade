@@ -3,7 +3,7 @@ import { Hero } from '.';
 import { Button } from '../Button';
 import { Logo } from '../Logo';
 import { Theme } from '../Theme';
-import { HERO_ALIGN_OPTIONS, HERO_HEADING_LEVELS } from './_Hero.constants';
+import { HERO_HEADING_LEVELS } from './_Hero.constants';
 
 const meta = {
 	component: Hero,
@@ -12,18 +12,13 @@ const meta = {
 		docs: {
 			description: {
 				component:
-					'The Hero component provides a high-impact intro section with an optional visual graphic/logo, prominent heading, tagline, and action items. Supports left-aligned side-by-side or centered stacked layouts.',
+					'The Hero component provides a high-impact intro section with an optional visual graphic/logo, prominent heading, tagline, and action items.',
 			},
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/Layout & Structure/Hero',
+	title: 'Components/Hero',
 	argTypes: {
-		align: {
-			control: 'inline-radio',
-			options: HERO_ALIGN_OPTIONS,
-			description: 'Visual alignment and orientation layout of the hero content.',
-		},
 		headingLevel: {
 			control: 'select',
 			options: HERO_HEADING_LEVELS,
@@ -43,7 +38,6 @@ const meta = {
 		},
 	},
 	args: {
-		align: 'left',
 		as: 'header',
 		headingLevel: 'h1',
 		logo: <Logo size="xl" />,
@@ -68,20 +62,7 @@ export const Default: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Default left-aligned hero with extra-large logo, bold title, and tagline side-by-side.',
-			},
-		},
-	},
-};
-
-export const Centered: Story = {
-	args: {
-		align: 'center',
-	},
-	parameters: {
-		docs: {
-			description: {
-				story: 'Centered hero layout with stacked logo, title, and tagline.',
+				story: 'Default hero with extra-large logo, bold title, and tagline side-by-side.',
 			},
 		},
 	},

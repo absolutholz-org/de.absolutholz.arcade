@@ -15,7 +15,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/Navigation & Shell/SiteFooter',
+	title: 'Layouts/Base Layout/SiteFooter',
 	argTypes: {
 		legalAriaLabel: {
 			control: 'text',

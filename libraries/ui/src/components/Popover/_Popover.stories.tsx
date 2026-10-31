@@ -17,7 +17,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/Overlays & Feedback/Popover',
+	title: 'Components/Popover',
 	argTypes: {
 		align: {
 			control: 'select',

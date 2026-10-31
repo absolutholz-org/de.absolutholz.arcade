@@ -11,7 +11,7 @@ const meta = {
 		layout: 'centered',
 	},
 	tags: ['autodocs'],
-	title: 'Components/Data & Display/Icon',
+	title: 'Components/Icon',
 	argTypes: {
 		name: {
 			control: 'select',

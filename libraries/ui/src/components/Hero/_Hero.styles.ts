@@ -5,27 +5,17 @@ import { generateFontShorthand } from '../Text/_Text.functions';
 
 export const Hero = styled.header`
 	display: flex;
+	align-items: center;
+	flex-direction: row;
+	gap: ${space('lg')};
 	padding-block: ${space('3xl')} ${space('xl')};
+	text-align: left;
 	width: 100%;
 
-	&[data-align='left'] {
-		align-items: center;
-		flex-direction: row;
-		gap: ${space('lg')};
-		text-align: left;
-
-		@media (max-width: 600px) {
-			align-items: flex-start;
-			flex-direction: column;
-			gap: ${space('md')};
-		}
-	}
-
-	&[data-align='center'] {
-		align-items: center;
+	@media (max-width: 600px) {
+		align-items: flex-start;
 		flex-direction: column;
 		gap: ${space('md')};
-		text-align: center;
 	}
 `;
 
@@ -46,7 +36,6 @@ export const Hero_Title = styled.h1`
 	color: ${themeColor('text-1')};
 	font: ${generateFontShorthand('display', 'bold')};
 	margin: 0;
-	/* letter-spacing: -0.03em; */
 `;
 
 export const Hero_Tagline = styled.p`

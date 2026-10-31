@@ -23,7 +23,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/Navigation & Shell/LanguageSelector',
+	title: 'Components/LanguageSelector',
 } satisfies Meta<typeof LanguageSelector>;
 
 export default meta;

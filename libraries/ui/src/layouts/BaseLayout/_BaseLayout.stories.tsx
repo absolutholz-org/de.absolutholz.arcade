@@ -13,7 +13,7 @@ const meta = {
 			},
 		},
 	},
-	title: 'Layouts/BaseLayout',
+	title: 'Layouts/Base Layout/BaseLayout',
 } satisfies Meta<typeof BaseLayout>;
 
 export default meta;

@@ -1,5 +1,3 @@
-import type { ComponentPropsWithoutRef } from 'react';
-
 export interface LanguageRedirectItem {
 	/** Language ISO code (e.g., 'en', 'de', 'fr', 'pt') */
 	code: string;
@@ -11,8 +9,7 @@ export interface LanguageRedirectItem {
 	href: string;
 }
 
-export interface LanguageRedirectFallbackProps
-	extends Omit<ComponentPropsWithoutRef<'main'>, 'style' | 'children' | 'title'> {
+export interface LanguageRedirectFallbackProps {
 	/**
 	 * The title of the application or game (e.g., "Arcade" or "Sudoku").
 	 */

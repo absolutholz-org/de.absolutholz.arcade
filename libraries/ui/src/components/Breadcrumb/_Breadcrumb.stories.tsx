@@ -15,7 +15,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/Navigation & Shell/Breadcrumb',
+	title: 'Components/Breadcrumb',
 	argTypes: {
 		homeHref: {
 			control: 'text',

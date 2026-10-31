@@ -40,7 +40,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/Actions & Inputs/CollapsibleListbox',
+	title: 'Components/CollapsibleListbox',
 	argTypes: {
 		variant: {
 			control: 'select',

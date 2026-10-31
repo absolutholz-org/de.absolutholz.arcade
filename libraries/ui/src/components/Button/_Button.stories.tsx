@@ -15,7 +15,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/Actions & Inputs/Button',
+	title: 'Components/Button',
 	argTypes: {
 		variant: {
 			control: 'select',

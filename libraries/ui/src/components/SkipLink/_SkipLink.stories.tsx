@@ -14,7 +14,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/Navigation & Shell/SkipLink',
+	title: 'Components/SkipLink',
 	argTypes: {
 		href: {
 			control: 'text',

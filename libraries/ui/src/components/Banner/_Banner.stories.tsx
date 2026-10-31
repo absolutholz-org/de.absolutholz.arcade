@@ -15,7 +15,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/Cards & Surfaces/Banner',
+	title: 'Components/Banner',
 	argTypes: {
 		variant: {
 			control: 'select',

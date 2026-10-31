@@ -28,7 +28,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/Overlays & Feedback/PauseOverlay',
+	title: 'Layouts/Game Layout/PauseOverlay',
 	decorators: [
 		(Story) => (
 			<PreviewBoard>

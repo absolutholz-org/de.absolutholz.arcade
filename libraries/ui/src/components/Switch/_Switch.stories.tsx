@@ -16,7 +16,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/Actions & Inputs/Switch',
+	title: 'Components/Switch',
 	argTypes: {
 		size: {
 			control: 'radio',

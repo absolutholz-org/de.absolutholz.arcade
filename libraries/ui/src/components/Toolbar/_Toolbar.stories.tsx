@@ -20,7 +20,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/Actions & Inputs/Toolbar',
+	title: 'Components/Toolbar',
 	argTypes: {
 		orientation: {
 			control: 'radio',

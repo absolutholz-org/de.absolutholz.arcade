@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { LanguageRedirectFallback } from './_LanguageRedirectFallback';
 
 const meta: Meta<typeof LanguageRedirectFallback> = {
-	title: 'Templates/LanguageRedirectFallback',
+	title: 'System Pages/Language Redirect',
 	component: LanguageRedirectFallback,
 	parameters: {
 		docs: {
@@ -34,26 +34,6 @@ export const Default: Story = {
 		docs: {
 			description: {
 				story: 'Default redirect fallback screen for the Arcade.',
-			},
-		},
-	},
-};
-
-export const GameRedirect: Story = {
-	args: {
-		title: 'Sudoku',
-		message: 'Redirecting to your preferred language...',
-		languages: [
-			{ code: 'en', flag: '🇺🇸', label: 'English', href: '/sudoku/en/' },
-			{ code: 'de', flag: '🇩🇪', label: 'Deutsch', href: '/sudoku/de/' },
-			{ code: 'fr', flag: '🇫🇷', label: 'Français', href: '/sudoku/fr/' },
-			{ code: 'pt', flag: '🇧🇷', label: 'Português', href: '/sudoku/pt/' },
-		],
-	},
-	parameters: {
-		docs: {
-			description: {
-				story: 'Redirect fallback screen tailored for an individual game app (Sudoku).',
 			},
 		},
 	},

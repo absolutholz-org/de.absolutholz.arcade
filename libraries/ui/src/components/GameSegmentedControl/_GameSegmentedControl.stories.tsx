@@ -13,7 +13,7 @@ const SAMPLE_OPTIONS: GameSegmentedOption[] = [
 ];
 
 const meta: Meta<typeof GameSegmentedControl> = {
-	title: 'Components/Actions & Inputs/GameSegmentedControl',
+	title: 'Templates/Game Landing Template/GameSegmentedControl',
 	component: GameSegmentedControl,
 	parameters: {
 		docs: {

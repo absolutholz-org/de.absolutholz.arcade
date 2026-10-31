@@ -14,7 +14,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Layouts/BaseLayoutWithSiteHeaderAndSiteFooter',
+	title: 'Layouts/Base Layout/BaseLayoutWithSiteHeaderAndSiteFooter',
 } satisfies Meta<typeof BaseLayoutWithSiteHeaderAndSiteFooter>;
 
 export default meta;

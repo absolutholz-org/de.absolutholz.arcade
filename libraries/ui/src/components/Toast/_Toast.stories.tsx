@@ -18,7 +18,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/Overlays & Feedback/Toast',
+	title: 'Components/Toast',
 	argTypes: {
 		position: {
 			control: 'select',

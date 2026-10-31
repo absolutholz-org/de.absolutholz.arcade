@@ -15,7 +15,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Layouts/GameLandingTemplate',
+	title: 'Templates/Game Landing Template/GameLandingTemplate',
 	argTypes: {
 		contentWidth: {
 			control: 'inline-radio',

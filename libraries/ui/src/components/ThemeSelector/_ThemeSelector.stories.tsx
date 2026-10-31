@@ -23,7 +23,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/Navigation & Shell/ThemeSelector',
+	title: 'Components/ThemeSelector',
 } satisfies Meta<typeof ThemeSelector>;
 
 export default meta;

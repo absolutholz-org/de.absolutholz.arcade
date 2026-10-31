@@ -18,7 +18,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/Layout & Structure/Stack',
+	title: 'Components/Stack',
 	argTypes: {
 		direction: {
 			control: 'select',

@@ -9,7 +9,7 @@ const meta = {
 		layout: 'padded',
 	},
 	tags: ['autodocs'],
-	title: 'Components/Layout & Structure/MarkdownContent',
+	title: 'Components/MarkdownContent',
 	argTypes: {
 		variant: {
 			control: 'select',

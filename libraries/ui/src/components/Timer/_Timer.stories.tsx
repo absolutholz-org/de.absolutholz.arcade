@@ -53,7 +53,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/Data & Display/Timer',
+	title: 'Components/Timer',
 	argTypes: {
 		seconds: {
 			control: { type: 'number', min: 0 },

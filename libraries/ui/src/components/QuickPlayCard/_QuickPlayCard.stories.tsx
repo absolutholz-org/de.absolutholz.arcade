@@ -13,7 +13,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/Cards & Surfaces/QuickPlayCard',
+	title: 'Templates/Game Landing Template/QuickPlayCard',
 	args: {
 		title: 'Quick Play',
 		subtitle: 'Random procedural board',

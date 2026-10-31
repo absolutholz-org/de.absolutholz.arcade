@@ -16,11 +16,22 @@ export const Button = styled.button`
 		color 120ms ease,
 		box-shadow 120ms cubic-bezier(0, 0, 0.2, 1),
 		transform 120ms cubic-bezier(0, 0, 0.2, 1);
+	text-decoration: none;
 	outline: none;
 
+	&,
 	&:hover,
 	&:active,
-	&:focus {
+	&:focus,
+	&:focus-visible,
+	&:visited {
+		text-decoration: none;
+	}
+
+	/* Prevent cascading underline from parent anchor contexts into child slots */
+	*,
+	*::before,
+	*::after {
 		text-decoration: none;
 	}
 

@@ -24,7 +24,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/Navigation & Shell/SchemeSwitcher',
+	title: 'Components/SchemeSwitcher',
 	argTypes: {
 		variant: {
 			control: 'select',

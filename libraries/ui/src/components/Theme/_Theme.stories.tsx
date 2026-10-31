@@ -75,7 +75,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/Data & Display/Theme',
+	title: 'Components/Theme',
 	argTypes: {
 		name: {
 			control: 'select',

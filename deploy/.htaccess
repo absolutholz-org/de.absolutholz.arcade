@@ -33,6 +33,46 @@
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteCond %{REQUEST_URI} !/$
   RewriteRule ^(.*)$ /$1/ [R=301,L]
+
+  # ----------------------------------------------------------------------------
+  # 5. Language Redirection (Hub & Per-Game Root Gateways)
+  # Instant server-side 302 routing for visitors hitting / or /<game>/
+  # ----------------------------------------------------------------------------
+  # 5.1 Root Hub (/)
+  RewriteCond %{HTTP_COOKIE} arcade_lang=(en|de|fr|pt) [NC]
+  RewriteRule ^$ /%1/ [R=302,L]
+
+  RewriteCond %{HTTP:Accept-Language} ^de [NC]
+  RewriteRule ^$ /de/ [R=302,L]
+
+  RewriteCond %{HTTP:Accept-Language} ^fr [NC]
+  RewriteRule ^$ /fr/ [R=302,L]
+
+  RewriteCond %{HTTP:Accept-Language} ^pt [NC]
+  RewriteRule ^$ /pt/ [R=302,L]
+
+  RewriteRule ^$ /en/ [R=302,L]
+
+  # 5.2 Game Root (/<game>/)
+  # Exclude known non-game directories like storybook or assets
+  RewriteCond %{REQUEST_URI} !^/(storybook|_astro|assets|favicons)/ [NC]
+  RewriteCond %{HTTP_COOKIE} arcade_lang=(en|de|fr|pt) [NC]
+  RewriteRule ^([a-z0-9-]+)/$ /$1/%1/ [R=302,L]
+
+  RewriteCond %{REQUEST_URI} !^/(storybook|_astro|assets|favicons)/ [NC]
+  RewriteCond %{HTTP:Accept-Language} ^de [NC]
+  RewriteRule ^([a-z0-9-]+)/$ /$1/de/ [R=302,L]
+
+  RewriteCond %{REQUEST_URI} !^/(storybook|_astro|assets|favicons)/ [NC]
+  RewriteCond %{HTTP:Accept-Language} ^fr [NC]
+  RewriteRule ^([a-z0-9-]+)/$ /$1/fr/ [R=302,L]
+
+  RewriteCond %{REQUEST_URI} !^/(storybook|_astro|assets|favicons)/ [NC]
+  RewriteCond %{HTTP:Accept-Language} ^pt [NC]
+  RewriteRule ^([a-z0-9-]+)/$ /$1/pt/ [R=302,L]
+
+  RewriteCond %{REQUEST_URI} !^/(storybook|_astro|assets|favicons)/ [NC]
+  RewriteRule ^([a-z0-9-]+)/$ /$1/en/ [R=302,L]
 </IfModule>
 
 # ------------------------------------------------------------------------------

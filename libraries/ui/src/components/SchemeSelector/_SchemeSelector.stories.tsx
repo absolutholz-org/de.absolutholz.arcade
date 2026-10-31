@@ -23,7 +23,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/Navigation & Shell/SchemeSelector',
+	title: 'Components/SchemeSelector',
 } satisfies Meta<typeof SchemeSelector>;
 
 export default meta;
