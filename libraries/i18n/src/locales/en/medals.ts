@@ -17,6 +17,7 @@ export const enMedals = {
 			anagram: 'Anagram Scramble',
 			tents: 'Tents',
 			untangle: 'Untangle',
+			net: 'Net',
 		},
 		status: {
 			unlocked: 'Unlocked',
@@ -639,6 +640,36 @@ export const enMedals = {
 		no_undo: {
 			title: 'Zero Second-Guesses',
 			desc: 'Complete a Hard puzzle without using Undo.',
+		},
+	},
+	net: {
+		first_online: {
+			title: 'First Packet Routed',
+			desc: 'Connect every terminal to the root server on any difficulty.',
+		},
+		network_architect: {
+			title: 'Network Architect',
+			desc: 'Energize complete networks throughout your career (5 / 25 / 100).',
+		},
+		backbone_engineer: {
+			title: 'Backbone Engineer',
+			desc: 'Wire up complex grids on Hard or Expert difficulty (3 / 15 / 50).',
+		},
+		speedy_packet: {
+			title: 'Sub-Millisecond Ping',
+			desc: 'Bring an Easy network completely online in under 30 seconds.',
+		},
+		hyperscale: {
+			title: 'Hyperscale Infrastructure',
+			desc: 'Route an entire Hard or Expert grid in under 3 minutes.',
+		},
+		packet_perfection: {
+			title: 'Flawless Transmission',
+			desc: 'Energize a Medium, Hard, or Expert network without using Undo.',
+		},
+		hotline_streak: {
+			title: 'Uptime Champion',
+			desc: 'Maintain a win streak of 3 consecutive network puzzles.',
 		},
 	},
 } as const satisfies MedalsTranslationContract;

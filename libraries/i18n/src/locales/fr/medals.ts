@@ -17,6 +17,7 @@ export const frMedals = {
 			anagram: 'Anagram Scramble',
 			tents: 'Tentes',
 			untangle: 'Démêler',
+			net: 'Net',
 		},
 		status: {
 			unlocked: 'Débloqué',
@@ -640,6 +641,36 @@ export const frMedals = {
 		no_undo: {
 			title: 'Sans hésitation',
 			desc: 'Terminez un puzzle Difficile sans utiliser Annuler.',
+		},
+	},
+	net: {
+		first_online: {
+			title: 'Premier paquet routé',
+			desc: 'Connectez chaque terminal au serveur central dans n’importe quelle difficulté.',
+		},
+		network_architect: {
+			title: 'Architecte réseau',
+			desc: 'Alimentez des réseaux complets au fil de votre carrière (5 / 25 / 100).',
+		},
+		backbone_engineer: {
+			title: 'Ingénieur backbone',
+			desc: 'Câblez des grilles complexes en difficulté Difficile ou Expert (3 / 15 / 50).',
+		},
+		speedy_packet: {
+			title: 'Ping ultra-rapide',
+			desc: 'Mettez un réseau Facile en ligne en moins de 30 secondes.',
+		},
+		hyperscale: {
+			title: 'Infrastructure hyperscale',
+			desc: 'Routez une grille Difficile ou Expert en moins de 3 minutes.',
+		},
+		packet_perfection: {
+			title: 'Transmission parfaite',
+			desc: 'Complétez un réseau Moyen, Difficile ou Expert sans utiliser Annuler.',
+		},
+		hotline_streak: {
+			title: 'Champion de disponibilité',
+			desc: 'Maintenez une série de 3 victoires consécutives.',
 		},
 	},
 } as const satisfies MedalsTranslationContract;

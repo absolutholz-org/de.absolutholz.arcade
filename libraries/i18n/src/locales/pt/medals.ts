@@ -17,6 +17,7 @@ export const ptMedals = {
 			anagram: 'Anagram Scramble',
 			tents: 'Tendas',
 			untangle: 'Desembaraçar',
+			net: 'Net',
 		},
 		status: {
 			unlocked: 'Desbloqueado',
@@ -640,6 +641,36 @@ export const ptMedals = {
 		no_undo: {
 			title: 'Sem Hesitação',
 			desc: 'Complete um quebra-cabeça Difícil sem usar Desfazer.',
+		},
+	},
+	net: {
+		first_online: {
+			title: 'Primeiro Pacote Roteado',
+			desc: 'Conecte todos os terminais ao servidor central em qualquer dificuldade.',
+		},
+		network_architect: {
+			title: 'Arquiteto de Redes',
+			desc: 'Energize redes completas ao longo da sua carreira (5 / 25 / 100).',
+		},
+		backbone_engineer: {
+			title: 'Engenheiro de Backbone',
+			desc: 'Conecte redes complexas na dificuldade Difícil ou Especialista (3 / 15 / 50).',
+		},
+		speedy_packet: {
+			title: 'Ping Ultrarrápido',
+			desc: 'Conecte uma rede Fácil completamente em menos de 30 segundos.',
+		},
+		hyperscale: {
+			title: 'Infraestrutura Hyperscale',
+			desc: 'Roteie uma grade Difícil ou Especialista em menos de 3 minutos.',
+		},
+		packet_perfection: {
+			title: 'Transmissão Perfeita',
+			desc: 'Complete uma rede Média, Difícil ou Especialista sem usar Desfazer.',
+		},
+		hotline_streak: {
+			title: 'Campeão de Uptime',
+			desc: 'Mantenha uma sequência de 3 quebra-cabeças vencidos consecutivamente.',
 		},
 	},
 } as const satisfies MedalsTranslationContract;

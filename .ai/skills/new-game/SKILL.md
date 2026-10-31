@@ -161,22 +161,36 @@ Construct the application shell and React canvas in `apps/[gameId]/`:
 
 ### Phase 6: Accessibility, Static Verification & Central Hub Activation
 
-1. **Accessibility (WCAG 2.2 Level AA):**
-    - Ensure the interactive grid/board implements appropriate WAI-ARIA roles (`grid`, `gridcell`, `button`).
+1. **Accessibility (WCAG 2.2 Level AA & WAI-ARIA Grid Standard):**
+    - Ensure the interactive grid/board implements the standard WAI-ARIA grid pattern (`role="grid"`, `role="row"`, `role="gridcell"`) with roving `tabIndex`.
+    - Enforce explicit `type="button"` on all interactive cell buttons.
+    - Ensure all SVG graphics have accessible alternative text (e.g. `<title>` element or `aria-label` / `aria-labelledby`).
+    - Use stable coordinate keys (e.g. `key={`${gameId}-row-${r}`}`) for rows rather than bare array indices.
     - Implement complete keyboard navigation (arrow keys for movement, Action keys, Undo/Redo keys, Pause key).
     - Ensure touch targets satisfy the 24×24 CSS pixel minimum.
     - Provide an ARIA live region for screen reader game status announcements.
 2. **Zero-Runtime Styling Audit:**
     - Verify all Linaria styles use static OKLCH CSS variables and `data-*` selectors without runtime style prop interpolations.
-3. **Static Build Verification:**
-    - Run typecheck and static build:
+3. **Code Quality, Formatting & Verification Gate (MANDATORY):**
+    - Apply safe automated formatting and import organization:
+        ```bash
+        pnpm exec biome check --write apps/[gameId]
+        ```
+    - Execute strict Biome lint verification:
+        ```bash
+        pnpm exec biome check apps/[gameId]
+        ```
+    - Run targeted unit tests:
         ```bash
         pnpm --filter @arcade/[gameId] test
-        pnpm --filter @arcade/[gameId] build
         ```
-    - Verify that output assets in `dist/` contain pure static HTML/CSS/JS without SSR dependencies.
+    - Run canonical architecture conformance tests:
+        ```bash
+        node --experimental-strip-types --test tests/architecture/game-structure.test.ts
+        ```
+    - **Zero-Failure Gate Invariant:** The subagent/workflow is **strictly forbidden** from reporting completion or success if any linter, formatter, or test exits with a non-zero code. All diagnostic errors (non-null assertions, missing button types, unhandled SVG titles, or semantic element lints) must be inspected and fixed until all checks exit cleanly with code 0.
 4. **Central Hub & Medals Showcase Activation:**
-    - Only after all static tests and builds succeed:
+    - Only after all static tests, Biome checks, and builds succeed:
         - **Central Game Registry:** Add the game entry to `GAME_REGISTRY` in `libraries/games/src/registry.ts`.
         - **Hub Medals Showcase:** Add the `gameId` to `REGISTERED_GAMES` in `apps/hub/src/components/MedalsShowcase/MedalsShowcase.tsx` so the game's achievements appear in the global showcase and game filter dropdown.
         - **Hub User Medal Summary:** Add the `gameId` to `REGISTERED_GAMES` in `apps/hub/src/components/UserMedalSummaryWidget/UserMedalSummaryWidget.tsx` so the user's global trophy statistics include this game.
@@ -197,6 +211,7 @@ Construct the application shell and React canvas in `apps/[gameId]/`:
 ## Anti-Patterns to Avoid
 
 - ❌ **Premature Hub Listing:** Never add a game to `GAME_REGISTRY` before its application builds cleanly and passes static verification.
+- ❌ **Reporting Completion With Lint/Test Failures:** Never report task completion or prompt success if `biome check`, unit tests, or conformance tests fail or exit with code 1. Resolve all root causes first.
 - ❌ **Missing Hub Medals Showcase Registration:** Never omit registering the new game in `apps/hub`'s `MedalsShowcase.tsx` and `UserMedalSummaryWidget.tsx`; doing so leaves the game's achievements invisible in the global hub showcase and omitted from global user trophy tallies.
 - ❌ **Direct Storage Access:** Never call `localStorage.setItem` or `sessionStorage` directly; always use `createGameStorage(gameId)`.
 - ❌ **Direct Cloud SDK Calls:** Never import or invoke Firestore/Firebase directly in the game app; always route through domain storage facades and `recordGameResult`.

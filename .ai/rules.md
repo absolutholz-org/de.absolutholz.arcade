@@ -123,6 +123,7 @@ To maintain a consistent, accessible landmark structure, prevent spatial contain
   4. `settings.astro` (Standalone explanatory settings via `<GameSettingsPanel mode="detailed" />` backed by `src/config/settings.ts` and `GameSettingsConfig` from `@arcade/lib-games`)
   5. `stats.astro` (Standalone statistics & high scores via `<GameStatsDashboard gameId={gameId} />` backed by `arcade::[gameId]::stats` and `recordGameStats(gameId, roundResult)` from `@arcade/lib-storage`)
   6. `medals.astro` (Standalone medals showcase rendering `<GameMedalGrid gameId={gameId} definitions={...} lang={lang} />` backed by `src/config/medals.ts` without duplicate grid components or custom threshold logic)
+- **Interactive Canvas Grid & A11y Standards**: All 2D puzzle games and canvas boards implementing interactive grids must adhere to the monorepo WAI-ARIA Grid pattern codified in `/.ai/rules/arcade-game-layout.md` (explicit `type="button"`, accessible SVG `<title>` tags, structured coordinate keys, and standard Biome ignore pragmas).
 
 ## 9. Token Economy & Autonomous Loop Guardrails
 

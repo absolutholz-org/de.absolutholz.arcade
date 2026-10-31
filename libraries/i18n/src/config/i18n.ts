@@ -6,6 +6,7 @@ import { deBridges } from '../locales/de/bridges.js';
 import { deCommon } from '../locales/de/common.js';
 import { deMedals } from '../locales/de/medals.js';
 import { deMinesweeper } from '../locales/de/minesweeper.js';
+import { deNet } from '../locales/de/net.js';
 import { deNonogram } from '../locales/de/nonogram.js';
 import { deQueens } from '../locales/de/queens.js';
 import { deSudoku } from '../locales/de/sudoku.js';
@@ -18,6 +19,7 @@ import { enBridges } from '../locales/en/bridges.js';
 import { enCommon } from '../locales/en/common.js';
 import { enMedals } from '../locales/en/medals.js';
 import { enMinesweeper } from '../locales/en/minesweeper.js';
+import { enNet } from '../locales/en/net.js';
 import { enNonogram } from '../locales/en/nonogram.js';
 import { enQueens } from '../locales/en/queens.js';
 import { enSudoku } from '../locales/en/sudoku.js';
@@ -30,6 +32,7 @@ import { frBridges } from '../locales/fr/bridges.js';
 import { frCommon } from '../locales/fr/common.js';
 import { frMedals } from '../locales/fr/medals.js';
 import { frMinesweeper } from '../locales/fr/minesweeper.js';
+import { frNet } from '../locales/fr/net.js';
 import { frNonogram } from '../locales/fr/nonogram.js';
 import { frQueens } from '../locales/fr/queens.js';
 import { frSudoku } from '../locales/fr/sudoku.js';
@@ -42,6 +45,7 @@ import { ptBridges } from '../locales/pt/bridges.js';
 import { ptCommon } from '../locales/pt/common.js';
 import { ptMedals } from '../locales/pt/medals.js';
 import { ptMinesweeper } from '../locales/pt/minesweeper.js';
+import { ptNet } from '../locales/pt/net.js';
 import { ptNonogram } from '../locales/pt/nonogram.js';
 import { ptQueens } from '../locales/pt/queens.js';
 import { ptSudoku } from '../locales/pt/sudoku.js';
@@ -65,6 +69,7 @@ export const resources: TranslationResources = {
 		tents: enTents,
 		anagram: enAnagram,
 		untangle: enUntangle,
+		net: enNet,
 		medals: enMedals,
 	},
 	de: {
@@ -79,6 +84,7 @@ export const resources: TranslationResources = {
 		tents: deTents,
 		anagram: deAnagram,
 		untangle: deUntangle,
+		net: deNet,
 		medals: deMedals,
 	},
 	fr: {
@@ -93,6 +99,7 @@ export const resources: TranslationResources = {
 		tents: frTents,
 		anagram: frAnagram,
 		untangle: frUntangle,
+		net: frNet,
 		medals: frMedals,
 	},
 	pt: {
@@ -107,6 +114,7 @@ export const resources: TranslationResources = {
 		tents: ptTents,
 		anagram: ptAnagram,
 		untangle: ptUntangle,
+		net: ptNet,
 		medals: ptMedals,
 	},
 };
@@ -131,6 +139,7 @@ i18n.use(initReactI18next).init({
 		'tents',
 		'anagram',
 		'untangle',
+		'net',
 		'medals',
 	],
 	interpolation: {

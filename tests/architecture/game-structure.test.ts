@@ -27,11 +27,11 @@ describe('ADR 0008 Canonical Game Architecture Conformance', () => {
 		.map((dirent) => dirent.name)
 		.sort();
 
-	it('should discover all 10 expected arcade game packages', () => {
+	it('should discover all 11 expected arcade game packages', () => {
 		assert.equal(
 			gameDirectories.length,
-			10,
-			`Expected 10 arcade game packages under apps/*, but discovered ${gameDirectories.length}: ${gameDirectories.join(', ')}`,
+			11,
+			`Expected 11 arcade game packages under apps/*, but discovered ${gameDirectories.length}: ${gameDirectories.join(', ')}`,
 		);
 	});
 

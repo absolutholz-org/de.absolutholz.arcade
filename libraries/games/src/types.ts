@@ -11,7 +11,8 @@ export type GameId =
 	| 'tents'
 	| 'anagram'
 	| 'watersort'
-	| 'untangle';
+	| 'untangle'
+	| 'net';
 
 /**
  * Visual and media assets associated with a game.

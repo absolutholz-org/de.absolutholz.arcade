@@ -95,6 +95,15 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameDefinition>> = {
 		},
 		i18nNamespace: 'untangle',
 	},
+	net: {
+		id: 'net',
+		name: 'Net',
+		route: '/net',
+		assets: {
+			icon: '🌐',
+		},
+		i18nNamespace: 'net',
+	},
 };
 
 /**

@@ -10,5 +10,9 @@
 	"untangle": {
 		"title": "Démêler",
 		"description": "Déplacez les sommets pour démêler le réseau de lignes jusqu’à ce qu’aucune arête ne se croise."
+	},
+	"net": {
+		"title": "Net",
+		"description": "Faites pivoter les tuiles pour connecter chaque terminal au serveur central."
 	}
 }

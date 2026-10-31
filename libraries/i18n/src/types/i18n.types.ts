@@ -4,6 +4,7 @@ import type { BridgesSchema, BridgesTranslationContract } from '../schemas/bridg
 import type { CommonSchema, CommonTranslationContract } from '../schemas/common.schema.js';
 import type { MedalsSchema, MedalsTranslationContract } from '../schemas/medals.schema.js';
 import type { MinesweeperSchema, MinesweeperTranslationContract } from '../schemas/minesweeper.schema.js';
+import type { NetSchema, NetTranslationContract } from '../schemas/net.schema.js';
 import type { NonogramSchema, NonogramTranslationContract } from '../schemas/nonogram.schema.js';
 import type { QueensSchema, QueensTranslationContract } from '../schemas/queens.schema.js';
 import type { SudokuSchema, SudokuTranslationContract } from '../schemas/sudoku.schema.js';
@@ -31,6 +32,7 @@ export type WaterSortTranslationKey = LeafKeys<WaterSortSchema>;
 export type TentsTranslationKey = LeafKeys<TentsSchema>;
 export type AnagramTranslationKey = LeafKeys<AnagramSchema>;
 export type UntangleTranslationKey = LeafKeys<UntangleSchema> | `untangle.${LeafKeys<UntangleSchema>}`;
+export type NetTranslationKey = LeafKeys<NetSchema> | `net.${LeafKeys<NetSchema>}`;
 export type MedalsTranslationKey = LeafKeys<MedalsSchema> | `medals.${LeafKeys<MedalsSchema>}`;
 
 export type TranslationKey =
@@ -45,6 +47,7 @@ export type TranslationKey =
 	| TentsTranslationKey
 	| AnagramTranslationKey
 	| UntangleTranslationKey
+	| NetTranslationKey
 	| MedalsTranslationKey;
 
 export interface UseI18nReturn {
@@ -69,6 +72,7 @@ export type TranslationResources = Record<
 		readonly tents: TentsTranslationContract;
 		readonly anagram: AnagramTranslationContract;
 		readonly untangle: UntangleTranslationContract;
+		readonly net: NetTranslationContract;
 		readonly medals: MedalsTranslationContract;
 	}
 >;

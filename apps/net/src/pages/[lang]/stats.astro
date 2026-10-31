@@ -1,0 +1,53 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { GameStatsDashboard } from '@arcade/lib-ui';
+import GameSubpageTemplate from '@arcade/lib-ui/templates/GameSubpageTemplate/GameSubpageTemplate.astro';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const currentLanguage = lang as SupportedLanguageCode;
+const currentNet = resources[currentLanguage]?.net ?? resources.en.net;
+const currentCommon = resources[currentLanguage]?.common ?? resources.en.common;
+---
+
+<GameSubpageTemplate
+	title={currentCommon.stats.title}
+	description={`${currentNet.title} - ${currentCommon.stats.title}`}
+	lang={currentLanguage}
+	breadcrumbItems={[
+		{ label: currentCommon.app.title, href: `/${currentLanguage}/`, isHome: true },
+		{ label: currentNet.title, href: `/net/${currentLanguage}/` },
+		{ label: currentCommon.stats.title, isCurrent: true },
+	]}
+	primaryAction={{
+		label: currentNet.controls.play,
+		href: `/net/${currentLanguage}/game`,
+	}}
+	secondaryAction={{
+		label: currentNet.controls.backToLobby,
+		href: `/net/${currentLanguage}/`,
+	}}
+	containerWidth="standard"
+	currentSlug="stats"
+>
+	<GameStatsDashboard
+		client:load
+		gameId="net"
+		lang={currentLanguage}
+		hideTitle
+		bucketLabels={{
+			easy: currentNet.difficulty.easy,
+			medium: currentNet.difficulty.medium,
+			hard: currentNet.difficulty.hard,
+			expert: currentNet.difficulty.expert,
+		}}
+		playHref={`/net/${currentLanguage}/game`}
+	/>
+</GameSubpageTemplate>

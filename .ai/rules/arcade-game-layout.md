@@ -74,3 +74,49 @@ Tier 1: Document Layouts (@arcade/lib-ui/layouts/)
 ### D. Consolidated Medals Showcase (`/[lang]/medals.astro`)
 - `/[lang]/medals.astro` must **never** maintain bespoke per-game `[Game]MedalGrid` components or inline custom threshold branching.
 - Render `<GameMedalGrid gameId={gameId} lang={lang} />` directly from `@arcade/lib-ui`.
+
+---
+
+## 4. Interactive Canvas Grid & Accessibility Standards (WAI-ARIA & Biome Compliance)
+
+All 2D puzzle games and canvas boards implementing interactive grids (e.g., Sudoku, Minesweeper, Nonogram, Queens, Tracks, Tents, Net) must adhere strictly to the monorepo WAI-ARIA Grid pattern and Biome a11y standards:
+
+### A. ARIA Grid Semantics & Roving Tabindex
+- The board container must define `role="grid"` with `aria-label`, `aria-rowcount`, and `aria-colcount`.
+- Grid row containers must define `role="row"` with `aria-rowindex={r + 1}`.
+- Interactive cells must be rendered as native `<button>` elements with `role="gridcell"`, `aria-colindex={c + 1}`, and `tabIndex={isFocused ? 0 : -1}` (roving `tabIndex` driven by keyboard arrow keys).
+
+### B. Standard Biome Annotations for ARIA Grids
+To satisfy Biome's strict linter rules without sacrificing accessible roving-tabindex ARIA grid semantics, annotate grid elements with documented, standard pragmas:
+```tsx
+{/* Grid Container */}
+// biome-ignore lint/a11y/useSemanticElements: [Game] is an interactive 2D grid widget adhering to WAI-ARIA Grid pattern
+<div ref={gridRef} role="grid" aria-label={boardAriaLabel} aria-rowcount={rows} aria-colcount={cols}>
+  {grid.map((rowCells, r) => (
+    // Row Container: Stable coordinate keys & focus delegation
+    // biome-ignore lint/suspicious/noArrayIndexKey: Fixed 2D grid coordinates serve as stable keys
+    // biome-ignore lint/a11y/useSemanticElements: Row role required for WAI-ARIA grid pattern
+    // biome-ignore lint/a11y/useFocusableInteractive: Row element in ARIA grid delegates focus to cell children via roving tabIndex
+    <div key={`${gameId}-row-${r}`} role="row" aria-rowindex={r + 1}>
+      {rowCells.map((cell, c) => (
+        <button
+          key={cell.id}
+          type="button"
+          // biome-ignore lint/a11y/useSemanticElements: Gridcell role required for WAI-ARIA grid pattern
+          role="gridcell"
+          aria-colindex={c + 1}
+          tabIndex={focusedRow === r && focusedCol === c ? 0 : -1}
+          aria-label={getCellAriaLabel(cell)}
+        >
+          {/* Tile graphic */}
+        </button>
+      ))}
+    </div>
+  ))}
+</div>
+```
+
+### C. Explicit Button Types & SVGs
+- **Button Type (`useButtonType`):** Every interactive button must explicitly specify `type="button"`.
+- **SVG Accessibility (`noSvgWithoutTitle`):** All inline SVGs rendered inside buttons or canvas tiles must include an accessible alternative title element (e.g. `<title>Tile Graphic</title>` or `<title>Locked</title>`) or declare `role="img"` with an `aria-label`.
+- **Row Keys (`noArrayIndexKey`):** Row elements must use structured coordinate keys incorporating the game identifier and row index (e.g. `key={`${gameId}-row-${r}`}`).

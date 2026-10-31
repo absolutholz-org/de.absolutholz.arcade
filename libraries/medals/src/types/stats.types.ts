@@ -134,6 +134,15 @@ export interface GameCustomStatsMap {
 	anagram: AnagramCustomStats;
 	watersort: WaterSortCustomStats;
 	untangle: UntangleCustomStats;
+	net: NetCustomStats;
+}
+
+export interface NetCustomStats {
+	readonly easyWins?: number;
+	readonly mediumWins?: number;
+	readonly hardWins?: number;
+	readonly expertWins?: number;
+	readonly winsWithoutUndo?: number;
 }
 
 export interface UntangleCustomStats {

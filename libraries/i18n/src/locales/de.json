@@ -10,5 +10,9 @@
 	"untangle": {
 		"title": "Entwirren",
 		"description": "Ziehe die Knotenpunkte auf dem Spielfeld, bis sich keine Verbindungslinien mehr überkreuzen."
+	},
+	"net": {
+		"title": "Net",
+		"description": "Drehe Kacheln, um alle Terminals und Computer mit dem zentralen Server zu verbinden."
 	}
 }

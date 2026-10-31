@@ -10,5 +10,9 @@
 	"untangle": {
 		"title": "Desembaraçar",
 		"description": "Arraste os vértices para desembaraçar a teia de linhas conectadas até que nenhuma aresta se cruze."
+	},
+	"net": {
+		"title": "Net",
+		"description": "Gire as peças para conectar todos os terminais e computadores ao servidor central."
 	}
 }

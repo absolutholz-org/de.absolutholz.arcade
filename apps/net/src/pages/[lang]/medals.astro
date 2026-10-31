@@ -1,0 +1,49 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { GameMedalGrid } from '@arcade/lib-ui';
+import GameSubpageTemplate from '@arcade/lib-ui/templates/GameSubpageTemplate/GameSubpageTemplate.astro';
+import { NET_MEDAL_DEFINITIONS } from '../../config/medals';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const currentLanguage = lang as SupportedLanguageCode;
+const currentNet = resources[currentLanguage]?.net ?? resources.en.net;
+const currentCommon = resources[currentLanguage]?.common ?? resources.en.common;
+const currentMedals = resources[currentLanguage]?.medals ?? resources.en.medals;
+---
+
+<GameSubpageTemplate
+	title={currentMedals.showcase.title}
+	description={`${currentNet.title} - ${currentMedals.showcase.description}`}
+	lang={currentLanguage}
+	breadcrumbItems={[
+		{ label: currentCommon.app.title, href: `/${currentLanguage}/`, isHome: true },
+		{ label: currentNet.title, href: `/net/${currentLanguage}/` },
+		{ label: currentMedals.showcase.title, isCurrent: true },
+	]}
+	primaryAction={{
+		label: currentNet.controls.play,
+		href: `/net/${currentLanguage}/game`,
+	}}
+	secondaryAction={{
+		label: currentNet.controls.backToLobby,
+		href: `/net/${currentLanguage}/`,
+	}}
+	containerWidth="wide"
+	currentSlug="medals"
+>
+	<GameMedalGrid
+		client:load
+		gameId="net"
+		definitions={NET_MEDAL_DEFINITIONS}
+		lang={currentLanguage}
+		hideActions
+	/>
+</GameSubpageTemplate>

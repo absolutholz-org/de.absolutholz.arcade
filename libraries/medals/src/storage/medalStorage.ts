@@ -147,6 +147,14 @@ export function createInitialCustomStats<G extends GameId>(gameId: G): GameCusto
 				hardWins: 0,
 				winsWithoutUndo: 0,
 			} as unknown as GameCustomStatsMap[G];
+		case 'net':
+			return {
+				easyWins: 0,
+				mediumWins: 0,
+				hardWins: 0,
+				expertWins: 0,
+				winsWithoutUndo: 0,
+			} as unknown as GameCustomStatsMap[G];
 		default:
 			throw new Error(`createInitialCustomStats error: Unknown gameId "${String(gameId)}"`);
 	}

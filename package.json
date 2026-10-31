@@ -52,9 +52,14 @@
 		"dev:untangle": "pnpm --filter @arcade/untangle dev",
 		"build:untangle": "pnpm --filter @arcade/untangle build",
 		"preview:untangle": "pnpm --filter @arcade/untangle preview",
-		"build:all": "pnpm build:hub && pnpm build:sudoku && pnpm build:minesweeper && pnpm build:nonogram && pnpm build:queens && pnpm build:bridges && pnpm build:storybook && pnpm build:tracks && pnpm build:tents && pnpm build:anagram && pnpm build:watersort && pnpm build:untangle",
+		"dev:net": "pnpm --filter @arcade/net dev",
+		"build:net": "pnpm --filter @arcade/net build",
+		"preview:net": "pnpm --filter @arcade/net preview",
+		"build:all": "pnpm build:hub && pnpm build:sudoku && pnpm build:minesweeper && pnpm build:nonogram && pnpm build:queens && pnpm build:bridges && pnpm build:storybook && pnpm build:tracks && pnpm build:tents && pnpm build:anagram && pnpm build:watersort && pnpm build:untangle && pnpm build:net",
 		"build": "turbo run build",
-		"clean": "rm -rf apps/*/.astro apps/*/dist libraries/*/dist apps/*/node_modules/.vite node_modules/.vite node_modules/.cache"
+		"clean": "rm -rf apps/*/.astro apps/*/dist libraries/*/dist apps/*/node_modules/.vite node_modules/.vite node_modules/.cache",
+		"fix": "biome check --write --unsafe",
+		"fix:net": "biome check --write --unsafe apps/net"
 	},
 	"engines": {
 		"node": ">=20.0.0",

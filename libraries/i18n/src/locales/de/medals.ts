@@ -17,6 +17,7 @@ export const deMedals = {
 			anagram: 'Anagram Scramble',
 			tents: 'Zelte',
 			untangle: 'Entwirren',
+			net: 'Net',
 		},
 		status: {
 			unlocked: 'Freigeschaltet',
@@ -640,6 +641,36 @@ export const deMedals = {
 		no_undo: {
 			title: 'Ohne Zweifel',
 			desc: 'Löse ein schweres Rätsel, ohne Rückgängig zu verwenden.',
+		},
+	},
+	net: {
+		first_online: {
+			title: 'Erstes Paket geroutet',
+			desc: 'Verbinde jedes Terminal mit dem Hauptserver auf beliebiger Stufe.',
+		},
+		network_architect: {
+			title: 'Netzwerk-Architekt',
+			desc: 'Bringe vollständige Netze im Laufe deiner Karriere ans Netz (5 / 25 / 100).',
+		},
+		backbone_engineer: {
+			title: 'Backbone-Ingenieur',
+			desc: 'Verdrahte anspruchsvolle Netze auf Schwer oder Experte (3 / 15 / 50).',
+		},
+		speedy_packet: {
+			title: 'Blitzschneller Ping',
+			desc: 'Bringe ein einfaches Netzwerk in unter 30 Sekunden vollständig online.',
+		},
+		hyperscale: {
+			title: 'Hyperscale-Infrastruktur',
+			desc: 'Schließe ein schweres oder Experten-Netzwerk in unter 3 Minuten ab.',
+		},
+		packet_perfection: {
+			title: 'Fehlerfreie Übertragung',
+			desc: 'Löse ein Netzwerk auf Mittel, Schwer oder Experte ohne Rückgängig.',
+		},
+		hotline_streak: {
+			title: 'Uptime-Champion',
+			desc: 'Gewinne 3 aufeinanderfolgende Netzwerk-Puzzles in Folge.',
 		},
 	},
 } as const satisfies MedalsTranslationContract;

@@ -10,5 +10,9 @@
 	"untangle": {
 		"title": "Untangle",
 		"description": "Drag vertices to untangle the web of connecting lines until no edges cross."
+	},
+	"net": {
+		"title": "Net",
+		"description": "Rotate tiles to connect every terminal and computer to the central root server."
 	}
 }

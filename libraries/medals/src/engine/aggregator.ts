@@ -524,6 +524,24 @@ export function updateCustomStats<G extends GameId>(
 			};
 		}
 
+		case 'net': {
+			const stats = current as GameCustomStatsMap['net'];
+			const difficulty = (result.roundContext?.difficulty as string | undefined) ?? result.levelKey;
+			const undoUsed = Boolean(result.roundContext?.undoUsed ?? result.roundContext?.undosUsed);
+
+			return {
+				updatedCustom: {
+					...stats,
+					easyWins: (stats.easyWins ?? 0) + (result.won && difficulty === 'easy' ? 1 : 0),
+					mediumWins: (stats.mediumWins ?? 0) + (result.won && difficulty === 'medium' ? 1 : 0),
+					hardWins: (stats.hardWins ?? 0) + (result.won && difficulty === 'hard' ? 1 : 0),
+					expertWins: (stats.expertWins ?? 0) + (result.won && difficulty === 'expert' ? 1 : 0),
+					winsWithoutUndo: (stats.winsWithoutUndo ?? 0) + (result.won && !undoUsed ? 1 : 0),
+				} as GameCustomStatsMap[G],
+				isNewBestTime,
+			};
+		}
+
 		default:
 			return { updatedCustom: current, isNewBestTime: false };
 	}

@@ -19,6 +19,7 @@ const REGISTERED_GAMES: readonly GameId[] = [
 	'anagram',
 	'watersort',
 	'untangle',
+	'net',
 ];
 
 interface UserMedalData {

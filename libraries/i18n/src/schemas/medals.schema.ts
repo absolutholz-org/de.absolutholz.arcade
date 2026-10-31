@@ -15,6 +15,7 @@ export interface MedalsSchema {
 			readonly anagram: string;
 			readonly tents: string;
 			readonly untangle: string;
+			readonly net: string;
 		};
 		readonly status: {
 			readonly unlocked: string;
@@ -204,6 +205,15 @@ export interface MedalsSchema {
 		readonly streak: { readonly title: string; readonly desc: string };
 		readonly speed_demon: { readonly title: string; readonly desc: string };
 		readonly no_undo: { readonly title: string; readonly desc: string };
+	};
+	readonly net: {
+		readonly first_online: { readonly title: string; readonly desc: string };
+		readonly network_architect: { readonly title: string; readonly desc: string };
+		readonly backbone_engineer: { readonly title: string; readonly desc: string };
+		readonly speedy_packet: { readonly title: string; readonly desc: string };
+		readonly hyperscale: { readonly title: string; readonly desc: string };
+		readonly packet_perfection: { readonly title: string; readonly desc: string };
+		readonly hotline_streak: { readonly title: string; readonly desc: string };
 	};
 }
 
