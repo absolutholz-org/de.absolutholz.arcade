@@ -10,20 +10,27 @@ import {
 	DIFFICULTIES,
 	type DifficultyId,
 	type GameStatus,
+	type HistoryState,
 	type MinesweeperSettings,
+	canRedo,
+	canUndo,
 	chordCell,
 	createEmptyBoard,
+	createHistory,
 	cycleFlagState,
 	getMineCount,
 	loadActiveGame,
 	loadLastConfig,
 	loadSettings,
 	placeMines,
+	pushHistory,
 	recordHighScore,
+	redoHistory,
 	revealCell,
 	saveActiveGame,
 	saveLastConfig,
 	saveSettings,
+	undoHistory,
 } from '../../engine';
 
 const BOARD_SIZE_NAME_MAP: Record<BoardSizeId, string> = {
@@ -43,6 +50,14 @@ export function useMinesweeperGame(initialSize: BoardSizeId = 'md', initialDiffi
 	});
 	const [minesPlaced, setMinesPlaced] = useState(false);
 	const [status, setStatus] = useState<GameStatus>('not_started');
+	const [history, setHistory] = useState<HistoryState>(() => {
+		const config = BOARD_SIZES[initialSize] ?? BOARD_SIZES.md;
+		return createHistory({
+			cells: createEmptyBoard(config.columns, config.rows),
+			minesPlaced: false,
+			status: 'not_started',
+		});
+	});
 	const [elapsedSeconds, setElapsedSeconds] = useState(0);
 	const [focusedCell, setFocusedCell] = useState<{ col: number; row: number } | null>({ col: 0, row: 0 });
 	const [interactionMode, setInteractionMode] = useState<'reveal' | 'flag'>('reveal');
@@ -173,6 +188,13 @@ export function useMinesweeperGame(initialSize: BoardSizeId = 'md', initialDiffi
 						setMinesPlaced(saved.minesPlaced);
 						setElapsedSeconds(saved.elapsedSeconds);
 						setStatus('playing');
+						setHistory(
+							createHistory({
+								cells: saved.cells,
+								minesPlaced: saved.minesPlaced,
+								status: 'playing',
+							}),
+						);
 						return;
 					}
 				}
@@ -185,10 +207,18 @@ export function useMinesweeperGame(initialSize: BoardSizeId = 'md', initialDiffi
 			setSize(targetSize);
 			setDifficulty(targetDiff);
 			const cfg = BOARD_SIZES[targetSize] ?? BOARD_SIZES.md;
-			setCells(createEmptyBoard(cfg.columns, cfg.rows));
+			const empty = createEmptyBoard(cfg.columns, cfg.rows);
+			setCells(empty);
 			setMinesPlaced(false);
 			setStatus('not_started');
 			setElapsedSeconds(0);
+			setHistory(
+				createHistory({
+					cells: empty,
+					minesPlaced: false,
+					status: 'not_started',
+				}),
+			);
 			resetSessionTracking();
 		}
 		init();
@@ -330,6 +360,15 @@ export function useMinesweeperGame(initialSize: BoardSizeId = 'md', initialDiffi
 				setIsVictoryOpen(true);
 				await saveActiveGame(null);
 			}
+
+			const nextStatus: GameStatus = result.detonated ? 'lost' : result.won ? 'won' : 'playing';
+			setHistory((prev) =>
+				pushHistory(prev, {
+					cells: result.cells,
+					minesPlaced: true,
+					status: nextStatus,
+				}),
+			);
 		},
 		[interactionMode, dispatchMedalResult],
 	);
@@ -355,6 +394,15 @@ export function useMinesweeperGame(initialSize: BoardSizeId = 'md', initialDiffi
 		const newCells = cellsRef.current.map((c, i) => (i === index ? { ...c, state: nextState } : c));
 		cellsRef.current = newCells;
 		setCells(newCells);
+
+		const nextStatus: GameStatus = statusRef.current === 'not_started' ? 'playing' : statusRef.current;
+		setHistory((prev) =>
+			pushHistory(prev, {
+				cells: newCells,
+				minesPlaced: minesPlacedRef.current,
+				status: nextStatus,
+			}),
+		);
 
 		if (statusRef.current === 'playing') {
 			saveActiveGame({
@@ -421,6 +469,15 @@ export function useMinesweeperGame(initialSize: BoardSizeId = 'md', initialDiffi
 				setIsVictoryOpen(true);
 				await saveActiveGame(null);
 			}
+
+			const nextStatus: GameStatus = result.detonated ? 'lost' : result.won ? 'won' : 'playing';
+			setHistory((prev) =>
+				pushHistory(prev, {
+					cells: result.cells,
+					minesPlaced: true,
+					status: nextStatus,
+				}),
+			);
 		},
 		[dispatchMedalResult],
 	);
@@ -435,10 +492,18 @@ export function useMinesweeperGame(initialSize: BoardSizeId = 'md', initialDiffi
 
 	const handleRestart = useCallback(async () => {
 		const cfg = BOARD_SIZES[sizeRef.current];
-		setCells(createEmptyBoard(cfg.columns, cfg.rows));
+		const empty = createEmptyBoard(cfg.columns, cfg.rows);
+		setCells(empty);
 		setMinesPlaced(false);
 		setStatus('not_started');
 		setElapsedSeconds(0);
+		setHistory(
+			createHistory({
+				cells: empty,
+				minesPlaced: false,
+				status: 'not_started',
+			}),
+		);
 		resetSessionTracking();
 		setIsVictoryOpen(false);
 		setIsDefeatOpen(false);
@@ -451,10 +516,18 @@ export function useMinesweeperGame(initialSize: BoardSizeId = 'md', initialDiffi
 			setDifficulty(newDiff);
 			saveLastConfig({ size: newSize, difficulty: newDiff });
 			const cfg = BOARD_SIZES[newSize];
-			setCells(createEmptyBoard(cfg.columns, cfg.rows));
+			const empty = createEmptyBoard(cfg.columns, cfg.rows);
+			setCells(empty);
 			setMinesPlaced(false);
 			setStatus('not_started');
 			setElapsedSeconds(0);
+			setHistory(
+				createHistory({
+					cells: empty,
+					minesPlaced: false,
+					status: 'not_started',
+				}),
+			);
 			resetSessionTracking();
 			setIsVictoryOpen(false);
 			setIsDefeatOpen(false);
@@ -462,6 +535,112 @@ export function useMinesweeperGame(initialSize: BoardSizeId = 'md', initialDiffi
 		},
 		[resetSessionTracking],
 	);
+
+	const handleUndo = useCallback(() => {
+		setHistory((prev) => {
+			if (!canUndo(prev)) return prev;
+			const next = undoHistory(prev);
+			const step = next.present;
+			cellsRef.current = step.cells;
+			minesPlacedRef.current = step.minesPlaced;
+			statusRef.current = step.status;
+			setCells(step.cells);
+			setMinesPlaced(step.minesPlaced);
+			setStatus(step.status);
+			if (step.status !== 'lost') {
+				setIsDefeatOpen(false);
+			}
+			if (step.status !== 'won') {
+				setIsVictoryOpen(false);
+			}
+			const currentSizeConfig = BOARD_SIZES[sizeRef.current];
+			if (step.status === 'playing') {
+				saveActiveGame({
+					size: sizeRef.current,
+					difficulty: difficultyRef.current,
+					columns: currentSizeConfig.columns,
+					rows: currentSizeConfig.rows,
+					cells: step.cells,
+					mineCount: getMineCount(currentSizeConfig.fieldCount, difficultyRef.current),
+					elapsedSeconds: elapsedRef.current,
+					minesPlaced: step.minesPlaced,
+					status: 'playing',
+				});
+			}
+			return next;
+		});
+	}, []);
+
+	const handleRedo = useCallback(() => {
+		setHistory((prev) => {
+			if (!canRedo(prev)) return prev;
+			const next = redoHistory(prev);
+			const step = next.present;
+			cellsRef.current = step.cells;
+			minesPlacedRef.current = step.minesPlaced;
+			statusRef.current = step.status;
+			setCells(step.cells);
+			setMinesPlaced(step.minesPlaced);
+			setStatus(step.status);
+			if (step.status === 'lost') {
+				setIsDefeatOpen(true);
+			} else if (step.status === 'won') {
+				setIsVictoryOpen(true);
+			}
+			const currentSizeConfig = BOARD_SIZES[sizeRef.current];
+			if (step.status === 'playing') {
+				saveActiveGame({
+					size: sizeRef.current,
+					difficulty: difficultyRef.current,
+					columns: currentSizeConfig.columns,
+					rows: currentSizeConfig.rows,
+					cells: step.cells,
+					mineCount: getMineCount(currentSizeConfig.fieldCount, difficultyRef.current),
+					elapsedSeconds: elapsedRef.current,
+					minesPlaced: step.minesPlaced,
+					status: 'playing',
+				});
+			}
+			return next;
+		});
+	}, []);
+
+	// Keyboard shortcuts for Undo and Redo
+	useEffect(() => {
+		const handleKeyDown = (e: KeyboardEvent) => {
+			if (isSettingsOpen || isRulesOpen) return;
+
+			// Undo ('u' or 'U' or Ctrl/Cmd+Z)
+			if ((e.key === 'u' || e.key === 'U') && !e.ctrlKey && !e.metaKey) {
+				e.preventDefault();
+				handleUndo();
+				return;
+			}
+			if ((e.key === 'z' || e.key === 'Z') && (e.ctrlKey || e.metaKey) && !e.shiftKey) {
+				e.preventDefault();
+				handleUndo();
+				return;
+			}
+
+			// Redo ('r' or 'R' or Ctrl/Cmd+Y or Ctrl/Cmd+Shift+Z)
+			if ((e.key === 'r' || e.key === 'R') && !e.ctrlKey && !e.metaKey) {
+				e.preventDefault();
+				handleRedo();
+				return;
+			}
+			if (
+				((e.key === 'z' || e.key === 'Z') && (e.ctrlKey || e.metaKey) && e.shiftKey) ||
+				((e.key === 'y' || e.key === 'Y') && (e.ctrlKey || e.metaKey))
+			) {
+				e.preventDefault();
+				handleRedo();
+				return;
+			}
+		};
+
+		window.addEventListener('keydown', handleKeyDown);
+		return () => window.removeEventListener('keydown', handleKeyDown);
+	}, [isSettingsOpen, isRulesOpen, handleUndo, handleRedo]);
 
 	const handleUpdateSettings = useCallback(async (newSettings: MinesweeperSettings) => {
 		setSettings(newSettings);
@@ -503,10 +682,14 @@ export function useMinesweeperGame(initialSize: BoardSizeId = 'md', initialDiffi
 		isDefeatOpen,
 		isRulesOpen,
 		isSettingsOpen,
+		canUndo: canUndo(history),
+		canRedo: canRedo(history),
 		setFocusedCell,
 		handleReveal,
 		handleFlag,
 		handleChord,
+		handleUndo,
+		handleRedo,
 		handleTogglePause,
 		handleRestart,
 		handleStartNewGame,

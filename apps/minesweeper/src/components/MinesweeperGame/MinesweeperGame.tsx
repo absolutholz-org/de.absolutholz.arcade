@@ -13,7 +13,7 @@ import { MINESWEEPER_SETTINGS_CONFIG } from '../../config/settings';
 import type { BoardSizeId, DifficultyId } from '../../engine/types';
 import { DefeatDialog } from '../DefeatDialog/DefeatDialog';
 import { MinesweeperBoard } from '../MinesweeperBoard/MinesweeperBoard';
-import { FlagIcon, MineIcon } from '../MinesweeperIcons';
+import { MineIcon } from '../MinesweeperIcons';
 import { VictoryDialog } from '../VictoryDialog/VictoryDialog';
 import { useMinesweeperGame } from './MinesweeperGame.hooks';
 import * as S from './MinesweeperGame.styles';
@@ -124,15 +124,22 @@ export function MinesweeperGame({
 				<S.ActionsRow>
 					<S.ActionButton
 						type="button"
-						onClick={game.handleToggleInteractionMode}
-						aria-label={
-							game.interactionMode === 'reveal' ? t('controls.modeFlag') : t('controls.modeReveal')
-						}
+						onClick={game.handleUndo}
+						disabled={!game.canUndo}
+						aria-label={tCommon('actions.undo')}
 					>
-						<span aria-hidden="true">
-							{game.interactionMode === 'reveal' ? <FlagIcon /> : <MineIcon />}
-						</span>
-						<span>{game.interactionMode === 'reveal' ? t('controls.flag') : t('controls.reveal')}</span>
+						<Icon name="undo" size="sm" />
+						<span>{tCommon('actions.undo')}</span>
+					</S.ActionButton>
+
+					<S.ActionButton
+						type="button"
+						onClick={game.handleRedo}
+						disabled={!game.canRedo}
+						aria-label={tCommon('actions.redo')}
+					>
+						<Icon name="redo" size="sm" />
+						<span>{tCommon('actions.redo')}</span>
 					</S.ActionButton>
 				</S.ActionsRow>
 			</S.ControlsContainer>
