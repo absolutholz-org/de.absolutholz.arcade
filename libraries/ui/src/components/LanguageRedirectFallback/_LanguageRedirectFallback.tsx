@@ -19,7 +19,8 @@ export function LanguageRedirectFallback({
 		<PageContainer variant="slim">
 			<Hero title={title} tagline={message} />
 			<nav aria-label={languagesAriaLabel}>
-				<Stack as="ul" direction="row" wrap spacing="md">
+				{/* biome-ignore lint/a11y/useSemanticElements: Preserve VoiceOver list semantics lost via list-style: none in Safari */}
+				<Stack as="ul" role="list" direction="row" wrap spacing="md">
 					{languages.map((lang) => (
 						<li key={lang.code}>
 							<Button

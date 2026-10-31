@@ -133,6 +133,19 @@ Primitives for data presentation, micro-indicators, typography, and styling cont
 
 ---
 
+## 7. System Screens & Utility Pages
+
+Standardized destination screens for error handling, network status, and gateways.
+
+| Component | Export Path | Primary Purpose | Key Props & Patterns |
+| :--- | :--- | :--- | :--- |
+| **`NotFoundScreen`** | `@arcade/lib-ui` | Full-page 404 screen for missing pages or invalid routes. | `title`, `message`, `homeHref`, `homeLabel`, `action`. |
+| **`ErrorScreen`** | `@arcade/lib-ui` | Full-page 500 error screen or React ErrorBoundary fallback container. | `title`, `message`, `onRetry`, `retryLabel`, `homeHref`, `homeLabel`, `action`. |
+| **`OfflineScreen`** | `@arcade/lib-ui` | PWA offline fallback screen when network connection is unavailable. | `title`, `message`, `onRetry`, `retryLabel`, `homeHref`, `homeLabel`, `action`. |
+| **`LanguageRedirectFallback`** | `@arcade/lib-ui` | Accessible non-JS fallback screen during language redirection. | `title`, `message`, `languagesAriaLabel`, `languages`. |
+
+---
+
 ## Rules of Engagement for AI Agents
 
 1. **Before writing any Linaria `css`...`` or `styled` block in `apps/*`**:
@@ -146,4 +159,5 @@ Primitives for data presentation, micro-indicators, typography, and styling cont
         - `Components/<ComponentName>` for general reusable UI building blocks (Button, ClickableCard, Dialog, TextField, Stack, Timer, Hero, selectors, etc.).
         - `Layouts/<LayoutGroup>/<ComponentName>` for Tier 1 root document shells and their exclusive chrome children (e.g. `Base Layout`, `Game Layout`).
         - `Templates/<TemplateGroup>/<ComponentName>` for Tier 2 structural templates and their exclusive children (e.g. `Game Landing Template`, `Game Subpage Template`, `Markdown Page Template`).
+        - `System Pages/<ScreenName>` for full-page system screens and utility views (e.g. `Language Redirect`, `404 Not Found`, `Unexpected Error`, `Offline`).
      2. Add an entry to this `CATALOG.md` under the appropriate category table.

@@ -24,7 +24,7 @@ const preview: Preview = {
 					'Templates',
 					['Game Landing Template', 'Game Subpage Template', 'Markdown Page Template', '*'],
 					'System Pages',
-					['Language Redirect', '*'],
+					['Language Redirect', '404 Not Found', 'Unexpected Error', 'Offline', '*'],
 					'*',
 				],
 			},
