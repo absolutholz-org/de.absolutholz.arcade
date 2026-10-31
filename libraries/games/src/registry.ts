@@ -86,6 +86,15 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameDefinition>> = {
 		},
 		i18nNamespace: 'watersort',
 	},
+	untangle: {
+		id: 'untangle',
+		name: 'Untangle',
+		route: '/untangle',
+		assets: {
+			icon: '🕸️',
+		},
+		i18nNamespace: 'untangle',
+	},
 };
 
 /**

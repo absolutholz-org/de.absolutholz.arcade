@@ -1,0 +1,39 @@
+---
+import { getEntry } from 'astro:content';
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { MarkdownContent } from '@arcade/lib-ui/components/MarkdownContent';
+import GameLayout from '@arcade/lib-ui/layouts/GameLayout/GameLayout.astro';
+import { UntangleGame } from '../../components/UntangleGame';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const currentLanguage = lang as SupportedLanguageCode;
+const currentUntangle = resources[currentLanguage]?.untangle ?? resources.en.untangle;
+
+const rulesEntry = (await getEntry('pages', `${lang}/rules`)) ?? (await getEntry('pages', `${DEFAULT_LANGUAGE}/rules`));
+const renderedRules = rulesEntry ? await rulesEntry.render() : null;
+const RulesContent = renderedRules?.Content;
+---
+
+<GameLayout
+	title={`${currentUntangle.title} | ${currentUntangle.description}`}
+	description={currentUntangle.description}
+	lang={currentLanguage}
+	canonical={`https://arcade.absolutholz.de/untangle/${lang}/game`}
+	appTitle="Untangle"
+>
+	<UntangleGame client:only="react" lang={currentLanguage}>
+		<div slot="rulesContent">
+			<MarkdownContent>
+				{RulesContent && <RulesContent />}
+			</MarkdownContent>
+		</div>
+	</UntangleGame>
+</GameLayout>

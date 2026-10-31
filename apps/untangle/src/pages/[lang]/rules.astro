@@ -1,0 +1,40 @@
+---
+import { getEntry } from 'astro:content';
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { Button } from '@arcade/lib-ui/components/Button';
+import MarkdownPageTemplate from '@arcade/lib-ui/templates/MarkdownPageTemplate/MarkdownPageTemplate.astro';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const entry = (await getEntry('pages', `${lang}/rules`)) ?? (await getEntry('pages', `${DEFAULT_LANGUAGE}/rules`));
+const rendered = entry ? await entry.render() : null;
+const Content = rendered?.Content;
+
+const currentUntangle = resources[lang as SupportedLanguageCode]?.untangle ?? resources.en.untangle;
+const currentCommon = resources[lang as SupportedLanguageCode]?.common ?? resources.en.common;
+---
+
+<MarkdownPageTemplate
+	title={entry?.data.title ?? currentUntangle.title}
+	description={entry?.data.description}
+	lang={lang as SupportedLanguageCode}
+	breadcrumbItems={[
+		{ label: currentCommon.app.title, href: `/${lang}/`, isHome: true },
+		{ label: currentUntangle.title, href: `/untangle/${lang}/` },
+		{ label: entry?.data.title ?? 'Rules', isCurrent: true },
+	]}
+	currentSlug="rules"
+>
+	{Content && <Content />}
+
+	<Button slot="action" as="a" href={`/untangle/${lang}/game`} variant="primary" size="lg">
+		{currentUntangle.controls.play}
+	</Button>
+</MarkdownPageTemplate>

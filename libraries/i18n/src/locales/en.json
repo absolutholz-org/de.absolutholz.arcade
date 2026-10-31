@@ -6,5 +6,9 @@
 	"watersort": {
 		"title": "Water Sort",
 		"description": "Pour and sort colored liquids into test tubes until each tube holds only one color."
+	},
+	"untangle": {
+		"title": "Untangle",
+		"description": "Drag vertices to untangle the web of connecting lines until no edges cross."
 	}
 }

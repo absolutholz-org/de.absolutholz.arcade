@@ -9,6 +9,7 @@ import type { QueensSchema, QueensTranslationContract } from '../schemas/queens.
 import type { SudokuSchema, SudokuTranslationContract } from '../schemas/sudoku.schema.js';
 import type { TentsSchema, TentsTranslationContract } from '../schemas/tents.schema.js';
 import type { TracksSchema, TracksTranslationContract } from '../schemas/tracks.schema.js';
+import type { UntangleSchema, UntangleTranslationContract } from '../schemas/untangle.schema.js';
 import type { WaterSortSchema, WaterSortTranslationContract } from '../schemas/watersort.schema.js';
 
 export type SupportedLanguageCode = (typeof SUPPORTED_LANGUAGES)[number]['code'];
@@ -29,6 +30,7 @@ export type TracksTranslationKey = LeafKeys<TracksSchema>;
 export type WaterSortTranslationKey = LeafKeys<WaterSortSchema>;
 export type TentsTranslationKey = LeafKeys<TentsSchema>;
 export type AnagramTranslationKey = LeafKeys<AnagramSchema>;
+export type UntangleTranslationKey = LeafKeys<UntangleSchema> | `untangle.${LeafKeys<UntangleSchema>}`;
 export type MedalsTranslationKey = LeafKeys<MedalsSchema> | `medals.${LeafKeys<MedalsSchema>}`;
 
 export type TranslationKey =
@@ -42,6 +44,7 @@ export type TranslationKey =
 	| WaterSortTranslationKey
 	| TentsTranslationKey
 	| AnagramTranslationKey
+	| UntangleTranslationKey
 	| MedalsTranslationKey;
 
 export interface UseI18nReturn {
@@ -65,6 +68,7 @@ export type TranslationResources = Record<
 		watersort: WaterSortTranslationContract;
 		readonly tents: TentsTranslationContract;
 		readonly anagram: AnagramTranslationContract;
+		readonly untangle: UntangleTranslationContract;
 		readonly medals: MedalsTranslationContract;
 	}
 >;

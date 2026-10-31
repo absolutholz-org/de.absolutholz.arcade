@@ -133,6 +133,14 @@ export interface GameCustomStatsMap {
 	tents: TentsCustomStats;
 	anagram: AnagramCustomStats;
 	watersort: WaterSortCustomStats;
+	untangle: UntangleCustomStats;
+}
+
+export interface UntangleCustomStats {
+	readonly easyWins?: number;
+	readonly mediumWins?: number;
+	readonly hardWins?: number;
+	readonly winsWithoutUndo?: number;
 }
 
 export interface WaterSortCustomStats {

@@ -16,6 +16,7 @@ This project is structured as a strict multi-app monorepo utilizing `pnpm worksp
     *   `apps/queens`: Queens / Star Battle logic puzzle game with 4 difficulty tiers (6×6, 8×8, 10×10, 12×12), 20 uniquely solvable puzzles, dual-mode inputs (Crown / X-mark), auto-cross helper, accessible grid, and timer, built with **Astro** and interactive React canvas.
     *   `apps/tracks`: Train Tracks railway path logic puzzle game with 4 difficulty tiers (6×6, 8×8, 10×10, 12×12), row/column clue validation, auto-cross helper, accessible grid, and timer, built with **Astro** and interactive React canvas.
     *   `apps/anagram`: Anagram Scramble word puzzle game with 4 difficulty tiers, Zen & Timed Arcade modes, pluggable UTF-8 signature-indexed lexicon, and full keyboard/tile controls, built with **Astro** and interactive React canvas.
+    *   `apps/untangle`: Untangle planar graph puzzle game (`@arcade/untangle`, port `4331`) with 4 difficulty tiers, procedural planar graph generation, real-time line intersection detection, accessible node controls, and timer, built with **Astro** and interactive React canvas.
     *   `apps/[game]`: Additional interactive game canvases built as pure **React/Vite** Single Page Applications (or Astro Islands).
     *   `libraries/games`: Central game registry, metadata definitions, canonical game IDs, and visual assets (`@arcade/lib-games`).
     *   `libraries/ui`: Shared design system components styled exclusively with **Linaria**.
@@ -79,6 +80,9 @@ pnpm dev:tracks
 # Start Anagram dev server
 pnpm dev:anagram
 
+# Start Untangle dev server (port 4331)
+pnpm dev:untangle
+
 # Start Hub dev server
 pnpm dev:hub
 
@@ -93,6 +97,7 @@ pnpm build:nonogram
 pnpm build:queens
 pnpm build:tracks
 pnpm build:anagram
+pnpm build:untangle
 pnpm build:storybook
 pnpm build:all
 
@@ -115,6 +120,7 @@ Deployments are automated via GitHub Actions (`.github/workflows/deploy.yml`) on
   - `/queens`: Queens logic puzzle game (`apps/queens`)
   - `/tracks`: Tracks railway logic puzzle game (`apps/tracks`)
   - `/anagram`: Anagram Scramble word puzzle game (`apps/anagram`)
+  - `/untangle`: Untangle planar graph puzzle game (`apps/untangle`)
   - `/storybook`: Component design system documentation (`libraries/ui`)
 - **Game Subdomains (`[gamename].absolutholz.de`)**: Pointed in Webgo to `/home/www/de.absolutholz.arcade`. The root `.htaccess` transparently 301-redirects requests to `https://arcade.absolutholz.de/[gamename]/` (preserving paths and query parameters).
 

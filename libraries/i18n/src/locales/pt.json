@@ -6,5 +6,9 @@
 	"watersort": {
 		"title": "Water Sort",
 		"description": "Despeje e ordene líquidos coloridos em tubos de ensaio até que cada um contenha apenas uma cor."
+	},
+	"untangle": {
+		"title": "Desembaraçar",
+		"description": "Arraste os vértices para desembaraçar a teia de linhas conectadas até que nenhuma aresta se cruze."
 	}
 }

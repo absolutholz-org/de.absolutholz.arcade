@@ -16,6 +16,7 @@ export const frMedals = {
 			bridges: 'Ponts',
 			anagram: 'Anagram Scramble',
 			tents: 'Tentes',
+			untangle: 'Démêler',
 		},
 		status: {
 			unlocked: 'Débloqué',
@@ -613,6 +614,32 @@ export const frMedals = {
 		quick_pitch: {
 			title: 'Montage éclair',
 			desc: 'Plantez trois tentes dans les six premières secondes de votre arrivée au camp.',
+		},
+	},
+	untangle: {
+		first_win: {
+			title: 'Premier nœud dénoué',
+			desc: 'Démêlez votre tout premier graphe dans n’importe quelle difficulté.',
+		},
+		wins: {
+			title: 'Maître du démêlage',
+			desc: 'Résolvez des graphes emmêlés au fil de votre carrière (5 / 25 / 100).',
+		},
+		hard_wins: {
+			title: 'Esprit gordien',
+			desc: 'Démêlez des réseaux complexes en difficulté Difficile (3 / 15 / 50).',
+		},
+		streak: {
+			title: 'Série sans nœuds',
+			desc: 'Enchaînez les victoires consécutives sans interruption (3 / 7 / 15).',
+		},
+		speed_demon: {
+			title: 'Démon de la vitesse',
+			desc: 'Démêlez un puzzle Moyen ou Difficile en 45 secondes ou moins.',
+		},
+		no_undo: {
+			title: 'Sans hésitation',
+			desc: 'Terminez un puzzle Difficile sans utiliser Annuler.',
 		},
 	},
 } as const satisfies MedalsTranslationContract;

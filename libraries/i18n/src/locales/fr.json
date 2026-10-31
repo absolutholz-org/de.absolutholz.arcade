@@ -6,5 +6,9 @@
 	"watersort": {
 		"title": "Water Sort",
 		"description": "Versez et triez les liquides colorés dans des éprouvettes jusqu à ce que chacune n ait qu une couleur."
+	},
+	"untangle": {
+		"title": "Démêler",
+		"description": "Déplacez les sommets pour démêler le réseau de lignes jusqu’à ce qu’aucune arête ne se croise."
 	}
 }

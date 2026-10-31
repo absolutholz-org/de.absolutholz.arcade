@@ -7,6 +7,7 @@ import { QUEENS_MEDAL_DEFINITIONS } from '../../../queens/src/config/medals';
 import { SUDOKU_MEDAL_DEFINITIONS } from '../../../sudoku/src/config/medals';
 import { TENTS_MEDAL_DEFINITIONS } from '../../../tents/src/config/medals';
 import { TRACKS_MEDAL_DEFINITIONS } from '../../../tracks/src/config/medals';
+import { UNTANGLE_MEDAL_DEFINITIONS } from '../../../untangle/src/config/medals';
 import { WATERSORT_MEDAL_DEFINITIONS } from '../../../watersort/src/config/medals';
 
 export const HUB_MEDAL_DEFINITIONS: {
@@ -21,6 +22,7 @@ export const HUB_MEDAL_DEFINITIONS: {
 	tents: TENTS_MEDAL_DEFINITIONS,
 	anagram: ANAGRAM_MEDAL_DEFINITIONS,
 	watersort: WATERSORT_MEDAL_DEFINITIONS,
+	untangle: UNTANGLE_MEDAL_DEFINITIONS,
 };
 
 export function getHubMedalDefinitionsForGame<G extends GameId>(gameId: G): readonly AchievementDefinition<G>[] {

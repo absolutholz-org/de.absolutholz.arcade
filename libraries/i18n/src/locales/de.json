@@ -6,5 +6,9 @@
 	"watersort": {
 		"title": "Water Sort",
 		"description": "Gieße und sortiere farbige Flüssigkeiten in Reagenzgläser, bis jedes Glas nur eine Farbe enthält."
+	},
+	"untangle": {
+		"title": "Entwirren",
+		"description": "Ziehe die Knotenpunkte auf dem Spielfeld, bis sich keine Verbindungslinien mehr überkreuzen."
 	}
 }

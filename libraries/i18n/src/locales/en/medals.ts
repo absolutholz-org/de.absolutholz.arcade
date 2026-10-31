@@ -16,6 +16,7 @@ export const enMedals = {
 			bridges: 'Bridges',
 			anagram: 'Anagram Scramble',
 			tents: 'Tents',
+			untangle: 'Untangle',
 		},
 		status: {
 			unlocked: 'Unlocked',
@@ -612,6 +613,32 @@ export const enMedals = {
 		quick_pitch: {
 			title: 'Quick Pitch',
 			desc: 'Pitch three tents within the first six seconds of arriving at camp.',
+		},
+	},
+	untangle: {
+		first_win: {
+			title: 'First Knot Untied',
+			desc: 'Untangle your very first graph on any difficulty.',
+		},
+		wins: {
+			title: 'Master Untangler',
+			desc: 'Solve tangled graphs across your career (5 / 25 / 100).',
+		},
+		hard_wins: {
+			title: 'Gordian Solver',
+			desc: 'Untangle complex webs on Hard difficulty (3 / 15 / 50).',
+		},
+		streak: {
+			title: 'Tangle-Free Streak',
+			desc: 'Maintain consecutive victories without giving up (3 / 7 / 15).',
+		},
+		speed_demon: {
+			title: 'Speed Demon',
+			desc: 'Untangle a Medium or Hard puzzle in 45 seconds or less.',
+		},
+		no_undo: {
+			title: 'Zero Second-Guesses',
+			desc: 'Complete a Hard puzzle without using Undo.',
 		},
 	},
 } as const satisfies MedalsTranslationContract;

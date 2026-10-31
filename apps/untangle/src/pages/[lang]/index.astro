@@ -1,0 +1,25 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import BaseLayoutWithSiteHeaderAndSiteFooter from '@arcade/lib-ui/layouts/BaseLayoutWithSiteHeaderAndSiteFooter/BaseLayoutWithSiteHeaderAndSiteFooter.astro';
+import { UntangleLobby } from '../../components/UntangleLobby';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const currentUntangle = resources[lang as SupportedLanguageCode]?.untangle ?? resources.en.untangle;
+---
+
+<BaseLayoutWithSiteHeaderAndSiteFooter
+	title={currentUntangle.title}
+	description={currentUntangle.description}
+	lang={lang as SupportedLanguageCode}
+	currentSlug=""
+>
+	<UntangleLobby client:load lang={lang as SupportedLanguageCode} />
+</BaseLayoutWithSiteHeaderAndSiteFooter>

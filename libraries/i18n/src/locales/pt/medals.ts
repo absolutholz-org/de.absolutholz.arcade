@@ -16,6 +16,7 @@ export const ptMedals = {
 			bridges: 'Pontes',
 			anagram: 'Anagram Scramble',
 			tents: 'Tendas',
+			untangle: 'Desembaraçar',
 		},
 		status: {
 			unlocked: 'Desbloqueado',
@@ -613,6 +614,32 @@ export const ptMedals = {
 		quick_pitch: {
 			title: 'Montagem Rápida',
 			desc: 'Arme três barracas nos primeiros seis segundos após chegar ao acampamento.',
+		},
+	},
+	untangle: {
+		first_win: {
+			title: 'Primeiro Nó Desfeito',
+			desc: 'Desembarace seu primeiro grafo em qualquer dificuldade.',
+		},
+		wins: {
+			title: 'Mestre do Desembaraço',
+			desc: 'Resolva grafos emaranhados ao longo de sua carreira (5 / 25 / 100).',
+		},
+		hard_wins: {
+			title: 'Solucionador Górdio',
+			desc: 'Desembarace redes complexas na dificuldade Difícil (3 / 15 / 50).',
+		},
+		streak: {
+			title: 'Sequência Sem Nós',
+			desc: 'Mantenha vitórias consecutivas sem interrupção (3 / 7 / 15).',
+		},
+		speed_demon: {
+			title: 'Demônio da Velocidade',
+			desc: 'Desembarace um quebra-cabeça Médio ou Difícil em 45 segundos ou menos.',
+		},
+		no_undo: {
+			title: 'Sem Hesitação',
+			desc: 'Complete um quebra-cabeça Difícil sem usar Desfazer.',
 		},
 	},
 } as const satisfies MedalsTranslationContract;

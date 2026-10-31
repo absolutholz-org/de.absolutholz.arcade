@@ -11,6 +11,7 @@ import { deQueens } from '../locales/de/queens.js';
 import { deSudoku } from '../locales/de/sudoku.js';
 import { deTents } from '../locales/de/tents.js';
 import { deTracks } from '../locales/de/tracks.js';
+import { deUntangle } from '../locales/de/untangle.js';
 import { deWatersort } from '../locales/de/watersort.js';
 import { enAnagram } from '../locales/en/anagram.js';
 import { enBridges } from '../locales/en/bridges.js';
@@ -22,6 +23,7 @@ import { enQueens } from '../locales/en/queens.js';
 import { enSudoku } from '../locales/en/sudoku.js';
 import { enTents } from '../locales/en/tents.js';
 import { enTracks } from '../locales/en/tracks.js';
+import { enUntangle } from '../locales/en/untangle.js';
 import { enWatersort } from '../locales/en/watersort.js';
 import { frAnagram } from '../locales/fr/anagram.js';
 import { frBridges } from '../locales/fr/bridges.js';
@@ -33,6 +35,7 @@ import { frQueens } from '../locales/fr/queens.js';
 import { frSudoku } from '../locales/fr/sudoku.js';
 import { frTents } from '../locales/fr/tents.js';
 import { frTracks } from '../locales/fr/tracks.js';
+import { frUntangle } from '../locales/fr/untangle.js';
 import { frWatersort } from '../locales/fr/watersort.js';
 import { ptAnagram } from '../locales/pt/anagram.js';
 import { ptBridges } from '../locales/pt/bridges.js';
@@ -44,6 +47,7 @@ import { ptQueens } from '../locales/pt/queens.js';
 import { ptSudoku } from '../locales/pt/sudoku.js';
 import { ptTents } from '../locales/pt/tents.js';
 import { ptTracks } from '../locales/pt/tracks.js';
+import { ptUntangle } from '../locales/pt/untangle.js';
 import { ptWatersort } from '../locales/pt/watersort.js';
 import type { TranslationResources } from '../types/i18n.types.js';
 import { resolveInitialLanguage } from '../utils/detection.js';
@@ -60,6 +64,7 @@ export const resources: TranslationResources = {
 		watersort: enWatersort,
 		tents: enTents,
 		anagram: enAnagram,
+		untangle: enUntangle,
 		medals: enMedals,
 	},
 	de: {
@@ -73,6 +78,7 @@ export const resources: TranslationResources = {
 		watersort: deWatersort,
 		tents: deTents,
 		anagram: deAnagram,
+		untangle: deUntangle,
 		medals: deMedals,
 	},
 	fr: {
@@ -86,6 +92,7 @@ export const resources: TranslationResources = {
 		watersort: frWatersort,
 		tents: frTents,
 		anagram: frAnagram,
+		untangle: frUntangle,
 		medals: frMedals,
 	},
 	pt: {
@@ -99,6 +106,7 @@ export const resources: TranslationResources = {
 		watersort: ptWatersort,
 		tents: ptTents,
 		anagram: ptAnagram,
+		untangle: ptUntangle,
 		medals: ptMedals,
 	},
 };
@@ -122,6 +130,7 @@ i18n.use(initReactI18next).init({
 		'watersort',
 		'tents',
 		'anagram',
+		'untangle',
 		'medals',
 	],
 	interpolation: {

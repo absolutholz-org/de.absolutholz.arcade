@@ -14,6 +14,7 @@ export interface MedalsSchema {
 			readonly bridges: string;
 			readonly anagram: string;
 			readonly tents: string;
+			readonly untangle: string;
 		};
 		readonly status: {
 			readonly unlocked: string;
@@ -195,6 +196,14 @@ export interface MedalsSchema {
 		readonly bear_encounter: { readonly title: string; readonly desc: string };
 		readonly iron_will: { readonly title: string; readonly desc: string };
 		readonly quick_pitch: { readonly title: string; readonly desc: string };
+	};
+	readonly untangle: {
+		readonly first_win: { readonly title: string; readonly desc: string };
+		readonly wins: { readonly title: string; readonly desc: string };
+		readonly hard_wins: { readonly title: string; readonly desc: string };
+		readonly streak: { readonly title: string; readonly desc: string };
+		readonly speed_demon: { readonly title: string; readonly desc: string };
+		readonly no_undo: { readonly title: string; readonly desc: string };
 	};
 }
 

@@ -16,6 +16,7 @@ export const deMedals = {
 			bridges: 'Brücken',
 			anagram: 'Anagram Scramble',
 			tents: 'Zelte',
+			untangle: 'Entwirren',
 		},
 		status: {
 			unlocked: 'Freigeschaltet',
@@ -613,6 +614,32 @@ export const deMedals = {
 		quick_pitch: {
 			title: 'Schnellaufbau',
 			desc: 'Schlage drei Zelte innerhalb der ersten sechs Sekunden nach Ankunft im Lager auf.',
+		},
+	},
+	untangle: {
+		first_win: {
+			title: 'Erster Knoten gelöst',
+			desc: 'Entwirre dein allererstes Netzwerk auf einer beliebigen Schwierigkeitsstufe.',
+		},
+		wins: {
+			title: 'Meister-Entwirrer',
+			desc: 'Löse verflochtene Graphen im Laufe deiner Karriere (5 / 25 / 100).',
+		},
+		hard_wins: {
+			title: 'Gordischer Löser',
+			desc: 'Entwirre komplexe Netze auf der Schwierigkeitsstufe Schwer (3 / 15 / 50).',
+		},
+		streak: {
+			title: 'Knotenfreie Serie',
+			desc: 'Erziele aufeinanderfolgende Siege ohne Unterbrechung (3 / 7 / 15).',
+		},
+		speed_demon: {
+			title: 'Geschwindigkeitsdämon',
+			desc: 'Entwirre ein mittleres oder schweres Rätsel in 45 Sekunden oder weniger.',
+		},
+		no_undo: {
+			title: 'Ohne Zweifel',
+			desc: 'Löse ein schweres Rätsel, ohne Rückgängig zu verwenden.',
 		},
 	},
 } as const satisfies MedalsTranslationContract;
