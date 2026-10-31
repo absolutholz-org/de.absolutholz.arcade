@@ -40,39 +40,39 @@
   # ----------------------------------------------------------------------------
   # 5.1 Root Hub (/)
   RewriteCond %{HTTP_COOKIE} arcade_lang=(en|de|fr|pt) [NC]
-  RewriteRule ^$ /%1/ [R=302,L]
+  RewriteRule ^(|index\.html)$ /%1/ [R=302,L]
 
   RewriteCond %{HTTP:Accept-Language} ^de [NC]
-  RewriteRule ^$ /de/ [R=302,L]
+  RewriteRule ^(|index\.html)$ /de/ [R=302,L]
 
   RewriteCond %{HTTP:Accept-Language} ^fr [NC]
-  RewriteRule ^$ /fr/ [R=302,L]
+  RewriteRule ^(|index\.html)$ /fr/ [R=302,L]
 
   RewriteCond %{HTTP:Accept-Language} ^pt [NC]
-  RewriteRule ^$ /pt/ [R=302,L]
+  RewriteRule ^(|index\.html)$ /pt/ [R=302,L]
 
-  RewriteRule ^$ /en/ [R=302,L]
+  RewriteRule ^(|index\.html)$ /en/ [R=302,L]
 
   # 5.2 Game Root (/<game>/)
-  # Exclude known non-game directories like storybook or assets
-  RewriteCond %{REQUEST_URI} !^/(storybook|_astro|assets|favicons)/ [NC]
+  # Exclude language directories and known non-game directories like storybook or assets
+  RewriteCond %{REQUEST_URI} !^/(en|de|fr|pt|storybook|_astro|assets|favicons)(/|$) [NC]
   RewriteCond %{HTTP_COOKIE} arcade_lang=(en|de|fr|pt) [NC]
-  RewriteRule ^([a-z0-9-]+)/$ /$1/%1/ [R=302,L]
+  RewriteRule ^(?!(?:en|de|fr|pt|storybook|_astro|assets|favicons)/)([a-z0-9-]+)/(?:index\.html)?$ /$1/%1/ [R=302,L]
 
-  RewriteCond %{REQUEST_URI} !^/(storybook|_astro|assets|favicons)/ [NC]
+  RewriteCond %{REQUEST_URI} !^/(en|de|fr|pt|storybook|_astro|assets|favicons)(/|$) [NC]
   RewriteCond %{HTTP:Accept-Language} ^de [NC]
-  RewriteRule ^([a-z0-9-]+)/$ /$1/de/ [R=302,L]
+  RewriteRule ^(?!(?:en|de|fr|pt|storybook|_astro|assets|favicons)/)([a-z0-9-]+)/(?:index\.html)?$ /$1/de/ [R=302,L]
 
-  RewriteCond %{REQUEST_URI} !^/(storybook|_astro|assets|favicons)/ [NC]
+  RewriteCond %{REQUEST_URI} !^/(en|de|fr|pt|storybook|_astro|assets|favicons)(/|$) [NC]
   RewriteCond %{HTTP:Accept-Language} ^fr [NC]
-  RewriteRule ^([a-z0-9-]+)/$ /$1/fr/ [R=302,L]
+  RewriteRule ^(?!(?:en|de|fr|pt|storybook|_astro|assets|favicons)/)([a-z0-9-]+)/(?:index\.html)?$ /$1/fr/ [R=302,L]
 
-  RewriteCond %{REQUEST_URI} !^/(storybook|_astro|assets|favicons)/ [NC]
+  RewriteCond %{REQUEST_URI} !^/(en|de|fr|pt|storybook|_astro|assets|favicons)(/|$) [NC]
   RewriteCond %{HTTP:Accept-Language} ^pt [NC]
-  RewriteRule ^([a-z0-9-]+)/$ /$1/pt/ [R=302,L]
+  RewriteRule ^(?!(?:en|de|fr|pt|storybook|_astro|assets|favicons)/)([a-z0-9-]+)/(?:index\.html)?$ /$1/pt/ [R=302,L]
 
-  RewriteCond %{REQUEST_URI} !^/(storybook|_astro|assets|favicons)/ [NC]
-  RewriteRule ^([a-z0-9-]+)/$ /$1/en/ [R=302,L]
+  RewriteCond %{REQUEST_URI} !^/(en|de|fr|pt|storybook|_astro|assets|favicons)(/|$) [NC]
+  RewriteRule ^(?!(?:en|de|fr|pt|storybook|_astro|assets|favicons)/)([a-z0-9-]+)/(?:index\.html)?$ /$1/en/ [R=302,L]
 </IfModule>
 
 # ------------------------------------------------------------------------------

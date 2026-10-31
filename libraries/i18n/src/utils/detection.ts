@@ -49,6 +49,7 @@ export const persistLanguage = (code: SupportedLanguageCode): void => {
 	if (typeof window === 'undefined') return;
 	try {
 		localStorage.setItem(LANGUAGE_STORAGE_KEY, code);
+		document.cookie = `arcade_lang=${code}; path=/; max-age=31536000; SameSite=Lax`;
 	} catch {
 		// Ignore storage write errors
 	}
