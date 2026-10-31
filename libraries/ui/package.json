@@ -16,13 +16,15 @@
 			"types": "./src/styles/*.ts",
 			"default": "./src/styles/*.ts"
 		},
+		"./layouts/*.astro": "./src/layouts/*.astro",
 		"./layouts/*": {
 			"types": "./src/layouts/*/index.ts",
-			"default": "./src/layouts/*"
+			"default": "./src/layouts/*/index.ts"
 		},
+		"./templates/*.astro": "./src/templates/*.astro",
 		"./templates/*": {
 			"types": "./src/templates/*/index.ts",
-			"default": "./src/templates/*"
+			"default": "./src/templates/*/index.ts"
 		}
 	},
 	"scripts": {
