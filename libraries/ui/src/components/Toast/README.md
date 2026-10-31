@@ -64,7 +64,7 @@ Choosing the appropriate notification pattern is critical for usability, gamepla
 Place `<ToastContainer />` once in the root layout (e.g. `BaseLayout.astro` or main App wrapper):
 
 ```tsx
-import { ToastContainer } from '@arcade/lib-ui';
+import { ToastContainer } from '@arcade/lib-ui/components/Toast';
 
 export function App() {
   return (
@@ -83,7 +83,7 @@ export function App() {
 The `toast` controller can be called anywhere in application or game code:
 
 ```typescript
-import { toast } from '@arcade/lib-ui';
+import { toast } from '@arcade/lib-ui/components/Toast';
 
 // Simple message
 toast.info('Settings saved.');

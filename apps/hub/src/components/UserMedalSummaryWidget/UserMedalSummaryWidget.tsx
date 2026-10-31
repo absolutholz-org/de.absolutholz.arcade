@@ -2,7 +2,7 @@ import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { type GameId, getGameMedalState, subscribeToMedalUnlocked } from '@arcade/lib-medals';
-import { ClickableCard } from '@arcade/lib-ui';
+import { ClickableCard } from '@arcade/lib-ui/components/ClickableCard';
 import { createUserService } from '@arcade/lib-user';
 import { useCallback, useEffect, useState } from 'react';
 import * as S from './UserMedalSummaryWidget.styles';

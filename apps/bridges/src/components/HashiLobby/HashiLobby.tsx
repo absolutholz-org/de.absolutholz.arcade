@@ -1,14 +1,11 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
-import {
-	GameLandingTemplate,
-	GameSelectionCard,
-	Icon,
-	QuickPlayCard,
-	SegmentedControl,
-	type SegmentedControlItem,
-} from '@arcade/lib-ui';
+import { GameSelectionCard } from '@arcade/lib-ui/components/GameSelectionCard';
+import { Icon } from '@arcade/lib-ui/components/Icon';
+import { QuickPlayCard } from '@arcade/lib-ui/components/QuickPlayCard';
+import { SegmentedControl, type SegmentedControlItem } from '@arcade/lib-ui/components/SegmentedControl';
 import { formatTime } from '@arcade/lib-ui/components/Timer';
+import { GameLandingTemplate } from '@arcade/lib-ui/layouts/GameLandingTemplate';
 import { type JSX, useEffect, useState } from 'react';
 import { getPuzzleById, getPuzzlesByDifficulty } from '../../engine/puzzles.js';
 import { loadActiveGame, loadProgress } from '../../engine/storage.js';

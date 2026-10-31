@@ -1,4 +1,4 @@
-import type { GameSettingsConfig } from '@arcade/lib-ui';
+import type { GameSettingsConfig } from '@arcade/lib-ui/components/GameSettingsPanel';
 import { DEFAULT_UNTANGLE_SETTINGS, type UntangleSettings } from '../engine/types.ts';
 
 export type { UntangleSettings };

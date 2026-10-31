@@ -2,7 +2,8 @@ import { ALL_GAMES, type GameDefinition } from '@arcade/lib-games';
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
-import { OfflineToggle, useOfflineGame } from '@arcade/lib-ui';
+import { OfflineToggle } from '@arcade/lib-ui/components/OfflineToggle';
+import { useOfflineGame } from '@arcade/lib-ui/hooks/useOfflineGame';
 import type React from 'react';
 
 function GameRow({ game }: { game: GameDefinition }) {

@@ -1,4 +1,4 @@
-import type { GameSettingsConfig } from '@arcade/lib-ui';
+import type { GameSettingsConfig } from '@arcade/lib-ui/components/GameSettingsPanel';
 
 export interface TentsSettings extends Record<string, unknown> {
 	autoGrass: boolean;

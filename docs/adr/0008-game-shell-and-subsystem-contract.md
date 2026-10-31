@@ -75,8 +75,8 @@ To comply with ADR 0007 without inflating the client bundle with `marked` or `mi
 ---
 // apps/[gameId]/src/pages/[lang]/game.astro
 import { getEntry } from 'astro:content';
-import { MarkdownContent } from '@arcade/lib-ui';
-import { GameLayout } from '@arcade/lib-ui';
+import { MarkdownContent } from '@arcade/lib-ui/components/MarkdownContent';
+import { GameLayout } from '@arcade/lib-ui/layouts/GameLayout';
 import { ExampleGame } from '../../components/ExampleGame/ExampleGame';
 
 const lang = Astro.params.lang ?? 'en';

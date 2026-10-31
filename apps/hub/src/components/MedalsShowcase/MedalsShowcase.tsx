@@ -10,7 +10,8 @@ import {
 	getGameMedalState,
 	subscribeToMedalUnlocked,
 } from '@arcade/lib-medals';
-import { GameSegmentedControl, type GameSegmentedOption, MedalCard } from '@arcade/lib-ui';
+import { GameSegmentedControl, type GameSegmentedOption } from '@arcade/lib-ui/components/GameSegmentedControl';
+import { MedalCard } from '@arcade/lib-ui/components/MedalCard';
 import { useCallback, useEffect, useState } from 'react';
 import { getHubMedalDefinitionsForGame } from '../../config/medals';
 import * as S from './MedalsShowcase.styles';

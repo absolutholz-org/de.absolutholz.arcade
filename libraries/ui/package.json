@@ -4,10 +4,6 @@
 	"private": true,
 	"description": "Design system package for Arcade monorepo",
 	"exports": {
-		".": {
-			"types": "./src/index.ts",
-			"default": "./src/index.ts"
-		},
 		"./components/*": {
 			"types": "./src/components/*/index.ts",
 			"default": "./src/components/*/index.ts"
@@ -20,8 +16,8 @@
 			"types": "./src/styles/*.ts",
 			"default": "./src/styles/*.ts"
 		},
-		"./layouts/*": "./src/layouts/*",
-		"./templates/*": "./src/templates/*"
+		"./layouts/*": ["./src/layouts/*/index.ts", "./src/layouts/*"],
+		"./templates/*": ["./src/templates/*/index.ts", "./src/templates/*"]
 	},
 	"scripts": {
 		"build": "tsc",

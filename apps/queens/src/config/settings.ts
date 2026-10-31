@@ -1,4 +1,4 @@
-import type { GameSettingsConfig } from '@arcade/lib-ui';
+import type { GameSettingsConfig } from '@arcade/lib-ui/components/GameSettingsPanel';
 import type { InputMode } from '../engine/types';
 
 export interface QueensSettings extends Record<string, unknown> {

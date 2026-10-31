@@ -1,4 +1,4 @@
-import type { GameSettingsConfig } from '@arcade/lib-ui';
+import type { GameSettingsConfig } from '@arcade/lib-ui/components/GameSettingsPanel';
 import type { LanguageCode } from '../engine/types.js';
 
 export interface AnagramSettings extends Record<string, unknown> {

@@ -10,7 +10,8 @@ import {
 	getGlobalStats,
 	subscribeToStatsUpdated,
 } from '@arcade/lib-storage';
-import { ClickableCard, GameSegmentedControl, type GameSegmentedOption } from '@arcade/lib-ui';
+import { ClickableCard } from '@arcade/lib-ui/components/ClickableCard';
+import { GameSegmentedControl, type GameSegmentedOption } from '@arcade/lib-ui/components/GameSegmentedControl';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import * as S from './HubStatsDashboard.styles';
 import type { HubStatsDashboardProps } from './HubStatsDashboard.types';
