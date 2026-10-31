@@ -13,8 +13,10 @@ export interface Props {
 
 const { gameId, title: customTitle, appTitle: customAppTitle } = Astro.props;
 
-const currentCommon = resources[DEFAULT_LANGUAGE].common;
-const gameResource = gameId ? (resources[DEFAULT_LANGUAGE] as Record<string, any>)[gameId] : undefined;
+const defaultResources = resources[DEFAULT_LANGUAGE];
+const currentCommon = defaultResources.common;
+const isGameId = (id?: string): id is GameId => Boolean(id && id in defaultResources);
+const gameResource = isGameId(gameId) ? defaultResources[gameId] : undefined;
 
 const title = customTitle ?? gameResource?.title ?? currentCommon.app.title;
 const appTitle = customAppTitle ?? (gameId ? gameId.charAt(0).toUpperCase() + gameId.slice(1) : undefined);
