@@ -16,8 +16,14 @@
 			"types": "./src/styles/*.ts",
 			"default": "./src/styles/*.ts"
 		},
-		"./layouts/*": ["./src/layouts/*/index.ts", "./src/layouts/*"],
-		"./templates/*": ["./src/templates/*/index.ts", "./src/templates/*"]
+		"./layouts/*": {
+			"types": "./src/layouts/*/index.ts",
+			"default": "./src/layouts/*"
+		},
+		"./templates/*": {
+			"types": "./src/templates/*/index.ts",
+			"default": "./src/templates/*"
+		}
 	},
 	"scripts": {
 		"build": "tsc",
