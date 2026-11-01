@@ -1,14 +1,14 @@
 import type { ElementType } from 'react';
+import { Text } from '../Text';
 import * as S from './_Hero.styles';
 import type { HeroProps } from './_Hero.types';
 
 /**
  * Hero section component providing a high-impact intro block with
- * optional visual logo/graphic, title, tagline, and action items.
+ * optional visual logo/graphic, title, and tagline.
  */
 export function Hero<C extends ElementType = 'header'>({
 	as,
-	children,
 	headingLevel = 'h1',
 	logo,
 	tagline,
@@ -21,9 +21,14 @@ export function Hero<C extends ElementType = 'header'>({
 		<S.Hero as={Component}>
 			{logo ? <S.Hero_Visual>{logo}</S.Hero_Visual> : null}
 			<S.Hero_Body>
-				<S.Hero_Title as={HeadingTag}>{title}</S.Hero_Title>
-				{tagline ? <S.Hero_Tagline>{tagline}</S.Hero_Tagline> : null}
-				{children ? <S.Hero_Actions>{children}</S.Hero_Actions> : null}
+				<Text as={HeadingTag} variant="display">
+					{title}
+				</Text>
+				{tagline ? (
+					<S.Hero_Tagline as="p" variant="h3">
+						{tagline}
+					</S.Hero_Tagline>
+				) : null}
 			</S.Hero_Body>
 		</S.Hero>
 	);

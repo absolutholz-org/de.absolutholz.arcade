@@ -13,6 +13,7 @@ export const spacingDefinitions = {
 	xl: { compact: '1.5rem', expanded: '2rem' },
 	'2xl': { compact: '2rem', expanded: '3rem' },
 	'3xl': { compact: '2.5rem', expanded: '4rem' },
+	'4xl': { compact: '3rem', expanded: '5rem' },
 } as const;
 
 /**

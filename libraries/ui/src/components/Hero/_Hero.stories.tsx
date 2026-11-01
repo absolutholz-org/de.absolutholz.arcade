@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Hero } from '.';
-import { Button } from '../Button';
 import { Logo } from '../Logo';
+import { PageContainer } from '../PageContainer';
 import { Theme } from '../Theme';
 import { HERO_HEADING_LEVELS } from './_Hero.constants';
 
@@ -12,7 +12,7 @@ const meta = {
 		docs: {
 			description: {
 				component:
-					'The Hero component provides a high-impact intro section with an optional visual graphic/logo, prominent heading, tagline, and action items.',
+					'The Hero component provides a high-impact intro section with an optional visual graphic/logo, prominent heading, and tagline.',
 			},
 		},
 	},
@@ -47,9 +47,9 @@ const meta = {
 	decorators: [
 		(Story) => (
 			<Theme name="primary">
-				<div style={{ padding: '2rem', maxWidth: '48rem', margin: '0 auto' }}>
+				<PageContainer variant="wide">
 					<Story />
-				</div>
+				</PageContainer>
 			</Theme>
 		),
 	],
@@ -76,28 +76,6 @@ export const TextOnly: Story = {
 		docs: {
 			description: {
 				story: 'Text-only hero without a logo or graphic visual.',
-			},
-		},
-	},
-};
-
-export const WithActions: Story = {
-	args: {
-		children: (
-			<>
-				<Button variant="primary" size="md">
-					Play Now
-				</Button>
-				<Button variant="outline" size="md">
-					High Scores
-				</Button>
-			</>
-		),
-	},
-	parameters: {
-		docs: {
-			description: {
-				story: 'Hero section with call-to-action buttons provided via children.',
 			},
 		},
 	},

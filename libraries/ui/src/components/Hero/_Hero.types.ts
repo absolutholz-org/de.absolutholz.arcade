@@ -26,11 +26,7 @@ export interface BaseHeroProps<C extends ElementType = 'header'> {
 	 * @default 'h1'
 	 */
 	headingLevel?: HeroHeadingLevel;
-	/**
-	 * Optional extra content, such as action buttons, links, or children.
-	 */
-	children?: ReactNode;
 }
 
 export type HeroProps<C extends ElementType = 'header'> = BaseHeroProps<C> &
-	Omit<ComponentPropsWithoutRef<C>, keyof BaseHeroProps<ElementType> | 'style'>;
+	Omit<ComponentPropsWithoutRef<C>, keyof BaseHeroProps<ElementType> | 'children' | 'style'>;

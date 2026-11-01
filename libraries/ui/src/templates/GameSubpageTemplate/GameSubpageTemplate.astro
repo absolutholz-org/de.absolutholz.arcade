@@ -49,7 +49,7 @@ const hasActions = hasSlotActions || hasActionProps;
 			)
 		}
 
-		{Astro.slots.has("hero") ? <slot name="hero" /> : <Hero title={title}>{subtitle}</Hero>}
+		{Astro.slots.has("hero") ? <slot name="hero" /> : <Hero title={title} tagline={subtitle} />}
 
 		<slot />
 
