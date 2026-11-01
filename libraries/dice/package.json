@@ -1,0 +1,38 @@
+{
+	"name": "@arcade/lib-dice",
+	"version": "0.1.0",
+	"private": true,
+	"description": "Headless core dice engine, cryptographically unbiased RNG, and notation parser for Arcade monorepo",
+	"type": "module",
+	"exports": {
+		".": {
+			"types": "./src/index.ts",
+			"default": "./src/index.ts"
+		},
+		"./types": {
+			"types": "./src/types.ts",
+			"default": "./src/types.ts"
+		},
+		"./cryptoRng": {
+			"types": "./src/cryptoRng.ts",
+			"default": "./src/cryptoRng.ts"
+		},
+		"./engine": {
+			"types": "./src/engine.ts",
+			"default": "./src/engine.ts"
+		},
+		"./notation": {
+			"types": "./src/notation.ts",
+			"default": "./src/notation.ts"
+		}
+	},
+	"scripts": {
+		"build": "tsc",
+		"typecheck": "tsc --noEmit",
+		"test": "vitest run"
+	},
+	"devDependencies": {
+		"typescript": "^5.7.2",
+		"vitest": "^4.1.8"
+	}
+}
