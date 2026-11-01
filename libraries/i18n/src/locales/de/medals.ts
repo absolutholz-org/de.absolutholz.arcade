@@ -642,6 +642,22 @@ export const deMedals = {
 			title: 'Ohne Zweifel',
 			desc: 'Löse ein schweres Rätsel, ohne Rückgängig zu verwenden.',
 		},
+		big_unravel: {
+			title: 'Die große Entwirrung',
+			desc: 'Löse 5 oder mehr Kantenkreuzungen in einem einzigen Zug auf.',
+		},
+		fewest_moves: {
+			title: 'Topologischer Chirurg',
+			desc: 'Löse Mittel oder Schwer in höchstens so vielen Zügen wie Knoten.',
+		},
+		worse_before_better: {
+			title: 'Schlimmer vor besser',
+			desc: 'Verdopple die anfänglichen Kreuzungen, bevor du das Rätsel erfolgreich löst.',
+		},
+		flawless_descent: {
+			title: 'Makelloser Abstieg',
+			desc: 'Löse ein Rätsel, bei dem jeder einzelne Zug die Kreuzungen strikt verringert.',
+		},
 	},
 	net: {
 		first_online: {
@@ -671,6 +687,22 @@ export const deMedals = {
 		hotline_streak: {
 			title: 'Uptime-Champion',
 			desc: 'Gewinne 3 aufeinanderfolgende Netzwerk-Puzzles in Folge.',
+		},
+		zero_waste: {
+			title: 'Null Verschwendung',
+			desc: 'Schließe Mittel, Schwer oder Experte ab, ohne eine Kachel mehr als 3 Mal zu drehen.',
+		},
+		spinning_wheels: {
+			title: 'Im Kreis gedreht',
+			desc: 'Drehe eine einzelne Kachel 12 Mal hintereinander in einer Runde.',
+		},
+		total_blackout: {
+			title: 'Totaler Blackout',
+			desc: 'Trenne alle Kabel und Terminals von der Stromzufuhr des Servers.',
+		},
+		sudden_surge: {
+			title: 'Stromstoß',
+			desc: 'Gewinne mit einer letzten Drehung, die mindestens 35 % des Gitters auf einmal verbindet.',
 		},
 	},
 } as const satisfies MedalsTranslationContract;

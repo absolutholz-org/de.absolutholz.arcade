@@ -57,6 +57,14 @@ export function useNetGame({
 	const boardRef = useRef(board);
 	boardRef.current = board;
 
+	const tileRotationsRef = useRef<Map<string, number>>(new Map());
+	const noExcessiveRotationsRef = useRef(true);
+	const consecutiveTileRef = useRef<string | null>(null);
+	const consecutiveCountRef = useRef(0);
+	const spinningWheelsTriggeredRef = useRef(false);
+	const totalBlackoutAchievedRef = useRef(false);
+	const currentPoweredCountRef = useRef(validateBoard(board).poweredCount);
+
 	// Initial load: settings and active session restore
 	useEffect(() => {
 		let isMounted = true;
@@ -80,6 +88,7 @@ export function useNetGame({
 					undoUsedRef.current = Boolean(activeSnapshot.undoUsed);
 					setIsPaused(true); // Resume paused
 					setIsLoaded(true);
+					currentPoweredCountRef.current = validateBoard(restored).poweredCount;
 					return;
 				}
 			}
@@ -138,6 +147,13 @@ export function useNetGame({
 	const checkWinCondition = useCallback(
 		async (nextBoard: Board, nextMoves: number) => {
 			const validation = validateBoard(nextBoard);
+			if (validation.poweredCount === 1 && validation.totalCells > 1) {
+				totalBlackoutAchievedRef.current = true;
+			}
+
+			const prevPowered = currentPoweredCountRef.current;
+			currentPoweredCountRef.current = validation.poweredCount;
+
 			if (validation.isSolved && !hasRecordedWinRef.current) {
 				hasRecordedWinRef.current = true;
 				setIsComplete(true);
@@ -147,6 +163,10 @@ export function useNetGame({
 				if (formatSolvedAnnouncement) {
 					setLiveAnnouncement(formatSolvedAnnouncement());
 				}
+
+				const connectedTerminals = validation.poweredCount - prevPowered;
+				const suddenSurgeAchieved =
+					validation.totalCells > 0 && connectedTerminals / validation.totalCells >= 0.35;
 
 				try {
 					const completion = await recordPuzzleCompletion(difficulty, elapsedSeconds, nextMoves);
@@ -166,6 +186,10 @@ export function useNetGame({
 								difficulty,
 								movesCount: nextMoves,
 								undoUsed: undoUsedRef.current,
+								noExcessiveRotations: noExcessiveRotationsRef.current,
+								spinningWheelsTriggered: spinningWheelsTriggeredRef.current,
+								totalBlackoutAchieved: totalBlackoutAchievedRef.current,
+								suddenSurgeAchieved,
 							},
 						},
 						{ definitions: NET_MEDAL_DEFINITIONS },
@@ -185,6 +209,23 @@ export function useNetGame({
 			if (isComplete || isPaused) return;
 			const currentCell = board.grid[r][c];
 			if (currentCell.isLocked) return;
+
+			const tileKey = `${r},${c}`;
+			const newRotCount = (tileRotationsRef.current.get(tileKey) ?? 0) + 1;
+			tileRotationsRef.current.set(tileKey, newRotCount);
+			if (newRotCount > 3) {
+				noExcessiveRotationsRef.current = false;
+			}
+
+			if (consecutiveTileRef.current === tileKey) {
+				consecutiveCountRef.current += 1;
+			} else {
+				consecutiveTileRef.current = tileKey;
+				consecutiveCountRef.current = 1;
+			}
+			if (consecutiveCountRef.current >= 12) {
+				spinningWheelsTriggeredRef.current = true;
+			}
 
 			const newMask = rotateCW(currentCell.currentMask);
 			const newRot = currentCell.rotation + 90;
@@ -224,6 +265,23 @@ export function useNetGame({
 			if (isComplete || isPaused) return;
 			const currentCell = board.grid[r][c];
 			if (currentCell.isLocked) return;
+
+			const tileKey = `${r},${c}`;
+			const newRotCount = (tileRotationsRef.current.get(tileKey) ?? 0) + 1;
+			tileRotationsRef.current.set(tileKey, newRotCount);
+			if (newRotCount > 3) {
+				noExcessiveRotationsRef.current = false;
+			}
+
+			if (consecutiveTileRef.current === tileKey) {
+				consecutiveCountRef.current += 1;
+			} else {
+				consecutiveTileRef.current = tileKey;
+				consecutiveCountRef.current = 1;
+			}
+			if (consecutiveCountRef.current >= 12) {
+				spinningWheelsTriggeredRef.current = true;
+			}
 
 			const newMask = rotateCCW(currentCell.currentMask);
 			const newRot = currentCell.rotation - 90;
@@ -296,6 +354,11 @@ export function useNetGame({
 
 		const updatedBoard = updateBoardPoweredState({ ...board, grid: newGrid });
 		setBoard(updatedBoard);
+		const validation = validateBoard(updatedBoard);
+		if (validation.poweredCount === 1 && validation.totalCells > 1) {
+			totalBlackoutAchievedRef.current = true;
+		}
+		currentPoweredCountRef.current = validation.poweredCount;
 	}, [board, history, isComplete, isPaused]);
 
 	const handleRedo = useCallback(() => {
@@ -319,6 +382,11 @@ export function useNetGame({
 
 		const updatedBoard = updateBoardPoweredState({ ...board, grid: newGrid });
 		setBoard(updatedBoard);
+		const validation = validateBoard(updatedBoard);
+		if (validation.poweredCount === 1 && validation.totalCells > 1) {
+			totalBlackoutAchievedRef.current = true;
+		}
+		currentPoweredCountRef.current = validation.poweredCount;
 	}, [board, history, isComplete, isPaused]);
 
 	const handleReset = useCallback(() => {
@@ -331,6 +399,13 @@ export function useNetGame({
 		setIsVictoryOpen(false);
 		hasRecordedWinRef.current = false;
 		undoUsedRef.current = false;
+		tileRotationsRef.current.clear();
+		noExcessiveRotationsRef.current = true;
+		consecutiveTileRef.current = null;
+		consecutiveCountRef.current = 0;
+		spinningWheelsTriggeredRef.current = false;
+		totalBlackoutAchievedRef.current = false;
+		currentPoweredCountRef.current = validateBoard(newPuzzle).poweredCount;
 	}, [difficulty]);
 
 	const handleNewPuzzle = useCallback(
@@ -348,6 +423,13 @@ export function useNetGame({
 			setIsVictoryOpen(false);
 			hasRecordedWinRef.current = false;
 			undoUsedRef.current = false;
+			tileRotationsRef.current.clear();
+			noExcessiveRotationsRef.current = true;
+			consecutiveTileRef.current = null;
+			consecutiveCountRef.current = 0;
+			spinningWheelsTriggeredRef.current = false;
+			totalBlackoutAchievedRef.current = false;
+			currentPoweredCountRef.current = validateBoard(newPuzzle).poweredCount;
 		},
 		[difficulty],
 	);

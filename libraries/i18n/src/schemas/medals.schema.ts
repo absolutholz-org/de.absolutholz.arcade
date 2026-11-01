@@ -205,6 +205,10 @@ export interface MedalsSchema {
 		readonly streak: { readonly title: string; readonly desc: string };
 		readonly speed_demon: { readonly title: string; readonly desc: string };
 		readonly no_undo: { readonly title: string; readonly desc: string };
+		readonly big_unravel: { readonly title: string; readonly desc: string };
+		readonly fewest_moves: { readonly title: string; readonly desc: string };
+		readonly worse_before_better: { readonly title: string; readonly desc: string };
+		readonly flawless_descent: { readonly title: string; readonly desc: string };
 	};
 	readonly net: {
 		readonly first_online: { readonly title: string; readonly desc: string };
@@ -214,6 +218,10 @@ export interface MedalsSchema {
 		readonly hyperscale: { readonly title: string; readonly desc: string };
 		readonly packet_perfection: { readonly title: string; readonly desc: string };
 		readonly hotline_streak: { readonly title: string; readonly desc: string };
+		readonly zero_waste: { readonly title: string; readonly desc: string };
+		readonly spinning_wheels: { readonly title: string; readonly desc: string };
+		readonly total_blackout: { readonly title: string; readonly desc: string };
+		readonly sudden_surge: { readonly title: string; readonly desc: string };
 	};
 }
 

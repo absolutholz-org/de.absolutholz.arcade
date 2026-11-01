@@ -11,12 +11,14 @@ import type {
 	MedalUnlock,
 	MinesweeperCustomStats,
 	MinesweeperDifficulty,
+	NetCustomStats,
 	NonogramCustomStats,
 	QueensCustomStats,
 	SudokuCustomStats,
 	SudokuDifficulty,
 	TentsCustomStats,
 	TracksCustomStats,
+	UntangleCustomStats,
 } from '../types/index.js';
 
 export function updateBaseStats(
@@ -511,6 +513,18 @@ export function updateCustomStats<G extends GameId>(
 			const stats = current as GameCustomStatsMap['untangle'];
 			const difficulty = (result.roundContext?.difficulty as string | undefined) ?? result.levelKey;
 			const undoUsed = Boolean(result.roundContext?.undoUsed ?? result.roundContext?.undosUsed);
+			const maxReduced = Number(result.roundContext?.maxCrossingsReducedInSingleMove ?? 0);
+			const doubleCrossings = Boolean(result.roundContext?.reachedDoubleInitialCrossings);
+			const flawlessDescent = Boolean(result.roundContext?.onlyDecreasingMoves && result.won);
+			const vertexCount = Number(result.roundContext?.vertexCount ?? 0);
+			const movesCount = Number(result.roundContext?.movesCount ?? 0);
+			const fewestMoves = Boolean(
+				result.won &&
+					(difficulty === 'medium' || difficulty === 'hard') &&
+					vertexCount > 0 &&
+					movesCount > 0 &&
+					movesCount <= vertexCount,
+			);
 
 			return {
 				updatedCustom: {
@@ -519,6 +533,11 @@ export function updateCustomStats<G extends GameId>(
 					mediumWins: (stats.mediumWins ?? 0) + (result.won && difficulty === 'medium' ? 1 : 0),
 					hardWins: (stats.hardWins ?? 0) + (result.won && difficulty === 'hard' ? 1 : 0),
 					winsWithoutUndo: (stats.winsWithoutUndo ?? 0) + (result.won && !undoUsed ? 1 : 0),
+					maxCrossingsReducedInSingleMove: Math.max(stats.maxCrossingsReducedInSingleMove ?? 0, maxReduced),
+					reachedDoubleInitialCrossingsCount:
+						(stats.reachedDoubleInitialCrossingsCount ?? 0) + (doubleCrossings && result.won ? 1 : 0),
+					flawlessDescentWins: (stats.flawlessDescentWins ?? 0) + (flawlessDescent ? 1 : 0),
+					fewestMovesWins: (stats.fewestMovesWins ?? 0) + (fewestMoves ? 1 : 0),
 				} as GameCustomStatsMap[G],
 				isNewBestTime,
 			};
@@ -528,6 +547,11 @@ export function updateCustomStats<G extends GameId>(
 			const stats = current as GameCustomStatsMap['net'];
 			const difficulty = (result.roundContext?.difficulty as string | undefined) ?? result.levelKey;
 			const undoUsed = Boolean(result.roundContext?.undoUsed ?? result.roundContext?.undosUsed);
+			const isMediumPlus = difficulty === 'medium' || difficulty === 'hard' || difficulty === 'expert';
+			const zeroWaste = Boolean(result.roundContext?.noExcessiveRotations && result.won && isMediumPlus);
+			const spinningWheels = Boolean(result.roundContext?.spinningWheelsTriggered);
+			const totalBlackout = Boolean(result.roundContext?.totalBlackoutAchieved);
+			const suddenSurge = Boolean(result.roundContext?.suddenSurgeAchieved && result.won);
 
 			return {
 				updatedCustom: {
@@ -537,6 +561,10 @@ export function updateCustomStats<G extends GameId>(
 					hardWins: (stats.hardWins ?? 0) + (result.won && difficulty === 'hard' ? 1 : 0),
 					expertWins: (stats.expertWins ?? 0) + (result.won && difficulty === 'expert' ? 1 : 0),
 					winsWithoutUndo: (stats.winsWithoutUndo ?? 0) + (result.won && !undoUsed ? 1 : 0),
+					zeroWasteWins: (stats.zeroWasteWins ?? 0) + (zeroWaste ? 1 : 0),
+					spinningWheelsCount: (stats.spinningWheelsCount ?? 0) + (spinningWheels ? 1 : 0),
+					totalBlackoutCount: (stats.totalBlackoutCount ?? 0) + (totalBlackout ? 1 : 0),
+					suddenSurgeWins: (stats.suddenSurgeWins ?? 0) + (suddenSurge ? 1 : 0),
 				} as GameCustomStatsMap[G],
 				isNewBestTime,
 			};
@@ -907,6 +935,41 @@ export function mergeGameMedalState<G extends GameId>(
 			expertWins: Math.max(localCustom.expertWins ?? 0, remoteCustom.expertWins ?? 0),
 			languagesPlayed: mergedLanguagesPlayed,
 			expertLanguagesWon: mergedExpertLanguagesWon,
+		} as unknown as GameCustomStatsMap[G];
+	} else if (local.gameId === 'untangle') {
+		const localCustom = local.customStats as UntangleCustomStats;
+		const remoteCustom = remote.customStats as UntangleCustomStats;
+		mergedCustom = {
+			...localCustom,
+			easyWins: Math.max(localCustom.easyWins ?? 0, remoteCustom.easyWins ?? 0),
+			mediumWins: Math.max(localCustom.mediumWins ?? 0, remoteCustom.mediumWins ?? 0),
+			hardWins: Math.max(localCustom.hardWins ?? 0, remoteCustom.hardWins ?? 0),
+			winsWithoutUndo: Math.max(localCustom.winsWithoutUndo ?? 0, remoteCustom.winsWithoutUndo ?? 0),
+			maxCrossingsReducedInSingleMove: Math.max(
+				localCustom.maxCrossingsReducedInSingleMove ?? 0,
+				remoteCustom.maxCrossingsReducedInSingleMove ?? 0,
+			),
+			reachedDoubleInitialCrossingsCount: Math.max(
+				localCustom.reachedDoubleInitialCrossingsCount ?? 0,
+				remoteCustom.reachedDoubleInitialCrossingsCount ?? 0,
+			),
+			flawlessDescentWins: Math.max(localCustom.flawlessDescentWins ?? 0, remoteCustom.flawlessDescentWins ?? 0),
+			fewestMovesWins: Math.max(localCustom.fewestMovesWins ?? 0, remoteCustom.fewestMovesWins ?? 0),
+		} as unknown as GameCustomStatsMap[G];
+	} else if (local.gameId === 'net') {
+		const localCustom = local.customStats as NetCustomStats;
+		const remoteCustom = remote.customStats as NetCustomStats;
+		mergedCustom = {
+			...localCustom,
+			easyWins: Math.max(localCustom.easyWins ?? 0, remoteCustom.easyWins ?? 0),
+			mediumWins: Math.max(localCustom.mediumWins ?? 0, remoteCustom.mediumWins ?? 0),
+			hardWins: Math.max(localCustom.hardWins ?? 0, remoteCustom.hardWins ?? 0),
+			expertWins: Math.max(localCustom.expertWins ?? 0, remoteCustom.expertWins ?? 0),
+			winsWithoutUndo: Math.max(localCustom.winsWithoutUndo ?? 0, remoteCustom.winsWithoutUndo ?? 0),
+			zeroWasteWins: Math.max(localCustom.zeroWasteWins ?? 0, remoteCustom.zeroWasteWins ?? 0),
+			spinningWheelsCount: Math.max(localCustom.spinningWheelsCount ?? 0, remoteCustom.spinningWheelsCount ?? 0),
+			totalBlackoutCount: Math.max(localCustom.totalBlackoutCount ?? 0, remoteCustom.totalBlackoutCount ?? 0),
+			suddenSurgeWins: Math.max(localCustom.suddenSurgeWins ?? 0, remoteCustom.suddenSurgeWins ?? 0),
 		} as unknown as GameCustomStatsMap[G];
 	}
 

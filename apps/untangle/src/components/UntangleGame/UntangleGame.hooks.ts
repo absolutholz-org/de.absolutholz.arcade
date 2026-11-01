@@ -144,6 +144,11 @@ export function useUntangleGame({
 	undoUsedRef.current = undoUsed;
 
 	const hasRecordedWinRef = useRef(false);
+	const maxCrossingsReducedInSingleMoveRef = useRef(0);
+	const initialCrossingsRef = useRef(0);
+	const reachedDoubleInitialCrossingsRef = useRef(false);
+	const onlyDecreasingMovesRef = useRef(true);
+	const previousCrossingsRef = useRef(0);
 
 	const board = history.present;
 
@@ -222,6 +227,11 @@ export function useUntangleGame({
 						roundContext: {
 							difficulty: nextBoard.difficulty,
 							undoUsed: undoUsedRef.current,
+							maxCrossingsReducedInSingleMove: maxCrossingsReducedInSingleMoveRef.current,
+							reachedDoubleInitialCrossings: reachedDoubleInitialCrossingsRef.current,
+							onlyDecreasingMoves: onlyDecreasingMovesRef.current,
+							vertexCount: nextBoard.vertices.length,
+							movesCount: nextBoard.moveCount,
 						},
 					},
 					{ definitions: UNTANGLE_MEDAL_DEFINITIONS },
@@ -283,6 +293,13 @@ export function useUntangleGame({
 					undoUsedRef.current = Boolean(savedGame.undoUsed);
 					setIsPaused(Boolean(forceResume));
 					hasRecordedWinRef.current = false;
+					const initSummary = findIntersections(baseBoard.vertices, baseBoard.edges);
+					const currentSummary = findIntersections(savedGame.board.vertices, savedGame.board.edges);
+					initialCrossingsRef.current = initSummary.intersectionCount;
+					previousCrossingsRef.current = currentSummary.intersectionCount;
+					maxCrossingsReducedInSingleMoveRef.current = 0;
+					reachedDoubleInitialCrossingsRef.current = false;
+					onlyDecreasingMovesRef.current = true;
 				} else {
 					const freshBoard = generatePlanarGraph(difficulty, seed);
 					initialBoardRef.current = freshBoard;
@@ -294,6 +311,12 @@ export function useUntangleGame({
 					undoUsedRef.current = false;
 					setIsPaused(false);
 					hasRecordedWinRef.current = false;
+					const freshSummary = findIntersections(freshBoard.vertices, freshBoard.edges);
+					initialCrossingsRef.current = freshSummary.intersectionCount;
+					previousCrossingsRef.current = freshSummary.intersectionCount;
+					maxCrossingsReducedInSingleMoveRef.current = 0;
+					reachedDoubleInitialCrossingsRef.current = false;
+					onlyDecreasingMovesRef.current = true;
 				}
 			} catch {
 				// Fallback to initial board
@@ -385,7 +408,20 @@ export function useUntangleGame({
 			historyRef.current = nextHistory;
 			setHistory(nextHistory);
 
+			const prevCrossings = findIntersections(baseBoard.vertices, baseBoard.edges).intersectionCount;
 			const summary = findIntersections(nextBoardWithMove.vertices, nextBoardWithMove.edges);
+			const diff = prevCrossings - summary.intersectionCount;
+			if (diff > maxCrossingsReducedInSingleMoveRef.current) {
+				maxCrossingsReducedInSingleMoveRef.current = diff;
+			}
+			if (initialCrossingsRef.current > 0 && summary.intersectionCount >= 2 * initialCrossingsRef.current) {
+				reachedDoubleInitialCrossingsRef.current = true;
+			}
+			if (summary.intersectionCount >= prevCrossings) {
+				onlyDecreasingMovesRef.current = false;
+			}
+			previousCrossingsRef.current = summary.intersectionCount;
+
 			updateAnnouncement(summary.intersectionCount, nextBoardWithMove.moveCount, summary.isSolved);
 			if (summary.isSolved) {
 				void handleWinIfSolved(nextBoardWithMove, summary);
@@ -412,7 +448,20 @@ export function useUntangleGame({
 			historyRef.current = nextHistory;
 			setHistory(nextHistory);
 
+			const prevCrossings = findIntersections(currentBoard.vertices, currentBoard.edges).intersectionCount;
 			const summary = findIntersections(nextBoard.vertices, nextBoard.edges);
+			const diff = prevCrossings - summary.intersectionCount;
+			if (diff > maxCrossingsReducedInSingleMoveRef.current) {
+				maxCrossingsReducedInSingleMoveRef.current = diff;
+			}
+			if (initialCrossingsRef.current > 0 && summary.intersectionCount >= 2 * initialCrossingsRef.current) {
+				reachedDoubleInitialCrossingsRef.current = true;
+			}
+			if (summary.intersectionCount >= prevCrossings) {
+				onlyDecreasingMovesRef.current = false;
+			}
+			previousCrossingsRef.current = summary.intersectionCount;
+
 			updateAnnouncement(summary.intersectionCount, nextBoard.moveCount, summary.isSolved);
 			if (summary.isSolved) {
 				void handleWinIfSolved(nextBoard, summary);
@@ -430,8 +479,10 @@ export function useUntangleGame({
 		setHistory(nextHistory);
 		setUndoUsed(true);
 		undoUsedRef.current = true;
+		onlyDecreasingMovesRef.current = false;
 
 		const summary = findIntersections(nextHistory.present.vertices, nextHistory.present.edges);
+		previousCrossingsRef.current = summary.intersectionCount;
 		updateAnnouncement(summary.intersectionCount, nextHistory.present.moveCount, summary.isSolved);
 	}, [isComplete, updateAnnouncement]);
 
@@ -442,8 +493,10 @@ export function useUntangleGame({
 		const nextHistory = redoHistory(currentHistory);
 		historyRef.current = nextHistory;
 		setHistory(nextHistory);
+		onlyDecreasingMovesRef.current = false;
 
 		const summary = findIntersections(nextHistory.present.vertices, nextHistory.present.edges);
+		previousCrossingsRef.current = summary.intersectionCount;
 		updateAnnouncement(summary.intersectionCount, nextHistory.present.moveCount, summary.isSolved);
 	}, [isComplete, updateAnnouncement]);
 
@@ -462,6 +515,11 @@ export function useUntangleGame({
 		setDraggingVertexId(null);
 
 		const summary = findIntersections(initialBoard.vertices, initialBoard.edges);
+		initialCrossingsRef.current = summary.intersectionCount;
+		previousCrossingsRef.current = summary.intersectionCount;
+		maxCrossingsReducedInSingleMoveRef.current = 0;
+		reachedDoubleInitialCrossingsRef.current = false;
+		onlyDecreasingMovesRef.current = true;
 		updateAnnouncement(summary.intersectionCount, 0, false);
 	}, [updateAnnouncement]);
 
@@ -485,6 +543,11 @@ export function useUntangleGame({
 			setDraggingVertexId(null);
 
 			const summary = findIntersections(freshBoard.vertices, freshBoard.edges);
+			initialCrossingsRef.current = summary.intersectionCount;
+			previousCrossingsRef.current = summary.intersectionCount;
+			maxCrossingsReducedInSingleMoveRef.current = 0;
+			reachedDoubleInitialCrossingsRef.current = false;
+			onlyDecreasingMovesRef.current = true;
 			updateAnnouncement(summary.intersectionCount, 0, false);
 		},
 		[updateAnnouncement],

@@ -143,6 +143,10 @@ export interface NetCustomStats {
 	readonly hardWins?: number;
 	readonly expertWins?: number;
 	readonly winsWithoutUndo?: number;
+	readonly zeroWasteWins?: number;
+	readonly spinningWheelsCount?: number;
+	readonly totalBlackoutCount?: number;
+	readonly suddenSurgeWins?: number;
 }
 
 export interface UntangleCustomStats {
@@ -150,6 +154,10 @@ export interface UntangleCustomStats {
 	readonly mediumWins?: number;
 	readonly hardWins?: number;
 	readonly winsWithoutUndo?: number;
+	readonly maxCrossingsReducedInSingleMove?: number;
+	readonly reachedDoubleInitialCrossingsCount?: number;
+	readonly flawlessDescentWins?: number;
+	readonly fewestMovesWins?: number;
 }
 
 export interface WaterSortCustomStats {

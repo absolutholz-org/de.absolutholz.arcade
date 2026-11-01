@@ -166,6 +166,65 @@ export const UNTANGLE_MEDAL_DEFINITIONS: readonly AchievementDefinition<'untangl
 			};
 		},
 	},
+	{
+		id: 'untangle_big_unravel',
+		type: 'standalone',
+		tier: 'bronze',
+		target: 5,
+		titleKey: 'medals.untangle.big_unravel.title',
+		descriptionKey: 'medals.untangle.big_unravel.desc',
+		icon: 'trophy-bronze',
+		evaluate: ({ updatedCustomStats }) => {
+			const count = Number(updatedCustomStats.maxCrossingsReducedInSingleMove ?? 0);
+			return {
+				unlocked: count >= 5,
+				progress: Math.min(5, count),
+				target: 5,
+			};
+		},
+	},
+	{
+		id: 'untangle_fewest_moves',
+		type: 'standalone',
+		tier: 'silver',
+		target: 1,
+		titleKey: 'medals.untangle.fewest_moves.title',
+		descriptionKey: 'medals.untangle.fewest_moves.desc',
+		icon: 'trophy-silver',
+		evaluate: ({ updatedCustomStats }) => ({
+			unlocked: Number(updatedCustomStats.fewestMovesWins ?? 0) >= 1,
+			progress: Math.min(1, Number(updatedCustomStats.fewestMovesWins ?? 0)),
+			target: 1,
+		}),
+	},
+	{
+		id: 'untangle_worse_before_better',
+		type: 'standalone',
+		tier: 'bronze',
+		target: 1,
+		titleKey: 'medals.untangle.worse_before_better.title',
+		descriptionKey: 'medals.untangle.worse_before_better.desc',
+		icon: 'trophy-bronze',
+		evaluate: ({ updatedCustomStats }) => ({
+			unlocked: Number(updatedCustomStats.reachedDoubleInitialCrossingsCount ?? 0) >= 1,
+			progress: Math.min(1, Number(updatedCustomStats.reachedDoubleInitialCrossingsCount ?? 0)),
+			target: 1,
+		}),
+	},
+	{
+		id: 'untangle_flawless_descent',
+		type: 'standalone',
+		tier: 'gold',
+		target: 1,
+		titleKey: 'medals.untangle.flawless_descent.title',
+		descriptionKey: 'medals.untangle.flawless_descent.desc',
+		icon: 'trophy-gold',
+		evaluate: ({ updatedCustomStats }) => ({
+			unlocked: Number(updatedCustomStats.flawlessDescentWins ?? 0) >= 1,
+			progress: Math.min(1, Number(updatedCustomStats.flawlessDescentWins ?? 0)),
+			target: 1,
+		}),
+	},
 ];
 
 export default UNTANGLE_MEDAL_DEFINITIONS;

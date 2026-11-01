@@ -642,6 +642,22 @@ export const ptMedals = {
 			title: 'Sem Hesitação',
 			desc: 'Complete um quebra-cabeça Difícil sem usar Desfazer.',
 		},
+		big_unravel: {
+			title: 'O Grande Desenlace',
+			desc: 'Elimine 5 ou mais cruzamentos de arestas em um único movimento.',
+		},
+		fewest_moves: {
+			title: 'Cirurgião Topológico',
+			desc: 'Resolva Médio ou Difícil em no máximo tantos movimentos quanto o número de vértices.',
+		},
+		worse_before_better: {
+			title: 'Pior Antes de Melhorar',
+			desc: 'Duplique os cruzamentos iniciais antes de resolver o puzzle com sucesso.',
+		},
+		flawless_descent: {
+			title: 'Descida Impecável',
+			desc: 'Resolva um puzzle onde cada movimento diminui estritamente os cruzamentos.',
+		},
 	},
 	net: {
 		first_online: {
@@ -671,6 +687,22 @@ export const ptMedals = {
 		hotline_streak: {
 			title: 'Campeão de Uptime',
 			desc: 'Mantenha uma sequência de 3 quebra-cabeças vencidos consecutivamente.',
+		},
+		zero_waste: {
+			title: 'Zero Desperdício',
+			desc: 'Conclua Médio, Difícil ou Especialista sem girar nenhuma peça mais de 3 vezes.',
+		},
+		spinning_wheels: {
+			title: 'Rodando em Círculos',
+			desc: 'Gire uma única peça 12 vezes consecutivas em uma rodada ativa.',
+		},
+		total_blackout: {
+			title: 'Apagão Total',
+			desc: 'Deixe zero cabos ou terminais energizados a partir do servidor central.',
+		},
+		sudden_surge: {
+			title: 'Surto Repentino',
+			desc: 'Vença com uma rotação final que conecte pelo menos 35% da grade de uma vez.',
 		},
 	},
 } as const satisfies MedalsTranslationContract;

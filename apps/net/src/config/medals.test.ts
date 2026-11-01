@@ -69,7 +69,7 @@ function getMedal(id: string) {
 }
 
 describe('Net Medal Definitions', () => {
-	it('defines all 7 canonical medals in NET_MEDAL_DEFINITIONS', () => {
+	it('defines all canonical medals in NET_MEDAL_DEFINITIONS', () => {
 		const ids = NET_MEDAL_DEFINITIONS.map((m) => m.id);
 		assert.ok(ids.includes('net_first_online'));
 		assert.ok(ids.includes('net_network_architect'));
@@ -78,6 +78,10 @@ describe('Net Medal Definitions', () => {
 		assert.ok(ids.includes('net_hyperscale'));
 		assert.ok(ids.includes('net_packet_perfection'));
 		assert.ok(ids.includes('net_hotline_streak'));
+		assert.ok(ids.includes('net_zero_waste'));
+		assert.ok(ids.includes('net_spinning_wheels'));
+		assert.ok(ids.includes('net_total_blackout'));
+		assert.ok(ids.includes('net_sudden_surge'));
 	});
 
 	it('evaluates net_first_online', () => {
@@ -131,5 +135,29 @@ describe('Net Medal Definitions', () => {
 		assert.equal(medal.evaluate(createContext({}, true, 'expert', 60, true)).unlocked, false);
 		// Easy without undo -> locked (requires medium/hard/expert)
 		assert.equal(medal.evaluate(createContext({}, true, 'easy', 20, false)).unlocked, false);
+	});
+
+	it('evaluates net_zero_waste', () => {
+		const medal = getMedal('net_zero_waste');
+		assert.equal(medal.evaluate(createContext({ zeroWasteWins: 0 })).unlocked, false);
+		assert.equal(medal.evaluate(createContext({ zeroWasteWins: 1 })).unlocked, true);
+	});
+
+	it('evaluates net_spinning_wheels', () => {
+		const medal = getMedal('net_spinning_wheels');
+		assert.equal(medal.evaluate(createContext({ spinningWheelsCount: 0 })).unlocked, false);
+		assert.equal(medal.evaluate(createContext({ spinningWheelsCount: 1 })).unlocked, true);
+	});
+
+	it('evaluates net_total_blackout', () => {
+		const medal = getMedal('net_total_blackout');
+		assert.equal(medal.evaluate(createContext({ totalBlackoutCount: 0 })).unlocked, false);
+		assert.equal(medal.evaluate(createContext({ totalBlackoutCount: 1 })).unlocked, true);
+	});
+
+	it('evaluates net_sudden_surge', () => {
+		const medal = getMedal('net_sudden_surge');
+		assert.equal(medal.evaluate(createContext({ suddenSurgeWins: 0 })).unlocked, false);
+		assert.equal(medal.evaluate(createContext({ suddenSurgeWins: 1 })).unlocked, true);
 	});
 });

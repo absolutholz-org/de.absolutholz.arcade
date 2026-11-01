@@ -641,6 +641,22 @@ export const enMedals = {
 			title: 'Zero Second-Guesses',
 			desc: 'Complete a Hard puzzle without using Undo.',
 		},
+		big_unravel: {
+			title: 'The Great Unravel',
+			desc: 'Eliminate 5 or more edge crossings in a single vertex move.',
+		},
+		fewest_moves: {
+			title: 'Topological Surgeon',
+			desc: 'Solve Medium or Hard in no more moves than the vertex count.',
+		},
+		worse_before_better: {
+			title: 'Worse Before Better',
+			desc: 'Double the initial crossings before successfully solving the puzzle.',
+		},
+		flawless_descent: {
+			title: 'Flawless Descent',
+			desc: 'Solve a puzzle where every single move strictly decreases intersections.',
+		},
 	},
 	net: {
 		first_online: {
@@ -670,6 +686,22 @@ export const enMedals = {
 		hotline_streak: {
 			title: 'Uptime Champion',
 			desc: 'Maintain a win streak of 3 consecutive network puzzles.',
+		},
+		zero_waste: {
+			title: 'Zero Waste',
+			desc: 'Complete Medium, Hard, or Expert without rotating any single tile more than 3 times.',
+		},
+		spinning_wheels: {
+			title: 'Spinning Your Wheels',
+			desc: 'Rotate a single tile 12 consecutive times in an active round.',
+		},
+		total_blackout: {
+			title: 'Total Blackout',
+			desc: 'Leave zero cables or terminals energized from the central server.',
+		},
+		sudden_surge: {
+			title: 'Sudden Surge',
+			desc: 'Win with a final rotation that connects at least 35% of the grid at once.',
 		},
 	},
 } as const satisfies MedalsTranslationContract;

@@ -156,6 +156,62 @@ export const NET_MEDAL_DEFINITIONS: readonly AchievementDefinition<'net'>[] = [
 			};
 		},
 	},
+	{
+		id: 'net_zero_waste',
+		type: 'standalone',
+		tier: 'gold',
+		target: 1,
+		titleKey: 'medals.net.zero_waste.title',
+		descriptionKey: 'medals.net.zero_waste.desc',
+		icon: 'trophy-gold',
+		evaluate: ({ updatedCustomStats }) => ({
+			unlocked: Number(updatedCustomStats.zeroWasteWins ?? 0) >= 1,
+			progress: Math.min(1, Number(updatedCustomStats.zeroWasteWins ?? 0)),
+			target: 1,
+		}),
+	},
+	{
+		id: 'net_spinning_wheels',
+		type: 'standalone',
+		tier: 'bronze',
+		target: 1,
+		titleKey: 'medals.net.spinning_wheels.title',
+		descriptionKey: 'medals.net.spinning_wheels.desc',
+		icon: 'trophy-bronze',
+		evaluate: ({ updatedCustomStats }) => ({
+			unlocked: Number(updatedCustomStats.spinningWheelsCount ?? 0) >= 1,
+			progress: Math.min(1, Number(updatedCustomStats.spinningWheelsCount ?? 0)),
+			target: 1,
+		}),
+	},
+	{
+		id: 'net_total_blackout',
+		type: 'standalone',
+		tier: 'bronze',
+		target: 1,
+		titleKey: 'medals.net.total_blackout.title',
+		descriptionKey: 'medals.net.total_blackout.desc',
+		icon: 'trophy-bronze',
+		evaluate: ({ updatedCustomStats }) => ({
+			unlocked: Number(updatedCustomStats.totalBlackoutCount ?? 0) >= 1,
+			progress: Math.min(1, Number(updatedCustomStats.totalBlackoutCount ?? 0)),
+			target: 1,
+		}),
+	},
+	{
+		id: 'net_sudden_surge',
+		type: 'standalone',
+		tier: 'silver',
+		target: 1,
+		titleKey: 'medals.net.sudden_surge.title',
+		descriptionKey: 'medals.net.sudden_surge.desc',
+		icon: 'trophy-silver',
+		evaluate: ({ updatedCustomStats }) => ({
+			unlocked: Number(updatedCustomStats.suddenSurgeWins ?? 0) >= 1,
+			progress: Math.min(1, Number(updatedCustomStats.suddenSurgeWins ?? 0)),
+			target: 1,
+		}),
+	},
 ];
 
 export default NET_MEDAL_DEFINITIONS;

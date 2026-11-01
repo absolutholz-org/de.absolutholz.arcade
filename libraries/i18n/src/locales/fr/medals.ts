@@ -642,6 +642,22 @@ export const frMedals = {
 			title: 'Sans hésitation',
 			desc: 'Terminez un puzzle Difficile sans utiliser Annuler.',
 		},
+		big_unravel: {
+			title: 'Le grand dénouement',
+			desc: 'Éliminez 5 intersections d’arêtes ou plus en un seul déplacement.',
+		},
+		fewest_moves: {
+			title: 'Chirurgien topologique',
+			desc: 'Résolvez Moyen ou Difficile en un nombre de coups inférieur ou égal au nombre de sommets.',
+		},
+		worse_before_better: {
+			title: 'Pire avant d’aller mieux',
+			desc: 'Doublez les intersections initiales avant de résoudre le puzzle avec succès.',
+		},
+		flawless_descent: {
+			title: 'Descente sans faute',
+			desc: 'Résolvez un puzzle où chaque coup réduit strictement les intersections.',
+		},
 	},
 	net: {
 		first_online: {
@@ -671,6 +687,22 @@ export const frMedals = {
 		hotline_streak: {
 			title: 'Champion de disponibilité',
 			desc: 'Maintenez une série de 3 victoires consécutives.',
+		},
+		zero_waste: {
+			title: 'Zéro gaspillage',
+			desc: 'Terminez Moyen, Difficile ou Expert sans faire pivoter une tuile plus de 3 fois.',
+		},
+		spinning_wheels: {
+			title: 'Tourner en rond',
+			desc: 'Faites pivoter une même tuile 12 fois d’affilée au cours d’une partie.',
+		},
+		total_blackout: {
+			title: 'Panne totale',
+			desc: 'Coupez tout courant : zéro câble ou terminal alimenté depuis le serveur.',
+		},
+		sudden_surge: {
+			title: 'Surtension soudaine',
+			desc: 'Gagnez grâce à une rotation finale connectant au moins 35 % de la grille d’un coup.',
 		},
 	},
 } as const satisfies MedalsTranslationContract;
