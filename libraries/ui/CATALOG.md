@@ -128,6 +128,8 @@ Primitives for data presentation, micro-indicators, typography, and styling cont
 | **`TriadBadge`** | `@arcade/lib-ui` | Triangular 3-medal cluster badge (Silver, Bronze, Gold) for progressive ladder achievements. | `bronzeUnlocked`, `silverUnlocked`, `goldUnlocked`, `size`. |
 | **`Text`** | `@arcade/lib-ui/components/Text` | Semantic typography wrapper enforcing the modular scale and line heights. | `variant="display" \| "h1" \| "h2" \| "h3" \| "base" \| "small"`, `as="p" \| "span" \| "h1"`. |
 | **`Theme`** | `@arcade/lib-ui/components/Theme` | Scoped theme context wrapper applying theme token overrides to descendant trees. | `name: ThemesetId`, `children`. |
+| **`Die`** | `@arcade/lib-ui/components/Die` | Accessible 3D CSS transform D6 die with keyboard controls, non-color visual held badge, and high-contrast pips. | `state: DieState`, `onToggleHold`, `isRolling`, `index`. |
+| **`DiceTray`** | `@arcade/lib-ui/components/DiceTray` | Responsive flex/grid dice tray managing 1 to 6 concurrent dice with count selector, Web Audio rattle synthesis, and WCAG AA live announcing. | `defaultCount`, `count`, `onRollComplete`, `onCountChange`, `disabled`. |
 | **`Timer`** | `@arcade/lib-ui/components/Timer` | Monospaced digital clock/timer display for game runtimes and speed runs. | `seconds`, `isPaused`. |
 | **`VisuallyHidden`** | `@arcade/lib-ui/components/VisuallyHidden` | Utility clipping content visually while preserving full accessibility tree exposure. | `children`. |
 
