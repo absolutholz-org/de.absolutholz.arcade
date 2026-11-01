@@ -115,6 +115,18 @@ export const ptCommon = {
 	},
 	hub: {
 		gamesTitle: 'Jogos',
+		toolsTitle: 'Ferramentas e utilitários',
+	},
+	tools: {
+		dice: {
+			title: 'Rolador de Dados',
+			description: 'Companheiro de jogos de tabuleiro para rolar dados.',
+			tagline: 'Role de 1 a 6 dados com física 3D, feedback háptico e suporte para agitar.',
+			shakeEnabled: 'Agitar para rolar está ativo',
+			shakeDisabled: 'Agitar para rolar está desativado',
+			enableShake: 'Ativar agitar para rolar',
+			shakeHint: 'Agite o seu dispositivo ou toque em Rolar',
+		},
 	},
 	game: {
 		pause: {

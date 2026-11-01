@@ -107,6 +107,18 @@ export const commonSchema = {
 	},
 	hub: {
 		gamesTitle: 'hub.gamesTitle',
+		toolsTitle: 'hub.toolsTitle',
+	},
+	tools: {
+		dice: {
+			title: 'tools.dice.title',
+			description: 'tools.dice.description',
+			tagline: 'tools.dice.tagline',
+			shakeEnabled: 'tools.dice.shakeEnabled',
+			shakeDisabled: 'tools.dice.shakeDisabled',
+			enableShake: 'tools.dice.enableShake',
+			shakeHint: 'tools.dice.shakeHint',
+		},
 	},
 	game: {
 		pause: {

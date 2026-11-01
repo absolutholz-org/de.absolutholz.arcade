@@ -15,7 +15,12 @@ export type GameId =
 	| 'net';
 
 /**
- * Visual and media assets associated with a game.
+ * Canonical identifiers for standalone utility tools in the Arcade monorepo.
+ */
+export type ToolId = 'dice';
+
+/**
+ * Visual and media assets associated with a game or tool.
  */
 export interface GameAssets {
 	/**
@@ -57,6 +62,36 @@ export interface GameDefinition {
 	 * Translation namespace in `@arcade/lib-i18n`.
 	 */
 	readonly i18nNamespace: GameId;
+}
+
+/**
+ * Definition representing a standalone utility tool in the Arcade monorepo.
+ */
+export interface ToolDefinition {
+	/**
+	 * Unique identifier matching the tool's route segment.
+	 */
+	readonly id: ToolId;
+	/**
+	 * Default fallback display name.
+	 */
+	readonly name: string;
+	/**
+	 * Root route for the tool.
+	 */
+	readonly route: `/tools/${ToolId}`;
+	/**
+	 * Visual assets representing the tool.
+	 */
+	readonly assets: GameAssets;
+	/**
+	 * Translation namespace or key in `@arcade/lib-i18n`.
+	 */
+	readonly i18nKey: string;
+	/**
+	 * Categorical tags for search, filtering, and indexing.
+	 */
+	readonly tags: readonly ('tool' | 'tabletop' | 'utility' | 'dice' | string)[];
 }
 
 /**

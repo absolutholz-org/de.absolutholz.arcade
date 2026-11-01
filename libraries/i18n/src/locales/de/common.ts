@@ -116,6 +116,18 @@ export const deCommon = {
 	},
 	hub: {
 		gamesTitle: 'Spiele',
+		toolsTitle: 'Werkzeuge & Hilfsmittel',
+	},
+	tools: {
+		dice: {
+			title: 'Würfel',
+			description: 'Tischspiel-Begleiter zum Würfeln für Brettspiele.',
+			tagline: 'Würfle 1 bis 6 Würfel mit 3D-Physik, Haptik und Schüttel-Erkennung.',
+			shakeEnabled: 'Schütteln zum Würfeln ist aktiv',
+			shakeDisabled: 'Schütteln zum Würfeln ist deaktiviert',
+			enableShake: 'Schütteln zum Würfeln aktivieren',
+			shakeHint: 'Schüttle dein Gerät oder tippe auf Würfeln',
+		},
 	},
 	game: {
 		pause: {

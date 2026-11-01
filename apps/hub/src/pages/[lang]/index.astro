@@ -1,5 +1,5 @@
 ---
-import { ALL_GAMES } from '@arcade/lib-games';
+import { ALL_GAMES, ALL_TOOLS } from '@arcade/lib-games';
 import { resources } from '@arcade/lib-i18n/config/i18n';
 import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
@@ -52,11 +52,30 @@ const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? 
 				})}
 			</div>
 		</section>
+
+		<section class="tools-section">
+			<h2>{currentTranslations.hub.toolsTitle}</h2>
+			<div class="games-grid">
+				{ALL_TOOLS.map((tool) => {
+					const toolTranslation = currentTranslations.tools?.[tool.id];
+					return (
+						<a href={`/${lang}${tool.route}`} class="game-card">
+							<div class="game-card-header">
+								<span class="game-card-icon" aria-hidden="true">{tool.assets.icon}</span>
+								<h3>{toolTranslation?.title ?? tool.name}</h3>
+							</div>
+							<p>{toolTranslation?.description}</p>
+						</a>
+					);
+				})}
+			</div>
+		</section>
 	</PageContainer>
 </BaseLayoutWithSiteHeaderAndSiteFooter>
 
 <style>
-	.games-section {
+	.games-section,
+	.tools-section {
 		margin-top: 2rem;
 	}
 

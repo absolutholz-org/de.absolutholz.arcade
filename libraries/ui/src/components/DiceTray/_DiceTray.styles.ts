@@ -4,13 +4,13 @@ import { themeColor } from '../../styles/theme/theme.utils';
 
 export const TrayContainer = styled.section`
 	position: relative;
-	display: flex;
+	display: inline-flex;
 	flex-direction: column;
-	align-items: center;
+	align-items: flex-start;
 	gap: 1.25rem;
-	width: 100%;
-	max-width: 32rem;
-	margin: 0 auto;
+	width: auto;
+	max-width: 100%;
+	margin: 0;
 	padding: 1.25rem;
 	background-color: ${themeColor('surface')};
 	border: 1px solid ${themeColor('container-2')};
@@ -46,7 +46,7 @@ export const TotalBadge = styled.div`
 export const DiceGrid = styled.div`
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: center;
+	justify-content: flex-start;
 	align-items: center;
 	gap: 0.75rem;
 	width: 100%;
@@ -58,7 +58,7 @@ export const DiceGrid = styled.div`
 export const ControlsBar = styled.div`
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: center;
+	justify-content: flex-start;
 	align-items: center;
 	gap: 0.75rem;
 	width: 100%;

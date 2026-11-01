@@ -116,6 +116,18 @@ export const frCommon = {
 	},
 	hub: {
 		gamesTitle: 'Jeux',
+		toolsTitle: 'Outils et utilitaires',
+	},
+	tools: {
+		dice: {
+			title: 'Lanceur de dés',
+			description: 'Compagnon de jeu de société pour lancer les dés.',
+			tagline: 'Lancez de 1 à 6 dés avec physique 3D, retour haptique et détection de secousse.',
+			shakeEnabled: 'Secouer pour lancer est activé',
+			shakeDisabled: 'Secouer pour lancer est désactivé',
+			enableShake: 'Activer la détection de secousse',
+			shakeHint: 'Secouez votre appareil ou appuyez sur Lancer',
+		},
 	},
 	game: {
 		pause: {

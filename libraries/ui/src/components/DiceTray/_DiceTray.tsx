@@ -1,23 +1,27 @@
+import { type ForwardedRef, forwardRef, useImperativeHandle } from 'react';
 import { Button } from '../Button';
 import { Die } from '../Die';
 import { SegmentedControl } from '../SegmentedControl';
 import { COUNT_SELECTOR_SEGMENTS } from './_DiceTray.constants';
 import { useDiceTray } from './_DiceTray.hooks';
 import * as S from './_DiceTray.styles';
-import type { DiceTrayProps } from './_DiceTray.types';
+import type { DiceTrayHandle, DiceTrayProps } from './_DiceTray.types';
 
-export function DiceTray({
-	defaultCount = 5,
-	count,
-	onCountChange,
-	onRollComplete,
-	dice,
-	onToggleHold,
-	playRollSound,
-	disabled = false,
-	ariaLabel = 'Dice Tray',
-	className,
-}: DiceTrayProps): JSX.Element {
+function DiceTrayInner(
+	{
+		defaultCount = 5,
+		count,
+		onCountChange,
+		onRollComplete,
+		dice,
+		onToggleHold,
+		playRollSound,
+		disabled = false,
+		ariaLabel = 'Dice Tray',
+		className,
+	}: DiceTrayProps,
+	ref: ForwardedRef<DiceTrayHandle>,
+): JSX.Element {
 	const {
 		activeDice,
 		activeCount,
@@ -37,6 +41,15 @@ export function DiceTray({
 		onToggleHold,
 		playRollSound,
 	});
+
+	useImperativeHandle(
+		ref,
+		() => ({
+			roll: handleRoll,
+			reset: handleReset,
+		}),
+		[handleRoll, handleReset],
+	);
 
 	return (
 		<S.TrayContainer aria-label={ariaLabel} className={className}>
@@ -82,3 +95,5 @@ export function DiceTray({
 		</S.TrayContainer>
 	);
 }
+
+export const DiceTray = forwardRef(DiceTrayInner);

@@ -1,5 +1,12 @@
 import type { DieState, RollDiceResult } from '@arcade/lib-dice';
 
+export interface DiceTrayHandle {
+	/** Programmatically trigger a dice roll. */
+	roll: () => void;
+	/** Programmatically reset the dice to face 1. */
+	reset: () => void;
+}
+
 export interface DiceTrayProps {
 	/** Initial number of dice to render (1 to 6, defaults to 5). */
 	defaultCount?: number;

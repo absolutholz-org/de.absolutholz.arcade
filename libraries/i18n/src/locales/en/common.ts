@@ -116,6 +116,18 @@ export const enCommon = {
 	},
 	hub: {
 		gamesTitle: 'Games',
+		toolsTitle: 'Tools & Utilities',
+	},
+	tools: {
+		dice: {
+			title: 'Dice Roller',
+			description: 'Tabletop companion dice roller for board games.',
+			tagline: 'Roll 1 to 6 dice with 3D physics, haptics, and shake-to-roll support.',
+			shakeEnabled: 'Shake to roll is active',
+			shakeDisabled: 'Shake to roll is disabled',
+			enableShake: 'Enable Shake to Roll',
+			shakeHint: 'Shake your device or tap roll',
+		},
 	},
 	game: {
 		pause: {

@@ -1,4 +1,4 @@
-import type { GameDefinition, GameId } from './types.js';
+import type { GameDefinition, GameId, ToolDefinition, ToolId } from './types.js';
 
 /**
  * Central registry mapping every supported GameId to its metadata and visual assets.
@@ -121,4 +121,37 @@ export const GAME_IDS: readonly GameId[] = Object.freeze(Object.keys(GAME_REGIST
  */
 export function getGame(id: GameId): GameDefinition {
 	return (GAME_REGISTRY as Record<GameId, GameDefinition>)[id];
+}
+
+/**
+ * Central registry mapping every supported standalone ToolId to its metadata and visual assets.
+ */
+export const TOOL_REGISTRY: Readonly<Record<ToolId, ToolDefinition>> = {
+	dice: {
+		id: 'dice',
+		name: 'Dice Roller',
+		route: '/tools/dice',
+		assets: {
+			icon: '🎲',
+		},
+		i18nKey: 'tools.dice',
+		tags: ['tool', 'tabletop', 'utility', 'dice'],
+	},
+};
+
+/**
+ * Array of all registered standalone tools in canonical display order.
+ */
+export const ALL_TOOLS: readonly ToolDefinition[] = Object.freeze(Object.values(TOOL_REGISTRY));
+
+/**
+ * Array of all standalone tool IDs.
+ */
+export const TOOL_IDS: readonly ToolId[] = Object.freeze(Object.keys(TOOL_REGISTRY) as ToolId[]);
+
+/**
+ * Retrieves the metadata definition for a given ToolId.
+ */
+export function getTool(id: ToolId): ToolDefinition {
+	return (TOOL_REGISTRY as Record<ToolId, ToolDefinition>)[id];
 }
