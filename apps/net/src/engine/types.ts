@@ -84,6 +84,7 @@ export interface GameSnapshot {
 	}[];
 	readonly movesCount: number;
 	readonly elapsedTimeSeconds: number;
+	readonly undoUsed?: boolean;
 	readonly isSolved: boolean;
 	readonly timestamp: number;
 }

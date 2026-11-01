@@ -27,6 +27,7 @@ export const netSchema = {
 		hardDesc: 'lobby.hardDesc',
 		expert: 'lobby.expert',
 		expertDesc: 'lobby.expertDesc',
+		completed: 'lobby.completed',
 		play: 'lobby.play',
 		quickPlay: 'lobby.quickPlay',
 		quickPlayDesc: 'lobby.quickPlayDesc',

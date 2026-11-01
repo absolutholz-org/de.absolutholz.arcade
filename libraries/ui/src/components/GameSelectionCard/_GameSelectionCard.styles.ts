@@ -6,7 +6,8 @@ export const Header = styled.div`
 	display: flex;
 	align-items: flex-start;
 	justify-content: space-between;
-	gap: 0.5rem;
+	flex-wrap: wrap;
+	gap: 0.375rem 0.5rem;
 	width: 100%;
 `;
 
@@ -16,6 +17,7 @@ export const Title = styled.h3`
 	font-weight: 600;
 	line-height: 1.3;
 	color: ${themeColor('text-1')};
+	min-width: 0;
 `;
 
 export const Metadata = styled.div`

@@ -27,6 +27,7 @@ export const frNet: NetTranslationContract = {
 		hardDesc: 'Grille étendue 9×9 avec de nombreux embranchements',
 		expert: 'Expert (11×11)',
 		expertDesc: 'Puzzle géant 11×11 pour les experts en réseau',
+		completed: 'Terminé',
 		play: 'Jouer',
 		quickPlay: 'Partie rapide',
 		quickPlayDesc: 'Générer un nouveau puzzle de réseau',

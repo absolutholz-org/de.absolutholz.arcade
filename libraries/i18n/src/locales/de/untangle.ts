@@ -31,7 +31,7 @@ export const deUntangle = {
 		puzzle: 'Rätsel',
 		puzzleNum: 'Rätsel {{number}}',
 		selectLevel: 'Rätsel wählen',
-		completed: 'Abgeschlossen',
+		completed: 'Gelöst',
 		notCompleted: 'Nicht abgeschlossen',
 		bestTime: 'Bestzeit: {{time}}',
 		bestMoves: 'Wenigste Züge: {{moves}}',

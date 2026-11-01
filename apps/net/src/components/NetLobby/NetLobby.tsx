@@ -2,9 +2,6 @@ import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { GameSelectionCard } from '@arcade/lib-ui/components/GameSelectionCard';
-import { Icon } from '@arcade/lib-ui/components/Icon';
-import { QuickPlayCard } from '@arcade/lib-ui/components/QuickPlayCard';
-import { SegmentedControl, type SegmentedControlItem } from '@arcade/lib-ui/components/SegmentedControl';
 import { formatTime } from '@arcade/lib-ui/components/Timer';
 import { GameLandingTemplate } from '@arcade/lib-ui/layouts/GameLandingTemplate';
 import { type JSX, useEffect, useState } from 'react';
@@ -18,21 +15,6 @@ export interface NetLobbyProps {
 	lang?: SupportedLanguageCode;
 }
 
-function isDifficulty(value: string | null): value is Difficulty {
-	return value !== null && (DIFFICULTIES as readonly string[]).includes(value);
-}
-
-function getInitialLobbyDifficulty(): Difficulty {
-	if (typeof window !== 'undefined') {
-		const params = new URLSearchParams(window.location.search);
-		const diff = params.get('difficulty');
-		if (isDifficulty(diff)) {
-			return diff;
-		}
-	}
-	return 'easy';
-}
-
 function LobbyContent(): JSX.Element {
 	const { t, language } = useI18n('net');
 	const { t: tCommon } = useI18n('common');
@@ -43,7 +25,6 @@ function LobbyContent(): JSX.Element {
 		hard: 0,
 		expert: 0,
 	});
-	const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty>(getInitialLobbyDifficulty);
 
 	useEffect(() => {
 		async function init() {
@@ -61,31 +42,9 @@ function LobbyContent(): JSX.Element {
 					expert: savedProgress.expert?.completedCount ?? 0,
 				});
 			}
-
-			if (typeof window !== 'undefined') {
-				const params = new URLSearchParams(window.location.search);
-				const diff = params.get('difficulty');
-				if (isDifficulty(diff)) {
-					setSelectedDifficulty(diff);
-					return;
-				}
-			}
-
-			if (savedGame && !savedGame.isSolved) {
-				setSelectedDifficulty(savedGame.difficulty);
-			}
 		}
 		void init();
 	}, []);
-
-	const handleSelectDifficulty = (diff: Difficulty) => {
-		setSelectedDifficulty(diff);
-		if (typeof window !== 'undefined') {
-			const url = new URL(window.location.href);
-			url.searchParams.set('difficulty', diff);
-			window.history.replaceState(null, '', url.toString());
-		}
-	};
 
 	const getDifficultyDescription = (diff: Difficulty): string => {
 		switch (diff) {
@@ -123,12 +82,6 @@ function LobbyContent(): JSX.Element {
 		{ label: `🏅 ${tCommon('navigation.medals')}`, href: `/net/${language}/medals` },
 	];
 
-	const difficultyItems: SegmentedControlItem[] = DIFFICULTIES.map((diff) => ({
-		id: diff,
-		label: t(`difficulty.${diff}`),
-		sublabel: getDifficultyDescription(diff),
-	}));
-
 	return (
 		<GameLandingTemplate
 			title={t('title')}
@@ -137,28 +90,10 @@ function LobbyContent(): JSX.Element {
 			pageFooterLinks={pageFooterLinks}
 			offlineGameId="net"
 		>
-			<SegmentedControl
-				items={difficultyItems}
-				value={selectedDifficulty}
-				onChange={(diff) => handleSelectDifficulty(diff as Difficulty)}
-				ariaLabel={t('difficulty.label')}
-			/>
-
-			<S.PuzzlesSection aria-labelledby="net-puzzles-section-title">
-				<h2 id="net-puzzles-section-title">
-					{t('lobby.selectDifficulty')} ({t(`difficulty.${selectedDifficulty}`)})
-				</h2>
+			<S.PuzzlesSection aria-labelledby="net-difficulty-section-title">
+				<h2 id="net-difficulty-section-title">{t('difficulty.label')}</h2>
 
 				<S.PuzzlesGrid>
-					<QuickPlayCard
-						key="quick-play"
-						as="a"
-						href={`/net/${language}/game?difficulty=${selectedDifficulty}&new=true`}
-						title={t('lobby.quickPlay')}
-						subtitle={getDifficultyDescription(selectedDifficulty)}
-						icon={<Icon emoji="🌐" size="md" />}
-					/>
-
 					{DIFFICULTIES.map((diff) => {
 						const solvedCount = solvedByDifficulty[diff] ?? 0;
 
@@ -169,11 +104,11 @@ function LobbyContent(): JSX.Element {
 								href={`/net/${language}/game?difficulty=${diff}&new=true`}
 								title={t(`difficulty.${diff}`)}
 								dimensions={getDifficultyDescription(diff)}
-								subtitle={solvedCount > 0 ? `${t('status.solved')}: ${solvedCount}` : undefined}
+								subtitle={solvedCount > 0 ? `${t('lobby.completed')}: ${solvedCount}` : undefined}
 								badge={
 									solvedCount > 0
 										? {
-												label: `${t('status.solved')} (${solvedCount})`,
+												label: t('lobby.completed'),
 												variant: 'success',
 											}
 										: undefined

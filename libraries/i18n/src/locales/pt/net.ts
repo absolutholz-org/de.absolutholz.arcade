@@ -27,6 +27,7 @@ export const ptNet: NetTranslationContract = {
 		hardDesc: 'Grade ampla 9×9 com ramificações complexas',
 		expert: 'Especialista (11×11)',
 		expertDesc: 'Enorme rede backbone 11×11',
+		completed: 'Concluído',
 		play: 'Jogar',
 		quickPlay: 'Jogo Rápido',
 		quickPlayDesc: 'Gerar um novo puzzle de rede',

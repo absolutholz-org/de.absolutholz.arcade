@@ -27,6 +27,7 @@ export const deNet: NetTranslationContract = {
 		hardDesc: 'Großes 9×9 Gitter mit verzweigten Leitungen',
 		expert: 'Experte (11×11)',
 		expertDesc: 'Riesiges 11×11 Backbone-Netzwerk-Puzzle',
+		completed: 'Gelöst',
 		play: 'Spielen',
 		quickPlay: 'Schnellspiel',
 		quickPlayDesc: 'Neues Netzwerk-Puzzle generieren',

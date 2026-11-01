@@ -1,5 +1,6 @@
 import { recordGameResult } from '@arcade/lib-medals';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { NET_MEDAL_DEFINITIONS } from '../../config/medals.js';
 import { DEFAULT_NET_SETTINGS, type NetSettings } from '../../config/settings.ts';
 import { createBoardFromSnapshot, generateNetPuzzle } from '../../engine/generator.ts';
 import {
@@ -76,6 +77,7 @@ export function useNetGame({
 					setDifficulty(activeSnapshot.difficulty);
 					setMovesCount(activeSnapshot.movesCount);
 					setElapsedSeconds(activeSnapshot.elapsedTimeSeconds);
+					undoUsedRef.current = Boolean(activeSnapshot.undoUsed);
 					setIsPaused(true); // Resume paused
 					setIsLoaded(true);
 					return;
@@ -124,6 +126,7 @@ export function useNetGame({
 			),
 			movesCount,
 			elapsedTimeSeconds: elapsedSeconds,
+			undoUsed: undoUsedRef.current,
 			isSolved: false,
 			timestamp: Date.now(),
 		};
@@ -153,19 +156,22 @@ export function useNetGame({
 				}
 
 				try {
-					await recordGameResult({
-						gameId: 'net',
-						won: true,
-						playTimeSeconds: elapsedSeconds,
-						levelKey: difficulty,
-						roundContext: {
-							difficulty,
-							movesCount: nextMoves,
-							undoUsed: undoUsedRef.current,
+					await recordGameResult(
+						{
+							gameId: 'net',
+							won: true,
+							playTimeSeconds: elapsedSeconds,
+							levelKey: difficulty,
+							roundContext: {
+								difficulty,
+								movesCount: nextMoves,
+								undoUsed: undoUsedRef.current,
+							},
 						},
-					});
-				} catch {
-					// Non-fatal medals error
+						{ definitions: NET_MEDAL_DEFINITIONS },
+					);
+				} catch (error) {
+					console.warn('[@arcade/net] Failed to record victory medals result:', error);
 				}
 			} else if (formatLiveStatus) {
 				setLiveAnnouncement(formatLiveStatus(validation.poweredCount, validation.totalCells, nextMoves));

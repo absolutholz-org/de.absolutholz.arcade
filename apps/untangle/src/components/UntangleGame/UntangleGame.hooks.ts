@@ -1,6 +1,7 @@
 import { recordGameResult } from '@arcade/lib-medals';
 import { recordGameStats } from '@arcade/lib-storage';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { UNTANGLE_MEDAL_DEFINITIONS } from '../../config/medals.js';
 import { UNTANGLE_SETTINGS_CONFIG } from '../../config/settings.ts';
 import { findIntersections } from '../../engine/geometry.ts';
 import { generatePlanarGraph, moveVertex } from '../../engine/graph-generator.ts';
@@ -212,15 +213,21 @@ export function useUntangleGame({
 			}
 
 			try {
-				await recordGameResult({
-					gameId: 'untangle',
-					won: true,
-					playTimeSeconds,
-					levelKey: nextBoard.difficulty,
-					roundContext: { undoUsed: undoUsedRef.current },
-				});
-			} catch {
-				// Non-fatal medals error
+				await recordGameResult(
+					{
+						gameId: 'untangle',
+						won: true,
+						playTimeSeconds,
+						levelKey: nextBoard.difficulty,
+						roundContext: {
+							difficulty: nextBoard.difficulty,
+							undoUsed: undoUsedRef.current,
+						},
+					},
+					{ definitions: UNTANGLE_MEDAL_DEFINITIONS },
+				);
+			} catch (error) {
+				console.warn('[@arcade/untangle] Failed to record victory medals result:', error);
 			}
 		},
 		[updateAnnouncement],

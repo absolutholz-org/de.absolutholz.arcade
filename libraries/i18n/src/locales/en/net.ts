@@ -27,6 +27,7 @@ export const enNet: NetTranslationContract = {
 		hardDesc: 'Expansive 9×9 grid with dense branch routing',
 		expert: 'Expert (11×11)',
 		expertDesc: 'Massive 11×11 telecom backbone puzzle',
+		completed: 'Completed',
 		play: 'Play',
 		quickPlay: 'Quick Play',
 		quickPlayDesc: 'Generate a new network puzzle',

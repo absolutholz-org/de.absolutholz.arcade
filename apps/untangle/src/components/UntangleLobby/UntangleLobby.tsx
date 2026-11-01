@@ -2,9 +2,6 @@ import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { GameSelectionCard } from '@arcade/lib-ui/components/GameSelectionCard';
-import { Icon } from '@arcade/lib-ui/components/Icon';
-import { QuickPlayCard } from '@arcade/lib-ui/components/QuickPlayCard';
-import { SegmentedControl, type SegmentedControlItem } from '@arcade/lib-ui/components/SegmentedControl';
 import { formatTime } from '@arcade/lib-ui/components/Timer';
 import { GameLandingTemplate } from '@arcade/lib-ui/layouts/GameLandingTemplate';
 import { type JSX, useEffect, useState } from 'react';
@@ -18,21 +15,6 @@ export interface UntangleLobbyProps {
 	lang?: SupportedLanguageCode;
 }
 
-function isDifficulty(value: string | null): value is DifficultyLevel {
-	return value !== null && (DIFFICULTY_LEVELS as readonly string[]).includes(value);
-}
-
-function getInitialLobbyDifficulty(): DifficultyLevel {
-	if (typeof window !== 'undefined') {
-		const params = new URLSearchParams(window.location.search);
-		const diff = params.get('difficulty');
-		if (isDifficulty(diff)) {
-			return diff;
-		}
-	}
-	return 'easy';
-}
-
 function LobbyContent(): JSX.Element {
 	const { t, language } = useI18n('untangle');
 	const { t: tCommon } = useI18n('common');
@@ -42,7 +24,6 @@ function LobbyContent(): JSX.Element {
 		medium: 0,
 		hard: 0,
 	});
-	const [selectedDifficulty, setSelectedDifficulty] = useState<DifficultyLevel>(getInitialLobbyDifficulty);
 
 	useEffect(() => {
 		async function init() {
@@ -67,35 +48,9 @@ function LobbyContent(): JSX.Element {
 					hard: byDiff?.hard ?? mapProgress.hard?.completedCount ?? 0,
 				});
 			}
-
-			if (typeof window !== 'undefined') {
-				const params = new URLSearchParams(window.location.search);
-				const diff = params.get('difficulty');
-				if (isDifficulty(diff)) {
-					setSelectedDifficulty(diff);
-					return;
-				}
-			}
-
-			if (savedGame) {
-				const activeDiff: DifficultyLevel =
-					'difficulty' in savedGame && typeof savedGame.difficulty === 'string'
-						? (savedGame.difficulty as DifficultyLevel)
-						: savedGame.board.difficulty;
-				setSelectedDifficulty(activeDiff);
-			}
 		}
 		void init();
 	}, []);
-
-	const handleSelectDifficulty = (diff: DifficultyLevel) => {
-		setSelectedDifficulty(diff);
-		if (typeof window !== 'undefined') {
-			const url = new URL(window.location.href);
-			url.searchParams.set('difficulty', diff);
-			window.history.replaceState(null, '', url.toString());
-		}
-	};
 
 	const getDifficultyDescription = (diff: DifficultyLevel): string => {
 		switch (diff) {
@@ -143,12 +98,6 @@ function LobbyContent(): JSX.Element {
 		{ label: `🏅 ${tCommon('navigation.medals')}`, href: `/untangle/${language}/medals` },
 	];
 
-	const difficultyItems: SegmentedControlItem[] = DIFFICULTY_LEVELS.map((diff) => ({
-		id: diff,
-		label: t(`difficulty.${diff}`),
-		sublabel: getDifficultyDescription(diff),
-	}));
-
 	return (
 		<GameLandingTemplate
 			title={t('title')}
@@ -157,28 +106,10 @@ function LobbyContent(): JSX.Element {
 			pageFooterLinks={pageFooterLinks}
 			offlineGameId="untangle"
 		>
-			<SegmentedControl
-				items={difficultyItems}
-				value={selectedDifficulty}
-				onChange={(diff) => handleSelectDifficulty(diff as DifficultyLevel)}
-				ariaLabel={t('difficulty.label')}
-			/>
-
-			<S.PuzzlesSection aria-labelledby="untangle-puzzles-section-title">
-				<h2 id="untangle-puzzles-section-title">
-					{t('levels.selectLevel')} ({t(`difficulty.${selectedDifficulty}`)})
-				</h2>
+			<S.PuzzlesSection aria-labelledby="untangle-difficulty-section-title">
+				<h2 id="untangle-difficulty-section-title">{t('difficulty.label')}</h2>
 
 				<S.PuzzlesGrid>
-					<QuickPlayCard
-						key="quick-play"
-						as="a"
-						href={`/untangle/${language}/game?difficulty=${selectedDifficulty}&new=true`}
-						title={t('levels.quickPlay')}
-						subtitle={getDifficultyDescription(selectedDifficulty)}
-						icon={<Icon emoji="🕸️" size="md" />}
-					/>
-
 					{DIFFICULTY_LEVELS.map((diff) => {
 						const solvedCount = solvedByDifficulty[diff] ?? 0;
 
@@ -189,11 +120,11 @@ function LobbyContent(): JSX.Element {
 								href={`/untangle/${language}/game?difficulty=${diff}&new=true`}
 								title={t(`difficulty.${diff}`)}
 								dimensions={getDifficultyDescription(diff)}
-								subtitle={`${t('levels.completed')}: ${solvedCount}`}
+								subtitle={solvedCount > 0 ? `${t('levels.completed')}: ${solvedCount}` : undefined}
 								badge={
 									solvedCount > 0
 										? {
-												label: `${t('levels.completed')} (${solvedCount})`,
+												label: t('levels.completed'),
 												variant: 'success',
 											}
 										: undefined
