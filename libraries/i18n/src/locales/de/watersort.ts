@@ -57,7 +57,7 @@ export const deWatersort: WaterSortTranslationContract = {
 		paused: 'Spiel pausiert',
 		pausedDescription: 'Die Zeit ist angehalten und das Spielfeld verdeckt.',
 		timer: 'Stoppuhr',
-		time: 'Zeit: {{time}}',
+		time: 'Zeit',
 		moves: 'Züge: {{count}}',
 		tubesCompleted: 'Fertig: {{current}} / {{total}}',
 		bestTime: 'Rekord: {{time}}',

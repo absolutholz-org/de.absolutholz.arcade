@@ -74,7 +74,7 @@ export const frNet: NetTranslationContract = {
 		paused: 'Partie en pause',
 		pausedDescription: 'Le chronomètre est arrêté. Respirez !',
 		timer: 'Temps',
-		time: 'Temps : {{time}}',
+		time: 'Temps',
 		moves: 'Rotations : {{moves}}',
 		powered: 'Alimenté : {{count}} / {{total}}',
 		unconnected: 'Non relié : {{count}}',

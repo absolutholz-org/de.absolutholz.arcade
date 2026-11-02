@@ -6,6 +6,19 @@ import { Timer } from '../Timer';
 import * as S from './_VictoryDialog.styles';
 import type { VictoryDialogProps } from './_VictoryDialog.types';
 
+function formatStatLabel(label?: string, fallback = ''): string {
+	if (!label) {
+		return fallback;
+	}
+	// Strip unreplaced template interpolation tags like {{time}} or {{moves}}
+	// and trailing colons (e.g., "Time: {{time}}" -> "TIME", "Rotations: {{moves}}" -> "ROTATIONS")
+	const cleaned = label
+		.replace(/\{\{[^}]+\}\}/g, '')
+		.replace(/:\s*$/, '')
+		.trim();
+	return cleaned || fallback;
+}
+
 export function VictoryDialog({
 	bestTimeText,
 	children,
@@ -35,8 +48,8 @@ export function VictoryDialog({
 	const { t } = useI18n();
 
 	const resolvedTitle = title || t('app.title');
-	const resolvedTimeLabel = timeLabel || 'TIME';
-	const resolvedMovesLabel = movesLabel || 'MOVES';
+	const resolvedTimeLabel = formatStatLabel(timeLabel, 'TIME');
+	const resolvedMovesLabel = formatStatLabel(movesLabel, 'MOVES');
 	const resolvedPlayAgain = playAgainLabel || 'Play Again';
 	const resolvedLobby = lobbyLabel || 'Lobby';
 	const resolvedNextPuzzle = nextPuzzleLabel || 'Next Puzzle';

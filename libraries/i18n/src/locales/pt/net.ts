@@ -74,7 +74,7 @@ export const ptNet: NetTranslationContract = {
 		paused: 'Jogo Pausado',
 		pausedDescription: 'O cronômetro está parado.',
 		timer: 'Tempo',
-		time: 'Tempo: {{time}}',
+		time: 'Tempo',
 		moves: 'Giros: {{moves}}',
 		powered: 'Conectados: {{count}} / {{total}}',
 		unconnected: 'Desconectados: {{count}}',

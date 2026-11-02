@@ -57,7 +57,7 @@ export const ptWatersort: WaterSortTranslationContract = {
 		paused: 'Jogo pausado',
 		pausedDescription: 'O cronômetro está pausado e o tabuleiro oculto.',
 		timer: 'Cronômetro',
-		time: 'Tempo: {{time}}',
+		time: 'Tempo',
 		moves: 'Movimentos: {{count}}',
 		tubesCompleted: 'Concluídos: {{current}} / {{total}}',
 		bestTime: 'Recorde: {{time}}',

@@ -57,7 +57,7 @@ export const enWatersort: WaterSortTranslationContract = {
 		paused: 'Game Paused',
 		pausedDescription: 'The timer is paused and the board is obscured.',
 		timer: 'Timer',
-		time: 'Time: {{time}}',
+		time: 'Time',
 		moves: 'Moves: {{count}}',
 		tubesCompleted: 'Completed: {{current}} / {{total}}',
 		bestTime: 'Best: {{time}}',

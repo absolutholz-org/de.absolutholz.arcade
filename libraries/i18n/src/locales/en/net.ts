@@ -74,7 +74,7 @@ export const enNet: NetTranslationContract = {
 		paused: 'Game Paused',
 		pausedDescription: 'The timer is paused. Take a breather!',
 		timer: 'Time',
-		time: 'Time: {{time}}',
+		time: 'Time',
 		moves: 'Rotations: {{moves}}',
 		powered: 'Powered: {{count}} / {{total}}',
 		unconnected: 'Unconnected: {{count}}',

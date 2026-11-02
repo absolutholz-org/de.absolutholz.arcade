@@ -29,7 +29,7 @@ export function VictoryDialog({
 			elapsedSeconds={gameMode === 'standard' ? elapsedSeconds : undefined}
 			timeLabel={t('status.time')}
 			movesCount={movesCount}
-			movesLabel={t('status.moves', { count: movesCount })}
+			movesLabel={t('status.moves')}
 			isNewBestTime={Boolean(isNewBestTime && gameMode === 'standard')}
 			bestTimeText={t('status.newBestTime')}
 			hasNextPuzzle={hasNextPuzzle}

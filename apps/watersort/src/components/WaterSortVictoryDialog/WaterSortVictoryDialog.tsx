@@ -36,7 +36,7 @@ export function WaterSortVictoryDialog({
 			elapsedSeconds={elapsedSeconds}
 			timeLabel={t('status.time')}
 			movesCount={moves}
-			movesLabel={t('status.moves', { count: '' }).replace(':', '').trim()}
+			movesLabel={t('status.moves')}
 			isNewBestTime={Boolean(isNewBestTime)}
 			bestTimeText={t('status.newBestTime')}
 			hasNextPuzzle={true}

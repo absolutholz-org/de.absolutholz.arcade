@@ -58,7 +58,7 @@ export const frWatersort: WaterSortTranslationContract = {
 		paused: 'Partie en pause',
 		pausedDescription: 'Le chronomètre est arrêté et le plateau est masqué.',
 		timer: 'Chronomètre',
-		time: 'Temps : {{time}}',
+		time: 'Temps',
 		moves: 'Coups : {{count}}',
 		tubesCompleted: 'Terminées : {{current}} / {{total}}',
 		bestTime: 'Record : {{time}}',

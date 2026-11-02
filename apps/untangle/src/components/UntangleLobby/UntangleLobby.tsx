@@ -78,12 +78,7 @@ function LobbyContent(): JSX.Element {
 	const resumeState =
 		activeGame && activeDifficulty
 			? {
-					message: `${t(`difficulty.${activeDifficulty}`)} • ${formatTime(activeGame.elapsedSeconds)} • ${t(
-						'status.moves',
-						{
-							count: activeMoves,
-						},
-					)}`,
+					message: `${t(`difficulty.${activeDifficulty}`)} • ${formatTime(activeGame.elapsedSeconds)} • ${activeMoves} ${t('status.moves')}`,
 					onResume: () => {
 						window.location.href = `/untangle/${language}/game?resume=true`;
 					},

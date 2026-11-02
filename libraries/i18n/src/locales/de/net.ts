@@ -74,7 +74,7 @@ export const deNet: NetTranslationContract = {
 		paused: 'Spiel pausiert',
 		pausedDescription: 'Die Zeit ist angehalten. Durchatmen!',
 		timer: 'Zeit',
-		time: 'Zeit: {{time}}',
+		time: 'Zeit',
 		moves: 'Drehungen: {{moves}}',
 		powered: 'Verbunden: {{count}} / {{total}}',
 		unconnected: 'Unverbunden: {{count}}',
