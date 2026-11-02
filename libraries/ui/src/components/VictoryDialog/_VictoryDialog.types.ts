@@ -18,6 +18,8 @@ export interface VictoryDialogProps {
 	message?: string;
 	/** Whether to render the header close button (default: true) */
 	showCloseButton?: boolean;
+	/** Whether confetti celebration is triggered when open (default: true) */
+	hasConfetti?: boolean;
 
 	/** Elapsed time in seconds to display in time card */
 	elapsedSeconds?: number;

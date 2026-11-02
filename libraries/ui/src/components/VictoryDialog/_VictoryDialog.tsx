@@ -1,5 +1,6 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { Button } from '../Button';
+import { Confetti } from '../Confetti';
 import { Dialog } from '../Dialog';
 import { Timer } from '../Timer';
 import * as S from './_VictoryDialog.styles';
@@ -9,6 +10,7 @@ export function VictoryDialog({
 	bestTimeText,
 	children,
 	elapsedSeconds,
+	hasConfetti = true,
 	hasNextPuzzle = false,
 	id,
 	isNewBestTime = false,
@@ -47,80 +49,83 @@ export function VictoryDialog({
 	const showSplitActions = Boolean(onPlayAgain || lobbyHref || onLobby);
 
 	return (
-		<Dialog
-			id={id}
-			isOpen={isOpen}
-			onCancel={onClose}
-			title={resolvedTitle}
-			message={message}
-			showCloseButton={showCloseButton}
-		>
-			<S.VictoryContent>
-				{children && <S.VisualSlot>{children}</S.VisualSlot>}
+		<>
+			{isOpen && hasConfetti && <Confetti />}
+			<Dialog
+				id={id}
+				isOpen={isOpen}
+				onCancel={onClose}
+				title={resolvedTitle}
+				message={message}
+				showCloseButton={showCloseButton}
+			>
+				<S.VictoryContent>
+					{children && <S.VisualSlot>{children}</S.VisualSlot>}
 
-				{statItemsCount > 0 && (
-					<S.StatsGrid data-columns={columnCount}>
-						{hasTime && (
-							<S.StatCard>
-								<span data-slot="label">{resolvedTimeLabel}</span>
-								<Timer seconds={elapsedSeconds} size="lg" showIcon={false} />
-							</S.StatCard>
-						)}
-
-						{hasMoves && (
-							<S.StatCard>
-								<span data-slot="label">{resolvedMovesLabel}</span>
-								<span data-slot="value">{movesCount}</span>
-							</S.StatCard>
-						)}
-
-						{stats?.map((stat) => (
-							<S.StatCard key={stat.label}>
-								<span data-slot="label">{stat.label}</span>
-								<span data-slot="value">{stat.value}</span>
-							</S.StatCard>
-						))}
-					</S.StatsGrid>
-				)}
-
-				{isNewBestTime && <S.BestTimeBadge>{bestTimeText || 'New Best Time!'}</S.BestTimeBadge>}
-
-				<S.Actions>
-					{hasNextPuzzle && onNextPuzzle && (
-						<S.PrimaryAction>
-							<Button variant="primary" size="md" onClick={onNextPuzzle}>
-								{resolvedNextPuzzle}
-							</Button>
-						</S.PrimaryAction>
-					)}
-
-					{showSplitActions && (
-						<S.SplitActions>
-							{onPlayAgain && (
-								<Button
-									variant={hasNextPuzzle && onNextPuzzle ? 'secondary' : 'primary'}
-									size="md"
-									onClick={onPlayAgain}
-								>
-									{resolvedPlayAgain}
-								</Button>
+					{statItemsCount > 0 && (
+						<S.StatsGrid data-columns={columnCount}>
+							{hasTime && (
+								<S.StatCard>
+									<span data-slot="label">{resolvedTimeLabel}</span>
+									<Timer seconds={elapsedSeconds} size="lg" showIcon={false} />
+								</S.StatCard>
 							)}
 
-							{lobbyHref ? (
-								<Button as="a" href={lobbyHref} variant="secondary" size="md">
-									{resolvedLobby}
-								</Button>
-							) : onLobby ? (
-								<Button variant="secondary" size="md" onClick={onLobby}>
-									{resolvedLobby}
-								</Button>
-							) : null}
-						</S.SplitActions>
+							{hasMoves && (
+								<S.StatCard>
+									<span data-slot="label">{resolvedMovesLabel}</span>
+									<span data-slot="value">{movesCount}</span>
+								</S.StatCard>
+							)}
+
+							{stats?.map((stat) => (
+								<S.StatCard key={stat.label}>
+									<span data-slot="label">{stat.label}</span>
+									<span data-slot="value">{stat.value}</span>
+								</S.StatCard>
+							))}
+						</S.StatsGrid>
 					)}
 
-					{secondaryActions && <S.SecondaryActions>{secondaryActions}</S.SecondaryActions>}
-				</S.Actions>
-			</S.VictoryContent>
-		</Dialog>
+					{isNewBestTime && <S.BestTimeBadge>{bestTimeText || 'New Best Time!'}</S.BestTimeBadge>}
+
+					<S.Actions>
+						{hasNextPuzzle && onNextPuzzle && (
+							<S.PrimaryAction>
+								<Button variant="primary" size="md" onClick={onNextPuzzle}>
+									{resolvedNextPuzzle}
+								</Button>
+							</S.PrimaryAction>
+						)}
+
+						{showSplitActions && (
+							<S.SplitActions>
+								{onPlayAgain && (
+									<Button
+										variant={hasNextPuzzle && onNextPuzzle ? 'secondary' : 'primary'}
+										size="md"
+										onClick={onPlayAgain}
+									>
+										{resolvedPlayAgain}
+									</Button>
+								)}
+
+								{lobbyHref ? (
+									<Button as="a" href={lobbyHref} variant="secondary" size="md">
+										{resolvedLobby}
+									</Button>
+								) : onLobby ? (
+									<Button variant="secondary" size="md" onClick={onLobby}>
+										{resolvedLobby}
+									</Button>
+								) : null}
+							</S.SplitActions>
+						)}
+
+						{secondaryActions && <S.SecondaryActions>{secondaryActions}</S.SecondaryActions>}
+					</S.Actions>
+				</S.VictoryContent>
+			</Dialog>
+		</>
 	);
 }

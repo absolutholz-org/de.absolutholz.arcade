@@ -4,6 +4,10 @@
 	"private": true,
 	"description": "Design system package for Arcade monorepo",
 	"exports": {
+		".": {
+			"types": "./src/index.ts",
+			"default": "./src/index.ts"
+		},
 		"./audio/*": {
 			"types": "./src/audio/*.ts",
 			"default": "./src/audio/*.ts"

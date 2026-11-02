@@ -71,6 +71,7 @@ Transient dialogs, drawers, floating popovers, and status notifications.
 | **`PauseOverlay`** | `@arcade/lib-ui/components/PauseOverlay` | Fullscreen modal scrim pausing game canvas execution with resume/restart actions. | `onResume`, `onRestart`, `onExit`. |
 | **`PauseDialog`** | `@arcade/lib-ui` | Standardized in-game pause dialog consuming canonical Dialog with Resume (primary) and Restart (outline) actions. | `isOpen`, `onResume`, `onRestart`. |
 | **`VictoryDialog`** | `@arcade/lib-ui` | Post-game celebration dialog showing completion stats, medal progress, and next puzzle actions. | `isOpen`, `stats: VictoryStatItem[]`, `onPlayAgain`, `onNextPuzzle`. |
+| **`Confetti`** | `@arcade/lib-ui/components/Confetti` | Zero-dependency HTML5 2D canvas particle celebration effect bursting from flanks with 3D tumbling physics. | `particleCount`, `onComplete`. |
 | **`UserProfileDialog`** | `@arcade/lib-ui` | Account dialog handling guest sessions, cloud sync switching, display name updates, and sign-in. | `isOpen`, `onClose`, `session`, `onSwitchStorageMode`. |
 | **`ConsentBanner` / `ConsentDialog`** | `@arcade/lib-ui` | GDPR/ePrivacy compliant cookie and cloud telemetry consent management. | Managed via `@arcade/lib-consent`. |
 
