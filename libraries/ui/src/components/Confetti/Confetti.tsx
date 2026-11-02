@@ -21,11 +21,11 @@ interface Particle {
 function createParticle(width: number, height: number, index: number, total: number): Particle {
 	const isLeft = index % 2 === 0;
 
-	// Distribute spawn origins vertically along the side flanks from upper screen (15% height)
-	// down to lower screen (70% height) to guarantee full-page coverage on both tall mobile screens
-	// and desktop viewports without leaving the upper half empty.
+	// Distribute spawn origins vertically along the side flanks from upper-mid screen (30% height)
+	// down to lower screen (75% height) to guarantee full-page coverage without triggering too close
+	// to the top edge.
 	const verticalProgress = index / total;
-	const originY = height * (0.15 + verticalProgress * 0.55) + (Math.random() - 0.5) * (height * 0.08);
+	const originY = height * (0.3 + verticalProgress * 0.45) + (Math.random() - 0.5) * (height * 0.08);
 
 	// Launch from screen flanks across outer 25%
 	const originX = isLeft ? Math.random() * (width * 0.25) : width * 0.75 + Math.random() * (width * 0.25);

@@ -3,7 +3,6 @@ import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { isSupportedLanguage } from '@arcade/lib-i18n/utils/detection';
-import { Button } from '@arcade/lib-ui/components/Button';
 import { Dialog } from '@arcade/lib-ui/components/Dialog';
 import { GameHeader } from '@arcade/lib-ui/components/GameHeader';
 import { GameSettingsPanel } from '@arcade/lib-ui/components/GameSettingsPanel';
@@ -136,41 +135,41 @@ function UntangleGameInner({
 			</div>
 
 			<Toolbar fullWidth variant="ghost" size="sm" align="center" aria-label={t('aria.actionsToolbar')}>
-				<Button
-					variant="secondary"
-					size="sm"
-					leadingIcon={<Icon name="undo" size="sm" />}
+				<S.ActionButton
+					type="button"
 					onClick={game.handleUndo}
 					disabled={!game.canUndo}
+					aria-label={t('controls.undo')}
 				>
-					{t('controls.undo')}
-				</Button>
-				<Button
-					variant="secondary"
-					size="sm"
-					leadingIcon={<Icon name="redo" size="sm" />}
+					<Icon name="undo" size="sm" />
+					<span>{t('controls.undo')}</span>
+				</S.ActionButton>
+				<S.ActionButton
+					type="button"
 					onClick={game.handleRedo}
 					disabled={!game.canRedo}
+					aria-label={t('controls.redo')}
 				>
-					{t('controls.redo')}
-				</Button>
-				<Button
-					variant="secondary"
-					size="sm"
-					leadingIcon={<Icon name="rotate-ccw" size="sm" />}
+					<Icon name="redo" size="sm" />
+					<span>{t('controls.redo')}</span>
+				</S.ActionButton>
+				<S.ActionButton
+					type="button"
 					onClick={game.handleReset}
 					disabled={game.board.moveCount === 0}
+					aria-label={t('controls.reset')}
 				>
-					{t('controls.reset')}
-				</Button>
-				<Button
-					variant="secondary"
-					size="sm"
-					leadingIcon={<Icon name="sparkles" size="sm" />}
+					<Icon name="rotate-ccw" size="sm" />
+					<span>{t('controls.reset')}</span>
+				</S.ActionButton>
+				<S.ActionButton
+					type="button"
 					onClick={() => game.handleNewPuzzle()}
+					aria-label={t('controls.newPuzzle')}
 				>
-					{t('controls.newPuzzle')}
-				</Button>
+					<Icon name="sparkles" size="sm" />
+					<span>{t('controls.newPuzzle')}</span>
+				</S.ActionButton>
 			</Toolbar>
 
 			<PauseDialog
