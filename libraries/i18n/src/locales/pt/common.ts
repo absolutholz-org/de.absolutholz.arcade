@@ -154,6 +154,10 @@ export const ptCommon = {
 	settings: {
 		title: 'Configurações',
 		description: 'Personalize sua experiência no arcade.',
+		soundTitle: 'Efeitos sonoros',
+		soundDescription: 'Ativar áudio sintetizado do jogo e feedback sonoro.',
+		hapticsTitle: 'Feedback tátil',
+		hapticsDescription: 'Vibrar em interações e conquistas (dispositivos compatíveis).',
 		gameSectionTitle: 'Preferências do Jogo',
 		gameSectionDescription: 'Personalize as opções de jogo e assistências.',
 		appearanceSectionTitle: 'Aparência',

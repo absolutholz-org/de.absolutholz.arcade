@@ -1,3 +1,4 @@
+import { playDrop, playPickup, playProgress, playRegression, playTap, triggerHaptic } from '@arcade/lib-audio';
 import { getGameMedalState, recordGameResult } from '@arcade/lib-medals';
 import { recordGameStats } from '@arcade/lib-storage';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -308,7 +309,12 @@ export function useAnagramGame(difficulty: DifficultyLevel, mode: GameMode, init
 	const stageTile = useCallback(
 		(id: number) => {
 			if (!isInteractive) return;
-			setStagedIds((ids) => (ids.includes(id) ? ids : [...ids, id]));
+			setStagedIds((ids) => {
+				if (ids.includes(id)) return ids;
+				playPickup();
+				triggerHaptic('light');
+				return [...ids, id];
+			});
 		},
 		[isInteractive],
 	);
@@ -316,6 +322,7 @@ export function useAnagramGame(difficulty: DifficultyLevel, mode: GameMode, init
 	const recallTile = useCallback(
 		(id: number) => {
 			if (!isInteractive) return;
+			playTap();
 			setStagedIds((ids) => ids.filter((stagedId) => stagedId !== id));
 		},
 		[isInteractive],
@@ -327,7 +334,11 @@ export function useAnagramGame(difficulty: DifficultyLevel, mode: GameMode, init
 			const letter =
 				vocabLanguage === 'pt' || vocabLanguage === 'fr' ? normalizeWord(rawLetter) : normalizeTile(rawLetter);
 			const freeTile = tiles.find((tile) => tile.letter === letter && !stagedIds.includes(tile.id));
-			if (freeTile) setStagedIds((ids) => [...ids, freeTile.id]);
+			if (freeTile) {
+				playPickup();
+				triggerHaptic('light');
+				setStagedIds((ids) => [...ids, freeTile.id]);
+			}
 		},
 		[isInteractive, tiles, stagedIds, vocabLanguage],
 	);
@@ -335,12 +346,14 @@ export function useAnagramGame(difficulty: DifficultyLevel, mode: GameMode, init
 	const recallLast = useCallback(() => {
 		if (!isInteractive) return;
 		stats.current.usedCorrections = true;
+		playTap();
 		setStagedIds((ids) => ids.slice(0, -1));
 	}, [isInteractive]);
 
 	const clearStaged = useCallback(() => {
 		if (!isInteractive) return;
 		stats.current.usedCorrections = true;
+		playTap();
 		setStagedIds([]);
 	}, [isInteractive]);
 
@@ -357,6 +370,7 @@ export function useAnagramGame(difficulty: DifficultyLevel, mode: GameMode, init
 		) {
 			stats.current.quickShuffleBurst = true;
 		}
+		playTap();
 		setTiles((current) => shuffleRack(current));
 	}, [isInteractive]);
 
@@ -371,6 +385,8 @@ export function useAnagramGame(difficulty: DifficultyLevel, mode: GameMode, init
 			if (result === 'duplicate') stats.current.duplicateGuesses += 1;
 			else stats.current.invalidGuesses += 1;
 			setFeedback({ kind: result, word: matched[0] ?? word });
+			playRegression();
+			triggerHaptic('warning');
 			return;
 		}
 
@@ -386,6 +402,8 @@ export function useAnagramGame(difficulty: DifficultyLevel, mode: GameMode, init
 		setScore(nextScore);
 		if (newlyClearedBaseline) setHasClearedBaseline(true);
 		setFeedback({ kind: 'accepted', word: displayWord, points, clearedBaseline: newlyClearedBaseline });
+		playProgress(nextWords.length);
+		triggerHaptic('medium');
 
 		if (
 			round.fullLengthWords.some((fullWord) => matchedWords.includes(fullWord) || fullWord === word) &&

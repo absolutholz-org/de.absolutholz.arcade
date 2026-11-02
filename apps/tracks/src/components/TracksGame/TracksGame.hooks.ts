@@ -1,3 +1,4 @@
+import { playDrop, playRegression, playTap, triggerHaptic } from '@arcade/lib-audio';
 import { recordGameResult } from '@arcade/lib-medals';
 import { recordGameStats } from '@arcade/lib-storage';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -608,11 +609,30 @@ export function useTracksGame(initialDifficulty: DifficultyLevel = 'easy', initi
 			);
 
 			if (settingsRef.current.gameMode === 'standard' && didCauseNewOverflow(prevBoard, finalBoard)) {
+				playRegression();
+				triggerHaptic('warning');
 				const nextMistakes = Math.min(MAX_MISTAKES, mistakesRef.current + 1);
 				mistakesRef.current = nextMistakes;
 				setMistakes(nextMistakes);
 				if (nextMistakes >= MAX_MISTAKES) {
 					recordSurrender(elapsedRef.current);
+				}
+			} else {
+				let hasNewTrack = false;
+				for (let r = 0; r < finalBoard.size; r++) {
+					for (let c = 0; c < finalBoard.size; c++) {
+						if (isTrackType(finalBoard.grid[r][c]) && !isTrackType(prevBoard.grid[r][c])) {
+							hasNewTrack = true;
+							break;
+						}
+					}
+					if (hasNewTrack) break;
+				}
+				if (hasNewTrack) {
+					playDrop();
+					triggerHaptic('light');
+				} else {
+					playTap();
 				}
 			}
 
@@ -840,6 +860,8 @@ export function useTracksGame(initialDifficulty: DifficultyLevel = 'easy', initi
 		setHistory(nextHistory);
 		boardRef.current = nextHistory.present;
 		setBoard(nextHistory.present);
+		playRegression();
+		triggerHaptic('light');
 	}, [isComplete, isPaused, history]);
 
 	const handleRedo = useCallback(() => {
@@ -848,6 +870,8 @@ export function useTracksGame(initialDifficulty: DifficultyLevel = 'easy', initi
 		setHistory(nextHistory);
 		boardRef.current = nextHistory.present;
 		setBoard(nextHistory.present);
+		playDrop();
+		triggerHaptic('light');
 	}, [isComplete, isPaused, history]);
 
 	const handleReset = useCallback(() => {

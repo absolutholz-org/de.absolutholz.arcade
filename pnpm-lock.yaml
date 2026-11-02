@@ -223,6 +223,9 @@ importers:
       '@arcade/lib-astro-config':
         specifier: workspace:*
         version: link:../../libraries/astro-config
+      '@arcade/lib-audio':
+        specifier: workspace:*
+        version: link:../../libraries/audio
       '@arcade/lib-i18n':
         specifier: workspace:*
         version: link:../../libraries/i18n
@@ -278,6 +281,9 @@ importers:
       '@arcade/lib-astro-config':
         specifier: workspace:*
         version: link:../../libraries/astro-config
+      '@arcade/lib-audio':
+        specifier: workspace:*
+        version: link:../../libraries/audio
       '@arcade/lib-i18n':
         specifier: workspace:*
         version: link:../../libraries/i18n
@@ -333,6 +339,9 @@ importers:
       '@arcade/lib-astro-config':
         specifier: workspace:*
         version: link:../../libraries/astro-config
+      '@arcade/lib-audio':
+        specifier: workspace:*
+        version: link:../../libraries/audio
       '@arcade/lib-games':
         specifier: workspace:*
         version: link:../../libraries/games
@@ -391,6 +400,9 @@ importers:
       '@arcade/lib-astro-config':
         specifier: workspace:*
         version: link:../../libraries/astro-config
+      '@arcade/lib-audio':
+        specifier: workspace:*
+        version: link:../../libraries/audio
       '@arcade/lib-i18n':
         specifier: workspace:*
         version: link:../../libraries/i18n
@@ -446,6 +458,9 @@ importers:
       '@arcade/lib-astro-config':
         specifier: workspace:*
         version: link:../../libraries/astro-config
+      '@arcade/lib-audio':
+        specifier: workspace:*
+        version: link:../../libraries/audio
       '@arcade/lib-i18n':
         specifier: workspace:*
         version: link:../../libraries/i18n
@@ -501,6 +516,9 @@ importers:
       '@arcade/lib-astro-config':
         specifier: workspace:*
         version: link:../../libraries/astro-config
+      '@arcade/lib-audio':
+        specifier: workspace:*
+        version: link:../../libraries/audio
       '@arcade/lib-i18n':
         specifier: workspace:*
         version: link:../../libraries/i18n
@@ -556,6 +574,9 @@ importers:
       '@arcade/lib-astro-config':
         specifier: workspace:*
         version: link:../../libraries/astro-config
+      '@arcade/lib-audio':
+        specifier: workspace:*
+        version: link:../../libraries/audio
       '@arcade/lib-i18n':
         specifier: workspace:*
         version: link:../../libraries/i18n
@@ -611,6 +632,9 @@ importers:
       '@arcade/lib-astro-config':
         specifier: workspace:*
         version: link:../../libraries/astro-config
+      '@arcade/lib-audio':
+        specifier: workspace:*
+        version: link:../../libraries/audio
       '@arcade/lib-i18n':
         specifier: workspace:*
         version: link:../../libraries/i18n
@@ -666,6 +690,9 @@ importers:
       '@arcade/lib-astro-config':
         specifier: workspace:*
         version: link:../../libraries/astro-config
+      '@arcade/lib-audio':
+        specifier: workspace:*
+        version: link:../../libraries/audio
       '@arcade/lib-i18n':
         specifier: workspace:*
         version: link:../../libraries/i18n
@@ -721,6 +748,9 @@ importers:
       '@arcade/lib-astro-config':
         specifier: workspace:*
         version: link:../../libraries/astro-config
+      '@arcade/lib-audio':
+        specifier: workspace:*
+        version: link:../../libraries/audio
       '@arcade/lib-i18n':
         specifier: workspace:*
         version: link:../../libraries/i18n
@@ -776,6 +806,9 @@ importers:
       '@arcade/lib-astro-config':
         specifier: workspace:*
         version: link:../../libraries/astro-config
+      '@arcade/lib-audio':
+        specifier: workspace:*
+        version: link:../../libraries/audio
       '@arcade/lib-i18n':
         specifier: workspace:*
         version: link:../../libraries/i18n
@@ -831,6 +864,9 @@ importers:
       '@arcade/lib-astro-config':
         specifier: workspace:*
         version: link:../../libraries/astro-config
+      '@arcade/lib-audio':
+        specifier: workspace:*
+        version: link:../../libraries/audio
       '@arcade/lib-i18n':
         specifier: workspace:*
         version: link:../../libraries/i18n
@@ -895,6 +931,15 @@ importers:
       astro:
         specifier: 'catalog:'
         version: 4.16.19(@types/node@26.6.3)(lightningcss@1.33.0)(rollup@4.63.6)(supports-color@7.2.0)(typescript@5.9.3)
+
+  libraries/audio:
+    devDependencies:
+      typescript:
+        specifier: ^5.7.2
+        version: 5.9.3
+      vitest:
+        specifier: ^4.1.8
+        version: 4.1.11(@types/node@26.6.3)(@vitest/browser-playwright@4.1.11)(@vitest/coverage-v8@4.1.11)(happy-dom@20.14.5)(vite@8.3.3(@types/node@26.6.3))
 
   libraries/consent:
     devDependencies:
@@ -966,6 +1011,9 @@ importers:
 
   libraries/ui:
     dependencies:
+      '@arcade/lib-audio':
+        specifier: workspace:*
+        version: link:../audio
       '@arcade/lib-consent':
         specifier: workspace:*
         version: link:../consent

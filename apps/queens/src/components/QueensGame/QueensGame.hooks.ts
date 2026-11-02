@@ -1,3 +1,4 @@
+import { playDrop, playRegression, playTap, triggerHaptic } from '@arcade/lib-audio';
 import { recordGameResult } from '@arcade/lib-medals';
 import { recordGameStats } from '@arcade/lib-storage';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -413,10 +414,17 @@ export function useQueensGame(initialDifficulty: Difficulty = 'easy', initialPuz
 					const confs = getConflicts(tempBoard, puzzleRef.current.regions, puzzleRef.current.size);
 					if (confs.has(`${row},${col}`)) {
 						crownCollisionsTriggeredRef.current += 1;
+						playRegression();
+						triggerHaptic('warning');
+					} else {
+						playDrop();
+						triggerHaptic('light');
 					}
 					if (confs.size > maxSimultaneousConflictsRef.current) {
 						maxSimultaneousConflictsRef.current = confs.size;
 					}
+				} else {
+					playTap();
 				}
 
 				if (nextState === 'mark') {
@@ -614,6 +622,8 @@ export function useQueensGame(initialDifficulty: Difficulty = 'easy', initialPuz
 			});
 
 			setRedoStack((prevRedo) => [...prevRedo, actionToUndo]);
+			playRegression();
+			triggerHaptic('light');
 			return newHistory;
 		});
 	}, [isComplete, isPaused]);
@@ -659,6 +669,8 @@ export function useQueensGame(initialDifficulty: Difficulty = 'easy', initialPuz
 			});
 
 			setHistory((prevHistory) => [...prevHistory, actionToRedo]);
+			playDrop();
+			triggerHaptic('light');
 			return newRedo;
 		});
 	}, [isComplete, isPaused]);

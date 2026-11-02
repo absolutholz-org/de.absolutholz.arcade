@@ -1,3 +1,4 @@
+import { playDrop, playRegression, playTap, triggerHaptic } from '@arcade/lib-audio';
 import { recordGameResult } from '@arcade/lib-medals';
 import { recordGameStats } from '@arcade/lib-storage';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -278,10 +279,25 @@ export function useNonogramEngine(initialDifficulty: DifficultyId = 'easy', init
 
 			// Strikeout check (3 errors committed)
 			if (hasNewMistake && mistakesCountRef.current >= 3) {
+				playRegression();
+				triggerHaptic('warning');
 				cellsRef.current = nextCells;
 				setCells(nextCells);
 				await handleStrikeout();
 				return;
+			}
+
+			if (hasNewMistake) {
+				playRegression();
+				triggerHaptic('warning');
+			} else {
+				const hasFill = actions.some((a) => a.nextState === 'filled');
+				if (hasFill) {
+					playDrop();
+					triggerHaptic('light');
+				} else {
+					playTap();
+				}
 			}
 
 			// Auto-cross completed lines if setting enabled
@@ -440,6 +456,8 @@ export function useNonogramEngine(initialDifficulty: DifficultyId = 'easy', init
 		setCells(nextCells);
 		historyIndexRef.current = curIdx - 1;
 		setHistoryIndex(curIdx - 1);
+		playRegression();
+		triggerHaptic('light');
 	}, [history]);
 
 	// Redo action
@@ -462,6 +480,8 @@ export function useNonogramEngine(initialDifficulty: DifficultyId = 'easy', init
 		setCells(nextCells);
 		historyIndexRef.current = curIdx + 1;
 		setHistoryIndex(curIdx + 1);
+		playDrop();
+		triggerHaptic('light');
 	}, [history]);
 
 	// Reset board to initial empty state

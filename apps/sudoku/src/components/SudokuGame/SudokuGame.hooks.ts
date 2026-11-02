@@ -1,3 +1,4 @@
+import { playDrop, playRegression, playTap, triggerHaptic } from '@arcade/lib-audio';
 import { type SudokuDifficulty, recordGameResult } from '@arcade/lib-medals';
 import { createGameStorage, recordGameSession, recordGameStats } from '@arcade/lib-storage';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -388,6 +389,7 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 				setGrid(nextGrid);
 				setHistory((prev) => [...prev, move]);
 				setRedoStack([]);
+				playTap();
 			} else {
 				if (cell.value === digit) return;
 
@@ -415,6 +417,8 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 				let isGameOver = false;
 				if (solutionRef.current.length === 9 && solutionRef.current[row]?.[col] !== undefined) {
 					if (digit !== solutionRef.current[row][col]) {
+						playRegression();
+						triggerHaptic('warning');
 						const nextMistakes = mistakesRef.current + 1;
 						setMistakesCount(nextMistakes);
 						mistakesRef.current = nextMistakes;
@@ -501,6 +505,8 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 				setRedoStack([]);
 
 				if (!isGameOver) {
+					playDrop();
+					triggerHaptic('light');
 					checkWinCondition(nextGrid);
 				}
 			}
@@ -531,6 +537,7 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 			setGrid(nextGrid);
 			setHistory((prev) => [...prev, move]);
 			setRedoStack([]);
+			playTap();
 		} else if (cell.notes.some(Boolean)) {
 			const move: MoveAction = {
 				type: 'clearNotes',
@@ -542,6 +549,7 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 			setGrid(nextGrid);
 			setHistory((prev) => [...prev, move]);
 			setRedoStack([]);
+			playTap();
 		}
 	}, [activeCell, grid, isPaused, isComplete]);
 
@@ -561,6 +569,8 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 		setHistory((prev) => prev.slice(0, -1));
 		setRedoStack((prev) => [...prev, lastMove]);
 		setActiveCell({ row: lastMove.row, col: lastMove.col });
+		playRegression();
+		triggerHaptic('light');
 	}, [history, grid, isPaused, isComplete]);
 
 	// Action: Redo
@@ -576,6 +586,8 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 		setRedoStack((prev) => prev.slice(0, -1));
 		setHistory((prev) => [...prev, nextMove]);
 		setActiveCell({ row: nextMove.row, col: nextMove.col });
+		playDrop();
+		triggerHaptic('light');
 
 		checkWinCondition(reappliedGrid);
 	}, [redoStack, grid, isPaused, isComplete, checkWinCondition]);

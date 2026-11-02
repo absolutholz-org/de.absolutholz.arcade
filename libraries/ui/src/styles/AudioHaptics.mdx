@@ -1,0 +1,61 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { AudioHapticsShowcase } from './theme/docs/AudioHapticsShowcase';
+
+<Meta title="Foundations/Audio & Haptics" />
+
+# Audio & Haptics
+
+This document outlines the arcade's zero-dependency synthesized audio architecture and native haptic feedback patterns.
+
+---
+
+## Interactive Playground
+
+Use the interactive showcase below to preview synthesized audio primitives and trigger haptic vibration patterns on supported devices.
+
+<AudioHapticsShowcase />
+
+---
+
+## Architectural Principles
+
+### 1. Zero-Asset Synthesized Audio
+Instead of bundling multi-megabyte MP3/WAV/OGG sound assets over the network, all game sound effects in `@arcade/lib-audio` are synthesized at runtime via the browser's native **Web Audio API** (`AudioContext`, `OscillatorNode`, and `GainNode`).
+- **Zero Network Latency**: Sounds start playing instantly without decoding delays or network fetching.
+- **Zero Assets**: Zero extra bundle size overhead.
+- **Parametric Adaptability**: Frequencies, decay envelopes, and pitches are calculated procedurally (such as pentatonic progression steps).
+
+### 2. Autoplay Policy & AudioContext Lifecycle
+Browsers enforce strict autoplay policies requiring user gestures before an `AudioContext` is permitted to play sound:
+- AudioContext initialization is **lazy** and **SSR-safe** (`typeof window !== 'undefined'`).
+- If created in a `'suspended'` state, a one-time global user gesture listener (`pointerdown`, `keydown`) is attached to resume the context automatically on the user's first natural interaction.
+
+### 3. Early-Exit Gates
+Whenever sound or haptics are toggled off via global user settings:
+- Sound synthesis functions exit **immediately** prior to allocating any `AudioNode` instances.
+- Haptics functions exit **immediately** prior to invoking `navigator.vibrate`.
+
+### 4. Code Example
+
+```tsx
+import {
+  playTap,
+  playPickup,
+  playDrop,
+  playProgress,
+  playVictoryFanfare,
+  triggerHaptic,
+} from '@arcade/lib-audio';
+
+// Button or card tap
+function handleTileClick(stepIndex: number) {
+  playTap();
+  triggerHaptic('light');
+}
+
+// Puzzle completed
+function handleGameWon() {
+  playVictoryFanfare();
+  triggerHaptic('success');
+}
+```

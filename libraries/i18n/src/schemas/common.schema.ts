@@ -146,6 +146,10 @@ export const commonSchema = {
 	settings: {
 		title: 'settings.title',
 		description: 'settings.description',
+		soundTitle: 'settings.soundTitle',
+		soundDescription: 'settings.soundDescription',
+		hapticsTitle: 'settings.hapticsTitle',
+		hapticsDescription: 'settings.hapticsDescription',
 		gameSectionTitle: 'settings.gameSectionTitle',
 		gameSectionDescription: 'settings.gameSectionDescription',
 		appearanceSectionTitle: 'settings.appearanceSectionTitle',

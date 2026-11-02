@@ -1,9 +1,15 @@
 import { describe, expect, it } from 'vitest';
 import {
+	DEFAULT_GLOBAL_SETTINGS,
 	GAME_SETTINGS_STORAGE_KEY,
+	GLOBAL_SETTINGS_APP_SCOPE,
+	GLOBAL_SETTINGS_STORAGE_KEY,
 	createGameStorage,
 	getGameSettings,
+	getGlobalSettings,
+	getGlobalSettingsSync,
 	saveGameSettings,
+	saveGlobalSettings,
 } from '../createGameStorage.js';
 import { MemoryStorageDriver } from '../drivers/memoryDriver.js';
 
@@ -88,5 +94,51 @@ describe('Game Settings Persistence & Merging', () => {
 
 		const loaded = await getGameSettings('tents', DEFAULT_TEST_SETTINGS, storage);
 		expect(loaded).toEqual(DEFAULT_TEST_SETTINGS);
+	});
+
+	describe('Global Arcade Settings Persistence', () => {
+		it('returns default global settings when storage is empty', async () => {
+			const driver = new MemoryStorageDriver();
+			const storage = createGameStorage(GLOBAL_SETTINGS_APP_SCOPE, { driver });
+
+			const settings = await getGlobalSettings(storage);
+			expect(settings).toEqual({
+				soundEnabled: true,
+				hapticsEnabled: true,
+			});
+		});
+
+		it('persists and updates global settings under arcade::global::settings', async () => {
+			const driver = new MemoryStorageDriver();
+			const storage = createGameStorage(GLOBAL_SETTINGS_APP_SCOPE, { driver });
+
+			const updated = await saveGlobalSettings({ soundEnabled: false }, storage);
+			expect(updated).toEqual({
+				soundEnabled: false,
+				hapticsEnabled: true,
+			});
+
+			const raw = await driver.getItem(`arcade::${GLOBAL_SETTINGS_APP_SCOPE}::${GLOBAL_SETTINGS_STORAGE_KEY}`);
+			expect(raw).not.toBeNull();
+			expect(JSON.parse(raw as string)).toEqual({
+				soundEnabled: false,
+				hapticsEnabled: true,
+			});
+
+			const retrieved = await getGlobalSettings(storage);
+			expect(retrieved).toEqual({
+				soundEnabled: false,
+				hapticsEnabled: true,
+			});
+		});
+
+		it('falls back to default global settings when data is missing or corrupt', async () => {
+			const driver = new MemoryStorageDriver();
+			const storage = createGameStorage(GLOBAL_SETTINGS_APP_SCOPE, { driver });
+
+			await driver.setItem(`arcade::${GLOBAL_SETTINGS_APP_SCOPE}::${GLOBAL_SETTINGS_STORAGE_KEY}`, 'null');
+			const retrieved = await getGlobalSettings(storage);
+			expect(retrieved).toEqual(DEFAULT_GLOBAL_SETTINGS);
+		});
 	});
 });

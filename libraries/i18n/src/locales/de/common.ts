@@ -155,6 +155,10 @@ export const deCommon = {
 	settings: {
 		title: 'Einstellungen',
 		description: 'Passe dein Arcade-Erlebnis an.',
+		soundTitle: 'Soundeffekte',
+		soundDescription: 'Synthetisierten Spielsound und akustisches Feedback aktivieren.',
+		hapticsTitle: 'Haptisches Feedback',
+		hapticsDescription: 'Vibration bei Interaktionen und Meilensteinen (unterstützte Geräte).',
 		gameSectionTitle: 'Spiel-Einstellungen',
 		gameSectionDescription: 'Passe Spieloptionen und Hilfen an.',
 		appearanceSectionTitle: 'Erscheinungsbild',

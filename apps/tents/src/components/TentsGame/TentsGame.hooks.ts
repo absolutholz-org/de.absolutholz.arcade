@@ -1,3 +1,4 @@
+import { playDrop, playRegression, playTap, triggerHaptic } from '@arcade/lib-audio';
 import { recordGameResult } from '@arcade/lib-medals';
 import { recordGameStats } from '@arcade/lib-storage';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -389,7 +390,12 @@ export function useTentsGame(initialDifficulty: DifficultyLevel = 'easy', initia
 				}
 
 				if (hasViolation) {
+					playRegression();
+					triggerHaptic('warning');
 					setMistakesCount((prev) => prev + 1);
+				} else {
+					playDrop();
+					triggerHaptic('light');
 				}
 
 				if (!placedThreeTentsInSixSecondsRef.current) {
@@ -413,6 +419,9 @@ export function useTentsGame(initialDifficulty: DifficultyLevel = 'easy', initia
 				setHistory(nextHist);
 				setBoard(nextHist.present);
 			} else {
+				if (nextMark !== 'tent') {
+					playTap();
+				}
 				const nextHist = setCellMark(history, row, col, nextMark);
 				setHistory(nextHist);
 				setBoard(nextHist.present);
@@ -434,6 +443,7 @@ export function useTentsGame(initialDifficulty: DifficultyLevel = 'easy', initia
 			const nextHist = setCellMark(history, row, col, nextMark);
 			setHistory(nextHist);
 			setBoard(nextHist.present);
+			playTap();
 		},
 		[board, history, isComplete, isPaused],
 	);
@@ -469,6 +479,7 @@ export function useTentsGame(initialDifficulty: DifficultyLevel = 'easy', initia
 				const nextHist = batchSetMarks(history, cellsToGrass);
 				setHistory(nextHist);
 				setBoard(nextHist.present);
+				playTap();
 			}
 		},
 		[board, history, isComplete, isPaused],
@@ -480,6 +491,8 @@ export function useTentsGame(initialDifficulty: DifficultyLevel = 'easy', initia
 		const nextHist = undo(history);
 		setHistory(nextHist);
 		setBoard(nextHist.present);
+		playRegression();
+		triggerHaptic('light');
 	}, [history, isComplete, isPaused]);
 
 	const handleRedo = useCallback(() => {
@@ -487,6 +500,8 @@ export function useTentsGame(initialDifficulty: DifficultyLevel = 'easy', initia
 		const nextHist = redo(history);
 		setHistory(nextHist);
 		setBoard(nextHist.present);
+		playDrop();
+		triggerHaptic('light');
 	}, [history, isComplete, isPaused]);
 
 	const handleReset = useCallback(() => {

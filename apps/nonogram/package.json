@@ -13,6 +13,7 @@
 	},
 	"dependencies": {
 		"@arcade/lib-astro-config": "workspace:*",
+		"@arcade/lib-audio": "workspace:*",
 		"@arcade/lib-i18n": "workspace:*",
 		"@arcade/lib-medals": "workspace:*",
 		"@arcade/lib-storage": "workspace:*",

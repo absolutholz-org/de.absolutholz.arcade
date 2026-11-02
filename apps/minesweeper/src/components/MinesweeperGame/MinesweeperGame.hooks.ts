@@ -1,3 +1,4 @@
+import { playDrop, playPickup, playRegression, playTap, triggerHaptic } from '@arcade/lib-audio';
 import { recordGameResult } from '@arcade/lib-medals';
 import { recordGameStats } from '@arcade/lib-storage';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -339,6 +340,8 @@ export function useMinesweeperGame(initialSize: BoardSizeId = 'md', initialDiffi
 			}
 
 			if (result.detonated) {
+				playRegression();
+				triggerHaptic('warning');
 				setStatus('lost');
 				setIsDefeatOpen(true);
 				await saveActiveGame(null);
@@ -359,6 +362,9 @@ export function useMinesweeperGame(initialSize: BoardSizeId = 'md', initialDiffi
 				setRankPosition(position);
 				setIsVictoryOpen(true);
 				await saveActiveGame(null);
+			} else {
+				playTap();
+				triggerHaptic('light');
 			}
 
 			const nextStatus: GameStatus = result.detonated ? 'lost' : result.won ? 'won' : 'playing';
@@ -384,12 +390,18 @@ export function useMinesweeperGame(initialSize: BoardSizeId = 'md', initialDiffi
 
 		const nextState = cycleFlagState(cell.state, settingsRef.current.questionMarks);
 		if (nextState === 'flagged') {
+			playPickup();
+			triggerHaptic('medium');
 			flagsPlacedRef.current += 1;
 			if (!cell.mine) {
 				perfectFlaggingRef.current = false;
 			}
 		} else if (cell.state === 'flagged') {
 			perfectFlaggingRef.current = false;
+			playDrop();
+			triggerHaptic('light');
+		} else {
+			playTap();
 		}
 		const newCells = cellsRef.current.map((c, i) => (i === index ? { ...c, state: nextState } : c));
 		cellsRef.current = newCells;
@@ -448,6 +460,8 @@ export function useMinesweeperGame(initialSize: BoardSizeId = 'md', initialDiffi
 			}
 
 			if (result.detonated) {
+				playRegression();
+				triggerHaptic('warning');
 				setStatus('lost');
 				setIsDefeatOpen(true);
 				await saveActiveGame(null);
@@ -468,6 +482,9 @@ export function useMinesweeperGame(initialSize: BoardSizeId = 'md', initialDiffi
 				setRankPosition(position);
 				setIsVictoryOpen(true);
 				await saveActiveGame(null);
+			} else {
+				playTap();
+				triggerHaptic('light');
 			}
 
 			const nextStatus: GameStatus = result.detonated ? 'lost' : result.won ? 'won' : 'playing';
@@ -567,6 +584,8 @@ export function useMinesweeperGame(initialSize: BoardSizeId = 'md', initialDiffi
 					status: 'playing',
 				});
 			}
+			playRegression();
+			triggerHaptic('light');
 			return next;
 		});
 	}, []);
@@ -601,6 +620,8 @@ export function useMinesweeperGame(initialSize: BoardSizeId = 'md', initialDiffi
 					status: 'playing',
 				});
 			}
+			playDrop();
+			triggerHaptic('light');
 			return next;
 		});
 	}, []);

@@ -1,3 +1,4 @@
+import { playDrop, playPickup, playRegression, triggerHaptic } from '@arcade/lib-audio';
 import { recordGameResult } from '@arcade/lib-medals';
 import { recordGameStats } from '@arcade/lib-storage';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -364,6 +365,8 @@ export function useUntangleGame({
 		dragStartBoardRef.current = historyRef.current.present;
 		setDraggingVertexId(vertexId);
 		setSelectedVertexId(vertexId);
+		playPickup();
+		triggerHaptic('light');
 	}, []);
 
 	const handleDragMove = useCallback((vertexId: string, x: number, y: number) => {
@@ -407,6 +410,8 @@ export function useUntangleGame({
 			const nextHistory = pushHistory({ ...currentHistory, present: baseBoard }, nextBoardWithMove);
 			historyRef.current = nextHistory;
 			setHistory(nextHistory);
+			playDrop();
+			triggerHaptic('light');
 
 			const prevCrossings = findIntersections(baseBoard.vertices, baseBoard.edges).intersectionCount;
 			const summary = findIntersections(nextBoardWithMove.vertices, nextBoardWithMove.edges);
@@ -474,6 +479,9 @@ export function useUntangleGame({
 		const currentHistory = historyRef.current;
 		if (!canUndo(currentHistory) || isComplete) return;
 
+		playRegression();
+		triggerHaptic('light');
+
 		const nextHistory = undoHistory(currentHistory);
 		historyRef.current = nextHistory;
 		setHistory(nextHistory);
@@ -489,6 +497,9 @@ export function useUntangleGame({
 	const handleRedo = useCallback(() => {
 		const currentHistory = historyRef.current;
 		if (!canRedo(currentHistory) || isComplete) return;
+
+		playDrop();
+		triggerHaptic('light');
 
 		const nextHistory = redoHistory(currentHistory);
 		historyRef.current = nextHistory;

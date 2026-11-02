@@ -1,4 +1,6 @@
+import { playMedalChime, playVictoryFanfare, triggerHaptic } from '@arcade/lib-audio';
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
+import React, { useEffect, useRef } from 'react';
 import { Button } from '../Button';
 import { Confetti } from '../Confetti';
 import { Dialog } from '../Dialog';
@@ -60,6 +62,21 @@ export function VictoryDialog({
 	const columnCount = Math.min(Math.max(statItemsCount, 1), 3);
 
 	const showSplitActions = Boolean(onPlayAgain || lobbyHref || onLobby);
+
+	const prevIsOpenRef = useRef(false);
+	useEffect(() => {
+		if (isOpen && !prevIsOpenRef.current) {
+			playVictoryFanfare();
+			triggerHaptic('success');
+			if (isNewBestTime) {
+				const timer = setTimeout(() => {
+					playMedalChime();
+				}, 600);
+				return () => clearTimeout(timer);
+			}
+		}
+		prevIsOpenRef.current = isOpen;
+	}, [isOpen, isNewBestTime]);
 
 	return (
 		<>

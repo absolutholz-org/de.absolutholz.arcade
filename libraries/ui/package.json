@@ -67,6 +67,7 @@
 		"react-dom": "catalog:"
 	},
 	"dependencies": {
+		"@arcade/lib-audio": "workspace:*",
 		"@arcade/lib-consent": "workspace:*",
 		"@arcade/lib-dice": "workspace:*",
 		"@arcade/lib-games": "workspace:*",

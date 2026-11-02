@@ -155,6 +155,10 @@ export const enCommon = {
 	settings: {
 		title: 'Settings',
 		description: 'Customize your arcade experience.',
+		soundTitle: 'Sound Effects',
+		soundDescription: 'Enable synthesized game audio and feedback.',
+		hapticsTitle: 'Haptic Feedback',
+		hapticsDescription: 'Vibrate on interactions and milestones (supported devices).',
 		gameSectionTitle: 'Game Preferences',
 		gameSectionDescription: 'Customize gameplay options and assists.',
 		appearanceSectionTitle: 'Appearance',

@@ -155,6 +155,10 @@ export const frCommon = {
 	settings: {
 		title: 'Paramètres',
 		description: 'Personnalisez votre expérience arcade.',
+		soundTitle: 'Effets sonores',
+		soundDescription: 'Activer les sons synthétisés du jeu et les retours audio.',
+		hapticsTitle: 'Retour haptique',
+		hapticsDescription: 'Vibrer lors des interactions et des étapes clés (appareils compatibles).',
 		gameSectionTitle: 'Préférences de jeu',
 		gameSectionDescription: 'Personnalisez les options de jeu et les aides.',
 		appearanceSectionTitle: 'Apparence',

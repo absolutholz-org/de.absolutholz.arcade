@@ -1,3 +1,4 @@
+import { playDrop, playPickup, playProgress, playRegression, playTap, triggerHaptic } from '@arcade/lib-audio';
 import { recordGameResult } from '@arcade/lib-medals';
 import { getGameSettings, recordGameStats, saveGameSettings } from '@arcade/lib-storage';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -231,6 +232,8 @@ export function useWaterSortGame(initialDifficulty: DifficultyLevel = 'easy', in
 				if (history.present[index].length > 0) {
 					setSelectedTube(index);
 					setAriaAnnouncement(`Selected tube ${index + 1}`);
+					playPickup();
+					triggerHaptic('light');
 				}
 				return;
 			}
@@ -238,6 +241,7 @@ export function useWaterSortGame(initialDifficulty: DifficultyLevel = 'easy', in
 			if (selectedTube === index) {
 				setSelectedTube(null);
 				setAriaAnnouncement(`Deselected tube ${index + 1}`);
+				playTap();
 				return;
 			}
 
@@ -265,6 +269,14 @@ export function useWaterSortGame(initialDifficulty: DifficultyLevel = 'easy', in
 				setUsedBufferTubes(nextUsedBufferTubes);
 				setSelectedTube(null);
 				setAriaAnnouncement(`Poured liquid from tube ${selectedTube + 1} into tube ${index + 1}`);
+
+				if (nextCompleted > prevCompleted) {
+					playProgress(nextCompleted);
+					triggerHaptic('medium');
+				} else {
+					playDrop();
+					triggerHaptic('light');
+				}
 
 				if (isSolved(nextBoard)) {
 					setIsWon(true);
@@ -302,6 +314,8 @@ export function useWaterSortGame(initialDifficulty: DifficultyLevel = 'easy', in
 			} else {
 				setSelectedTube(null);
 				setAriaAnnouncement(`Cannot pour into tube ${index + 1}`);
+				playRegression();
+				triggerHaptic('warning');
 			}
 		},
 		[
@@ -331,6 +345,8 @@ export function useWaterSortGame(initialDifficulty: DifficultyLevel = 'easy', in
 			setUndosUsed((prev) => prev + 1);
 			setConsecutiveCompletions(0);
 			setAriaAnnouncement('Undid last pour');
+			playRegression();
+			triggerHaptic('light');
 		}
 	}, [history]);
 
@@ -339,6 +355,8 @@ export function useWaterSortGame(initialDifficulty: DifficultyLevel = 'easy', in
 			setHistory((prev) => redo(prev));
 			setSelectedTube(null);
 			setAriaAnnouncement('Redid pour');
+			playDrop();
+			triggerHaptic('light');
 		}
 	}, [history]);
 

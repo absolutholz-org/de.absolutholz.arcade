@@ -1,0 +1,38 @@
+{
+	"name": "@arcade/lib-audio",
+	"version": "0.1.0",
+	"private": true,
+	"description": "Synthesized zero-dependency audio and haptic feedback library for Arcade monorepo",
+	"type": "module",
+	"exports": {
+		".": {
+			"types": "./src/index.ts",
+			"default": "./src/index.ts"
+		},
+		"./sfx": {
+			"types": "./src/sfx.ts",
+			"default": "./src/sfx.ts"
+		},
+		"./haptics": {
+			"types": "./src/haptics.ts",
+			"default": "./src/haptics.ts"
+		},
+		"./context": {
+			"types": "./src/context.ts",
+			"default": "./src/context.ts"
+		},
+		"./settings-bridge": {
+			"types": "./src/settings-bridge.ts",
+			"default": "./src/settings-bridge.ts"
+		}
+	},
+	"scripts": {
+		"build": "tsc",
+		"typecheck": "tsc --noEmit",
+		"test": "vitest run"
+	},
+	"devDependencies": {
+		"typescript": "^5.7.2",
+		"vitest": "^4.1.8"
+	}
+}

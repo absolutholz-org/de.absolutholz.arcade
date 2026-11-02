@@ -1,3 +1,4 @@
+import { playTap, triggerHaptic } from '@arcade/lib-audio';
 import { recordGameResult } from '@arcade/lib-medals';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { NET_MEDAL_DEFINITIONS } from '../../config/medals.js';
@@ -229,6 +230,8 @@ export function useNetGame({
 
 			const newMask = rotateCW(currentCell.currentMask);
 			const newRot = currentCell.rotation + 90;
+			playTap();
+			triggerHaptic('light');
 
 			const move: Move = {
 				row: r,
@@ -285,6 +288,8 @@ export function useNetGame({
 
 			const newMask = rotateCCW(currentCell.currentMask);
 			const newRot = currentCell.rotation - 90;
+			playTap();
+			triggerHaptic('light');
 
 			const move: Move = {
 				row: r,

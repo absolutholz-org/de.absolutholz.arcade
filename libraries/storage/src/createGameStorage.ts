@@ -98,6 +98,13 @@ export {
 } from './stats.js';
 export {
 	GAME_SETTINGS_STORAGE_KEY,
+	GLOBAL_SETTINGS_APP_SCOPE,
+	GLOBAL_SETTINGS_STORAGE_KEY,
+	DEFAULT_GLOBAL_SETTINGS,
+	type ArcadeGlobalSettings,
+	getGlobalSettingsSync,
+	getGlobalSettings,
+	saveGlobalSettings,
 	getGameSettings,
 	saveGameSettings,
 } from './settings.js';

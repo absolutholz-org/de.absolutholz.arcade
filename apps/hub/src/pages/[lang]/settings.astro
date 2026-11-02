@@ -2,6 +2,7 @@
 import { resources } from '@arcade/lib-i18n/config/i18n';
 import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { AudioSettingsSection } from '@arcade/lib-ui/components/AudioSettingsSection';
 import { Button } from '@arcade/lib-ui/components/Button';
 import { HeaderUserMenu } from '@arcade/lib-ui/components/HeaderUserMenu';
 import { Hero } from '@arcade/lib-ui/components/Hero';
@@ -46,6 +47,10 @@ const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? 
 
 			<section class="settings-content">
 				<ThemeSelector client:load lang={lang as SupportedLanguageCode} />
+			</section>
+
+			<section class="settings-content">
+				<AudioSettingsSection client:load />
 			</section>
 
 			<section class="settings-content">

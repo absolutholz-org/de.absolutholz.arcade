@@ -1,3 +1,4 @@
+import { playDrop, playPickup, playRegression, playTap, triggerHaptic } from '@arcade/lib-audio';
 import { recordGameResult } from '@arcade/lib-medals';
 import { recordGameStats } from '@arcade/lib-storage';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -477,6 +478,8 @@ export function useHashiGame(initialDifficulty: DifficultyLevel = 'easy', initia
 			setBoard(nextBoard);
 			setHistory((prev) => pushState(prev, nextBoard));
 			setSelectedIslandId(null);
+			playDrop();
+			triggerHaptic('light');
 
 			if (checkVictory(nextBoard)) {
 				setIsComplete(true);
@@ -545,11 +548,14 @@ export function useHashiGame(initialDifficulty: DifficultyLevel = 'easy', initia
 
 			if (!selectedIslandId) {
 				setSelectedIslandId(island.id);
+				playPickup();
+				triggerHaptic('light');
 				return;
 			}
 
 			if (selectedIslandId === island.id) {
 				setSelectedIslandId(null);
+				playTap();
 				return;
 			}
 
@@ -563,6 +569,8 @@ export function useHashiGame(initialDifficulty: DifficultyLevel = 'easy', initia
 			if (hasExistingBridge || canConnect(selectedIslandId, island.id, board)) {
 				executeBridgeToggle(selectedIslandId, island.id);
 			} else {
+				playRegression();
+				triggerHaptic('warning');
 				// canConnect failed - analyze if it's an attempted crossing of spans or invalid collinear move
 				const islandA = board.islands.find((isl) => isl.id === selectedIslandId);
 				const islandB = island;
@@ -671,6 +679,8 @@ export function useHashiGame(initialDifficulty: DifficultyLevel = 'easy', initia
 		setHistory(nextHistory);
 		setBoard(nextHistory.present);
 		setSelectedIslandId(null);
+		playRegression();
+		triggerHaptic('light');
 	}, [canUndo, history]);
 
 	const handleRedo = useCallback(() => {
@@ -679,6 +689,8 @@ export function useHashiGame(initialDifficulty: DifficultyLevel = 'easy', initia
 		setHistory(nextHistory);
 		setBoard(nextHistory.present);
 		setSelectedIslandId(null);
+		playDrop();
+		triggerHaptic('light');
 	}, [canRedo, history]);
 
 	const handleReset = useCallback(() => {
