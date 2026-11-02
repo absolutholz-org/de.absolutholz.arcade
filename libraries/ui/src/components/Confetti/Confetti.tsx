@@ -48,6 +48,14 @@ function createParticle(width: number, height: number, isLeft: boolean): Particl
 	};
 }
 
+function isPopoverOpen(element: HTMLElement): boolean {
+	try {
+		return element.matches(':popover-open');
+	} catch {
+		return false;
+	}
+}
+
 export function Confetti({ onComplete, particleCount = DEFAULT_PARTICLE_COUNT }: ConfettiProps) {
 	const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -72,6 +80,17 @@ export function Confetti({ onComplete, particleCount = DEFAULT_PARTICLE_COUNT }:
 		if (!ctx) {
 			return;
 		}
+
+		// Promote to top layer via Popover API so confetti renders in front of modal dialog scrims
+		const popoverTimer = requestAnimationFrame(() => {
+			if (canvas && typeof canvas.showPopover === 'function' && !isPopoverOpen(canvas)) {
+				try {
+					canvas.showPopover();
+				} catch {
+					// Fallback to standard overlay if popover cannot be displayed
+				}
+			}
+		});
 
 		let animFrameId: number;
 		let screenWidth = window.innerWidth;
@@ -145,6 +164,11 @@ export function Confetti({ onComplete, particleCount = DEFAULT_PARTICLE_COUNT }:
 				animFrameId = requestAnimationFrame(animate);
 			} else {
 				ctx.clearRect(0, 0, screenWidth, screenHeight);
+				if (canvas && typeof canvas.hidePopover === 'function' && isPopoverOpen(canvas)) {
+					try {
+						canvas.hidePopover();
+					} catch {}
+				}
 				onComplete?.();
 			}
 		};
@@ -152,13 +176,19 @@ export function Confetti({ onComplete, particleCount = DEFAULT_PARTICLE_COUNT }:
 		animFrameId = requestAnimationFrame(animate);
 
 		return () => {
+			cancelAnimationFrame(popoverTimer);
 			if (animFrameId) {
 				cancelAnimationFrame(animFrameId);
 			}
 			window.removeEventListener('resize', resizeCanvas);
+			if (canvas && typeof canvas.hidePopover === 'function' && isPopoverOpen(canvas)) {
+				try {
+					canvas.hidePopover();
+				} catch {}
+			}
 		};
 	}, [onComplete, particleCount]);
 
 	// biome-ignore lint/a11y/noAriaHiddenOnFocusable: Overlay celebration canvas is purely decorative and pointer-events: none
-	return <canvas ref={canvasRef} className={confettiCanvas} aria-hidden="true" />;
+	return <canvas ref={canvasRef} popover="manual" className={confettiCanvas} aria-hidden="true" />;
 }

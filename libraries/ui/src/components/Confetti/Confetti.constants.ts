@@ -1,4 +1,4 @@
-export const DEFAULT_PARTICLE_COUNT = 140;
+export const DEFAULT_PARTICLE_COUNT = 200;
 
 export const DEFAULT_CONFETTI_COLORS: readonly string[] = [
 	'oklch(0.65 0.20 25)', // Coral / Red

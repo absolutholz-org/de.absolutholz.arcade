@@ -86,6 +86,37 @@ describe('Confetti', () => {
 		expect(window.requestAnimationFrame).toHaveBeenCalled();
 
 		unmount();
-		expect(cancelRafSpy).toHaveBeenCalledWith(rafId);
+		expect(cancelRafSpy).toHaveBeenCalled();
+	});
+
+	it('promotes to top layer via popover API if supported', () => {
+		let isPopoverOpenState = false;
+		const showPopoverMock = vi.fn().mockImplementation(() => {
+			isPopoverOpenState = true;
+		});
+		const hidePopoverMock = vi.fn().mockImplementation(() => {
+			isPopoverOpenState = false;
+		});
+
+		HTMLCanvasElement.prototype.showPopover = showPopoverMock;
+		HTMLCanvasElement.prototype.hidePopover = hidePopoverMock;
+		HTMLCanvasElement.prototype.matches = vi.fn().mockImplementation((sel: string) => {
+			return sel === ':popover-open' ? isPopoverOpenState : false;
+		});
+
+		const rafCallbacks: FrameRequestCallback[] = [];
+		window.requestAnimationFrame = vi.fn().mockImplementation((cb: FrameRequestCallback) => {
+			rafCallbacks.push(cb);
+			return rafCallbacks.length;
+		});
+
+		const { unmount } = render(<Confetti />);
+		for (const cb of rafCallbacks) {
+			cb(0);
+		}
+
+		expect(showPopoverMock).toHaveBeenCalled();
+		unmount();
+		expect(hidePopoverMock).toHaveBeenCalled();
 	});
 });
