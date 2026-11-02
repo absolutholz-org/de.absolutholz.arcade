@@ -1,5 +1,4 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
-import { Badge } from '../Badge';
 import { Button } from '../Button';
 import { Icon } from '../Icon';
 import { SchemeSwitcher } from '../SchemeSwitcher';
@@ -71,9 +70,12 @@ export function GameHeader({
 					) : null}
 
 					{difficulty && (
-						<Badge variant="outline" size="sm">
+						<span
+							className="game-header-difficulty"
+							title={typeof difficulty === 'string' ? difficulty : undefined}
+						>
 							{difficulty}
-						</Badge>
+						</span>
 					)}
 				</div>
 

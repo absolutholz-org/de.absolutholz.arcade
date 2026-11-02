@@ -31,3 +31,15 @@ export const CompactMinimal: Story = {
 		onOpenSettings: () => {},
 	},
 };
+
+export const LongDifficultyTruncated: Story = {
+	name: 'Long Difficulty / Truncated',
+	args: {
+		backHref: '/lobby',
+		backLabel: 'Lobby',
+		difficulty: 'English • 15x15 Expert Master Challenge Mode • Timed',
+		timer: <Timer seconds={222} isPaused={false} />,
+		onOpenRules: () => {},
+		onOpenSettings: () => {},
+	},
+};

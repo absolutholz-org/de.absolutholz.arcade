@@ -14,9 +14,9 @@ export interface GameHeaderProps {
 	 */
 	onBackClick?: () => void;
 	/**
-	 * Optional difficulty or level indicator string (e.g. 'Easy', 'Hard').
+	 * Optional difficulty or level indicator string or node (e.g. 'Easy', 'Hard').
 	 */
-	difficulty?: string;
+	difficulty?: ReactNode;
 	/**
 	 * Slot or node for elapsed timer, strictly centered.
 	 */

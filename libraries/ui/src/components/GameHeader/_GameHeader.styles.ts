@@ -40,28 +40,28 @@ export const Header = styled.header`
 		align-items: center;
 		gap: var(--space-2xs);
 		min-width: 0;
+		max-width: 100%;
 		overflow: hidden;
 
 		@media (min-width: 380px) {
 			gap: var(--space-xs);
 		}
 
-		/* Prevent difficulty badge from overflowing or colliding on compact viewports */
+		> button,
+		> a {
+			flex-shrink: 0;
+		}
+
+		.game-header-difficulty,
 		> :not(button):not(a) {
 			min-width: 0;
-			max-width: 3rem;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			white-space: nowrap;
-			flex-shrink: 1;
-
-			@media (min-width: 360px) {
-				max-width: 4.5rem;
-			}
-
-			@media (min-width: 380px) {
-				max-width: none;
-			}
+			font-size: var(--font-size-sm, 0.875rem);
+			font-weight: 600;
+			color: var(--color-text-1);
+			line-height: 1.2;
 		}
 	}
 
@@ -84,6 +84,11 @@ export const Header = styled.header`
 
 		@media (min-width: 380px) {
 			gap: var(--space-xs);
+		}
+
+		> button,
+		> a {
+			flex-shrink: 0;
 		}
 	}
 `;
