@@ -18,12 +18,19 @@ interface Particle {
 	opacity: number;
 }
 
-function createParticle(width: number, height: number, isLeft: boolean): Particle {
-	// Broad launch origins to prevent edge-clustering on wide screens
-	const originX = isLeft ? Math.random() * (width * 0.3) : width * 0.7 + Math.random() * (width * 0.3);
-	const originY = height * 0.65 + Math.random() * (height * 0.35);
+function createParticle(width: number, height: number, index: number, total: number): Particle {
+	const isLeft = index % 2 === 0;
 
-	// Angle ranges: wider arc from steep to shallow to sweep across the full viewport
+	// Distribute spawn origins vertically along the side flanks from upper screen (15% height)
+	// down to lower screen (70% height) to guarantee full-page coverage on both tall mobile screens
+	// and desktop viewports without leaving the upper half empty.
+	const verticalProgress = index / total;
+	const originY = height * (0.15 + verticalProgress * 0.55) + (Math.random() - 0.5) * (height * 0.08);
+
+	// Launch from screen flanks across outer 25%
+	const originX = isLeft ? Math.random() * (width * 0.25) : width * 0.75 + Math.random() * (width * 0.25);
+
+	// Angle ranges: inward toward center and upward
 	const angleDegrees = isLeft
 		? -75 + Math.random() * 55 // -75° to -20° (inward toward center & top)
 		: -160 + Math.random() * 55; // -160° to -105° (inward toward center & top)
@@ -34,7 +41,7 @@ function createParticle(width: number, height: number, isLeft: boolean): Particl
 
 	return {
 		x: originX,
-		y: originY,
+		y: Math.max(0, originY),
 		vx: Math.cos(angleRadians) * speed,
 		vy: Math.sin(angleRadians) * speed,
 		width: 7 + Math.random() * 4,
@@ -113,7 +120,7 @@ export function Confetti({ onComplete, particleCount = DEFAULT_PARTICLE_COUNT }:
 		window.addEventListener('resize', resizeCanvas);
 
 		const particles: Particle[] = Array.from({ length: particleCount }, (_, index) =>
-			createParticle(screenWidth, screenHeight, index % 2 === 0),
+			createParticle(screenWidth, screenHeight, index, particleCount),
 		);
 
 		const GRAVITY = 0.13;
