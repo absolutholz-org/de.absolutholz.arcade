@@ -13,6 +13,7 @@ This document contains the foundational architectural decisions for the Arcade W
 | **0005** | Standard Arcade Game Integration Contract | Accepted | [0005-standard-game-contract.md](./0005-standard-game-contract.md) |
 | **0006** | Explicit 3-Tier Layout and Template Hierarchy | Accepted | [0006-explicit-layout-and-template-hierarchy.md](./0006-explicit-layout-and-template-hierarchy.md) |
 | **0008** | Standard Game Shell & Per-Game Subsystem Contracts | Accepted | [0008-game-shell-and-subsystem-contract.md](./0008-game-shell-and-subsystem-contract.md) |
+| **0009** | Game Taxonomy and Metadata Architecture | Accepted | [0009-game-taxonomy-and-metadata-architecture.md](./0009-game-taxonomy-and-metadata-architecture.md) |
 
 ---
 

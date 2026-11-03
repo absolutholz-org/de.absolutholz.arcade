@@ -8,6 +8,7 @@ import type { NetSchema, NetTranslationContract } from '../schemas/net.schema.js
 import type { NonogramSchema, NonogramTranslationContract } from '../schemas/nonogram.schema.js';
 import type { QueensSchema, QueensTranslationContract } from '../schemas/queens.schema.js';
 import type { SudokuSchema, SudokuTranslationContract } from '../schemas/sudoku.schema.js';
+import type { TaxonomySchema, TaxonomyTranslationContract } from '../schemas/taxonomy.schema.js';
 import type { TentsSchema, TentsTranslationContract } from '../schemas/tents.schema.js';
 import type { TracksSchema, TracksTranslationContract } from '../schemas/tracks.schema.js';
 import type { UntangleSchema, UntangleTranslationContract } from '../schemas/untangle.schema.js';
@@ -34,6 +35,7 @@ export type AnagramTranslationKey = LeafKeys<AnagramSchema>;
 export type UntangleTranslationKey = LeafKeys<UntangleSchema> | `untangle.${LeafKeys<UntangleSchema>}`;
 export type NetTranslationKey = LeafKeys<NetSchema> | `net.${LeafKeys<NetSchema>}`;
 export type MedalsTranslationKey = LeafKeys<MedalsSchema> | `medals.${LeafKeys<MedalsSchema>}`;
+export type TaxonomyTranslationKey = LeafKeys<TaxonomySchema> | `taxonomy.${LeafKeys<TaxonomySchema>}`;
 
 export type TranslationKey =
 	| CommonTranslationKey
@@ -48,7 +50,8 @@ export type TranslationKey =
 	| AnagramTranslationKey
 	| UntangleTranslationKey
 	| NetTranslationKey
-	| MedalsTranslationKey;
+	| MedalsTranslationKey
+	| TaxonomyTranslationKey;
 
 export interface UseI18nReturn {
 	readonly t: (key: TranslationKey, options?: Record<string, unknown>) => string;
@@ -74,5 +77,6 @@ export type TranslationResources = Record<
 		readonly untangle: UntangleTranslationContract;
 		readonly net: NetTranslationContract;
 		readonly medals: MedalsTranslationContract;
+		readonly taxonomy: TaxonomyTranslationContract;
 	}
 >;

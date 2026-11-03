@@ -1,3 +1,5 @@
+import type { GameCategoryAssignment, TaxonomyTags } from './taxonomy.js';
+
 /**
  * Canonical identifiers for all games in the Arcade monorepo.
  */
@@ -39,17 +41,14 @@ export interface GameAssets {
 }
 
 /**
- * Definition representing a game in the Arcade monorepo.
+ * Unified game metadata and taxonomy contract in the Arcade monorepo.
+ * Adheres to ADR 0005, ADR 0008, and ADR 0009.
  */
-export interface GameDefinition {
+export interface GameMetadata {
 	/**
-	 * Unique identifier matching the game's route segment and storage namespace.
+	 * Unique canonical slug matching the game's route segment and storage namespace.
 	 */
 	readonly id: GameId;
-	/**
-	 * Default fallback display name.
-	 */
-	readonly name: string;
 	/**
 	 * Root route for the game application.
 	 */
@@ -62,7 +61,20 @@ export interface GameDefinition {
 	 * Translation namespace in `@arcade/lib-i18n`.
 	 */
 	readonly i18nNamespace: GameId;
+	/**
+	 * Primary and optional distinct secondary genre category.
+	 */
+	readonly category: GameCategoryAssignment;
+	/**
+	 * Multi-faceted gameplay, input/accessibility, pacing, mode, and session-length tags.
+	 */
+	readonly tags: TaxonomyTags;
 }
+
+/**
+ * Backward-compatible alias for `GameMetadata`.
+ */
+export type GameDefinition = GameMetadata;
 
 /**
  * Definition representing a standalone utility tool in the Arcade monorepo.

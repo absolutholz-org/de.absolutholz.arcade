@@ -1,4 +1,5 @@
 import { ALL_GAMES, type GameDefinition } from '@arcade/lib-games';
+import { useGameTitle } from '@arcade/lib-i18n/hooks/useGameTitle';
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
@@ -8,13 +9,15 @@ import type React from 'react';
 
 function GameRow({ game }: { game: GameDefinition }) {
 	const { status, installGame, uninstallGame } = useOfflineGame(game.id);
+	const displayName = useGameTitle(game.id);
+
 	return (
 		<div className="offline-game-item">
 			<div className="game-meta">
 				<span className="game-icon" aria-hidden="true">
 					{game.assets.icon}
 				</span>
-				<span className="game-name">{game.name}</span>
+				<span className="game-name">{displayName}</span>
 			</div>
 			<OfflineToggle
 				gameId={game.id}

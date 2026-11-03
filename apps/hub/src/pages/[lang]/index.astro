@@ -3,6 +3,7 @@ import { ALL_GAMES, ALL_TOOLS } from '@arcade/lib-games';
 import { resources } from '@arcade/lib-i18n/config/i18n';
 import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { getGameDescription, getGameTitle } from '@arcade/lib-i18n/utils/gameTitle';
 import { Hero } from '@arcade/lib-ui/components/Hero';
 import { Logo } from '@arcade/lib-ui/components/Logo';
 import { PageContainer } from '@arcade/lib-ui/components/PageContainer';
@@ -36,20 +37,15 @@ const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? 
 		<section class="games-section">
 			<h2>{currentTranslations.hub.gamesTitle}</h2>
 			<div class="games-grid">
-				{ALL_GAMES.map((game) => {
-					const gameTranslation =
-						resources[lang as SupportedLanguageCode]?.[game.i18nNamespace] ??
-						resources.en[game.i18nNamespace];
-					return (
-						<a href={`${game.route}/${lang}/`} class="game-card">
-							<div class="game-card-header">
-								<span class="game-card-icon" aria-hidden="true">{game.assets.icon}</span>
-								<h3>{gameTranslation?.title ?? game.name}</h3>
-							</div>
-							<p>{gameTranslation?.description}</p>
-						</a>
-					);
-				})}
+				{ALL_GAMES.map((game) => (
+					<a href={`${game.route}/${lang}/`} class="game-card">
+						<div class="game-card-header">
+							<span class="game-card-icon" aria-hidden="true">{game.assets.icon}</span>
+							<h3>{getGameTitle(game.id, lang as SupportedLanguageCode)}</h3>
+						</div>
+						<p>{getGameDescription(game.id, lang as SupportedLanguageCode)}</p>
+					</a>
+				))}
 			</div>
 		</section>
 

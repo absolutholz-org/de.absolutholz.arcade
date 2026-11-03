@@ -1,0 +1,61 @@
+import type { TaxonomyTranslationContract } from '../../schemas/taxonomy.schema.js';
+
+export const enTaxonomy = {
+	categories: {
+		'logic-deduction': 'Logic & Deduction',
+		'spatial-puzzle': 'Spatial Puzzle',
+		'word-trivia': 'Word & Trivia',
+		'casual-sorting': 'Casual Sorting',
+		'card-board': 'Card & Board',
+		'party-duel': 'Party & Duel',
+	},
+	tags: {
+		mechanics: {
+			'grid-based': 'Grid-Based',
+			pathfinding: 'Pathfinding',
+			deduction: 'Deduction',
+			sorting: 'Sorting',
+			'pattern-recognition': 'Pattern Recognition',
+			'color-matching': 'Color Matching',
+			'number-logic': 'Number Logic',
+			'word-forming': 'Word Forming',
+			'graph-topology': 'Graph Topology',
+			'tile-rotation': 'Tile Rotation',
+			'hazard-avoidance': 'Hazard Avoidance',
+			'memory-recall': 'Memory Recall',
+			'hand-management': 'Hand Management',
+			'alignment-capture': 'Alignment & Capture',
+		},
+		inputs: {
+			'touch-optimized': 'Touch-Optimized',
+			'keyboard-controls': 'Keyboard Controls',
+			'drag-and-drop': 'Drag & Drop',
+			'tap-only': 'Tap Only',
+			'dual-mode-toggle': 'Dual-Mode Toggle',
+			'direct-typing': 'Direct Typing',
+		},
+		pacing: {
+			'zen-untimed': 'Zen (Untimed)',
+			'speedrun-timer': 'Timer',
+			'mistake-penalty': 'Mistake Penalty',
+			'undo-friendly': 'Undo Friendly',
+			'countdown-arcade': 'Countdown',
+			'move-efficiency': 'Move Efficiency',
+			'turn-paced': 'Turn-Paced',
+		},
+		modes: {
+			'single-player': 'Single Player',
+			'pass-and-play': 'Pass & Play',
+			'multiplayer-turn-based': 'Turn-Based Multiplayer',
+			'daily-challenge': 'Daily Challenge',
+			'procedural-endless': 'Endless / Procedural',
+			'curated-levels': 'Curated Levels',
+			'vs-ai': 'vs AI',
+		},
+		sessionLength: {
+			'snack-under-3m': '< 3 min',
+			'standard-5-10m': '5–10 min',
+			'deep-15m-plus': '15+ min',
+		},
+	},
+} as const satisfies TaxonomyTranslationContract;

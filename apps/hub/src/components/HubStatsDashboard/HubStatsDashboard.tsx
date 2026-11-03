@@ -1,8 +1,8 @@
 import { ALL_GAMES, type GameDefinition } from '@arcade/lib-games';
-import { resources } from '@arcade/lib-i18n/config/i18n';
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
-import type { SupportedLanguageCode, TranslationKey } from '@arcade/lib-i18n/types/i18n.types';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { getGameTitle } from '@arcade/lib-i18n/utils/gameTitle';
 import { getGameMedalState, subscribeToMedalUnlocked } from '@arcade/lib-medals';
 import {
 	type AggregatedGameStats,
@@ -52,26 +52,6 @@ function normalizeGameParam(param: string | null): string {
 		return lower;
 	}
 	return 'all';
-}
-
-function getLocalizedGameTitle(
-	game: GameDefinition,
-	lang: SupportedLanguageCode,
-	tMedals: (key: TranslationKey) => string,
-): string {
-	const langRes = resources[lang] ?? resources.en;
-	const gameNs = game.i18nNamespace as keyof typeof langRes;
-	const gameEntry = langRes?.[gameNs] as { title?: string } | undefined;
-	if (gameEntry?.title) {
-		return gameEntry.title;
-	}
-
-	const showcaseTitle = tMedals(`showcase.games.${game.id}` as TranslationKey);
-	if (showcaseTitle && !showcaseTitle.startsWith('showcase.games.')) {
-		return showcaseTitle;
-	}
-
-	return game.name || game.id.charAt(0).toUpperCase() + game.id.slice(1);
 }
 
 function HubStatsDashboardContent({ lang }: HubStatsDashboardProps) {
@@ -191,7 +171,7 @@ function HubStatsDashboardContent({ lang }: HubStatsDashboardProps) {
 			},
 			...ALL_GAMES.map((game) => ({
 				id: game.id,
-				label: getLocalizedGameTitle(game, lang, tMedals),
+				label: getGameTitle(game.id, lang),
 				icon: game.assets.icon,
 			})),
 		];
@@ -238,9 +218,7 @@ function HubStatsDashboardContent({ lang }: HubStatsDashboardProps) {
 				className={S.TabPanel}
 				id="panel-stats"
 				role="tabpanel"
-				aria-label={
-					selectedGame ? getLocalizedGameTitle(selectedGame, lang, tMedals) : tMedals('showcase.allGames')
-				}
+				aria-label={selectedGame ? getGameTitle(selectedGame.id, lang) : tMedals('showcase.allGames')}
 			>
 				{activeGameFilter === 'all' || !selectedGame ? (
 					/* All-Games compact card grid */
@@ -256,7 +234,7 @@ function HubStatsDashboardContent({ lang }: HubStatsDashboardProps) {
 								const won = gameStats?.totalWon ?? 0;
 								const winRate = gameStats?.winRate ?? 0;
 								const streak = gameStats?.currentStreak ?? 0;
-								const title = getLocalizedGameTitle(game, lang, tMedals);
+								const title = getGameTitle(game.id, lang);
 
 								return (
 									<ClickableCard
@@ -301,15 +279,13 @@ function HubStatsDashboardContent({ lang }: HubStatsDashboardProps) {
 					</section>
 				) : (
 					/* Focused Selected Game Metrics View */
-					<section className={S.Section} aria-label={getLocalizedGameTitle(selectedGame, lang, tMedals)}>
+					<section className={S.Section} aria-label={getGameTitle(selectedGame.id, lang)}>
 						<div className={S.GameHeaderBanner}>
 							<span className={S.GameHeaderIcon} aria-hidden="true">
 								{selectedGame.assets.icon}
 							</span>
 							<div className={S.GameHeaderContent}>
-								<h2 className={S.GameHeaderTitle}>
-									{getLocalizedGameTitle(selectedGame, lang, tMedals)}
-								</h2>
+								<h2 className={S.GameHeaderTitle}>{getGameTitle(selectedGame.id, lang)}</h2>
 								<span className={S.GameHeaderSubtitle}>{t('stats.title')}</span>
 							</div>
 						</div>

@@ -2,6 +2,7 @@ import { GAME_REGISTRY } from '@arcade/lib-games';
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode, TranslationKey } from '@arcade/lib-i18n/types/i18n.types';
+import { getGameTitle } from '@arcade/lib-i18n/utils/gameTitle';
 import {
 	type AchievementType,
 	type GameId,
@@ -224,7 +225,7 @@ function MedalsShowcaseContent({ lang }: { lang: SupportedLanguageCode }) {
 					{ id: 'all', label: t('medals.showcase.allGames') },
 					...REGISTERED_GAMES.map((gameId) => ({
 						id: gameId,
-						label: t(`medals.showcase.games.${gameId}` as TranslationKey),
+						label: getGameTitle(gameId, lang),
 						icon: GAME_REGISTRY[gameId]?.assets?.icon,
 					})),
 				]}
@@ -242,7 +243,7 @@ function MedalsShowcaseContent({ lang }: { lang: SupportedLanguageCode }) {
 				{visibleItems.map((item) => {
 					const isProgressive = item.type === 'ladder';
 					const progress = item.progress;
-					const gameBadge = t(`medals.showcase.games.${item.gameId}` as TranslationKey);
+					const gameBadge = getGameTitle(item.gameId, lang);
 
 					if (isProgressive) {
 						const bronzeUnlocked = Boolean(item.bronzeUnlocked);

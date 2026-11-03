@@ -10,6 +10,7 @@ import { deNet } from '../locales/de/net.js';
 import { deNonogram } from '../locales/de/nonogram.js';
 import { deQueens } from '../locales/de/queens.js';
 import { deSudoku } from '../locales/de/sudoku.js';
+import { deTaxonomy } from '../locales/de/taxonomy.js';
 import { deTents } from '../locales/de/tents.js';
 import { deTracks } from '../locales/de/tracks.js';
 import { deUntangle } from '../locales/de/untangle.js';
@@ -23,6 +24,7 @@ import { enNet } from '../locales/en/net.js';
 import { enNonogram } from '../locales/en/nonogram.js';
 import { enQueens } from '../locales/en/queens.js';
 import { enSudoku } from '../locales/en/sudoku.js';
+import { enTaxonomy } from '../locales/en/taxonomy.js';
 import { enTents } from '../locales/en/tents.js';
 import { enTracks } from '../locales/en/tracks.js';
 import { enUntangle } from '../locales/en/untangle.js';
@@ -36,6 +38,7 @@ import { frNet } from '../locales/fr/net.js';
 import { frNonogram } from '../locales/fr/nonogram.js';
 import { frQueens } from '../locales/fr/queens.js';
 import { frSudoku } from '../locales/fr/sudoku.js';
+import { frTaxonomy } from '../locales/fr/taxonomy.js';
 import { frTents } from '../locales/fr/tents.js';
 import { frTracks } from '../locales/fr/tracks.js';
 import { frUntangle } from '../locales/fr/untangle.js';
@@ -49,6 +52,7 @@ import { ptNet } from '../locales/pt/net.js';
 import { ptNonogram } from '../locales/pt/nonogram.js';
 import { ptQueens } from '../locales/pt/queens.js';
 import { ptSudoku } from '../locales/pt/sudoku.js';
+import { ptTaxonomy } from '../locales/pt/taxonomy.js';
 import { ptTents } from '../locales/pt/tents.js';
 import { ptTracks } from '../locales/pt/tracks.js';
 import { ptUntangle } from '../locales/pt/untangle.js';
@@ -71,6 +75,7 @@ export const resources: TranslationResources = {
 		untangle: enUntangle,
 		net: enNet,
 		medals: enMedals,
+		taxonomy: enTaxonomy,
 	},
 	de: {
 		common: deCommon,
@@ -86,6 +91,7 @@ export const resources: TranslationResources = {
 		untangle: deUntangle,
 		net: deNet,
 		medals: deMedals,
+		taxonomy: deTaxonomy,
 	},
 	fr: {
 		common: frCommon,
@@ -101,6 +107,7 @@ export const resources: TranslationResources = {
 		untangle: frUntangle,
 		net: frNet,
 		medals: frMedals,
+		taxonomy: frTaxonomy,
 	},
 	pt: {
 		common: ptCommon,
@@ -116,6 +123,7 @@ export const resources: TranslationResources = {
 		untangle: ptUntangle,
 		net: ptNet,
 		medals: ptMedals,
+		taxonomy: ptTaxonomy,
 	},
 };
 
@@ -141,6 +149,7 @@ i18n.use(initReactI18next).init({
 		'untangle',
 		'net',
 		'medals',
+		'taxonomy',
 	],
 	interpolation: {
 		escapeValue: false,

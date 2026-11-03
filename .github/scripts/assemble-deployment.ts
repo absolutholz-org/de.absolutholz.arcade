@@ -27,7 +27,7 @@ console.log('✓ Mounted Hub at /');
 for (const game of ALL_GAMES) {
 	const gameDistDir = path.join(ROOT_DIR, 'apps', game.id, 'dist');
 	if (!existsSync(gameDistDir)) {
-		console.error(`❌ Missing build output for registered game "${game.name}" (${game.id}) at:`, gameDistDir);
+		console.error(`❌ Missing build output for registered game "${game.id}" at:`, gameDistDir);
 		console.error('Run "pnpm build" before assembling deployment payload.');
 		process.exit(1);
 	}
@@ -35,7 +35,7 @@ for (const game of ALL_GAMES) {
 	const gameTargetDir = path.join(DEPLOY_DIST_DIR, game.id);
 	mkdirSync(gameTargetDir, { recursive: true });
 	cpSync(gameDistDir, gameTargetDir, { recursive: true });
-	console.log(`✓ Mounted ${game.name} at /${game.id}/`);
+	console.log(`✓ Mounted ${game.id} at /${game.id}/`);
 }
 
 // 4. Validate and Copy Storybook

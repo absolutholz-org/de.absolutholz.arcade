@@ -50,6 +50,13 @@ export const useI18n = (ns?: string): UseI18nReturn => {
 						return fallbackTranslated;
 					}
 				}
+				if (lowerKey.startsWith('taxonomy.')) {
+					const rawTaxonomyKey = key.slice(9);
+					const translated = activeI18n.t(rawTaxonomyKey, { ns: 'taxonomy', ...options });
+					if (translated && translated !== rawTaxonomyKey) {
+						return translated;
+					}
+				}
 			}
 
 			const result = translateRaw ? translateRaw(key, options) : activeI18n.t(key, options);
@@ -76,3 +83,5 @@ export const useI18n = (ns?: string): UseI18nReturn => {
 		isReady: ready,
 	};
 };
+
+export { useGameTitle } from './useGameTitle.js';

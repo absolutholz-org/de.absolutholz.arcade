@@ -58,10 +58,11 @@ Before generating or modifying code:
 > [!IMPORTANT]
 > **Do not write implementation code before completing Phase 2.** Formulate and present a comprehensive game specification to the user, covering:
 
-1. **Game Metadata & Taxonomy:**
+1. **Game Metadata & Taxonomy (ADR 0009):**
     - Canonical `gameId` (lowercase slug matching package name `@arcade/[gameId]`).
-    - Display name and primary emoji icon (for `assets.icon`).
-    - Summary description for the hub lobby card.
+    - Primary emoji icon (`assets.icon`) and route (`/${gameId}`).
+    - Localized titles, descriptions, and rules registered under `i18nNamespace` in `@arcade/lib-i18n`.
+    - Primary (and optional distinct secondary) `GameCategory` plus complete `TaxonomyTags` (`mechanics`, WCAG-verified `inputs`, `pacing`, `modes`, `sessionLength`) adhering to [/.ai/rules/game-taxonomy.md](/.ai/rules/game-taxonomy.md).
 2. **Core Rules & Mathematical Invariants:**
     - **Board Representation & Cell States:** Permitted cell types and player interaction states (e.g. empty, item, helper mark).
     - **Constraint Invariants:** Explicit mathematical rules that define valid board states, adjacency limits, and clue mechanics.
@@ -106,7 +107,7 @@ Implement the core game engine under `apps/[gameId]/src/engine/` before touching
 Register the game in the prerequisite shared monorepo packages:
 
 1. **Type Declaration (`@arcade/lib-games`):**
-    - Add the new `gameId` to the `GameId` type union in `libraries/games/src/types.ts`.
+    - Add the new `gameId` to the `GameId` type union in `libraries/games/src/types.ts` and `GAME_ID_LOOKUP` in `libraries/games/src/taxonomy.ts`.
     - _Note:_ Do **not** add the game to `GAME_REGISTRY` or `ALL_GAMES` yet. Doing so prematurely would cause the pre-rendered hub (`apps/hub`) to render cards linking to an unbuilt route.
 2. **Localization Dictionaries (`@arcade/lib-i18n`):**
     - Add the game namespace with localized titles, descriptions, instructions, difficulty labels, and medal strings across all supported language files.
