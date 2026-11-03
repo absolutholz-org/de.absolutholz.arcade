@@ -34,6 +34,7 @@ const meta = {
 	args: {
 		title: 'Sudoku',
 		description: 'Exercise your mind with classic number placement logic puzzles.',
+		offlineGameId: 'sudoku',
 		contentWidth: 'default',
 		children: (
 			<div

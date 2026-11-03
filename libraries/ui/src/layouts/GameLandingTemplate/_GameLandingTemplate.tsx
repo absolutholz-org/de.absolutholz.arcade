@@ -1,3 +1,5 @@
+import { getGame, isGameId } from '@arcade/lib-games';
+import { useTaxonomyLabel } from '@arcade/lib-i18n/hooks/useI18n';
 import { Banner } from '../../components/Banner';
 import { Button } from '../../components/Button';
 import { GameOfflineToolbar } from '../../components/GameOfflineToolbar';
@@ -9,6 +11,9 @@ import type { GameLandingTemplateProps } from './_GameLandingTemplate.types';
 export function GameLandingTemplate({
 	title,
 	description,
+	category,
+	tags,
+	tagsAriaLabel,
 	heroIcon,
 	resumeState,
 	contentWidth = 'default',
@@ -16,14 +21,34 @@ export function GameLandingTemplate({
 	offlineGameId,
 	children,
 }: GameLandingTemplateProps) {
+	const { getCategory, getTag, gameAttributesAriaLabel } = useTaxonomyLabel();
 	const mainContainerVariant = contentWidth === 'wide' ? 'wide' : 'standard';
+
+	const gameMetadata = offlineGameId && isGameId(offlineGameId) ? getGame(offlineGameId) : undefined;
+	const resolvedCategory = category ?? (gameMetadata ? getCategory(gameMetadata.category.primary) : undefined);
+	const resolvedTags =
+		tags ??
+		(gameMetadata
+			? [
+					...gameMetadata.tags.mechanics.map((tag) => getTag('mechanics', tag)),
+					...gameMetadata.tags.pacing.map((tag) => getTag('pacing', tag)),
+				]
+			: undefined);
+	const resolvedTagsAriaLabel = tagsAriaLabel ?? gameAttributesAriaLabel;
 
 	return (
 		<S.Root>
 			{/* Zone 1: Header / Intro */}
 			<S.HeaderZone>
 				<PageContainer>
-					<Hero title={title} tagline={description} logo={heroIcon} />
+					<Hero
+						eyebrow={resolvedCategory}
+						title={title}
+						tagline={description}
+						tags={resolvedTags}
+						tagsAriaLabel={resolvedTagsAriaLabel}
+						logo={heroIcon}
+					/>
 				</PageContainer>
 				{resumeState && (
 					<PageContainer>

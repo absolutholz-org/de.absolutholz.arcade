@@ -1,6 +1,9 @@
 import type { TaxonomyTranslationContract } from '../../schemas/taxonomy.schema.js';
 
 export const enTaxonomy = {
+	aria: {
+		gameAttributes: 'Game attributes',
+	},
 	categories: {
 		'logic-deduction': 'Logic & Deduction',
 		'spatial-puzzle': 'Spatial Puzzle',

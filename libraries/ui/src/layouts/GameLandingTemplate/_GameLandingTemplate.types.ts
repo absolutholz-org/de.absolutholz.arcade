@@ -18,6 +18,9 @@ export interface PageFooterLink {
 export interface GameLandingTemplateProps {
 	title: string;
 	description: string;
+	category?: ReactNode;
+	tags?: readonly string[];
+	tagsAriaLabel?: string;
 	heroIcon?: ReactNode;
 	resumeState?: ResumeStateConfig;
 	contentWidth?: GameLandingContentWidth;

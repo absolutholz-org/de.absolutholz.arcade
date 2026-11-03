@@ -90,7 +90,7 @@ Structural containers and layout primitives establishing consistent spacing and 
 | **`PageContainer`** | `@arcade/lib-ui/components/PageContainer` | Standardized page width constraint and responsive gutter padding. | `variant="slim" \| "standard" \| "wide" \| "full"`, `children`. |
 | **`Stack`** | `@arcade/lib-ui/components/Stack` | Linear layout primitive enforcing token-based spacing between children. | `direction="row" \| "column"`, `gap`, `align`, `justify`. |
 | **`Divider`** | `@arcade/lib-ui/components/Divider` | Visual rule separating distinct content sections. | `orientation="horizontal" \| "vertical"`. |
-| **`Hero`** | `@arcade/lib-ui/components/Hero` | Top-of-page landmark with display typography, tagline, and optional logo slot. | `title`, `tagline`, `logo`, `headingLevel`. |
+| **`Hero`** | `@arcade/lib-ui/components/Hero` | Top-of-page landmark with display typography, optional category eyebrow, tagline, metadata tag pills, and optional logo slot. | `title`, `tagline`, `eyebrow`, `tags`, `tagsAriaLabel`, `logo`, `headingLevel`. |
 | **`GameContainer`** | `@arcade/lib-ui/components/GameContainer` | Responsive aspect-ratio preserving frame for game canvases. | `children`, `aspectRatio`. |
 | **`MarkdownContent`** | `@arcade/lib-ui/components/MarkdownContent` | Standardized typographic container rendering localized Astro Markdown content collections (used in `MarkdownPageTemplate` and `slot="rulesContent"` per ADR 0008). | `children` (rendered HTML). |
 | **`MarkdownPageTemplate`** | `@arcade/lib-ui/templates/MarkdownPageTemplate` | Tier 2 template for standalone Markdown pages (`/[lang]/rules.astro`). | `title`, `description`, `lang`, `breadcrumbItems`, `currentSlug`. |

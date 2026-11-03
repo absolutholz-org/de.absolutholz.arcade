@@ -85,3 +85,4 @@ export const useI18n = (ns?: string): UseI18nReturn => {
 };
 
 export { useGameTitle } from './useGameTitle.js';
+export { useTaxonomyLabel, type UseTaxonomyLabelsReturn } from './useTaxonomyLabel.js';

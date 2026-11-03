@@ -1,6 +1,9 @@
 import type { TaxonomyTranslationContract } from '../../schemas/taxonomy.schema.js';
 
 export const deTaxonomy = {
+	aria: {
+		gameAttributes: 'Spieleigenschaften',
+	},
 	categories: {
 		'logic-deduction': 'Logik & Deduktion',
 		'spatial-puzzle': 'Räumliches Puzzle',

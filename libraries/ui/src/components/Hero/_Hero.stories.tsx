@@ -80,3 +80,20 @@ export const TextOnly: Story = {
 		},
 	},
 };
+
+export const WithCategoryAndTags: Story = {
+	args: {
+		eyebrow: 'Logic & Deduction',
+		title: 'Sudoku',
+		tagline: 'Exercise your mind with classic number placement logic puzzles.',
+		tags: ['Grid-Based', 'Deduction', 'Number Logic', 'Timer', 'Undo Friendly'],
+		logo: undefined,
+	},
+	parameters: {
+		docs: {
+			description: {
+				story: 'Game landing hero with uppercase category eyebrow heading and accessible metadata tag pills.',
+			},
+		},
+	},
+};

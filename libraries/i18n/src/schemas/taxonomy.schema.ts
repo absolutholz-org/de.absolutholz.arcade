@@ -1,6 +1,9 @@
 import type { SchemaToTranslationContract } from './common.schema.js';
 
 export const taxonomySchema = {
+	aria: {
+		gameAttributes: 'aria.gameAttributes',
+	},
 	categories: {
 		'logic-deduction': 'categories.logic-deduction',
 		'spatial-puzzle': 'categories.spatial-puzzle',

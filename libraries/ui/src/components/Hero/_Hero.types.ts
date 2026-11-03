@@ -10,6 +10,10 @@ export interface BaseHeroProps<C extends ElementType = 'header'> {
 	 */
 	as?: C;
 	/**
+	 * Optional uppercase eyebrow heading displayed directly above the primary title.
+	 */
+	eyebrow?: ReactNode;
+	/**
 	 * Primary title text or element.
 	 */
 	title: ReactNode;
@@ -17,6 +21,14 @@ export interface BaseHeroProps<C extends ElementType = 'header'> {
 	 * Secondary tagline or supporting description text.
 	 */
 	tagline?: ReactNode;
+	/**
+	 * Optional list of localized metadata tag strings rendered below the tagline.
+	 */
+	tags?: readonly string[];
+	/**
+	 * Accessible label for the metadata tags list.
+	 */
+	tagsAriaLabel?: string;
 	/**
 	 * Visual element such as a large Logo or icon graphic.
 	 */
