@@ -18,6 +18,7 @@ export const deMedals = {
 			tents: 'Zelte',
 			untangle: 'Entwirren',
 			net: 'Net',
+			floodit: 'Flood-It',
 		},
 		status: {
 			unlocked: 'Freigeschaltet',
@@ -703,6 +704,56 @@ export const deMedals = {
 		sudden_surge: {
 			title: 'Stromstoß',
 			desc: 'Gewinne mit einer letzten Drehung, die mindestens 35 % des Gitters auf einmal verbindet.',
+		},
+	},
+	floodit: {
+		first_win: {
+			title: 'Erste Flut',
+			desc: 'Flute dein erstes Spielfeld mit einer einzigen Farbe.',
+		},
+		veteran: {
+			title: 'Flut-Veteran',
+			desc: 'Gewinne mehrere Flood-It-Spiele: Bronze bei 5, Silber bei 25 und Gold bei 50 Spielen.',
+		},
+		wire_to_wire: {
+			title: 'Punktlandung',
+			desc: 'Gewinne exakt mit dem letzten erlaubten Zug.',
+		},
+		clean_sweep: {
+			title: 'Glatter Durchmarsch',
+			desc: 'Gewinne ein Spiel mit 5 oder mehr verbleibenden Zügen.',
+		},
+		no_regrets: {
+			title: 'Ohne Reue',
+			desc: 'Schließe ein Spiel ab, ohne die Rückgängig-Funktion zu nutzen.',
+		},
+		corner_to_corner: {
+			title: 'Von Ecke zu Ecke',
+			desc: 'Erreiche die Zelle unten rechts in maximal 8 Zügen.',
+		},
+		giant_leap: {
+			title: 'Riesensprung',
+			desc: 'Übernimm mindestens 25 % des Spielfelds mit einem einzigen Zug.',
+		},
+		prism_master: {
+			title: 'Prismenmeister',
+			desc: 'Gewinne Spiele endend auf jeder der 6 Palettenfarben.',
+		},
+		tsunami: {
+			title: 'Tsunami',
+			desc: 'Flute mindestens 40 % des gesamten Spielfelds in einem einzigen Zug.',
+		},
+		grand_tour: {
+			title: 'Grand Tour',
+			desc: 'Gewinne mindestens ein Spiel in jedem Schwierigkeitsgrad (Anfänger, Einfach, Mittel, Schwer).',
+		},
+		the_deluge: {
+			title: 'Die Sintflut',
+			desc: 'Insgesamt geflutete Felder über alle Spiele: Bronze bei 1.000, Silber bei 5.000 und Gold bei 15.000 Feldern.',
+		},
+		symbol_surveyor: {
+			title: 'Symbol-Kundschafter',
+			desc: 'Gewinne ein Spiel mit aktiviertem Symbol-Overlay für Farbenblindheit.',
 		},
 	},
 } as const satisfies MedalsTranslationContract;

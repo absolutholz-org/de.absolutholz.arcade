@@ -1,10 +1,8 @@
 ---
-import { ALL_GAMES, ALL_TOOLS } from '@arcade/lib-games';
+import { ALL_TOOLS } from '@arcade/lib-games';
 import { resources } from '@arcade/lib-i18n/config/i18n';
 import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
-import { getGameDescription, getGameTitle } from '@arcade/lib-i18n/utils/gameTitle';
-import { getCategoryLabel } from '@arcade/lib-i18n/utils/taxonomy';
 import { GameCard } from '@arcade/lib-ui/components/GameCard';
 import { GamesGrid } from '@arcade/lib-ui/components/GamesGrid';
 import { Hero } from '@arcade/lib-ui/components/Hero';
@@ -12,6 +10,7 @@ import { Logo } from '@arcade/lib-ui/components/Logo';
 import { PageContainer } from '@arcade/lib-ui/components/PageContainer';
 import { Text } from '@arcade/lib-ui/components/Text';
 import BaseLayoutWithSiteHeaderAndSiteFooter from '@arcade/lib-ui/layouts/BaseLayoutWithSiteHeaderAndSiteFooter/BaseLayoutWithSiteHeaderAndSiteFooter.astro';
+import { HubGamesCatalog } from '../../components/HubGamesCatalog';
 import { UserMedalSummaryWidget } from '../../components/UserMedalSummaryWidget';
 
 export function getStaticPaths() {
@@ -40,17 +39,7 @@ const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? 
 
 		<section class="games-section">
 			<Text as="h2" variant="h2">{currentTranslations.hub.gamesTitle}</Text>
-			<GamesGrid>
-				{ALL_GAMES.map((game) => (
-					<GameCard
-						href={`${game.route}/${lang}/`}
-						title={getGameTitle(game.id, lang as SupportedLanguageCode)}
-						description={getGameDescription(game.id, lang as SupportedLanguageCode)}
-						icon={game.assets.icon}
-						badge={getCategoryLabel(game.category.primary, lang as SupportedLanguageCode)}
-					/>
-				))}
-			</GamesGrid>
+			<HubGamesCatalog client:load lang={lang as SupportedLanguageCode} />
 		</section>
 
 		<section class="tools-section">

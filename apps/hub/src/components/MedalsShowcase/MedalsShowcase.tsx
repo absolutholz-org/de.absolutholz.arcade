@@ -1,4 +1,4 @@
-import { GAME_REGISTRY } from '@arcade/lib-games';
+import { GAME_IDS, GAME_REGISTRY } from '@arcade/lib-games';
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode, TranslationKey } from '@arcade/lib-i18n/types/i18n.types';
@@ -17,19 +17,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { getHubMedalDefinitionsForGame } from '../../config/medals';
 import * as S from './MedalsShowcase.styles';
 
-const REGISTERED_GAMES: readonly GameId[] = [
-	'sudoku',
-	'nonogram',
-	'minesweeper',
-	'queens',
-	'tracks',
-	'bridges',
-	'tents',
-	'anagram',
-	'watersort',
-	'untangle',
-	'net',
-];
+const REGISTERED_GAMES: readonly GameId[] = GAME_IDS;
 
 interface MedalShowcaseItem {
 	readonly id: string;

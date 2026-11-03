@@ -209,6 +209,25 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 			sessionLength: ['snack-under-3m', 'standard-5-10m', 'deep-15m-plus'],
 		},
 	},
+	floodit: {
+		id: 'floodit',
+		route: '/floodit',
+		assets: {
+			icon: '🌊',
+		},
+		i18nNamespace: 'floodit',
+		category: {
+			primary: 'casual-sorting',
+			secondary: 'spatial-puzzle',
+		},
+		tags: {
+			mechanics: ['grid-based', 'color-matching', 'sorting', 'pattern-recognition'],
+			inputs: ['touch-optimized', 'keyboard-controls', 'tap-only'],
+			pacing: ['move-efficiency', 'turn-paced', 'undo-friendly'],
+			modes: ['single-player', 'procedural-endless'],
+			sessionLength: ['snack-under-3m', 'standard-5-10m'],
+		},
+	},
 };
 
 /**

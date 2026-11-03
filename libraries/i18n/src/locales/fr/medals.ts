@@ -18,6 +18,7 @@ export const frMedals = {
 			tents: 'Tentes',
 			untangle: 'Démêler',
 			net: 'Net',
+			floodit: 'Flood-It',
 		},
 		status: {
 			unlocked: 'Débloqué',
@@ -703,6 +704,56 @@ export const frMedals = {
 		sudden_surge: {
 			title: 'Surtension soudaine',
 			desc: 'Gagnez grâce à une rotation finale connectant au moins 35 % de la grille d’un coup.',
+		},
+	},
+	floodit: {
+		first_win: {
+			title: 'Première inondation',
+			desc: 'Inondez votre premier plateau d’une seule couleur.',
+		},
+		veteran: {
+			title: 'Vétéran de l’inondation',
+			desc: 'Remportez plusieurs parties de Flood-It : Bronze à 5, Argent à 25 et Or à 50 victoires.',
+		},
+		wire_to_wire: {
+			title: 'Sur le fil',
+			desc: 'Gagnez au tout dernier coup disponible.',
+		},
+		clean_sweep: {
+			title: 'Victoire éclatante',
+			desc: 'Gagnez avec au moins 5 coups d’avance.',
+		},
+		no_regrets: {
+			title: 'Sans regrets',
+			desc: 'Terminez une partie sans utiliser l’annulation.',
+		},
+		corner_to_corner: {
+			title: 'D’un coin à l’autre',
+			desc: 'Atteignez la case inférieure droite en 8 coups ou moins.',
+		},
+		giant_leap: {
+			title: 'Pas de géant',
+			desc: 'Inondez au moins 25 % de la grille en un seul coup.',
+		},
+		prism_master: {
+			title: 'Maître du prisme',
+			desc: 'Gagnez des parties en terminant sur chacune des 6 couleurs.',
+		},
+		tsunami: {
+			title: 'Tsunami',
+			desc: 'Inondez 40 % ou plus de l’ensemble du plateau en un seul coup.',
+		},
+		grand_tour: {
+			title: 'Grand Tour',
+			desc: 'Gagnez au moins une partie dans chaque niveau de difficulté (Débutant, Facile, Moyen, Difficile).',
+		},
+		the_deluge: {
+			title: 'Le Déluge',
+			desc: 'Cases inondées cumulées sur toutes les parties : Bronze à 1 000, Argent à 5 000 et Or à 15 000 cases.',
+		},
+		symbol_surveyor: {
+			title: 'Observateur de Symboles',
+			desc: 'Gagnez une partie avec l’affichage des symboles pour daltoniens activé.',
 		},
 	},
 } as const satisfies MedalsTranslationContract;

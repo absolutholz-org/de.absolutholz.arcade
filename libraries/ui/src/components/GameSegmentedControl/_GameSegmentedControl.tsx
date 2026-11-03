@@ -8,6 +8,7 @@ export function GameSegmentedControl({
 	selectedId,
 	onSelect,
 	ariaLabel,
+	panelId,
 }: GameSegmentedControlProps): JSX.Element {
 	const items = useMemo(
 		() =>
@@ -15,9 +16,9 @@ export function GameSegmentedControl({
 				id: opt.id,
 				label: opt.label,
 				icon: opt.icon,
-				ariaControls: `panel-${opt.id}`,
+				ariaControls: opt.ariaControls ?? panelId ?? `panel-${opt.id}`,
 			})),
-		[options],
+		[options, panelId],
 	);
 
 	return (

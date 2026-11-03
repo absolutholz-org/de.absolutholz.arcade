@@ -1,0 +1,68 @@
+import type { FloodItTranslationContract } from '../../schemas/floodit.schema.js';
+
+export const deFloodit: FloodItTranslationContract = {
+	title: 'Flood-It',
+	subtitle: 'Flute das gesamte Spielfeld mit einer einzigen Farbe innerhalb des Zuglimits.',
+	description:
+		'Ein entspannendes Farbsortier-Puzzlespiel, bei dem du ausgehend von der oberen linken Zelle das gesamte Spielfeld eroberst.',
+	difficulty: {
+		label: 'Schwierigkeitsgrad',
+		beginner: 'Anfänger (8×8)',
+		beginnerDesc: 'Kompaktes 8×8-Gitter mit 4 Farben, ideal für Einsteiger',
+		easy: 'Leicht (10×10)',
+		easyDesc: 'Entspanntes 10×10-Gitter mit 5 Farben und 22 Zügen',
+		medium: 'Mittel (14×14)',
+		mediumDesc: 'Klassisches 14×14-Gitter mit 6 Farben und 26 Zügen',
+		hard: 'Schwer (18×18)',
+		hardDesc: 'Großes 18×18-Gitter mit 6 Farben und 32 Zügen',
+	},
+	lobby: {
+		title: 'Flood-It',
+		subtitle: 'Flute das gesamte Spielfeld mit einer einzigen Farbe innerhalb des Zuglimits.',
+		selectDifficulty: 'Schwierigkeitsgrad wählen',
+		beginner: 'Anfänger (8×8)',
+		beginnerDesc: 'Kompaktes 8×8-Gitter mit 4 Farben, ideal für Einsteiger',
+		easy: 'Leicht (10×10)',
+		easyDesc: 'Entspanntes 10×10-Gitter mit 5 Farben und 22 Zügen',
+		medium: 'Mittel (14×14)',
+		mediumDesc: 'Klassisches 14×14-Gitter mit 6 Farben und 26 Zügen',
+		hard: 'Schwer (18×18)',
+		hardDesc: 'Großes 18×18-Gitter mit 6 Farben und 32 Zügen',
+		completed: 'Abgeschlossen',
+		play: 'Spielen',
+		quickPlay: 'Schnellstart',
+		quickPlayDesc: 'Starte ein zufälliges Flood-It-Spiel',
+	},
+	game: {
+		moves: 'Züge',
+		movesRemaining: 'Verbleibende Züge',
+		percentageFlooded: 'Geflutet',
+		colorCount: 'Farben',
+		chooseColor: 'Farbe wählen',
+		winTitle: 'Spielfeld geflutet!',
+		winDescription: 'Du hast das Spielfeld in {{moves}} Zügen gemeistert!',
+		lossTitle: 'Keine Züge mehr',
+		lossDescription: 'Zuglimit erreicht, bevor das Spielfeld vollständig geflutet war.',
+		boardLabel: 'Flood-It-Spielfeld',
+		colorOption: 'Farbe {{number}}: {{name}}',
+	},
+	controls: {
+		undo: 'Rückgängig',
+		redo: 'Wiederholen',
+		restart: 'Neu starten',
+		newGame: 'Neues Spiel',
+		backToLobby: 'Zurück zur Lobby',
+		keyboardHint: 'Drücke 1–6 oder die Pfeiltasten, um eine Farbe zu wählen.',
+	},
+	settings: {
+		title: 'Flood-It-Einstellungen',
+		showColorblindShapes: {
+			label: 'Symbole für Farbenblinde',
+			description: 'Zeigt geometrische Formen auf Farben für verbesserte Zugänglichkeit an.',
+		},
+		confirmRestart: {
+			label: 'Neustart bestätigen',
+			description: 'Vor dem Zurücksetzen des aktuellen Spiels nachfragen.',
+		},
+	},
+};

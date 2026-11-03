@@ -2,6 +2,7 @@ import type { SUPPORTED_LANGUAGES } from '../constants/languages.js';
 import type { AnagramSchema, AnagramTranslationContract } from '../schemas/anagram.schema.js';
 import type { BridgesSchema, BridgesTranslationContract } from '../schemas/bridges.schema.js';
 import type { CommonSchema, CommonTranslationContract } from '../schemas/common.schema.js';
+import type { FloodItSchema, FloodItTranslationContract } from '../schemas/floodit.schema.js';
 import type { MedalsSchema, MedalsTranslationContract } from '../schemas/medals.schema.js';
 import type { MinesweeperSchema, MinesweeperTranslationContract } from '../schemas/minesweeper.schema.js';
 import type { NetSchema, NetTranslationContract } from '../schemas/net.schema.js';
@@ -34,6 +35,7 @@ export type TentsTranslationKey = LeafKeys<TentsSchema>;
 export type AnagramTranslationKey = LeafKeys<AnagramSchema>;
 export type UntangleTranslationKey = LeafKeys<UntangleSchema> | `untangle.${LeafKeys<UntangleSchema>}`;
 export type NetTranslationKey = LeafKeys<NetSchema> | `net.${LeafKeys<NetSchema>}`;
+export type FloodItTranslationKey = LeafKeys<FloodItSchema> | `floodit.${LeafKeys<FloodItSchema>}`;
 export type MedalsTranslationKey = LeafKeys<MedalsSchema> | `medals.${LeafKeys<MedalsSchema>}`;
 export type TaxonomyTranslationKey = LeafKeys<TaxonomySchema> | `taxonomy.${LeafKeys<TaxonomySchema>}`;
 
@@ -50,6 +52,7 @@ export type TranslationKey =
 	| AnagramTranslationKey
 	| UntangleTranslationKey
 	| NetTranslationKey
+	| FloodItTranslationKey
 	| MedalsTranslationKey
 	| TaxonomyTranslationKey;
 
@@ -76,6 +79,7 @@ export type TranslationResources = Record<
 		readonly anagram: AnagramTranslationContract;
 		readonly untangle: UntangleTranslationContract;
 		readonly net: NetTranslationContract;
+		readonly floodit: FloodItTranslationContract;
 		readonly medals: MedalsTranslationContract;
 		readonly taxonomy: TaxonomyTranslationContract;
 	}

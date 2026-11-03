@@ -117,6 +117,9 @@ export const frCommon = {
 	hub: {
 		gamesTitle: 'Jeux',
 		toolsTitle: 'Outils et utilitaires',
+		categoryFilterAriaLabel: 'Filtrer les jeux par catégorie',
+		allCategories: 'Tous',
+		emptyCategoryMessage: 'Aucun jeu trouvé dans cette catégorie.',
 	},
 	tools: {
 		dice: {

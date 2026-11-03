@@ -117,6 +117,9 @@ export const enCommon = {
 	hub: {
 		gamesTitle: 'Games',
 		toolsTitle: 'Tools & Utilities',
+		categoryFilterAriaLabel: 'Filter games by category',
+		allCategories: 'All',
+		emptyCategoryMessage: 'No games found in this category.',
 	},
 	tools: {
 		dice: {

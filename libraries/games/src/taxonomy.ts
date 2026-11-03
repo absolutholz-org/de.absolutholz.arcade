@@ -138,6 +138,7 @@ const GAME_ID_LOOKUP = {
 	watersort: true,
 	untangle: true,
 	net: true,
+	floodit: true,
 } as const satisfies Readonly<Record<GameId, true>>;
 
 const CATEGORY_SET: ReadonlySet<string> = new Set(GAME_CATEGORIES);

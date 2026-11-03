@@ -1,0 +1,47 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { GameSettingsPanel } from '@arcade/lib-ui/components/GameSettingsPanel';
+import GameSubpageTemplate from '@arcade/lib-ui/templates/GameSubpageTemplate/GameSubpageTemplate.astro';
+import { FLOODIT_SETTINGS_CONFIG } from '../../config/settings';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const currentLanguage = lang as SupportedLanguageCode;
+const currentFloodIt = resources[currentLanguage]?.floodit ?? resources.en.floodit;
+const currentCommon = resources[currentLanguage]?.common ?? resources.en.common;
+---
+
+<GameSubpageTemplate
+	title={currentFloodIt.settings.title}
+	description={`${currentFloodIt.title} - ${currentFloodIt.settings.title}`}
+	lang={currentLanguage}
+	breadcrumbItems={[
+		{ label: currentCommon.app.title, href: `/${currentLanguage}/`, isHome: true },
+		{ label: currentFloodIt.title, href: `/floodit/${currentLanguage}/` },
+		{ label: currentFloodIt.settings.title, isCurrent: true },
+	]}
+	primaryAction={{
+		label: currentFloodIt.lobby.play,
+		href: `/floodit/${currentLanguage}/game`,
+	}}
+	secondaryAction={{
+		label: currentFloodIt.controls.backToLobby,
+		href: `/floodit/${currentLanguage}/`,
+	}}
+	containerWidth="standard"
+	currentSlug="settings"
+>
+	<GameSettingsPanel
+		client:load
+		config={FLOODIT_SETTINGS_CONFIG}
+		lang={currentLanguage}
+		mode="detailed"
+	/>
+</GameSubpageTemplate>

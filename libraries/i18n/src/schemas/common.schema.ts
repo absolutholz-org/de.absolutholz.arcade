@@ -108,6 +108,9 @@ export const commonSchema = {
 	hub: {
 		gamesTitle: 'hub.gamesTitle',
 		toolsTitle: 'hub.toolsTitle',
+		categoryFilterAriaLabel: 'hub.categoryFilterAriaLabel',
+		allCategories: 'hub.allCategories',
+		emptyCategoryMessage: 'hub.emptyCategoryMessage',
 	},
 	tools: {
 		dice: {

@@ -51,11 +51,11 @@ const gameDirectories = fs
 	.sort();
 
 describe('ADR 0008 Canonical Game Architecture Conformance', () => {
-	it('should discover all 11 expected arcade game packages', () => {
+	it('should discover all 12 expected arcade game packages', () => {
 		assert.equal(
 			gameDirectories.length,
-			11,
-			`Expected 11 arcade game packages under apps/*, but discovered ${gameDirectories.length}: ${gameDirectories.join(', ')}`,
+			12,
+			`Expected 12 arcade game packages under apps/*, but discovered ${gameDirectories.length}: ${gameDirectories.join(', ')}`,
 		);
 	});
 

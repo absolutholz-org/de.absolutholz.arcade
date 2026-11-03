@@ -135,6 +135,14 @@ export interface GameCustomStatsMap {
 	watersort: WaterSortCustomStats;
 	untangle: UntangleCustomStats;
 	net: NetCustomStats;
+	floodit: FloodItCustomStats;
+}
+
+export interface FloodItCustomStats {
+	readonly tierWins?: Record<string, boolean>;
+	readonly lifetimeCellsFlooded?: number;
+	readonly maxSingleMoveDelta?: number;
+	readonly winningColors?: readonly number[];
 }
 
 export interface NetCustomStats {

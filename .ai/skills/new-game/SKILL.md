@@ -192,9 +192,8 @@ Construct the application shell and React canvas in `apps/[gameId]/`:
     - **Zero-Failure Gate Invariant:** The subagent/workflow is **strictly forbidden** from reporting completion or success if any linter, formatter, or test exits with a non-zero code. All diagnostic errors (non-null assertions, missing button types, unhandled SVG titles, or semantic element lints) must be inspected and fixed until all checks exit cleanly with code 0.
 4. **Central Hub & Medals Showcase Activation:**
     - Only after all static tests, Biome checks, and builds succeed:
-        - **Central Game Registry:** Add the game entry to `GAME_REGISTRY` in `libraries/games/src/registry.ts`.
-        - **Hub Medals Showcase:** Add the `gameId` to `REGISTERED_GAMES` in `apps/hub/src/components/MedalsShowcase/MedalsShowcase.tsx` so the game's achievements appear in the global showcase and game filter dropdown.
-        - **Hub User Medal Summary:** Add the `gameId` to `REGISTERED_GAMES` in `apps/hub/src/components/UserMedalSummaryWidget/UserMedalSummaryWidget.tsx` so the user's global trophy statistics include this game.
+        - **Central Game Registry:** Add the game entry to `GAME_REGISTRY` in `libraries/games/src/registry.ts` (which automatically updates `GAME_IDS` used across the Hub showcase and trophy widgets).
+        - **Medal Stats Mapping:** Add `[gameId]: [Game]CustomStats` to `GameCustomStatsMap` in `libraries/medals/src/types/stats.types.ts`.
     - Rebuild `apps/hub` (`pnpm --filter @arcade/hub build`) and verify that:
         - The new game card renders in the central lobby across all languages (`/[lang]/`).
         - The game's medals render and filter properly in the hub showcase (`/[lang]/medals`).

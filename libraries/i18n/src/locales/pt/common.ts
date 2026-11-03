@@ -116,6 +116,9 @@ export const ptCommon = {
 	hub: {
 		gamesTitle: 'Jogos',
 		toolsTitle: 'Ferramentas e utilitários',
+		categoryFilterAriaLabel: 'Filtrar jogos por categoria',
+		allCategories: 'Todos',
+		emptyCategoryMessage: 'Nenhum jogo encontrado nesta categoria.',
 	},
 	tools: {
 		dice: {

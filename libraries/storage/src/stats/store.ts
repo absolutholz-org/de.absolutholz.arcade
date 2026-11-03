@@ -14,6 +14,9 @@ export const DEFAULT_REGISTERED_GAMES: readonly string[] = [
 	'tents',
 	'anagram',
 	'watersort',
+	'untangle',
+	'net',
+	'floodit',
 ];
 
 /**

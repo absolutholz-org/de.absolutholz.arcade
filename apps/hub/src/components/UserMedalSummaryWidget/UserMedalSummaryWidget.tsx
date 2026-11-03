@@ -1,3 +1,4 @@
+import { GAME_IDS } from '@arcade/lib-games';
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
@@ -8,19 +9,7 @@ import { useCallback, useEffect, useState } from 'react';
 import * as S from './UserMedalSummaryWidget.styles';
 import type { UserMedalSummaryWidgetProps } from './UserMedalSummaryWidget.types';
 
-const REGISTERED_GAMES: readonly GameId[] = [
-	'sudoku',
-	'nonogram',
-	'minesweeper',
-	'queens',
-	'tracks',
-	'bridges',
-	'tents',
-	'anagram',
-	'watersort',
-	'untangle',
-	'net',
-];
+const REGISTERED_GAMES: readonly GameId[] = GAME_IDS;
 
 interface UserMedalData {
 	readonly totalTrophies: number;

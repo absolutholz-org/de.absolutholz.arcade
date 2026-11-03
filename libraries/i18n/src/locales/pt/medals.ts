@@ -18,6 +18,7 @@ export const ptMedals = {
 			tents: 'Tendas',
 			untangle: 'Desembaraçar',
 			net: 'Net',
+			floodit: 'Flood-It',
 		},
 		status: {
 			unlocked: 'Desbloqueado',
@@ -703,6 +704,56 @@ export const ptMedals = {
 		sudden_surge: {
 			title: 'Surto Repentino',
 			desc: 'Vença com uma rotação final que conecte pelo menos 35% da grade de uma vez.',
+		},
+	},
+	floodit: {
+		first_win: {
+			title: 'Primeira Inundação',
+			desc: 'Inunde seu primeiro tabuleiro com uma única cor.',
+		},
+		veteran: {
+			title: 'Veterano de Inundação',
+			desc: 'Vença vários jogos de Flood-It: Bronze aos 5, Prata aos 25 e Ouro aos 50 jogos.',
+		},
+		wire_to_wire: {
+			title: 'No Limite',
+			desc: 'Vença exatamente no último movimento permitido.',
+		},
+		clean_sweep: {
+			title: 'Varredura Limpa',
+			desc: 'Vença um jogo com 5 ou mais movimentos de sobra.',
+		},
+		no_regrets: {
+			title: 'Sem Arrependimentos',
+			desc: 'Complete uma partida sem usar a função desfazer.',
+		},
+		corner_to_corner: {
+			title: 'De Canto a Canto',
+			desc: 'Alcance a célula inferior direita em 8 movimentos ou menos.',
+		},
+		giant_leap: {
+			title: 'Salto Gigante',
+			desc: 'Inunde 25% ou mais do tabuleiro em um único movimento.',
+		},
+		prism_master: {
+			title: 'Mestre do Prisma',
+			desc: 'Vença partidas terminando em cada uma das 6 cores da paleta.',
+		},
+		tsunami: {
+			title: 'Tsunami',
+			desc: 'Inunde 40% ou mais do tabuleiro inteiro em uma única jogada.',
+		},
+		grand_tour: {
+			title: 'Grand Tour',
+			desc: 'Vença pelo menos uma partida em cada nível de dificuldade (Iniciante, Fácil, Médio, Difícil).',
+		},
+		the_deluge: {
+			title: 'O Dilúvio',
+			desc: 'Células inundadas acumuladas em todos os jogos: Bronze em 1.000, Prata em 5.000 e Ouro em 15.000 células.',
+		},
+		symbol_surveyor: {
+			title: 'Agrimensor de Símbolos',
+			desc: 'Vença um jogo com o modo de símbolos para daltonismo ativado.',
 		},
 	},
 } as const satisfies MedalsTranslationContract;

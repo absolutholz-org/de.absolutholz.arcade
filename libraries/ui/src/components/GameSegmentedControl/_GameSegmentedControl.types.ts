@@ -5,6 +5,8 @@ export interface GameSegmentedOption {
 	label: string;
 	/** Optional emoji icon or visual identifier */
 	icon?: string;
+	/** Optional controlled element ID override for this tab */
+	ariaControls?: string;
 }
 
 export interface GameSegmentedControlProps {
@@ -16,4 +18,6 @@ export interface GameSegmentedControlProps {
 	onSelect: (id: string) => void;
 	/** Accessible name for the tablist */
 	ariaLabel?: string;
+	/** Optional shared controlled panel ID for all tabs (defaults to `panel-${opt.id}` when omitted) */
+	panelId?: string;
 }

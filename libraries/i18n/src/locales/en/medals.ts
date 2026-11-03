@@ -18,6 +18,7 @@ export const enMedals = {
 			tents: 'Tents',
 			untangle: 'Untangle',
 			net: 'Net',
+			floodit: 'Flood-It',
 		},
 		status: {
 			unlocked: 'Unlocked',
@@ -702,6 +703,56 @@ export const enMedals = {
 		sudden_surge: {
 			title: 'Sudden Surge',
 			desc: 'Win with a final rotation that connects at least 35% of the grid at once.',
+		},
+	},
+	floodit: {
+		first_win: {
+			title: 'First Flood',
+			desc: 'Flood your first board with a single color.',
+		},
+		veteran: {
+			title: 'Flood Veteran',
+			desc: 'Win multiple Flood-It games: Bronze at 5, Silver at 25, and Gold at 50 games.',
+		},
+		wire_to_wire: {
+			title: 'Wire to Wire',
+			desc: 'Win on the exact final move limit.',
+		},
+		clean_sweep: {
+			title: 'Clean Sweep',
+			desc: 'Win a game with 5 or more moves to spare.',
+		},
+		no_regrets: {
+			title: 'No Regrets',
+			desc: 'Complete a puzzle without using Undo.',
+		},
+		corner_to_corner: {
+			title: 'Corner to Corner',
+			desc: 'Absorb the bottom-right cell in 8 moves or fewer.',
+		},
+		giant_leap: {
+			title: 'Giant Leap',
+			desc: 'Absorb 25% or more of the grid in a single move.',
+		},
+		prism_master: {
+			title: 'Prism Master',
+			desc: 'Win games ending on each of the 6 palette colors.',
+		},
+		tsunami: {
+			title: 'Tsunami',
+			desc: 'Absorb 40% or more of the entire board in a single move.',
+		},
+		grand_tour: {
+			title: 'Grand Tour',
+			desc: 'Win at least one game on each difficulty tier (Beginner, Easy, Medium, Hard).',
+		},
+		the_deluge: {
+			title: 'The Deluge',
+			desc: 'Lifetime cells flooded across all games: Bronze at 1,000, Silver at 5,000, and Gold at 15,000 cells.',
+		},
+		symbol_surveyor: {
+			title: 'Symbol Surveyor',
+			desc: 'Win a game with the colorblind shape overlay enabled.',
 		},
 	},
 } as const satisfies MedalsTranslationContract;

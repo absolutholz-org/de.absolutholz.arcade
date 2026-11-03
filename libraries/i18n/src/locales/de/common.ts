@@ -117,6 +117,9 @@ export const deCommon = {
 	hub: {
 		gamesTitle: 'Spiele',
 		toolsTitle: 'Werkzeuge & Hilfsmittel',
+		categoryFilterAriaLabel: 'Spiele nach Kategorie filtern',
+		allCategories: 'Alle',
+		emptyCategoryMessage: 'Keine Spiele in dieser Kategorie gefunden.',
 	},
 	tools: {
 		dice: {

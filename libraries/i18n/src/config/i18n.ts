@@ -4,6 +4,7 @@ import { SUPPORTED_LANGUAGES } from '../constants/languages.js';
 import { deAnagram } from '../locales/de/anagram.js';
 import { deBridges } from '../locales/de/bridges.js';
 import { deCommon } from '../locales/de/common.js';
+import { deFloodit } from '../locales/de/floodit.js';
 import { deMedals } from '../locales/de/medals.js';
 import { deMinesweeper } from '../locales/de/minesweeper.js';
 import { deNet } from '../locales/de/net.js';
@@ -18,6 +19,7 @@ import { deWatersort } from '../locales/de/watersort.js';
 import { enAnagram } from '../locales/en/anagram.js';
 import { enBridges } from '../locales/en/bridges.js';
 import { enCommon } from '../locales/en/common.js';
+import { enFloodit } from '../locales/en/floodit.js';
 import { enMedals } from '../locales/en/medals.js';
 import { enMinesweeper } from '../locales/en/minesweeper.js';
 import { enNet } from '../locales/en/net.js';
@@ -32,6 +34,7 @@ import { enWatersort } from '../locales/en/watersort.js';
 import { frAnagram } from '../locales/fr/anagram.js';
 import { frBridges } from '../locales/fr/bridges.js';
 import { frCommon } from '../locales/fr/common.js';
+import { frFloodit } from '../locales/fr/floodit.js';
 import { frMedals } from '../locales/fr/medals.js';
 import { frMinesweeper } from '../locales/fr/minesweeper.js';
 import { frNet } from '../locales/fr/net.js';
@@ -46,6 +49,7 @@ import { frWatersort } from '../locales/fr/watersort.js';
 import { ptAnagram } from '../locales/pt/anagram.js';
 import { ptBridges } from '../locales/pt/bridges.js';
 import { ptCommon } from '../locales/pt/common.js';
+import { ptFloodit } from '../locales/pt/floodit.js';
 import { ptMedals } from '../locales/pt/medals.js';
 import { ptMinesweeper } from '../locales/pt/minesweeper.js';
 import { ptNet } from '../locales/pt/net.js';
@@ -74,6 +78,7 @@ export const resources: TranslationResources = {
 		anagram: enAnagram,
 		untangle: enUntangle,
 		net: enNet,
+		floodit: enFloodit,
 		medals: enMedals,
 		taxonomy: enTaxonomy,
 	},
@@ -90,6 +95,7 @@ export const resources: TranslationResources = {
 		anagram: deAnagram,
 		untangle: deUntangle,
 		net: deNet,
+		floodit: deFloodit,
 		medals: deMedals,
 		taxonomy: deTaxonomy,
 	},
@@ -106,6 +112,7 @@ export const resources: TranslationResources = {
 		anagram: frAnagram,
 		untangle: frUntangle,
 		net: frNet,
+		floodit: frFloodit,
 		medals: frMedals,
 		taxonomy: frTaxonomy,
 	},
@@ -122,6 +129,7 @@ export const resources: TranslationResources = {
 		anagram: ptAnagram,
 		untangle: ptUntangle,
 		net: ptNet,
+		floodit: ptFloodit,
 		medals: ptMedals,
 		taxonomy: ptTaxonomy,
 	},
@@ -148,6 +156,7 @@ i18n.use(initReactI18next).init({
 		'anagram',
 		'untangle',
 		'net',
+		'floodit',
 		'medals',
 		'taxonomy',
 	],

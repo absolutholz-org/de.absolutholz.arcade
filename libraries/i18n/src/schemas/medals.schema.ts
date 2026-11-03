@@ -16,6 +16,7 @@ export interface MedalsSchema {
 			readonly tents: string;
 			readonly untangle: string;
 			readonly net: string;
+			readonly floodit: string;
 		};
 		readonly status: {
 			readonly unlocked: string;
@@ -222,6 +223,20 @@ export interface MedalsSchema {
 		readonly spinning_wheels: { readonly title: string; readonly desc: string };
 		readonly total_blackout: { readonly title: string; readonly desc: string };
 		readonly sudden_surge: { readonly title: string; readonly desc: string };
+	};
+	readonly floodit: {
+		readonly first_win: { readonly title: string; readonly desc: string };
+		readonly veteran: { readonly title: string; readonly desc: string };
+		readonly wire_to_wire: { readonly title: string; readonly desc: string };
+		readonly clean_sweep: { readonly title: string; readonly desc: string };
+		readonly no_regrets: { readonly title: string; readonly desc: string };
+		readonly corner_to_corner: { readonly title: string; readonly desc: string };
+		readonly giant_leap: { readonly title: string; readonly desc: string };
+		readonly prism_master: { readonly title: string; readonly desc: string };
+		readonly tsunami: { readonly title: string; readonly desc: string };
+		readonly grand_tour: { readonly title: string; readonly desc: string };
+		readonly the_deluge: { readonly title: string; readonly desc: string };
+		readonly symbol_surveyor: { readonly title: string; readonly desc: string };
 	};
 }
 

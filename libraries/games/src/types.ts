@@ -14,7 +14,8 @@ export type GameId =
 	| 'anagram'
 	| 'watersort'
 	| 'untangle'
-	| 'net';
+	| 'net'
+	| 'floodit';
 
 /**
  * Canonical identifiers for standalone utility tools in the Arcade monorepo.
