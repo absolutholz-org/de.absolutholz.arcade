@@ -22,7 +22,9 @@ const homeText = `${currentCommon.app.title} ${currentCommon.navigation.home}`;
 ---
 
 <BaseLayoutWithSiteHeaderAndSiteFooter
-	title={`${currentTools.title} - Absolute Holz Arcade`}
+	titleOptions={{
+		subject: currentTools.title,
+	}}
 	description={currentTools.description}
 	lang={currentLanguage}
 	currentSlug="tools/dice"

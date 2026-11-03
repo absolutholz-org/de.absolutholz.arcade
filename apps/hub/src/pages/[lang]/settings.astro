@@ -25,7 +25,9 @@ const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? 
 ---
 
 <BaseLayoutWithSiteHeaderAndSiteFooter
-	title={currentTranslations.settings.title}
+	titleOptions={{
+		subject: currentTranslations.settings.title,
+	}}
 	description={currentTranslations.settings.description}
 	lang={lang as SupportedLanguageCode}
 	currentSlug="settings"

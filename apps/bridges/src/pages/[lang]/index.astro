@@ -16,7 +16,9 @@ const currentBridges = resources[lang as SupportedLanguageCode]?.bridges ?? reso
 ---
 
 <BaseLayoutWithSiteHeaderAndSiteFooter
-	title={currentBridges.title}
+	titleOptions={{
+		scope: currentBridges.title,
+	}}
 	description={currentBridges.description}
 	lang={lang as SupportedLanguageCode}
 	currentSlug=""

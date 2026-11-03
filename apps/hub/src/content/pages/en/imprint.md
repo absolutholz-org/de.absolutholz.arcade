@@ -1,5 +1,5 @@
 ---
-title: Imprint / Legal Notice
+title: Imprint
 description: Legal disclosure and contact information for Arcade Web App.
 ---
 

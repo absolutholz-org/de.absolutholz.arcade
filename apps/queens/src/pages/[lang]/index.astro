@@ -16,7 +16,9 @@ const currentQueens = resources[lang as SupportedLanguageCode]?.queens ?? resour
 ---
 
 <BaseLayoutWithSiteHeaderAndSiteFooter
-	title={currentQueens.title}
+	titleOptions={{
+		scope: currentQueens.title,
+	}}
 	description={currentQueens.description}
 	lang={lang as SupportedLanguageCode}
 	currentSlug=""

@@ -16,7 +16,9 @@ const currentAnagram = resources[lang as SupportedLanguageCode]?.anagram ?? reso
 ---
 
 <BaseLayoutWithSiteHeaderAndSiteFooter
-	title={currentAnagram.title}
+	titleOptions={{
+		scope: currentAnagram.title,
+	}}
 	description={currentAnagram.description}
 	lang={lang as SupportedLanguageCode}
 	currentSlug=""

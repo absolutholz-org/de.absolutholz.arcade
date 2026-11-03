@@ -19,7 +19,9 @@ const initialDifficulty = rawDiff && ['easy', 'medium', 'hard', 'expert'].includ
 ---
 
 <BaseLayoutWithSiteHeaderAndSiteFooter
-	title={currentWatersort.title}
+	titleOptions={{
+		scope: currentWatersort.title,
+	}}
 	description={currentWatersort.description}
 	lang={lang as SupportedLanguageCode}
 	currentSlug=""

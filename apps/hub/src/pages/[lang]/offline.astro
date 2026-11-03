@@ -18,7 +18,9 @@ const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? 
 ---
 
 <BaseLayoutWithSiteHeaderAndSiteFooter
-	title={currentTranslations.offline.title}
+	titleOptions={{
+		subject: currentTranslations.offline.title,
+	}}
 	description={currentTranslations.offline.description}
 	lang={lang as SupportedLanguageCode}
 	currentSlug="offline"

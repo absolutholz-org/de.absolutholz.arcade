@@ -16,7 +16,9 @@ const currentUntangle = resources[lang as SupportedLanguageCode]?.untangle ?? re
 ---
 
 <BaseLayoutWithSiteHeaderAndSiteFooter
-	title={currentUntangle.title}
+	titleOptions={{
+		scope: currentUntangle.title,
+	}}
 	description={currentUntangle.description}
 	lang={lang as SupportedLanguageCode}
 	currentSlug=""

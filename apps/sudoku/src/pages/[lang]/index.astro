@@ -16,7 +16,9 @@ const currentSudoku = resources[lang as SupportedLanguageCode]?.sudoku ?? resour
 ---
 
 <BaseLayoutWithSiteHeaderAndSiteFooter
-	title={currentSudoku.title}
+	titleOptions={{
+		scope: currentSudoku.title,
+	}}
 	description={currentSudoku.description}
 	lang={lang as SupportedLanguageCode}
 	currentSlug=""

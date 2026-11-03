@@ -23,7 +23,10 @@ const RulesContent = renderedRules?.Content;
 ---
 
 <GameLayout
-	title={`${currentTracks.title} | ${currentTracks.description}`}
+	titleOptions={{
+		scope: currentTracks.title,
+		isPlaySession: true,
+	}}
 	description={currentTracks.description}
 	lang={currentLanguage}
 	canonical={`https://arcade.absolutholz.de/tracks/${lang}/game`}

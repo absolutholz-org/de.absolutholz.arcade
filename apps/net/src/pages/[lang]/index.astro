@@ -16,7 +16,9 @@ const currentNet = resources[lang as SupportedLanguageCode]?.net ?? resources.en
 ---
 
 <BaseLayoutWithSiteHeaderAndSiteFooter
-	title={currentNet.title}
+	titleOptions={{
+		scope: currentNet.title,
+	}}
 	description={currentNet.description}
 	lang={lang as SupportedLanguageCode}
 	currentSlug=""

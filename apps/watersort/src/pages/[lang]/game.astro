@@ -29,7 +29,10 @@ const RulesContent = renderedRules?.Content;
 ---
 
 <GameLayout
-	title={`${currentWatersort.title} | ${currentWatersort.description}`}
+	titleOptions={{
+		scope: currentWatersort.title,
+		isPlaySession: true,
+	}}
 	description={currentWatersort.description}
 	lang={currentLanguage}
 	canonical={`https://arcade.absolutholz.de/watersort/${lang}/game`}

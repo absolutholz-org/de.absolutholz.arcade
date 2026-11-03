@@ -1,10 +1,15 @@
 import type { ReactNode } from 'react';
+import type { PageTitleOptions } from '../../utils/seo';
 
 export interface BaseLayoutProps {
 	/**
 	 * Primary document title for HTML shells.
 	 */
 	title?: string;
+	/**
+	 * Structured title formatting options. When provided, takes precedence over raw title.
+	 */
+	titleOptions?: PageTitleOptions;
 	/**
 	 * Optional description metadata.
 	 */

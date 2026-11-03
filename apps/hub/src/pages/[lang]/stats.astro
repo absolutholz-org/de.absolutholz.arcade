@@ -22,7 +22,9 @@ const homeText = `${currentCommon.app.title} ${currentCommon.navigation.home}`;
 ---
 
 <BaseLayoutWithSiteHeaderAndSiteFooter
-	title={pageTitle}
+	titleOptions={{
+		subject: pageTitle,
+	}}
 	description="Global statistics and records aggregated across all Arcade games"
 	lang={currentLanguage}
 	currentSlug="stats"

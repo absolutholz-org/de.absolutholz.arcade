@@ -33,6 +33,10 @@
 		"./templates/*": {
 			"types": "./src/templates/*/index.ts",
 			"default": "./src/templates/*/index.ts"
+		},
+		"./utils/*": {
+			"types": "./src/utils/*.ts",
+			"default": "./src/utils/*.ts"
 		}
 	},
 	"scripts": {

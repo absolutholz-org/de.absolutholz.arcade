@@ -16,7 +16,9 @@ const currentNonogram = resources[lang as SupportedLanguageCode]?.nonogram ?? re
 ---
 
 <BaseLayoutWithSiteHeaderAndSiteFooter
-	title={currentNonogram.title}
+	titleOptions={{
+		scope: currentNonogram.title,
+	}}
 	description={currentNonogram.description}
 	lang={lang as SupportedLanguageCode}
 	currentSlug=""

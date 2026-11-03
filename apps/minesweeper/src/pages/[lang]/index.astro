@@ -16,7 +16,9 @@ const currentMinesweeper = resources[lang as SupportedLanguageCode]?.minesweeper
 ---
 
 <BaseLayoutWithSiteHeaderAndSiteFooter
-	title={currentMinesweeper.title}
+	titleOptions={{
+		scope: currentMinesweeper.title,
+	}}
 	description={currentMinesweeper.description}
 	lang={lang as SupportedLanguageCode}
 	currentSlug=""

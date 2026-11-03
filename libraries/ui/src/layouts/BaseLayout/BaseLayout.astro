@@ -6,12 +6,14 @@ import { ConsentBanner } from '../../components/ConsentBanner';
 import { MedalToastListener } from '../../components/MedalToastListener';
 import { SkipLink } from '../../components/SkipLink';
 import { Toast } from '../../components/Toast';
+import { formatPageTitle } from '../../utils/seo';
 import type { BaseLayoutProps } from './_BaseLayout.types';
 
 type Props = BaseLayoutProps;
 
 const {
 	title,
+	titleOptions,
 	description,
 	lang = 'en',
 	dir = 'ltr',
@@ -19,6 +21,8 @@ const {
 	appTitle = 'Arcade',
 	manifestHref = '/site.webmanifest',
 } = Astro.props;
+
+const resolvedTitle = titleOptions ? formatPageTitle(titleOptions) : title;
 
 const currentCommon = resources[lang as SupportedLanguageCode]?.common ?? resources.en.common;
 ---
@@ -68,7 +72,7 @@ const currentCommon = resources[lang as SupportedLanguageCode]?.common ?? resour
 				});
 			}
 		</script>
-		<title>{title}</title>
+		<title>{resolvedTitle}</title>
 		{description && <meta name="description" content={description} />}
 		<link rel="icon" type="image/png" href="/favicon-96x96.png?v=20261006" sizes="96x96" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20261006" />

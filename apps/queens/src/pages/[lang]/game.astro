@@ -23,7 +23,10 @@ const RulesContent = renderedRules?.Content;
 ---
 
 <GameLayout
-	title={`${currentQueens.title} | ${currentQueens.description}`}
+	titleOptions={{
+		scope: currentQueens.title,
+		isPlaySession: true,
+	}}
 	description={currentQueens.description}
 	lang={currentLanguage}
 	canonical={`https://arcade.absolutholz.de/queens/${lang}/game`}

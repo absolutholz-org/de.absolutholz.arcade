@@ -31,9 +31,16 @@ if (h1Match) {
 	// Strip the H1 from the markdown content so it is not rendered twice
 	contentHtml = contentHtml.replace(/<h1[^>]*>[\s\S]*?<\/h1>/i, '');
 }
+// Infer scope from breadcrumbItems if available (e.g. game lobby link when rendering rules within a game)
+const inferredScope = breadcrumbItems && breadcrumbItems.length > 2 ? breadcrumbItems[1]?.label : undefined;
+
+const resolvedTitleOptions = layoutProps.titleOptions ?? {
+	subject: resolvedTitle,
+	scope: inferredScope,
+};
 ---
 
-<BaseLayoutWithSiteHeaderAndSiteFooter title={resolvedTitle ?? ''} {...layoutProps}>
+<BaseLayoutWithSiteHeaderAndSiteFooter title={resolvedTitle ?? ''} titleOptions={resolvedTitleOptions} {...layoutProps}>
 	<slot name="head" slot="head" />
 
 	<PageContainer variant={containerWidth}>

@@ -16,7 +16,9 @@ const currentTracks = resources[lang as SupportedLanguageCode]?.tracks ?? resour
 ---
 
 <BaseLayoutWithSiteHeaderAndSiteFooter
-	title={currentTracks.title}
+	titleOptions={{
+		scope: currentTracks.title,
+	}}
 	description={currentTracks.description}
 	lang={lang as SupportedLanguageCode}
 	currentSlug=""

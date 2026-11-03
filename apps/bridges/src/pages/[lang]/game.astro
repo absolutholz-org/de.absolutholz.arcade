@@ -23,7 +23,10 @@ const RulesContent = renderedRules?.Content;
 ---
 
 <GameLayout
-	title={`${currentBridges.title} | ${currentBridges.description}`}
+	titleOptions={{
+		scope: currentBridges.title,
+		isPlaySession: true,
+	}}
 	description={currentBridges.description}
 	lang={currentLanguage}
 	canonical={`https://arcade.absolutholz.de/bridges/${lang}/game`}

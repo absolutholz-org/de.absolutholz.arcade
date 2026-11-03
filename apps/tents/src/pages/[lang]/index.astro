@@ -16,7 +16,9 @@ const currentTents = resources[lang as SupportedLanguageCode]?.tents ?? resource
 ---
 
 <BaseLayoutWithSiteHeaderAndSiteFooter
-	title={currentTents.title}
+	titleOptions={{
+		scope: currentTents.title,
+	}}
 	description={currentTents.description}
 	lang={lang as SupportedLanguageCode}
 	currentSlug=""

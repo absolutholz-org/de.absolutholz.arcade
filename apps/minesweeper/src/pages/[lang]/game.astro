@@ -23,7 +23,10 @@ const RulesContent = renderedRules?.Content;
 ---
 
 <GameLayout
-	title={`${currentMinesweeper.title} | ${currentMinesweeper.description}`}
+	titleOptions={{
+		scope: currentMinesweeper.title,
+		isPlaySession: true,
+	}}
 	description={currentMinesweeper.description}
 	lang={currentLanguage}
 	canonical={`https://arcade.absolutholz.de/minesweeper/${lang}/game`}

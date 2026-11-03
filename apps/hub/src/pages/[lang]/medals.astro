@@ -22,7 +22,9 @@ const homeText = `${currentCommon.app.title} ${currentCommon.navigation.home}`;
 ---
 
 <BaseLayoutWithSiteHeaderAndSiteFooter
-	title={currentMedals.showcase.title}
+	titleOptions={{
+		subject: currentMedals.showcase.title,
+	}}
 	description={currentMedals.showcase.description}
 	lang={currentLanguage}
 	currentSlug="medals"

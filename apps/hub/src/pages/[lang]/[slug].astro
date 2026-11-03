@@ -74,7 +74,9 @@ const Content = rendered?.Content;
 		</BaseLayout>
 	) : entry && Content ? (
 		<MarkdownPageTemplate
-			title={entry.data.title}
+			titleOptions={{
+				subject: entry.data.title,
+			}}
 			description={entry.data.description}
 			lang={lang as SupportedLanguageCode}
 			breadcrumbItems={[

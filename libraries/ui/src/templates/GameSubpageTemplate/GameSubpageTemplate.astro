@@ -35,9 +35,17 @@ const {
 const hasSlotActions = Astro.slots.has('action') || Astro.slots.has('actions');
 const hasActionProps = Boolean(primaryAction || secondaryAction);
 const hasActions = hasSlotActions || hasActionProps;
+
+// Infer scope from breadcrumbItems if available (the game lobby item is typically index 1)
+const inferredScope = breadcrumbItems && breadcrumbItems.length > 1 ? breadcrumbItems[1]?.label : undefined;
+
+const resolvedTitleOptions = layoutProps.titleOptions ?? {
+	subject: title,
+	scope: inferredScope,
+};
 ---
 
-<BaseLayoutWithSiteHeaderAndSiteFooter title={title} {...layoutProps}>
+<BaseLayoutWithSiteHeaderAndSiteFooter title={title} titleOptions={resolvedTitleOptions} {...layoutProps}>
 	<slot name="head" slot="head" />
 
 	<PageContainer variant={containerWidth}>
