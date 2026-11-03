@@ -5,10 +5,12 @@ import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { getGameDescription, getGameTitle } from '@arcade/lib-i18n/utils/gameTitle';
 import { getCategoryLabel } from '@arcade/lib-i18n/utils/taxonomy';
-import { Badge } from '@arcade/lib-ui/components/Badge';
+import { GameCard } from '@arcade/lib-ui/components/GameCard';
+import { GamesGrid } from '@arcade/lib-ui/components/GamesGrid';
 import { Hero } from '@arcade/lib-ui/components/Hero';
 import { Logo } from '@arcade/lib-ui/components/Logo';
 import { PageContainer } from '@arcade/lib-ui/components/PageContainer';
+import { Text } from '@arcade/lib-ui/components/Text';
 import BaseLayoutWithSiteHeaderAndSiteFooter from '@arcade/lib-ui/layouts/BaseLayoutWithSiteHeaderAndSiteFooter/BaseLayoutWithSiteHeaderAndSiteFooter.astro';
 import { UserMedalSummaryWidget } from '../../components/UserMedalSummaryWidget';
 
@@ -37,41 +39,35 @@ const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? 
 		<UserMedalSummaryWidget client:idle lang={lang as SupportedLanguageCode} />
 
 		<section class="games-section">
-			<h2>{currentTranslations.hub.gamesTitle}</h2>
-			<div class="games-grid">
+			<Text as="h2" variant="h2">{currentTranslations.hub.gamesTitle}</Text>
+			<GamesGrid>
 				{ALL_GAMES.map((game) => (
-					<a href={`${game.route}/${lang}/`} class="game-card">
-						<div class="game-card-header">
-							<span class="game-card-icon" aria-hidden="true">{game.assets.icon}</span>
-							<h3>{getGameTitle(game.id, lang as SupportedLanguageCode)}</h3>
-						</div>
-						<p>{getGameDescription(game.id, lang as SupportedLanguageCode)}</p>
-						<footer class="game-card-footer">
-							<Badge variant="neutral" size="sm">
-								{getCategoryLabel(game.category.primary, lang as SupportedLanguageCode)}
-							</Badge>
-						</footer>
-					</a>
+					<GameCard
+						href={`${game.route}/${lang}/`}
+						title={getGameTitle(game.id, lang as SupportedLanguageCode)}
+						description={getGameDescription(game.id, lang as SupportedLanguageCode)}
+						icon={game.assets.icon}
+						badge={getCategoryLabel(game.category.primary, lang as SupportedLanguageCode)}
+					/>
 				))}
-			</div>
+			</GamesGrid>
 		</section>
 
 		<section class="tools-section">
-			<h2>{currentTranslations.hub.toolsTitle}</h2>
-			<div class="games-grid">
+			<Text as="h2" variant="h2">{currentTranslations.hub.toolsTitle}</Text>
+			<GamesGrid>
 				{ALL_TOOLS.map((tool) => {
 					const toolTranslation = currentTranslations.tools?.[tool.id];
 					return (
-						<a href={`/${lang}${tool.route}`} class="game-card">
-							<div class="game-card-header">
-								<span class="game-card-icon" aria-hidden="true">{tool.assets.icon}</span>
-								<h3>{toolTranslation?.title ?? tool.name}</h3>
-							</div>
-							<p>{toolTranslation?.description}</p>
-						</a>
+						<GameCard
+							href={`/${lang}${tool.route}`}
+							title={toolTranslation?.title ?? tool.name}
+							description={toolTranslation?.description}
+							icon={tool.assets.icon}
+						/>
 					);
 				})}
-			</div>
+			</GamesGrid>
 		</section>
 	</PageContainer>
 </BaseLayoutWithSiteHeaderAndSiteFooter>
@@ -80,74 +76,5 @@ const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? 
 	.games-section,
 	.tools-section {
 		margin-top: 2rem;
-	}
-
-	.games-grid {
-		display: grid;
-		gap: 1.5rem;
-		grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
-		margin-top: 1rem;
-	}
-
-	.game-card {
-		background: var(--color-container-1);
-		border: 1px solid var(--color-container-2);
-		border-radius: var(--radius-md);
-		color: var(--color-text-1);
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-		padding: 1.5rem;
-		text-decoration: none;
-		transition:
-			border-color 150ms ease,
-			transform 150ms ease;
-	}
-
-	.game-card:hover,
-	.game-card:focus,
-	.game-card:focus-visible,
-	.game-card:visited,
-	.game-card:active {
-		text-decoration: none;
-	}
-
-	.game-card *,
-	.game-card *::before,
-	.game-card *::after {
-		text-decoration: none;
-	}
-
-	.game-card:hover {
-		border-color: var(--color-accent);
-		transform: translateY(-2px);
-	}
-
-	.game-card-header {
-		display: flex;
-		align-items: center;
-		gap: 0.75rem;
-	}
-
-	.game-card-icon {
-		font-size: 1.75rem;
-		line-height: 1;
-	}
-
-	.game-card h3 {
-		font-size: 1.25rem;
-		margin: 0;
-	}
-
-	.game-card p {
-		color: var(--color-text-2);
-		font-size: 0.875rem;
-		flex-grow: 1;
-	}
-
-	.game-card-footer {
-		display: flex;
-		align-items: center;
-		margin-top: 0.5rem;
 	}
 </style>

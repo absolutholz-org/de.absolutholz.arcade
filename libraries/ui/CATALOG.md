@@ -29,6 +29,7 @@ Components providing interactive or informational surfaces.
 | Component | Export Path | Primary Purpose | Key Props & Patterns |
 | :--- | :--- | :--- | :--- |
 | **`ClickableCard`** | `@arcade/lib-ui` | Base interactive card primitive for all clickable tiles and banners. Enforces 3D bottom-depth elevation, hover/active transforms, WCAG touch target bounds, and suppresses link hover underlines on child elements. | `as="a" \| "button"`, `density="compact" \| "normal"`, `selected={boolean}`, `disabled={boolean}`. |
+| **`GameCard`** | `@arcade/lib-ui/components/GameCard` | Standard direct-launch card representing an arcade game or tool in catalog and taxonomy listings. Inherits from `ClickableCard`. | `title`, `icon`, `description`, `badge`, `footer`, `as="a" \| "button"`, `href`. |
 | **`GameSelectionCard`** | `@arcade/lib-ui` | Pre-styled card for game lobby levels, packs, and modes. Inherits from `ClickableCard`. | `title`, `subtitle`, `badge`, `icon`, `as="a" \| "button"`. |
 | **`QuickPlayCard`** | `@arcade/lib-ui` | High-emphasis card for instant game launching and practice modes. Inherits from `ClickableCard`. | `title`, `subtitle`, `actionLabel`, `as="a" \| "button"`. |
 | **`Banner`** | `@arcade/lib-ui/components/Banner` | Non-clickable informational callout for announcements, alerts, or status hints. | `variant="info" \| "warning" \| "success" \| "danger"`. |
@@ -92,6 +93,7 @@ Structural containers and layout primitives establishing consistent spacing and 
 | **`Divider`** | `@arcade/lib-ui/components/Divider` | Visual rule separating distinct content sections. | `orientation="horizontal" \| "vertical"`. |
 | **`Hero`** | `@arcade/lib-ui/components/Hero` | Top-of-page landmark with display typography, optional category eyebrow, tagline, metadata tag pills, and optional logo slot. | `title`, `tagline`, `eyebrow`, `tags`, `tagsAriaLabel`, `logo`, `headingLevel`. |
 | **`GameContainer`** | `@arcade/lib-ui/components/GameContainer` | Responsive aspect-ratio preserving frame for game canvases. | `children`, `aspectRatio`. |
+| **`GamesGrid`** | `@arcade/lib-ui/components/GamesGrid` | Responsive auto-fill grid container for game cards and tool catalog listings. | `children`, `as="div" \| "ul"`. |
 | **`MarkdownContent`** | `@arcade/lib-ui/components/MarkdownContent` | Standardized typographic container rendering localized Astro Markdown content collections (used in `MarkdownPageTemplate` and `slot="rulesContent"` per ADR 0008). | `children` (rendered HTML). |
 | **`MarkdownPageTemplate`** | `@arcade/lib-ui/templates/MarkdownPageTemplate` | Tier 2 template for standalone Markdown pages (`/[lang]/rules.astro`). | `title`, `description`, `lang`, `breadcrumbItems`, `currentSlug`. |
 
