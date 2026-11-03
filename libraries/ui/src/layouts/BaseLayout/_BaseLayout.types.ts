@@ -1,3 +1,4 @@
+import type { GameId } from '@arcade/lib-games';
 import type { ReactNode } from 'react';
 import type { PageTitleOptions } from '../../utils/seo';
 
@@ -14,6 +15,11 @@ export interface BaseLayoutProps {
 	 * Optional description metadata.
 	 */
 	description?: string;
+	/**
+	 * Optional explicit game identifier for game-specific SEO and JSON-LD structured data.
+	 * When omitted on game routes, automatically inferred from the route base/pathname.
+	 */
+	gameId?: GameId;
 	/**
 	 * Document language code.
 	 * @default 'en'

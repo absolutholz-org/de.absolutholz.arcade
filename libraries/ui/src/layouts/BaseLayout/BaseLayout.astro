@@ -6,7 +6,7 @@ import { ConsentBanner } from '../../components/ConsentBanner';
 import { MedalToastListener } from '../../components/MedalToastListener';
 import { SkipLink } from '../../components/SkipLink';
 import { Toast } from '../../components/Toast';
-import { formatPageTitle } from '../../utils/seo';
+import { buildGameSeoMetadata, formatPageTitle, resolveGameIdFromPath } from '../../utils/seo';
 import type { BaseLayoutProps } from './_BaseLayout.types';
 
 type Props = BaseLayoutProps;
@@ -15,6 +15,7 @@ const {
 	title,
 	titleOptions,
 	description,
+	gameId,
 	lang = 'en',
 	dir = 'ltr',
 	canonical,
@@ -22,9 +23,28 @@ const {
 	manifestHref = '/site.webmanifest',
 } = Astro.props;
 
+const currentLanguage = lang as SupportedLanguageCode;
 const resolvedTitle = titleOptions ? formatPageTitle(titleOptions) : title;
+const resolvedGameId =
+	gameId ??
+	resolveGameIdFromPath(Astro.url?.pathname) ??
+	resolveGameIdFromPath(import.meta.env.BASE_URL) ??
+	resolveGameIdFromPath(canonical);
 
-const currentCommon = resources[lang as SupportedLanguageCode]?.common ?? resources.en.common;
+const gameSeo = resolvedGameId
+	? buildGameSeoMetadata({
+			game: resolvedGameId,
+			lang: currentLanguage,
+			pageTitle: resolvedTitle,
+			pageDescription: description,
+		})
+	: undefined;
+
+const resolvedDescription = description ?? gameSeo?.description;
+const resolvedOgTitle = gameSeo ? gameSeo.openGraph.title : resolvedTitle;
+const resolvedOgDescription = gameSeo ? gameSeo.openGraph.description : resolvedDescription;
+
+const currentCommon = resources[currentLanguage]?.common ?? resources.en.common;
 ---
 
 <!doctype html>
@@ -73,7 +93,11 @@ const currentCommon = resources[lang as SupportedLanguageCode]?.common ?? resour
 			}
 		</script>
 		<title>{resolvedTitle}</title>
-		{description && <meta name="description" content={description} />}
+		{resolvedDescription && <meta name="description" content={resolvedDescription} />}
+		{gameSeo && <meta name="keywords" content={gameSeo.keywords} />}
+		{resolvedOgTitle && <meta property="og:title" content={resolvedOgTitle} />}
+		{resolvedOgDescription && <meta property="og:description" content={resolvedOgDescription} />}
+		{(gameSeo || resolvedOgTitle || resolvedOgDescription) && <meta property="og:type" content="website" />}
 		<link rel="icon" type="image/png" href="/favicon-96x96.png?v=20261006" sizes="96x96" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20261006" />
 		<link rel="shortcut icon" href="/favicon.ico?v=20261006" />
@@ -81,6 +105,7 @@ const currentCommon = resources[lang as SupportedLanguageCode]?.common ?? resour
 		<meta name="apple-mobile-web-app-title" content={appTitle} />
 		{manifestHref && <link rel="manifest" href={manifestHref} />}
 		{canonical && <link rel="canonical" href={canonical} />}
+		{gameSeo && <script is:inline type="application/ld+json" set:html={gameSeo.jsonLdScript} />}
 		<slot name="head" />
 	</head>
 	<body>
