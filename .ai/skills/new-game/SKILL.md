@@ -143,7 +143,11 @@ Construct the application shell and React canvas in `apps/[gameId]/`:
     - Wrap views in `PageLayout.astro` or `BaseLayout.astro`.
     - Mount `HeaderUserMenu client:load` in the header actions slot to expose user identity and cloud sync status.
 3. **Design System Component Usage & Game Session Persistence:**
-    - Canvas shell: Wrap with `GameContainer`.
+    - **Gameplay Shell (`GameLayout`):**
+      - Pass `<GameHeader />` into the `header` prop.
+      - Pass `<GameStatusStrip />` (`@arcade/lib-ui/components/GameStatusStrip`) into the `status` prop above the gameboard to display progress metrics and the inline `<Timer />`. Never create custom `*StatusBar` components or hardcode dark-only surfaces.
+      - Pass `<GameControlStrip />` (`@arcade/lib-ui/components/GameControlStrip`) into the `toolbar` prop below the gameboard for Undo, Redo, Reset/Restart, and New Puzzle controls.
+    - Canvas shell: Wrap with `GameContainer` or clean responsive board container using `light-dark(...)` tokens.
     - Lobby controls: Use `ClickableCard`, `GameSelectionCard`, `QuickPlayCard`, and `SegmentedControl`.
     - **Active Game Session Persistence (Resume Support):**
       - In `[Game]Game.hooks.ts`: Auto-save in-progress game snapshots (`saveActiveGame(snapshot)`) and restore them on mount (when navigating to `/game?resume=true` or matching params without `?new=true`), starting in a paused state. Call `clearActiveGame()` upon victory, defeat, surrender, or starting a new round.

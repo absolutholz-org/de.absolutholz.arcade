@@ -18,10 +18,10 @@ const BoardFrame = styled.section`
 	margin: 0 auto;
 	aspect-ratio: 1 / 1;
 	padding: 0.5rem;
-	background: var(--floodit-board-bg, oklch(0.20 0.02 260));
-	border: 2px solid var(--floodit-board-border, oklch(0.35 0.03 260));
+	background: var(--floodit-board-bg, light-dark(oklch(0.96 0.01 260), oklch(0.2 0.02 260)));
+	border: 2px solid var(--floodit-board-border, light-dark(oklch(0.84 0.02 260), oklch(0.35 0.03 260)));
 	border-radius: 0.75rem;
-	box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.3);
+	box-shadow: light-dark(0 0.25rem 0.75rem rgba(0, 0, 0, 0.08), 0 0.25rem 1rem rgba(0, 0, 0, 0.3));
 `;
 
 const BoardGrid = styled.div`
@@ -29,7 +29,7 @@ const BoardGrid = styled.div`
 	width: 100%;
 	height: 100%;
 	gap: 1px;
-	background: var(--floodit-cell-border, oklch(0.25 0.02 260));
+	background: var(--floodit-cell-border, light-dark(oklch(0.88 0.01 260), oklch(0.25 0.02 260)));
 	border-radius: 0.375rem;
 	overflow: hidden;
 

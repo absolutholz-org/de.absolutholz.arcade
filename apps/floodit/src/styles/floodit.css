@@ -13,7 +13,7 @@
 	--floodit-color-4-fg: oklch(0.98 0.02 265);
 	--floodit-color-5-fg: oklch(0.98 0.02 325);
 
-	--floodit-board-bg: oklch(0.2 0.02 260);
-	--floodit-board-border: oklch(0.35 0.03 260);
-	--floodit-cell-border: oklch(0.25 0.02 260);
+	--floodit-board-bg: light-dark(oklch(0.96 0.01 260), oklch(0.2 0.02 260));
+	--floodit-board-border: light-dark(oklch(0.84 0.02 260), oklch(0.35 0.03 260));
+	--floodit-cell-border: light-dark(oklch(0.88 0.01 260), oklch(0.25 0.02 260));
 }
