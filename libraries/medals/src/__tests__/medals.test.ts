@@ -502,4 +502,136 @@ describe('@arcade/lib-medals Foundation', () => {
 		const finalQueue = await syncStorage.get('queue');
 		expect(finalQueue).toBeNull();
 	});
+
+	it('initializes and records Flood-It game results and evaluates medals correctly', async () => {
+		const storage = new MockMemoryStorage('floodit');
+
+		// 1. Initial medal state should not throw and should contain empty floodit custom stats
+		const initialState = await getGameMedalState('floodit', storage);
+		expect(initialState.gameId).toBe('floodit');
+		expect(initialState.baseStats.gamesWon).toBe(0);
+		expect(initialState.customStats.winningColors).toEqual([]);
+		expect(initialState.customStats.lifetimeCellsFlooded).toBe(0);
+
+		const MOCK_FLOODIT_DEFINITIONS: readonly AchievementDefinition<'floodit'>[] = [
+			{
+				id: 'floodit_first_win',
+				type: 'standalone',
+				tier: 'bronze',
+				target: 1,
+				titleKey: 'medals.floodit.first_win.title',
+				descriptionKey: 'medals.floodit.first_win.desc',
+				icon: 'trophy-bronze',
+				evaluate: ({ updatedBaseStats }) => ({
+					unlocked: updatedBaseStats.gamesWon >= 1,
+					progress: Math.min(1, updatedBaseStats.gamesWon),
+					target: 1,
+				}),
+			},
+			{
+				id: 'floodit_grand_tour',
+				type: 'standalone',
+				tier: 'gold',
+				target: 4,
+				titleKey: 'medals.floodit.grand_tour.title',
+				descriptionKey: 'medals.floodit.grand_tour.desc',
+				icon: 'trophy-gold',
+				evaluate: ({ result, updatedCustomStats }) => {
+					const roundContext = result?.roundContext as
+						| { roundMetadata?: { tierWins?: Record<string, boolean> } }
+						| undefined;
+					const tierWins: Record<string, boolean> = {
+						...((updatedCustomStats?.tierWins as Record<string, boolean> | undefined) ?? {}),
+						...((roundContext?.roundMetadata?.tierWins as Record<string, boolean> | undefined) ?? {}),
+					};
+					if (result?.won && result?.levelKey) {
+						tierWins[result.levelKey] = true;
+					}
+					const tiers = ['beginner', 'easy', 'medium', 'hard'] as const;
+					const wonCount = tiers.filter((t) => Boolean(tierWins[t])).length;
+					return {
+						unlocked: wonCount >= 4,
+						progress: wonCount,
+						target: 4,
+					};
+				},
+			},
+		];
+
+		// Game 1: Beginner win -> unlocks first_win
+		const res1 = await recordGameResult(
+			{
+				gameId: 'floodit',
+				won: true,
+				playTimeSeconds: 15,
+				levelKey: 'beginner',
+				roundContext: {
+					won: true,
+					levelKey: 'beginner',
+					roundMetadata: {
+						cellsFlooded: 64,
+						tierWins: { beginner: true },
+						finalColor: 2,
+					},
+				},
+			},
+			{ storage, definitions: MOCK_FLOODIT_DEFINITIONS },
+		);
+
+		expect(res1.newlyUnlockedMedals.some((m) => m.id === 'floodit_first_win')).toBe(true);
+		expect(res1.updatedState.customStats.tierWins?.beginner).toBe(true);
+		expect(res1.updatedState.customStats.winningColors).toContain(2);
+		expect(res1.updatedState.customStats.lifetimeCellsFlooded).toBe(64);
+
+		// Game 2: Easy win
+		const res2 = await recordGameResult(
+			{
+				gameId: 'floodit',
+				won: true,
+				playTimeSeconds: 20,
+				levelKey: 'easy',
+				roundContext: {
+					won: true,
+					levelKey: 'easy',
+					roundMetadata: {
+						cellsFlooded: 144,
+						tierWins: { beginner: true, easy: true },
+						finalColor: 4,
+					},
+				},
+			},
+			{ storage, definitions: MOCK_FLOODIT_DEFINITIONS },
+		);
+
+		expect(res2.updatedState.baseStats.gamesWon).toBe(2);
+		expect(res2.updatedState.customStats.tierWins?.easy).toBe(true);
+		expect(res2.updatedState.customStats.winningColors).toEqual(expect.arrayContaining([2, 4]));
+
+		// Game 3: Medium win
+		const res3 = await recordGameResult(
+			{
+				gameId: 'floodit',
+				won: true,
+				playTimeSeconds: 30,
+				levelKey: 'medium',
+				roundContext: {
+					won: true,
+					levelKey: 'medium',
+					roundMetadata: {
+						cellsFlooded: 196,
+						tierWins: { beginner: true, easy: true, medium: true },
+						finalColor: 1,
+					},
+				},
+			},
+			{ storage, definitions: MOCK_FLOODIT_DEFINITIONS },
+		);
+
+		expect(res3.updatedState.baseStats.gamesWon).toBe(3);
+		expect(res3.updatedState.customStats.tierWins?.beginner).toBe(true);
+		expect(res3.updatedState.customStats.tierWins?.easy).toBe(true);
+		expect(res3.updatedState.customStats.tierWins?.medium).toBe(true);
+		expect(res3.updatedState.medalProgress.floodit_grand_tour.current).toBe(3);
+		expect(res3.updatedState.medalProgress.floodit_grand_tour.target).toBe(4);
+	});
 });

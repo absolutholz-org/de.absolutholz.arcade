@@ -3,6 +3,7 @@ import type {
 	BaseGameStats,
 	BridgesCustomStats,
 	BridgesDifficulty,
+	FloodItCustomStats,
 	GameCustomStatsMap,
 	GameId,
 	GameMedalState,
@@ -570,6 +571,54 @@ export function updateCustomStats<G extends GameId>(
 			};
 		}
 
+		case 'floodit': {
+			const stats = current as GameCustomStatsMap['floodit'];
+			const metadata = result.roundContext?.roundMetadata as
+				| {
+						readonly tierWins?: Record<string, boolean>;
+						readonly lifetimeCellsFlooded?: number;
+						readonly maxSingleMoveDelta?: number;
+						readonly finalColor?: number;
+						readonly cellsFlooded?: number;
+				  }
+				| undefined;
+
+			const tierWins: Record<string, boolean> = {
+				...(stats.tierWins ?? {}),
+				...(metadata?.tierWins ?? {}),
+			};
+			if (result.won && result.levelKey) {
+				tierWins[result.levelKey] = true;
+			}
+
+			const winningColors = new Set(stats.winningColors ?? []);
+			if (result.won && typeof metadata?.finalColor === 'number') {
+				winningColors.add(metadata.finalColor);
+			}
+
+			const addedCells = Number(metadata?.cellsFlooded ?? 0);
+			const lifetimeCellsFlooded =
+				typeof metadata?.lifetimeCellsFlooded === 'number'
+					? Math.max(stats.lifetimeCellsFlooded ?? 0, metadata.lifetimeCellsFlooded)
+					: (stats.lifetimeCellsFlooded ?? 0) + (result.won ? addedCells : 0);
+
+			const maxSingleMoveDelta = Math.max(
+				stats.maxSingleMoveDelta ?? 0,
+				Number(metadata?.maxSingleMoveDelta ?? 0),
+			);
+
+			return {
+				updatedCustom: {
+					...stats,
+					tierWins,
+					lifetimeCellsFlooded,
+					maxSingleMoveDelta,
+					winningColors: Array.from(winningColors),
+				} as unknown as GameCustomStatsMap[G],
+				isNewBestTime,
+			};
+		}
+
 		default:
 			return { updatedCustom: current, isNewBestTime: false };
 	}
@@ -970,6 +1019,21 @@ export function mergeGameMedalState<G extends GameId>(
 			spinningWheelsCount: Math.max(localCustom.spinningWheelsCount ?? 0, remoteCustom.spinningWheelsCount ?? 0),
 			totalBlackoutCount: Math.max(localCustom.totalBlackoutCount ?? 0, remoteCustom.totalBlackoutCount ?? 0),
 			suddenSurgeWins: Math.max(localCustom.suddenSurgeWins ?? 0, remoteCustom.suddenSurgeWins ?? 0),
+		} as unknown as GameCustomStatsMap[G];
+	} else if (local.gameId === 'floodit') {
+		const localCustom = local.customStats as FloodItCustomStats;
+		const remoteCustom = remote.customStats as FloodItCustomStats;
+		mergedCustom = {
+			...localCustom,
+			tierWins: { ...(localCustom.tierWins ?? {}), ...(remoteCustom.tierWins ?? {}) },
+			winningColors: Array.from(
+				new Set([...(localCustom.winningColors ?? []), ...(remoteCustom.winningColors ?? [])]),
+			),
+			lifetimeCellsFlooded: Math.max(
+				localCustom.lifetimeCellsFlooded ?? 0,
+				remoteCustom.lifetimeCellsFlooded ?? 0,
+			),
+			maxSingleMoveDelta: Math.max(localCustom.maxSingleMoveDelta ?? 0, remoteCustom.maxSingleMoveDelta ?? 0),
 		} as unknown as GameCustomStatsMap[G];
 	}
 

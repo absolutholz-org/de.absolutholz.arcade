@@ -163,6 +163,13 @@ export function createInitialCustomStats<G extends GameId>(gameId: G): GameCusto
 				totalBlackoutCount: 0,
 				suddenSurgeWins: 0,
 			} as unknown as GameCustomStatsMap[G];
+		case 'floodit':
+			return {
+				tierWins: {},
+				lifetimeCellsFlooded: 0,
+				maxSingleMoveDelta: 0,
+				winningColors: [],
+			} as unknown as GameCustomStatsMap[G];
 		default:
 			throw new Error(`createInitialCustomStats error: Unknown gameId "${String(gameId)}"`);
 	}

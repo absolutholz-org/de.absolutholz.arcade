@@ -5,15 +5,18 @@ import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { isSupportedLanguage } from '@arcade/lib-i18n/utils/detection';
 import { recordGameResult } from '@arcade/lib-medals';
 import { Dialog } from '@arcade/lib-ui/components/Dialog';
+import { GameControlStrip } from '@arcade/lib-ui/components/GameControlStrip';
 import { GameHeader } from '@arcade/lib-ui/components/GameHeader';
 import { GameSettingsPanel } from '@arcade/lib-ui/components/GameSettingsPanel';
+import { GameStatusStrip } from '@arcade/lib-ui/components/GameStatusStrip';
+import { PauseDialog } from '@arcade/lib-ui/components/PauseDialog';
 import { GameLayout } from '@arcade/lib-ui/layouts/GameLayout';
 import { styled } from '@linaria/react';
 import { type JSX, type ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import { FLOODIT_MEDAL_DEFINITIONS } from '../../config/medals.ts';
 import { DEFAULT_FLOODIT_SETTINGS, FLOODIT_SETTINGS_CONFIG, type FloodItSettings } from '../../config/settings.ts';
 import { createNewGame } from '../../engine/generator.ts';
-import { createHistory, pushState, undo } from '../../engine/history.ts';
+import { createHistory, pushState, redo, undo } from '../../engine/history.ts';
 import {
 	clearActiveGame,
 	loadActiveGame,
@@ -26,7 +29,6 @@ import type { BoardState, ColorIndex, Difficulty } from '../../engine/types.ts';
 import { applyMove, calculateBoardState } from '../../engine/validator.ts';
 import { ColorDock } from '../ColorDock/ColorDock.tsx';
 import { GameOverDialog } from '../GameOverDialog/GameOverDialog.tsx';
-import { GameStatusBar } from '../GameStatusBar/GameStatusBar.tsx';
 import { GridBoard } from '../GridBoard/GridBoard.tsx';
 
 export interface FloodItGameProps {
@@ -35,12 +37,12 @@ export interface FloodItGameProps {
 	rulesContent?: ReactNode;
 }
 
-const PlayfieldArea = styled.main`
+const PlayfieldArea = styled.div`
 	display: block;
 	width: 100%;
 	max-width: 36rem;
 	margin: 0 auto;
-	padding: 1rem;
+	padding: 0.5rem;
 `;
 
 function resolveInitialDifficulty(initial?: Difficulty): Difficulty {
@@ -70,10 +72,12 @@ function FloodItGameInner({
 	const [boardState, setBoardState] = useState<BoardState>(() => {
 		const diff = resolveInitialDifficulty(initialDifficulty);
 		const newGame = createNewGame(diff);
-		return calculateBoardState(newGame.grid, 0, newGame.maxMoves, newGame.seed);
+		return calculateBoardState(newGame.grid, 0, newGame.maxMoves, newGame.seed, newGame.colorCount);
 	});
 	const [history, setHistory] = useState(() => createHistory(boardState));
 	const [settings, setSettings] = useState<FloodItSettings>(DEFAULT_FLOODIT_SETTINGS);
+	const [elapsedSeconds, setElapsedSeconds] = useState(0);
+	const [isPaused, setIsPaused] = useState(false);
 	const [isRulesOpen, setIsRulesOpen] = useState(false);
 	const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 	const [hasRecordedResult, setHasRecordedResult] = useState(false);
@@ -100,7 +104,6 @@ function FloodItGameInner({
 
 		void loadActiveGame().then((snapshot) => {
 			if (!isExplicitNew && snapshot && snapshot.difficulty === targetDiff) {
-				// Restore if saved for matching difficulty
 				const restored = calculateBoardState(
 					snapshot.grid,
 					snapshot.moves,
@@ -120,6 +123,17 @@ function FloodItGameInner({
 			}
 		});
 	}, [initialDifficulty]);
+
+	// Active gameplay timer
+	useEffect(() => {
+		if (isPaused || boardState.isWon || boardState.isLost || isRulesOpen || isSettingsOpen) {
+			return;
+		}
+		const intervalId = window.setInterval(() => {
+			setElapsedSeconds((prev) => prev + 1);
+		}, 1000);
+		return () => window.clearInterval(intervalId);
+	}, [isPaused, boardState.isWon, boardState.isLost, isRulesOpen, isSettingsOpen]);
 
 	// Handle Victory / Defeat recording
 	useEffect(() => {
@@ -144,7 +158,7 @@ function FloodItGameInner({
 			void recordRoundCompletion(
 				difficulty,
 				boardState.moves,
-				0,
+				elapsedSeconds,
 				boardState.isWon,
 				cellsFlooded,
 				maxSingleMoveDelta,
@@ -153,7 +167,7 @@ function FloodItGameInner({
 					{
 						gameId: 'floodit',
 						won: boardState.isWon,
-						playTimeSeconds: 0,
+						playTimeSeconds: elapsedSeconds,
 						levelKey: difficulty,
 						roundContext: {
 							won: boardState.isWon,
@@ -189,6 +203,7 @@ function FloodItGameInner({
 		boardState.currentColor,
 		boardState.floodedCluster.size,
 		difficulty,
+		elapsedSeconds,
 		hasRecordedResult,
 		settings.showColorblindShapes,
 	]);
@@ -200,6 +215,8 @@ function FloodItGameInner({
 			setDifficulty(diff);
 			setBoardState(state);
 			setHistory(createHistory(state));
+			setElapsedSeconds(0);
+			setIsPaused(false);
 			setHasRecordedResult(false);
 			undoUsedRef.current = false;
 			absorbedBottomRightAtMoveRef.current = null;
@@ -214,6 +231,8 @@ function FloodItGameInner({
 		const restarted = calculateBoardState(newGame.grid, 0, newGame.maxMoves, newGame.seed, newGame.colorCount);
 		setBoardState(restarted);
 		setHistory(createHistory(restarted));
+		setElapsedSeconds(0);
+		setIsPaused(false);
 		setHasRecordedResult(false);
 		undoUsedRef.current = false;
 		absorbedBottomRightAtMoveRef.current = null;
@@ -223,7 +242,7 @@ function FloodItGameInner({
 
 	const handleSelectColor = useCallback(
 		(newColor: ColorIndex) => {
-			if (boardState.isWon || boardState.isLost || newColor === boardState.currentColor) {
+			if (isPaused || boardState.isWon || boardState.isLost || newColor === boardState.currentColor) {
 				return;
 			}
 			const nextState = applyMove(boardState, newColor);
@@ -258,16 +277,28 @@ function FloodItGameInner({
 				});
 			}
 		},
-		[boardState, difficulty],
+		[boardState, difficulty, isPaused],
 	);
 
 	const handleUndo = useCallback(() => {
-		if (history.past.length === 0) return;
+		if (history.past.length === 0 || isPaused) return;
 		undoUsedRef.current = true;
 		const undone = undo(history);
 		setHistory(undone);
 		setBoardState(undone.present);
-	}, [history]);
+	}, [history, isPaused]);
+
+	const handleRedo = useCallback(() => {
+		if (history.future.length === 0 || isPaused) return;
+		const redone = redo(history);
+		setHistory(redone);
+		setBoardState(redone.present);
+	}, [history, isPaused]);
+
+	const handleTogglePause = useCallback(() => {
+		if (boardState.isWon || boardState.isLost) return;
+		setIsPaused((prev) => !prev);
+	}, [boardState.isWon, boardState.isLost]);
 
 	const handleSettingChange = useCallback((newSettings: FloodItSettings) => {
 		setSettings(newSettings);
@@ -275,6 +306,15 @@ function FloodItGameInner({
 	}, []);
 
 	const difficultyLabel = t(`difficulty.${difficulty}` as 'difficulty.easy');
+	const movesLeft = Math.max(0, boardState.maxMoves - boardState.moves);
+	const roundedPercentage = Math.round(boardState.floodPercentage);
+	const statusText = boardState.isWon
+		? t('game.winTitle')
+		: boardState.isLost
+			? t('game.lossTitle')
+			: `${t('game.movesRemaining')}: ${movesLeft} / ${boardState.maxMoves} • ${t('game.percentageFlooded')}: ${roundedPercentage}%`;
+	const statusState = boardState.isWon ? 'solved' : boardState.isLost ? 'danger' : 'default';
+	const isInteractive = !isPaused && !boardState.isWon && !boardState.isLost;
 
 	return (
 		<GameLayout
@@ -289,17 +329,34 @@ function FloodItGameInner({
 					settingsLabel={t('settings.title')}
 				/>
 			}
-		>
-			<PlayfieldArea id="main-content">
-				<GameStatusBar
-					moves={boardState.moves}
-					maxMoves={boardState.maxMoves}
-					floodPercentage={boardState.floodPercentage}
-					onRestart={handleRestart}
-					onUndo={handleUndo}
-					canUndo={history.past.length > 0 && !boardState.isWon && !boardState.isLost}
+			status={
+				<GameStatusStrip
+					statusText={statusText}
+					statusState={statusState}
+					elapsedSeconds={elapsedSeconds}
+					isPaused={isPaused}
+					onTogglePause={handleTogglePause}
 				/>
-
+			}
+			toolbar={
+				<GameControlStrip
+					onUndo={handleUndo}
+					canUndo={history.past.length > 0 && isInteractive}
+					undoLabel={t('controls.undo')}
+					onRedo={handleRedo}
+					canRedo={history.future.length > 0 && isInteractive}
+					redoLabel={t('controls.redo')}
+					onReset={handleRestart}
+					canReset={boardState.moves > 0 && !isPaused}
+					resetLabel={t('controls.restart')}
+					onNewPuzzle={() => startNewGame()}
+					canNewPuzzle={!isPaused}
+					newPuzzleLabel={t('controls.newGame')}
+					aria-label={t('title')}
+				/>
+			}
+		>
+			<PlayfieldArea>
 				<GridBoard
 					grid={boardState.grid}
 					size={boardState.size}
@@ -312,10 +369,16 @@ function FloodItGameInner({
 					currentColor={boardState.currentColor}
 					colors={boardState.activeColors}
 					onSelectColor={handleSelectColor}
-					disabled={boardState.isWon || boardState.isLost}
+					disabled={!isInteractive}
 					showColorblindShapes={settings.showColorblindShapes}
 				/>
 			</PlayfieldArea>
+
+			<PauseDialog
+				isOpen={isPaused && !boardState.isWon && !boardState.isLost && !isSettingsOpen && !isRulesOpen}
+				onResume={handleTogglePause}
+				onRestart={handleRestart}
+			/>
 
 			<GameOverDialog
 				isOpen={boardState.isWon || boardState.isLost}
