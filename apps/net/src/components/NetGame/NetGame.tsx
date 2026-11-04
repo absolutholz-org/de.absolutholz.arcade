@@ -3,14 +3,12 @@ import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { isSupportedLanguage } from '@arcade/lib-i18n/utils/detection';
-import { Button } from '@arcade/lib-ui/components/Button';
 import { Dialog } from '@arcade/lib-ui/components/Dialog';
+import { GameControlStrip } from '@arcade/lib-ui/components/GameControlStrip';
 import { GameHeader } from '@arcade/lib-ui/components/GameHeader';
 import { GameSettingsPanel } from '@arcade/lib-ui/components/GameSettingsPanel';
-import { Icon } from '@arcade/lib-ui/components/Icon';
 import { PauseDialog } from '@arcade/lib-ui/components/PauseDialog';
 import { Timer } from '@arcade/lib-ui/components/Timer';
-import { Toolbar } from '@arcade/lib-ui/components/Toolbar';
 import { VisuallyHidden } from '@arcade/lib-ui/components/VisuallyHidden';
 import { GameLayout } from '@arcade/lib-ui/layouts/GameLayout';
 import { type JSX, type ReactNode, useCallback, useState } from 'react';
@@ -106,6 +104,23 @@ function NetGameInner({
 					)}
 				</div>
 			}
+			toolbar={
+				<GameControlStrip
+					onUndo={game.handleUndo}
+					canUndo={game.canUndo}
+					undoLabel={t('controls.undo')}
+					onRedo={game.handleRedo}
+					canRedo={game.canRedo}
+					redoLabel={t('controls.redo')}
+					onReset={game.handleReset}
+					canReset={game.movesCount > 0}
+					resetLabel={t('controls.reset')}
+					onNewPuzzle={() => game.handleNewPuzzle()}
+					canNewPuzzle={true}
+					newPuzzleLabel={t('controls.newPuzzle')}
+					aria-label={t('aria.actionsToolbar')}
+				/>
+			}
 		>
 			<VisuallyHidden aria-live="polite" aria-atomic="true">
 				{game.liveAnnouncement}
@@ -123,44 +138,6 @@ function NetGameInner({
 					onToggleLock={game.handleToggleLock}
 				/>
 			</div>
-
-			<Toolbar fullWidth variant="ghost" size="sm" align="center" aria-label={t('aria.actionsToolbar')}>
-				<Button
-					variant="secondary"
-					size="sm"
-					leadingIcon={<Icon name="undo" size="sm" />}
-					onClick={game.handleUndo}
-					disabled={!game.canUndo}
-				>
-					{t('controls.undo')}
-				</Button>
-				<Button
-					variant="secondary"
-					size="sm"
-					leadingIcon={<Icon name="redo" size="sm" />}
-					onClick={game.handleRedo}
-					disabled={!game.canRedo}
-				>
-					{t('controls.redo')}
-				</Button>
-				<Button
-					variant="secondary"
-					size="sm"
-					leadingIcon={<Icon name="rotate-ccw" size="sm" />}
-					onClick={game.handleReset}
-					disabled={game.movesCount === 0}
-				>
-					{t('controls.reset')}
-				</Button>
-				<Button
-					variant="secondary"
-					size="sm"
-					leadingIcon={<Icon name="sparkles" size="sm" />}
-					onClick={() => game.handleNewPuzzle()}
-				>
-					{t('controls.newPuzzle')}
-				</Button>
-			</Toolbar>
 
 			<PauseDialog
 				isOpen={game.isPaused && !game.isComplete && !game.isSettingsOpen && !game.isRulesOpen}

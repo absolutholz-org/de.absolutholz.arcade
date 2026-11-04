@@ -1,8 +1,8 @@
-import { Button } from '../Button';
 import { Icon } from '../Icon';
-import { Toolbar } from '../Toolbar';
 import * as S from './_GameControlStrip.styles';
 import type { GameControlStripProps } from './_GameControlStrip.types';
+
+export const GameControlButton = S.ActionButton;
 
 /**
  * Standardized bottom control bar organism rendered below the gameboard inside `GameLayout`'s `toolbar` slot.
@@ -21,68 +21,46 @@ export function GameControlStrip({
 	onNewPuzzle,
 	canNewPuzzle = true,
 	newPuzzleLabel,
-	align = 'center',
 	'aria-label': ariaLabel,
 	children,
 	className,
 }: GameControlStripProps) {
 	return (
-		<S.GameControlStrip className={className}>
-			<Toolbar fullWidth variant="ghost" size="sm" align={align} aria-label={ariaLabel}>
-				{onUndo && undoLabel && (
-					<Button
-						type="button"
-						variant="secondary"
-						size="sm"
-						leadingIcon={<Icon name="undo" size="sm" />}
-						onClick={onUndo}
-						disabled={!canUndo}
-					>
-						{undoLabel}
-					</Button>
-				)}
+		<S.ControlBar className={className} role="toolbar" aria-label={ariaLabel}>
+			{onUndo && undoLabel && (
+				<S.ActionButton type="button" onClick={onUndo} disabled={!canUndo} aria-label={undoLabel}>
+					<Icon name="undo" size="sm" />
+					<span>{undoLabel}</span>
+				</S.ActionButton>
+			)}
 
-				{onRedo && redoLabel && (
-					<Button
-						type="button"
-						variant="secondary"
-						size="sm"
-						leadingIcon={<Icon name="redo" size="sm" />}
-						onClick={onRedo}
-						disabled={!canRedo}
-					>
-						{redoLabel}
-					</Button>
-				)}
+			{onRedo && redoLabel && (
+				<S.ActionButton type="button" onClick={onRedo} disabled={!canRedo} aria-label={redoLabel}>
+					<Icon name="redo" size="sm" />
+					<span>{redoLabel}</span>
+				</S.ActionButton>
+			)}
 
-				{onReset && resetLabel && (
-					<Button
-						type="button"
-						variant="secondary"
-						size="sm"
-						leadingIcon={<Icon name="rotate-ccw" size="sm" />}
-						onClick={onReset}
-						disabled={!canReset}
-					>
-						{resetLabel}
-					</Button>
-				)}
+			{onReset && resetLabel && (
+				<S.ActionButton type="button" onClick={onReset} disabled={!canReset} aria-label={resetLabel}>
+					<Icon name="rotate-ccw" size="sm" />
+					<span>{resetLabel}</span>
+				</S.ActionButton>
+			)}
 
-				{onNewPuzzle && newPuzzleLabel && (
-					<Button
-						type="button"
-						variant="secondary"
-						size="sm"
-						leadingIcon={<Icon name="sparkles" size="sm" />}
-						onClick={onNewPuzzle}
-						disabled={!canNewPuzzle}
-					>
-						{newPuzzleLabel}
-					</Button>
-				)}
+			{onNewPuzzle && newPuzzleLabel && (
+				<S.ActionButton
+					type="button"
+					onClick={onNewPuzzle}
+					disabled={!canNewPuzzle}
+					aria-label={newPuzzleLabel}
+				>
+					<Icon name="sparkles" size="sm" />
+					<span>{newPuzzleLabel}</span>
+				</S.ActionButton>
+			)}
 
-				{children}
-			</Toolbar>
-		</S.GameControlStrip>
+			{children}
+		</S.ControlBar>
 	);
 }
