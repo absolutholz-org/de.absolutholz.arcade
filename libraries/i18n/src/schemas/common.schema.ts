@@ -208,6 +208,15 @@ export const commonSchema = {
 		playNow: 'stats.playNow',
 		bucketSelectorAria: 'stats.bucketSelectorAria',
 	},
+	share: {
+		share: 'share.share',
+		shareArcade: 'share.shareArcade',
+		shareGame: 'share.shareGame',
+		copyLink: 'share.copyLink',
+		linkCopied: 'share.linkCopied',
+		scanToPlay: 'share.scanToPlay',
+		close: 'share.close',
+	},
 } as const;
 
 export type CommonSchema = typeof commonSchema;

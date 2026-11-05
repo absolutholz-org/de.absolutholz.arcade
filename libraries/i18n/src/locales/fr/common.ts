@@ -219,4 +219,13 @@ export const frCommon = {
 		playNow: 'Jouer maintenant',
 		bucketSelectorAria: 'Sélectionner la difficulté',
 	},
+	share: {
+		share: 'Partager',
+		shareArcade: 'Partager Arcade',
+		shareGame: 'Partager le jeu',
+		copyLink: 'Copier le lien',
+		linkCopied: 'Lien copié !',
+		scanToPlay: 'Scannez pour jouer sur mobile',
+		close: 'Fermer',
+	},
 } as const satisfies CommonTranslationContract;

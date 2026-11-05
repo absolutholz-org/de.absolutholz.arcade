@@ -217,4 +217,13 @@ export const ptCommon = {
 		playNow: 'Jogar agora',
 		bucketSelectorAria: 'Selecionar nível de dificuldade',
 	},
+	share: {
+		share: 'Partilhar',
+		shareArcade: 'Partilhar Arcade',
+		shareGame: 'Partilhar jogo',
+		copyLink: 'Copiar ligação',
+		linkCopied: 'Ligação copiada!',
+		scanToPlay: 'Leia para jogar no telemóvel',
+		close: 'Fechar',
+	},
 } as const satisfies CommonTranslationContract;

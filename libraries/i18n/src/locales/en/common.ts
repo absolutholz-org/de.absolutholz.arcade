@@ -218,4 +218,13 @@ export const enCommon = {
 		playNow: 'Play Now',
 		bucketSelectorAria: 'Select difficulty bucket',
 	},
+	share: {
+		share: 'Share',
+		shareArcade: 'Share Arcade',
+		shareGame: 'Share Game',
+		copyLink: 'Copy Link',
+		linkCopied: 'Link Copied!',
+		scanToPlay: 'Scan to play on mobile',
+		close: 'Close',
+	},
 } as const satisfies CommonTranslationContract;
