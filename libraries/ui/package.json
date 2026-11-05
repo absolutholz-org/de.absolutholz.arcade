@@ -82,6 +82,7 @@
 		"@linaria/babel-preset": "^5.0.4",
 		"@linaria/core": "catalog:",
 		"@linaria/react": "catalog:",
+		"qrcode.react": "^4.2.0",
 		"react-i18next": "catalog:"
 	}
 }

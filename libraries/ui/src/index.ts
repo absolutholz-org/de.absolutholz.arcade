@@ -4,3 +4,5 @@ export { GameControlStrip, GameControlButton } from './components/GameControlStr
 export type { GameControlStripAlign, GameControlStripProps } from './components/GameControlStrip';
 export { GameStatusStrip } from './components/GameStatusStrip';
 export type { GameStatusState, GameStatusStripProps } from './components/GameStatusStrip';
+export { ShareContent, ShareDialog } from './components/ShareDialog';
+export type { IShareDialog, ShareContentProps } from './components/ShareDialog';
