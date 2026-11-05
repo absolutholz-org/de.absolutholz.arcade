@@ -10,24 +10,36 @@ const meta = {
 		docs: {
 			description: {
 				component:
-					'The SiteFooter component provides a responsive landmark footer with three layout clusters: legal navigation, identity / copyright notice, and project resource links. On desktop viewports, items are distributed evenly; on mobile screens, sections stack with subtle border dividers.',
+					'The SiteFooter component provides a structured, responsive multi-column landmark footer across the arcade. It organizes brand identity, game catalog navigation, arcade profile/settings, platform resources, and legal compliance across desktop and mobile viewports.',
 			},
 		},
 	},
 	tags: ['autodocs'],
 	title: 'Layouts/Base Layout/SiteFooter',
 	argTypes: {
+		ariaLabel: {
+			control: 'text',
+			description: 'Accessible name for the entire footer landmark.',
+		},
+		catalogAriaLabel: {
+			control: 'text',
+			description: 'Accessible name for the catalog navigation column.',
+		},
+		arcadeAriaLabel: {
+			control: 'text',
+			description: 'Accessible name for the arcade navigation column.',
+		},
+		aboutAriaLabel: {
+			control: 'text',
+			description: 'Accessible name for the about/platform navigation column.',
+		},
 		legalAriaLabel: {
 			control: 'text',
-			description: 'Accessible name for the legal navigation section.',
+			description: 'Accessible name for the sub-footer legal navigation bar.',
 		},
 		copyrightAriaLabel: {
 			control: 'text',
 			description: 'Accessible name for the copyright notice span.',
-		},
-		resourcesAriaLabel: {
-			control: 'text',
-			description: 'Accessible name for the resources navigation section.',
 		},
 		version: {
 			control: 'text',
@@ -35,6 +47,7 @@ const meta = {
 		},
 	},
 	args: {
+		ariaLabel: 'Site Footer',
 		copyright: {
 			currentYear: 2026,
 			owner: 'absolutholz',
@@ -42,25 +55,6 @@ const meta = {
 		},
 		copyrightAriaLabel: 'Copyright notice',
 		legalAriaLabel: 'Legal',
-		legalLinks: [
-			{ href: '/privacy', label: 'Privacy' },
-			{ href: '/accessibility', label: 'Accessibility' },
-			{ href: '/imprint', label: 'Imprint' },
-			{ href: '/settings', label: 'Settings' },
-		],
-		resourceLinks: [
-			{
-				external: true,
-				href: 'https://github.com/absolutholz-org/de.absolutholz.arcade',
-				label: 'GitHub',
-			},
-			{
-				external: true,
-				href: '/storybook',
-				label: 'Storybook',
-			},
-		],
-		resourcesAriaLabel: 'Project resources',
 		version: packageJson.version,
 	},
 	decorators: [
@@ -73,7 +67,7 @@ const meta = {
 						display: 'flex',
 						flexDirection: 'column',
 						justifyContent: 'flex-end',
-						minHeight: '16rem',
+						minHeight: '20rem',
 						width: '100%',
 					}}
 				>
@@ -91,7 +85,7 @@ export const Default: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Default site footer rendering all three clusters: legal navigation on the left, centered copyright and version, and external resource links on the right.',
+				story: 'Default site footer rendering Tier 1 (4-column grid: Brand & Actions, Catalog, Arcade, About) and Tier 2 (Sub-footer legal & utility bar).',
 			},
 		},
 	},

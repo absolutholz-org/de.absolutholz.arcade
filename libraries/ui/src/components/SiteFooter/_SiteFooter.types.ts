@@ -14,8 +14,8 @@ export interface SiteFooterLinkItem {
 	 */
 	hrefLang?: string;
 	/**
-	 * When true, opens link in a new tab with rel="noopener noreferrer"
-	 * and includes an accessible screen-reader announcement.
+	 * When true, opens link in a new tab with rel="noopener noreferrer external"
+	 * and includes an accessible screen-reader announcement plus visual external indicator.
 	 */
 	external?: boolean;
 	/**
@@ -42,8 +42,58 @@ export interface SiteFooterCopyright {
 
 export interface SiteFooterProps {
 	/**
-	 * Legal navigation links (Cluster A), e.g. Privacy, Accessibility.
-	 * When omitted, automatically self-resolves standard legal links using ambient i18n context.
+	 * Accessible name for the entire footer landmark.
+	 * Defaults to localized "Site Footer" via i18n navigation.footer.
+	 */
+	ariaLabel?: string;
+	/**
+	 * Catalog directory links (Column 2).
+	 * When omitted, automatically self-resolves active categories and tools from @arcade/lib-games.
+	 */
+	catalogLinks?: SiteFooterLinkItem[];
+	/**
+	 * Accessible name for the catalog navigation column landmark.
+	 * Defaults to localized "Catalog" via i18n navigation.catalog.
+	 */
+	catalogAriaLabel?: string;
+	/**
+	 * Heading for the catalog navigation column.
+	 * Defaults to localized "Catalog" via i18n navigation.catalog.
+	 */
+	catalogHeading?: ReactNode;
+	/**
+	 * Arcade profile & progress links (Column 3).
+	 * When omitted, automatically self-resolves Medals, Stats, and Settings links.
+	 */
+	arcadeLinks?: SiteFooterLinkItem[];
+	/**
+	 * Accessible name for the arcade profile navigation column landmark.
+	 * Defaults to localized "Arcade" via i18n app.title.
+	 */
+	arcadeAriaLabel?: string;
+	/**
+	 * Heading for the arcade profile navigation column.
+	 * Defaults to localized "Arcade" via i18n app.title.
+	 */
+	arcadeHeading?: ReactNode;
+	/**
+	 * Platform & development links (Column 4).
+	 * When omitted, automatically self-resolves Accessibility, GitHub, and Storybook links.
+	 */
+	aboutLinks?: SiteFooterLinkItem[];
+	/**
+	 * Accessible name for the platform navigation column landmark.
+	 * Defaults to localized "About" via i18n navigation.about.
+	 */
+	aboutAriaLabel?: string;
+	/**
+	 * Heading for the platform navigation column.
+	 * Defaults to localized "About" via i18n navigation.about.
+	 */
+	aboutHeading?: ReactNode;
+	/**
+	 * Legal navigation links (Sub-footer), e.g. Privacy, Imprint.
+	 * When omitted, automatically self-resolves Privacy and Imprint links.
 	 */
 	legalLinks?: SiteFooterLinkItem[];
 	/**
@@ -66,13 +116,11 @@ export interface SiteFooterProps {
 	 */
 	version?: string | false;
 	/**
-	 * Project or resource navigation links (Cluster C), e.g., GitHub, Storybook.
-	 * When omitted, automatically self-resolves standard resource links.
+	 * Backwards compatibility alias for platform/resource links.
 	 */
 	resourceLinks?: SiteFooterLinkItem[];
 	/**
-	 * Accessible name for the resources navigation landmark.
-	 * @default 'Project resources'
+	 * Backwards compatibility alias for resources navigation landmark.
 	 */
 	resourcesAriaLabel?: string;
 	/**
