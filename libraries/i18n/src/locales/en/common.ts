@@ -104,6 +104,7 @@ export const enCommon = {
 	navigation: {
 		home: 'Home',
 		categories: 'Categories',
+		games: 'Games',
 		catalog: 'Catalog',
 		about: 'About',
 		footer: 'Site Footer',

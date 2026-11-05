@@ -104,6 +104,7 @@ export const deCommon = {
 	navigation: {
 		home: 'Startseite',
 		categories: 'Kategorien',
+		games: 'Spiele',
 		catalog: 'Katalog',
 		about: 'Über uns',
 		footer: 'Seitenfuß',

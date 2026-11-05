@@ -104,6 +104,7 @@ export const frCommon = {
 	navigation: {
 		home: 'Accueil',
 		categories: 'Catégories',
+		games: 'Jeux',
 		catalog: 'Catalogue',
 		about: 'À propos',
 		footer: 'Pied de page',

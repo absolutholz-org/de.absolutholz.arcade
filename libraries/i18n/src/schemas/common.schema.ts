@@ -95,6 +95,7 @@ export const commonSchema = {
 	navigation: {
 		home: 'navigation.home',
 		categories: 'navigation.categories',
+		games: 'navigation.games',
 		catalog: 'navigation.catalog',
 		about: 'navigation.about',
 		footer: 'navigation.footer',

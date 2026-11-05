@@ -103,6 +103,7 @@ export const ptCommon = {
 	navigation: {
 		home: 'Início',
 		categories: 'Categorias',
+		games: 'Jogos',
 		catalog: 'Catálogo',
 		about: 'Sobre',
 		footer: 'Rodapé',
