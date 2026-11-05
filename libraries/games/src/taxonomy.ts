@@ -444,3 +444,62 @@ export function validateGameRegistry(registry: unknown): TaxonomyValidationResul
 		issues: Object.freeze(issues),
 	};
 }
+
+/**
+ * Options for querying games by category.
+ */
+export interface CategoryQueryOptions {
+	/**
+	 * When true, games that have the category as either primary or secondary are included.
+	 * When false (default), only games where the category is primary are returned.
+	 */
+	readonly includeSecondary?: boolean;
+}
+
+/**
+ * Non-empty category entry containing its category slug and all registered games.
+ */
+export interface ActiveCategoryEntry {
+	readonly category: GameCategory;
+	readonly games: readonly [GameMetadata, ...GameMetadata[]];
+}
+
+/**
+ * Retrieves all games belonging to a specific category from a given list of games.
+ */
+export function getGamesByCategory(
+	category: GameCategory,
+	games: readonly GameMetadata[],
+	options: CategoryQueryOptions = {},
+): readonly GameMetadata[] {
+	const { includeSecondary = false } = options;
+	return games.filter((game) =>
+		includeSecondary
+			? game.category.primary === category || game.category.secondary === category
+			: game.category.primary === category,
+	);
+}
+
+/**
+ * Returns all active categories that have at least one registered game from the given games,
+ * ordered by canonical GAME_CATEGORIES order.
+ */
+export function getActiveCategories(
+	games: readonly GameMetadata[],
+	options: CategoryQueryOptions = {},
+): readonly ActiveCategoryEntry[] {
+	const activeCategories: ActiveCategoryEntry[] = [];
+
+	for (const category of GAME_CATEGORIES) {
+		const matchingGames = getGamesByCategory(category, games, options);
+		const [firstGame, ...restGames] = matchingGames;
+		if (firstGame) {
+			activeCategories.push({
+				category,
+				games: [firstGame, ...restGames],
+			});
+		}
+	}
+
+	return activeCategories;
+}
