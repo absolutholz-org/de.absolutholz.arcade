@@ -47,18 +47,30 @@ export interface SiteFooterProps {
 	 */
 	ariaLabel?: string;
 	/**
-	 * Catalog directory links (Column 2).
-	 * When omitted, automatically self-resolves active categories and tools from @arcade/lib-games.
+	 * Games directory links (Column 2).
+	 * When omitted, automatically self-resolves active categories from @arcade/lib-games.
+	 */
+	gamesLinks?: SiteFooterLinkItem[];
+	/**
+	 * Accessible name for the games navigation column landmark.
+	 * Defaults to localized "Games" via i18n navigation.games.
+	 */
+	gamesAriaLabel?: string;
+	/**
+	 * Heading for the games navigation column.
+	 * Defaults to localized "Games" via i18n navigation.games.
+	 */
+	gamesHeading?: ReactNode;
+	/**
+	 * Backwards compatibility alias for games directory links (Column 2).
 	 */
 	catalogLinks?: SiteFooterLinkItem[];
 	/**
-	 * Accessible name for the catalog navigation column landmark.
-	 * Defaults to localized "Catalog" via i18n navigation.catalog.
+	 * Backwards compatibility alias for games navigation column landmark.
 	 */
 	catalogAriaLabel?: string;
 	/**
-	 * Heading for the catalog navigation column.
-	 * Defaults to localized "Catalog" via i18n navigation.catalog.
+	 * Backwards compatibility alias for games navigation column heading.
 	 */
 	catalogHeading?: ReactNode;
 	/**

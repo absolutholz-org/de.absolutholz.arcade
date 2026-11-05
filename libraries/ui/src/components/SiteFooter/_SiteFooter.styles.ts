@@ -5,19 +5,26 @@ export const SiteFooter = styled.footer`
 	background-color: var(--color-surface);
 	border-top: 1px solid var(--color-container-2);
 	color: var(--color-text-1);
-	margin-top: ${space('3xl')};
-	padding-top: ${space('2xl')};
-	padding-bottom: calc(${space('xl')} + env(safe-area-inset-bottom, 0px));
+	margin-top: ${space('2xl')};
+	padding-top: ${space('lg')};
+	padding-bottom: calc(${space('lg')} + env(safe-area-inset-bottom, 0px));
 	width: 100%;
+
+	@media (min-width: 1024px) {
+		margin-top: ${space('3xl')};
+		padding-top: ${space('2xl')};
+		padding-bottom: calc(${space('xl')} + env(safe-area-inset-bottom, 0px));
+	}
 
 	/* Primary Tier 1 4-column grid */
 	.site-footer-grid {
 		display: grid;
-		gap: ${space('xl')};
+		gap: ${space('md')};
 		grid-template-columns: 1fr;
 		width: 100%;
 
 		@media (min-width: 640px) {
+			gap: ${space('lg')};
 			grid-template-columns: repeat(2, 1fr);
 		}
 
@@ -61,8 +68,12 @@ export const SiteFooter = styled.footer`
 		color: var(--color-text-2);
 		font-size: var(--font-size-small);
 		line-height: var(--line-height-small);
-		margin: ${space('xs')} 0 ${space('md')};
+		margin: ${space('2xs')} 0 ${space('xs')};
 		max-width: 22rem;
+
+		@media (min-width: 1024px) {
+			margin: ${space('xs')} 0 ${space('md')};
+		}
 	}
 
 	.footer-share-slot {
@@ -76,12 +87,19 @@ export const SiteFooter = styled.footer`
 		font-weight: 700;
 		letter-spacing: 0.06em;
 		line-height: var(--line-height-small);
-		margin: 0 0 ${space('sm')};
+		margin: 0 0 ${space('2xs')};
 		text-transform: uppercase;
+
+		@media (min-width: 1024px) {
+			margin: 0 0 ${space('sm')};
+		}
 	}
 
 	/* Navigation Link Lists */
 	.site-footer-list {
+		display: flex;
+		flex-direction: column;
+		gap: ${space('3xs')};
 		list-style: none;
 		margin: 0;
 		padding: 0;
@@ -100,14 +118,8 @@ export const SiteFooter = styled.footer`
 		font-size: var(--font-size-small);
 		gap: ${space('3xs')};
 		line-height: var(--line-height-small);
-		min-height: 2.75rem; /* 44px minimum touch target on mobile */
-		padding: ${space('2xs')} 0;
+		padding-block: ${space('3xs')};
 		text-decoration: none;
-
-		@media (min-width: 1024px) {
-			min-height: 2rem;
-			padding: ${space('3xs')} 0;
-		}
 
 		&:hover {
 			color: var(--color-accent);
@@ -133,14 +145,17 @@ export const SiteFooter = styled.footer`
 		border-top: 1px solid var(--color-container-2);
 		display: flex;
 		flex-direction: column;
-		gap: ${space('md')};
-		margin-top: ${space('2xl')};
-		padding-top: ${space('lg')};
+		gap: ${space('sm')};
+		margin-top: ${space('lg')};
+		padding-top: ${space('md')};
 		width: 100%;
 
 		@media (min-width: 768px) {
 			flex-direction: row;
+			gap: ${space('md')};
 			justify-content: space-between;
+			margin-top: ${space('2xl')};
+			padding-top: ${space('lg')};
 		}
 	}
 

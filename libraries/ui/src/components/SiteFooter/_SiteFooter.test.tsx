@@ -70,4 +70,29 @@ describe('SiteFooter', () => {
 
 		unmount();
 	});
+
+	it('renders pure taxonomy category links under Column 2 and tools under Column 3', () => {
+		const { container, unmount } = render(<SiteFooter />);
+
+		const navs = container.querySelectorAll('nav');
+		const gamesNav = Array.from(navs).find((nav) => nav.querySelector('h2')?.textContent === 'Games');
+		expect(gamesNav).toBeDefined();
+
+		// Column 2 must contain category links and NOT contain tools (Dice Roller)
+		const gamesNavLinks = Array.from(gamesNav?.querySelectorAll('a') ?? []).map((a) => a.getAttribute('href'));
+		expect(gamesNavLinks.some((href) => href?.includes('/categories/logic-deduction'))).toBe(true);
+		expect(gamesNavLinks.some((href) => href?.includes('/tools/dice'))).toBe(false);
+
+		const arcadeNav = Array.from(navs).find((nav) => nav.querySelector('h2')?.textContent === 'Arcade');
+		expect(arcadeNav).toBeDefined();
+
+		// Column 3 must contain medals, stats, settings, and dice roller
+		const arcadeNavLinks = Array.from(arcadeNav?.querySelectorAll('a') ?? []).map((a) => a.getAttribute('href'));
+		expect(arcadeNavLinks.some((href) => href?.includes('/medals'))).toBe(true);
+		expect(arcadeNavLinks.some((href) => href?.includes('/stats'))).toBe(true);
+		expect(arcadeNavLinks.some((href) => href?.includes('/settings'))).toBe(true);
+		expect(arcadeNavLinks.some((href) => href?.includes('/tools/dice'))).toBe(true);
+
+		unmount();
+	});
 });

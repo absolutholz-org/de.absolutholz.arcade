@@ -31,6 +31,9 @@ export function SiteFooter({
 	children,
 	copyright,
 	copyrightAriaLabel,
+	gamesAriaLabel,
+	gamesHeading,
+	gamesLinks: propGamesLinks,
 	legalAriaLabel,
 	legalLinks: propLegalLinks,
 	resourceLinks,
@@ -41,32 +44,33 @@ export function SiteFooter({
 	const currentLang = (language ?? 'en') as SupportedLanguageCode;
 	const resolvedHomeHref = `/${currentLang}/`;
 
-	// Tier 1 - Column 2: Catalog links
-	const catalogLinks = useMemo<SiteFooterLinkItem[]>(() => {
-		if (propCatalogLinks) {
-			return propCatalogLinks;
+	// Tier 1 - Column 2: Games category directory links (pure taxonomy, no tools)
+	const gamesLinks = useMemo<SiteFooterLinkItem[]>(() => {
+		const customLinks = propGamesLinks ?? propCatalogLinks;
+		if (customLinks) {
+			return customLinks;
 		}
 		const activeCategories = getActiveCategories(ALL_GAMES);
-		const categoryItems: SiteFooterLinkItem[] = activeCategories.map(({ category }) => ({
+		return activeCategories.map(({ category }) => ({
 			href: `/${currentLang}/categories/${category}`,
 			label: getCategoryLabel(category, currentLang),
 		}));
-		const toolItems: SiteFooterLinkItem[] = ALL_TOOLS.map((tool) => ({
-			href: `/${currentLang}${tool.route}`,
-			label: t(`tools.${tool.id}.title`) || tool.name,
-		}));
-		return [...categoryItems, ...toolItems];
-	}, [propCatalogLinks, currentLang, t]);
+	}, [propGamesLinks, propCatalogLinks, currentLang]);
 
-	// Tier 1 - Column 3: Arcade progress / meta links
+	// Tier 1 - Column 3: Arcade progress / meta links + tools
 	const arcadeLinks = useMemo<SiteFooterLinkItem[]>(() => {
 		if (propArcadeLinks) {
 			return propArcadeLinks;
 		}
+		const toolItems: SiteFooterLinkItem[] = ALL_TOOLS.map((tool) => ({
+			href: `/${currentLang}${tool.route}`,
+			label: t(`tools.${tool.id}.title`) || tool.name,
+		}));
 		return [
 			{ href: `/${currentLang}/medals`, label: t('navigation.medals') },
 			{ href: `/${currentLang}/stats`, label: t('navigation.stats') },
 			{ href: `/${currentLang}/settings`, label: t('navigation.settings') },
+			...toolItems,
 		];
 	}, [propArcadeLinks, currentLang, t]);
 
@@ -98,8 +102,8 @@ export function SiteFooter({
 
 	// Accessible landmark labels
 	const resolvedFooterAriaLabel = ariaLabel ?? t('navigation.footer');
-	const resolvedCatalogAriaLabel = catalogAriaLabel ?? t('navigation.catalog');
-	const resolvedCatalogHeading = catalogHeading ?? t('navigation.catalog');
+	const resolvedGamesAriaLabel = gamesAriaLabel ?? catalogAriaLabel ?? t('navigation.games');
+	const resolvedGamesHeading = gamesHeading ?? catalogHeading ?? t('navigation.games');
 	const resolvedArcadeAriaLabel = arcadeAriaLabel ?? t('app.title');
 	const resolvedArcadeHeading = arcadeHeading ?? t('app.title');
 	const resolvedAboutAriaLabel = aboutAriaLabel ?? resourcesAriaLabel ?? t('navigation.about');
@@ -107,7 +111,7 @@ export function SiteFooter({
 	const resolvedLegalAriaLabel = legalAriaLabel ?? t('navigation.legal');
 	const resolvedCopyrightAriaLabel = copyrightAriaLabel ?? 'Copyright notice';
 
-	const hasCatalog = catalogLinks.length > 0;
+	const hasGames = gamesLinks.length > 0;
 	const hasArcade = arcadeLinks.length > 0;
 	const hasAbout = aboutLinks.length > 0;
 	const hasLegal = resolvedLegalLinks.length > 0;
@@ -143,13 +147,13 @@ export function SiteFooter({
 						<div className="footer-share-slot" data-share-slot="" />
 					</div>
 
-					{/* Column 2: Catalog Directory */}
-					{hasCatalog ? (
-						<nav aria-label={resolvedCatalogAriaLabel} className="site-footer-column">
-							<h2 className="site-footer-heading">{resolvedCatalogHeading}</h2>
+					{/* Column 2: Games Directory */}
+					{hasGames ? (
+						<nav aria-label={resolvedGamesAriaLabel} className="site-footer-column">
+							<h2 className="site-footer-heading">{resolvedGamesHeading}</h2>
 							{/* biome-ignore lint/a11y/useSemanticElements lint/a11y/noRedundantRoles: VoiceOver requires explicit role="list" on ul with list-style: none */}
 							<ul role="list" className="site-footer-list">
-								{catalogLinks.map((link) => (
+								{gamesLinks.map((link) => (
 									<li key={link.href} className="site-footer-list-item">
 										<a href={link.href} hrefLang={link.hrefLang} className="site-footer-link">
 											{link.label}
