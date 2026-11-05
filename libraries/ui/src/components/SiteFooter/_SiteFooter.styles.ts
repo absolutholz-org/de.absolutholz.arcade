@@ -78,6 +78,9 @@ export const SiteFooter = styled.footer`
 
 	.footer-share-slot {
 		min-height: 1.5rem;
+		display: flex;
+		align-items: center;
+		margin-top: ${space('3xs')};
 	}
 
 	/* Column Navigation Headings */

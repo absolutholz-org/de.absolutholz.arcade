@@ -69,7 +69,7 @@ export function GameLandingTemplate({
 			{/* Zone 2: Main Area */}
 			<PageContainer variant={mainContainerVariant}>
 				<S.MainZone>
-					{offlineGameId && <GameOfflineToolbar gameId={offlineGameId} />}
+					{offlineGameId && <GameOfflineToolbar gameId={offlineGameId} gameTitle={title} />}
 					{children}
 				</S.MainZone>
 			</PageContainer>

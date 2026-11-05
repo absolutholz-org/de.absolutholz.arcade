@@ -2,10 +2,13 @@ import { ALL_GAMES, ALL_TOOLS, getActiveCategories } from '@arcade/lib-games';
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { getCategoryLabel } from '@arcade/lib-i18n/utils/taxonomy';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import packageJson from '../../../package.json';
+import { Button } from '../Button';
+import { Icon } from '../Icon';
 import { Logo } from '../Logo';
 import { PageContainer } from '../PageContainer';
+import { ShareDialog } from '../ShareDialog';
 import { VisuallyHidden } from '../VisuallyHidden';
 import * as S from './_SiteFooter.styles';
 import type { SiteFooterLinkItem, SiteFooterProps } from './_SiteFooter.types';
@@ -43,6 +46,15 @@ export function SiteFooter({
 	const { t, language } = useI18n('common');
 	const currentLang = (language ?? 'en') as SupportedLanguageCode;
 	const resolvedHomeHref = `/${currentLang}/`;
+
+	const [isShareOpen, setIsShareOpen] = useState(false);
+	const [shareUrl, setShareUrl] = useState(resolvedHomeHref);
+
+	useEffect(() => {
+		if (typeof window !== 'undefined') {
+			setShareUrl(`${window.location.origin}${resolvedHomeHref}`);
+		}
+	}, [resolvedHomeHref]);
 
 	// Tier 1 - Column 2: Games category directory links (pure taxonomy, no tools)
 	const gamesLinks = useMemo<SiteFooterLinkItem[]>(() => {
@@ -144,7 +156,25 @@ export function SiteFooter({
 							<span className="site-footer-brand-title">{t('app.title')}</span>
 						</a>
 						<p className="site-footer-tagline">{t('app.tagline')}</p>
-						<div className="footer-share-slot" data-share-slot="" />
+						<div className="footer-share-slot" data-share-slot="">
+							<Button
+								variant="ghost"
+								size="sm"
+								onClick={() => setIsShareOpen(true)}
+								aria-label={t('share.shareArcade')}
+								leadingIcon={<Icon name="share" size="xs" />}
+							>
+								{t('share.shareArcade')}
+							</Button>
+							<ShareDialog
+								id="footer-share-dialog"
+								isOpen={isShareOpen}
+								onClose={() => setIsShareOpen(false)}
+								title={t('share.shareArcade')}
+								shareUrl={shareUrl}
+								shareText={t('app.tagline')}
+							/>
+						</div>
 					</div>
 
 					{/* Column 2: Games Directory */}
