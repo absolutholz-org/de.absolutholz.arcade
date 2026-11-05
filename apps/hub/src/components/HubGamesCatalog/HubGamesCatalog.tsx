@@ -1,4 +1,4 @@
-import { ALL_GAMES, GAME_CATEGORIES, type GameCategory, isGameCategory } from '@arcade/lib-games';
+import { ALL_GAMES, type GameCategory, getActiveCategories, isGameCategory } from '@arcade/lib-games';
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import { getGameDescription, getGameTitle } from '@arcade/lib-i18n/utils/gameTitle';
@@ -20,23 +20,11 @@ function HubGamesCatalogContent({ lang }: HubGamesCatalogProps) {
 	const [selectedCategory, setSelectedCategory] = useState<CategoryFilterValue>('all');
 
 	const categoryOptions = useMemo<readonly GameSegmentedOption[]>(() => {
-		const counts = new Map<GameCategory, number>();
-		for (const game of ALL_GAMES) {
-			const primary = game.category.primary;
-			counts.set(primary, (counts.get(primary) ?? 0) + 1);
-		}
-
-		const activeTabs: GameSegmentedOption[] = [];
-		for (const category of GAME_CATEGORIES) {
-			const count = counts.get(category) ?? 0;
-			if (count > 0) {
-				const label = getCategoryLabel(category, lang);
-				activeTabs.push({
-					id: category,
-					label: `${label} (${count})`,
-				});
-			}
-		}
+		const activeCategories = getActiveCategories(ALL_GAMES);
+		const activeTabs: GameSegmentedOption[] = activeCategories.map(({ category, games }) => ({
+			id: category,
+			label: `${getCategoryLabel(category, lang)} (${games.length})`,
+		}));
 
 		return [
 			{

@@ -1,0 +1,70 @@
+---
+import { ALL_GAMES, getActiveCategories } from '@arcade/lib-games';
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { getCategoryDescription, getCategoryLabel } from '@arcade/lib-i18n/utils/taxonomy';
+import { Breadcrumb } from '@arcade/lib-ui/components/Breadcrumb';
+import { GameCard } from '@arcade/lib-ui/components/GameCard';
+import { GamesGrid } from '@arcade/lib-ui/components/GamesGrid';
+import { Hero } from '@arcade/lib-ui/components/Hero';
+import { PageContainer } from '@arcade/lib-ui/components/PageContainer';
+import BaseLayoutWithSiteHeaderAndSiteFooter from '@arcade/lib-ui/layouts/BaseLayoutWithSiteHeaderAndSiteFooter/BaseLayoutWithSiteHeaderAndSiteFooter.astro';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const currentLanguage = lang as SupportedLanguageCode;
+const currentCommon = resources[currentLanguage]?.common ?? resources.en.common;
+const homeText = `${currentCommon.app.title} ${currentCommon.navigation.home}`;
+const canonical = `https://arcade.absolutholz.de/${currentLanguage}/categories`;
+const activeCategories = getActiveCategories(ALL_GAMES);
+---
+
+<BaseLayoutWithSiteHeaderAndSiteFooter
+	titleOptions={{
+		subject: currentCommon.navigation.categories,
+	}}
+	description={currentCommon.hub.categoriesDescription}
+	lang={currentLanguage}
+	canonical={canonical}
+	currentSlug="categories"
+>
+	<Fragment slot="head">
+		<meta property="og:url" content={canonical} />
+	</Fragment>
+	<PageContainer variant="standard">
+		<Breadcrumb
+			items={[
+				{ label: homeText, href: `/${currentLanguage}/`, isHome: true },
+				{ label: currentCommon.navigation.categories, isCurrent: true },
+			]}
+			client:load
+		/>
+		<Hero
+			title={currentCommon.navigation.categories}
+			tagline={currentCommon.hub.categoriesDescription}
+		/>
+		<section aria-label={currentCommon.navigation.categories}>
+			<GamesGrid as="ul" role="list">
+				{
+					activeCategories.map((entry) => (
+						<li>
+							<GameCard
+								href={`/${currentLanguage}/categories/${entry.category}`}
+								title={getCategoryLabel(entry.category, currentLanguage)}
+								description={getCategoryDescription(entry.category, currentLanguage)}
+								icon={entry.games[0].assets.icon}
+								badge={String(entry.games.length)}
+							/>
+						</li>
+					))
+				}
+			</GamesGrid>
+		</section>
+	</PageContainer>
+</BaseLayoutWithSiteHeaderAndSiteFooter>

@@ -1,0 +1,84 @@
+---
+import { ALL_GAMES, type ActiveCategoryEntry, getActiveCategories } from '@arcade/lib-games';
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { getGameDescription, getGameTitle } from '@arcade/lib-i18n/utils/gameTitle';
+import { getCategoryDescription, getCategoryLabel } from '@arcade/lib-i18n/utils/taxonomy';
+import { Breadcrumb } from '@arcade/lib-ui/components/Breadcrumb';
+import { GameCard } from '@arcade/lib-ui/components/GameCard';
+import { GamesGrid } from '@arcade/lib-ui/components/GamesGrid';
+import { Hero } from '@arcade/lib-ui/components/Hero';
+import { PageContainer } from '@arcade/lib-ui/components/PageContainer';
+import { Text } from '@arcade/lib-ui/components/Text';
+import BaseLayoutWithSiteHeaderAndSiteFooter from '@arcade/lib-ui/layouts/BaseLayoutWithSiteHeaderAndSiteFooter/BaseLayoutWithSiteHeaderAndSiteFooter.astro';
+
+interface Props {
+	games: ActiveCategoryEntry['games'];
+}
+
+export function getStaticPaths() {
+	const activeCategories = getActiveCategories(ALL_GAMES);
+
+	return SUPPORTED_LANGUAGES.flatMap((item) =>
+		activeCategories.map((entry) => ({
+			params: { lang: item.code, category: entry.category },
+			props: { games: entry.games },
+		})),
+	);
+}
+
+const { lang, category } = Astro.params;
+const { games } = Astro.props;
+const currentLanguage = lang as SupportedLanguageCode;
+const currentCategory = category as ActiveCategoryEntry['category'];
+const currentCommon = resources[currentLanguage]?.common ?? resources.en.common;
+const homeText = `${currentCommon.app.title} ${currentCommon.navigation.home}`;
+const categoryTitle = getCategoryLabel(currentCategory, currentLanguage);
+const categoryDescription = getCategoryDescription(currentCategory, currentLanguage);
+const canonical = `https://arcade.absolutholz.de/${currentLanguage}/categories/${currentCategory}`;
+---
+
+<BaseLayoutWithSiteHeaderAndSiteFooter
+	titleOptions={{
+		subject: categoryTitle,
+		scope: currentCommon.navigation.categories,
+	}}
+	description={categoryDescription}
+	lang={currentLanguage}
+	canonical={canonical}
+	currentSlug={`categories/${currentCategory}`}
+>
+	<Fragment slot="head">
+		<meta property="og:url" content={canonical} />
+	</Fragment>
+	<PageContainer variant="standard">
+		<Breadcrumb
+			items={[
+				{ label: homeText, href: `/${currentLanguage}/`, isHome: true },
+				{ label: currentCommon.navigation.categories, href: `/${currentLanguage}/categories` },
+				{ label: categoryTitle, isCurrent: true },
+			]}
+			client:load
+		/>
+		<Hero title={categoryTitle} tagline={categoryDescription} />
+		<section aria-labelledby="category-games-heading">
+			<Text id="category-games-heading" as="h2" variant="h2">{currentCommon.hub.gamesTitle}</Text>
+			<GamesGrid as="ul" role="list">
+				{
+					games.map((game) => (
+						<li>
+							<GameCard
+								href={`${game.route}/${currentLanguage}/`}
+								title={getGameTitle(game.id, currentLanguage)}
+								description={getGameDescription(game.id, currentLanguage)}
+								icon={game.assets.icon}
+								badge={categoryTitle}
+							/>
+						</li>
+					))
+				}
+			</GamesGrid>
+		</section>
+	</PageContainer>
+</BaseLayoutWithSiteHeaderAndSiteFooter>
