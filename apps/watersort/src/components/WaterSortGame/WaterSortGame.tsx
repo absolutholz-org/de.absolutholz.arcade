@@ -114,11 +114,12 @@ function GameContent({
 			</Dialog>
 
 			<WaterSortVictoryDialog
-				isOpen={game.isWon}
+				isOpen={game.isVictoryOpen}
 				elapsedSeconds={game.elapsedSeconds}
 				moves={game.moves}
 				onPlayAgain={game.onPlayAgain}
 				onNextPuzzle={game.onNextPuzzle}
+				onClose={game.closeVictory}
 			/>
 
 			<WaterSortDeadlockDialog

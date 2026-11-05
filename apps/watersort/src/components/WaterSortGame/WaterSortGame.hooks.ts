@@ -115,6 +115,7 @@ export function useWaterSortGame(initialDifficulty: DifficultyLevel = 'easy', in
 	const [elapsedSeconds, setElapsedSeconds] = useState(0);
 	const [isPaused, setIsPaused] = useState(false);
 	const [isWon, setIsWon] = useState(false);
+	const [isVictoryOpen, setIsVictoryOpen] = useState(false);
 	const [hintsUsed, setHintsUsed] = useState(0);
 	const [undosUsed, setUndosUsed] = useState(0);
 	const [restartsUsed, setRestartsUsed] = useState(0);
@@ -280,6 +281,7 @@ export function useWaterSortGame(initialDifficulty: DifficultyLevel = 'easy', in
 
 				if (isSolved(nextBoard)) {
 					setIsWon(true);
+					setIsVictoryOpen(true);
 					clearActiveGame();
 					recordRoundResult(difficulty, elapsedSeconds, nextMoves, seed);
 					void recordGameStats({
@@ -363,6 +365,7 @@ export function useWaterSortGame(initialDifficulty: DifficultyLevel = 'easy', in
 	const handleReset = useCallback(() => {
 		setHistory((prev) => reset(prev));
 		setSelectedTube(null);
+		setIsVictoryOpen(false);
 		setUndosUsed(0);
 		setRestartsUsed((prev) => prev + 1);
 		setConsecutiveCompletions(0);
@@ -412,6 +415,7 @@ export function useWaterSortGame(initialDifficulty: DifficultyLevel = 'easy', in
 		setMoves(0);
 		setElapsedSeconds(0);
 		setIsWon(false);
+		setIsVictoryOpen(false);
 		setSelectedTube(null);
 		setHintsUsed(0);
 		setUndosUsed(0);
@@ -457,6 +461,7 @@ export function useWaterSortGame(initialDifficulty: DifficultyLevel = 'easy', in
 		elapsedSeconds,
 		isPaused,
 		isWon,
+		isVictoryOpen,
 		isDeadlocked: isDeadlockedState,
 		canUndo: canUndo(history),
 		canRedo: canRedo(history),
@@ -479,8 +484,10 @@ export function useWaterSortGame(initialDifficulty: DifficultyLevel = 'easy', in
 		onUpdateSettings: handleUpdateSettings,
 		onPlayAgain: () => {
 			setIsWon(false);
+			setIsVictoryOpen(false);
 			handleReset();
 		},
+		closeVictory: () => setIsVictoryOpen(false),
 		onNextPuzzle: handleNextPuzzle,
 	};
 }

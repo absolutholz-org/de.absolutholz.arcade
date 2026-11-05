@@ -9,7 +9,7 @@ export interface WaterSortVictoryDialogProps {
 	isNewBestTime?: boolean;
 	onPlayAgain: () => void;
 	onNextPuzzle: () => void;
-	onClose?: () => void;
+	onClose: () => void;
 	difficulty?: string;
 }
 
@@ -30,7 +30,7 @@ export function WaterSortVictoryDialog({
 	return (
 		<SharedVictoryDialog
 			isOpen={isOpen}
-			onClose={onClose ?? onPlayAgain}
+			onClose={onClose}
 			title={t('victory.title')}
 			message={t('victory.congratulations')}
 			elapsedSeconds={elapsedSeconds}
