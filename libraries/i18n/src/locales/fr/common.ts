@@ -103,6 +103,10 @@ export const frCommon = {
 	},
 	navigation: {
 		home: 'Accueil',
+		categories: 'Catégories',
+		catalog: 'Catalogue',
+		about: 'À propos',
+		footer: 'Pied de page',
 		privacy: 'Confidentialité',
 		imprint: 'Mentions légales',
 		accessibility: 'Accessibilité',
@@ -120,6 +124,7 @@ export const frCommon = {
 		categoryFilterAriaLabel: 'Filtrer les jeux par catégorie',
 		allCategories: 'Tous',
 		emptyCategoryMessage: 'Aucun jeu trouvé dans cette catégorie.',
+		categoriesDescription: 'Parcourez tous les jeux de l’arcade classés par genre et style de jeu.',
 	},
 	tools: {
 		dice: {

@@ -12,6 +12,14 @@ export const deTaxonomy = {
 		'card-board': 'Karten- & Brettspiele',
 		'party-duel': 'Party & Duell',
 	},
+	categoryDescriptions: {
+		'logic-deduction': 'Löse Zahlenrätsel, Bildhinweise und reine Logik-Puzzles ganz in deinem eigenen Tempo.',
+		'spatial-puzzle': 'Entwirre Graphen, verbinde Wege und meistere geometrische Rätsel.',
+		'word-trivia': 'Ordne Buchstaben neu, erweitere deinen Wortschatz und löse abwechslungsreiche Worträtsel.',
+		'casual-sorting': 'Entspanne bei übersichtlichen Farb-, Sortier- und Zuordnungsspielen.',
+		'card-board': 'Spiele klassische Brett-, Würfel- und Kartenspiele mit barrierefreier Bedienung.',
+		'party-duel': 'Tritt in schnellen Gedächtnisduellen und Mehrspielerspielen gegeneinander an.',
+	},
 	tags: {
 		mechanics: {
 			'grid-based': 'Gitterbasiert',

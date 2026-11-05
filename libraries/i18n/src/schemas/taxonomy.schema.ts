@@ -12,6 +12,14 @@ export const taxonomySchema = {
 		'card-board': 'categories.card-board',
 		'party-duel': 'categories.party-duel',
 	},
+	categoryDescriptions: {
+		'logic-deduction': 'categoryDescriptions.logic-deduction',
+		'spatial-puzzle': 'categoryDescriptions.spatial-puzzle',
+		'word-trivia': 'categoryDescriptions.word-trivia',
+		'casual-sorting': 'categoryDescriptions.casual-sorting',
+		'card-board': 'categoryDescriptions.card-board',
+		'party-duel': 'categoryDescriptions.party-duel',
+	},
 	tags: {
 		mechanics: {
 			'grid-based': 'tags.mechanics.grid-based',

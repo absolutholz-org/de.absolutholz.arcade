@@ -102,6 +102,10 @@ export const ptCommon = {
 	},
 	navigation: {
 		home: 'Início',
+		categories: 'Categorias',
+		catalog: 'Catálogo',
+		about: 'Sobre',
+		footer: 'Rodapé',
 		privacy: 'Privacidade',
 		imprint: 'Informações Legais',
 		accessibility: 'Acessibilidade',
@@ -119,6 +123,7 @@ export const ptCommon = {
 		categoryFilterAriaLabel: 'Filtrar jogos por categoria',
 		allCategories: 'Todos',
 		emptyCategoryMessage: 'Nenhum jogo encontrado nesta categoria.',
+		categoriesDescription: 'Explore todos os jogos do arcade organizados por gênero e estilo de jogo.',
 	},
 	tools: {
 		dice: {

@@ -12,6 +12,15 @@ export const frTaxonomy = {
 		'card-board': 'Cartes et plateau',
 		'party-duel': 'Soirée et duel',
 	},
+	categoryDescriptions: {
+		'logic-deduction':
+			'Résolvez des grilles chiffrées, des indices visuels et des casse-têtes de pure déduction à votre rythme.',
+		'spatial-puzzle': 'Démêlez des graphes, reliez des parcours et relevez des défis géométriques.',
+		'word-trivia': 'Recomposez des mots, enrichissez votre vocabulaire et testez votre culture générale.',
+		'casual-sorting': 'Détendez-vous avec des jeux apaisants de tri, d’association de couleurs et d’organisation.',
+		'card-board': 'Jouez à des grands classiques de plateau, de dés et de cartes conçus pour l’accessibilité.',
+		'party-duel': 'Affrontez vos proches dans des duels de mémoire rapides et des jeux au tour par tour.',
+	},
 	tags: {
 		mechanics: {
 			'grid-based': 'Sur grille',

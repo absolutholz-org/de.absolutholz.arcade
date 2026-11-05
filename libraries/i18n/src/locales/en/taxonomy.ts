@@ -12,6 +12,14 @@ export const enTaxonomy = {
 		'card-board': 'Card & Board',
 		'party-duel': 'Party & Duel',
 	},
+	categoryDescriptions: {
+		'logic-deduction': 'Solve number grids, visual clues, and pure constraint-deduction puzzles at your own pace.',
+		'spatial-puzzle': 'Untangle graphs, connect pathways, and master geometric layout challenges.',
+		'word-trivia': 'Unscramble letters, build vocabulary, and test your knowledge with word puzzles.',
+		'casual-sorting': 'Unwind with tactile color-matching, grouping, and container-sorting games.',
+		'card-board': 'Play classic tabletop board, dice, and card games built for accessible play.',
+		'party-duel': 'Challenge friends in quick-turn memory duels and pass-and-play games.',
+	},
 	tags: {
 		mechanics: {
 			'grid-based': 'Grid-Based',

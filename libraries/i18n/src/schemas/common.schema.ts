@@ -94,6 +94,10 @@ export const commonSchema = {
 	},
 	navigation: {
 		home: 'navigation.home',
+		categories: 'navigation.categories',
+		catalog: 'navigation.catalog',
+		about: 'navigation.about',
+		footer: 'navigation.footer',
 		privacy: 'navigation.privacy',
 		imprint: 'navigation.imprint',
 		accessibility: 'navigation.accessibility',
@@ -111,6 +115,7 @@ export const commonSchema = {
 		categoryFilterAriaLabel: 'hub.categoryFilterAriaLabel',
 		allCategories: 'hub.allCategories',
 		emptyCategoryMessage: 'hub.emptyCategoryMessage',
+		categoriesDescription: 'hub.categoriesDescription',
 	},
 	tools: {
 		dice: {

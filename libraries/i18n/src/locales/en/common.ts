@@ -103,6 +103,10 @@ export const enCommon = {
 	},
 	navigation: {
 		home: 'Home',
+		categories: 'Categories',
+		catalog: 'Catalog',
+		about: 'About',
+		footer: 'Site Footer',
 		privacy: 'Privacy Policy',
 		imprint: 'Imprint',
 		accessibility: 'Accessibility',
@@ -120,6 +124,7 @@ export const enCommon = {
 		categoryFilterAriaLabel: 'Filter games by category',
 		allCategories: 'All',
 		emptyCategoryMessage: 'No games found in this category.',
+		categoriesDescription: 'Browse arcade games grouped by genre and play style.',
 	},
 	tools: {
 		dice: {

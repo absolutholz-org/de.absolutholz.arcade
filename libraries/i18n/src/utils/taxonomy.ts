@@ -22,6 +22,14 @@ export function getCategoryLabel(category: TaxonomyCategoryKey, lang?: Supported
 }
 
 /**
+ * Resolves the localized description for a primary or secondary game category.
+ */
+export function getCategoryDescription(category: TaxonomyCategoryKey, lang?: SupportedLanguageCode): string {
+	const dict = getTaxonomyDictionary(lang);
+	return dict.categoryDescriptions[category] ?? resources.en.taxonomy.categoryDescriptions[category];
+}
+
+/**
  * Resolves the localized display label for a specific taxonomy tag within a given facet.
  */
 export function getTagLabel<F extends TaxonomyFacetKey>(

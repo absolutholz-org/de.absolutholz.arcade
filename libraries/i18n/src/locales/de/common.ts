@@ -103,6 +103,10 @@ export const deCommon = {
 	},
 	navigation: {
 		home: 'Startseite',
+		categories: 'Kategorien',
+		catalog: 'Katalog',
+		about: 'Über uns',
+		footer: 'Seitenfuß',
 		privacy: 'Datenschutz',
 		imprint: 'Impressum',
 		accessibility: 'Barrierefreiheit',
@@ -120,6 +124,7 @@ export const deCommon = {
 		categoryFilterAriaLabel: 'Spiele nach Kategorie filtern',
 		allCategories: 'Alle',
 		emptyCategoryMessage: 'Keine Spiele in dieser Kategorie gefunden.',
+		categoriesDescription: 'Entdecke alle Arcade-Spiele übersichtlich sortiert nach Genre und Spielprinzip.',
 	},
 	tools: {
 		dice: {

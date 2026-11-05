@@ -12,6 +12,15 @@ export const ptTaxonomy = {
 		'card-board': 'Cartas e Tabuleiro',
 		'party-duel': 'Festa e Duelo',
 	},
+	categoryDescriptions: {
+		'logic-deduction':
+			'Resolva grades numéricas, pistas visuais e desafios de pura dedução lógica no seu próprio ritmo.',
+		'spatial-puzzle': 'Desembarace grafos, conecte caminhos e domine quebra-cabeças geométricos.',
+		'word-trivia': 'Desembaralhe letras, amplie seu vocabulário e teste seus conhecimentos com jogos de palavras.',
+		'casual-sorting': 'Relaxe com jogos táteis de combinação de cores, agrupamento e organização.',
+		'card-board': 'Jogue clássicos de tabuleiro, dados e cartas desenvolvidos com foco em acessibilidade.',
+		'party-duel': 'Desafie amigos em duelos rápidos de memória e partidas por turnos.',
+	},
 	tags: {
 		mechanics: {
 			'grid-based': 'Em grade',
