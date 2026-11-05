@@ -222,6 +222,37 @@ describe('Toast Notification System', () => {
 
 			unmount();
 		});
+
+		it('renders action button and triggers action.onClick and dismissal on click', () => {
+			const actionClick = vi.fn();
+			const onDismiss = vi.fn();
+			const { container, unmount } = render(<ToastContainer />);
+
+			act(() => {
+				toast.info('Actionable message', {
+					action: {
+						label: 'Undo Action',
+						onClick: actionClick,
+						ariaLabel: 'Undo Action',
+					},
+					onDismiss,
+				});
+			});
+
+			const actionBtn = container.querySelector('button[aria-label="Undo Action"]') as HTMLButtonElement;
+			expect(actionBtn).not.toBeNull();
+			expect(actionBtn.textContent).toContain('Undo Action');
+
+			act(() => {
+				actionBtn.click();
+			});
+
+			expect(actionClick).toHaveBeenCalledTimes(1);
+			expect(onDismiss).toHaveBeenCalledTimes(1);
+			expect(container.querySelectorAll('[data-variant]').length).toBe(0);
+
+			unmount();
+		});
 	});
 
 	describe('5. Sequential Queue Management', () => {

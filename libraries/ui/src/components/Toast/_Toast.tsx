@@ -51,7 +51,18 @@ export function ToastItem({
 				<S.Toast_Message>{message}</S.Toast_Message>
 				{action && (
 					<S.Toast_Action>
-						<Button variant="ghost" size="sm" onClick={action.onClick} aria-label={action.ariaLabel}>
+						<Button
+							variant="ghost"
+							size="sm"
+							onClick={() => {
+								try {
+									action.onClick?.();
+								} finally {
+									onDismiss(id);
+								}
+							}}
+							aria-label={action.ariaLabel}
+						>
 							{action.label}
 						</Button>
 					</S.Toast_Action>

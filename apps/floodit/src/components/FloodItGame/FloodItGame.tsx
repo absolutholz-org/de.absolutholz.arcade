@@ -80,6 +80,7 @@ function FloodItGameInner({
 	const [isPaused, setIsPaused] = useState(false);
 	const [isRulesOpen, setIsRulesOpen] = useState(false);
 	const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+	const [isGameOverOpen, setIsGameOverOpen] = useState(false);
 	const [hasRecordedResult, setHasRecordedResult] = useState(false);
 
 	const undoUsedRef = useRef(false);
@@ -134,6 +135,15 @@ function FloodItGameInner({
 		}, 1000);
 		return () => window.clearInterval(intervalId);
 	}, [isPaused, boardState.isWon, boardState.isLost, isRulesOpen, isSettingsOpen]);
+
+	// Sync game over dialog visibility with board resolution
+	useEffect(() => {
+		if (boardState.isWon || boardState.isLost) {
+			setIsGameOverOpen(true);
+		} else {
+			setIsGameOverOpen(false);
+		}
+	}, [boardState.isWon, boardState.isLost]);
 
 	// Handle Victory / Defeat recording
 	useEffect(() => {
@@ -217,6 +227,7 @@ function FloodItGameInner({
 			setHistory(createHistory(state));
 			setElapsedSeconds(0);
 			setIsPaused(false);
+			setIsGameOverOpen(false);
 			setHasRecordedResult(false);
 			undoUsedRef.current = false;
 			absorbedBottomRightAtMoveRef.current = null;
@@ -233,6 +244,7 @@ function FloodItGameInner({
 		setHistory(createHistory(restarted));
 		setElapsedSeconds(0);
 		setIsPaused(false);
+		setIsGameOverOpen(false);
 		setHasRecordedResult(false);
 		undoUsedRef.current = false;
 		absorbedBottomRightAtMoveRef.current = null;
@@ -381,14 +393,14 @@ function FloodItGameInner({
 			/>
 
 			<GameOverDialog
-				isOpen={boardState.isWon || boardState.isLost}
+				isOpen={isGameOverOpen}
 				isWon={boardState.isWon}
 				moves={boardState.moves}
 				maxMoves={boardState.maxMoves}
 				floodPercentage={boardState.floodPercentage}
 				onPlayAgain={handleRestart}
 				onNewGame={() => startNewGame()}
-				onClose={() => {}}
+				onClose={() => setIsGameOverOpen(false)}
 				difficulty={difficulty}
 			/>
 
