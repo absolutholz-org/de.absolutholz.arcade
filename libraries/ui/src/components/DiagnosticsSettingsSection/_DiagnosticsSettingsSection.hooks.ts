@@ -1,6 +1,7 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { type LogTimeRange, clearAllLogs, exportLogsAsJson } from '@arcade/lib-logger';
-import { useId, useState } from 'react';
+import { useId, useMemo, useState } from 'react';
+import type { CollapsibleListboxOption } from '../CollapsibleListbox';
 import { DEFAULT_LOG_RANGE, LOG_RANGE_OPTIONS } from './_DiagnosticsSettingsSection.constants';
 
 export function useDiagnosticsSettingsSection(id?: string) {
@@ -12,7 +13,10 @@ export function useDiagnosticsSettingsSection(id?: string) {
 	const [isBusy, setIsBusy] = useState(false);
 	const [status, setStatus] = useState('');
 
-	const rangeOptions = LOG_RANGE_OPTIONS.map((option) => ({ value: option.value, label: t(option.labelKey) }));
+	const rangeOptions: CollapsibleListboxOption<LogTimeRange>[] = useMemo(
+		() => LOG_RANGE_OPTIONS.map((option) => ({ id: option.value, label: t(option.labelKey) })),
+		[t],
+	);
 
 	const handleDownload = async (): Promise<void> => {
 		setIsBusy(true);

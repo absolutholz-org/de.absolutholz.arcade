@@ -1,9 +1,8 @@
-import type { LogTimeRange } from '@arcade/lib-logger';
 import { Button } from '../Button';
+import { CollapsibleListbox } from '../CollapsibleListbox';
 import { Stack } from '../Stack';
 import { Text } from '../Text';
 import { useDiagnosticsSettingsSection } from './_DiagnosticsSettingsSection.hooks';
-import * as S from './_DiagnosticsSettingsSection.styles';
 import type { DiagnosticsSettingsSectionProps } from './_DiagnosticsSettingsSection.types';
 
 export function DiagnosticsSettingsSection({ className, id }: DiagnosticsSettingsSectionProps) {
@@ -32,20 +31,19 @@ export function DiagnosticsSettingsSection({ className, id }: DiagnosticsSetting
 				</Text>
 			</Stack>
 			<Stack direction="row" wrap align="center" spacing="sm">
-				<Text variant="small" as="label" htmlFor={`${baseId}-range`}>
+				<Text variant="small" as="span" id={`${baseId}-range-label`}>
 					{t('settings.diagnosticsRangeLabel')}
 				</Text>
-				<S.Select
+				<CollapsibleListbox
 					id={`${baseId}-range`}
-					value={range}
-					onChange={(e) => setRange(e.target.value as LogTimeRange)}
-				>
-					{rangeOptions.map((option) => (
-						<option key={option.value} value={option.value}>
-							{option.label}
-						</option>
-					))}
-				</S.Select>
+					activeId={range}
+					options={rangeOptions}
+					onSelect={setRange}
+					showLabel={true}
+					variant="outline"
+					size="sm"
+					aria-labelledby={`${baseId}-range-label`}
+				/>
 				<Button type="button" variant="primary" size="sm" disabled={isBusy} onClick={handleDownload}>
 					{t('settings.diagnosticsDownload')}
 				</Button>
