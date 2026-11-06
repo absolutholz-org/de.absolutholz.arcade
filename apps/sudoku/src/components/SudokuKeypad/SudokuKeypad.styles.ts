@@ -1,3 +1,4 @@
+import { focusVisibleRing } from '@arcade/lib-ui/styles/focus.css';
 import { themeColor } from '@arcade/lib-ui/styles/theme/theme.utils';
 import { styled } from '@linaria/react';
 
@@ -62,10 +63,7 @@ export const ActionButton = styled.button`
 		}
 	}
 
-	&:focus-visible {
-		outline: 2px solid ${themeColor('accent')};
-		outline-offset: 2px;
-	}
+	${focusVisibleRing}
 
 	@media (min-width: 640px) {
 		flex-direction: row;
@@ -197,8 +195,5 @@ export const DigitButton = styled.button`
 		pointer-events: none;
 	}
 
-	&:focus-visible {
-		outline: 2px solid ${themeColor('accent')};
-		outline-offset: 2px;
-	}
+	${focusVisibleRing}
 `;

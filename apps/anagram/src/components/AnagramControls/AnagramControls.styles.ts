@@ -1,3 +1,4 @@
+import { focusVisibleRing } from '@arcade/lib-ui/styles/focus.css';
 import { themeColor } from '@arcade/lib-ui/styles/theme/theme.utils';
 import { styled } from '@linaria/react';
 
@@ -64,10 +65,7 @@ export const ActionButton = styled.button`
 		cursor: not-allowed;
 	}
 
-	&:focus-visible {
-		outline: 2px solid ${themeColor('accent')};
-		outline-offset: 2px;
-	}
+	${focusVisibleRing}
 
 	&[data-variant='primary'] {
 		background-color: ${themeColor('accent')};
@@ -79,10 +77,7 @@ export const ActionButton = styled.button`
 			border-color: oklch(from ${themeColor('accent')} calc(l + 0.04) c h);
 		}
 
-		&:focus-visible {
-			outline: 2px solid ${themeColor('accent')};
-			outline-offset: 2px;
-		}
+		${focusVisibleRing}
 
 		&:disabled {
 			opacity: 0.35;

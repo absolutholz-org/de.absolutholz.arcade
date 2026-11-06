@@ -1,4 +1,5 @@
 import { styled } from '@linaria/react';
+import { focusVisibleRing } from '../../styles/focus.css';
 import { space } from '../../styles/spacing';
 import { themeColor } from '../../styles/theme/theme.utils';
 
@@ -55,9 +56,6 @@ export const FooterNav = styled.nav`
 			color: ${themeColor('accent')};
 		}
 
-		&:focus-visible {
-			outline: 2px solid ${themeColor('accent')};
-			outline-offset: 2px;
-		}
+		${focusVisibleRing}
 	}
 `;

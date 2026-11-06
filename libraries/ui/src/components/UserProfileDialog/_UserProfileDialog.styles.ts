@@ -1,4 +1,5 @@
 import { styled } from '@linaria/react';
+import { focusVisibleRing } from '../../styles/focus.css';
 import { radiusScale } from '../../styles/radius/radius.constants';
 import { themeColor } from '../../styles/theme/theme.utils';
 
@@ -159,10 +160,7 @@ export const UserProfileDialog = styled.div`
 				text-decoration: underline;
 			}
 
-			&:focus-visible {
-				outline: 2px solid ${themeColor('accent')};
-				outline-offset: 2px;
-			}
+			${focusVisibleRing}
 
 			&:disabled {
 				opacity: 0.5;

@@ -1,4 +1,5 @@
 import { styled } from '@linaria/react';
+import { focusVisibleRing } from '../../styles/focus.css';
 import { radiusScale } from '../../styles/radius/radius.constants';
 import { themeColor } from '../../styles/theme/theme.utils';
 
@@ -48,7 +49,6 @@ export const SegmentButton = styled.button`
 	text-align: center;
 	cursor: pointer;
 	user-select: none;
-	outline: none;
 	transition: background-color 140ms ease, color 140ms ease, box-shadow 140ms ease;
 
 	/* Enforce WCAG 2.2 AA minimum touch target (44px) */
@@ -70,9 +70,9 @@ export const SegmentButton = styled.button`
 		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.08);
 	}
 
+	${focusVisibleRing}
+
 	&:focus-visible {
-		outline: 2px solid ${themeColor('accent')};
-		outline-offset: 2px;
 		z-index: 1;
 	}
 

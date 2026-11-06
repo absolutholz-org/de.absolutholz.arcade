@@ -1,3 +1,4 @@
+import { focusVisibleRing } from '@arcade/lib-ui/styles/focus.css';
 import { themeColor } from '@arcade/lib-ui/styles/theme/theme.utils';
 import { styled } from '@linaria/react';
 
@@ -92,10 +93,7 @@ export const SlotButton = styled.button`
 		transform: scale(0.96);
 	}
 
-	&:focus-visible {
-		outline: 2px solid ${themeColor('accent')};
-		outline-offset: 2px;
-	}
+	${focusVisibleRing}
 
 	&:disabled {
 		cursor: default;

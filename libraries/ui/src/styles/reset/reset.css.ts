@@ -24,8 +24,10 @@ export const reset = `
 	html,
 	body {
 		min-height: 100dvh;
-		scroll-behavior: smooth;
 		scrollbar-gutter: stable; /* Preserves layout during scroll */
+		@media (prefers-reduced-motion: no-preference) {
+			scroll-behavior: smooth;
+		}
 	}
 
 	/* Preps the browser engine window */
@@ -146,6 +148,10 @@ export const reset = `
 		padding: 0;
 		width: auto;
 		-webkit-font-smoothing: inherit;
+
+		/* Preserve outline geometry for Forced Colors / High Contrast Mode */
+		outline: 2px solid transparent;
+		outline-offset: 2px;
 	}
 
 	/* 10. List Style Semantic Reset */

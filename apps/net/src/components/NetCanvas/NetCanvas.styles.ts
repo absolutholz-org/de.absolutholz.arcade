@@ -1,3 +1,4 @@
+import { focusVisibleRing } from '@arcade/lib-ui/styles/focus.css';
 import { themeColor } from '@arcade/lib-ui/styles/theme/theme.utils';
 import { css } from '@linaria/core';
 
@@ -55,9 +56,9 @@ export const tileButton = css`
 		border-color: ${themeColor('accent')};
 	}
 
+	${focusVisibleRing}
+
 	&:focus-visible {
-		outline: 2px solid ${themeColor('accent')};
-		outline-offset: 2px;
 		z-index: 2;
 	}
 

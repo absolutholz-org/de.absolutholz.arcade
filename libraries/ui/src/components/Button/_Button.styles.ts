@@ -1,4 +1,5 @@
 import { styled } from '@linaria/react';
+import { focusVisibleRing } from '../../styles/focus.css';
 import { radiusScale } from '../../styles/radius/radius.constants';
 import { themeColor } from '../../styles/theme/theme.utils';
 
@@ -17,7 +18,6 @@ export const Button = styled.button`
 		box-shadow 120ms cubic-bezier(0, 0, 0.2, 1),
 		transform 120ms cubic-bezier(0, 0, 0.2, 1);
 	text-decoration: none;
-	outline: none;
 
 	&,
 	&:hover,
@@ -72,10 +72,7 @@ export const Button = styled.button`
 		}
 	}
 
-	&:focus-visible {
-		outline: 2px solid ${themeColor('accent')};
-		outline-offset: 2px;
-	}
+	${focusVisibleRing}
 
 	&:disabled,
 	&[aria-disabled='true'] {

@@ -1,4 +1,5 @@
 import { styled } from '@linaria/react';
+import { focusVisibleRing } from '../../styles/focus.css';
 import { radiusScale } from '../../styles/radius/radius.constants';
 import { themeColor } from '../../styles/theme/theme.utils';
 
@@ -44,11 +45,7 @@ export const TimerButton = styled.button`
 	}
 
 	/* Accessible Focus Ring */
-	outline: none;
-	&:focus-visible {
-		outline: 2px solid ${themeColor('accent')};
-		outline-offset: 2px;
-	}
+	${focusVisibleRing}
 
 	/* Disabled State */
 	&:disabled:not([data-interactive='false']) {

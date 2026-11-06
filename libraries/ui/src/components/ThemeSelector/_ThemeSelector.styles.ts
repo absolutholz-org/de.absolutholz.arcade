@@ -1,4 +1,5 @@
 import { styled } from '@linaria/react';
+import { focusVisibleRing } from '../../styles/focus.css';
 import { radiusScale } from '../../styles/radius/radius.constants';
 import { space } from '../../styles/spacing';
 import { themeColor } from '../../styles/theme/theme.utils';
@@ -45,7 +46,6 @@ export const Card = styled.button`
 	flex-direction: column;
 	gap: ${space('sm')};
 	min-height: 44px;
-	outline: none;
 	padding: ${space('md')};
 	position: relative;
 	text-align: left;
@@ -57,10 +57,10 @@ export const Card = styled.button`
 		transform: translateY(-1px);
 	}
 
+	${focusVisibleRing}
+
 	&:focus-visible {
 		border-color: ${themeColor('accent')};
-		outline: 2px solid ${themeColor('accent')};
-		outline-offset: 2px;
 	}
 
 	&[data-selected='true'] {

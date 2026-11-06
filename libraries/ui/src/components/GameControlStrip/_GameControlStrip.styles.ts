@@ -1,4 +1,5 @@
 import { styled } from '@linaria/react';
+import { focusVisibleRing } from '../../styles/focus.css';
 import { themeColor } from '../../styles/theme/theme.utils';
 
 export const ControlBar = styled.nav`
@@ -49,10 +50,7 @@ export const ActionButton = styled.button`
 		cursor: not-allowed;
 	}
 
-	&:focus-visible {
-		outline: 2px solid ${themeColor('accent')};
-		outline-offset: 2px;
-	}
+	${focusVisibleRing}
 
 	@media (min-width: 640px) {
 		flex-direction: row;
