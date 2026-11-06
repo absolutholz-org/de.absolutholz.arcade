@@ -1,0 +1,23 @@
+{
+	"name": "@arcade/lib-logger",
+	"version": "0.1.0",
+	"private": true,
+	"description": "Local-only, IndexedDB-backed diagnostic logging for the Arcade monorepo",
+	"type": "module",
+	"exports": {
+		".": {
+			"types": "./src/index.ts",
+			"default": "./src/index.ts"
+		}
+	},
+	"scripts": {
+		"build": "tsc",
+		"typecheck": "tsc --noEmit",
+		"test": "vitest run"
+	},
+	"devDependencies": {
+		"fake-indexeddb": "^6.0.0",
+		"typescript": "^5.7.2",
+		"vitest": "^4.1.8"
+	}
+}

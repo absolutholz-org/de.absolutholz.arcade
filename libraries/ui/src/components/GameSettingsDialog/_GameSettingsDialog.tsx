@@ -1,8 +1,10 @@
 import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { Children, type JSX, isValidElement } from 'react';
+import { Button } from '../Button';
 import { Dialog } from '../Dialog';
 import { SegmentedControl } from '../SegmentedControl';
+import { Stack } from '../Stack';
 import { Switch } from '../Switch';
 import { useGameSettingsDialog } from './_GameSettingsDialog.hooks';
 import * as S from './_GameSettingsDialog.styles';
@@ -137,6 +139,12 @@ export function GameSettingsDialog({
 						</S.SettingRow>
 					</S.SectionContent>
 				</S.Section>
+
+				<Stack align="end">
+					<Button as="a" href={`/${language}/settings`} variant="ghost" size="sm">
+						{t('settings.moreSettings')}
+					</Button>
+				</Stack>
 			</S.DialogBody>
 		</Dialog>
 	);

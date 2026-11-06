@@ -76,6 +76,7 @@
 		"@arcade/lib-dice": "workspace:*",
 		"@arcade/lib-games": "workspace:*",
 		"@arcade/lib-i18n": "workspace:*",
+		"@arcade/lib-logger": "workspace:*",
 		"@arcade/lib-medals": "workspace:*",
 		"@arcade/lib-storage": "workspace:*",
 		"@arcade/lib-user": "workspace:*",

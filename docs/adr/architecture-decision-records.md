@@ -115,3 +115,9 @@ This document contains the foundational architectural decisions for the Arcade W
 - **Context:** Preventing bugs and bundle duplication caused by multiple versions of core libraries (React, Astro, Linaria) scattered across different apps and packages.
 - **Decision:** We will utilize **pnpm Catalogs** (introduced in pnpm v9.5+) to manage shared dependency versions centrally.
 - **Constraint:** Apps and libraries must declare shared dependencies using the catalog reference (e.g., `"react": "catalog:"`) in their `package.json`, rather than hardcoding version numbers. The actual version numbers are defined exclusively in `pnpm-workspace.yaml`.
+
+## ADR 016: Client-Side Diagnostic Logging
+
+- **Context:** We need runtime diagnostics for bug reports without telemetry, third-party scripts, or main-thread cost.
+- **Decision:** Use `@arcade/lib-logger`, a local-only raw IndexedDB logger with 7-day lazy retention, downloadable from the hub settings page. Full details in [ADR 0010](./0010-client-side-diagnostic-logging.md).
+- **Constraint:** No network transmission of logs; no personal data in log entries; logging must fail silently when IndexedDB is unavailable.

@@ -4,6 +4,7 @@ import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { AudioSettingsSection } from '@arcade/lib-ui/components/AudioSettingsSection';
 import { Button } from '@arcade/lib-ui/components/Button';
+import { DiagnosticsSettingsSection } from '@arcade/lib-ui/components/DiagnosticsSettingsSection';
 import { HeaderUserMenu } from '@arcade/lib-ui/components/HeaderUserMenu';
 import { Hero } from '@arcade/lib-ui/components/Hero';
 import { LanguageSelector } from '@arcade/lib-ui/components/LanguageSelector';
@@ -57,6 +58,10 @@ const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? 
 
 			<section class="settings-content">
 				<PrivacySettingRow client:load />
+			</section>
+
+			<section class="settings-content">
+				<DiagnosticsSettingsSection client:load />
 			</section>
 
 			<section class="settings-content">

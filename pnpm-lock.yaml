@@ -1045,6 +1045,18 @@ importers:
         specifier: ^5.7.2
         version: 5.9.3
 
+  libraries/logger:
+    devDependencies:
+      fake-indexeddb:
+        specifier: ^6.0.0
+        version: 6.2.7
+      typescript:
+        specifier: ^5.7.2
+        version: 5.9.3
+      vitest:
+        specifier: ^4.1.8
+        version: 4.1.11(@types/node@26.6.3)(@vitest/browser-playwright@4.1.11)(@vitest/coverage-v8@4.1.11)(happy-dom@20.14.5)(vite@8.3.3(@types/node@26.6.3))
+
   libraries/medals:
     dependencies:
       '@arcade/lib-storage':
@@ -1084,6 +1096,9 @@ importers:
       '@arcade/lib-i18n':
         specifier: workspace:*
         version: link:../i18n
+      '@arcade/lib-logger':
+        specifier: workspace:*
+        version: link:../logger
       '@arcade/lib-medals':
         specifier: workspace:*
         version: link:../medals
@@ -3766,6 +3781,10 @@ packages:
 
   extend@3.0.2:
     resolution: {integrity: sha512-fjquC59cD7CyW6urNXK0FBufkZcoiGG80wTuPujX590cB5Ttln20E2UB4S/WARVqhXffZl2LNgS+gQdPIIim/g==}
+
+  fake-indexeddb@6.2.7:
+    resolution: {integrity: sha512-g0ghQ+BmU3CSZaHup5FigEAAtCmtNyxkrmID7OAeK2qONHghw1aQ2l2T1RxmfhP1H1tEXVRWArUTGVCk5832ww==}
+    engines: {node: '>=18'}
 
   fast-glob@3.3.3:
     resolution: {integrity: sha512-7MptL8U0cqcFdzIzwOTHoilX9x5BrNqye7Z/LuC7kCMRio1EMSyqRK3BEAUD7sXRq4iT4AzTVuZdhgQ2TCvYLg==}
@@ -8096,6 +8115,8 @@ snapshots:
       is-extendable: 0.1.1
 
   extend@3.0.2: {}
+
+  fake-indexeddb@6.2.7: {}
 
   fast-glob@3.3.3:
     dependencies:
