@@ -1,11 +1,11 @@
 ---
-title: "Regras de Tents & Trees"
-description: "Aprenda as regras de Tents & Trees: monte uma barraca ao lado de cada árvore, evite barracas vizinhas e respeite as dicas numéricas."
+title: "Regras de Tents"
+description: "Aprenda as regras de Tents: monte uma barraca ao lado de cada árvore, evite barracas vizinhas e respeite as dicas numéricas."
 ---
 
-# Regras de Tents & Trees
+# Regras de Tents
 
-Tents & Trees (também conhecido como *Barracas e Árvores*) é um clássico quebra-cabeça lógico jogado em uma grade repleta de árvores e delimitada por números nas bordas.
+Tents (também conhecido como *Barracas*) é um clássico quebra-cabeça lógico jogado em uma grade repleta de árvores e delimitada por números nas bordas.
 
 ## Objetivo
 

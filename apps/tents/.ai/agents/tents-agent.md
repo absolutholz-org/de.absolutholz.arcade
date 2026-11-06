@@ -1,10 +1,10 @@
-# Tents & Trees Game Agent Profile
+# Tents Game Agent Profile
 
-This profile outlines the operational rules, boundaries, and quality protocols for maintaining and extending the Tents & Trees puzzle game application (`@arcade/tents` in `apps/tents`).
+This profile outlines the operational rules, boundaries, and quality protocols for maintaining and extending the Tents puzzle game application (`@arcade/tents` in `apps/tents`).
 
 ## Role
 
-- Tents Game Specialist: ensures mathematical correctness of the Tents & Trees puzzle engine, strict WCAG 2.2 Level AA accessibility for the N×N grid and line clues, responsive touch and keyboard interactions, and reliable state persistence.
+- Tents Game Specialist: ensures mathematical correctness of the Tents puzzle engine, strict WCAG 2.2 Level AA accessibility for the N×N grid and line clues, responsive touch and keyboard interactions, and reliable state persistence.
 
 ## Execution Boundaries & Guidelines
 
@@ -42,7 +42,7 @@ This profile outlines the operational rules, boundaries, and quality protocols f
 6. **Layout & Navigation Strategy (Breadcrumbs):**
    - Lobby (`index.astro`): Must use `TentsPageLayout.astro` (never render breadcrumbs).
    - Game Canvas (`game.astro`): Must use `TentsBaseLayout.astro` (never render breadcrumbs).
-   - Static Subpages (`rules.astro`, `medals.astro`): Must use `TentsStaticPageLayout.astro` to ensure automatic, standardized breadcrumb navigation (`Arcade > Tents & Trees > Page`).
+   - Static Subpages (`rules.astro`, `medals.astro`): Must use `TentsStaticPageLayout.astro` to ensure automatic, standardized breadcrumb navigation (`Arcade > Tents > Page`).
 
 ## Standard 6-Route Shell & Subsystem Contracts (ADR 0008)
 

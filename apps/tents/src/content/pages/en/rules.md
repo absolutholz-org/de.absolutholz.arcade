@@ -1,11 +1,11 @@
 ---
-title: "Tents & Trees Rules"
-description: "Learn how to play Tents & Trees: pair every tent with a tree, keep tents apart, and satisfy line clues."
+title: "Tents Rules"
+description: "Learn how to play Tents: pair every tent with a tree, keep tents apart, and satisfy line clues."
 ---
 
-# Tents & Trees Rules
+# Tents Rules
 
-Tents & Trees is a classic camping logic puzzle played on a grid filled with trees and bordered by numeric clues.
+Tents is a classic camping logic puzzle played on a grid filled with trees and bordered by numeric clues.
 
 ## Objective
 

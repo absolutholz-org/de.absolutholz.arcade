@@ -5,7 +5,7 @@ import { solveTents } from './solver.ts';
 import { DIFFICULTY_GRID_SIZES, type DifficultyLevel } from './types.ts';
 import { createBoardFromPuzzle, isPuzzleSolved } from './validator.ts';
 
-describe('Tents & Trees - Generator Engine', () => {
+describe('Tents - Generator Engine', () => {
 	it('generates valid and uniquely solvable puzzles for all difficulty levels', () => {
 		const difficulties: DifficultyLevel[] = ['easy', 'medium', 'hard', 'expert'];
 

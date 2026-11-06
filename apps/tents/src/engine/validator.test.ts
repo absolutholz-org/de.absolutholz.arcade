@@ -16,7 +16,7 @@ import {
 	parseCoordKey,
 } from './validator.ts';
 
-describe('Tents & Trees - Validator Engine', () => {
+describe('Tents - Validator Engine', () => {
 	describe('Coordinate & Adjacency Helpers', () => {
 		it('formats and parses coordinate keys', () => {
 			assert.equal(coordKey(3, 7), '3,7');

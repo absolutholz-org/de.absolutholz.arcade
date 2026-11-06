@@ -4,7 +4,7 @@ import { PRESET_PUZZLES, getPresetById } from './presets/index.ts';
 import { solveTents } from './solver.ts';
 import type { PuzzleDefinition } from './types.ts';
 
-describe('Tents & Trees - Solver Engine', () => {
+describe('Tents - Solver Engine', () => {
 	it('solves known easy-1 puzzle to exact unique solution', () => {
 		const puzzle = getPresetById('easy-1');
 		assert.ok(puzzle);

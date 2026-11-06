@@ -14,7 +14,7 @@ import {
 import { getPresetById } from './presets/index.ts';
 import { createBoardFromPuzzle } from './validator.ts';
 
-describe('Tents & Trees - History & Move Management Engine', () => {
+describe('Tents - History & Move Management Engine', () => {
 	it('initializes with clean undo/redo stacks and zero counters', () => {
 		const preset = getPresetById('easy-1');
 		assert.ok(preset);

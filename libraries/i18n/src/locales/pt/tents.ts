@@ -1,7 +1,7 @@
 import type { TentsTranslationContract } from '../../schemas/tents.schema.js';
 
 export const ptTents = {
-	title: 'Tents & Trees',
+	title: 'Tents',
 	subtitle: 'Acampe na natureza com lógica e precisão.',
 	description:
 		'Arme uma barraca ao lado de cada árvore na floresta. Certifique-se de que nenhuma barraca se toque, mesmo na diagonal, e cumpra todas as contagens das linhas e colunas.',
@@ -91,7 +91,7 @@ export const ptTents = {
 		nextLevel: 'Próximo Acampamento',
 	},
 	aria: {
-		board: 'Grade de quebra-cabeça Tents & Trees {{size}} por {{size}}',
+		board: 'Grade de quebra-cabeça Tents {{size}} por {{size}}',
 		instructions:
 			'Use as setas para navegar. Pressione Espaço ou Enter para alternar o estado, T para barraca, G para grama, H para dica, Z para desfazer, Y para refazer e Esc para pausar.',
 		rowClue: 'Linha {{index}} requer {{target}} barracas, atualmente {{current}} colocadas',

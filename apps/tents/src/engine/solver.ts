@@ -38,7 +38,7 @@ function getNonTouchingRowCombinations(candidates: number[], count: number): num
 }
 
 /**
- * Solves a Tents & Trees puzzle using constraint propagation and backtracking search.
+ * Solves a Tents puzzle using constraint propagation and backtracking search.
  * Returns up to `maxSolutions` (default 2) and whether the solution is unique.
  */
 export function solveTents(puzzle: PuzzleDefinition, maxSolutions = 2): SolverResult {

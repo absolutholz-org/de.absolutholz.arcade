@@ -14,7 +14,7 @@ export const DEFAULT_GAME_TITLES: Readonly<Record<string, string>> = Object.free
 	queens: 'Queens',
 	bridges: 'Bridges',
 	tracks: 'Tracks',
-	tents: 'Tents & Trees',
+	tents: 'Tents',
 	anagram: 'Anagram Scramble',
 	watersort: 'Water Sort',
 	untangle: 'Untangle',

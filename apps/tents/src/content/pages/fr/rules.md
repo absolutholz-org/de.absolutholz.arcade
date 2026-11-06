@@ -1,11 +1,11 @@
 ---
-title: "Règles de Tents & Trees"
-description: "Apprenez les règles de Tents & Trees : plantez une tente près de chaque arbre, évitez que les tentes ne se touchent et respectez les indices."
+title: "Règles de Tents"
+description: "Apprenez les règles de Tents : plantez une tente près de chaque arbre, évitez que les tentes ne se touchent et respectez les indices."
 ---
 
-# Règles de Tents & Trees
+# Règles de Tents
 
-Tents & Trees (aussi connu sous le nom de *Tentes et Arbres*) est un jeu de logique champêtre sur une grille ornée d'arbres et bordée de chiffres indices.
+Tents (aussi connu sous le nom de *Tentes*) est un jeu de logique champêtre sur une grille ornée d'arbres et bordée de chiffres indices.
 
 ## Objectif
 

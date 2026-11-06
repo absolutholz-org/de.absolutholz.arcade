@@ -1,7 +1,7 @@
 import type { TentsTranslationContract } from '../../schemas/tents.schema.js';
 
 export const frTents = {
-	title: 'Tents & Trees',
+	title: 'Tents',
 	subtitle: 'Campez dans la forêt avec logique et précision.',
 	description:
 		'Plantez une tente à côté de chaque arbre dans la forêt. Veillez à ce qu’aucune tente ne se touche, même en diagonale, et respectez les totaux par ligne et colonne.',
@@ -91,7 +91,7 @@ export const frTents = {
 		nextLevel: 'Campement suivant',
 	},
 	aria: {
-		board: 'Grille de jeu Tents & Trees {{size}} sur {{size}}',
+		board: 'Grille de jeu Tents {{size}} sur {{size}}',
 		instructions:
 			'Utilisez les flèches pour naviguer. Appuyez sur Espace ou Entrée pour basculer l’état, T pour tente, G pour herbe, H pour indice, Z pour annuler, Y pour rétablir et Échap pour mettre en pause.',
 		rowClue: 'Ligne {{index}} requiert {{target}} tentes, actuellement {{current}} placées',

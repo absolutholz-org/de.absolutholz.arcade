@@ -107,7 +107,7 @@ function assignTreesToTents(tents: CellCoord[], size: number, rng: () => number)
 }
 
 /**
- * Generates a valid Tents & Trees puzzle with a verified unique solution.
+ * Generates a valid Tents puzzle with a verified unique solution.
  */
 export function generatePuzzle(difficulty: DifficultyLevel, seed?: number): PuzzleDefinition {
 	const effectiveSeed = seed !== undefined ? seed : (Date.now() ^ Math.floor(Math.random() * 0x100000000)) >>> 0;

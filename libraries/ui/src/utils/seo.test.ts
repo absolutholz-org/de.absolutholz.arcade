@@ -172,7 +172,7 @@ describe('serializeJsonLd & buildGameSeoMetadata', () => {
 		const raw = {
 			'@context': 'https://schema.org',
 			'@type': 'VideoGame',
-			name: 'Tents & Trees </script><script>alert(1)</script>',
+			name: 'Tents & Campers </script><script>alert(1)</script>',
 		};
 		const serialized = serializeJsonLd(raw);
 

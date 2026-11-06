@@ -21,7 +21,7 @@ When specifying (Phase 2 of `new-game` skill) or activating a new game in `GAME_
 
 ### B. Genre Category (`category`)
 Assign one `primary` category and an optional `secondary` category from `GAME_CATEGORIES` (`secondary` **must not** equal `primary`):
-- `'logic-deduction'`: Constraint-satisfaction, number, clue, or deduction puzzles (e.g. Sudoku, Minesweeper, Nonogram, Queens, Tents & Trees).
+- `'logic-deduction'`: Constraint-satisfaction, number, clue, or deduction puzzles (e.g. Sudoku, Minesweeper, Nonogram, Queens, Tents).
 - `'spatial-puzzle'`: Geometric, planar-graph, topological, or route-layout puzzles (e.g. Untangle; secondary for Bridges, Tracks, Net, Nonogram).
 - `'word-trivia'`: Lexicon, spelling, anagram, vocabulary, or trivia games (e.g. Anagram Scramble).
 - `'casual-sorting'`: Relaxed container-sorting, grouping, or tactile organization games (e.g. Water Sort).

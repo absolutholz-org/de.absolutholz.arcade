@@ -1,7 +1,7 @@
 import type { TentsTranslationContract } from '../../schemas/tents.schema.js';
 
 export const enTents = {
-	title: 'Tents & Trees',
+	title: 'Tents',
 	subtitle: 'Camp in the wild with logic and precision.',
 	description:
 		'Pitch a tent next to each tree in the forest. Ensure no tents touch each other, not even diagonally, and match all row and column numbers.',
@@ -91,7 +91,7 @@ export const enTents = {
 		nextLevel: 'Next Campsite',
 	},
 	aria: {
-		board: 'Tents and Trees puzzle grid {{size}} by {{size}}',
+		board: 'Tents puzzle grid {{size}} by {{size}}',
 		instructions:
 			'Use arrow keys to navigate cells. Press Space or Enter to cycle cell states, T for tent, G for grass, H for hint, Z to undo, Y to redo, and Escape to pause.',
 		rowClue: 'Row {{index}} requires {{target}} tents, currently {{current}} placed',

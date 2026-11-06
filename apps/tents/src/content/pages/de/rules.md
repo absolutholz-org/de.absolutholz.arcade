@@ -1,11 +1,11 @@
 ---
-title: "Tents & Trees Regeln"
-description: "Lerne die Regeln von Tents & Trees: Platziere neben jedem Baum ein Zelt, halte Zelte voneinander getrennt und erfülle die Linienhinweise."
+title: "Tents Regeln"
+description: "Lerne die Regeln von Tents: Platziere neben jedem Baum ein Zelt, halte Zelte voneinander getrennt und erfülle die Linienhinweise."
 ---
 
-# Tents & Trees Regeln
+# Tents Regeln
 
-Tents & Trees (auch bekannt als *Zelte und Bäume*) ist ein beliebtes logisches Camping-Rätsel auf einem Gitter mit Bäumen und Zeilen-/Spaltenzahlen am Rand.
+Tents (auch bekannt als *Zelte*) ist ein beliebtes logisches Camping-Rätsel auf einem Gitter mit Bäumen und Zeilen-/Spaltenzahlen am Rand.
 
 ## Spielziel
 
