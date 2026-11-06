@@ -11,6 +11,9 @@ export type GameId =
 	| 'tents'
 	| 'anagram'
 	| 'watersort'
+	| 'untangle'
+	| 'net'
+	| 'floodit'
 	| (string & {});
 
 /**

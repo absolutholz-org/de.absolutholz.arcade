@@ -20,6 +20,7 @@ import {
 	loadSettings,
 	recordPuzzleCompletion,
 	saveActiveGame,
+	saveLastConfig,
 	saveSettings,
 } from '../../engine/storage.ts';
 import type { Board, Difficulty, GameSnapshot, Move } from '../../engine/types.ts';
@@ -93,6 +94,7 @@ export function useNetGame({
 					setIsPaused(true); // Resume paused
 					setIsLoaded(true);
 					currentPoweredCountRef.current = validateBoard(restored).poweredCount;
+					void saveLastConfig({ difficulty: activeSnapshot.difficulty });
 					return;
 				}
 			}
@@ -107,6 +109,7 @@ export function useNetGame({
 				if (isExplicitNew) {
 					void clearActiveGame();
 				}
+				void saveLastConfig({ difficulty: targetDiff });
 				setIsLoaded(true);
 			}
 		}

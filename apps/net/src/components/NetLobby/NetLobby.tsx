@@ -5,7 +5,7 @@ import { GameSelectionCard } from '@arcade/lib-ui/components/GameSelectionCard';
 import { formatTime } from '@arcade/lib-ui/components/Timer';
 import { GameLandingTemplate } from '@arcade/lib-ui/layouts/GameLandingTemplate';
 import { type JSX, useEffect, useState } from 'react';
-import { loadActiveGame, loadProgress } from '../../engine/storage.ts';
+import { loadActiveGame, loadLastConfig, loadProgress, saveLastConfig } from '../../engine/storage.ts';
 import { DIFFICULTIES, type Difficulty, type GameSnapshot } from '../../engine/types.ts';
 import * as S from './NetLobby.styles.ts';
 
@@ -26,7 +26,11 @@ function LobbyContent(): JSX.Element {
 
 	useEffect(() => {
 		async function init() {
-			const [savedGame, savedProgress] = await Promise.all([loadActiveGame(), loadProgress()]);
+			const [savedGame, savedProgress, lastConfig] = await Promise.all([
+				loadActiveGame(),
+				loadProgress(),
+				loadLastConfig(),
+			]);
 
 			if (savedGame && !savedGame.isSolved) {
 				setActiveGame(savedGame);
@@ -100,6 +104,9 @@ function LobbyContent(): JSX.Element {
 								key={diff}
 								as="a"
 								href={`/net/${language}/game?difficulty=${diff}&new=true`}
+								onClick={() => {
+									void saveLastConfig({ difficulty: diff });
+								}}
 								title={t(`difficulty.${diff}`)}
 								dimensions={getDifficultyDescription(diff)}
 								subtitle={solvedCount > 0 ? `${t('lobby.completed')}: ${solvedCount}` : undefined}

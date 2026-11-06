@@ -1,4 +1,4 @@
-import { createGameStorage } from '@arcade/lib-storage';
+import { createGameStorage, getLastGameConfig, saveLastGameConfig } from '@arcade/lib-storage';
 import {
 	DEFAULT_GAME_SETTINGS,
 	type Difficulty,
@@ -112,7 +112,7 @@ export async function saveSettings(settings: GameSettings): Promise<void> {
 
 export async function loadLastConfig(): Promise<{ difficulty: Difficulty } | null> {
 	try {
-		return await storage.get<{ difficulty: Difficulty }>(LAST_CONFIG_KEY);
+		return await getLastGameConfig<{ difficulty: Difficulty }>('sudoku', storage);
 	} catch {
 		return null;
 	}
@@ -120,7 +120,7 @@ export async function loadLastConfig(): Promise<{ difficulty: Difficulty } | nul
 
 export async function saveLastConfig(config: { difficulty: Difficulty }): Promise<void> {
 	try {
-		await storage.set(LAST_CONFIG_KEY, config);
+		await saveLastGameConfig('sudoku', config, storage);
 	} catch {
 		// Ignore storage write errors
 	}

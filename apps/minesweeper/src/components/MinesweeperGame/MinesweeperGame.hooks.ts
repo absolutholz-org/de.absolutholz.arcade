@@ -207,6 +207,7 @@ export function useMinesweeperGame(initialSize: BoardSizeId = 'md', initialDiffi
 
 			setSize(targetSize);
 			setDifficulty(targetDiff);
+			void saveLastConfig({ size: targetSize, difficulty: targetDiff });
 			const cfg = BOARD_SIZES[targetSize] ?? BOARD_SIZES.md;
 			const empty = createEmptyBoard(cfg.columns, cfg.rows);
 			setCells(empty);

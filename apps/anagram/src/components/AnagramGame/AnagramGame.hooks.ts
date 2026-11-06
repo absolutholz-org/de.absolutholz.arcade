@@ -10,6 +10,7 @@ import {
 	loadSettings,
 	recordRoundResult,
 	saveActiveGame,
+	saveLastConfig,
 } from '../../engine/storage.js';
 import {
 	type AnagramData,
@@ -140,6 +141,11 @@ export function useAnagramGame(difficulty: DifficultyLevel, mode: GameMode, init
 						setRemainingSeconds(saved.remainingSeconds);
 						setHasClearedBaseline(Boolean(saved.hasClearedBaseline));
 						setIsPaused(true);
+						void saveLastConfig({
+							difficulty: saved.difficulty,
+							mode: saved.mode,
+							vocab: saved.language,
+						});
 						return;
 					}
 				}
@@ -150,6 +156,11 @@ export function useAnagramGame(difficulty: DifficultyLevel, mode: GameMode, init
 					setRound(next);
 					setTiles(createTiles(next));
 				}
+				void saveLastConfig({
+					difficulty,
+					mode,
+					vocab: resolvedLang,
+				});
 			} catch {
 				// Fallback to fresh round if error loading saved game
 			} finally {

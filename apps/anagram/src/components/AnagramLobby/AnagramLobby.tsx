@@ -5,7 +5,7 @@ import { SegmentedControl, type SegmentedControlItem } from '@arcade/lib-ui/comp
 import { formatTime } from '@arcade/lib-ui/components/Timer';
 import { GameLandingTemplate } from '@arcade/lib-ui/layouts/GameLandingTemplate';
 import { type JSX, useEffect, useState } from 'react';
-import { loadActiveGame, loadProgress } from '../../engine/storage.js';
+import { loadActiveGame, loadLastConfig, loadProgress, saveLastConfig } from '../../engine/storage.js';
 import {
 	type DifficultyLevel,
 	type GameMode,
@@ -46,36 +46,67 @@ function LobbyContent(): JSX.Element {
 	const [progress, setProgress] = useState<ProgressMap>({});
 	const [selectedMode, setSelectedMode] = useState<GameMode>(() => parseUrlParams(language).mode);
 	const [vocabLanguage, setVocabLanguage] = useState<LanguageCode>(() => parseUrlParams(language).vocab);
-
-	useEffect(() => {
-		const syncFromUrl = () => {
-			const { mode, vocab } = parseUrlParams(language);
-			setSelectedMode(mode);
-			setVocabLanguage(vocab);
-		};
-
-		// Sync immediately on mount
-		syncFromUrl();
-
-		window.addEventListener('popstate', syncFromUrl);
-		return () => {
-			window.removeEventListener('popstate', syncFromUrl);
-		};
-	}, [language]);
+	const [selectedDifficulty, setSelectedDifficulty] = useState<DifficultyLevel>('easy');
 
 	useEffect(() => {
 		async function init() {
-			const [savedGame, savedProgress] = await Promise.all([loadActiveGame(), loadProgress()]);
+			const [savedGame, savedProgress, lastConfig] = await Promise.all([
+				loadActiveGame(),
+				loadProgress(),
+				loadLastConfig(),
+			]);
+
 			if (savedGame && !savedGame.isComplete) {
 				setActiveGame(savedGame);
 			}
 			setProgress(savedProgress);
+
+			const urlParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
+			const rawMode = urlParams?.get('mode');
+			const rawVocab = urlParams?.get('vocab');
+			const rawDiff = urlParams?.get('difficulty');
+
+			const hasExplicitMode = rawMode && (GAME_MODES as readonly string[]).includes(rawMode);
+			const hasExplicitVocab = rawVocab && (SUPPORTED_VOCAB_LANGUAGES as readonly string[]).includes(rawVocab);
+			const hasExplicitDiff = rawDiff && (DIFFICULTY_LEVELS as readonly string[]).includes(rawDiff);
+
+			const resolvedMode: GameMode = hasExplicitMode
+				? (rawMode as GameMode)
+				: savedGame && !savedGame.isComplete
+					? savedGame.mode
+					: lastConfig?.mode && (GAME_MODES as readonly string[]).includes(lastConfig.mode)
+						? lastConfig.mode
+						: 'zen';
+
+			const fallbackVocab: LanguageCode =
+				language === 'de' ? 'de' : language === 'fr' ? 'fr' : language === 'pt' ? 'pt' : 'en';
+
+			const resolvedVocab: LanguageCode = hasExplicitVocab
+				? (rawVocab as LanguageCode)
+				: savedGame && !savedGame.isComplete
+					? savedGame.language
+					: lastConfig?.vocab && (SUPPORTED_VOCAB_LANGUAGES as readonly string[]).includes(lastConfig.vocab)
+						? lastConfig.vocab
+						: fallbackVocab;
+
+			const resolvedDiff: DifficultyLevel = hasExplicitDiff
+				? (rawDiff as DifficultyLevel)
+				: savedGame && !savedGame.isComplete
+					? savedGame.difficulty
+					: lastConfig?.difficulty && (DIFFICULTY_LEVELS as readonly string[]).includes(lastConfig.difficulty)
+						? lastConfig.difficulty
+						: 'easy';
+
+			setSelectedMode(resolvedMode);
+			setVocabLanguage(resolvedVocab);
+			setSelectedDifficulty(resolvedDiff);
 		}
 		init();
-	}, []);
+	}, [language]);
 
 	const handleSelectMode = (mode: GameMode) => {
 		setSelectedMode(mode);
+		void saveLastConfig({ vocab: vocabLanguage, mode, difficulty: selectedDifficulty });
 		if (typeof window !== 'undefined') {
 			const url = new URL(window.location.href);
 			url.searchParams.set('mode', mode);
@@ -85,6 +116,7 @@ function LobbyContent(): JSX.Element {
 
 	const handleSelectVocabLanguage = (nextLang: LanguageCode) => {
 		setVocabLanguage(nextLang);
+		void saveLastConfig({ vocab: nextLang, mode: selectedMode, difficulty: selectedDifficulty });
 		if (typeof window !== 'undefined') {
 			const url = new URL(window.location.href);
 			url.searchParams.delete('lang');
@@ -161,6 +193,10 @@ function LobbyContent(): JSX.Element {
 								key={diff}
 								as="a"
 								href={`/anagram/${language}/game?difficulty=${diff}&mode=${selectedMode}&vocab=${vocabLanguage}&new=true`}
+								onClick={() => {
+									setSelectedDifficulty(diff);
+									void saveLastConfig({ vocab: vocabLanguage, mode: selectedMode, difficulty: diff });
+								}}
 								title={t(`difficulty.${diff}`)}
 								dimensions={t(`difficulty.${diff}Dimensions`)}
 								subtitle={t(`difficulty.${diff}Desc`)}

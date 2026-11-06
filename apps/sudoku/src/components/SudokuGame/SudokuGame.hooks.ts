@@ -6,7 +6,7 @@ import { SUDOKU_MEDAL_DEFINITIONS } from '../../config/medals';
 import { generateSudoku } from '../../engine/generator';
 import { applyMove, autoClearPeerNotes, undoMove } from '../../engine/history';
 import { createGridFromClues, getPuzzleById } from '../../engine/puzzles';
-import { recordPuzzleCompletion } from '../../engine/storage';
+import { recordPuzzleCompletion, saveLastConfig } from '../../engine/storage';
 import {
 	type CellCoord,
 	DEFAULT_GAME_SETTINGS,
@@ -166,6 +166,20 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 					setCurrentPuzzleId(undefined);
 					currentPuzzleIdRef.current = undefined;
 				}
+				void saveLastConfig({
+					difficulty:
+						!forceNew &&
+						activeGame &&
+						!activeGame.isComplete &&
+						activeGame.puzzle.length === 9 &&
+						(forceResume ||
+							(!requestedPuzzleId && activeGame.difficulty === requestedDifficulty) ||
+							(requestedPuzzleId && activeGame.puzzleId === requestedPuzzleId))
+							? activeGame.difficulty
+							: requestedPuzzleId && getPuzzleById(requestedPuzzleId)
+								? (getPuzzleById(requestedPuzzleId)?.difficulty ?? requestedDifficulty)
+								: requestedDifficulty,
+				});
 			} catch {
 				const generated = generateSudoku(initialDifficulty);
 				setGrid(generated.puzzle);

@@ -1,7 +1,21 @@
-import { createGameStorage } from '@arcade/lib-storage';
-import type { AnagramSettings, DifficultyLevel, GameSnapshot, LevelProgress, ProgressMap } from './types.ts';
+import { createGameStorage, getLastGameConfig, saveLastGameConfig } from '@arcade/lib-storage';
+import type {
+	AnagramSettings,
+	DifficultyLevel,
+	GameMode,
+	GameSnapshot,
+	LanguageCode,
+	LevelProgress,
+	ProgressMap,
+} from './types.ts';
 
 const storage = createGameStorage('anagram');
+
+export interface AnagramGameConfig {
+	vocab: LanguageCode;
+	mode: GameMode;
+	difficulty: DifficultyLevel;
+}
 
 const PROGRESS_KEY = 'levelProgress';
 const ACTIVE_GAME_KEY = 'activeGame';
@@ -76,6 +90,22 @@ export async function loadSettings(): Promise<AnagramSettings> {
 export async function saveSettings(settings: AnagramSettings): Promise<void> {
 	try {
 		await storage.set(SETTINGS_KEY, settings);
+	} catch {
+		// Ignore storage errors in restricted contexts
+	}
+}
+
+export async function loadLastConfig(): Promise<AnagramGameConfig | null> {
+	try {
+		return await getLastGameConfig<AnagramGameConfig>('anagram', storage);
+	} catch {
+		return null;
+	}
+}
+
+export async function saveLastConfig(config: AnagramGameConfig): Promise<void> {
+	try {
+		await saveLastGameConfig('anagram', config, storage);
 	} catch {
 		// Ignore storage errors in restricted contexts
 	}

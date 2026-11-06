@@ -108,6 +108,7 @@ function LobbyContent(): JSX.Element {
 					<QuickPlayCard
 						as="a"
 						href={`/sudoku/${language}/game?difficulty=${selectedDifficulty}&new=true`}
+						onClick={() => saveLastConfig({ difficulty: selectedDifficulty })}
 						title={t('levels.quickPlay')}
 						subtitle={t('levels.quickPlayDesc')}
 					/>
@@ -121,6 +122,7 @@ function LobbyContent(): JSX.Element {
 								key={puzzle.id}
 								as="a"
 								href={`/sudoku/${language}/game?difficulty=${selectedDifficulty}&puzzle=${puzzle.id}&new=true`}
+								onClick={() => saveLastConfig({ difficulty: selectedDifficulty })}
 								title={t('levels.puzzleNum', { number: String(puzzle.index) })}
 								dimensions="9×9"
 								subtitle={

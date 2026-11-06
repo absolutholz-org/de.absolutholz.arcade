@@ -196,6 +196,7 @@ export function useNonogramEngine(initialDifficulty: DifficultyId = 'easy', init
 				: getDefaultPuzzle(targetDiff);
 
 			setPuzzle(activePuz);
+			void saveLastConfig({ difficulty: activePuz.difficulty, puzzleId: activePuz.id });
 			setCells(new Array(activePuz.width * activePuz.height).fill('empty'));
 			setStatus('not_started');
 			setElapsedSeconds(0);

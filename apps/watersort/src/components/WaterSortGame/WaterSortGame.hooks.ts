@@ -8,7 +8,13 @@ import { generatePuzzle } from '../../engine/generator.js';
 import { canRedo, canUndo, createHistory, pushState, redo, reset, undo } from '../../engine/history.js';
 import { type PresetPuzzleDefinition, getPreset, getPresetById } from '../../engine/presets/index.js';
 import { suggestHint } from '../../engine/solver.js';
-import { clearActiveGame, loadActiveGame, recordRoundResult, saveActiveGame } from '../../engine/storage.js';
+import {
+	clearActiveGame,
+	loadActiveGame,
+	recordRoundResult,
+	saveActiveGame,
+	saveLastConfig,
+} from '../../engine/storage.js';
 import {
 	type Board,
 	DIFFICULTY_CONFIG,
@@ -152,6 +158,7 @@ export function useWaterSortGame(initialDifficulty: DifficultyLevel = 'easy', in
 	useEffect(() => {
 		async function restoreIfApplicable() {
 			if (!initialLaunch.isResume && initialLaunch.hasExplicitUrlParams) {
+				void saveLastConfig({ difficulty: initialLaunch.difficulty });
 				return;
 			}
 
@@ -175,6 +182,9 @@ export function useWaterSortGame(initialDifficulty: DifficultyLevel = 'easy', in
 					const puzzle = generatePuzzle(snapshot.difficulty, snapshot.seed);
 					setParMoves(puzzle.solution.length);
 				}
+				void saveLastConfig({ difficulty: snapshot.difficulty });
+			} else {
+				void saveLastConfig({ difficulty: initialLaunch.difficulty });
 			}
 		}
 		restoreIfApplicable();

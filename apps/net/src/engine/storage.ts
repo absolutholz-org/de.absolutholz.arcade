@@ -1,4 +1,4 @@
-import { createGameStorage, recordGameStats } from '@arcade/lib-storage';
+import { createGameStorage, getLastGameConfig, recordGameStats, saveLastGameConfig } from '@arcade/lib-storage';
 import { DEFAULT_NET_SETTINGS, type NetSettings } from '../config/settings.ts';
 import type { Difficulty, GameSnapshot } from './types.ts';
 
@@ -102,6 +102,22 @@ export async function loadSettings(): Promise<NetSettings> {
 export async function saveSettings(settings: NetSettings): Promise<void> {
 	try {
 		await storage.set(SETTINGS_KEY, settings);
+	} catch {
+		// Ignore storage errors
+	}
+}
+
+export async function loadLastConfig(): Promise<{ difficulty: Difficulty } | null> {
+	try {
+		return await getLastGameConfig<{ difficulty: Difficulty }>('net', storage);
+	} catch {
+		return null;
+	}
+}
+
+export async function saveLastConfig(config: { difficulty: Difficulty }): Promise<void> {
+	try {
+		await saveLastGameConfig('net', config, storage);
 	} catch {
 		// Ignore storage errors
 	}

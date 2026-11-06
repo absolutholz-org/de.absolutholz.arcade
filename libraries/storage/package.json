@@ -37,6 +37,14 @@
 			"types": "./src/settings.ts",
 			"default": "./src/settings.ts"
 		},
+		"./config": {
+			"types": "./src/config.ts",
+			"default": "./src/config.ts"
+		},
+		"./config.js": {
+			"types": "./src/config.ts",
+			"default": "./src/config.ts"
+		},
 		"./pwa/*": {
 			"types": "./src/pwa/*.ts",
 			"default": "./src/pwa/*.ts"

@@ -11,6 +11,7 @@ import {
 	BOARD_SIZES,
 	BOARD_SIZE_LIST,
 	type BoardSizeId,
+	DIFFICULTIES,
 	DIFFICULTY_LIST,
 	type DifficultyId,
 	type GameSnapshot,
@@ -45,18 +46,43 @@ function LobbyContent(): JSX.Element {
 
 			const [lastConfig, loadedScores] = await Promise.all([loadLastConfig(), loadHighScores()]);
 
-			if (lastConfig) {
-				if (BOARD_SIZES[lastConfig.size]) {
-					setSelectedSize(lastConfig.size);
-				}
-				if (lastConfig.difficulty) {
-					setSelectedDifficulty(lastConfig.difficulty);
-				}
-			}
-
 			if (loadedScores) {
 				setHighScores(loadedScores);
 			}
+
+			let resolvedSize: BoardSizeId = 'md';
+			let resolvedDiff: DifficultyId = 'medium';
+			let hasUrlSize = false;
+			let hasUrlDiff = false;
+
+			if (typeof window !== 'undefined') {
+				const params = new URLSearchParams(window.location.search);
+				const querySize = params.get('size') as BoardSizeId | null;
+				const queryDiff = params.get('difficulty') as DifficultyId | null;
+				if (querySize && BOARD_SIZES[querySize]) {
+					resolvedSize = querySize;
+					hasUrlSize = true;
+				}
+				if (queryDiff && DIFFICULTIES[queryDiff]) {
+					resolvedDiff = queryDiff;
+					hasUrlDiff = true;
+				}
+			}
+
+			if (!hasUrlSize && game && game.status === 'playing' && game.size && BOARD_SIZES[game.size]) {
+				resolvedSize = game.size;
+			} else if (!hasUrlSize && lastConfig?.size && BOARD_SIZES[lastConfig.size]) {
+				resolvedSize = lastConfig.size;
+			}
+
+			if (!hasUrlDiff && game && game.status === 'playing' && game.difficulty && DIFFICULTIES[game.difficulty]) {
+				resolvedDiff = game.difficulty;
+			} else if (!hasUrlDiff && lastConfig?.difficulty && DIFFICULTIES[lastConfig.difficulty]) {
+				resolvedDiff = lastConfig.difficulty;
+			}
+
+			setSelectedSize(resolvedSize);
+			setSelectedDifficulty(resolvedDiff);
 		}
 		init();
 	}, []);

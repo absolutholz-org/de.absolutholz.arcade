@@ -16,6 +16,7 @@ import {
 	loadSettings,
 	recordPuzzleCompletion,
 	saveActiveGame,
+	saveLastConfig,
 	saveSettings,
 } from '../../engine/storage';
 import {
@@ -254,6 +255,15 @@ export function useQueensGame(initialDifficulty: Difficulty = 'easy', initialPuz
 					setHistory([]);
 					setRedoStack([]);
 				}
+				void saveLastConfig({
+					difficulty:
+						!forceNew &&
+						activeGame &&
+						!activeGame.isComplete &&
+						(forceResume || activeGame.puzzleId === requestedPuzzle.id)
+							? activeGame.difficulty
+							: requestedPuzzle.difficulty,
+				});
 			} catch {
 				setPuzzle(initialPuzzle);
 				setBoard(createEmptyBoard(initialPuzzle.size));

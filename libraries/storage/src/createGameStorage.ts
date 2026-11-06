@@ -108,6 +108,11 @@ export {
 	getGameSettings,
 	saveGameSettings,
 } from './settings.js';
+export {
+	LAST_GAME_CONFIG_STORAGE_KEY,
+	getLastGameConfig,
+	saveLastGameConfig,
+} from './config.js';
 export type {
 	AggregatedGameStats,
 	GameSessionResult,

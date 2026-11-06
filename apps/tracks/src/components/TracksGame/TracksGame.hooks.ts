@@ -23,6 +23,7 @@ import {
 	loadSettings,
 	recordPuzzleCompletion,
 	saveActiveGame,
+	saveLastConfig,
 	saveSettings,
 } from '../../engine/storage.js';
 import {
@@ -482,6 +483,15 @@ export function useTracksGame(initialDifficulty: DifficultyLevel = 'easy', initi
 					setMistakes(0);
 					setIsPaused(false);
 				}
+				void saveLastConfig({
+					difficulty:
+						!forceNew &&
+						savedGame &&
+						!savedGame.isComplete &&
+						(forceResume || savedGame.puzzleId === requestedPuzzle.id)
+							? savedGame.difficulty
+							: requestedPuzzle.difficulty,
+				});
 			} catch {
 				const fallbackBoard = buildBoard(initialPuzzle);
 				setPuzzle(initialPuzzle);

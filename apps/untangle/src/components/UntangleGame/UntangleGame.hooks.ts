@@ -13,6 +13,7 @@ import {
 	loadSettings,
 	recordPuzzleCompletion,
 	saveActiveGame,
+	saveLastConfig,
 	saveSettings,
 } from '../../engine/storage.ts';
 import {
@@ -319,6 +320,17 @@ export function useUntangleGame({
 					reachedDoubleInitialCrossingsRef.current = false;
 					onlyDecreasingMovesRef.current = true;
 				}
+				void saveLastConfig({
+					difficulty:
+						!forceNew &&
+						savedGame &&
+						savedGame.board &&
+						(forceResume ||
+							(savedGame.board.difficulty === difficulty &&
+								(seed === undefined || savedGame.board.seed === seed)))
+							? savedGame.board.difficulty
+							: difficulty,
+				});
 			} catch {
 				// Fallback to initial board
 			} finally {

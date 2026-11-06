@@ -24,6 +24,7 @@ import {
 	loadSettings,
 	recordPuzzleCompletion,
 	saveActiveGame,
+	saveLastConfig,
 	saveSettings,
 } from '../../engine/storage.ts';
 import {
@@ -165,10 +166,14 @@ export function useTentsGame(initialDifficulty: DifficultyLevel = 'easy', initia
 							moveCount: activeGame.moveCount,
 						});
 						setElapsedSeconds(activeGame.elapsedSeconds);
+						void saveLastConfig({ difficulty: activeGame.difficulty });
+						setIsLoaded(true);
+						return;
 					}
 				}
 			}
 
+			void saveLastConfig({ difficulty: puzzleRef.current.difficulty });
 			setIsLoaded(true);
 		}
 		init();

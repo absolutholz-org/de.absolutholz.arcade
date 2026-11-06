@@ -8,7 +8,7 @@ import { formatTime } from '@arcade/lib-ui/components/Timer';
 import { GameLandingTemplate } from '@arcade/lib-ui/layouts/GameLandingTemplate';
 import { type JSX, useEffect, useState } from 'react';
 import { getPuzzlesByDifficulty } from '../../engine/puzzles';
-import { loadActiveGame, loadProgress } from '../../engine/storage';
+import { loadActiveGame, loadLastConfig, loadProgress, saveLastConfig } from '../../engine/storage';
 import {
 	DIFFICULTY_LEVELS,
 	type Difficulty,
@@ -28,15 +28,48 @@ function LobbyContent(): JSX.Element {
 
 	useEffect(() => {
 		async function init() {
-			const savedGame = await loadActiveGame();
+			const [savedGame, savedProgress, lastConfig] = await Promise.all([
+				loadActiveGame(),
+				loadProgress(),
+				loadLastConfig(),
+			]);
 			if (savedGame && !savedGame.isComplete) {
 				setActiveGame(savedGame);
 			}
-			const savedProgress = await loadProgress();
 			setProgress(savedProgress);
+
+			let hasUrlDiff = false;
+			if (typeof window !== 'undefined') {
+				const params = new URLSearchParams(window.location.search);
+				const diff = params.get('difficulty') as Difficulty | null;
+				if (diff && (DIFFICULTY_LEVELS as readonly string[]).includes(diff)) {
+					setSelectedDifficulty(diff);
+					hasUrlDiff = true;
+				}
+			}
+
+			if (!hasUrlDiff && savedGame && !savedGame.isComplete && savedGame.difficulty) {
+				setSelectedDifficulty(savedGame.difficulty);
+			} else if (
+				!hasUrlDiff &&
+				lastConfig?.difficulty &&
+				(DIFFICULTY_LEVELS as readonly string[]).includes(lastConfig.difficulty)
+			) {
+				setSelectedDifficulty(lastConfig.difficulty);
+			}
 		}
 		init();
 	}, []);
+
+	const handleSelectDifficulty = (diff: Difficulty) => {
+		setSelectedDifficulty(diff);
+		void saveLastConfig({ difficulty: diff });
+		if (typeof window !== 'undefined') {
+			const url = new URL(window.location.href);
+			url.searchParams.set('difficulty', diff);
+			window.history.replaceState(null, '', url.toString());
+		}
+	};
 
 	const currentPuzzles = getPuzzlesByDifficulty(selectedDifficulty);
 
@@ -77,7 +110,7 @@ function LobbyContent(): JSX.Element {
 			<SegmentedControl
 				items={difficultyItems}
 				value={selectedDifficulty}
-				onChange={(diff) => setSelectedDifficulty(diff as Difficulty)}
+				onChange={(diff) => handleSelectDifficulty(diff as Difficulty)}
 				ariaLabel={t('difficulty.label')}
 			/>
 
@@ -88,6 +121,9 @@ function LobbyContent(): JSX.Element {
 						key="quick-play"
 						as="a"
 						href={`/queens/${language}/game?difficulty=${selectedDifficulty}&random=true&new=true`}
+						onClick={() => {
+							void saveLastConfig({ difficulty: selectedDifficulty });
+						}}
 						title={t('levels.quickPlay')}
 						subtitle={t('levels.quickPlayDesc')}
 						icon={<Icon emoji="🎲" size="md" />}
@@ -104,6 +140,9 @@ function LobbyContent(): JSX.Element {
 								key={puzzle.id}
 								as="a"
 								href={`/queens/${language}/game?puzzle=${puzzle.id}&new=true`}
+								onClick={() => {
+									void saveLastConfig({ difficulty: selectedDifficulty });
+								}}
 								title={t('levels.puzzleNum', { number: puzzleNum })}
 								dimensions={`${puzzle.size}×${puzzle.size}`}
 								subtitle={

@@ -1,4 +1,4 @@
-import { createGameStorage } from '@arcade/lib-storage';
+import { createGameStorage, getLastGameConfig, saveLastGameConfig } from '@arcade/lib-storage';
 import {
 	type BoardSizeId,
 	DEFAULT_MINESWEEPER_SETTINGS,
@@ -91,7 +91,7 @@ export async function loadLastConfig(): Promise<{
 	difficulty: DifficultyId;
 } | null> {
 	try {
-		return await storage.get<{ size: BoardSizeId; difficulty: DifficultyId }>('lastConfig');
+		return await getLastGameConfig<{ size: BoardSizeId; difficulty: DifficultyId }>('minesweeper', storage);
 	} catch {
 		return null;
 	}
@@ -102,7 +102,7 @@ export async function saveLastConfig(config: {
 	difficulty: DifficultyId;
 }): Promise<void> {
 	try {
-		await storage.set('lastConfig', config);
+		await saveLastGameConfig('minesweeper', config, storage);
 	} catch {
 		// Ignore storage write errors
 	}

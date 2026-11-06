@@ -8,7 +8,7 @@ import { formatTime } from '@arcade/lib-ui/components/Timer';
 import { GameLandingTemplate } from '@arcade/lib-ui/layouts/GameLandingTemplate';
 import { type JSX, useEffect, useState } from 'react';
 import { getPresetsByDifficulty } from '../../engine/presets/index.js';
-import { loadActiveGame, loadProgress } from '../../engine/storage.js';
+import { loadActiveGame, loadLastConfig, loadProgress, saveLastConfig } from '../../engine/storage.js';
 import {
 	DIFFICULTY_CONFIG,
 	DIFFICULTY_LEVELS,
@@ -44,24 +44,30 @@ function LobbyContent({ initialDifficulty }: { initialDifficulty?: DifficultyLev
 
 	useEffect(() => {
 		async function init() {
-			const saved = await loadActiveGame();
-			const prog = await loadProgress();
+			const [saved, prog, lastConfig] = await Promise.all([loadActiveGame(), loadProgress(), loadLastConfig()]);
 			if (saved && !saved.isComplete) {
 				setActiveGame(saved);
 			}
 			setProgress(prog);
 
+			let hasUrlDiff = false;
 			if (typeof window !== 'undefined') {
 				const params = new URLSearchParams(window.location.search);
 				const queryDiff = params.get('difficulty') as DifficultyLevel | null;
 				if (queryDiff && (DIFFICULTY_LEVELS as readonly string[]).includes(queryDiff)) {
 					setSelectedDifficulty(queryDiff);
-					return;
+					hasUrlDiff = true;
 				}
 			}
 
-			if (saved && !saved.isComplete && saved.difficulty) {
+			if (!hasUrlDiff && saved && !saved.isComplete && saved.difficulty) {
 				setSelectedDifficulty(saved.difficulty);
+			} else if (
+				!hasUrlDiff &&
+				lastConfig?.difficulty &&
+				(DIFFICULTY_LEVELS as readonly string[]).includes(lastConfig.difficulty)
+			) {
+				setSelectedDifficulty(lastConfig.difficulty);
 			}
 		}
 		init();
@@ -69,6 +75,7 @@ function LobbyContent({ initialDifficulty }: { initialDifficulty?: DifficultyLev
 
 	const handleSelectDifficulty = (diff: DifficultyLevel) => {
 		setSelectedDifficulty(diff);
+		void saveLastConfig({ difficulty: diff });
 		if (typeof window !== 'undefined') {
 			const url = new URL(window.location.href);
 			url.searchParams.set('difficulty', diff);
@@ -131,6 +138,9 @@ function LobbyContent({ initialDifficulty }: { initialDifficulty?: DifficultyLev
 					icon={<Icon emoji="🎲" size="md" />}
 					as="a"
 					href={`/watersort/${language}/game?difficulty=${selectedDifficulty}&new=true`}
+					onClick={() => {
+						void saveLastConfig({ difficulty: selectedDifficulty });
+					}}
 				/>
 
 				<S.PuzzlesGrid>
@@ -148,6 +158,9 @@ function LobbyContent({ initialDifficulty }: { initialDifficulty?: DifficultyLev
 								key={preset.id}
 								as="a"
 								href={`/watersort/${language}/game?difficulty=${selectedDifficulty}&seed=${preset.level}&puzzle=${preset.id}&new=true`}
+								onClick={() => {
+									void saveLastConfig({ difficulty: selectedDifficulty });
+								}}
 								title={t('levels.puzzleNum', { number: String(preset.level) })}
 								dimensions={`${DIFFICULTY_CONFIG[selectedDifficulty].colorCount + DIFFICULTY_CONFIG[selectedDifficulty].emptyTubes} tubes`}
 								subtitle={subtitle}

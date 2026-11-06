@@ -20,6 +20,7 @@ import {
 	loadSettings,
 	recordPuzzleCompletion,
 	saveActiveGame,
+	saveLastConfig,
 	saveSettings,
 } from '../../engine/storage.js';
 import {
@@ -378,6 +379,15 @@ export function useHashiGame(initialDifficulty: DifficultyLevel = 'easy', initia
 					setPuzzleId(requestedPuzzle.id);
 					setIsPaused(false);
 				}
+				void saveLastConfig({
+					difficulty:
+						!forceNew &&
+						savedGame &&
+						!savedGame.isComplete &&
+						(forceResume || savedGame.puzzleId === requestedPuzzle.id)
+							? savedGame.difficulty
+							: requestedDiff,
+				});
 			} catch {
 				const fallback = getStaticPuzzle(initialDifficulty, 0);
 				setBoard(fallback);

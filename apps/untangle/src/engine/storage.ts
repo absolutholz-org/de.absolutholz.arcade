@@ -1,4 +1,4 @@
-import { createGameStorage } from '@arcade/lib-storage';
+import { createGameStorage, getLastGameConfig, saveLastGameConfig } from '@arcade/lib-storage';
 import {
 	type ActiveGameSnapshot,
 	DEFAULT_UNTANGLE_SETTINGS,
@@ -104,6 +104,22 @@ export async function loadSettings(): Promise<UntangleSettings> {
 export async function saveSettings(settings: UntangleSettings): Promise<void> {
 	try {
 		await storage.set(SETTINGS_KEY, settings);
+	} catch {
+		// Ignore storage errors
+	}
+}
+
+export async function loadLastConfig(): Promise<{ difficulty: DifficultyLevel } | null> {
+	try {
+		return await getLastGameConfig<{ difficulty: DifficultyLevel }>('untangle', storage);
+	} catch {
+		return null;
+	}
+}
+
+export async function saveLastConfig(config: { difficulty: DifficultyLevel }): Promise<void> {
+	try {
+		await saveLastGameConfig('untangle', config, storage);
 	} catch {
 		// Ignore storage errors
 	}

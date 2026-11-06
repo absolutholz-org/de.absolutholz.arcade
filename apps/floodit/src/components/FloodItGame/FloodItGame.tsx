@@ -24,9 +24,10 @@ import {
 	loadSettings,
 	recordRoundCompletion,
 	saveActiveGame,
+	saveLastConfig,
 	saveSettings,
 } from '../../engine/storage.ts';
-import type { BoardState, ColorIndex, Difficulty } from '../../engine/types.ts';
+import { type BoardState, type ColorIndex, DIFFICULTY_CONFIGS, type Difficulty } from '../../engine/types.ts';
 import { applyMove, calculateBoardState } from '../../engine/validator.ts';
 import { ColorDock } from '../ColorDock/ColorDock.tsx';
 import { GameOverDialog } from '../GameOverDialog/GameOverDialog.tsx';
@@ -117,11 +118,27 @@ function FloodItGameInner({
 				setHistory(createHistory(restored));
 				setDifficulty(snapshot.difficulty);
 				undoUsedRef.current = Boolean(snapshot.undoUsed);
+				void saveLastConfig({
+					difficulty: snapshot.difficulty,
+					size: DIFFICULTY_CONFIGS[snapshot.difficulty].size,
+					colorCount: DIFFICULTY_CONFIGS[snapshot.difficulty].colorCount,
+				});
 			} else if (isExplicitNew || (targetDiff && targetDiff !== initialDifficulty)) {
 				const newGame = createNewGame(targetDiff);
 				const state = calculateBoardState(newGame.grid, 0, newGame.maxMoves, newGame.seed, newGame.colorCount);
 				setBoardState(state);
 				setHistory(createHistory(state));
+				void saveLastConfig({
+					difficulty: targetDiff,
+					size: DIFFICULTY_CONFIGS[targetDiff].size,
+					colorCount: DIFFICULTY_CONFIGS[targetDiff].colorCount,
+				});
+			} else {
+				void saveLastConfig({
+					difficulty: targetDiff,
+					size: DIFFICULTY_CONFIGS[targetDiff].size,
+					colorCount: DIFFICULTY_CONFIGS[targetDiff].colorCount,
+				});
 			}
 		});
 	}, [initialDifficulty]);

@@ -8,7 +8,7 @@ import { formatTime } from '@arcade/lib-ui/components/Timer';
 import { GameLandingTemplate } from '@arcade/lib-ui/layouts/GameLandingTemplate';
 import { type JSX, useEffect, useState } from 'react';
 import { getPresetById, getPresetsByDifficulty } from '../../engine/presets/index.ts';
-import { loadActiveGame, loadProgress } from '../../engine/storage.ts';
+import { loadActiveGame, loadLastConfig, loadProgress, saveLastConfig } from '../../engine/storage.ts';
 import {
 	DIFFICULTY_GRID_SIZES,
 	DIFFICULTY_LEVELS,
@@ -39,11 +39,15 @@ function LobbyContent(): JSX.Element {
 
 	useEffect(() => {
 		async function init() {
-			const savedGame = await loadActiveGame();
+			const [savedGame, savedProgress, lastConfig] = await Promise.all([
+				loadActiveGame(),
+				loadProgress(),
+				loadLastConfig(),
+			]);
+
 			if (savedGame && !savedGame.isComplete) {
 				setActiveGame(savedGame);
 			}
-			const savedProgress = await loadProgress();
 			setProgress(savedProgress);
 
 			if (typeof window !== 'undefined') {
@@ -53,6 +57,16 @@ function LobbyContent(): JSX.Element {
 					setSelectedDifficulty(diff);
 					return;
 				}
+			}
+
+			if (lastConfig?.difficulty && (DIFFICULTY_LEVELS as readonly string[]).includes(lastConfig.difficulty)) {
+				setSelectedDifficulty(lastConfig.difficulty);
+				return;
+			}
+
+			if (savedGame && !savedGame.isComplete && savedGame.difficulty) {
+				setSelectedDifficulty(savedGame.difficulty);
+				return;
 			}
 
 			let latestTime = 0;
@@ -67,13 +81,6 @@ function LobbyContent(): JSX.Element {
 				}
 			}
 
-			if (savedGame && !savedGame.isComplete && savedGame.difficulty) {
-				if (!latestTime || (savedGame.lastPlayed && savedGame.lastPlayed >= latestTime)) {
-					setSelectedDifficulty(savedGame.difficulty);
-					return;
-				}
-			}
-
 			if (latestDiff) {
 				setSelectedDifficulty(latestDiff);
 			}
@@ -83,6 +90,7 @@ function LobbyContent(): JSX.Element {
 
 	const handleSelectDifficulty = (diff: DifficultyLevel) => {
 		setSelectedDifficulty(diff);
+		void saveLastConfig({ difficulty: diff });
 		if (typeof window !== 'undefined') {
 			const url = new URL(window.location.href);
 			url.searchParams.set('difficulty', diff);
@@ -144,6 +152,9 @@ function LobbyContent(): JSX.Element {
 						key="quick-play"
 						as="a"
 						href={`/tents/${language}/game?difficulty=${selectedDifficulty}&random=true&new=true`}
+						onClick={() => {
+							void saveLastConfig({ difficulty: selectedDifficulty });
+						}}
 						title={t('levels.quickPlay')}
 						subtitle={t('levels.quickPlayDesc')}
 						icon={<Icon emoji="🎲" size="md" />}
@@ -158,6 +169,9 @@ function LobbyContent(): JSX.Element {
 								key={puzzle.id}
 								as="a"
 								href={`/tents/${language}/game?difficulty=${selectedDifficulty}&puzzle=${puzzle.id}&new=true`}
+								onClick={() => {
+									void saveLastConfig({ difficulty: selectedDifficulty });
+								}}
 								title={t('levels.puzzleNum', { number: String(index + 1) })}
 								dimensions={t('levels.gridSize', { size: String(puzzle.size) })}
 								subtitle={

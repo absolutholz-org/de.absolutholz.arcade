@@ -1,5 +1,11 @@
-import { createGameStorage } from '@arcade/lib-storage';
-import { DEFAULT_SETTINGS, type GameSnapshot, type ProgressMap, type TentsSettings } from './types.ts';
+import { createGameStorage, getLastGameConfig, saveLastGameConfig } from '@arcade/lib-storage';
+import {
+	DEFAULT_SETTINGS,
+	type DifficultyLevel,
+	type GameSnapshot,
+	type ProgressMap,
+	type TentsSettings,
+} from './types.ts';
 
 const storage = createGameStorage('tents');
 
@@ -78,6 +84,22 @@ export async function loadSettings(): Promise<TentsSettings> {
 export async function saveSettings(settings: TentsSettings): Promise<void> {
 	try {
 		await storage.set(SETTINGS_KEY, settings);
+	} catch {
+		// Ignore storage errors
+	}
+}
+
+export async function loadLastConfig(): Promise<{ difficulty: DifficultyLevel } | null> {
+	try {
+		return await getLastGameConfig<{ difficulty: DifficultyLevel }>('tents', storage);
+	} catch {
+		return null;
+	}
+}
+
+export async function saveLastConfig(config: { difficulty: DifficultyLevel }): Promise<void> {
+	try {
+		await saveLastGameConfig('tents', config, storage);
 	} catch {
 		// Ignore storage errors
 	}

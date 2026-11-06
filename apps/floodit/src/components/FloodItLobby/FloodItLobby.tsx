@@ -5,8 +5,8 @@ import { GameSelectionCard } from '@arcade/lib-ui/components/GameSelectionCard';
 import { GameLandingTemplate } from '@arcade/lib-ui/layouts/GameLandingTemplate';
 import { styled } from '@linaria/react';
 import { type JSX, useEffect, useState } from 'react';
-import { loadActiveGame, loadProgress } from '../../engine/storage.ts';
-import type { Difficulty, GameSnapshot } from '../../engine/types.ts';
+import { loadActiveGame, loadLastConfig, loadProgress, saveLastConfig } from '../../engine/storage.ts';
+import { DIFFICULTY_CONFIGS, type Difficulty, type GameSnapshot } from '../../engine/types.ts';
 
 const DIFFICULTIES: readonly Difficulty[] = ['beginner', 'easy', 'medium', 'hard'];
 
@@ -45,7 +45,11 @@ function LobbyContent(): JSX.Element {
 
 	useEffect(() => {
 		async function init() {
-			const [savedGame, savedProgress] = await Promise.all([loadActiveGame(), loadProgress()]);
+			const [savedGame, savedProgress, lastConfig] = await Promise.all([
+				loadActiveGame(),
+				loadProgress(),
+				loadLastConfig(),
+			]);
 
 			if (savedGame) {
 				setActiveGame(savedGame);
@@ -113,6 +117,13 @@ function LobbyContent(): JSX.Element {
 								key={diff}
 								as="a"
 								href={`/floodit/${language}/game?difficulty=${diff}&new=true`}
+								onClick={() => {
+									void saveLastConfig({
+										difficulty: diff,
+										size: DIFFICULTY_CONFIGS[diff].size,
+										colorCount: DIFFICULTY_CONFIGS[diff].colorCount,
+									});
+								}}
 								title={t(`difficulty.${diff}` as 'difficulty.easy')}
 								dimensions={getDifficultyDescription(diff)}
 								subtitle={solvedCount > 0 ? `${t('lobby.completed')}: ${solvedCount}` : undefined}

@@ -1,4 +1,4 @@
-import { createGameStorage, recordGameStats } from '@arcade/lib-storage';
+import { createGameStorage, getLastGameConfig, recordGameStats, saveLastGameConfig } from '@arcade/lib-storage';
 import { DEFAULT_FLOODIT_SETTINGS, type FloodItSettings } from '../config/settings.ts';
 import type { Difficulty, GameSnapshot } from './types.ts';
 
@@ -147,6 +147,28 @@ export async function loadSettings(): Promise<FloodItSettings> {
 export async function saveSettings(settings: FloodItSettings): Promise<void> {
 	try {
 		await storage.set(SETTINGS_KEY, settings);
+	} catch {
+		// Ignore storage errors
+	}
+}
+
+export interface FloodItGameConfig {
+	readonly difficulty: Difficulty;
+	readonly size: number;
+	readonly colorCount: number;
+}
+
+export async function loadLastConfig(): Promise<FloodItGameConfig | null> {
+	try {
+		return await getLastGameConfig<FloodItGameConfig>('floodit', storage);
+	} catch {
+		return null;
+	}
+}
+
+export async function saveLastConfig(config: FloodItGameConfig): Promise<void> {
+	try {
+		await saveLastGameConfig('floodit', config, storage);
 	} catch {
 		// Ignore storage errors
 	}

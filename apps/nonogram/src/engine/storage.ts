@@ -1,4 +1,4 @@
-import { createGameStorage } from '@arcade/lib-storage';
+import { createGameStorage, getLastGameConfig, saveLastGameConfig } from '@arcade/lib-storage';
 import {
 	DEFAULT_NONOGRAM_SETTINGS,
 	type DifficultyId,
@@ -107,7 +107,7 @@ export async function loadLastConfig(): Promise<{
 	puzzleId: string;
 } | null> {
 	try {
-		return await storage.get<{ difficulty: DifficultyId; puzzleId: string }>('lastConfig');
+		return await getLastGameConfig<{ difficulty: DifficultyId; puzzleId: string }>('nonogram', storage);
 	} catch {
 		return null;
 	}
@@ -118,7 +118,7 @@ export async function saveLastConfig(config: {
 	puzzleId: string;
 }): Promise<void> {
 	try {
-		await storage.set('lastConfig', config);
+		await saveLastGameConfig('nonogram', config, storage);
 	} catch {
 		// Ignore storage write errors
 	}

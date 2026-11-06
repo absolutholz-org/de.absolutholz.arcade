@@ -43,13 +43,29 @@ function LobbyContent(): JSX.Element {
 
 			setSolvedRecords(solved);
 
+			let activeGameDiff: DifficultyId | null = null;
 			if (game && game.status === 'playing') {
 				setActiveGame(game);
 				const puz = getPuzzleById(game.puzzleId);
-				if (puz) setActiveGamePuzzle(puz);
+				if (puz) {
+					setActiveGamePuzzle(puz);
+					activeGameDiff = puz.difficulty;
+				}
 			}
 
-			if (lastConfig) {
+			let hasUrlDiff = false;
+			if (typeof window !== 'undefined') {
+				const params = new URLSearchParams(window.location.search);
+				const queryDiff = params.get('difficulty') as DifficultyId | null;
+				if (queryDiff && DIFFICULTIES.includes(queryDiff)) {
+					setSelectedDifficulty(queryDiff);
+					hasUrlDiff = true;
+				}
+			}
+
+			if (!hasUrlDiff && activeGameDiff && DIFFICULTIES.includes(activeGameDiff)) {
+				setSelectedDifficulty(activeGameDiff);
+			} else if (!hasUrlDiff && lastConfig?.difficulty && DIFFICULTIES.includes(lastConfig.difficulty)) {
 				setSelectedDifficulty(lastConfig.difficulty);
 			}
 		}

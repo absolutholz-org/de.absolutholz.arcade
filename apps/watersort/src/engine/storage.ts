@@ -1,4 +1,4 @@
-import { createGameStorage } from '@arcade/lib-storage';
+import { createGameStorage, getLastGameConfig, saveLastGameConfig } from '@arcade/lib-storage';
 import type { DifficultyLevel, GameSnapshot, ProgressMap } from './types.ts';
 
 const storage = createGameStorage('watersort');
@@ -74,6 +74,22 @@ export async function saveActiveGame(snapshot: GameSnapshot): Promise<void> {
 export async function clearActiveGame(): Promise<void> {
 	try {
 		await storage.remove(ACTIVE_GAME_KEY);
+	} catch {
+		// Ignore storage errors
+	}
+}
+
+export async function loadLastConfig(): Promise<{ difficulty: DifficultyLevel } | null> {
+	try {
+		return await getLastGameConfig<{ difficulty: DifficultyLevel }>('watersort', storage);
+	} catch {
+		return null;
+	}
+}
+
+export async function saveLastConfig(config: { difficulty: DifficultyLevel }): Promise<void> {
+	try {
+		await saveLastGameConfig('watersort', config, storage);
 	} catch {
 		// Ignore storage errors
 	}
