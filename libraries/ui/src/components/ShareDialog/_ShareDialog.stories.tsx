@@ -72,9 +72,9 @@ export const GameShare: Story = {
 		id: 'share-game-dialog',
 		isOpen: true,
 		onClose: () => {},
-		title: 'Share Flood-It',
-		shareUrl: 'https://arcade.absolutholz.de/en/games/floodit',
-		shareText: 'Play Flood-It puzzle game on Arcade!',
+		title: 'Share Color Flood',
+		shareUrl: 'https://arcade.absolutholz.de/en/games/color-flood',
+		shareText: 'Play Color Flood puzzle game on Arcade!',
 		copySuccessMessage: 'Game link copied to clipboard!',
 	},
 	parameters: {

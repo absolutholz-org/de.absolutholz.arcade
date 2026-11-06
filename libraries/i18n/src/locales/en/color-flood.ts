@@ -1,0 +1,68 @@
+import type { ColorFloodTranslationContract } from '../../schemas/color-flood.schema.js';
+
+export const enColorFlood: ColorFloodTranslationContract = {
+	title: 'Color Flood',
+	subtitle: 'Flood the entire board with a single color within the move limit.',
+	description:
+		'A casual color-sorting puzzle game where you expand your cluster from the top-left cell until the entire board matches.',
+	difficulty: {
+		label: 'Difficulty',
+		beginner: 'Beginner (8×8)',
+		beginnerDesc: 'Compact 8×8 grid with 4 colors, perfect for casual players',
+		easy: 'Easy (10×10)',
+		easyDesc: 'Relaxed 10×10 grid with 5 colors and 22 moves',
+		medium: 'Medium (14×14)',
+		mediumDesc: 'Standard 14×14 grid with 6 colors and 26 moves',
+		hard: 'Hard (18×18)',
+		hardDesc: 'Expansive 18×18 grid with 6 colors and 32 moves',
+	},
+	lobby: {
+		title: 'Color Flood',
+		subtitle: 'Flood the entire board with a single color within the move limit.',
+		selectDifficulty: 'Select Difficulty',
+		beginner: 'Beginner (8×8)',
+		beginnerDesc: 'Compact 8×8 grid with 4 colors, perfect for casual players',
+		easy: 'Easy (10×10)',
+		easyDesc: 'Relaxed 10×10 grid with 5 colors and 22 moves',
+		medium: 'Medium (14×14)',
+		mediumDesc: 'Standard 14×14 grid with 6 colors and 26 moves',
+		hard: 'Hard (18×18)',
+		hardDesc: 'Expansive 18×18 grid with 6 colors and 32 moves',
+		completed: 'Completed',
+		play: 'Play',
+		quickPlay: 'Quick Play',
+		quickPlayDesc: 'Start a random Color Flood game',
+	},
+	game: {
+		moves: 'Moves',
+		movesRemaining: 'Moves Remaining',
+		percentageFlooded: 'Flooded',
+		colorCount: 'Colors',
+		chooseColor: 'Select Color',
+		winTitle: 'Board Flooded!',
+		winDescription: 'You conquered the board in {{moves}} moves!',
+		lossTitle: 'Out of Moves',
+		lossDescription: 'You reached the move limit without flooding the entire board.',
+		boardLabel: 'Color Flood grid board',
+		colorOption: 'Color {{number}}: {{name}}',
+	},
+	controls: {
+		undo: 'Undo',
+		redo: 'Redo',
+		restart: 'Restart',
+		newGame: 'New Game',
+		backToLobby: 'Back to Lobby',
+		keyboardHint: 'Press numbers 1-6 or use Arrow keys to choose a flood color.',
+	},
+	settings: {
+		title: 'Color Flood Settings',
+		showColorblindShapes: {
+			label: 'Colorblind Assist Shapes',
+			description: 'Display distinct geometric symbols over colors for accessible distinction.',
+		},
+		confirmRestart: {
+			label: 'Confirm Restart',
+			description: 'Show a confirmation dialog before resetting the active board.',
+		},
+	},
+};

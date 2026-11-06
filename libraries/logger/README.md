@@ -14,7 +14,7 @@ Local-only diagnostic logging for the Arcade monorepo. Entries are stored in the
 ```ts
 import { createLogger, initGlobalErrorHandlers } from '@arcade/lib-logger';
 
-const log = createLogger('flood-it');
+const log = createLogger('color-flood');
 log.info('Game started', { size: 14 });
 log.error('Failed to load puzzle', new Error('boom'), { seed: 42 });
 

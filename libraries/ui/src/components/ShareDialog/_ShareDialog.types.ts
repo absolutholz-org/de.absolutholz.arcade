@@ -15,7 +15,7 @@ export interface IShareDialog {
 	 */
 	onClose: () => void;
 	/**
-	 * Dialog header title (e.g. "Share Arcade" or "Share Flood-It").
+	 * Dialog header title (e.g. "Share Arcade" or "Share Color Flood").
 	 */
 	title: string;
 	/**

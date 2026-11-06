@@ -16,7 +16,7 @@ export interface MedalsSchema {
 			readonly tents: string;
 			readonly untangle: string;
 			readonly net: string;
-			readonly floodit: string;
+			readonly 'color-flood': string;
 		};
 		readonly status: {
 			readonly unlocked: string;
@@ -224,7 +224,7 @@ export interface MedalsSchema {
 		readonly total_blackout: { readonly title: string; readonly desc: string };
 		readonly sudden_surge: { readonly title: string; readonly desc: string };
 	};
-	readonly floodit: {
+	readonly 'color-flood': {
 		readonly first_win: { readonly title: string; readonly desc: string };
 		readonly veteran: { readonly title: string; readonly desc: string };
 		readonly wire_to_wire: { readonly title: string; readonly desc: string };

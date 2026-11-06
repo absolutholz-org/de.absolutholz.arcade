@@ -18,7 +18,7 @@ export const enMedals = {
 			tents: 'Tents',
 			untangle: 'Untangle',
 			net: 'Net',
-			floodit: 'Flood-It',
+			'color-flood': 'Color Flood',
 		},
 		status: {
 			unlocked: 'Unlocked',
@@ -705,14 +705,14 @@ export const enMedals = {
 			desc: 'Win with a final rotation that connects at least 35% of the grid at once.',
 		},
 	},
-	floodit: {
+	'color-flood': {
 		first_win: {
 			title: 'First Flood',
 			desc: 'Flood your first board with a single color.',
 		},
 		veteran: {
 			title: 'Flood Veteran',
-			desc: 'Win multiple Flood-It games: Bronze at 5, Silver at 25, and Gold at 50 games.',
+			desc: 'Win multiple Color Flood games: Bronze at 5, Silver at 25, and Gold at 50 games.',
 		},
 		wire_to_wire: {
 			title: 'Wire to Wire',

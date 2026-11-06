@@ -16,7 +16,7 @@ export const DEFAULT_REGISTERED_GAMES: readonly string[] = [
 	'watersort',
 	'untangle',
 	'net',
-	'floodit',
+	'color-flood',
 ];
 
 /**

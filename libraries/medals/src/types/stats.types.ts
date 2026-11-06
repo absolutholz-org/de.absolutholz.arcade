@@ -135,10 +135,10 @@ export interface GameCustomStatsMap {
 	watersort: WaterSortCustomStats;
 	untangle: UntangleCustomStats;
 	net: NetCustomStats;
-	floodit: FloodItCustomStats;
+	'color-flood': ColorFloodCustomStats;
 }
 
-export interface FloodItCustomStats {
+export interface ColorFloodCustomStats {
 	readonly tierWins?: Record<string, boolean>;
 	readonly lifetimeCellsFlooded?: number;
 	readonly maxSingleMoveDelta?: number;

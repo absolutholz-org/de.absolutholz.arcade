@@ -1,0 +1,68 @@
+import type { ColorFloodTranslationContract } from '../../schemas/color-flood.schema.js';
+
+export const frColorFlood: ColorFloodTranslationContract = {
+	title: 'Color Flood',
+	subtitle: 'Inondez tout le plateau d’une seule couleur dans la limite des coups.',
+	description:
+		'Un jeu de puzzle décontracté de tri des couleurs où vous agrandissez votre groupe depuis le coin supérieur gauche.',
+	difficulty: {
+		label: 'Difficulté',
+		beginner: 'Débutant (8×8)',
+		beginnerDesc: 'Grille 8×8 compacte avec 4 couleurs, idéale pour débuter',
+		easy: 'Facile (10×10)',
+		easyDesc: 'Grille 10×10 relaxante avec 5 couleurs et 22 coups',
+		medium: 'Moyen (14×14)',
+		mediumDesc: 'Grille standard 14×14 avec 6 couleurs et 26 coups',
+		hard: 'Difficile (18×18)',
+		hardDesc: 'Grande grille 18×18 avec 6 couleurs et 32 coups',
+	},
+	lobby: {
+		title: 'Color Flood',
+		subtitle: 'Inondez tout le plateau d’une seule couleur dans la limite des coups.',
+		selectDifficulty: 'Choisir la difficulté',
+		beginner: 'Débutant (8×8)',
+		beginnerDesc: 'Grille 8×8 compacte avec 4 couleurs, idéale pour débuter',
+		easy: 'Facile (10×10)',
+		easyDesc: 'Grille 10×10 relaxante avec 5 couleurs et 22 coups',
+		medium: 'Moyen (14×14)',
+		mediumDesc: 'Grille standard 14×14 avec 6 couleurs et 26 coups',
+		hard: 'Difficile (18×18)',
+		hardDesc: 'Grande grille 18×18 avec 6 couleurs et 32 coups',
+		completed: 'Terminé',
+		play: 'Jouer',
+		quickPlay: 'Partie rapide',
+		quickPlayDesc: 'Démarrer une partie aléatoire de Color Flood',
+	},
+	game: {
+		moves: 'Coups',
+		movesRemaining: 'Coups restants',
+		percentageFlooded: 'Inondé',
+		colorCount: 'Couleurs',
+		chooseColor: 'Choisir la couleur',
+		winTitle: 'Plateau inondé !',
+		winDescription: 'Vous avez conquis le plateau en {{moves}} coups !',
+		lossTitle: 'Plus de coups',
+		lossDescription: 'Limite de coups atteinte avant d’inonder le plateau.',
+		boardLabel: 'Plateau Color Flood',
+		colorOption: 'Couleur {{number}} : {{name}}',
+	},
+	controls: {
+		undo: 'Annuler',
+		redo: 'Rétablir',
+		restart: 'Recommencer',
+		newGame: 'Nouvelle partie',
+		backToLobby: 'Retour au menu',
+		keyboardHint: 'Appuyez sur 1 à 6 ou utilisez les flèches pour choisir une couleur.',
+	},
+	settings: {
+		title: 'Paramètres Color Flood',
+		showColorblindShapes: {
+			label: 'Formes d’accessibilité',
+			description: 'Affiche des symboles géométriques pour distinguer les couleurs.',
+		},
+		confirmRestart: {
+			label: 'Confirmer le redémarrage',
+			description: 'Demander confirmation avant de réinitialiser la partie.',
+		},
+	},
+};

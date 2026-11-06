@@ -209,13 +209,13 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 			sessionLength: ['snack-under-3m', 'standard-5-10m', 'deep-15m-plus'],
 		},
 	},
-	floodit: {
-		id: 'floodit',
-		route: '/floodit',
+	'color-flood': {
+		id: 'color-flood',
+		route: '/color-flood',
 		assets: {
 			icon: '🌊',
 		},
-		i18nNamespace: 'floodit',
+		i18nNamespace: 'color-flood',
 		category: {
 			primary: 'casual-sorting',
 			secondary: 'spatial-puzzle',

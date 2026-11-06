@@ -503,24 +503,24 @@ describe('@arcade/lib-medals Foundation', () => {
 		expect(finalQueue).toBeNull();
 	});
 
-	it('initializes and records Flood-It game results and evaluates medals correctly', async () => {
-		const storage = new MockMemoryStorage('floodit');
+	it('initializes and records Color Flood game results and evaluates medals correctly', async () => {
+		const storage = new MockMemoryStorage('color-flood');
 
-		// 1. Initial medal state should not throw and should contain empty floodit custom stats
-		const initialState = await getGameMedalState('floodit', storage);
-		expect(initialState.gameId).toBe('floodit');
+		// 1. Initial medal state should not throw and should contain empty color-flood custom stats
+		const initialState = await getGameMedalState('color-flood', storage);
+		expect(initialState.gameId).toBe('color-flood');
 		expect(initialState.baseStats.gamesWon).toBe(0);
 		expect(initialState.customStats.winningColors).toEqual([]);
 		expect(initialState.customStats.lifetimeCellsFlooded).toBe(0);
 
-		const MOCK_FLOODIT_DEFINITIONS: readonly AchievementDefinition<'floodit'>[] = [
+		const MOCK_COLOR_FLOOD_DEFINITIONS: readonly AchievementDefinition<'color-flood'>[] = [
 			{
-				id: 'floodit_first_win',
+				id: 'color_flood_first_win',
 				type: 'standalone',
 				tier: 'bronze',
 				target: 1,
-				titleKey: 'medals.floodit.first_win.title',
-				descriptionKey: 'medals.floodit.first_win.desc',
+				titleKey: 'medals.color-flood.first_win.title',
+				descriptionKey: 'medals.color-flood.first_win.desc',
 				icon: 'trophy-bronze',
 				evaluate: ({ updatedBaseStats }) => ({
 					unlocked: updatedBaseStats.gamesWon >= 1,
@@ -529,12 +529,12 @@ describe('@arcade/lib-medals Foundation', () => {
 				}),
 			},
 			{
-				id: 'floodit_grand_tour',
+				id: 'color_flood_grand_tour',
 				type: 'standalone',
 				tier: 'gold',
 				target: 4,
-				titleKey: 'medals.floodit.grand_tour.title',
-				descriptionKey: 'medals.floodit.grand_tour.desc',
+				titleKey: 'medals.color-flood.grand_tour.title',
+				descriptionKey: 'medals.color-flood.grand_tour.desc',
 				icon: 'trophy-gold',
 				evaluate: ({ result, updatedCustomStats }) => {
 					const roundContext = result?.roundContext as
@@ -561,7 +561,7 @@ describe('@arcade/lib-medals Foundation', () => {
 		// Game 1: Beginner win -> unlocks first_win
 		const res1 = await recordGameResult(
 			{
-				gameId: 'floodit',
+				gameId: 'color-flood',
 				won: true,
 				playTimeSeconds: 15,
 				levelKey: 'beginner',
@@ -575,10 +575,10 @@ describe('@arcade/lib-medals Foundation', () => {
 					},
 				},
 			},
-			{ storage, definitions: MOCK_FLOODIT_DEFINITIONS },
+			{ storage, definitions: MOCK_COLOR_FLOOD_DEFINITIONS },
 		);
 
-		expect(res1.newlyUnlockedMedals.some((m) => m.id === 'floodit_first_win')).toBe(true);
+		expect(res1.newlyUnlockedMedals.some((m) => m.id === 'color_flood_first_win')).toBe(true);
 		expect(res1.updatedState.customStats.tierWins?.beginner).toBe(true);
 		expect(res1.updatedState.customStats.winningColors).toContain(2);
 		expect(res1.updatedState.customStats.lifetimeCellsFlooded).toBe(64);
@@ -586,7 +586,7 @@ describe('@arcade/lib-medals Foundation', () => {
 		// Game 2: Easy win
 		const res2 = await recordGameResult(
 			{
-				gameId: 'floodit',
+				gameId: 'color-flood',
 				won: true,
 				playTimeSeconds: 20,
 				levelKey: 'easy',
@@ -600,7 +600,7 @@ describe('@arcade/lib-medals Foundation', () => {
 					},
 				},
 			},
-			{ storage, definitions: MOCK_FLOODIT_DEFINITIONS },
+			{ storage, definitions: MOCK_COLOR_FLOOD_DEFINITIONS },
 		);
 
 		expect(res2.updatedState.baseStats.gamesWon).toBe(2);
@@ -610,7 +610,7 @@ describe('@arcade/lib-medals Foundation', () => {
 		// Game 3: Medium win
 		const res3 = await recordGameResult(
 			{
-				gameId: 'floodit',
+				gameId: 'color-flood',
 				won: true,
 				playTimeSeconds: 30,
 				levelKey: 'medium',
@@ -624,14 +624,14 @@ describe('@arcade/lib-medals Foundation', () => {
 					},
 				},
 			},
-			{ storage, definitions: MOCK_FLOODIT_DEFINITIONS },
+			{ storage, definitions: MOCK_COLOR_FLOOD_DEFINITIONS },
 		);
 
 		expect(res3.updatedState.baseStats.gamesWon).toBe(3);
 		expect(res3.updatedState.customStats.tierWins?.beginner).toBe(true);
 		expect(res3.updatedState.customStats.tierWins?.easy).toBe(true);
 		expect(res3.updatedState.customStats.tierWins?.medium).toBe(true);
-		expect(res3.updatedState.medalProgress.floodit_grand_tour.current).toBe(3);
-		expect(res3.updatedState.medalProgress.floodit_grand_tour.target).toBe(4);
+		expect(res3.updatedState.medalProgress.color_flood_grand_tour.current).toBe(3);
+		expect(res3.updatedState.medalProgress.color_flood_grand_tour.target).toBe(4);
 	});
 });

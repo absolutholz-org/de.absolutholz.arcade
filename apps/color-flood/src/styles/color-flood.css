@@ -1,0 +1,19 @@
+:root {
+	--color-flood-color-0: oklch(0.65 0.22 25);
+	--color-flood-color-1: oklch(0.8 0.18 85);
+	--color-flood-color-2: oklch(0.7 0.17 145);
+	--color-flood-color-3: oklch(0.72 0.15 200);
+	--color-flood-color-4: oklch(0.6 0.2 265);
+	--color-flood-color-5: oklch(0.65 0.22 325);
+
+	--color-flood-color-0-fg: oklch(0.15 0.05 25);
+	--color-flood-color-1-fg: oklch(0.15 0.05 85);
+	--color-flood-color-2-fg: oklch(0.15 0.05 145);
+	--color-flood-color-3-fg: oklch(0.15 0.05 200);
+	--color-flood-color-4-fg: oklch(0.98 0.02 265);
+	--color-flood-color-5-fg: oklch(0.98 0.02 325);
+
+	--color-flood-board-bg: light-dark(oklch(0.96 0.01 260), oklch(0.2 0.02 260));
+	--color-flood-board-border: light-dark(oklch(0.84 0.02 260), oklch(0.35 0.03 260));
+	--color-flood-cell-border: light-dark(oklch(0.88 0.01 260), oklch(0.25 0.02 260));
+}

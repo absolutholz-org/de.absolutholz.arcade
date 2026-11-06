@@ -6,7 +6,7 @@ export interface LogEntry {
 	id?: number;
 	timestamp: number; // Epoch ms
 	level: LogLevel;
-	source: string; // e.g. 'flood-it', 'minesweeper', 'shell', 'i18n'
+	source: string; // e.g. 'color-flood', 'minesweeper', 'shell', 'i18n'
 	message: string;
 	context?: Record<string, unknown>;
 	error?: {

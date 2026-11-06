@@ -13,7 +13,7 @@ export type GameId =
 	| 'watersort'
 	| 'untangle'
 	| 'net'
-	| 'floodit'
+	| 'color-flood'
 	| (string & {});
 
 /**

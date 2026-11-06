@@ -1,0 +1,68 @@
+import type { ColorFloodTranslationContract } from '../../schemas/color-flood.schema.js';
+
+export const ptColorFlood: ColorFloodTranslationContract = {
+	title: 'Color Flood',
+	subtitle: 'Inunde todo o tabuleiro com uma única cor dentro do limite de movimentos.',
+	description:
+		'Um jogo casual de ordenação de cores no qual você expande seu grupo do canto superior esquerdo até preencher o tabuleiro.',
+	difficulty: {
+		label: 'Dificuldade',
+		beginner: 'Iniciante (8×8)',
+		beginnerDesc: 'Grade 8×8 compacta com 4 cores, perfeita para iniciantes',
+		easy: 'Fácil (10×10)',
+		easyDesc: 'Grade 10×10 relaxante com 5 cores e 22 movimentos',
+		medium: 'Médio (14×14)',
+		mediumDesc: 'Grade 14×14 padrão com 6 cores e 26 movimentos',
+		hard: 'Difícil (18×18)',
+		hardDesc: 'Grande grade 18×18 com 6 cores e 32 movimentos',
+	},
+	lobby: {
+		title: 'Color Flood',
+		subtitle: 'Inunde todo o tabuleiro com uma única cor dentro do limite de movimentos.',
+		selectDifficulty: 'Selecionar dificuldade',
+		beginner: 'Iniciante (8×8)',
+		beginnerDesc: 'Grade 8×8 compacta com 4 cores, perfeita para iniciantes',
+		easy: 'Fácil (10×10)',
+		easyDesc: 'Grade 10×10 relaxante com 5 cores e 22 movimentos',
+		medium: 'Médio (14×14)',
+		mediumDesc: 'Grade 14×14 padrão com 6 cores e 26 movimentos',
+		hard: 'Difícil (18×18)',
+		hardDesc: 'Grande grade 18×18 com 6 cores e 32 movimentos',
+		completed: 'Concluído',
+		play: 'Jogar',
+		quickPlay: 'Partida Rápida',
+		quickPlayDesc: 'Iniciar um jogo aleatório de Color Flood',
+	},
+	game: {
+		moves: 'Movimentos',
+		movesRemaining: 'Movimentos restantes',
+		percentageFlooded: 'Inundado',
+		colorCount: 'Cores',
+		chooseColor: 'Escolher cor',
+		winTitle: 'Tabuleiro inundado!',
+		winDescription: 'Você conquistou o tabuleiro em {{moves}} movimentos!',
+		lossTitle: 'Sem movimentos',
+		lossDescription: 'Limite de movimentos atingido antes de inundar todo o tabuleiro.',
+		boardLabel: 'Tabuleiro Color Flood',
+		colorOption: 'Cor {{number}}: {{name}}',
+	},
+	controls: {
+		undo: 'Desfazer',
+		redo: 'Refazer',
+		restart: 'Reiniciar',
+		newGame: 'Novo Jogo',
+		backToLobby: 'Voltar ao lobby',
+		keyboardHint: 'Pressione 1 a 6 ou use as setas para escolher uma cor.',
+	},
+	settings: {
+		title: 'Configurações do Color Flood',
+		showColorblindShapes: {
+			label: 'Símbolos de acessibilidade',
+			description: 'Exibe formas geométricas nas cores para melhor distinção.',
+		},
+		confirmRestart: {
+			label: 'Confirmar reinício',
+			description: 'Perguntar antes de reiniciar a partida ativa.',
+		},
+	},
+};

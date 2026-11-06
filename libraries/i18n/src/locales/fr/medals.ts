@@ -18,7 +18,7 @@ export const frMedals = {
 			tents: 'Tentes',
 			untangle: 'Démêler',
 			net: 'Net',
-			floodit: 'Flood-It',
+			'color-flood': 'Color Flood',
 		},
 		status: {
 			unlocked: 'Débloqué',
@@ -706,14 +706,14 @@ export const frMedals = {
 			desc: 'Gagnez grâce à une rotation finale connectant au moins 35 % de la grille d’un coup.',
 		},
 	},
-	floodit: {
+	'color-flood': {
 		first_win: {
 			title: 'Première inondation',
 			desc: 'Inondez votre premier plateau d’une seule couleur.',
 		},
 		veteran: {
 			title: 'Vétéran de l’inondation',
-			desc: 'Remportez plusieurs parties de Flood-It : Bronze à 5, Argent à 25 et Or à 50 victoires.',
+			desc: 'Remportez plusieurs parties de Color Flood : Bronze à 5, Argent à 25 et Or à 50 victoires.',
 		},
 		wire_to_wire: {
 			title: 'Sur le fil',

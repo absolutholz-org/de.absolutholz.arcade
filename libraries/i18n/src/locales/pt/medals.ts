@@ -18,7 +18,7 @@ export const ptMedals = {
 			tents: 'Tendas',
 			untangle: 'Desembaraçar',
 			net: 'Net',
-			floodit: 'Flood-It',
+			'color-flood': 'Color Flood',
 		},
 		status: {
 			unlocked: 'Desbloqueado',
@@ -706,14 +706,14 @@ export const ptMedals = {
 			desc: 'Vença com uma rotação final que conecte pelo menos 35% da grade de uma vez.',
 		},
 	},
-	floodit: {
+	'color-flood': {
 		first_win: {
 			title: 'Primeira Inundação',
 			desc: 'Inunde seu primeiro tabuleiro com uma única cor.',
 		},
 		veteran: {
 			title: 'Veterano de Inundação',
-			desc: 'Vença vários jogos de Flood-It: Bronze aos 5, Prata aos 25 e Ouro aos 50 jogos.',
+			desc: 'Vença vários jogos de Color Flood: Bronze aos 5, Prata aos 25 e Ouro aos 50 jogos.',
 		},
 		wire_to_wire: {
 			title: 'No Limite',

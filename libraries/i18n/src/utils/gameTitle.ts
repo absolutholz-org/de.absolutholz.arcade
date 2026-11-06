@@ -19,6 +19,7 @@ export const DEFAULT_GAME_TITLES: Readonly<Record<string, string>> = Object.free
 	watersort: 'Water Sort',
 	untangle: 'Untangle',
 	net: 'Net',
+	'color-flood': 'Color Flood',
 });
 
 /**

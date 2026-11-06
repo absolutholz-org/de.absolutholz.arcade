@@ -18,7 +18,7 @@ export const deMedals = {
 			tents: 'Zelte',
 			untangle: 'Entwirren',
 			net: 'Net',
-			floodit: 'Flood-It',
+			'color-flood': 'Color Flood',
 		},
 		status: {
 			unlocked: 'Freigeschaltet',
@@ -706,14 +706,14 @@ export const deMedals = {
 			desc: 'Gewinne mit einer letzten Drehung, die mindestens 35 % des Gitters auf einmal verbindet.',
 		},
 	},
-	floodit: {
+	'color-flood': {
 		first_win: {
 			title: 'Erste Flut',
 			desc: 'Flute dein erstes Spielfeld mit einer einzigen Farbe.',
 		},
 		veteran: {
 			title: 'Flut-Veteran',
-			desc: 'Gewinne mehrere Flood-It-Spiele: Bronze bei 5, Silber bei 25 und Gold bei 50 Spielen.',
+			desc: 'Gewinne mehrere Color Flood-Spiele: Bronze bei 5, Silber bei 25 und Gold bei 50 Spielen.',
 		},
 		wire_to_wire: {
 			title: 'Punktlandung',

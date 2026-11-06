@@ -3,7 +3,7 @@ import type {
 	BaseGameStats,
 	BridgesCustomStats,
 	BridgesDifficulty,
-	FloodItCustomStats,
+	ColorFloodCustomStats,
 	GameCustomStatsMap,
 	GameId,
 	GameMedalState,
@@ -571,8 +571,8 @@ export function updateCustomStats<G extends GameId>(
 			};
 		}
 
-		case 'floodit': {
-			const stats = current as GameCustomStatsMap['floodit'];
+		case 'color-flood': {
+			const stats = current as GameCustomStatsMap['color-flood'];
 			const metadata = result.roundContext?.roundMetadata as
 				| {
 						readonly tierWins?: Record<string, boolean>;
@@ -1020,9 +1020,9 @@ export function mergeGameMedalState<G extends GameId>(
 			totalBlackoutCount: Math.max(localCustom.totalBlackoutCount ?? 0, remoteCustom.totalBlackoutCount ?? 0),
 			suddenSurgeWins: Math.max(localCustom.suddenSurgeWins ?? 0, remoteCustom.suddenSurgeWins ?? 0),
 		} as unknown as GameCustomStatsMap[G];
-	} else if (local.gameId === 'floodit') {
-		const localCustom = local.customStats as FloodItCustomStats;
-		const remoteCustom = remote.customStats as FloodItCustomStats;
+	} else if (local.gameId === 'color-flood') {
+		const localCustom = local.customStats as ColorFloodCustomStats;
+		const remoteCustom = remote.customStats as ColorFloodCustomStats;
 		mergedCustom = {
 			...localCustom,
 			tierWins: { ...(localCustom.tierWins ?? {}), ...(remoteCustom.tierWins ?? {}) },

@@ -163,7 +163,7 @@ export function createInitialCustomStats<G extends GameId>(gameId: G): GameCusto
 				totalBlackoutCount: 0,
 				suddenSurgeWins: 0,
 			} as unknown as GameCustomStatsMap[G];
-		case 'floodit':
+		case 'color-flood':
 			return {
 				tierWins: {},
 				lifetimeCellsFlooded: 0,

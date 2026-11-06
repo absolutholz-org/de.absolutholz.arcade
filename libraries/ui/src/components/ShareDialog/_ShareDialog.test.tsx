@@ -40,7 +40,7 @@ describe('ShareDialog', () => {
 
 		const { container, unmount } = render(
 			<I18nProvider language="en">
-				<ShareContent shareUrl="https://arcade.absolutholz.de/en/games/floodit" title="Share Flood-It" />
+				<ShareContent shareUrl="https://arcade.absolutholz.de/en/games/color-flood" title="Share Color Flood" />
 			</I18nProvider>,
 		);
 
@@ -52,7 +52,7 @@ describe('ShareDialog', () => {
 			copyButton?.click();
 		});
 
-		expect(writeTextMock).toHaveBeenCalledWith('https://arcade.absolutholz.de/en/games/floodit');
+		expect(writeTextMock).toHaveBeenCalledWith('https://arcade.absolutholz.de/en/games/color-flood');
 
 		const status = container.querySelector('[role="status"]');
 		expect(status).not.toBeNull();
