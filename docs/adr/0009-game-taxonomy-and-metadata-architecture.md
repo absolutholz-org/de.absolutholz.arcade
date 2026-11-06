@@ -10,7 +10,7 @@
 
 ## Context and Problem Statement
 
-The `@arcade/monorepo` catalog has grown beyond a handful of grid puzzles into a diverse portfolio spanning number logic (`sudoku`), hazard deduction (`minesweeper`), picture logic (`nonogram`), region placement (`star-battle`), railway and island pathfinding (`tracks`, `bridges`, `net`), bipartite constraint matching (`tents`), container sorting (`watersort`), multilingual word scrambles (`anagram`), and continuous planar graph untangling (`untangle`). Furthermore, the product roadmap introduces turn-based board games, card games, pass-and-play social games, and asynchronous online multiplayer titles (such as Tic-Tac-Toe, Uno, and Memory).
+The `@arcade/monorepo` catalog has grown beyond a handful of grid puzzles into a diverse portfolio spanning number logic (`sudoku`), hazard deduction (`minesweeper`), picture logic (`nonogram`), region placement (`star-battle`), railway and island pathfinding (`tracks`, `bridges`, `net`), bipartite constraint matching (`tents`), container sorting (`liquid-sort`), multilingual word scrambles (`anagram`), and continuous planar graph untangling (`untangle`). Furthermore, the product roadmap introduces turn-based board games, card games, pass-and-play social games, and asynchronous online multiplayer titles (such as Tic-Tac-Toe, Uno, and Memory).
 
 Previously, `GameDefinition` in `@arcade/lib-games` (`libraries/games`) captured only minimal routing and icon fields (`id`, `name`, `route`, `assets`, `i18nNamespace`). Without a formal taxonomy and metadata contract:
 

@@ -12,7 +12,7 @@ export type GameId =
 	| 'tracks'
 	| 'tents'
 	| 'anagram'
-	| 'watersort'
+	| 'liquid-sort'
 	| 'untangle'
 	| 'net'
 	| 'color-flood';

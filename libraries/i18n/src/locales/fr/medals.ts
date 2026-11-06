@@ -13,7 +13,7 @@ export const frMedals = {
 			'star-battle': "Bataille d'étoiles",
 			queens: "Bataille d'étoiles",
 			tracks: 'Tracks',
-			watersort: 'Water Sort',
+			'liquid-sort': 'Tri Liquide',
 			bridges: 'Ponts',
 			anagram: 'Anagram Scramble',
 			tents: 'Tentes',
@@ -367,7 +367,7 @@ export const frMedals = {
 			desc: 'Résolvez 15 grilles de Queens.',
 		},
 	},
-	watersort: {
+	'liquid-sort': {
 		chemist_ladder: {
 			title: 'Technicien de labo',
 			desc: 'Résolvez des supports d’éprouvettes au cours de votre carrière (5 / 25 / 100).',

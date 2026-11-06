@@ -13,7 +13,7 @@ export const enMedals = {
 			'star-battle': 'Star Battle',
 			queens: 'Star Battle',
 			tracks: 'Tracks',
-			watersort: 'Water Sort',
+			'liquid-sort': 'Liquid Sort',
 			bridges: 'Bridges',
 			anagram: 'Anagram Scramble',
 			tents: 'Tents',
@@ -366,7 +366,7 @@ export const enMedals = {
 			desc: 'Solve 15 Queens boards.',
 		},
 	},
-	watersort: {
+	'liquid-sort': {
 		chemist_ladder: {
 			title: 'Lab Technician',
 			desc: 'Solve test tube racks across your career (5 / 25 / 100).',

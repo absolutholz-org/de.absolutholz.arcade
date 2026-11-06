@@ -3,8 +3,8 @@
 		"title": "Bridges",
 		"description": "Connect islands with horizontal and vertical bridges to form a single network matching every island quota."
 	},
-	"watersort": {
-		"title": "Water Sort",
+	"liquid-sort": {
+		"title": "Liquid Sort",
 		"description": "Pour and sort colored liquids into test tubes until each tube holds only one color."
 	},
 	"untangle": {

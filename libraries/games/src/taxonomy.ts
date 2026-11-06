@@ -135,7 +135,7 @@ const GAME_ID_LOOKUP = {
 	tracks: true,
 	tents: true,
 	anagram: true,
-	watersort: true,
+	'liquid-sort': true,
 	untangle: true,
 	net: true,
 	'color-flood': true,

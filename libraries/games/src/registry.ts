@@ -152,13 +152,13 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 			sessionLength: ['snack-under-3m', 'standard-5-10m'],
 		},
 	},
-	watersort: {
-		id: 'watersort',
-		route: '/watersort',
+	'liquid-sort': {
+		id: 'liquid-sort',
+		route: '/liquid-sort',
 		assets: {
 			icon: '🧪',
 		},
-		i18nNamespace: 'watersort',
+		i18nNamespace: 'liquid-sort',
 		category: {
 			primary: 'casual-sorting',
 			secondary: 'logic-deduction',

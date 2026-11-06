@@ -496,8 +496,8 @@ export function updateCustomStats<G extends GameId>(
 			};
 		}
 
-		case 'watersort': {
-			const stats = current as GameCustomStatsMap['watersort'];
+		case 'liquid-sort': {
+			const stats = current as GameCustomStatsMap['liquid-sort'];
 			const difficulty = (result.roundContext?.difficulty as string | undefined) ?? result.levelKey;
 			const undosUsed = (result.roundContext?.undosUsed as number | undefined) ?? 0;
 

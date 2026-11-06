@@ -3,6 +3,7 @@ import type { AnagramSchema, AnagramTranslationContract } from '../schemas/anagr
 import type { BridgesSchema, BridgesTranslationContract } from '../schemas/bridges.schema.js';
 import type { ColorFloodSchema, ColorFloodTranslationContract } from '../schemas/color-flood.schema.js';
 import type { CommonSchema, CommonTranslationContract } from '../schemas/common.schema.js';
+import type { LiquidSortSchema, LiquidSortTranslationContract } from '../schemas/liquid-sort.schema.js';
 import type { MedalsSchema, MedalsTranslationContract } from '../schemas/medals.schema.js';
 import type { MinesweeperSchema, MinesweeperTranslationContract } from '../schemas/minesweeper.schema.js';
 import type { NetSchema, NetTranslationContract } from '../schemas/net.schema.js';
@@ -13,7 +14,6 @@ import type { TaxonomySchema, TaxonomyTranslationContract } from '../schemas/tax
 import type { TentsSchema, TentsTranslationContract } from '../schemas/tents.schema.js';
 import type { TracksSchema, TracksTranslationContract } from '../schemas/tracks.schema.js';
 import type { UntangleSchema, UntangleTranslationContract } from '../schemas/untangle.schema.js';
-import type { WaterSortSchema, WaterSortTranslationContract } from '../schemas/watersort.schema.js';
 
 export type SupportedLanguageCode = (typeof SUPPORTED_LANGUAGES)[number]['code'];
 
@@ -31,7 +31,7 @@ export type StarBattleTranslationKey = LeafKeys<StarBattleSchema> | `star-battle
 export type QueensTranslationKey = StarBattleTranslationKey;
 export type BridgesTranslationKey = LeafKeys<BridgesSchema>;
 export type TracksTranslationKey = LeafKeys<TracksSchema>;
-export type WaterSortTranslationKey = LeafKeys<WaterSortSchema>;
+export type LiquidSortTranslationKey = LeafKeys<LiquidSortSchema> | `liquid-sort.${LeafKeys<LiquidSortSchema>}`;
 export type TentsTranslationKey = LeafKeys<TentsSchema>;
 export type AnagramTranslationKey = LeafKeys<AnagramSchema>;
 export type UntangleTranslationKey = LeafKeys<UntangleSchema> | `untangle.${LeafKeys<UntangleSchema>}`;
@@ -48,7 +48,7 @@ export type TranslationKey =
 	| StarBattleTranslationKey
 	| BridgesTranslationKey
 	| TracksTranslationKey
-	| WaterSortTranslationKey
+	| LiquidSortTranslationKey
 	| TentsTranslationKey
 	| AnagramTranslationKey
 	| UntangleTranslationKey
@@ -75,7 +75,7 @@ export type TranslationResources = Record<
 		readonly 'star-battle': StarBattleTranslationContract;
 		readonly bridges: BridgesTranslationContract;
 		readonly tracks: TracksTranslationContract;
-		watersort: WaterSortTranslationContract;
+		readonly 'liquid-sort': LiquidSortTranslationContract;
 		readonly tents: TentsTranslationContract;
 		readonly anagram: AnagramTranslationContract;
 		readonly untangle: UntangleTranslationContract;

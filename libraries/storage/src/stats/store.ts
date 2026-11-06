@@ -13,7 +13,7 @@ export const DEFAULT_REGISTERED_GAMES: readonly string[] = [
 	'tracks',
 	'tents',
 	'anagram',
-	'watersort',
+	'liquid-sort',
 	'untangle',
 	'net',
 	'color-flood',

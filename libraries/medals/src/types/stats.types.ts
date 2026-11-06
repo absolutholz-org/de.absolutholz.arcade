@@ -134,7 +134,7 @@ export interface GameCustomStatsMap {
 	bridges: BridgesCustomStats;
 	tents: TentsCustomStats;
 	anagram: AnagramCustomStats;
-	watersort: WaterSortCustomStats;
+	'liquid-sort': LiquidSortCustomStats;
 	untangle: UntangleCustomStats;
 	net: NetCustomStats;
 	'color-flood': ColorFloodCustomStats;
@@ -170,7 +170,7 @@ export interface UntangleCustomStats {
 	readonly fewestMovesWins?: number;
 }
 
-export interface WaterSortCustomStats {
+export interface LiquidSortCustomStats {
 	readonly easyWins?: number;
 	readonly mediumWins?: number;
 	readonly hardWins?: number;

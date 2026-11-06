@@ -13,7 +13,7 @@ export const deMedals = {
 			'star-battle': 'Sternenschlacht',
 			queens: 'Sternenschlacht',
 			tracks: 'Tracks',
-			watersort: 'Water Sort',
+			'liquid-sort': 'Flüssig-Sort',
 			bridges: 'Brücken',
 			anagram: 'Anagram Scramble',
 			tents: 'Zelte',
@@ -367,7 +367,7 @@ export const deMedals = {
 			desc: 'Löse 15 Queens-Bretter.',
 		},
 	},
-	watersort: {
+	'liquid-sort': {
 		chemist_ladder: {
 			title: 'Laborant',
 			desc: 'Löse Reagenzglas-Gestelle im Laufe deiner Karriere (5 / 25 / 100).',

@@ -132,7 +132,7 @@ export function createInitialCustomStats<G extends GameId>(gameId: G): GameCusto
 				languagesPlayed: {},
 				expertLanguagesWon: [],
 			} as unknown as GameCustomStatsMap[G];
-		case 'watersort':
+		case 'liquid-sort':
 			return {
 				easyWins: 0,
 				mediumWins: 0,

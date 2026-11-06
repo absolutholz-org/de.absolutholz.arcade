@@ -24,7 +24,7 @@ Assign one `primary` category and an optional `secondary` category from `GAME_CA
 - `'logic-deduction'`: Constraint-satisfaction, number, clue, or deduction puzzles (e.g. Sudoku, Minesweeper, Nonogram, Star Battle, Tents).
 - `'spatial-puzzle'`: Geometric, planar-graph, topological, or route-layout puzzles (e.g. Untangle; secondary for Bridges, Tracks, Net, Nonogram).
 - `'word-trivia'`: Lexicon, spelling, anagram, vocabulary, or trivia games (e.g. Anagram Scramble).
-- `'casual-sorting'`: Relaxed container-sorting, grouping, or tactile organization games (e.g. Water Sort).
+- `'casual-sorting'`: Relaxed container-sorting, grouping, or tactile organization games (e.g. Liquid Sort).
 - `'card-board'`: Classic tabletop board, grid-alignment, dice, or card games (e.g. Tic-Tac-Toe, Connect Four, Uno).
 - `'party-duel'`: Social, memory-duel, or quick-turn competitive games (e.g. Memory, pass-and-play duels).
 

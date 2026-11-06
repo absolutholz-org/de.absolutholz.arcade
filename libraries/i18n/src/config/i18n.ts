@@ -5,6 +5,7 @@ import { deAnagram } from '../locales/de/anagram.js';
 import { deBridges } from '../locales/de/bridges.js';
 import { deColorFlood } from '../locales/de/color-flood.js';
 import { deCommon } from '../locales/de/common.js';
+import { deLiquidSort } from '../locales/de/liquid-sort.js';
 import { deMedals } from '../locales/de/medals.js';
 import { deMinesweeper } from '../locales/de/minesweeper.js';
 import { deNet } from '../locales/de/net.js';
@@ -15,11 +16,11 @@ import { deTaxonomy } from '../locales/de/taxonomy.js';
 import { deTents } from '../locales/de/tents.js';
 import { deTracks } from '../locales/de/tracks.js';
 import { deUntangle } from '../locales/de/untangle.js';
-import { deWatersort } from '../locales/de/watersort.js';
 import { enAnagram } from '../locales/en/anagram.js';
 import { enBridges } from '../locales/en/bridges.js';
 import { enColorFlood } from '../locales/en/color-flood.js';
 import { enCommon } from '../locales/en/common.js';
+import { enLiquidSort } from '../locales/en/liquid-sort.js';
 import { enMedals } from '../locales/en/medals.js';
 import { enMinesweeper } from '../locales/en/minesweeper.js';
 import { enNet } from '../locales/en/net.js';
@@ -30,11 +31,11 @@ import { enTaxonomy } from '../locales/en/taxonomy.js';
 import { enTents } from '../locales/en/tents.js';
 import { enTracks } from '../locales/en/tracks.js';
 import { enUntangle } from '../locales/en/untangle.js';
-import { enWatersort } from '../locales/en/watersort.js';
 import { frAnagram } from '../locales/fr/anagram.js';
 import { frBridges } from '../locales/fr/bridges.js';
 import { frColorFlood } from '../locales/fr/color-flood.js';
 import { frCommon } from '../locales/fr/common.js';
+import { frLiquidSort } from '../locales/fr/liquid-sort.js';
 import { frMedals } from '../locales/fr/medals.js';
 import { frMinesweeper } from '../locales/fr/minesweeper.js';
 import { frNet } from '../locales/fr/net.js';
@@ -45,11 +46,11 @@ import { frTaxonomy } from '../locales/fr/taxonomy.js';
 import { frTents } from '../locales/fr/tents.js';
 import { frTracks } from '../locales/fr/tracks.js';
 import { frUntangle } from '../locales/fr/untangle.js';
-import { frWatersort } from '../locales/fr/watersort.js';
 import { ptAnagram } from '../locales/pt/anagram.js';
 import { ptBridges } from '../locales/pt/bridges.js';
 import { ptColorFlood } from '../locales/pt/color-flood.js';
 import { ptCommon } from '../locales/pt/common.js';
+import { ptLiquidSort } from '../locales/pt/liquid-sort.js';
 import { ptMedals } from '../locales/pt/medals.js';
 import { ptMinesweeper } from '../locales/pt/minesweeper.js';
 import { ptNet } from '../locales/pt/net.js';
@@ -60,7 +61,6 @@ import { ptTaxonomy } from '../locales/pt/taxonomy.js';
 import { ptTents } from '../locales/pt/tents.js';
 import { ptTracks } from '../locales/pt/tracks.js';
 import { ptUntangle } from '../locales/pt/untangle.js';
-import { ptWatersort } from '../locales/pt/watersort.js';
 import type { TranslationResources } from '../types/i18n.types.js';
 import { resolveInitialLanguage } from '../utils/detection.js';
 
@@ -73,7 +73,7 @@ export const resources: TranslationResources = {
 		'star-battle': enStarBattle,
 		bridges: enBridges,
 		tracks: enTracks,
-		watersort: enWatersort,
+		'liquid-sort': enLiquidSort,
 		tents: enTents,
 		anagram: enAnagram,
 		untangle: enUntangle,
@@ -90,7 +90,7 @@ export const resources: TranslationResources = {
 		'star-battle': deStarBattle,
 		bridges: deBridges,
 		tracks: deTracks,
-		watersort: deWatersort,
+		'liquid-sort': deLiquidSort,
 		tents: deTents,
 		anagram: deAnagram,
 		untangle: deUntangle,
@@ -107,7 +107,7 @@ export const resources: TranslationResources = {
 		'star-battle': frStarBattle,
 		bridges: frBridges,
 		tracks: frTracks,
-		watersort: frWatersort,
+		'liquid-sort': frLiquidSort,
 		tents: frTents,
 		anagram: frAnagram,
 		untangle: frUntangle,
@@ -124,7 +124,7 @@ export const resources: TranslationResources = {
 		'star-battle': ptStarBattle,
 		bridges: ptBridges,
 		tracks: ptTracks,
-		watersort: ptWatersort,
+		'liquid-sort': ptLiquidSort,
 		tents: ptTents,
 		anagram: ptAnagram,
 		untangle: ptUntangle,
@@ -151,7 +151,7 @@ i18n.use(initReactI18next).init({
 		'star-battle',
 		'bridges',
 		'tracks',
-		'watersort',
+		'liquid-sort',
 		'tents',
 		'anagram',
 		'untangle',

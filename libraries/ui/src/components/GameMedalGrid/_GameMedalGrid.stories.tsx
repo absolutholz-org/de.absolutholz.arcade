@@ -82,7 +82,7 @@ const meta = {
 				'minesweeper',
 				'star-battle',
 				'tracks',
-				'watersort',
+				'liquid-sort',
 				'bridges',
 				'anagram',
 				'tents',

@@ -13,7 +13,7 @@ export const ptMedals = {
 			'star-battle': 'Batalha de Estrelas',
 			queens: 'Batalha de Estrelas',
 			tracks: 'Tracks',
-			watersort: 'Water Sort',
+			'liquid-sort': 'Sort Líquido',
 			bridges: 'Pontes',
 			anagram: 'Anagram Scramble',
 			tents: 'Tendas',
@@ -367,7 +367,7 @@ export const ptMedals = {
 			desc: 'Resolva 15 tabuleiros de Queens.',
 		},
 	},
-	watersort: {
+	'liquid-sort': {
 		chemist_ladder: {
 			title: 'Técnico de Laboratório',
 			desc: 'Resolva suportes de tubos ao longo da sua carreira (5 / 25 / 100).',

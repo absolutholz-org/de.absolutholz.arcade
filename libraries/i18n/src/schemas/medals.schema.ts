@@ -11,7 +11,7 @@ export interface MedalsSchema {
 			readonly 'star-battle': string;
 			readonly queens?: string;
 			readonly tracks: string;
-			readonly watersort: string;
+			readonly 'liquid-sort': string;
 			readonly bridges: string;
 			readonly anagram: string;
 			readonly tents: string;
@@ -131,7 +131,7 @@ export interface MedalsSchema {
 		readonly first_win?: { readonly title: string; readonly desc: string };
 		readonly reign?: { readonly title: string; readonly desc: string };
 	};
-	readonly watersort: {
+	readonly 'liquid-sort': {
 		readonly chemist_ladder: { readonly title: string; readonly desc: string };
 		readonly perfect_ladder: { readonly title: string; readonly desc: string };
 		readonly first_sort: { readonly title: string; readonly desc: string };
