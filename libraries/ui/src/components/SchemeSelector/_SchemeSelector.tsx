@@ -2,9 +2,9 @@ import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import { Icon } from '../Icon';
 import type { IconName } from '../Icon/_Icon.types';
+import { RadioCardGroup, RadioCardOption } from '../RadioCardGroup';
 import { useScheme, useSchemeOptions } from '../SchemeSwitcher/_SchemeSwitcher.hooks';
 import type { Scheme } from '../SchemeSwitcher/_SchemeSwitcher.types';
-import * as S from './_SchemeSelector.styles';
 import type { SchemeSelectorProps } from './_SchemeSelector.types';
 
 function SchemeSelectorInner({
@@ -16,7 +16,7 @@ function SchemeSelectorInner({
 	hideHeader?: boolean;
 	onSchemeChange?: (scheme: Scheme) => void;
 }) {
-	const { t } = useI18n('common');
+	const { t, language } = useI18n('common');
 	const [activeScheme, setActiveScheme] = useScheme();
 	const options = useSchemeOptions();
 
@@ -26,45 +26,32 @@ function SchemeSelectorInner({
 	};
 
 	return (
-		<S.Container className={className}>
-			{!hideHeader && (
-				<S.Header>
-					<S.Title>{t('settings.schemeSectionTitle')}</S.Title>
-					<S.Description>{t('settings.schemeSectionDescription')}</S.Description>
-				</S.Header>
-			)}
-
-			<S.Grid aria-label={t('settings.schemeSectionTitle')}>
-				{options.map((item) => {
-					const isSelected = activeScheme === item.id;
-					return (
-						<S.Card
-							key={item.id}
-							type="button"
-							aria-pressed={isSelected}
-							data-selected={isSelected ? 'true' : undefined}
-							onClick={() => handleSelect(item.id)}
-						>
-							<S.CardHeader>
-								<S.SchemeLabelGroup>
-									{item.icon && <Icon name={item.icon as IconName} size="sm" />}
-									<S.SchemeName>{item.label}</S.SchemeName>
-								</S.SchemeLabelGroup>
-								<S.CheckIndicator data-active={isSelected ? 'true' : undefined}>
-									<Icon name="check" size="xs" />
-								</S.CheckIndicator>
-							</S.CardHeader>
-						</S.Card>
-					);
-				})}
-			</S.Grid>
-		</S.Container>
+		<RadioCardGroup
+			className={className}
+			lang={language}
+			legend={t('settings.schemeSectionTitle')}
+			description={t('settings.schemeSectionDescription')}
+			hideHeader={hideHeader}
+		>
+			{options.map((item) => (
+				<RadioCardOption
+					key={item.id}
+					name="arcade-color-scheme"
+					value={item.id}
+					checked={activeScheme === item.id}
+					onChange={() => handleSelect(item.id)}
+				>
+					{item.icon && <Icon name={item.icon as IconName} size="sm" />}
+					{item.label}
+				</RadioCardOption>
+			))}
+		</RadioCardGroup>
 	);
 }
 
 /**
- * SchemeSelector component renders an accessible card grid displaying
- * light, dark, and system color scheme options with preview swatches and persistent selection.
+ * SchemeSelector component renders an accessible native radio group displaying
+ * light, dark, and system color scheme options with persistent selection.
  */
 export function SchemeSelector({ lang, hideHeader = false, className, onSchemeChange }: SchemeSelectorProps = {}) {
 	return (

@@ -1,9 +1,8 @@
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
-import { Icon } from '../Icon';
 import { LANGUAGE_OPTIONS } from '../LanguageSwitcher/_LanguageSwitcher.constants';
-import { useLanguageSwitcher } from '../LanguageSwitcher/_LanguageSwitcher.hooks';
-import * as S from './_LanguageSelector.styles';
+import { useLanguageSwitcher, useRestoreFocusAfterNavigation } from '../LanguageSwitcher/_LanguageSwitcher.hooks';
+import { RadioCardGroup, RadioCardOption } from '../RadioCardGroup';
 import type { LanguageSelectorProps } from './_LanguageSelector.types';
 
 function LanguageSelectorInner({
@@ -21,46 +20,34 @@ function LanguageSelectorInner({
 		activeLanguage: lang,
 		onLanguageChange,
 	});
+	useRestoreFocusAfterNavigation();
 
 	return (
-		<S.Container className={className}>
-			{!hideHeader && (
-				<S.Header>
-					<S.Title>{t('settings.languageSectionTitle')}</S.Title>
-					<S.Description>{t('settings.languageSectionDescription')}</S.Description>
-				</S.Header>
-			)}
-
-			<S.Grid aria-label={t('settings.languageSectionTitle')}>
-				{LANGUAGE_OPTIONS.map((item) => {
-					const isSelected = activeLanguage === item.id;
-					return (
-						<S.Card
-							key={item.id}
-							type="button"
-							aria-pressed={isSelected}
-							data-selected={isSelected ? 'true' : undefined}
-							onClick={() => handleLanguageChange(item.id)}
-						>
-							<S.CardHeader>
-								<S.LanguageLabelGroup>
-									{item.icon && <S.LanguageFlag aria-hidden="true">{item.icon}</S.LanguageFlag>}
-									<S.LanguageName>{item.label}</S.LanguageName>
-								</S.LanguageLabelGroup>
-								<S.CheckIndicator data-active={isSelected ? 'true' : undefined}>
-									<Icon name="check" size="xs" />
-								</S.CheckIndicator>
-							</S.CardHeader>
-						</S.Card>
-					);
-				})}
-			</S.Grid>
-		</S.Container>
+		<RadioCardGroup
+			className={className}
+			lang={activeLanguage}
+			legend={t('settings.languageSectionTitle')}
+			description={t('settings.languageSectionDescription')}
+			hideHeader={hideHeader}
+		>
+			{LANGUAGE_OPTIONS.map((item) => (
+				<RadioCardOption
+					key={item.id}
+					name="arcade-language"
+					value={item.id}
+					checked={activeLanguage === item.id}
+					onChange={() => handleLanguageChange(item.id)}
+				>
+					{item.icon && <span aria-hidden="true">{item.icon}</span>}
+					{item.label}
+				</RadioCardOption>
+			))}
+		</RadioCardGroup>
 	);
 }
 
 /**
- * LanguageSelector component renders an accessible card grid displaying
+ * LanguageSelector component renders an accessible native radio group displaying
  * all available supported languages in their native names with persistent selection.
  */
 export function LanguageSelector({
