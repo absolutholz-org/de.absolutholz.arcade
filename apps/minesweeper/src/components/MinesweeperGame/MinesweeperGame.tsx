@@ -6,6 +6,7 @@ import { isSupportedLanguage } from '@arcade/lib-i18n/utils/detection';
 import { Button } from '@arcade/lib-ui/components/Button';
 import { Dialog } from '@arcade/lib-ui/components/Dialog';
 import { GameHeader } from '@arcade/lib-ui/components/GameHeader';
+import { GameSettingsDialog } from '@arcade/lib-ui/components/GameSettingsDialog';
 import { GameSettingsPanel } from '@arcade/lib-ui/components/GameSettingsPanel';
 import { Icon } from '@arcade/lib-ui/components/Icon';
 import { PauseDialog } from '@arcade/lib-ui/components/PauseDialog';
@@ -165,19 +166,14 @@ export function MinesweeperGame({
 			</Dialog>
 
 			{/* In-game Settings Modal (compact mode) */}
-			<Dialog
-				isOpen={game.isSettingsOpen}
-				onCancel={game.closeSettings}
-				title={t('settings.title')}
-				showCloseButton={true}
-			>
+			<GameSettingsDialog isOpen={game.isSettingsOpen} onClose={game.closeSettings} gameTitle={t('title')}>
 				<GameSettingsPanel
 					config={MINESWEEPER_SETTINGS_CONFIG}
 					lang={activeLang}
 					mode="compact"
 					onSettingsChange={game.handleUpdateSettings}
 				/>
-			</Dialog>
+			</GameSettingsDialog>
 
 			<VictoryDialog
 				isOpen={game.isVictoryOpen}

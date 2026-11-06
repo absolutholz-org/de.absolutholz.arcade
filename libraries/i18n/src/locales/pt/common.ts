@@ -168,6 +168,7 @@ export const ptCommon = {
 		hapticsTitle: 'Feedback tátil',
 		hapticsDescription: 'Vibrar em interações e conquistas (dispositivos compatíveis).',
 		gameSectionTitle: 'Preferências do Jogo',
+		arcadeSectionTitle: 'Configurações do Arcade',
 		gameSectionDescription: 'Personalize as opções de jogo e assistências.',
 		appearanceSectionTitle: 'Aparência',
 		appearanceSectionDescription: 'Escolha suas preferências de esquema de cores, tema e idioma.',

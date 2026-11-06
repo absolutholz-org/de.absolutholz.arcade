@@ -169,6 +169,7 @@ export const enCommon = {
 		hapticsTitle: 'Haptic Feedback',
 		hapticsDescription: 'Vibrate on interactions and milestones (supported devices).',
 		gameSectionTitle: 'Game Preferences',
+		arcadeSectionTitle: 'Arcade Settings',
 		gameSectionDescription: 'Customize gameplay options and assists.',
 		appearanceSectionTitle: 'Appearance',
 		appearanceSectionDescription: 'Choose your color scheme, theme, and language preferences.',

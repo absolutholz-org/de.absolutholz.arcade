@@ -7,6 +7,7 @@ import { recordGameResult } from '@arcade/lib-medals';
 import { Dialog } from '@arcade/lib-ui/components/Dialog';
 import { GameControlStrip } from '@arcade/lib-ui/components/GameControlStrip';
 import { GameHeader } from '@arcade/lib-ui/components/GameHeader';
+import { GameSettingsDialog } from '@arcade/lib-ui/components/GameSettingsDialog';
 import { GameSettingsPanel } from '@arcade/lib-ui/components/GameSettingsPanel';
 import { GameStatusStrip } from '@arcade/lib-ui/components/GameStatusStrip';
 import { PauseDialog } from '@arcade/lib-ui/components/PauseDialog';
@@ -408,14 +409,14 @@ function FloodItGameInner({
 				<div>{rulesContent}</div>
 			</Dialog>
 
-			<Dialog isOpen={isSettingsOpen} onCancel={() => setIsSettingsOpen(false)} title={t('settings.title')}>
+			<GameSettingsDialog isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} gameTitle={t('title')}>
 				<GameSettingsPanel
 					config={FLOODIT_SETTINGS_CONFIG}
 					lang={activeLang}
 					onSettingsChange={handleSettingChange}
 					mode="compact"
 				/>
-			</Dialog>
+			</GameSettingsDialog>
 		</GameLayout>
 	);
 }

@@ -160,6 +160,7 @@ export const commonSchema = {
 		hapticsTitle: 'settings.hapticsTitle',
 		hapticsDescription: 'settings.hapticsDescription',
 		gameSectionTitle: 'settings.gameSectionTitle',
+		arcadeSectionTitle: 'settings.arcadeSectionTitle',
 		gameSectionDescription: 'settings.gameSectionDescription',
 		appearanceSectionTitle: 'settings.appearanceSectionTitle',
 		appearanceSectionDescription: 'settings.appearanceSectionDescription',

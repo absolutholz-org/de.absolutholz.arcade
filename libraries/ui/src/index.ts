@@ -6,3 +6,5 @@ export { GameStatusStrip } from './components/GameStatusStrip';
 export type { GameStatusState, GameStatusStripProps } from './components/GameStatusStrip';
 export { ShareContent, ShareDialog } from './components/ShareDialog';
 export type { IShareDialog, ShareContentProps } from './components/ShareDialog';
+export { GameSettingsDialog } from './components/GameSettingsDialog';
+export type { GameSettingsDialogProps } from './components/GameSettingsDialog';

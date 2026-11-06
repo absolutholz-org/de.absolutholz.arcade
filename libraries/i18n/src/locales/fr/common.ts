@@ -169,6 +169,7 @@ export const frCommon = {
 		hapticsTitle: 'Retour haptique',
 		hapticsDescription: 'Vibrer lors des interactions et des étapes clés (appareils compatibles).',
 		gameSectionTitle: 'Préférences de jeu',
+		arcadeSectionTitle: 'Paramètres de l’arcade',
 		gameSectionDescription: 'Personnalisez les options de jeu et les aides.',
 		appearanceSectionTitle: 'Apparence',
 		appearanceSectionDescription: 'Choisissez vos préférences de mode, thème et langue.',

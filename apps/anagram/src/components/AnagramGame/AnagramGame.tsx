@@ -5,7 +5,7 @@ import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { isSupportedLanguage } from '@arcade/lib-i18n/utils/detection';
 import { Dialog } from '@arcade/lib-ui/components/Dialog';
 import { GameHeader } from '@arcade/lib-ui/components/GameHeader';
-import { GameSettingsPanel } from '@arcade/lib-ui/components/GameSettingsPanel';
+import { GameSettingsDialog } from '@arcade/lib-ui/components/GameSettingsDialog';
 import { PauseDialog } from '@arcade/lib-ui/components/PauseDialog';
 import { Timer } from '@arcade/lib-ui/components/Timer';
 import { GameLayout } from '@arcade/lib-ui/layouts/GameLayout';
@@ -233,14 +233,7 @@ export function AnagramGame({
 				</Dialog>
 
 				{/* In-game Settings Modal (compact mode) */}
-				<Dialog
-					isOpen={isSettingsOpen}
-					onCancel={closeSettings}
-					title={tCommon('settings.title')}
-					showCloseButton={true}
-				>
-					<GameSettingsPanel config={ANAGRAM_SETTINGS_CONFIG} lang={activeLang} mode="compact" />
-				</Dialog>
+				<GameSettingsDialog isOpen={isSettingsOpen} onClose={closeSettings} gameTitle={t('title')} />
 
 				<VictoryDialog
 					isOpen={game.dialog === 'victory'}

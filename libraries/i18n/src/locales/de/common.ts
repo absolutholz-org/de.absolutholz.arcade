@@ -169,6 +169,7 @@ export const deCommon = {
 		hapticsTitle: 'Haptisches Feedback',
 		hapticsDescription: 'Vibration bei Interaktionen und Meilensteinen (unterstützte Geräte).',
 		gameSectionTitle: 'Spiel-Einstellungen',
+		arcadeSectionTitle: 'Arcade-Einstellungen',
 		gameSectionDescription: 'Passe Spieloptionen und Hilfen an.',
 		appearanceSectionTitle: 'Erscheinungsbild',
 		appearanceSectionDescription: 'Wähle dein bevorzugtes Farbschema, Farbthema und Sprache.',

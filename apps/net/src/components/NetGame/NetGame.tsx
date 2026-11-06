@@ -6,6 +6,7 @@ import { isSupportedLanguage } from '@arcade/lib-i18n/utils/detection';
 import { Dialog } from '@arcade/lib-ui/components/Dialog';
 import { GameControlStrip } from '@arcade/lib-ui/components/GameControlStrip';
 import { GameHeader } from '@arcade/lib-ui/components/GameHeader';
+import { GameSettingsDialog } from '@arcade/lib-ui/components/GameSettingsDialog';
 import { GameSettingsPanel } from '@arcade/lib-ui/components/GameSettingsPanel';
 import { PauseDialog } from '@arcade/lib-ui/components/PauseDialog';
 import { Timer } from '@arcade/lib-ui/components/Timer';
@@ -158,19 +159,14 @@ function NetGameInner({
 				)}
 			</Dialog>
 
-			<Dialog
-				isOpen={game.isSettingsOpen}
-				onCancel={game.closeSettings}
-				title={t('settings.title')}
-				showCloseButton={true}
-			>
+			<GameSettingsDialog isOpen={game.isSettingsOpen} onClose={game.closeSettings} gameTitle={t('title')}>
 				<GameSettingsPanel
 					config={NET_SETTINGS_CONFIG}
 					lang={activeLang}
 					mode="compact"
 					onSettingsChange={game.handleUpdateSettings}
 				/>
-			</Dialog>
+			</GameSettingsDialog>
 
 			<VictoryDialog
 				isOpen={game.isVictoryOpen}

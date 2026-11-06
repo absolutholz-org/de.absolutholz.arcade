@@ -43,6 +43,9 @@ function GameSettingsPanelContent<T extends Record<string, unknown>>({
 	};
 
 	const visibleFields = mode === 'compact' ? config.fields.filter((field) => field.availableInGame) : config.fields;
+	if (mode === 'compact' && visibleFields.length === 0) {
+		return <></>;
+	}
 
 	const renderControl = (field: SettingFieldDescriptor): ReactNode => {
 		const rawValue = settings[field.key] ?? field.defaultValue;
