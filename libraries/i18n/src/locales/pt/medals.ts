@@ -18,7 +18,7 @@ export const ptMedals = {
 			tents: 'Tendas',
 			untangle: 'Desembaraçar',
 			net: 'Net',
-			'color-flood': 'Color Flood',
+			'color-flood': 'Maré de cores',
 		},
 		status: {
 			unlocked: 'Desbloqueado',
@@ -713,7 +713,7 @@ export const ptMedals = {
 		},
 		veteran: {
 			title: 'Veterano de Inundação',
-			desc: 'Vença vários jogos de Color Flood: Bronze aos 5, Prata aos 25 e Ouro aos 50 jogos.',
+			desc: 'Vença vários jogos de Maré de cores: Bronze aos 5, Prata aos 25 e Ouro aos 50 jogos.',
 		},
 		wire_to_wire: {
 			title: 'No Limite',

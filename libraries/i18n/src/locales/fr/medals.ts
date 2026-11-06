@@ -18,7 +18,7 @@ export const frMedals = {
 			tents: 'Tentes',
 			untangle: 'Démêler',
 			net: 'Net',
-			'color-flood': 'Color Flood',
+			'color-flood': 'Marée de couleurs',
 		},
 		status: {
 			unlocked: 'Débloqué',
@@ -713,7 +713,7 @@ export const frMedals = {
 		},
 		veteran: {
 			title: 'Vétéran de l’inondation',
-			desc: 'Remportez plusieurs parties de Color Flood : Bronze à 5, Argent à 25 et Or à 50 victoires.',
+			desc: 'Remportez plusieurs parties de Marée de couleurs : Bronze à 5, Argent à 25 et Or à 50 victoires.',
 		},
 		wire_to_wire: {
 			title: 'Sur le fil',

@@ -1,11 +1,11 @@
 ---
-title: "Color Flood Regeln"
-description: "Erfahre, wie man Color Flood spielt und das gesamte Spielfeld innerhalb des Zuglimits flutet."
+title: "Farbflut Regeln"
+description: "Erfahre, wie man Farbflut spielt und das gesamte Spielfeld innerhalb des Zuglimits flutet."
 ---
 
-# Color Flood Regeln
+# Farbflut Regeln
 
-Color Flood ist ein fesselndes Farbsortier-Puzzlespiel, bei dem dein Ziel darin besteht, das gesamte Spielfeld mit möglichst wenigen Zügen zu erobern.
+Farbflut ist ein fesselndes Farbsortier-Puzzlespiel, bei dem dein Ziel darin besteht, das gesamte Spielfeld mit möglichst wenigen Zügen zu erobern.
 
 ## Spielziel
 

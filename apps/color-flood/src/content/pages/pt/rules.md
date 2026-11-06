@@ -1,11 +1,11 @@
 ---
-title: "Regras do Color Flood"
-description: "Aprenda a jogar Color Flood e inunde todo o tabuleiro com uma única cor dentro do limite de movimentos."
+title: "Regras de Maré de cores"
+description: "Aprenda a jogar Maré de cores e inunde todo o tabuleiro com uma única cor dentro do limite de movimentos."
 ---
 
-# Regras do Color Flood
+# Regras de Maré de cores
 
-Color Flood é um jogo casual de ordenação de cores no qual o seu objetivo é conquistar todo o tabuleiro com o menor número possível de movimentos.
+Maré de cores é um jogo casual de ordenação de cores no qual o seu objetivo é conquistar todo o tabuleiro com o menor número possível de movimentos.
 
 ## Objetivo
 

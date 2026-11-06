@@ -18,7 +18,7 @@ export const deMedals = {
 			tents: 'Zelte',
 			untangle: 'Entwirren',
 			net: 'Net',
-			'color-flood': 'Color Flood',
+			'color-flood': 'Farbflut',
 		},
 		status: {
 			unlocked: 'Freigeschaltet',
@@ -713,7 +713,7 @@ export const deMedals = {
 		},
 		veteran: {
 			title: 'Flut-Veteran',
-			desc: 'Gewinne mehrere Color Flood-Spiele: Bronze bei 5, Silber bei 25 und Gold bei 50 Spielen.',
+			desc: 'Gewinne mehrere Farbflut-Spiele: Bronze bei 5, Silber bei 25 und Gold bei 50 Spielen.',
 		},
 		wire_to_wire: {
 			title: 'Punktlandung',

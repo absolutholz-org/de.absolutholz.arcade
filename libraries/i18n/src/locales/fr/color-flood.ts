@@ -1,7 +1,7 @@
 import type { ColorFloodTranslationContract } from '../../schemas/color-flood.schema.js';
 
 export const frColorFlood: ColorFloodTranslationContract = {
-	title: 'Color Flood',
+	title: 'Marée de couleurs',
 	subtitle: 'Inondez tout le plateau d’une seule couleur dans la limite des coups.',
 	description:
 		'Un jeu de puzzle décontracté de tri des couleurs où vous agrandissez votre groupe depuis le coin supérieur gauche.',
@@ -17,7 +17,7 @@ export const frColorFlood: ColorFloodTranslationContract = {
 		hardDesc: 'Grande grille 18×18 avec 6 couleurs et 32 coups',
 	},
 	lobby: {
-		title: 'Color Flood',
+		title: 'Marée de couleurs',
 		subtitle: 'Inondez tout le plateau d’une seule couleur dans la limite des coups.',
 		selectDifficulty: 'Choisir la difficulté',
 		beginner: 'Débutant (8×8)',
@@ -31,7 +31,7 @@ export const frColorFlood: ColorFloodTranslationContract = {
 		completed: 'Terminé',
 		play: 'Jouer',
 		quickPlay: 'Partie rapide',
-		quickPlayDesc: 'Démarrer une partie aléatoire de Color Flood',
+		quickPlayDesc: 'Démarrer une partie aléatoire de Marée de couleurs',
 	},
 	game: {
 		moves: 'Coups',
@@ -43,7 +43,7 @@ export const frColorFlood: ColorFloodTranslationContract = {
 		winDescription: 'Vous avez conquis le plateau en {{moves}} coups !',
 		lossTitle: 'Plus de coups',
 		lossDescription: 'Limite de coups atteinte avant d’inonder le plateau.',
-		boardLabel: 'Plateau Color Flood',
+		boardLabel: 'Plateau Marée de couleurs',
 		colorOption: 'Couleur {{number}} : {{name}}',
 	},
 	controls: {
@@ -55,7 +55,7 @@ export const frColorFlood: ColorFloodTranslationContract = {
 		keyboardHint: 'Appuyez sur 1 à 6 ou utilisez les flèches pour choisir une couleur.',
 	},
 	settings: {
-		title: 'Paramètres Color Flood',
+		title: 'Paramètres Marée de couleurs',
 		showColorblindShapes: {
 			label: 'Formes d’accessibilité',
 			description: 'Affiche des symboles géométriques pour distinguer les couleurs.',

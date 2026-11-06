@@ -1,7 +1,7 @@
 import type { ColorFloodTranslationContract } from '../../schemas/color-flood.schema.js';
 
 export const ptColorFlood: ColorFloodTranslationContract = {
-	title: 'Color Flood',
+	title: 'Maré de cores',
 	subtitle: 'Inunde todo o tabuleiro com uma única cor dentro do limite de movimentos.',
 	description:
 		'Um jogo casual de ordenação de cores no qual você expande seu grupo do canto superior esquerdo até preencher o tabuleiro.',
@@ -17,7 +17,7 @@ export const ptColorFlood: ColorFloodTranslationContract = {
 		hardDesc: 'Grande grade 18×18 com 6 cores e 32 movimentos',
 	},
 	lobby: {
-		title: 'Color Flood',
+		title: 'Maré de cores',
 		subtitle: 'Inunde todo o tabuleiro com uma única cor dentro do limite de movimentos.',
 		selectDifficulty: 'Selecionar dificuldade',
 		beginner: 'Iniciante (8×8)',
@@ -31,7 +31,7 @@ export const ptColorFlood: ColorFloodTranslationContract = {
 		completed: 'Concluído',
 		play: 'Jogar',
 		quickPlay: 'Partida Rápida',
-		quickPlayDesc: 'Iniciar um jogo aleatório de Color Flood',
+		quickPlayDesc: 'Iniciar um jogo aleatório de Maré de cores',
 	},
 	game: {
 		moves: 'Movimentos',
@@ -43,7 +43,7 @@ export const ptColorFlood: ColorFloodTranslationContract = {
 		winDescription: 'Você conquistou o tabuleiro em {{moves}} movimentos!',
 		lossTitle: 'Sem movimentos',
 		lossDescription: 'Limite de movimentos atingido antes de inundar todo o tabuleiro.',
-		boardLabel: 'Tabuleiro Color Flood',
+		boardLabel: 'Tabuleiro Maré de cores',
 		colorOption: 'Cor {{number}}: {{name}}',
 	},
 	controls: {
@@ -55,7 +55,7 @@ export const ptColorFlood: ColorFloodTranslationContract = {
 		keyboardHint: 'Pressione 1 a 6 ou use as setas para escolher uma cor.',
 	},
 	settings: {
-		title: 'Configurações do Color Flood',
+		title: 'Configurações de Maré de cores',
 		showColorblindShapes: {
 			label: 'Símbolos de acessibilidade',
 			description: 'Exibe formas geométricas nas cores para melhor distinção.',

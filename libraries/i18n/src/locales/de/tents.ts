@@ -1,7 +1,7 @@
 import type { TentsTranslationContract } from '../../schemas/tents.schema.js';
 
 export const deTents = {
-	title: 'Tents',
+	title: 'Zelte',
 	subtitle: 'Zelte im Wald mit Logik und Präzision aufstellen.',
 	description:
 		'Schlage neben jedem Baum im Wald genau ein Zelt auf. Zelte dürfen sich nicht berühren (auch nicht diagonal) und müssen alle Zeilen- und Spaltenzahlen erfüllen.',

@@ -1,7 +1,7 @@
 import type { ColorFloodTranslationContract } from '../../schemas/color-flood.schema.js';
 
 export const deColorFlood: ColorFloodTranslationContract = {
-	title: 'Color Flood',
+	title: 'Farbflut',
 	subtitle: 'Flute das gesamte Spielfeld mit einer einzigen Farbe innerhalb des Zuglimits.',
 	description:
 		'Ein entspannendes Farbsortier-Puzzlespiel, bei dem du ausgehend von der oberen linken Zelle das gesamte Spielfeld eroberst.',
@@ -17,7 +17,7 @@ export const deColorFlood: ColorFloodTranslationContract = {
 		hardDesc: 'Großes 18×18-Gitter mit 6 Farben und 32 Zügen',
 	},
 	lobby: {
-		title: 'Color Flood',
+		title: 'Farbflut',
 		subtitle: 'Flute das gesamte Spielfeld mit einer einzigen Farbe innerhalb des Zuglimits.',
 		selectDifficulty: 'Schwierigkeitsgrad wählen',
 		beginner: 'Anfänger (8×8)',
@@ -31,7 +31,7 @@ export const deColorFlood: ColorFloodTranslationContract = {
 		completed: 'Abgeschlossen',
 		play: 'Spielen',
 		quickPlay: 'Schnellstart',
-		quickPlayDesc: 'Starte ein zufälliges Color Flood-Spiel',
+		quickPlayDesc: 'Starte ein zufälliges Farbflut-Spiel',
 	},
 	game: {
 		moves: 'Züge',
@@ -43,7 +43,7 @@ export const deColorFlood: ColorFloodTranslationContract = {
 		winDescription: 'Du hast das Spielfeld in {{moves}} Zügen gemeistert!',
 		lossTitle: 'Keine Züge mehr',
 		lossDescription: 'Zuglimit erreicht, bevor das Spielfeld vollständig geflutet war.',
-		boardLabel: 'Color Flood-Spielfeld',
+		boardLabel: 'Farbflut-Spielfeld',
 		colorOption: 'Farbe {{number}}: {{name}}',
 	},
 	controls: {
@@ -55,7 +55,7 @@ export const deColorFlood: ColorFloodTranslationContract = {
 		keyboardHint: 'Drücke 1–6 oder die Pfeiltasten, um eine Farbe zu wählen.',
 	},
 	settings: {
-		title: 'Color Flood-Einstellungen',
+		title: 'Farbflut-Einstellungen',
 		showColorblindShapes: {
 			label: 'Symbole für Farbenblinde',
 			description: 'Zeigt geometrische Formen auf Farben für verbesserte Zugänglichkeit an.',

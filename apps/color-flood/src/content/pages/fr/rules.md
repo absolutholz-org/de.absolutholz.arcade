@@ -1,11 +1,11 @@
 ---
-title: "Règles de Color Flood"
-description: "Apprenez à jouer à Color Flood et inondez tout le plateau d’une seule couleur dans la limite des coups."
+title: "Règles de Marée de couleurs"
+description: "Apprenez à jouer à Marée de couleurs et inondez tout le plateau d’une seule couleur dans la limite des coups."
 ---
 
-# Règles de Color Flood
+# Règles de Marée de couleurs
 
-Color Flood est un jeu de puzzle de tri des couleurs où votre objectif est de conquérir l’ensemble du plateau avec le moins de coups possible.
+Marée de couleurs est un jeu de puzzle de tri des couleurs où votre objectif est de conquérir l’ensemble du plateau avec le moins de coups possible.
 
 ## Objectif
 
