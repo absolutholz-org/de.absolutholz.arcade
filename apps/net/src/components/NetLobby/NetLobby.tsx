@@ -6,10 +6,8 @@ import { formatTime } from '@arcade/lib-ui/components/Timer';
 import { GameLandingTemplate } from '@arcade/lib-ui/layouts/GameLandingTemplate';
 import { type JSX, useEffect, useState } from 'react';
 import { loadActiveGame, loadProgress } from '../../engine/storage.ts';
-import type { Difficulty, GameSnapshot } from '../../engine/types.ts';
+import { DIFFICULTIES, type Difficulty, type GameSnapshot } from '../../engine/types.ts';
 import * as S from './NetLobby.styles.ts';
-
-const DIFFICULTIES: readonly Difficulty[] = ['easy', 'medium', 'hard', 'expert'];
 
 export interface NetLobbyProps {
 	lang?: SupportedLanguageCode;

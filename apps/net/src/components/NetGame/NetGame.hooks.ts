@@ -23,6 +23,7 @@ import {
 	saveSettings,
 } from '../../engine/storage.ts';
 import type { Board, Difficulty, GameSnapshot, Move } from '../../engine/types.ts';
+import { DIFFICULTY_CONFIGS, isDifficulty, resolveInitialDifficulty } from '../../engine/types.ts';
 import { type ValidationResult, updateBoardPoweredState, validateBoard } from '../../engine/validator.ts';
 
 export interface UseNetGameOptions {
@@ -35,9 +36,9 @@ export function useNetGame({
 	initialDifficulty = 'easy',
 	formatLiveStatus,
 	formatSolvedAnnouncement,
-}: UseNetGameOptions) {
-	const [difficulty, setDifficulty] = useState<Difficulty>(initialDifficulty);
-	const [board, setBoard] = useState<Board>(() => generateNetPuzzle(initialDifficulty));
+}: UseNetGameOptions = {}) {
+	const [difficulty, setDifficulty] = useState<Difficulty>(() => resolveInitialDifficulty(initialDifficulty));
+	const [board, setBoard] = useState<Board>(() => generateNetPuzzle(resolveInitialDifficulty(initialDifficulty)));
 	const [history, setHistory] = useState<HistoryState>(createHistory());
 	const [movesCount, setMovesCount] = useState(0);
 	const [elapsedSeconds, setElapsedSeconds] = useState(0);
@@ -77,6 +78,8 @@ export function useNetGame({
 			const searchParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
 			const shouldResume = searchParams?.get('resume') === 'true';
 			const isExplicitNew = searchParams?.get('new') === 'true';
+			const queryDiff = searchParams?.get('difficulty');
+			const targetDiff = isDifficulty(queryDiff) ? queryDiff : (initialDifficulty ?? 'easy');
 
 			if (shouldResume && !isExplicitNew) {
 				const activeSnapshot = await loadActiveGame();
@@ -95,6 +98,15 @@ export function useNetGame({
 			}
 
 			if (isMounted) {
+				if (boardRef.current.rows !== DIFFICULTY_CONFIGS[targetDiff].rows) {
+					setDifficulty(targetDiff);
+					const newPuzzle = generateNetPuzzle(targetDiff);
+					setBoard(newPuzzle);
+					currentPoweredCountRef.current = validateBoard(newPuzzle).poweredCount;
+				}
+				if (isExplicitNew) {
+					void clearActiveGame();
+				}
 				setIsLoaded(true);
 			}
 		}
@@ -103,7 +115,7 @@ export function useNetGame({
 		return () => {
 			isMounted = false;
 		};
-	}, []);
+	}, [initialDifficulty]);
 
 	// Timer ticker
 	useEffect(() => {

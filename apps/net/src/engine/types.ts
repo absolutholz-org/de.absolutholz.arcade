@@ -27,6 +27,23 @@ export type TileShape = 'endpoint' | 'straight' | 'corner' | 'tee' | 'cross' | '
 
 export type Difficulty = 'easy' | 'medium' | 'hard' | 'expert';
 
+export const DIFFICULTIES: readonly Difficulty[] = ['easy', 'medium', 'hard', 'expert'];
+
+export function isDifficulty(value: unknown): value is Difficulty {
+	return typeof value === 'string' && (DIFFICULTIES as readonly string[]).includes(value);
+}
+
+export function resolveInitialDifficulty(initial?: Difficulty): Difficulty {
+	if (typeof window !== 'undefined') {
+		const searchParams = new URLSearchParams(window.location.search);
+		const queryDiff = searchParams.get('difficulty');
+		if (isDifficulty(queryDiff)) {
+			return queryDiff;
+		}
+	}
+	return initial && isDifficulty(initial) ? initial : 'easy';
+}
+
 export interface DifficultyConfig {
 	readonly rows: number;
 	readonly cols: number;

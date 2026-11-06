@@ -6,6 +6,7 @@ import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { MarkdownContent } from '@arcade/lib-ui/components/MarkdownContent';
 import GameLayout from '@arcade/lib-ui/layouts/GameLayout/GameLayout.astro';
 import { NetGame } from '../../components/NetGame';
+import { isDifficulty } from '../../engine/types.ts';
 
 export function getStaticPaths() {
 	return SUPPORTED_LANGUAGES.map((item) => ({
@@ -16,6 +17,9 @@ export function getStaticPaths() {
 const { lang } = Astro.params;
 const currentLanguage = lang as SupportedLanguageCode;
 const currentNet = resources[currentLanguage]?.net ?? resources.en.net;
+
+const rawDiff = Astro.url.searchParams.get('difficulty');
+const initialDifficulty = isDifficulty(rawDiff) ? rawDiff : undefined;
 
 const rulesEntry = (await getEntry('pages', `${lang}/rules`)) ?? (await getEntry('pages', `${DEFAULT_LANGUAGE}/rules`));
 const renderedRules = rulesEntry ? await rulesEntry.render() : null;
@@ -32,7 +36,7 @@ const RulesContent = renderedRules?.Content;
 	canonical={`https://arcade.absolutholz.de/net/${lang}/game`}
 	appTitle="Net"
 >
-	<NetGame client:only="react" lang={currentLanguage}>
+	<NetGame client:only="react" lang={currentLanguage} initialDifficulty={initialDifficulty}>
 		<div slot="rulesContent">
 			<MarkdownContent>
 				{RulesContent && <RulesContent />}

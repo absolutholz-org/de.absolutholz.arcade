@@ -7,7 +7,7 @@
 		"dev": "astro dev --port 4332",
 		"build": "astro build",
 		"preview": "astro preview",
-		"test": "node --experimental-strip-types --test src/engine/rotator.test.ts src/engine/generator.test.ts src/engine/validator.test.ts src/engine/history.test.ts src/config/medals.test.ts",
+		"test": "node --experimental-strip-types --test src/engine/types.test.ts src/engine/rotator.test.ts src/engine/generator.test.ts src/engine/validator.test.ts src/engine/history.test.ts src/config/medals.test.ts",
 		"typecheck": "astro sync && tsc --noEmit"
 	},
 	"dependencies": {

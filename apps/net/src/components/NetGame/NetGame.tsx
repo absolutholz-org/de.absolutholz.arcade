@@ -27,11 +27,11 @@ export interface NetGameProps {
 }
 
 function NetGameInner({
-	initialDifficulty = 'easy',
+	initialDifficulty,
 	activeLang,
 	rulesContent,
 }: {
-	initialDifficulty: Difficulty;
+	initialDifficulty?: Difficulty;
 	activeLang: SupportedLanguageCode;
 	rulesContent?: ReactNode;
 }): JSX.Element {
@@ -184,7 +184,7 @@ function NetGameInner({
 	);
 }
 
-export function NetGame({ initialDifficulty = 'easy', lang, rulesContent }: NetGameProps): JSX.Element {
+export function NetGame({ initialDifficulty, lang, rulesContent }: NetGameProps): JSX.Element {
 	const [activeLang] = useState<SupportedLanguageCode>(() => {
 		if (lang && isSupportedLanguage(lang)) return lang;
 		if (typeof window !== 'undefined') {
