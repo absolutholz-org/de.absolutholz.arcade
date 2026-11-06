@@ -51,7 +51,7 @@ function HubGamesCatalogContent({ lang }: HubGamesCatalogProps) {
 
 	return (
 		<>
-			<div className={S.FilterBarWrapper}>
+			{/* <div className={S.FilterBarWrapper}>
 				<GameSegmentedControl
 					options={categoryOptions}
 					selectedId={selectedCategory}
@@ -59,7 +59,7 @@ function HubGamesCatalogContent({ lang }: HubGamesCatalogProps) {
 					ariaLabel={t('hub.categoryFilterAriaLabel')}
 					panelId={GAMES_GRID_ID}
 				/>
-			</div>
+			</div> */}
 			<GamesGrid id={GAMES_GRID_ID} aria-live="polite">
 				{visibleGames.length === 0 ? (
 					<div className={S.EmptyState}>
