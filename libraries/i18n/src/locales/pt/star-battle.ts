@@ -1,0 +1,96 @@
+import type { StarBattleTranslationContract } from '../../schemas/star-battle.schema.js';
+
+export const ptStarBattle = {
+	title: 'Batalha de Estrelas',
+	description: 'Posicione estrelas em cada linha, coluna e região colorida sem que se toquem.',
+	difficulty: {
+		label: 'Dificuldade',
+		easy: 'Fácil',
+		easyDesc: 'Grade 6×6 com 6 regiões e 6 estrelas.',
+		medium: 'Médio',
+		mediumDesc: 'Grade 8×8 com 8 regiões e 8 estrelas.',
+		hard: 'Difícil',
+		hardDesc: 'Grade 10×10 com 10 regiões e 10 estrelas.',
+		expert: 'Especialista',
+		expertDesc: 'Grade 12×12 com 12 regiões e 12 estrelas.',
+	},
+	levels: {
+		puzzle: 'Quebra-cabeça',
+		puzzleNum: 'Nível {{number}}',
+		selectLevel: 'Selecionar nível',
+		completed: 'Concluído',
+		notCompleted: 'Não concluído',
+		bestTime: 'Melhor tempo: {{time}}',
+		quickPlay: 'Jogo Rápido',
+		quickPlayDesc: 'Gerar um novo tabuleiro',
+	},
+	mode: {
+		label: 'Modo de Entrada',
+		mark: 'Modo Marcação',
+		markDesc: 'Coloque e remova marcas X para eliminar quadrados',
+		token: 'Modo Estrela',
+		tokenDesc: 'Coloque e remova estrelas',
+	},
+	controls: {
+		undo: 'Desfazer',
+		redo: 'Refazer',
+		reset: 'Redefinir Tabuleiro',
+		autoCross: 'Auto-Cruz',
+		autoCrossDesc: 'Coloca automaticamente marcas X na linha, coluna e células vizinhas ao colocar uma estrela',
+		pause: 'Pausar',
+		resume: 'Continuar',
+		restart: 'Recomeçar',
+		play: 'Jogar',
+		nextPuzzle: 'Próximo Nível',
+		backToLobby: 'Lobby',
+	},
+	settings: {
+		title: 'Configurações do Jogo',
+		gameplayTab: 'Jogabilidade',
+		siteTab: 'Preferências',
+		autoCross: {
+			label: 'Assistente Auto-Cruz',
+			description: 'Coloca automaticamente marcas X em volta das estrelas posicionadas.',
+		},
+		colorScheme: 'Aparência',
+		language: 'Idioma',
+	},
+	status: {
+		paused: 'Jogo Pausado',
+		pausedDescription: 'Seu progresso e cronômetro estão pausados com segurança.',
+		timer: 'Tempo Decorrido',
+		time: 'Tempo',
+		bestTime: 'Melhor Tempo',
+		newBestTime: 'Novo Recorde!',
+		tokensPlaced: '{{current}} de {{total}} estrelas posicionadas',
+	},
+	conflicts: {
+		row: 'Conflito de linha: múltiplas estrelas nesta linha',
+		col: 'Conflito de coluna: múltiplas estrelas nesta coluna',
+		region: 'Conflito de região: múltiplas estrelas nesta zona colorida',
+		adjacency: 'Conflito de adjacência: estrelas não podem se tocar horizontalmente, verticalmente ou na diagonal',
+	},
+	victory: {
+		title: 'Resolvido!',
+		congratulations: 'Dedução brilhante! Todas as estrelas estão posicionadas sem violação de regras.',
+		playAgain: 'Jogar Novamente',
+		nextLevel: 'Próximo Nível',
+	},
+	aria: {
+		board: 'Grade de Batalha de Estrelas {{size}} por {{size}}',
+		instructions:
+			'Use as teclas de seta para navegar na grade. Espaço ou Enter para alternar. X para marcar, S, C ou Q para colocar estrela, Backspace para limpar, Z para desfazer, Y para refazer e Esc para pausar.',
+		cell: 'Linha {{row}}, Coluna {{col}}, Região {{region}}',
+		cellEmpty: 'vazio',
+		cellMarked: 'marcado com X',
+		cellToken: 'contém estrela',
+		conflictNotice: 'Violação de regra: {{reason}}',
+		headerToolbar: 'Barra de controles',
+	},
+	navigation: {
+		rules: 'Regras',
+		lobby: 'Lobby',
+	},
+} as const satisfies StarBattleTranslationContract;
+
+export const ptQueens = ptStarBattle;

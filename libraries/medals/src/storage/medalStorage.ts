@@ -103,7 +103,7 @@ export function createInitialCustomStats<G extends GameId>(gameId: G): GameCusto
 			return { puzzles: {} } as GameCustomStatsMap[G];
 		case 'minesweeper':
 			return createInitialMinesweeperStats() as GameCustomStatsMap[G];
-		case 'queens':
+		case 'star-battle':
 			return { boards: {} } as GameCustomStatsMap[G];
 		case 'tracks':
 			return {

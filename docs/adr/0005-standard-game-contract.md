@@ -6,7 +6,7 @@ Accepted (Extended by [ADR 0008: Standard Game Shell & Per-Game Subsystem Contra
 
 ## Context
 
-As the Arcade monorepo expands with diverse web games (such as Sudoku, Minesweeper, Nonogram, Queens, Tracks, and Bridges), introducing a new game requires seamless integration across several core cross-cutting systems:
+As the Arcade monorepo expands with diverse web games (such as Sudoku, Minesweeper, Nonogram, Star Battle, Tracks, and Bridges), introducing a new game requires seamless integration across several core cross-cutting systems:
 
 1. Central pre-rendered hub discovery (`apps/hub`) and monorepo package topology.
 2. Consistent layout, design tokens, component reuse, and accessibility primitives (`@arcade/lib-ui`).

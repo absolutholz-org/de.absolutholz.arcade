@@ -13,7 +13,7 @@ This project is structured as a strict multi-app monorepo utilizing `pnpm worksp
     *   `apps/sudoku`: Classic Sudoku puzzle game with accessible 9×9 grid, timer, and settings, built with **Astro** and interactive React canvas.
     *   `apps/minesweeper`: Classic Minesweeper game with 5 board sizes, safe first click, chording, accessible grid, timer, and high scores, built with **Astro** and interactive React canvas.
     *   `apps/nonogram`: Nonogram (picture logic) game with 3 difficulty tiers (5×5, 10×10, 15×15), 15 deterministic starter puzzles, dual-mode line drawing, accessible grid, timer, and pixel art reveal, built with **Astro** and interactive React canvas.
-    *   `apps/queens`: Queens / Star Battle logic puzzle game with 4 difficulty tiers (6×6, 8×8, 10×10, 12×12), 20 uniquely solvable puzzles, dual-mode inputs (Crown / X-mark), auto-cross helper, accessible grid, and timer, built with **Astro** and interactive React canvas.
+    *   `apps/star-battle`: Star Battle logic puzzle game with 4 difficulty tiers (6×6, 8×8, 10×10, 12×12), 25 uniquely solvable puzzles, dual-mode inputs (Star / X-mark), auto-cross helper, accessible grid, and timer, built with **Astro** and interactive React canvas.
     *   `apps/tracks`: Train Tracks railway path logic puzzle game with 4 difficulty tiers (6×6, 8×8, 10×10, 12×12), row/column clue validation, auto-cross helper, accessible grid, and timer, built with **Astro** and interactive React canvas.
     *   `apps/anagram`: Anagram Scramble word puzzle game with 4 difficulty tiers, Zen & Timed Arcade modes, pluggable UTF-8 signature-indexed lexicon, and full keyboard/tile controls, built with **Astro** and interactive React canvas.
     *   `apps/untangle`: Untangle planar graph puzzle game (`@arcade/untangle`, port `4331`) with 4 difficulty tiers, procedural planar graph generation, real-time line intersection detection, accessible node controls, and timer, built with **Astro** and interactive React canvas.
@@ -72,8 +72,8 @@ pnpm dev:minesweeper
 # Start Nonogram dev server
 pnpm dev:nonogram
 
-# Start Queens dev server
-pnpm dev:queens
+# Start Star Battle dev server
+pnpm dev:star-battle
 
 # Start Tracks dev server
 pnpm dev:tracks
@@ -95,7 +95,7 @@ pnpm build:hub
 pnpm build:sudoku
 pnpm build:minesweeper
 pnpm build:nonogram
-pnpm build:queens
+pnpm build:star-battle
 pnpm build:tracks
 pnpm build:anagram
 pnpm build:untangle
@@ -118,7 +118,7 @@ Deployments are automated via GitHub Actions (`.github/workflows/deploy.yml`) on
   - `/sudoku`: Sudoku puzzle game (`apps/sudoku`)
   - `/minesweeper`: Minesweeper puzzle game (`apps/minesweeper`)
   - `/nonogram`: Nonogram picture logic game (`apps/nonogram`)
-  - `/queens`: Queens logic puzzle game (`apps/queens`)
+  - `/star-battle`: Star Battle logic puzzle game (`apps/star-battle`)
   - `/tracks`: Tracks railway logic puzzle game (`apps/tracks`)
   - `/anagram`: Anagram Scramble word puzzle game (`apps/anagram`)
   - `/untangle`: Untangle planar graph puzzle game (`apps/untangle`)

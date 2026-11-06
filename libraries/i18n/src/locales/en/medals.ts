@@ -10,7 +10,8 @@ export const enMedals = {
 			sudoku: 'Sudoku',
 			nonogram: 'Nonogram',
 			minesweeper: 'Minesweeper',
-			queens: 'Queens',
+			'star-battle': 'Star Battle',
+			queens: 'Star Battle',
 			tracks: 'Tracks',
 			watersort: 'Water Sort',
 			bridges: 'Bridges',
@@ -239,6 +240,68 @@ export const enMedals = {
 		demolition_expert: {
 			title: 'Demolition Expert',
 			desc: 'Clear an Expert difficulty minefield.',
+		},
+	},
+	'star-battle': {
+		royal_placement: {
+			title: 'Royal Placement',
+			desc: 'Place your very first star.',
+		},
+		reign_supreme: {
+			title: 'Reign Supreme',
+			desc: 'Build a dynasty across your lifetime solving career.',
+		},
+		coronation_tour: {
+			title: 'Coronation Tour',
+			desc: 'Solve curated campaigns across all realm sizes.',
+		},
+		succession_streak: {
+			title: 'Royal Succession',
+			desc: 'Maintain unbroken win streaks across tricky realms.',
+		},
+		speed_easy: {
+			title: 'Lightning Coronation',
+			desc: 'Solve a 6x6 realm in under 20 seconds.',
+		},
+		speed_expert: {
+			title: 'Grand Sovereign',
+			desc: 'Solve a 12x12 Expert kingdom in under 2 minutes.',
+		},
+		blind_faith: {
+			title: 'Blind Faith',
+			desc: 'Complete an 8x8 or larger board without placing a single X marker.',
+		},
+		coup_detat: {
+			title: "Coup D'État",
+			desc: 'Place every star with absolute precision without a single conflict or removal.',
+		},
+		college_try: {
+			title: 'The Old College Try',
+			desc: 'Suffer your first defeat in the royal court.',
+		},
+		civil_war: {
+			title: 'Civil War',
+			desc: 'Place two stars that threaten one another.',
+		},
+		abdication: {
+			title: 'Abdication',
+			desc: 'Surrender a realm after placing over half of the stars.',
+		},
+		paranoid_monarch: {
+			title: 'Paranoid Monarch',
+			desc: 'Fill over 80% of the kingdom with X marks before placing your first star.',
+		},
+		royal_indecision: {
+			title: 'Royal Indecision',
+			desc: 'Place and remove a star from the exact same square four times.',
+		},
+		first_win: {
+			title: 'Royal Placement',
+			desc: 'Solve your first Star Battle board.',
+		},
+		reign: {
+			title: 'Reign Supreme',
+			desc: 'Solve 15 Star Battle boards.',
 		},
 	},
 	queens: {

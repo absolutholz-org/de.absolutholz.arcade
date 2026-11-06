@@ -62,7 +62,7 @@ export interface MinesweeperCustomStats {
 	readonly currentLossStreak?: number;
 }
 
-export interface QueensCustomStats {
+export interface StarBattleCustomStats {
 	readonly boards: Record<string, { completed: boolean; bestTimeSeconds: number | null }>;
 	readonly completedPresetIds?: string[];
 	readonly currentMediumStreak?: number;
@@ -70,6 +70,8 @@ export interface QueensCustomStats {
 	readonly bestMediumStreak?: number;
 	readonly bestHardStreak?: number;
 }
+
+export type QueensCustomStats = StarBattleCustomStats;
 
 export interface TracksCustomStats {
 	readonly grids: Record<string, { completed: boolean; bestTimeSeconds: number | null }>;
@@ -127,7 +129,7 @@ export interface GameCustomStatsMap {
 	sudoku: SudokuCustomStats;
 	nonogram: NonogramCustomStats;
 	minesweeper: MinesweeperCustomStats;
-	queens: QueensCustomStats;
+	'star-battle': StarBattleCustomStats;
 	tracks: TracksCustomStats;
 	bridges: BridgesCustomStats;
 	tents: TentsCustomStats;

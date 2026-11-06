@@ -191,7 +191,7 @@ describe('Medals Reconciliation Engine', () => {
 		expect(allResults.sudoku).toBeDefined();
 		expect(allResults.minesweeper).toBeDefined();
 		expect(allResults.nonogram).toBeDefined();
-		expect(allResults.queens).toBeDefined();
+		expect(allResults['star-battle']).toBeDefined();
 		expect(allResults.tracks).toBeDefined();
 		expect(syncAdapter.fetchGameMedals).toHaveBeenCalledTimes(5);
 	});

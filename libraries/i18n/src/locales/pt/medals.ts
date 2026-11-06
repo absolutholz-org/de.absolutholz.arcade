@@ -10,7 +10,8 @@ export const ptMedals = {
 			sudoku: 'Sudoku',
 			nonogram: 'Nonograma',
 			minesweeper: 'Campo Minado',
-			queens: 'Queens',
+			'star-battle': 'Batalha de Estrelas',
+			queens: 'Batalha de Estrelas',
 			tracks: 'Tracks',
 			watersort: 'Water Sort',
 			bridges: 'Pontes',
@@ -240,6 +241,68 @@ export const ptMedals = {
 		demolition_expert: {
 			title: 'Especialista em Demolição',
 			desc: 'Limpe um campo minado no nível Especialista.',
+		},
+	},
+	'star-battle': {
+		royal_placement: {
+			title: 'Colocação Real',
+			desc: 'Posicione sua primeira estrela.',
+		},
+		reign_supreme: {
+			title: 'Reinado Supremo',
+			desc: 'Construa uma dinastia ao longo da sua carreira de desafios.',
+		},
+		coronation_tour: {
+			title: 'Tour de Coroação',
+			desc: 'Resolva campanhas selecionadas em todos os tamanhos de reino.',
+		},
+		succession_streak: {
+			title: 'Sucessão Real',
+			desc: 'Mantenha sequências invictas de vitórias em reinos desafiadores.',
+		},
+		speed_easy: {
+			title: 'Coroação Relâmpago',
+			desc: 'Resolva um reino 6x6 em menos de 20 segundos.',
+		},
+		speed_expert: {
+			title: 'Grande Soberano',
+			desc: 'Resolva um reino Especialista 12x12 em menos de 2 minutos.',
+		},
+		blind_faith: {
+			title: 'Fé Cega',
+			desc: 'Conclua um tabuleiro 8x8 ou maior sem posicionar uma única marcação X.',
+		},
+		coup_detat: {
+			title: 'Golpe de Estado',
+			desc: 'Posicione todas as estrelas com precisão absoluta, sem nenhum conflito ou remoção.',
+		},
+		college_try: {
+			title: 'Valeu a Tentativa',
+			desc: 'Sofra a sua primeira derrota na corte real.',
+		},
+		civil_war: {
+			title: 'Guerra Civil',
+			desc: 'Posicione duas estrelas que se ameaçam mutuamente.',
+		},
+		abdication: {
+			title: 'Abdicação',
+			desc: 'Renda-se em um reino após posicionar mais da metade das estrelas.',
+		},
+		paranoid_monarch: {
+			title: 'Monarca Paranoico',
+			desc: 'Preencha mais de 80% do reino com marcas X antes de posicionar sua primeira estrela.',
+		},
+		royal_indecision: {
+			title: 'Indecisão Real',
+			desc: 'Posicione e remova uma estrela do mesmo quadrado quatro vezes.',
+		},
+		first_win: {
+			title: 'Posição Real',
+			desc: 'Resolva seu primeiro tabuleiro de Batalha de Estrelas.',
+		},
+		reign: {
+			title: 'Reinado Supremo',
+			desc: 'Resolva 15 tabuleiros de Batalha de Estrelas.',
 		},
 	},
 	queens: {

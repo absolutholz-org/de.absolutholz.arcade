@@ -5,7 +5,7 @@ import { COLOR_FLOOD_MEDAL_DEFINITIONS } from '../../../color-flood/src/config/m
 import { MINESWEEPER_MEDAL_DEFINITIONS } from '../../../minesweeper/src/config/medals';
 import { NET_MEDAL_DEFINITIONS } from '../../../net/src/config/medals';
 import { NONOGRAM_MEDAL_DEFINITIONS } from '../../../nonogram/src/config/medals';
-import { QUEENS_MEDAL_DEFINITIONS } from '../../../queens/src/config/medals';
+import { STAR_BATTLE_MEDAL_DEFINITIONS } from '../../../star-battle/src/config/medals';
 import { SUDOKU_MEDAL_DEFINITIONS } from '../../../sudoku/src/config/medals';
 import { TENTS_MEDAL_DEFINITIONS } from '../../../tents/src/config/medals';
 import { TRACKS_MEDAL_DEFINITIONS } from '../../../tracks/src/config/medals';
@@ -18,7 +18,7 @@ export const HUB_MEDAL_DEFINITIONS: {
 	sudoku: SUDOKU_MEDAL_DEFINITIONS,
 	nonogram: NONOGRAM_MEDAL_DEFINITIONS,
 	minesweeper: MINESWEEPER_MEDAL_DEFINITIONS,
-	queens: QUEENS_MEDAL_DEFINITIONS,
+	'star-battle': STAR_BATTLE_MEDAL_DEFINITIONS,
 	tracks: TRACKS_MEDAL_DEFINITIONS,
 	bridges: BRIDGES_MEDAL_DEFINITIONS,
 	tents: TENTS_MEDAL_DEFINITIONS,

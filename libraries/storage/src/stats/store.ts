@@ -8,7 +8,7 @@ export const DEFAULT_REGISTERED_GAMES: readonly string[] = [
 	'sudoku',
 	'nonogram',
 	'minesweeper',
-	'queens',
+	'star-battle',
 	'bridges',
 	'tracks',
 	'tents',

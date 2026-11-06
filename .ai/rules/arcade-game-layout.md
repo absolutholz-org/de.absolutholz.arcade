@@ -79,7 +79,7 @@ Tier 1: Document Layouts (@arcade/lib-ui/layouts/)
 
 ## 4. Interactive Canvas Grid & Accessibility Standards (WAI-ARIA & Biome Compliance)
 
-All 2D puzzle games and canvas boards implementing interactive grids (e.g., Sudoku, Minesweeper, Nonogram, Queens, Tracks, Tents, Net) must adhere strictly to the monorepo WAI-ARIA Grid pattern and Biome a11y standards:
+All 2D puzzle games and canvas boards implementing interactive grids (e.g., Sudoku, Minesweeper, Nonogram, Star Battle, Tracks, Tents, Net) must adhere strictly to the monorepo WAI-ARIA Grid pattern and Biome a11y standards:
 
 ### A. ARIA Grid Semantics & Roving Tabindex
 - The board container must define `role="grid"` with `aria-label`, `aria-rowcount`, and `aria-colcount`.

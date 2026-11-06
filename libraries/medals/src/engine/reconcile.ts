@@ -4,7 +4,13 @@ import { getMedalSyncAdapter } from '../sync/syncAdapter.js';
 import type { GameId, GameMedalState } from '../types/index.js';
 import { mergeGameMedalState } from './aggregator.js';
 
-export const SUPPORTED_GAME_IDS: readonly GameId[] = ['sudoku', 'minesweeper', 'nonogram', 'queens', 'tracks'] as const;
+export const SUPPORTED_GAME_IDS: readonly GameId[] = [
+	'sudoku',
+	'minesweeper',
+	'nonogram',
+	'star-battle',
+	'tracks',
+] as const;
 
 /**
  * Reconciles local medal state for a single game against the cloud backend.

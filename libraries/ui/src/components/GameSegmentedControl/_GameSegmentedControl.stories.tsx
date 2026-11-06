@@ -8,7 +8,7 @@ const SAMPLE_OPTIONS: GameSegmentedOption[] = [
 	{ id: 'sudoku', label: 'Sudoku', icon: '🔢' },
 	{ id: 'minesweeper', label: 'Minesweeper', icon: '💣' },
 	{ id: 'nonogram', label: 'Nonogram', icon: '🎨' },
-	{ id: 'queens', label: 'Queens', icon: '👑' },
+	{ id: 'star-battle', label: 'Star Battle', icon: '⭐' },
 	{ id: 'tracks', label: 'Tracks', icon: '🚂' },
 ];
 

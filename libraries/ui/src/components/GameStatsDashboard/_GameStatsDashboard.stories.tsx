@@ -131,11 +131,11 @@ export const GermanLocale: Story = {
 
 export const WithoutBuckets: Story = {
 	args: {
-		gameId: 'queens',
+		gameId: 'star-battle',
 		lang: 'en',
 		stats: {
 			...SAMPLE_POPULATED_STATS,
-			gameId: 'queens',
+			gameId: 'star-battle',
 			byBucket: {},
 		},
 	},

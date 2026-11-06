@@ -5,7 +5,7 @@ export type GameId =
 	| 'sudoku'
 	| 'minesweeper'
 	| 'nonogram'
-	| 'queens'
+	| 'star-battle'
 	| 'bridges'
 	| 'tracks'
 	| 'tents'

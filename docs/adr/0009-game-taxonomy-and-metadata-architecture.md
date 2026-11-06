@@ -10,7 +10,7 @@
 
 ## Context and Problem Statement
 
-The `@arcade/monorepo` catalog has grown beyond a handful of grid puzzles into a diverse portfolio spanning number logic (`sudoku`), hazard deduction (`minesweeper`), picture logic (`nonogram`), region placement (`queens`), railway and island pathfinding (`tracks`, `bridges`, `net`), bipartite constraint matching (`tents`), container sorting (`watersort`), multilingual word scrambles (`anagram`), and continuous planar graph untangling (`untangle`). Furthermore, the product roadmap introduces turn-based board games, card games, pass-and-play social games, and asynchronous online multiplayer titles (such as Tic-Tac-Toe, Uno, and Memory).
+The `@arcade/monorepo` catalog has grown beyond a handful of grid puzzles into a diverse portfolio spanning number logic (`sudoku`), hazard deduction (`minesweeper`), picture logic (`nonogram`), region placement (`star-battle`), railway and island pathfinding (`tracks`, `bridges`, `net`), bipartite constraint matching (`tents`), container sorting (`watersort`), multilingual word scrambles (`anagram`), and continuous planar graph untangling (`untangle`). Furthermore, the product roadmap introduces turn-based board games, card games, pass-and-play social games, and asynchronous online multiplayer titles (such as Tic-Tac-Toe, Uno, and Memory).
 
 Previously, `GameDefinition` in `@arcade/lib-games` (`libraries/games`) captured only minimal routing and icon fields (`id`, `name`, `route`, `assets`, `i18nNamespace`). Without a formal taxonomy and metadata contract:
 
@@ -61,7 +61,7 @@ The taxonomy separates **hierarchical genre placement** (`category`) from **five
 | **`tags.sessionLength`** | `1..N` unique | Typical completion time across supported difficulty/board tiers. | `snack-under-3m`, `standard-5-10m`, `deep-15m-plus` |
 
 #### Input & Accessibility Tag Semantics (WCAG 2.2 Alignment)
-- `tap-only` must **only** be assigned when every pointer interaction in gameplay can be completed via discrete single-point taps/clicks without requiring continuous dragging movements (aligning with WCAG 2.2 SC 2.5.7). Games supporting optional drag gestures alongside full single-tap operation (e.g., `nonogram`, `tracks`, `queens`, `bridges`) carry both `tap-only` and `drag-and-drop`; games whose pointer interaction inherently requires dragging (e.g., `untangle`) carry `drag-and-drop` without `tap-only` while providing `keyboard-controls` for non-pointer accessibility.
+- `tap-only` must **only** be assigned when every pointer interaction in gameplay can be completed via discrete single-point taps/clicks without requiring continuous dragging movements (aligning with WCAG 2.2 SC 2.5.7). Games supporting optional drag gestures alongside full single-tap operation (e.g., `nonogram`, `tracks`, `star-battle`, `bridges`) carry both `tap-only` and `drag-and-drop`; games whose pointer interaction inherently requires dragging (e.g., `untangle`) carry `drag-and-drop` without `tap-only` while providing `keyboard-controls` for non-pointer accessibility.
 - `dual-mode-toggle` designates games that expose an explicit on-screen mode switch (e.g., Reveal/Flag, Fill/Cross, Digit/Notes) bridging desktop secondary-click actions to touch screens.
 
 ### 2. Unified `GameMetadata` Contract & Structural Isolation

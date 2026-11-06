@@ -9,7 +9,7 @@ import { deMedals } from '../locales/de/medals.js';
 import { deMinesweeper } from '../locales/de/minesweeper.js';
 import { deNet } from '../locales/de/net.js';
 import { deNonogram } from '../locales/de/nonogram.js';
-import { deQueens } from '../locales/de/queens.js';
+import { deStarBattle } from '../locales/de/star-battle.js';
 import { deSudoku } from '../locales/de/sudoku.js';
 import { deTaxonomy } from '../locales/de/taxonomy.js';
 import { deTents } from '../locales/de/tents.js';
@@ -24,7 +24,7 @@ import { enMedals } from '../locales/en/medals.js';
 import { enMinesweeper } from '../locales/en/minesweeper.js';
 import { enNet } from '../locales/en/net.js';
 import { enNonogram } from '../locales/en/nonogram.js';
-import { enQueens } from '../locales/en/queens.js';
+import { enStarBattle } from '../locales/en/star-battle.js';
 import { enSudoku } from '../locales/en/sudoku.js';
 import { enTaxonomy } from '../locales/en/taxonomy.js';
 import { enTents } from '../locales/en/tents.js';
@@ -39,7 +39,7 @@ import { frMedals } from '../locales/fr/medals.js';
 import { frMinesweeper } from '../locales/fr/minesweeper.js';
 import { frNet } from '../locales/fr/net.js';
 import { frNonogram } from '../locales/fr/nonogram.js';
-import { frQueens } from '../locales/fr/queens.js';
+import { frStarBattle } from '../locales/fr/star-battle.js';
 import { frSudoku } from '../locales/fr/sudoku.js';
 import { frTaxonomy } from '../locales/fr/taxonomy.js';
 import { frTents } from '../locales/fr/tents.js';
@@ -54,7 +54,7 @@ import { ptMedals } from '../locales/pt/medals.js';
 import { ptMinesweeper } from '../locales/pt/minesweeper.js';
 import { ptNet } from '../locales/pt/net.js';
 import { ptNonogram } from '../locales/pt/nonogram.js';
-import { ptQueens } from '../locales/pt/queens.js';
+import { ptStarBattle } from '../locales/pt/star-battle.js';
 import { ptSudoku } from '../locales/pt/sudoku.js';
 import { ptTaxonomy } from '../locales/pt/taxonomy.js';
 import { ptTents } from '../locales/pt/tents.js';
@@ -70,7 +70,7 @@ export const resources: TranslationResources = {
 		sudoku: enSudoku,
 		minesweeper: enMinesweeper,
 		nonogram: enNonogram,
-		queens: enQueens,
+		'star-battle': enStarBattle,
 		bridges: enBridges,
 		tracks: enTracks,
 		watersort: enWatersort,
@@ -87,7 +87,7 @@ export const resources: TranslationResources = {
 		sudoku: deSudoku,
 		minesweeper: deMinesweeper,
 		nonogram: deNonogram,
-		queens: deQueens,
+		'star-battle': deStarBattle,
 		bridges: deBridges,
 		tracks: deTracks,
 		watersort: deWatersort,
@@ -104,7 +104,7 @@ export const resources: TranslationResources = {
 		sudoku: frSudoku,
 		minesweeper: frMinesweeper,
 		nonogram: frNonogram,
-		queens: frQueens,
+		'star-battle': frStarBattle,
 		bridges: frBridges,
 		tracks: frTracks,
 		watersort: frWatersort,
@@ -121,7 +121,7 @@ export const resources: TranslationResources = {
 		sudoku: ptSudoku,
 		minesweeper: ptMinesweeper,
 		nonogram: ptNonogram,
-		queens: ptQueens,
+		'star-battle': ptStarBattle,
 		bridges: ptBridges,
 		tracks: ptTracks,
 		watersort: ptWatersort,
@@ -148,7 +148,7 @@ i18n.use(initReactI18next).init({
 		'sudoku',
 		'minesweeper',
 		'nonogram',
-		'queens',
+		'star-battle',
 		'bridges',
 		'tracks',
 		'watersort',

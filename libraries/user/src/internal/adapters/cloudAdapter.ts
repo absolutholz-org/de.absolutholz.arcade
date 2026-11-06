@@ -157,7 +157,7 @@ export class CloudAdapter {
 				const gameRef = doc(firestore, USERS_COLLECTION, uid, 'gameStats', gameId);
 				await deleteDoc(gameRef);
 			} else {
-				const knownGames = ['sudoku', 'nonogram', 'minesweeper', 'queens', 'tracks'];
+				const knownGames = ['sudoku', 'nonogram', 'minesweeper', 'star-battle', 'tracks'];
 				await Promise.all(
 					knownGames.map(async (g) => {
 						const ref = doc(firestore, USERS_COLLECTION, uid, 'gameStats', g);

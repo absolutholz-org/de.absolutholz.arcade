@@ -80,7 +80,7 @@ const meta = {
 				'sudoku',
 				'nonogram',
 				'minesweeper',
-				'queens',
+				'star-battle',
 				'tracks',
 				'watersort',
 				'bridges',

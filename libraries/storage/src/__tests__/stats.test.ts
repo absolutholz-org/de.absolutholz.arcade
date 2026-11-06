@@ -179,11 +179,11 @@ describe('Game Statistics Contract & Reducer', () => {
 		});
 
 		it('handles edge cases (null moves/scores, empty initial storage, missing bucketKey)', () => {
-			const initial = createEmptyGameStats('queens');
+			const initial = createEmptyGameStats('star-battle');
 
 			// Win with null moves, null score, no bucketKey, not flawless
 			const win = updateStatsWithRound(initial, {
-				gameId: 'queens',
+				gameId: 'star-battle',
 				won: true,
 				playTimeSeconds: 85,
 				moves: undefined,
@@ -199,7 +199,7 @@ describe('Game Statistics Contract & Reducer', () => {
 
 			// Subsequent win with defined moves and score
 			const win2 = updateStatsWithRound(win, {
-				gameId: 'queens',
+				gameId: 'star-battle',
 				won: true,
 				playTimeSeconds: 90,
 				moves: 25,
@@ -211,7 +211,7 @@ describe('Game Statistics Contract & Reducer', () => {
 
 			// Next win with worse moves (30) and better score (400)
 			const win3 = updateStatsWithRound(win2, {
-				gameId: 'queens',
+				gameId: 'star-battle',
 				won: true,
 				playTimeSeconds: 60,
 				moves: 30,

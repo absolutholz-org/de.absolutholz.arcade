@@ -11,7 +11,7 @@ export const DEFAULT_GAME_TITLES: Readonly<Record<string, string>> = Object.free
 	sudoku: 'Sudoku',
 	minesweeper: 'Minesweeper',
 	nonogram: 'Nonogram',
-	queens: 'Queens',
+	'star-battle': 'Star Battle',
 	bridges: 'Bridges',
 	tracks: 'Tracks',
 	tents: 'Tents',

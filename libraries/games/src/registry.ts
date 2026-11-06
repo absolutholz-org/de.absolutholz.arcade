@@ -60,13 +60,13 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 			sessionLength: ['snack-under-3m', 'standard-5-10m', 'deep-15m-plus'],
 		},
 	},
-	queens: {
-		id: 'queens',
-		route: '/queens',
+	'star-battle': {
+		id: 'star-battle',
+		route: '/star-battle',
 		assets: {
-			icon: '👑',
+			icon: '⭐',
 		},
-		i18nNamespace: 'queens',
+		i18nNamespace: 'star-battle',
 		category: {
 			primary: 'logic-deduction',
 		},

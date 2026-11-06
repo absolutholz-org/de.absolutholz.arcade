@@ -1,0 +1,27 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import BaseLayoutWithSiteHeaderAndSiteFooter from '@arcade/lib-ui/layouts/BaseLayoutWithSiteHeaderAndSiteFooter/BaseLayoutWithSiteHeaderAndSiteFooter.astro';
+import { StarBattleLobby } from '../../components/StarBattleLobby';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const currentStarBattle = resources[lang as SupportedLanguageCode]?.['star-battle'] ?? resources.en['star-battle'];
+---
+
+<BaseLayoutWithSiteHeaderAndSiteFooter
+	titleOptions={{
+		scope: currentStarBattle.title,
+	}}
+	description={currentStarBattle.description}
+	lang={lang as SupportedLanguageCode}
+	currentSlug=""
+>
+	<StarBattleLobby client:load lang={lang as SupportedLanguageCode} />
+</BaseLayoutWithSiteHeaderAndSiteFooter>

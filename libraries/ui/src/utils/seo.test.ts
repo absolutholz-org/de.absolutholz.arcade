@@ -42,9 +42,9 @@ describe('formatPageTitle', () => {
 	it('resolves subject and scope (game subpages)', () => {
 		const statsTitle = formatPageTitle({
 			subject: 'Statistics',
-			scope: 'Queens',
+			scope: 'Star Battle',
 		});
-		expect(statsTitle).toBe('Statistics – Queens | Arcade');
+		expect(statsTitle).toBe('Statistics – Star Battle | Arcade');
 
 		const rulesTitle = formatPageTitle({
 			subject: 'How to Play',
@@ -102,7 +102,7 @@ describe('resolveGameIdFromPath', () => {
 		expect(resolveGameIdFromPath('/sudoku/en/game')).toBe('sudoku');
 		expect(resolveGameIdFromPath('/minesweeper/de/')).toBe('minesweeper');
 		expect(resolveGameIdFromPath('/untangle')).toBe('untangle');
-		expect(resolveGameIdFromPath('https://arcade.absolutholz.de/queens/fr/game')).toBe('queens');
+		expect(resolveGameIdFromPath('https://arcade.absolutholz.de/star-battle/fr/game')).toBe('star-battle');
 	});
 
 	it('returns undefined for hub, tool, or empty routes', () => {

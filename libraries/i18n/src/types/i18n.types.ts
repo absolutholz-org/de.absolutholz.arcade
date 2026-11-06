@@ -7,7 +7,7 @@ import type { MedalsSchema, MedalsTranslationContract } from '../schemas/medals.
 import type { MinesweeperSchema, MinesweeperTranslationContract } from '../schemas/minesweeper.schema.js';
 import type { NetSchema, NetTranslationContract } from '../schemas/net.schema.js';
 import type { NonogramSchema, NonogramTranslationContract } from '../schemas/nonogram.schema.js';
-import type { QueensSchema, QueensTranslationContract } from '../schemas/queens.schema.js';
+import type { StarBattleSchema, StarBattleTranslationContract } from '../schemas/star-battle.schema.js';
 import type { SudokuSchema, SudokuTranslationContract } from '../schemas/sudoku.schema.js';
 import type { TaxonomySchema, TaxonomyTranslationContract } from '../schemas/taxonomy.schema.js';
 import type { TentsSchema, TentsTranslationContract } from '../schemas/tents.schema.js';
@@ -27,7 +27,8 @@ export type CommonTranslationKey = LeafKeys<CommonSchema> | `common.${LeafKeys<C
 export type SudokuTranslationKey = LeafKeys<SudokuSchema>;
 export type MinesweeperTranslationKey = LeafKeys<MinesweeperSchema>;
 export type NonogramTranslationKey = LeafKeys<NonogramSchema>;
-export type QueensTranslationKey = LeafKeys<QueensSchema>;
+export type StarBattleTranslationKey = LeafKeys<StarBattleSchema> | `star-battle.${LeafKeys<StarBattleSchema>}`;
+export type QueensTranslationKey = StarBattleTranslationKey;
 export type BridgesTranslationKey = LeafKeys<BridgesSchema>;
 export type TracksTranslationKey = LeafKeys<TracksSchema>;
 export type WaterSortTranslationKey = LeafKeys<WaterSortSchema>;
@@ -44,7 +45,7 @@ export type TranslationKey =
 	| SudokuTranslationKey
 	| MinesweeperTranslationKey
 	| NonogramTranslationKey
-	| QueensTranslationKey
+	| StarBattleTranslationKey
 	| BridgesTranslationKey
 	| TracksTranslationKey
 	| WaterSortTranslationKey
@@ -71,7 +72,7 @@ export type TranslationResources = Record<
 		readonly sudoku: SudokuTranslationContract;
 		readonly minesweeper: MinesweeperTranslationContract;
 		readonly nonogram: NonogramTranslationContract;
-		readonly queens: QueensTranslationContract;
+		readonly 'star-battle': StarBattleTranslationContract;
 		readonly bridges: BridgesTranslationContract;
 		readonly tracks: TracksTranslationContract;
 		watersort: WaterSortTranslationContract;

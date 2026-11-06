@@ -15,6 +15,7 @@ import type {
 	NetCustomStats,
 	NonogramCustomStats,
 	QueensCustomStats,
+	StarBattleCustomStats,
 	SudokuCustomStats,
 	SudokuDifficulty,
 	TentsCustomStats,
@@ -210,8 +211,11 @@ export function updateCustomStats<G extends GameId>(
 			return { updatedCustom: stats as GameCustomStatsMap[G], isNewBestTime };
 		}
 
-		case 'queens': {
-			const stats = { ...(current as QueensCustomStats), boards: { ...(current as QueensCustomStats).boards } };
+		case 'star-battle': {
+			const stats = {
+				...(current as StarBattleCustomStats),
+				boards: { ...(current as StarBattleCustomStats).boards },
+			};
 			const boardId = (result.roundContext?.completedPresetId as string | undefined) ?? result.levelKey;
 			if (boardId && result.won) {
 				const prev = stats.boards[boardId];
@@ -799,13 +803,13 @@ export function mergeGameMedalState<G extends GameId>(
 			}
 		}
 		mergedCustom = { puzzles: mergedPuzzles } as unknown as GameCustomStatsMap[G];
-	} else if (local.gameId === 'queens') {
-		const localCustom = local.customStats as QueensCustomStats;
-		const remoteCustom = remote.customStats as QueensCustomStats;
+	} else if (local.gameId === 'star-battle') {
+		const localCustom = local.customStats as StarBattleCustomStats;
+		const remoteCustom = remote.customStats as StarBattleCustomStats;
 		const localBoards = localCustom.boards;
 		const remoteBoards = remoteCustom.boards;
 		const allIds = new Set([...Object.keys(localBoards), ...Object.keys(remoteBoards)]);
-		const mergedBoards: QueensCustomStats['boards'] = {};
+		const mergedBoards: StarBattleCustomStats['boards'] = {};
 
 		for (const id of allIds) {
 			const l = localBoards[id];

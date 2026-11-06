@@ -1,0 +1,97 @@
+import type { StarBattleTranslationContract } from '../../schemas/star-battle.schema.js';
+
+export const enStarBattle = {
+	title: 'Star Battle',
+	description:
+		'Place neutral star markers so each row, column, and colored region contains exactly one star without any touching.',
+	difficulty: {
+		label: 'Difficulty',
+		easy: 'Easy',
+		easyDesc: '6×6 grid with 6 regions and 6 stars.',
+		medium: 'Medium',
+		mediumDesc: '8×8 grid with 8 regions and 8 stars.',
+		hard: 'Hard',
+		hardDesc: '10×10 grid with 10 regions and 10 stars.',
+		expert: 'Expert',
+		expertDesc: '12×12 grid with 12 regions and 12 stars.',
+	},
+	levels: {
+		puzzle: 'Puzzle',
+		puzzleNum: 'Puzzle {{number}}',
+		selectLevel: 'Select Puzzle',
+		completed: 'Completed',
+		notCompleted: 'Not completed',
+		bestTime: 'Best time: {{time}}',
+		quickPlay: 'Quick Play',
+		quickPlayDesc: 'Generate a new board',
+	},
+	mode: {
+		label: 'Input Mode',
+		mark: 'Mark Mode',
+		markDesc: 'Place and remove X marks to eliminate squares',
+		token: 'Star Mode',
+		tokenDesc: 'Place and remove Star tokens',
+	},
+	controls: {
+		undo: 'Undo',
+		redo: 'Redo',
+		reset: 'Reset Board',
+		autoCross: 'Auto-Cross',
+		autoCrossDesc: 'Automatically place X marks in row, column, and adjacent cells when placing a star',
+		pause: 'Pause',
+		resume: 'Resume',
+		restart: 'Restart',
+		play: 'Play',
+		nextPuzzle: 'Next Puzzle',
+		backToLobby: 'Lobby',
+	},
+	settings: {
+		title: 'Game Settings',
+		gameplayTab: 'Gameplay',
+		siteTab: 'Preferences',
+		autoCross: {
+			label: 'Auto-Cross Helper',
+			description: 'Automatically places X marks around placed stars (row, column, and adjacent cells).',
+		},
+		colorScheme: 'Appearance',
+		language: 'Language',
+	},
+	status: {
+		paused: 'Game Paused',
+		pausedDescription: 'Your puzzle progress and timer are securely paused.',
+		timer: 'Elapsed Time',
+		time: 'Time',
+		bestTime: 'Best Time',
+		newBestTime: 'New Best Time!',
+		tokensPlaced: '{{current}} of {{total}} Stars placed',
+	},
+	conflicts: {
+		row: 'Row conflict: multiple stars in this row',
+		col: 'Column conflict: multiple stars in this column',
+		region: 'Region conflict: multiple stars in this colored zone',
+		adjacency: 'Adjacency conflict: stars cannot touch horizontally, vertically, or diagonally',
+	},
+	victory: {
+		title: 'Puzzle Solved!',
+		congratulations: 'Brilliant deduction! All stars are placed with zero rule collisions.',
+		playAgain: 'Play Again',
+		nextLevel: 'Next Puzzle',
+	},
+	aria: {
+		board: 'Star Battle puzzle grid {{size}} by {{size}}',
+		instructions:
+			'Use arrow keys to move between cells. Press Space or Enter to toggle. Press X to mark, S, C, or Q for Star, Backspace to clear, Z to undo, Y to redo, and Escape to pause.',
+		cell: 'Row {{row}}, Column {{col}}, Region {{region}}',
+		cellEmpty: 'empty',
+		cellMarked: 'marked with X',
+		cellToken: 'contains Star',
+		conflictNotice: 'Rule collision: {{reason}}',
+		headerToolbar: 'Game controls toolbar',
+	},
+	navigation: {
+		rules: 'Rules',
+		lobby: 'Lobby',
+	},
+} as const satisfies StarBattleTranslationContract;
+
+export const enQueens = enStarBattle;

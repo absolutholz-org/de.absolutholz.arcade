@@ -62,7 +62,7 @@ describe('Game Settings Persistence & Merging', () => {
 
 	it('safely merges persisted values over defaults for new schema fields', async () => {
 		const driver = new MemoryStorageDriver();
-		const storage = createGameStorage('queens', { driver });
+		const storage = createGameStorage('star-battle', { driver });
 
 		// Simulate legacy persisted settings missing a newly introduced field `newFeatureToggle`
 		await storage.set(GAME_SETTINGS_STORAGE_KEY, {
@@ -75,7 +75,7 @@ describe('Game Settings Persistence & Merging', () => {
 			newFeatureToggle: true,
 		};
 
-		const loaded = await getGameSettings('queens', extendedDefaults, storage);
+		const loaded = await getGameSettings('star-battle', extendedDefaults, storage);
 
 		// Preserves persisted changes while initializing missing fields from extended defaults
 		expect(loaded.highlightErrors).toBe(false);

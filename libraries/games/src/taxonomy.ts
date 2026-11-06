@@ -130,7 +130,7 @@ const GAME_ID_LOOKUP = {
 	sudoku: true,
 	minesweeper: true,
 	nonogram: true,
-	queens: true,
+	'star-battle': true,
 	bridges: true,
 	tracks: true,
 	tents: true,
