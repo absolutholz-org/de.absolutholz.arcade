@@ -7,6 +7,7 @@ import { LIQUID_SORT_MEDAL_DEFINITIONS } from '../../../liquid-sort/src/config/m
 import { MINESWEEPER_MEDAL_DEFINITIONS } from '../../../minesweeper/src/config/medals';
 import { NET_MEDAL_DEFINITIONS } from '../../../net/src/config/medals';
 import { NONOGRAM_MEDAL_DEFINITIONS } from '../../../nonogram/src/config/medals';
+import { PENTOMINOES_MEDAL_DEFINITIONS } from '../../../pentominoes/src/config/medals';
 import { STAR_BATTLE_MEDAL_DEFINITIONS } from '../../../star-battle/src/config/medals';
 import { SUDOKU_MEDAL_DEFINITIONS } from '../../../sudoku/src/config/medals';
 import { TENTS_MEDAL_DEFINITIONS } from '../../../tents/src/config/medals';
@@ -29,6 +30,7 @@ export const HUB_MEDAL_DEFINITIONS: {
 	net: NET_MEDAL_DEFINITIONS,
 	'color-flood': COLOR_FLOOD_MEDAL_DEFINITIONS,
 	'dice-bingo': DICE_BINGO_MEDAL_DEFINITIONS,
+	pentominoes: PENTOMINOES_MEDAL_DEFINITIONS,
 };
 
 export function getHubMedalDefinitionsForGame<G extends GameId>(gameId: G): readonly AchievementDefinition<G>[] {

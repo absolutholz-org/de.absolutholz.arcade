@@ -16,7 +16,8 @@ export type GameId =
 	| 'untangle'
 	| 'net'
 	| 'color-flood'
-	| 'dice-bingo';
+	| 'dice-bingo'
+	| 'pentominoes';
 
 /**
  * Canonical identifiers for standalone utility tools in the Arcade monorepo.

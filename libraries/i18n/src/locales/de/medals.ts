@@ -870,4 +870,34 @@ export const deMedals = {
 			desc: 'Beende ein Spiel, in dem jede einzelne Reihe, Spalte und Diagonale punktet.',
 		},
 	},
+	pentominoes: {
+		first_fit: {
+			title: 'Erste Passform',
+			desc: 'Löse dein erstes Pentominos-Parkettierungsrätsel.',
+		},
+		penta_ladder: {
+			title: 'Penta-Leiter-Stürmer',
+			desc: 'Meistere die Penta-Leiter: Bronze bei 3, Silber bei 7 und Gold bei allen 10 Rechtecken (5×3 bis 5×12).',
+		},
+		silhouette_sculptor: {
+			title: 'Silhouetten-Bildhauer',
+			desc: 'Löse architektonische Silhouetten-Bretter mit Aussparungen oder Stufenrahmen.',
+		},
+		full_set_master: {
+			title: '60-Felder-Meister',
+			desc: 'Parkettiere alle 12 klassischen Pentominos in ein 60-Felder-Brett (5×12, 6×10 oder 8×8).',
+		},
+		spatial_intuitive: {
+			title: 'Räumliche Intuition',
+			desc: 'Löse ein Pentominos-Rätsel komplett ohne Hinweise oder Rückgängig-Züge.',
+		},
+		speed_packer: {
+			title: 'Blitz-Parkettierer',
+			desc: 'Löse ein schweres oder Experten-Brett in unter 3 Minuten.',
+		},
+		grand_architect: {
+			title: 'Großarchitekt der Polyominos',
+			desc: 'Gelöste Pentominos-Bretter insgesamt: Bronze bei 5, Silber bei 20 und Gold bei 50 Siegen.',
+		},
+	},
 } as const satisfies MedalsTranslationContract;

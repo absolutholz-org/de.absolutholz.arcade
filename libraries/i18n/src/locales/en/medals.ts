@@ -869,4 +869,34 @@ export const enMedals = {
 			desc: 'Complete a game where every single row, column, and diagonal scores points.',
 		},
 	},
+	pentominoes: {
+		first_fit: {
+			title: 'First Fit',
+			desc: 'Complete your first Pentominoes exact cover puzzle.',
+		},
+		penta_ladder: {
+			title: 'Penta Ladder Climber',
+			desc: 'Solve Penta Ladder rectangles: Bronze at 3, Silver at 7, and Gold at all 10 boards (5×3 through 5×12).',
+		},
+		silhouette_sculptor: {
+			title: 'Silhouette Sculptor',
+			desc: 'Solve architectural silhouette boards with internal voids or stepped frames.',
+		},
+		full_set_master: {
+			title: '60-Cell Master',
+			desc: 'Pack all 12 canonical pentominoes into a 60-cell frame (5×12, 6×10, or 8×8).',
+		},
+		spatial_intuitive: {
+			title: 'Spatial Intuitive',
+			desc: 'Complete any Pentominoes puzzle without using hints or undo.',
+		},
+		speed_packer: {
+			title: 'Speed Packer',
+			desc: 'Complete a Hard or Expert Pentominoes board in under 3 minutes.',
+		},
+		grand_architect: {
+			title: 'Grand Polyomino Architect',
+			desc: 'Win Pentominoes puzzles across your career: Bronze at 5, Silver at 20, and Gold at 50 solved boards.',
+		},
+	},
 } as const satisfies MedalsTranslationContract;

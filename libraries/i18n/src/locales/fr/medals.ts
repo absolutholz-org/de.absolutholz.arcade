@@ -870,4 +870,34 @@ export const frMedals = {
 			desc: 'Terminez une partie où chaque ligne, colonne et diagonale rapporte des points.',
 		},
 	},
+	pentominoes: {
+		first_fit: {
+			title: 'Premier Assemblage',
+			desc: 'Terminez votre premier puzzle de pavage exact Pentaminos.',
+		},
+		penta_ladder: {
+			title: 'Grimpeur de l’Échelle Penta',
+			desc: 'Gravissez l’Échelle Penta : Bronze à 3, Argent à 7 et Or aux 10 rectangles (5×3 à 5×12).',
+		},
+		silhouette_sculptor: {
+			title: 'Sculpteur de Silhouettes',
+			desc: 'Résolvez des silhouettes architecturales avec vides centraux ou degrés.',
+		},
+		full_set_master: {
+			title: 'Maître des 60 Cases',
+			desc: 'Assemblez les 12 pentaminos canoniques dans un cadre de 60 cases (5×12, 6×10 ou 8×8).',
+		},
+		spatial_intuitive: {
+			title: 'Intuition Spatiale',
+			desc: 'Résolvez un puzzle Pentaminos sans utiliser d’indice ni d’annulation.',
+		},
+		speed_packer: {
+			title: 'Paveur Éclair',
+			desc: 'Terminez un plateau Difficile ou Expert en moins de 3 minutes.',
+		},
+		grand_architect: {
+			title: 'Grand Architecte Polyomino',
+			desc: 'Plateaux Pentaminos résolus : Bronze à 5, Argent à 20 et Or à 50 victoires.',
+		},
+	},
 } as const satisfies MedalsTranslationContract;

@@ -11,6 +11,7 @@ import { deMedals } from '../locales/de/medals.js';
 import { deMinesweeper } from '../locales/de/minesweeper.js';
 import { deNet } from '../locales/de/net.js';
 import { deNonogram } from '../locales/de/nonogram.js';
+import { dePentominoes } from '../locales/de/pentominoes.js';
 import { deStarBattle } from '../locales/de/star-battle.js';
 import { deSudoku } from '../locales/de/sudoku.js';
 import { deTaxonomy } from '../locales/de/taxonomy.js';
@@ -27,6 +28,7 @@ import { enMedals } from '../locales/en/medals.js';
 import { enMinesweeper } from '../locales/en/minesweeper.js';
 import { enNet } from '../locales/en/net.js';
 import { enNonogram } from '../locales/en/nonogram.js';
+import { enPentominoes } from '../locales/en/pentominoes.js';
 import { enStarBattle } from '../locales/en/star-battle.js';
 import { enSudoku } from '../locales/en/sudoku.js';
 import { enTaxonomy } from '../locales/en/taxonomy.js';
@@ -43,6 +45,7 @@ import { frMedals } from '../locales/fr/medals.js';
 import { frMinesweeper } from '../locales/fr/minesweeper.js';
 import { frNet } from '../locales/fr/net.js';
 import { frNonogram } from '../locales/fr/nonogram.js';
+import { frPentominoes } from '../locales/fr/pentominoes.js';
 import { frStarBattle } from '../locales/fr/star-battle.js';
 import { frSudoku } from '../locales/fr/sudoku.js';
 import { frTaxonomy } from '../locales/fr/taxonomy.js';
@@ -59,6 +62,7 @@ import { ptMedals } from '../locales/pt/medals.js';
 import { ptMinesweeper } from '../locales/pt/minesweeper.js';
 import { ptNet } from '../locales/pt/net.js';
 import { ptNonogram } from '../locales/pt/nonogram.js';
+import { ptPentominoes } from '../locales/pt/pentominoes.js';
 import { ptStarBattle } from '../locales/pt/star-battle.js';
 import { ptSudoku } from '../locales/pt/sudoku.js';
 import { ptTaxonomy } from '../locales/pt/taxonomy.js';
@@ -84,6 +88,7 @@ export const resources: TranslationResources = {
 		net: enNet,
 		'color-flood': enColorFlood,
 		'dice-bingo': enDiceBingo,
+		pentominoes: enPentominoes,
 		medals: enMedals,
 		taxonomy: enTaxonomy,
 	},
@@ -102,6 +107,7 @@ export const resources: TranslationResources = {
 		net: deNet,
 		'color-flood': deColorFlood,
 		'dice-bingo': deDiceBingo,
+		pentominoes: dePentominoes,
 		medals: deMedals,
 		taxonomy: deTaxonomy,
 	},
@@ -120,6 +126,7 @@ export const resources: TranslationResources = {
 		net: frNet,
 		'color-flood': frColorFlood,
 		'dice-bingo': frDiceBingo,
+		pentominoes: frPentominoes,
 		medals: frMedals,
 		taxonomy: frTaxonomy,
 	},
@@ -138,6 +145,7 @@ export const resources: TranslationResources = {
 		net: ptNet,
 		'color-flood': ptColorFlood,
 		'dice-bingo': ptDiceBingo,
+		pentominoes: ptPentominoes,
 		medals: ptMedals,
 		taxonomy: ptTaxonomy,
 	},
@@ -165,6 +173,8 @@ i18n.use(initReactI18next).init({
 		'untangle',
 		'net',
 		'color-flood',
+		'dice-bingo',
+		'pentominoes',
 		'medals',
 		'taxonomy',
 	],

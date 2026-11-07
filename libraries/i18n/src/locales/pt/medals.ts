@@ -870,4 +870,34 @@ export const ptMedals = {
 			desc: 'Conclua uma partida em que todas as linhas, colunas e diagonais marquem pontos.',
 		},
 	},
+	pentominoes: {
+		first_fit: {
+			title: 'Primeiro Encaixe',
+			desc: 'Conclua seu primeiro quebra-cabeça de cobertura exata de Pentaminós.',
+		},
+		penta_ladder: {
+			title: 'Escalador da Escada Penta',
+			desc: 'Domine a Escada Penta: Bronze em 3, Prata em 7 e Ouro em todos os 10 retângulos (5×3 a 5×12).',
+		},
+		silhouette_sculptor: {
+			title: 'Escultor de Silhuetas',
+			desc: 'Resolva tabuleiros de silhuetas arquitetônicas com vazios internos ou degraus.',
+		},
+		full_set_master: {
+			title: 'Mestre das 60 Células',
+			desc: 'Encaixe todos os 12 pentaminós canônicos em uma moldura de 60 células (5×12, 6×10 ou 8×8).',
+		},
+		spatial_intuitive: {
+			title: 'Intuição Espacial',
+			desc: 'Conclua qualquer desafio de Pentaminós sem usar dicas ou desfazer.',
+		},
+		speed_packer: {
+			title: 'Empacotador Veloz',
+			desc: 'Conclua um tabuleiro Difícil ou Especialista em menos de 3 minutos.',
+		},
+		grand_architect: {
+			title: 'Grande Arquiteto de Poliminós',
+			desc: 'Tabuleiros de Pentaminós resolvidos: Bronze aos 5, Prata aos 20 e Ouro aos 50.',
+		},
+	},
 } as const satisfies MedalsTranslationContract;

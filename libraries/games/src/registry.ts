@@ -247,6 +247,25 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 			sessionLength: ['snack-under-3m', 'standard-5-10m'],
 		},
 	},
+	pentominoes: {
+		id: 'pentominoes',
+		route: '/pentominoes',
+		assets: {
+			icon: '🧩',
+		},
+		i18nNamespace: 'pentominoes',
+		category: {
+			primary: 'spatial-puzzle',
+			secondary: 'logic-deduction',
+		},
+		tags: {
+			mechanics: ['grid-based', 'pattern-recognition', 'tile-rotation', 'deduction'],
+			inputs: ['touch-optimized', 'keyboard-controls', 'tap-only'],
+			pacing: ['zen-untimed', 'speedrun-timer', 'undo-friendly'],
+			modes: ['single-player', 'curated-levels', 'procedural-endless'],
+			sessionLength: ['snack-under-3m', 'standard-5-10m', 'deep-15m-plus'],
+		},
+	},
 };
 
 /**

@@ -139,6 +139,15 @@ export interface GameCustomStatsMap {
 	net: NetCustomStats;
 	'color-flood': ColorFloodCustomStats;
 	'dice-bingo': DiceBingoCustomStats;
+	pentominoes: PentominoesCustomStats;
+}
+
+export interface PentominoesCustomStats {
+	readonly pentaLadderSolved?: number;
+	readonly silhouettesSolved?: number;
+	readonly fullSet60Solved?: number;
+	readonly flawlessPacks?: number;
+	readonly fastHardPacks?: number;
 }
 
 export interface DiceBingoCustomStats {

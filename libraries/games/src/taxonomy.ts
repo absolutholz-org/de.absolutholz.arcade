@@ -140,6 +140,7 @@ const GAME_ID_LOOKUP = {
 	net: true,
 	'color-flood': true,
 	'dice-bingo': true,
+	pentominoes: true,
 } as const satisfies Readonly<Record<GameId, true>>;
 
 const CATEGORY_SET: ReadonlySet<string> = new Set(GAME_CATEGORIES);

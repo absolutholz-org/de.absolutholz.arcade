@@ -9,6 +9,7 @@ import type { MedalsSchema, MedalsTranslationContract } from '../schemas/medals.
 import type { MinesweeperSchema, MinesweeperTranslationContract } from '../schemas/minesweeper.schema.js';
 import type { NetSchema, NetTranslationContract } from '../schemas/net.schema.js';
 import type { NonogramSchema, NonogramTranslationContract } from '../schemas/nonogram.schema.js';
+import type { PentominoesSchema, PentominoesTranslationContract } from '../schemas/pentominoes.schema.js';
 import type { StarBattleSchema, StarBattleTranslationContract } from '../schemas/star-battle.schema.js';
 import type { SudokuSchema, SudokuTranslationContract } from '../schemas/sudoku.schema.js';
 import type { TaxonomySchema, TaxonomyTranslationContract } from '../schemas/taxonomy.schema.js';
@@ -39,6 +40,7 @@ export type UntangleTranslationKey = LeafKeys<UntangleSchema> | `untangle.${Leaf
 export type NetTranslationKey = LeafKeys<NetSchema> | `net.${LeafKeys<NetSchema>}`;
 export type ColorFloodTranslationKey = LeafKeys<ColorFloodSchema> | `color-flood.${LeafKeys<ColorFloodSchema>}`;
 export type DiceBingoTranslationKey = LeafKeys<DiceBingoSchema> | `dice-bingo.${LeafKeys<DiceBingoSchema>}`;
+export type PentominoesTranslationKey = LeafKeys<PentominoesSchema> | `pentominoes.${LeafKeys<PentominoesSchema>}`;
 export type MedalsTranslationKey = LeafKeys<MedalsSchema> | `medals.${LeafKeys<MedalsSchema>}`;
 export type TaxonomyTranslationKey = LeafKeys<TaxonomySchema> | `taxonomy.${LeafKeys<TaxonomySchema>}`;
 
@@ -57,6 +59,7 @@ export type TranslationKey =
 	| NetTranslationKey
 	| ColorFloodTranslationKey
 	| DiceBingoTranslationKey
+	| PentominoesTranslationKey
 	| MedalsTranslationKey
 	| TaxonomyTranslationKey;
 
@@ -85,6 +88,7 @@ export type TranslationResources = Record<
 		readonly net: NetTranslationContract;
 		readonly 'color-flood': ColorFloodTranslationContract;
 		readonly 'dice-bingo': DiceBingoTranslationContract;
+		readonly pentominoes: PentominoesTranslationContract;
 		readonly medals: MedalsTranslationContract;
 		readonly taxonomy: TaxonomyTranslationContract;
 	}

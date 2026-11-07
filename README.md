@@ -17,6 +17,7 @@ This project is structured as a strict multi-app monorepo utilizing `pnpm worksp
     *   `apps/tracks`: Train Tracks railway path logic puzzle game with 4 difficulty tiers (6×6, 8×8, 10×10, 12×12), row/column clue validation, auto-cross helper, accessible grid, and timer, built with **Astro** and interactive React canvas.
     *   `apps/anagram`: Anagram Scramble word puzzle game with 4 difficulty tiers, Zen & Timed Arcade modes, pluggable UTF-8 signature-indexed lexicon, and full keyboard/tile controls, built with **Astro** and interactive React canvas.
     *   `apps/untangle`: Untangle planar graph puzzle game (`@arcade/untangle`, port `4331`) with 4 difficulty tiers, procedural planar graph generation, real-time line intersection detection, accessible node controls, and timer, built with **Astro** and interactive React canvas.
+    *   `apps/pentominoes`: Pentominoes exact-cover polyomino packing puzzle game (`@arcade/pentominoes`, port `4335`) with 16 curated boards (5×3–5×12 Penta Ladder, 6×10, 8×8, and silhouettes), Dancing Links (Algorithm X) solver, dual-input tray/board accessibility, and timer, built with **Astro** and interactive React canvas.
     *   `apps/[game]`: Additional interactive game canvases built as pure **React/Vite** Single Page Applications (or Astro Islands).
     *   `libraries/games`: Central game registry, metadata definitions, canonical game IDs, and visual assets (`@arcade/lib-games`).
     *   `libraries/ui`: Shared design system components styled exclusively with **Linaria**.

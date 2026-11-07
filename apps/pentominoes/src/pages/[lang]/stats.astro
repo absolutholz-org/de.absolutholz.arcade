@@ -1,0 +1,53 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { GameStatsDashboard } from '@arcade/lib-ui/components/GameStatsDashboard';
+import GameSubpageTemplate from '@arcade/lib-ui/templates/GameSubpageTemplate/GameSubpageTemplate.astro';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const currentLanguage = lang as SupportedLanguageCode;
+const currentPentominoes = resources[currentLanguage]?.pentominoes ?? resources.en.pentominoes;
+const currentCommon = resources[currentLanguage]?.common ?? resources.en.common;
+---
+
+<GameSubpageTemplate
+	title={currentCommon.stats.title}
+	description={`${currentPentominoes.title} - ${currentCommon.stats.title}`}
+	lang={currentLanguage}
+	breadcrumbItems={[
+		{ label: currentCommon.app.title, href: `/${currentLanguage}/`, isHome: true },
+		{ label: currentPentominoes.title, href: `/pentominoes/${currentLanguage}/` },
+		{ label: currentCommon.stats.title, isCurrent: true },
+	]}
+	primaryAction={{
+		label: currentPentominoes.playButton,
+		href: `/pentominoes/${currentLanguage}/game`,
+	}}
+	secondaryAction={{
+		label: currentPentominoes.controls.backToLobby,
+		href: `/pentominoes/${currentLanguage}/`,
+	}}
+	containerWidth="standard"
+	currentSlug="stats"
+>
+	<GameStatsDashboard
+		client:load
+		gameId="pentominoes"
+		lang={currentLanguage}
+		hideTitle
+		bucketLabels={{
+			easy: currentPentominoes.difficulty.easy,
+			medium: currentPentominoes.difficulty.medium,
+			hard: currentPentominoes.difficulty.hard,
+			expert: currentPentominoes.difficulty.expert,
+		}}
+		playHref={`/pentominoes/${currentLanguage}/game`}
+	/>
+</GameSubpageTemplate>

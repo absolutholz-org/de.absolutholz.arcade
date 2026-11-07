@@ -1,0 +1,162 @@
+import type { PentominoesTranslationContract } from '../../schemas/pentominoes.schema.js';
+
+export const dePentominoes: PentominoesTranslationContract = {
+	title: 'Pentominos',
+	subtitle: 'Polyomino-Parkettierungsrätsel',
+	description: 'Füge Polyomino-Formen lückenlos und ohne Überlappungen in vorgegebene geometrische Rahmen ein.',
+	difficulty: {
+		label: 'Schwierigkeit',
+		easy: 'Einfach',
+		easyDesc: 'Einsteiger-Puzzles mit 3–5 Teilen für schnelles räumliches Denken',
+		medium: 'Mittel',
+		mediumDesc: 'Ausgewogene Herausforderungen mit 5–8 Teilen und geometrischen Konturen',
+		hard: 'Schwer',
+		hardDesc: 'Dichte Rahmen mit 8–10 Teilen, die präzise Planung und Drehung erfordern',
+		expert: 'Experte',
+		expertDesc: 'Große kanonische 12-Teile-Herausforderungen (insgesamt 60 Felder)',
+	},
+	lobby: {
+		title: 'Pentomino-Herausforderungen',
+		subtitle: 'Wähle ein Rätselpaket, um mit dem Parkettieren zu beginnen',
+		selectDifficulty: 'Schwierigkeitsgrad wählen',
+		completed: 'Gelöst',
+		quickPlay: 'Schnellstart',
+		quickPlayDesc: 'Direkt zur nächsten ungelösten Herausforderung springen',
+		selectLevel: 'Rätsel wählen',
+	},
+	status: {
+		placed: 'Teile platziert',
+		moves: 'Züge',
+		noneSelected: 'Keines ausgewählt',
+		timer: 'Verstrichene Zeit',
+		time: 'Zeit',
+		newBestTime: 'Neue Bestzeit!',
+	},
+	controls: {
+		rotateCw: 'Im Uhrzeigersinn drehen (90°)',
+		rotateCcw: 'Gegen Uhrzeigersinn drehen (90°)',
+		flipH: 'Horizontal spiegeln',
+		returnToTray: 'Zurück zur Ablage',
+		clearBoard: 'Spielfeld leeren',
+		hint: 'Hinweis',
+		undo: 'Rückgängig',
+		redo: 'Wiederholen',
+		backToLobby: 'Lobby',
+		newGame: 'Neues Spiel',
+		resume: 'Fortsetzen',
+	},
+	tray: {
+		activePieceTitle: 'Aktives Teil',
+		keyboardHint:
+			'Pfeiltasten: Cursor bewegen • Enter/Leertaste: Teil platzieren • R: Drehen • F: Spiegeln • Esc: Abwählen',
+		pieceStatusAvailable: 'In Ablage verfügbar',
+		pieceStatusPlaced: 'Auf Spielfeld platziert',
+		pieceStatusSelected: 'Aktuell ausgewählt',
+	},
+	a11y: {
+		boardLabel: 'Pentomino-Spielfeld',
+		trayLabel: 'Polyomino-Ablage',
+		cellEmpty: 'Zeile {{row}}, Spalte {{col}}, Leer',
+		cellOccupied: 'Zeile {{row}}, Spalte {{col}}, Belegt mit Teil {{pieceId}}',
+		cellVoid: 'Zeile {{row}}, Spalte {{col}}, Leerraum außerhalb der Begrenzung',
+		puzzleSolved: 'Glückwunsch! Alle Zielteile wurden eingepasst und das Rätsel ist gelöst!',
+		pickedUpFromTray: 'Teil {{pieceId}} aus Ablage aufgenommen',
+		returnedToTray: 'Teil {{pieceId}} zurück in die Ablage gelegt',
+		rotatedPiece: 'Teil {{pieceId}} auf {{rotation}} Grad gedreht',
+		flippedPiece: 'Teil {{pieceId}} gespiegelt',
+		placedPiece: 'Teil {{pieceId}} auf Zeile {{row}}, Spalte {{col}} platziert',
+		invalidOutOfBounds: 'Teil {{pieceId}} kann nicht platziert werden: ragt über das Spielfeld hinaus',
+		invalidVoidCell: 'Teil {{pieceId}} kann nicht platziert werden: überlappt Leerraum',
+		invalidOverlap: 'Teil {{pieceId}} kann nicht platziert werden: überlappt ein anderes Teil',
+		pickedUpFromBoard: 'Teil {{pieceId}} von Zeile {{row}}, Spalte {{col}} aufgenommen',
+		hintPlaced: 'Hinweis hat Teil {{pieceId}} auf Zeile {{row}}, Spalte {{col}} platziert',
+	},
+	victory: {
+		title: 'Rätsel gelöst!',
+		congratulations: 'Hervorragende räumliche Kombination! Der Rahmen wurde fehlerfrei gefüllt.',
+		playAgain: 'Erneut spielen',
+		nextPuzzle: 'Nächstes Rätsel',
+		viewLobby: 'Lobby',
+	},
+	settings: {
+		title: 'Pentomino-Einstellungen',
+		showPieceLabels: 'Teile-Bezeichnungen anzeigen',
+		showPieceLabelsDescription: 'Zeigt die Buchstaben der Teile direkt auf der Mitte der Steine an.',
+		showSurfacePatterns: 'Taktile Muster',
+		showSurfacePatternsDescription: 'Rendert unterscheidbare Muster zur Barrierefreiheit auf die Steinoberflächen.',
+		highlightGhostValidity: 'Platzierungs-Vorschau',
+		highlightGhostValidityDescription: 'Hebt gültige oder ungültige Positionen beim Ziehen grün oder rot hervor.',
+		showGridCoordinates: 'Gitter-Koordinaten',
+		showGridCoordinatesDescription: 'Zeigt schachartige Koordinatenmarkierungen entlang der Spielfeldränder.',
+	},
+	levels: {
+		procedural: {
+			title: 'Prozedurale Herausforderung',
+			description: 'Algorithmisch generierte Polyomino-Parkettierung',
+		},
+		'rect-3x5': {
+			title: '3×5 Rechteck',
+			description: 'Einsteiger-Puzzle mit 3 Pentominos',
+		},
+		'rect-4x5': {
+			title: '4×5 Rechteck',
+			description: 'Kompaktes 4-Pentomino-Rechteck',
+		},
+		'rect-5x5': {
+			title: '5×5 Quadrat',
+			description: 'Klassischer quadratischer 5-Pentomino-Rahmen',
+		},
+		'rect-5x6': {
+			title: '5×6 Rechteck',
+			description: 'Ausgewogenes 6-Pentomino-Rechteck',
+		},
+		'rect-5x7': {
+			title: '5×7 Rechteck',
+			description: 'Anspruchsvolles 7-Pentomino-Spielfeld',
+		},
+		'rect-5x8': {
+			title: '5×8 Rechteck',
+			description: 'Großflächiges 8-Pentomino-Gitter',
+		},
+		'rect-5x9': {
+			title: '5×9 Rechteck',
+			description: 'Kniffliges 9-Pentomino-Layout',
+		},
+		'rect-5x10': {
+			title: '5×10 Rechteck',
+			description: 'Dichter 10-Pentomino-Test',
+		},
+		'rect-5x11': {
+			title: '5×11 Rechteck',
+			description: 'Komplexe 11-Pentomino-Konfiguration',
+		},
+		'rect-5x12': {
+			title: '5×12 Großes Rechteck',
+			description: 'Die monumentale 12-Pentomino-Kanonik mit 60 Feldern',
+		},
+		'rect-6x10': {
+			title: '6×10 Großes Rechteck',
+			description: 'Kanonisches 12-Pentomino 6×10 Spielfeld',
+		},
+		'rect-8x8-ring': {
+			title: '8×8 Zentrales Loch',
+			description: 'Alle 12 Pentominos mit zentralem 2×2 Quadrat-Loch',
+		},
+		'rect-8x8-notched': {
+			title: '8×8 Gekerbtes Kreuz',
+			description: 'Alle 12 Pentominos mit seitlichen Kerben',
+		},
+		'silhouette-cross': {
+			title: 'Kreuz-Silhouette',
+			description: 'Symmetrische Kreuzkontur gefüllt mit 5 Pentominos',
+		},
+		'silhouette-staircase': {
+			title: 'Treppen-Silhouette',
+			description: 'Stufenpyramiden-Form mit 6 Polyomino-Teilen',
+		},
+		'silhouette-archway': {
+			title: 'Torbogen-Silhouette',
+			description: 'Großer architektonischer Bogen gefüllt mit 7 Polyominos',
+		},
+	},
+};

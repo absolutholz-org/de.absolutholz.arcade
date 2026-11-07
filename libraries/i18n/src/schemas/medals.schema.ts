@@ -271,6 +271,15 @@ export interface MedalsSchema {
 		readonly clutch_finish: { readonly title: string; readonly desc: string };
 		readonly clean_sweep: { readonly title: string; readonly desc: string };
 	};
+	readonly pentominoes: {
+		readonly first_fit: { readonly title: string; readonly desc: string };
+		readonly penta_ladder: { readonly title: string; readonly desc: string };
+		readonly silhouette_sculptor: { readonly title: string; readonly desc: string };
+		readonly full_set_master: { readonly title: string; readonly desc: string };
+		readonly spatial_intuitive: { readonly title: string; readonly desc: string };
+		readonly speed_packer: { readonly title: string; readonly desc: string };
+		readonly grand_architect: { readonly title: string; readonly desc: string };
+	};
 }
 
 export type MedalsTranslationContract = MedalsSchema;
