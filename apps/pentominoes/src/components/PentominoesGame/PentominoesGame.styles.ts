@@ -3,16 +3,19 @@ import { styled } from '@linaria/react';
 
 export const WorkspaceWrapper = styled.div`
 	display: grid;
-	grid-template-columns: 1fr;
-	gap: 1.25rem;
+	grid-template-columns: minmax(0, 1fr);
+	gap: 1rem;
 	width: 100%;
 	max-width: 68rem;
 	margin: 0 auto;
-	padding: 0.75rem;
+	padding: 0.5rem;
 	align-items: start;
+	box-sizing: border-box;
 
 	@media (min-width: 56rem) {
 		grid-template-columns: minmax(20rem, 1.2fr) minmax(18rem, 0.9fr);
+		gap: 1.25rem;
+		padding: 0.75rem;
 	}
 `;
 
@@ -21,47 +24,125 @@ export const BoardSection = styled.section`
 	flex-direction: column;
 	align-items: center;
 	gap: 0.75rem;
+	width: 100%;
+	min-width: 0;
+	box-sizing: border-box;
+	container-type: inline-size;
 	background: var(--color-surface-elevated, light-dark(oklch(0.97 0.01 260), oklch(0.19 0.02 260)));
 	border: 1px solid var(--color-border-subtle, light-dark(oklch(0.86 0.02 260), oklch(0.3 0.02 260)));
 	border-radius: 1rem;
-	padding: 1rem;
-`;
+	padding: 0.5rem;
 
-export const CoordinateHeaderRow = styled.div`
-	display: flex;
-	gap: 0.25rem;
-	justify-content: center;
-	font-size: 0.75rem;
-	font-weight: 700;
-	color: var(--color-text-secondary, light-dark(oklch(0.45 0.02 260), oklch(0.72 0.02 260)));
+	@media (min-width: 36rem) {
+		padding: 1rem;
+	}
 `;
 
 export const BoardGridContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-	gap: 0.25rem;
-	padding: 0.5rem;
+	--cols: 12;
+	--coord-col: 0rem;
+	--grid-gap: clamp(0.125rem, 0.6cqi, 0.25rem);
+	--grid-pad: clamp(0.25rem, 1.2cqi, 0.5rem);
+
+	&[data-cols='3'] {
+		--cols: 3;
+	}
+	&[data-cols='4'] {
+		--cols: 4;
+	}
+	&[data-cols='5'] {
+		--cols: 5;
+	}
+	&[data-cols='6'] {
+		--cols: 6;
+	}
+	&[data-cols='7'] {
+		--cols: 7;
+	}
+	&[data-cols='8'] {
+		--cols: 8;
+	}
+	&[data-cols='9'] {
+		--cols: 9;
+	}
+	&[data-cols='10'] {
+		--cols: 10;
+	}
+	&[data-cols='11'] {
+		--cols: 11;
+	}
+	&[data-cols='12'] {
+		--cols: 12;
+	}
+
+	&[data-coords='true'] {
+		--coord-col: clamp(1rem, 4cqi, 1.5rem);
+	}
+
+	--cell-size: clamp(
+		1.25rem,
+		calc((100cqi - (2 * var(--grid-pad)) - 0.25rem - var(--coord-col) - (var(--cols) * var(--grid-gap))) / var(--cols)),
+		2.5rem
+	);
+
+	display: grid;
+	grid-template-columns: repeat(var(--cols), var(--cell-size));
+	gap: var(--grid-gap);
+	padding: var(--grid-pad);
 	background: light-dark(oklch(0.92 0.01 260), oklch(0.14 0.02 260));
 	border-radius: 0.75rem;
 	border: 2px solid light-dark(oklch(0.78 0.02 260), oklch(0.32 0.02 260));
 	max-width: 100%;
-	overflow-x: auto;
+	box-sizing: border-box;
+	justify-content: center;
+	align-items: center;
+
+	&[data-coords='true'] {
+		grid-template-columns: var(--coord-col) repeat(var(--cols), var(--cell-size));
+	}
+`;
+
+export const CoordinateHeaderRow = styled.div`
+	display: contents;
 `;
 
 export const BoardRow = styled.div`
+	display: contents;
+`;
+
+export const CoordCornerCell = styled.span`
 	display: flex;
-	gap: 0.25rem;
 	align-items: center;
 	justify-content: center;
+	width: 100%;
+	height: clamp(1rem, 3.5cqi, 1.375rem);
+	user-select: none;
+`;
+
+export const ColCoordBadge = styled.span`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: clamp(1rem, 3.5cqi, 1.375rem);
+	font-size: clamp(0.625rem, 2.2cqi, 0.75rem);
+	font-weight: 700;
+	line-height: 1;
+	text-align: center;
+	color: var(--color-text-secondary, light-dark(oklch(0.45 0.02 260), oklch(0.72 0.02 260)));
+	user-select: none;
 `;
 
 export const RowCoordBadge = styled.span`
-	display: inline-flex;
+	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 1.5rem;
-	font-size: 0.75rem;
+	width: 100%;
+	height: 100%;
+	font-size: clamp(0.625rem, 2.2cqi, 0.75rem);
 	font-weight: 700;
+	line-height: 1;
+	text-align: center;
 	color: var(--color-text-secondary, light-dark(oklch(0.45 0.02 260), oklch(0.72 0.02 260)));
 	user-select: none;
 `;
@@ -71,24 +152,20 @@ export const cellButtonClass = css`
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	width: 2.5rem;
-	height: 2.5rem;
+	width: var(--cell-size);
+	height: var(--cell-size);
 	padding: 0;
-	border-radius: 0.375rem;
+	margin: 0;
+	box-sizing: border-box;
+	border-radius: clamp(0.25rem, 0.8cqi, 0.375rem);
 	border: 1.5px solid light-dark(oklch(0.78 0.02 260), oklch(0.32 0.02 260));
 	background: light-dark(oklch(0.99 0.005 260), oklch(0.22 0.02 260));
 	color: light-dark(oklch(0.15 0.02 260), oklch(0.97 0.01 260));
-	font-size: 0.875rem;
+	font-size: clamp(0.6875rem, 2.5cqi, 0.875rem);
 	font-weight: 800;
 	cursor: pointer;
 	transition: transform 120ms ease, outline-color 120ms ease, background-color 120ms ease;
 	user-select: none;
-
-	@media (max-width: 36rem) {
-		width: 2.125rem;
-		height: 2.125rem;
-		font-size: 0.75rem;
-	}
 
 	&:focus-visible {
 		outline: 3px solid light-dark(oklch(0.5 0.22 260), oklch(0.78 0.18 260));
@@ -187,13 +264,13 @@ export const CellLabelBadge = styled.span`
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	min-width: 1.25rem;
-	height: 1.25rem;
-	padding: 0 0.25rem;
+	min-width: clamp(0.875rem, 3cqi, 1.25rem);
+	height: clamp(0.875rem, 3cqi, 1.25rem);
+	padding: 0 0.125rem;
 	border-radius: 0.25rem;
 	background: light-dark(oklch(0.99 0.005 260 / 0.88), oklch(0.14 0.02 260 / 0.88));
 	color: light-dark(oklch(0.15 0.02 260), oklch(0.98 0.01 260));
-	font-size: 0.75rem;
+	font-size: clamp(0.5625rem, 2cqi, 0.75rem);
 	font-weight: 800;
 	line-height: 1;
 	pointer-events: none;
@@ -203,10 +280,17 @@ export const TraySection = styled.section`
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
+	width: 100%;
+	min-width: 0;
+	box-sizing: border-box;
 	background: var(--color-surface-elevated, light-dark(oklch(0.97 0.01 260), oklch(0.19 0.02 260)));
 	border: 1px solid var(--color-border-subtle, light-dark(oklch(0.86 0.02 260), oklch(0.3 0.02 260)));
 	border-radius: 1rem;
-	padding: 1rem;
+	padding: 0.75rem;
+
+	@media (min-width: 36rem) {
+		padding: 1rem;
+	}
 `;
 
 export const ActiveTransformBar = styled.div`
@@ -228,8 +312,13 @@ export const TransformButtonsGroup = styled.div`
 
 export const TrayGrid = styled.div`
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(5.25rem, 1fr));
-	gap: 0.625rem;
+	grid-template-columns: repeat(auto-fill, minmax(4.75rem, 1fr));
+	gap: 0.5rem;
+
+	@media (min-width: 36rem) {
+		grid-template-columns: repeat(auto-fill, minmax(5.25rem, 1fr));
+		gap: 0.625rem;
+	}
 `;
 
 export const trayItemButtonClass = css`

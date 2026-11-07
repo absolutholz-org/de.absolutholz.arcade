@@ -4,24 +4,25 @@ import { themeColor } from '../../styles/theme/theme.utils';
 
 export const ControlBar = styled.nav`
 	display: flex;
-	align-items: center;
+	flex-wrap: wrap;
+	align-items: stretch;
 	justify-content: center;
 	width: 100%;
-	max-width: 24rem;
+	max-width: 36rem;
 	margin-inline: auto;
 	gap: 0.5rem;
 `;
 
 export const ActionButton = styled.button`
-	flex: 1 1 0;
+	flex: 1 1 auto;
 	min-height: 3.25rem;
-	min-width: 0;
+	min-width: 4.25rem;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 	gap: 0.25rem;
-	padding: 0.375rem 0.125rem;
+	padding: 0.375rem 0.5rem;
 	border: 1px solid ${themeColor('container-2')};
 	border-radius: var(--radius-sm);
 	background-color: ${themeColor('container-1')};
@@ -32,11 +33,8 @@ export const ActionButton = styled.button`
 	> span {
 		font-size: 0.6875rem;
 		font-weight: 600;
-		line-height: 1.1;
+		line-height: 1.15;
 		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		max-width: 100%;
 		padding: 0 0.125rem;
 		text-align: center;
 	}
@@ -56,7 +54,7 @@ export const ActionButton = styled.button`
 		flex-direction: row;
 		min-height: 2.75rem;
 		gap: 0.375rem;
-		padding: 0.5rem;
+		padding: 0.5rem 0.75rem;
 
 		> span {
 			font-size: 0.8125rem;

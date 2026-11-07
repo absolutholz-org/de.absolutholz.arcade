@@ -6,12 +6,13 @@ import { isSupportedLanguage } from '@arcade/lib-i18n/utils/detection';
 import { recordGameResult } from '@arcade/lib-medals';
 import { Button } from '@arcade/lib-ui/components/Button';
 import { Confetti } from '@arcade/lib-ui/components/Confetti';
-import { GameControlStrip } from '@arcade/lib-ui/components/GameControlStrip';
+import { GameControlButton, GameControlStrip } from '@arcade/lib-ui/components/GameControlStrip';
 import { GameHeader } from '@arcade/lib-ui/components/GameHeader';
 import { GameRulesDialog } from '@arcade/lib-ui/components/GameRulesDialog';
 import { GameSettingsDialog } from '@arcade/lib-ui/components/GameSettingsDialog';
 import { GameSettingsPanel } from '@arcade/lib-ui/components/GameSettingsPanel';
 import { GameStatusStrip } from '@arcade/lib-ui/components/GameStatusStrip';
+import { Icon } from '@arcade/lib-ui/components/Icon';
 import { PauseDialog } from '@arcade/lib-ui/components/PauseDialog';
 import { GameLayout } from '@arcade/lib-ui/layouts/GameLayout';
 import { type JSX, type KeyboardEvent, type ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -68,6 +69,8 @@ import {
 	BoardRow,
 	BoardSection,
 	CellLabelBadge,
+	ColCoordBadge,
+	CoordCornerCell,
 	CoordinateHeaderRow,
 	KeyboardHelpText,
 	RowCoordBadge,
@@ -322,13 +325,55 @@ function PentominoesGameInner({
 		return map;
 	}, [placements]);
 
+	const findFirstPlayableCell = useCallback((): Coordinate => {
+		for (let r = 0; r < level.rows; r++) {
+			for (let c = 0; c < level.cols; c++) {
+				if (level.mask[r]?.[c] === 1) {
+					return { row: r, col: c };
+				}
+			}
+		}
+		return { row: 0, col: 0 };
+	}, [level.cols, level.mask, level.rows]);
+
+	const focusBoardCursor = useCallback(
+		(preferred?: Coordinate) => {
+			const candidate = preferred ?? cursor;
+			const isPlayable = level.mask[candidate.row]?.[candidate.col] === 1;
+			const target = isPlayable ? candidate : findFirstPlayableCell();
+			setCursor(target);
+			const key = `${target.row},${target.col}`;
+			const btn = cellRefs.current.get(key);
+			if (btn) {
+				btn.focus();
+			} else if (typeof window !== 'undefined') {
+				window.requestAnimationFrame(() => {
+					cellRefs.current.get(key)?.focus();
+				});
+			}
+		},
+		[cursor, findFirstPlayableCell, level.mask],
+	);
+
+	// Ensure initial cursor starts on a playable cell when level changes
+	useEffect(() => {
+		setCursor((prev) => {
+			if (level.mask[prev.row]?.[prev.col] === 1) {
+				return prev;
+			}
+			return findFirstPlayableCell();
+		});
+	}, [findFirstPlayableCell, level.mask]);
+
 	const handleSelectTrayPiece = useCallback(
 		(pieceId: PieceId) => {
 			if (placedPieceIds.has(pieceId)) {
+				const existing = placements.find((p) => p.pieceId === pieceId);
 				const nextPlacements = removePiece(placements, pieceId);
 				setHistory((prev) => pushHistory(prev, nextPlacements));
 				setActivePiece({ pieceId, rotation: 0, flipped: false });
 				setAnnouncement(t('a11y.pickedUpFromTray', { pieceId }));
+				focusBoardCursor(existing?.anchor);
 				return;
 			}
 			if (activePiece?.pieceId === pieceId) {
@@ -338,8 +383,9 @@ function PentominoesGameInner({
 			}
 			setActivePiece({ pieceId, rotation: 0, flipped: false });
 			setAnnouncement(t('a11y.pickedUpFromTray', { pieceId }));
+			focusBoardCursor();
 		},
-		[activePiece, placedPieceIds, placements, t],
+		[activePiece, focusBoardCursor, placedPieceIds, placements, t],
 	);
 
 	const handleRotateCw = useCallback(() => {
@@ -613,9 +659,15 @@ function PentominoesGameInner({
 					newPuzzleLabel={t('controls.newGame')}
 					aria-label={t('title')}
 				>
-					<Button variant="secondary" size="sm" disabled={isSolved || isPaused} onClick={handleHint}>
-						{t('controls.hint')}
-					</Button>
+					<GameControlButton
+						type="button"
+						disabled={isSolved || isPaused}
+						onClick={handleHint}
+						aria-label={t('controls.hint')}
+					>
+						<Icon name="lightbulb" size="sm" />
+						<span>{t('controls.hint')}</span>
+					</GameControlButton>
 				</GameControlStrip>
 			}
 		>
@@ -627,24 +679,32 @@ function PentominoesGameInner({
 
 			<WorkspaceWrapper>
 				<BoardSection aria-label={t('a11y.boardLabel')}>
-					{settings.showGridCoordinates && (
-						<CoordinateHeaderRow aria-hidden="true">
-							<RowCoordBadge />
-							{Array.from({ length: level.cols }, (_, colIdx) => (
-								<RowCoordBadge key={`col-coord-${String.fromCharCode(65 + colIdx)}`}>
-									{String.fromCharCode(65 + colIdx)}
-								</RowCoordBadge>
-							))}
-						</CoordinateHeaderRow>
-					)}
-
 					{/* biome-ignore lint/a11y/useSemanticElements: Pentominoes is an interactive 2D grid widget adhering to WAI-ARIA Grid pattern */}
-					<BoardGridContainer role="grid" aria-label={t('a11y.boardLabel')} onKeyDown={handleBoardKeyDown}>
+					<BoardGridContainer
+						role="grid"
+						aria-label={t('a11y.boardLabel')}
+						aria-rowcount={level.rows}
+						aria-colcount={level.cols}
+						data-cols={String(level.cols)}
+						data-coords={settings.showGridCoordinates ? 'true' : 'false'}
+						onKeyDown={handleBoardKeyDown}
+					>
+						{settings.showGridCoordinates && (
+							<CoordinateHeaderRow aria-hidden="true">
+								<CoordCornerCell />
+								{Array.from({ length: level.cols }, (_, colIdx) => (
+									<ColCoordBadge key={`col-coord-${String.fromCharCode(65 + colIdx)}`}>
+										{String.fromCharCode(65 + colIdx)}
+									</ColCoordBadge>
+								))}
+							</CoordinateHeaderRow>
+						)}
+
 						{level.mask.map((rowMask, rIdx) => {
 							const rowNumber = rIdx + 1;
 							return (
 								// biome-ignore lint/a11y/useSemanticElements: Row role required for WAI-ARIA grid pattern
-								<BoardRow key={`pentominoes-row-${rowNumber}`} role="row">
+								<BoardRow key={`pentominoes-row-${rowNumber}`} role="row" aria-rowindex={rowNumber}>
 									{settings.showGridCoordinates && (
 										<RowCoordBadge aria-hidden="true">{rowNumber}</RowCoordBadge>
 									)}
@@ -671,41 +731,42 @@ function PentominoesGameInner({
 												: t('a11y.cellEmpty', { row: rowNumber, col: colNumber });
 
 										return (
-											// biome-ignore lint/a11y/useSemanticElements lint/a11y/useFocusableInteractive: Inner button handles keyboard focus
-											<div key={`pentominoes-cell-${rowNumber}-${colNumber}`} role="gridcell">
-												<button
-													ref={(el) => {
-														if (el) {
-															cellRefs.current.set(coordKey, el);
-														} else {
-															cellRefs.current.delete(coordKey);
-														}
-													}}
-													type="button"
-													className={cellButtonClass}
-													tabIndex={isCursor ? 0 : -1}
-													disabled={isVoid}
-													aria-label={ariaCellLabel}
-													data-void={isVoid ? 'true' : 'false'}
-													data-color={
-														occupantDef ? String(occupantDef.colorIndex % 12) : undefined
+											<button
+												key={`pentominoes-cell-${rowNumber}-${colNumber}`}
+												ref={(el) => {
+													if (el) {
+														cellRefs.current.set(coordKey, el);
+													} else {
+														cellRefs.current.delete(coordKey);
 													}
-													data-pattern={
-														occupant && settings.showSurfacePatterns ? 'true' : 'false'
+												}}
+												type="button"
+												// biome-ignore lint/a11y/useSemanticElements: Gridcell role required for WAI-ARIA grid pattern
+												role="gridcell"
+												aria-colindex={colNumber}
+												className={cellButtonClass}
+												tabIndex={isCursor ? 0 : -1}
+												disabled={isVoid}
+												aria-label={ariaCellLabel}
+												data-void={isVoid ? 'true' : 'false'}
+												data-color={
+													occupantDef ? String(occupantDef.colorIndex % 12) : undefined
+												}
+												data-pattern={
+													occupant && settings.showSurfacePatterns ? 'true' : 'false'
+												}
+												data-ghost={
+													isGhost ? (ghostPreview.valid ? 'valid' : 'invalid') : undefined
+												}
+												onMouseEnter={() => {
+													if (activePiece) {
+														setCursor({ row: rIdx, col: cIdx });
 													}
-													data-ghost={
-														isGhost ? (ghostPreview.valid ? 'valid' : 'invalid') : undefined
-													}
-													onMouseEnter={() => {
-														if (activePiece) {
-															setCursor({ row: rIdx, col: cIdx });
-														}
-													}}
-													onClick={() => handleCellAction({ row: rIdx, col: cIdx })}
-												>
-													{labelBadge && <CellLabelBadge>{labelBadge}</CellLabelBadge>}
-												</button>
-											</div>
+												}}
+												onClick={() => handleCellAction({ row: rIdx, col: cIdx })}
+											>
+												{labelBadge && <CellLabelBadge>{labelBadge}</CellLabelBadge>}
+											</button>
 										);
 									})}
 								</BoardRow>
