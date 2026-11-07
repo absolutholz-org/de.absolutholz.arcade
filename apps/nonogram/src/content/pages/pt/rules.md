@@ -1,9 +1,9 @@
 ---
-title: "Como Jogar Nonograma"
+title: "Regras do Nonograma"
 description: "Regras, estratégias e controles para resolver quebra-cabeças de lógica Nonograma."
 ---
 
-# Como Jogar Nonograma
+# Regras do Nonograma
 
 Nonogramas (também conhecidos como Picross ou Griddlers) são quebra-cabeças de lógica de imagem onde células em uma grade devem ser preenchidas ou deixadas em branco de acordo com números para revelar uma figura em pixel art.
 

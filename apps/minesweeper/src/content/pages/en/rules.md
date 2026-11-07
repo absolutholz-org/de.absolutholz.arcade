@@ -1,9 +1,9 @@
 ---
-title: How to Play Minesweeper
+title: Minesweeper Rules
 description: Uncover all safe squares across the grid while avoiding hidden mines.
 ---
 
-# How to Play Minesweeper
+# Minesweeper Rules
 
 ## Objective
 

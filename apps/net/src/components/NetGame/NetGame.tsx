@@ -3,9 +3,9 @@ import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { isSupportedLanguage } from '@arcade/lib-i18n/utils/detection';
-import { Dialog } from '@arcade/lib-ui/components/Dialog';
 import { GameControlStrip } from '@arcade/lib-ui/components/GameControlStrip';
 import { GameHeader } from '@arcade/lib-ui/components/GameHeader';
+import { GameRulesDialog } from '@arcade/lib-ui/components/GameRulesDialog';
 import { GameSettingsDialog } from '@arcade/lib-ui/components/GameSettingsDialog';
 import { GameSettingsPanel } from '@arcade/lib-ui/components/GameSettingsPanel';
 import { PauseDialog } from '@arcade/lib-ui/components/PauseDialog';
@@ -146,18 +146,13 @@ function NetGameInner({
 				onRestart={() => game.handleNewPuzzle()}
 			/>
 
-			<Dialog
-				isOpen={game.isRulesOpen}
-				onCancel={game.closeRules}
-				title={tCommon('navigation.rules')}
-				showCloseButton={true}
-			>
+			<GameRulesDialog isOpen={game.isRulesOpen} onClose={game.closeRules} gameTitle={t('title')}>
 				{rulesContent ?? (
 					<S.RulesContainer>
 						<p>{t('description')}</p>
 					</S.RulesContainer>
 				)}
-			</Dialog>
+			</GameRulesDialog>
 
 			<GameSettingsDialog isOpen={game.isSettingsOpen} onClose={game.closeSettings} gameTitle={t('title')}>
 				<GameSettingsPanel

@@ -4,9 +4,9 @@ import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { isSupportedLanguage } from '@arcade/lib-i18n/utils/detection';
 import { recordGameResult } from '@arcade/lib-medals';
-import { Dialog } from '@arcade/lib-ui/components/Dialog';
 import { GameControlStrip } from '@arcade/lib-ui/components/GameControlStrip';
 import { GameHeader } from '@arcade/lib-ui/components/GameHeader';
+import { GameRulesDialog } from '@arcade/lib-ui/components/GameRulesDialog';
 import { GameSettingsDialog } from '@arcade/lib-ui/components/GameSettingsDialog';
 import { GameSettingsPanel } from '@arcade/lib-ui/components/GameSettingsPanel';
 import { GameStatusStrip } from '@arcade/lib-ui/components/GameStatusStrip';
@@ -426,9 +426,9 @@ function ColorFloodGameInner({
 				difficulty={difficulty}
 			/>
 
-			<Dialog isOpen={isRulesOpen} onCancel={() => setIsRulesOpen(false)} title={tCommon('navigation.rules')}>
-				<div>{rulesContent}</div>
-			</Dialog>
+			<GameRulesDialog isOpen={isRulesOpen} onClose={() => setIsRulesOpen(false)} gameTitle={t('title')}>
+				{rulesContent}
+			</GameRulesDialog>
 
 			<GameSettingsDialog isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} gameTitle={t('title')}>
 				<GameSettingsPanel

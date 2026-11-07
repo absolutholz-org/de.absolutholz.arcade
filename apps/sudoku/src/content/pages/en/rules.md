@@ -1,9 +1,9 @@
 ---
-title: How to Play Sudoku
+title: Sudoku Rules
 description: Fill the 9×9 grid with digits from 1 to 9 so that each column, each row, and each of the nine 3×3 subgrids contain all digits without repetition.
 ---
 
-# How to Play Sudoku
+# Sudoku Rules
 
 ## Objective
 

@@ -1,9 +1,9 @@
 ---
-title: "How to Play Nonogram"
+title: "Nonogram Rules"
 description: "Rules, strategy, and controls for solving Nonogram picture logic puzzles."
 ---
 
-# How to Play Nonogram
+# Nonogram Rules
 
 Nonograms (also known as Picross, Griddlers, or Paint by Numbers) are picture logic puzzles where cells in a grid must be filled or left blank according to numbers given at the side of the grid to reveal a hidden picture.
 

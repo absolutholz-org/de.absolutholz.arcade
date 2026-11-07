@@ -3,8 +3,8 @@ import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { isSupportedLanguage } from '@arcade/lib-i18n/utils/detection';
-import { Dialog } from '@arcade/lib-ui/components/Dialog';
 import { GameHeader } from '@arcade/lib-ui/components/GameHeader';
+import { GameRulesDialog } from '@arcade/lib-ui/components/GameRulesDialog';
 import { GameSettingsDialog } from '@arcade/lib-ui/components/GameSettingsDialog';
 import { PauseDialog } from '@arcade/lib-ui/components/PauseDialog';
 import { Timer } from '@arcade/lib-ui/components/Timer';
@@ -223,14 +223,9 @@ export function AnagramGame({
 				/>
 
 				{/* In-game Rules Modal */}
-				<Dialog
-					isOpen={isRulesOpen}
-					onCancel={closeRules}
-					title={tCommon('navigation.rules')}
-					showCloseButton={true}
-				>
+				<GameRulesDialog isOpen={isRulesOpen} onClose={closeRules} gameTitle={t('title')}>
 					{rulesContent}
-				</Dialog>
+				</GameRulesDialog>
 
 				{/* In-game Settings Modal (compact mode) */}
 				<GameSettingsDialog isOpen={isSettingsOpen} onClose={closeSettings} gameTitle={t('title')} />

@@ -1,9 +1,9 @@
 ---
-title: Como Jogar Campo Minado
+title: Regras do Campo Minado
 description: Descubra todas as casas seguras do tabuleiro evitando minas escondidas.
 ---
 
-# Como Jogar Campo Minado
+# Regras do Campo Minado
 
 ## Objetivo
 
