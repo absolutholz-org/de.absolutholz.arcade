@@ -2,6 +2,7 @@ import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { Button } from '@arcade/lib-ui/components/Button';
 import { Dialog } from '@arcade/lib-ui/components/Dialog';
 import { VictoryDialog as SharedVictoryDialog } from '@arcade/lib-ui/components/VictoryDialog';
+import { themeColor } from '@arcade/lib-ui/styles/theme/theme.utils';
 import { styled } from '@linaria/react';
 import type { JSX } from 'react';
 import type { GameOverDialogProps } from './GameOverDialog.types.ts';
@@ -16,24 +17,36 @@ const LossContent = styled.div`
 const LossStats = styled.div`
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
-	gap: 1rem;
-	background: var(--arcade-surface-secondary, oklch(0.25 0.02 260));
-	padding: 1rem;
-	border-radius: 0.5rem;
+	gap: 0.75rem;
+	width: 100%;
 `;
 
 const StatItem = styled.div`
-	display: block;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 0.375rem;
+	padding: 0.875rem 1.25rem;
+	border-radius: var(--radius-md, 0.5rem);
+	background-color: ${themeColor('container-1')};
+	border: 1px solid ${themeColor('container-2')};
+	width: 100%;
 
 	& > dt {
-		font-size: 0.875rem;
-		opacity: 0.8;
-		margin-bottom: 0.25rem;
+		font-size: 0.75rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.05ch;
+		color: ${themeColor('text-2')};
+		margin: 0;
 	}
 
 	& > dd {
-		font-size: 1.25rem;
+		font-size: 1.5rem;
 		font-weight: 700;
+		font-variant-numeric: tabular-nums;
+		color: ${themeColor('text-1')};
 		margin: 0;
 	}
 `;

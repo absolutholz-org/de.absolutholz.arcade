@@ -1,4 +1,5 @@
 import { VisuallyHidden } from '@arcade/lib-ui/components/VisuallyHidden';
+import { themeColor } from '@arcade/lib-ui/styles/theme/theme.utils';
 import { styled } from '@linaria/react';
 import { type JSX, useEffect, useRef } from 'react';
 import { ALL_COLORS, type ColorIndex } from '../../engine/types.ts';
@@ -85,7 +86,7 @@ const ColorButton = styled.button`
 	}
 
 	&:focus-visible {
-		outline: 3px solid var(--arcade-focus, oklch(0.75 0.18 150));
+		outline: 3px solid ${themeColor('accent')};
 		outline-offset: 3px;
 	}
 
