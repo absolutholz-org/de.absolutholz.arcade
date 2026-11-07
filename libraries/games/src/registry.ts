@@ -228,6 +228,25 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 			sessionLength: ['snack-under-3m', 'standard-5-10m'],
 		},
 	},
+	'dice-bingo': {
+		id: 'dice-bingo',
+		route: '/dice-bingo',
+		assets: {
+			icon: '🎲',
+		},
+		i18nNamespace: 'dice-bingo',
+		category: {
+			primary: 'card-board',
+			secondary: 'casual-sorting',
+		},
+		tags: {
+			mechanics: ['grid-based', 'number-logic', 'pattern-recognition', 'hand-management'],
+			inputs: ['touch-optimized', 'keyboard-controls', 'tap-only'],
+			pacing: ['turn-paced', 'speedrun-timer'],
+			modes: ['single-player', 'procedural-endless'],
+			sessionLength: ['snack-under-3m', 'standard-5-10m'],
+		},
+	},
 };
 
 /**

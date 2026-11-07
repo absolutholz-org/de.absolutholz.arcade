@@ -5,6 +5,7 @@ import { deAnagram } from '../locales/de/anagram.js';
 import { deBridges } from '../locales/de/bridges.js';
 import { deColorFlood } from '../locales/de/color-flood.js';
 import { deCommon } from '../locales/de/common.js';
+import { deDiceBingo } from '../locales/de/dice-bingo.js';
 import { deLiquidSort } from '../locales/de/liquid-sort.js';
 import { deMedals } from '../locales/de/medals.js';
 import { deMinesweeper } from '../locales/de/minesweeper.js';
@@ -20,6 +21,7 @@ import { enAnagram } from '../locales/en/anagram.js';
 import { enBridges } from '../locales/en/bridges.js';
 import { enColorFlood } from '../locales/en/color-flood.js';
 import { enCommon } from '../locales/en/common.js';
+import { enDiceBingo } from '../locales/en/dice-bingo.js';
 import { enLiquidSort } from '../locales/en/liquid-sort.js';
 import { enMedals } from '../locales/en/medals.js';
 import { enMinesweeper } from '../locales/en/minesweeper.js';
@@ -35,6 +37,7 @@ import { frAnagram } from '../locales/fr/anagram.js';
 import { frBridges } from '../locales/fr/bridges.js';
 import { frColorFlood } from '../locales/fr/color-flood.js';
 import { frCommon } from '../locales/fr/common.js';
+import { frDiceBingo } from '../locales/fr/dice-bingo.js';
 import { frLiquidSort } from '../locales/fr/liquid-sort.js';
 import { frMedals } from '../locales/fr/medals.js';
 import { frMinesweeper } from '../locales/fr/minesweeper.js';
@@ -50,6 +53,7 @@ import { ptAnagram } from '../locales/pt/anagram.js';
 import { ptBridges } from '../locales/pt/bridges.js';
 import { ptColorFlood } from '../locales/pt/color-flood.js';
 import { ptCommon } from '../locales/pt/common.js';
+import { ptDiceBingo } from '../locales/pt/dice-bingo.js';
 import { ptLiquidSort } from '../locales/pt/liquid-sort.js';
 import { ptMedals } from '../locales/pt/medals.js';
 import { ptMinesweeper } from '../locales/pt/minesweeper.js';
@@ -79,6 +83,7 @@ export const resources: TranslationResources = {
 		untangle: enUntangle,
 		net: enNet,
 		'color-flood': enColorFlood,
+		'dice-bingo': enDiceBingo,
 		medals: enMedals,
 		taxonomy: enTaxonomy,
 	},
@@ -96,6 +101,7 @@ export const resources: TranslationResources = {
 		untangle: deUntangle,
 		net: deNet,
 		'color-flood': deColorFlood,
+		'dice-bingo': deDiceBingo,
 		medals: deMedals,
 		taxonomy: deTaxonomy,
 	},
@@ -113,6 +119,7 @@ export const resources: TranslationResources = {
 		untangle: frUntangle,
 		net: frNet,
 		'color-flood': frColorFlood,
+		'dice-bingo': frDiceBingo,
 		medals: frMedals,
 		taxonomy: frTaxonomy,
 	},
@@ -130,6 +137,7 @@ export const resources: TranslationResources = {
 		untangle: ptUntangle,
 		net: ptNet,
 		'color-flood': ptColorFlood,
+		'dice-bingo': ptDiceBingo,
 		medals: ptMedals,
 		taxonomy: ptTaxonomy,
 	},

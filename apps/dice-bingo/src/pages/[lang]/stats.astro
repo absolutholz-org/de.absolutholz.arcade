@@ -1,0 +1,51 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { GameStatsDashboard } from '@arcade/lib-ui/components/GameStatsDashboard';
+import GameSubpageTemplate from '@arcade/lib-ui/templates/GameSubpageTemplate/GameSubpageTemplate.astro';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const currentLanguage = lang as SupportedLanguageCode;
+const currentDiceBingo = resources[currentLanguage]?.['dice-bingo'] ?? resources.en['dice-bingo'];
+const currentCommon = resources[currentLanguage]?.common ?? resources.en.common;
+---
+
+<GameSubpageTemplate
+	title={currentCommon.stats.title}
+	description={`${currentDiceBingo.title} - ${currentCommon.stats.title}`}
+	lang={currentLanguage}
+	breadcrumbItems={[
+		{ label: currentCommon.app.title, href: `/${currentLanguage}/`, isHome: true },
+		{ label: currentDiceBingo.title, href: `/dice-bingo/${currentLanguage}/` },
+		{ label: currentCommon.stats.title, isCurrent: true },
+	]}
+	primaryAction={{
+		label: currentDiceBingo.lobby.play,
+		href: `/dice-bingo/${currentLanguage}/game`,
+	}}
+	secondaryAction={{
+		label: currentDiceBingo.controls.backToLobby,
+		href: `/dice-bingo/${currentLanguage}/`,
+	}}
+	containerWidth="standard"
+	currentSlug="stats"
+>
+	<GameStatsDashboard
+		client:load
+		gameId="dice-bingo"
+		lang={currentLanguage}
+		hideTitle
+		bucketLabels={{
+			easy: currentDiceBingo.difficulty.easy,
+			medium: currentDiceBingo.difficulty.medium,
+			hard: currentDiceBingo.difficulty.hard,
+		}}
+	/>
+</GameSubpageTemplate>

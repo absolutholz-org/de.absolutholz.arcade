@@ -138,6 +138,13 @@ export interface GameCustomStatsMap {
 	untangle: UntangleCustomStats;
 	net: NetCustomStats;
 	'color-flood': ColorFloodCustomStats;
+	'dice-bingo': DiceBingoCustomStats;
+}
+
+export interface DiceBingoCustomStats {
+	readonly highScores?: Record<string, number>;
+	readonly cleanSweeps?: number;
+	readonly completedTiers?: Record<string, number>;
 }
 
 export interface ColorFloodCustomStats {

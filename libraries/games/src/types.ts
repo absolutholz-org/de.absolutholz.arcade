@@ -15,7 +15,8 @@ export type GameId =
 	| 'liquid-sort'
 	| 'untangle'
 	| 'net'
-	| 'color-flood';
+	| 'color-flood'
+	| 'dice-bingo';
 
 /**
  * Canonical identifiers for standalone utility tools in the Arcade monorepo.

@@ -3,6 +3,7 @@ import type { AnagramSchema, AnagramTranslationContract } from '../schemas/anagr
 import type { BridgesSchema, BridgesTranslationContract } from '../schemas/bridges.schema.js';
 import type { ColorFloodSchema, ColorFloodTranslationContract } from '../schemas/color-flood.schema.js';
 import type { CommonSchema, CommonTranslationContract } from '../schemas/common.schema.js';
+import type { DiceBingoSchema, DiceBingoTranslationContract } from '../schemas/dice-bingo.schema.js';
 import type { LiquidSortSchema, LiquidSortTranslationContract } from '../schemas/liquid-sort.schema.js';
 import type { MedalsSchema, MedalsTranslationContract } from '../schemas/medals.schema.js';
 import type { MinesweeperSchema, MinesweeperTranslationContract } from '../schemas/minesweeper.schema.js';
@@ -37,6 +38,7 @@ export type AnagramTranslationKey = LeafKeys<AnagramSchema>;
 export type UntangleTranslationKey = LeafKeys<UntangleSchema> | `untangle.${LeafKeys<UntangleSchema>}`;
 export type NetTranslationKey = LeafKeys<NetSchema> | `net.${LeafKeys<NetSchema>}`;
 export type ColorFloodTranslationKey = LeafKeys<ColorFloodSchema> | `color-flood.${LeafKeys<ColorFloodSchema>}`;
+export type DiceBingoTranslationKey = LeafKeys<DiceBingoSchema> | `dice-bingo.${LeafKeys<DiceBingoSchema>}`;
 export type MedalsTranslationKey = LeafKeys<MedalsSchema> | `medals.${LeafKeys<MedalsSchema>}`;
 export type TaxonomyTranslationKey = LeafKeys<TaxonomySchema> | `taxonomy.${LeafKeys<TaxonomySchema>}`;
 
@@ -54,6 +56,7 @@ export type TranslationKey =
 	| UntangleTranslationKey
 	| NetTranslationKey
 	| ColorFloodTranslationKey
+	| DiceBingoTranslationKey
 	| MedalsTranslationKey
 	| TaxonomyTranslationKey;
 
@@ -81,6 +84,7 @@ export type TranslationResources = Record<
 		readonly untangle: UntangleTranslationContract;
 		readonly net: NetTranslationContract;
 		readonly 'color-flood': ColorFloodTranslationContract;
+		readonly 'dice-bingo': DiceBingoTranslationContract;
 		readonly medals: MedalsTranslationContract;
 		readonly taxonomy: TaxonomyTranslationContract;
 	}
