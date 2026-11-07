@@ -20,6 +20,7 @@ export const deMedals = {
 			untangle: 'Entwirren',
 			net: 'Net',
 			'color-flood': 'Farbflut',
+			'dice-bingo': 'Würfel-Bingo',
 		},
 		status: {
 			unlocked: 'Freigeschaltet',
@@ -817,6 +818,56 @@ export const deMedals = {
 		symbol_surveyor: {
 			title: 'Symbol-Kundschafter',
 			desc: 'Gewinne ein Spiel mit aktiviertem Symbol-Overlay für Farbenblindheit.',
+		},
+	},
+	'dice-bingo': {
+		lucky_guess: {
+			title: 'Glückstreffer',
+			desc: 'Erreiche die Bronze-Punkteschwelle auf einem beliebigen Schwierigkeitsgrad.',
+		},
+		calculated_chaos: {
+			title: 'Kalkuliertes Chaos',
+			desc: 'Erreiche die Silber-Punkteschwelle auf einem beliebigen Schwierigkeitsgrad.',
+		},
+		probability_defier: {
+			title: 'Meister der Wahrscheinlichkeit',
+			desc: 'Erreiche die Gold-Punkteschwelle auf einem beliebigen Schwierigkeitsgrad.',
+		},
+		dice_whisperer: {
+			title: 'Würfelflüsterer',
+			desc: 'Erreiche die höchste Punkteschwelle auf einem beliebigen Schwierigkeitsgrad.',
+		},
+		yahtzee_wrong_game: {
+			title: 'Falsches Spiel, aber stark!',
+			desc: 'Erziele einen Fünfling in einer Reihe, Spalte oder Diagonale.',
+		},
+		the_landfill: {
+			title: 'Die Müllkippe',
+			desc: 'Platziere 3 oder mehr extreme Summen (2 oder 12) in einer einzigen punktarmen Linie.',
+		},
+		dead_center: {
+			title: 'Volltreffer ins Zentrum',
+			desc: 'Platziere die häufigste Summe (7) genau im mittleren Feld eines 5×5-Gitters.',
+		},
+		diagonally_gifted: {
+			title: 'Diagonal begabt',
+			desc: 'Beende ein Spiel mit mehr Punkten auf den Diagonalen als auf den Reihen.',
+		},
+		against_all_odds: {
+			title: 'Gegen jede Chance',
+			desc: 'Bilde eine Straße, die beide extremen Summen enthält: 2 und 12.',
+		},
+		the_hoarder: {
+			title: 'Der Sammler',
+			desc: 'Beende ein vollständiges Spiel ohne Straßen oder Full Houses zu werten.',
+		},
+		clutch_finish: {
+			title: 'Punktlandung',
+			desc: 'Vollende im allerletzten Zug des Spiels eine hochwertige Pokerhand.',
+		},
+		clean_sweep: {
+			title: 'Glatter Durchmarsch',
+			desc: 'Beende ein Spiel, in dem jede einzelne Reihe, Spalte und Diagonale punktet.',
 		},
 	},
 } as const satisfies MedalsTranslationContract;

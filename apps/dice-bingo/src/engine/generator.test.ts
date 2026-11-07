@@ -68,5 +68,32 @@ describe('Dice Bingo Generator & Feats Engine', () => {
 		);
 		const landfillScore = evaluateBoard(landfillBoard);
 		assert.equal(checkTheLandfill(landfillScore.lines), true);
+
+		// Diagonally Gifted (diagonalScore > rowScore)
+		const diagGiftedScore = {
+			...landfillScore,
+			diagonalScore: 24,
+			rowScore: 10,
+		};
+		assert.equal(checkDiagonallyGifted(diagGiftedScore), true);
+	});
+
+	it('evaluates round feats comprehensively', () => {
+		const snapshot = createInitialSnapshot('medium', 1);
+		snapshot.board[2][2] = { row: 2, col: 2, value: 7, isObstacle: false };
+		const score = evaluateBoard(snapshot.board);
+		const feats = evaluateRoundFeats({
+			snapshot,
+			boardScore: {
+				...score,
+				diagonalScore: 30,
+				rowScore: 10,
+				cleanSweep: true,
+			},
+		});
+
+		assert.ok(feats.includes('dead_center'));
+		assert.ok(feats.includes('diagonally_gifted'));
+		assert.ok(feats.includes('clean_sweep'));
 	});
 });

@@ -45,6 +45,17 @@ export const enDiceBingo: DiceBingoTranslationContract = {
 		linesScored: 'Lines Scored',
 		totalScore: 'Total Score',
 	},
+	victory: {
+		title: 'Game Complete!',
+		congratulations: 'Fantastic game! You filled the board and scored poker hands across the grid.',
+		playAgain: 'Play Again',
+		newBestScore: 'New High Score!',
+		time: 'Time',
+		share: 'Share Result',
+		shareText: 'I scored {{score}} points on {{difficulty}} in Dice Bingo! Can you beat my score?',
+		unlockedFeats: 'Achievements Unlocked',
+		rating: 'Rating',
+	},
 	controls: {
 		undo: 'Undo',
 		restart: 'Restart',

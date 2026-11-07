@@ -4,6 +4,7 @@ import type {
 	BridgesCustomStats,
 	BridgesDifficulty,
 	ColorFloodCustomStats,
+	DiceBingoCustomStats,
 	GameCustomStatsMap,
 	GameId,
 	GameMedalState,
@@ -623,6 +624,49 @@ export function updateCustomStats<G extends GameId>(
 			};
 		}
 
+		case 'dice-bingo': {
+			const stats = (current as GameCustomStatsMap['dice-bingo']) ?? {};
+			const metadata = result.roundContext?.roundMetadata as
+				| {
+						readonly score?: number;
+						readonly difficulty?: string;
+						readonly cleanSweep?: boolean;
+				  }
+				| undefined;
+
+			const difficulty =
+				(result.roundContext?.difficulty as string | undefined) ?? result.levelKey ?? metadata?.difficulty;
+			const score =
+				metadata?.score ??
+				(typeof result.roundContext?.score === 'number' ? result.roundContext.score : undefined);
+
+			const highScores = { ...(stats.highScores ?? {}) };
+			if (difficulty && typeof score === 'number') {
+				const prev = highScores[difficulty] ?? 0;
+				if (score > prev) {
+					highScores[difficulty] = score;
+					isNewBestTime = true;
+				}
+			}
+
+			const completedTiers = { ...(stats.completedTiers ?? {}) };
+			if (result.won && difficulty) {
+				completedTiers[difficulty] = (completedTiers[difficulty] ?? 0) + 1;
+			}
+
+			const cleanSweeps = (stats.cleanSweeps ?? 0) + (metadata?.cleanSweep ? 1 : 0);
+
+			return {
+				updatedCustom: {
+					...stats,
+					highScores,
+					cleanSweeps,
+					completedTiers,
+				} as unknown as GameCustomStatsMap[G],
+				isNewBestTime,
+			};
+		}
+
 		default:
 			return { updatedCustom: current, isNewBestTime: false };
 	}
@@ -1038,6 +1082,25 @@ export function mergeGameMedalState<G extends GameId>(
 				remoteCustom.lifetimeCellsFlooded ?? 0,
 			),
 			maxSingleMoveDelta: Math.max(localCustom.maxSingleMoveDelta ?? 0, remoteCustom.maxSingleMoveDelta ?? 0),
+		} as unknown as GameCustomStatsMap[G];
+	} else if (local.gameId === 'dice-bingo') {
+		const localCustom = (local.customStats as DiceBingoCustomStats) ?? {};
+		const remoteCustom = (remote.customStats as DiceBingoCustomStats) ?? {};
+
+		const mergedHighScores: Record<string, number> = { ...(localCustom.highScores ?? {}) };
+		for (const [diff, score] of Object.entries(remoteCustom.highScores ?? {})) {
+			mergedHighScores[diff] = Math.max(mergedHighScores[diff] ?? 0, score);
+		}
+
+		const mergedTiers: Record<string, number> = { ...(localCustom.completedTiers ?? {}) };
+		for (const [diff, count] of Object.entries(remoteCustom.completedTiers ?? {})) {
+			mergedTiers[diff] = Math.max(mergedTiers[diff] ?? 0, count);
+		}
+
+		mergedCustom = {
+			highScores: mergedHighScores,
+			cleanSweeps: Math.max(localCustom.cleanSweeps ?? 0, remoteCustom.cleanSweeps ?? 0),
+			completedTiers: mergedTiers,
 		} as unknown as GameCustomStatsMap[G];
 	}
 

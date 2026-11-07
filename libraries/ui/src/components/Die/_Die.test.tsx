@@ -100,4 +100,26 @@ describe('Die', () => {
 
 		unmount();
 	});
+
+	it('renders as non-interactive role="img" when isSelectable is false', () => {
+		const state = createMockDie({ value: 4 });
+		const handleToggle = vi.fn();
+		const { container, unmount } = render(<Die state={state} isSelectable={false} onToggleHold={handleToggle} />);
+
+		const button = container.querySelector('button');
+		expect(button).toBeNull();
+
+		const wrapper = container.querySelector('[data-selectable="false"]');
+		expect(wrapper).not.toBeNull();
+		expect(wrapper?.tagName).toBe('DIV');
+		expect(wrapper?.getAttribute('role')).toBe('img');
+		expect(wrapper?.getAttribute('aria-label')).toBe('Die: 4');
+
+		act(() => {
+			wrapper?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+		});
+		expect(handleToggle).not.toHaveBeenCalled();
+
+		unmount();
+	});
 });

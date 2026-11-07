@@ -7,7 +7,6 @@ import { isSupportedLanguage } from '@arcade/lib-i18n/utils/detection';
 import { recordGameResult } from '@arcade/lib-medals';
 import { playDiceRollSound } from '@arcade/lib-ui/audio/diceAudio';
 import { Button } from '@arcade/lib-ui/components/Button';
-import { Dialog } from '@arcade/lib-ui/components/Dialog';
 import { Die } from '@arcade/lib-ui/components/Die';
 import { GameControlStrip } from '@arcade/lib-ui/components/GameControlStrip';
 import { GameHeader } from '@arcade/lib-ui/components/GameHeader';
@@ -19,6 +18,7 @@ import { PauseDialog } from '@arcade/lib-ui/components/PauseDialog';
 import { GameLayout } from '@arcade/lib-ui/layouts/GameLayout';
 import { styled } from '@linaria/react';
 import { type JSX, type ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { DICE_BINGO_MEDAL_DEFINITIONS } from '../../config/medals.ts';
 import { DICE_BINGO_SETTINGS_CONFIG, type DiceBingoSettings } from '../../config/settings.ts';
 import { evaluateBoard } from '../../engine/evaluator.ts';
 import { createInitialSnapshot } from '../../engine/generator.ts';
@@ -35,6 +35,7 @@ import {
 } from '../../engine/storage.ts';
 import type { Board, DiceBingoSnapshot, DifficultyLevel, GamePhase, GridCoord } from '../../engine/types.ts';
 import { DiceBingoBoard } from '../DiceBingoBoard/DiceBingoBoard.tsx';
+import { VictoryDialog } from '../VictoryDialog/VictoryDialog.tsx';
 
 export interface DiceBingoGameProps {
 	initialDifficulty?: DifficultyLevel;
@@ -67,36 +68,6 @@ const DicePairContainer = styled.div`
 	display: flex;
 	align-items: center;
 	gap: 0.75rem;
-`;
-
-const GameOverSummary = styled.div`
-	display: flex;
-	flex-direction: column;
-	gap: 1rem;
-	padding: 1rem 0;
-	text-align: center;
-`;
-
-const ScoreHighlight = styled.div`
-	font-size: 2.5rem;
-	font-weight: 800;
-	color: light-dark(#2563eb, #60a5fa);
-`;
-
-const FeatsList = styled.div`
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.5rem;
-	justify-content: center;
-`;
-
-const FeatBadge = styled.span`
-	padding: 0.25rem 0.75rem;
-	font-size: 0.875rem;
-	font-weight: 600;
-	border-radius: 9999px;
-	background-color: light-dark(#dbeafe, #1e3a8a);
-	color: light-dark(#1e40af, #93c5fd);
 `;
 
 function resolveInitialDifficulty(initial?: DifficultyLevel): DifficultyLevel {
@@ -143,7 +114,9 @@ function GameContent({
 	const [isRulesOpen, setIsRulesOpen] = useState(false);
 	const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 	const [isPaused, setIsPaused] = useState(false);
-	const [isGameOverOpen, setIsGameOverOpen] = useState(false);
+	const [isVictoryOpen, setIsVictoryOpen] = useState(false);
+	const [isNewBestScore, setIsNewBestScore] = useState(false);
+	const [completedPlayTime, setCompletedPlayTime] = useState<number>(0);
 
 	// Load settings and resume active game if requested
 	useEffect(() => {
@@ -301,7 +274,7 @@ function GameContent({
 					!isRulesOpen &&
 					!isSettingsOpen &&
 					!isPaused &&
-					!isGameOverOpen
+					!isVictoryOpen
 				) {
 					const targetTag = (e.target as HTMLElement | null)?.tagName;
 					if (targetTag !== 'BUTTON' && targetTag !== 'INPUT' && targetTag !== 'A') {
@@ -313,7 +286,7 @@ function GameContent({
 		};
 		window.addEventListener('keydown', handleKeyDown);
 		return () => window.removeEventListener('keydown', handleKeyDown);
-	}, [snapshot.phase, isRulesOpen, isSettingsOpen, isPaused, isGameOverOpen, handleRollTrigger]);
+	}, [snapshot.phase, isRulesOpen, isSettingsOpen, isPaused, isVictoryOpen, handleRollTrigger]);
 
 	// Cell placement
 	const handleCellClick = useCallback(
@@ -360,32 +333,43 @@ function GameContent({
 			setSnapshot(updatedSnapshot);
 
 			if (isComplete) {
-				const playTimeSeconds = Math.max(1, Math.round((Date.now() - updatedSnapshot.startedAt) / 1000));
+				const playTime = Math.max(1, Math.round((Date.now() - updatedSnapshot.startedAt) / 1000));
+				setCompletedPlayTime(playTime);
+
 				const feats = evaluateRoundFeats({
 					snapshot: updatedSnapshot,
 					boardScore: newScore,
 				});
 
-				void recordDiceBingoRoundResult(updatedSnapshot.difficulty, newScore.totalScore, playTimeSeconds);
+				void recordDiceBingoRoundResult(updatedSnapshot.difficulty, newScore.totalScore, playTime).then(
+					({ isNewBestScore: isNewBest }) => {
+						setIsNewBestScore(isNewBest);
+					},
+				);
 
-				void recordGameResult({
-					gameId: 'dice-bingo',
-					won: true,
-					playTimeSeconds,
-					levelKey: updatedSnapshot.difficulty,
-					roundContext: {
-						roundMetadata: {
-							score: newScore.totalScore,
-							difficulty: updatedSnapshot.difficulty,
-							feats,
-							turns: updatedSnapshot.currentTurn,
-							maxTurns: updatedSnapshot.maxTurns,
-							cleanSweep: newScore.cleanSweep,
+				void recordGameResult(
+					{
+						gameId: 'dice-bingo',
+						won: true,
+						playTimeSeconds: playTime,
+						levelKey: updatedSnapshot.difficulty,
+						roundContext: {
+							roundMetadata: {
+								score: newScore.totalScore,
+								difficulty: updatedSnapshot.difficulty,
+								feats,
+								turns: updatedSnapshot.currentTurn,
+								maxTurns: updatedSnapshot.maxTurns,
+								cleanSweep: newScore.cleanSweep,
+							},
 						},
 					},
-				});
+					{
+						definitions: DICE_BINGO_MEDAL_DEFINITIONS,
+					},
+				);
 
-				setIsGameOverOpen(true);
+				setIsVictoryOpen(true);
 			}
 		},
 		[snapshot],
@@ -394,7 +378,7 @@ function GameContent({
 	const handleRestart = useCallback(() => {
 		const fresh = createInitialSnapshot(difficulty);
 		setSnapshot(fresh);
-		setIsGameOverOpen(false);
+		setIsVictoryOpen(false);
 		void clearActiveGame();
 	}, [difficulty]);
 
@@ -452,8 +436,7 @@ function GameContent({
 				/>
 
 				<RollControlRow>
-					{/* biome-ignore lint/a11y/useSemanticElements: W3C APG pattern groups interactive dice controls using role="group" */}
-					<DicePairContainer role="group" aria-label="Dice">
+					<DicePairContainer aria-label="Dice">
 						{dice.map((die, idx) => (
 							<Die
 								key={die.id}
@@ -462,6 +445,7 @@ function GameContent({
 								tumbleIndex={idx}
 								isRolling={isRolling}
 								spinCount={spinCount}
+								isSelectable={false}
 							/>
 						))}
 					</DicePairContainer>
@@ -502,27 +486,16 @@ function GameContent({
 				onRestart={handleRestart}
 			/>
 
-			{/* Game Over / Victory Dialog */}
-			<Dialog isOpen={isGameOverOpen} onCancel={() => setIsGameOverOpen(false)} title={t('game.winTitle')}>
-				<GameOverSummary>
-					<p>{t('game.winDescription', { score: boardScore.totalScore })}</p>
-					<ScoreHighlight>{boardScore.totalScore}</ScoreHighlight>
-					<p>
-						{t('game.linesScored')}: {boardScore.lines.filter((l) => l.score > 0).length} /{' '}
-						{boardScore.lines.length}
-					</p>
-
-					<FeatsList>
-						{evaluateRoundFeats({ snapshot, boardScore }).map((feat) => (
-							<FeatBadge key={feat}>⭐ {feat.replace(/_/g, ' ')}</FeatBadge>
-						))}
-					</FeatsList>
-
-					<Button variant="primary" size="lg" onClick={handleRestart}>
-						{t('controls.newGame')}
-					</Button>
-				</GameOverSummary>
-			</Dialog>
+			{/* Standard Victory Dialog */}
+			<VictoryDialog
+				isOpen={isVictoryOpen}
+				onClose={() => setIsVictoryOpen(false)}
+				difficulty={difficulty}
+				score={boardScore.totalScore}
+				elapsedSeconds={completedPlayTime}
+				isNewBestScore={isNewBestScore}
+				onPlayAgain={handleRestart}
+			/>
 		</GameLayout>
 	);
 }

@@ -44,6 +44,17 @@ export const diceBingoSchema = {
 		linesScored: 'game.linesScored',
 		totalScore: 'game.totalScore',
 	},
+	victory: {
+		title: 'victory.title',
+		congratulations: 'victory.congratulations',
+		playAgain: 'victory.playAgain',
+		newBestScore: 'victory.newBestScore',
+		time: 'victory.time',
+		share: 'victory.share',
+		shareText: 'victory.shareText',
+		unlockedFeats: 'victory.unlockedFeats',
+		rating: 'victory.rating',
+	},
 	controls: {
 		undo: 'controls.undo',
 		restart: 'controls.restart',

@@ -20,6 +20,7 @@ export const enMedals = {
 			untangle: 'Untangle',
 			net: 'Net',
 			'color-flood': 'Color Flood',
+			'dice-bingo': 'Dice Bingo',
 		},
 		status: {
 			unlocked: 'Unlocked',
@@ -816,6 +817,56 @@ export const enMedals = {
 		symbol_surveyor: {
 			title: 'Symbol Surveyor',
 			desc: 'Win a game with the colorblind shape overlay enabled.',
+		},
+	},
+	'dice-bingo': {
+		lucky_guess: {
+			title: 'Lucky Guess',
+			desc: 'Reach the Bronze score threshold on any difficulty.',
+		},
+		calculated_chaos: {
+			title: 'Calculated Chaos',
+			desc: 'Reach the Silver score threshold on any difficulty.',
+		},
+		probability_defier: {
+			title: 'Probability Defier',
+			desc: 'Reach the Gold score threshold on any difficulty.',
+		},
+		dice_whisperer: {
+			title: 'Dice Whisperer',
+			desc: 'Reach the ultimate high score threshold on any difficulty.',
+		},
+		yahtzee_wrong_game: {
+			title: 'Wrong Game, But Nice!',
+			desc: 'Score a Five of a Kind on any row, column, or diagonal.',
+		},
+		the_landfill: {
+			title: 'The Landfill',
+			desc: 'Place 3 or more extreme sums (2 or 12) in a single low-scoring line.',
+		},
+		dead_center: {
+			title: 'Dead Center',
+			desc: 'Place the most common sum (7) directly in the center cell of a 5×5 board.',
+		},
+		diagonally_gifted: {
+			title: 'Diagonally Gifted',
+			desc: 'Finish a game with a higher combined diagonal score than row score.',
+		},
+		against_all_odds: {
+			title: 'Against All Odds',
+			desc: 'Form a completed straight line containing both extreme sums: 2 and 12.',
+		},
+		the_hoarder: {
+			title: 'The Hoarder',
+			desc: 'Complete a full board without scoring any straights or full houses.',
+		},
+		clutch_finish: {
+			title: 'Clutch Finish',
+			desc: 'Complete a high-value poker hand on your very last turn of the game.',
+		},
+		clean_sweep: {
+			title: 'Clean Sweep',
+			desc: 'Complete a game where every single row, column, and diagonal scores points.',
 		},
 	},
 } as const satisfies MedalsTranslationContract;

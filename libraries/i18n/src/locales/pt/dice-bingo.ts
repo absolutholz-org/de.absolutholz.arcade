@@ -45,6 +45,17 @@ export const ptDiceBingo: DiceBingoTranslationContract = {
 		linesScored: 'Linhas pontuadas',
 		totalScore: 'Pontuação total',
 	},
+	victory: {
+		title: 'Jogo Concluído!',
+		congratulations: 'Partida fantástica! Você completou o tabuleiro com sucesso.',
+		playAgain: 'Jogar novamente',
+		newBestScore: 'Novo recorde!',
+		time: 'Tempo',
+		share: 'Partilhar resultado',
+		shareText: 'Marquei {{score}} pontos no nível {{difficulty}} no Bingo de Dados! Consegue superar?',
+		unlockedFeats: 'Conquistas desbloqueadas',
+		rating: 'Classificação',
+	},
 	controls: {
 		undo: 'Desfazer',
 		restart: 'Reiniciar',

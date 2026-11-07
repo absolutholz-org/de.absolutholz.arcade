@@ -170,6 +170,12 @@ export function createInitialCustomStats<G extends GameId>(gameId: G): GameCusto
 				maxSingleMoveDelta: 0,
 				winningColors: [],
 			} as unknown as GameCustomStatsMap[G];
+		case 'dice-bingo':
+			return {
+				highScores: {},
+				cleanSweeps: 0,
+				completedTiers: {},
+			} as unknown as GameCustomStatsMap[G];
 		default:
 			throw new Error(`createInitialCustomStats error: Unknown gameId "${String(gameId)}"`);
 	}

@@ -18,6 +18,7 @@ export interface MedalsSchema {
 			readonly untangle: string;
 			readonly net: string;
 			readonly 'color-flood': string;
+			readonly 'dice-bingo': string;
 		};
 		readonly status: {
 			readonly unlocked: string;
@@ -255,6 +256,20 @@ export interface MedalsSchema {
 		readonly grand_tour: { readonly title: string; readonly desc: string };
 		readonly the_deluge: { readonly title: string; readonly desc: string };
 		readonly symbol_surveyor: { readonly title: string; readonly desc: string };
+	};
+	readonly 'dice-bingo': {
+		readonly lucky_guess: { readonly title: string; readonly desc: string };
+		readonly calculated_chaos: { readonly title: string; readonly desc: string };
+		readonly probability_defier: { readonly title: string; readonly desc: string };
+		readonly dice_whisperer: { readonly title: string; readonly desc: string };
+		readonly yahtzee_wrong_game: { readonly title: string; readonly desc: string };
+		readonly the_landfill: { readonly title: string; readonly desc: string };
+		readonly dead_center: { readonly title: string; readonly desc: string };
+		readonly diagonally_gifted: { readonly title: string; readonly desc: string };
+		readonly against_all_odds: { readonly title: string; readonly desc: string };
+		readonly the_hoarder: { readonly title: string; readonly desc: string };
+		readonly clutch_finish: { readonly title: string; readonly desc: string };
+		readonly clean_sweep: { readonly title: string; readonly desc: string };
 	};
 }
 

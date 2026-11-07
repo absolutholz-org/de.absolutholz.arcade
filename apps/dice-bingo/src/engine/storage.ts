@@ -88,7 +88,7 @@ export async function recordDiceBingoRoundResult(
 	difficulty: DifficultyLevel,
 	score: number,
 	playTimeSeconds: number,
-): Promise<void> {
+): Promise<{ isNewBestScore: boolean }> {
 	// 1. Record stats in centralized telemetry
 	await recordGameStats({
 		gameId: 'dice-bingo',
@@ -101,13 +101,16 @@ export async function recordDiceBingoRoundResult(
 	// 2. Update local difficulty progress
 	const progress = await loadProgress();
 	const current = progress[difficulty] ?? { completedCount: 0 };
+	const isNewBestScore = current.bestScore === undefined || score > current.bestScore;
 	const updated: DifficultyProgress = {
 		completedCount: current.completedCount + 1,
-		bestScore: current.bestScore !== undefined ? Math.max(current.bestScore, score) : score,
+		bestScore: isNewBestScore ? score : current.bestScore,
 		bestTime: current.bestTime !== undefined ? Math.min(current.bestTime, playTimeSeconds) : playTimeSeconds,
 		lastPlayed: Date.now(),
 	};
 
 	progress[difficulty] = updated;
 	await saveProgress(progress);
+
+	return { isNewBestScore };
 }

@@ -45,6 +45,17 @@ export const deDiceBingo: DiceBingoTranslationContract = {
 		linesScored: 'Gewertete Linien',
 		totalScore: 'Gesamtpunktzahl',
 	},
+	victory: {
+		title: 'Spiel beendet!',
+		congratulations: 'Fantastische Runde! Du hast das Spielfeld komplett ausgefüllt.',
+		playAgain: 'Nochmal spielen',
+		newBestScore: 'Neuer Highscore!',
+		time: 'Zeit',
+		share: 'Ergebnis teilen',
+		shareText: 'Ich habe {{score}} Punkte auf {{difficulty}} in Würfel-Bingo erzielt! Kannst du das überbieten?',
+		unlockedFeats: 'Erfolge freigeschaltet',
+		rating: 'Wertung',
+	},
 	controls: {
 		undo: 'Rückgängig',
 		restart: 'Neustart',

@@ -9,6 +9,7 @@ export interface DiceBingoBoardProps {
 	readonly highlightedCoords: ReadonlySet<string>;
 	readonly pendingRollSum: number | null;
 	readonly isPlacing: boolean;
+	readonly autoFocusOnPlacing?: boolean;
 	readonly onCellClick: (coord: GridCoord) => void;
 	readonly onCellFocus: (coord: GridCoord) => void;
 	readonly onCellHover: (coord: GridCoord | null) => void;
@@ -105,6 +106,7 @@ export function DiceBingoBoard({
 	highlightedCoords,
 	pendingRollSum,
 	isPlacing,
+	autoFocusOnPlacing = false,
 	onCellClick,
 	onCellFocus,
 	onCellHover,
@@ -163,6 +165,16 @@ export function DiceBingoBoard({
 			}
 		}
 	}, [focusedCoord]);
+
+	// Automatically focus the focused grid cell when placing phase begins
+	const prevIsPlacingRef = useRef(false);
+	useEffect(() => {
+		if (isPlacing && (!prevIsPlacingRef.current || autoFocusOnPlacing)) {
+			const key = `${focusedCoord.row},${focusedCoord.col}`;
+			buttonRefs.current.get(key)?.focus();
+		}
+		prevIsPlacingRef.current = isPlacing;
+	}, [isPlacing, autoFocusOnPlacing, focusedCoord]);
 
 	return (
 		// biome-ignore lint/a11y/useSemanticElements: Dice Bingo is an interactive 2D grid widget adhering to WAI-ARIA Grid pattern

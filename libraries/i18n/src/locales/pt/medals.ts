@@ -20,6 +20,7 @@ export const ptMedals = {
 			untangle: 'Desembaraçar',
 			net: 'Net',
 			'color-flood': 'Maré de cores',
+			'dice-bingo': 'Bingo de Dados',
 		},
 		status: {
 			unlocked: 'Desbloqueado',
@@ -817,6 +818,56 @@ export const ptMedals = {
 		symbol_surveyor: {
 			title: 'Agrimensor de Símbolos',
 			desc: 'Vença um jogo com o modo de símbolos para daltonismo ativado.',
+		},
+	},
+	'dice-bingo': {
+		lucky_guess: {
+			title: 'Palpite de Sorte',
+			desc: 'Alcance o limite de pontuação Bronze em qualquer dificuldade.',
+		},
+		calculated_chaos: {
+			title: 'Caos Calculado',
+			desc: 'Alcance o limite de pontuação Prata em qualquer dificuldade.',
+		},
+		probability_defier: {
+			title: 'Desafiador de Probabilidades',
+			desc: 'Alcance o limite de pontuação Ouro em qualquer dificuldade.',
+		},
+		dice_whisperer: {
+			title: 'Encantador de Dados',
+			desc: 'Alcance o limite máximo de pontuação em qualquer dificuldade.',
+		},
+		yahtzee_wrong_game: {
+			title: 'Jogo Errado, Mas Valeu!',
+			desc: 'Faça uma combinação de cinco iguais em qualquer linha, coluna ou diagonal.',
+		},
+		the_landfill: {
+			title: 'O Depósito',
+			desc: 'Coloque 3 ou mais somas extremas (2 ou 12) em uma única linha de baixa pontuação.',
+		},
+		dead_center: {
+			title: 'No Centro Exato',
+			desc: 'Posicione a soma mais comum (7) exatamente na casa central de um tabuleiro 5×5.',
+		},
+		diagonally_gifted: {
+			title: 'Talento Diagonal',
+			desc: 'Termine uma partida com uma pontuação combinada nas diagonais superior à das linhas.',
+		},
+		against_all_odds: {
+			title: 'Contra Todas as Probabilidades',
+			desc: 'Complete uma sequência contendo ambas as somas extremas: 2 e 12.',
+		},
+		the_hoarder: {
+			title: 'O Acumulador',
+			desc: 'Conclua um tabuleiro completo sem pontuar nenhuma sequência ou full house.',
+		},
+		clutch_finish: {
+			title: 'Final Decisivo',
+			desc: 'Complete uma mão de poker de alto valor na sua última jogada da partida.',
+		},
+		clean_sweep: {
+			title: 'Varredura Total',
+			desc: 'Conclua uma partida em que todas as linhas, colunas e diagonais marquem pontos.',
 		},
 	},
 } as const satisfies MedalsTranslationContract;

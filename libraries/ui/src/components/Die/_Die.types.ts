@@ -13,6 +13,8 @@ export interface DieProps {
 	isRolling?: boolean;
 	/** Incremented counter to trigger fresh spin animations across repeated rolls. */
 	spinCount?: number;
+	/** Whether this die is interactive and selectable/holdable. Defaults to true. When false, renders as non-focusable div for display. */
+	isSelectable?: boolean;
 	/** Optional CSS class name for styling composition. */
 	className?: string;
 }

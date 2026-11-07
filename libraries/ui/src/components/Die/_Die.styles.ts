@@ -225,17 +225,22 @@ export const DieWrapper = styled.button`
 	touch-action: manipulation;
 	transition: transform 120ms cubic-bezier(0, 0, 0.2, 1);
 
-	&:hover:not(:disabled) {
+	&:hover:not(:disabled):not([data-selectable='false']) {
 		transform: translateY(-2px);
 	}
 
-	&:active:not(:disabled) {
+	&:active:not(:disabled):not([data-selectable='false']) {
 		transform: translateY(0);
 	}
 
 	&:focus-visible {
 		outline: 2px solid ${themeColor('accent')};
 		outline-offset: 4px;
+	}
+
+	&[data-selectable='false'] {
+		cursor: default;
+		pointer-events: none;
 	}
 
 	&[data-held='true'] {

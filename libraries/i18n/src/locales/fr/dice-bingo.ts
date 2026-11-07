@@ -45,6 +45,17 @@ export const frDiceBingo: DiceBingoTranslationContract = {
 		linesScored: 'Lignes complétées',
 		totalScore: 'Score total',
 	},
+	victory: {
+		title: 'Partie terminée !',
+		congratulations: 'Partie fantastique ! Vous avez rempli la grille avec succès.',
+		playAgain: 'Rejouer',
+		newBestScore: 'Nouveau record !',
+		time: 'Temps',
+		share: 'Partager le score',
+		shareText: 'J’ai marqué {{score}} points en difficulté {{difficulty}} à Bingo aux dés ! Peux-tu faire mieux ?',
+		unlockedFeats: 'Succès débloqués',
+		rating: 'Évaluation',
+	},
 	controls: {
 		undo: 'Annuler',
 		restart: 'Recommencer',

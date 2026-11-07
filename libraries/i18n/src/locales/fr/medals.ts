@@ -20,6 +20,7 @@ export const frMedals = {
 			untangle: 'Démêler',
 			net: 'Net',
 			'color-flood': 'Marée de couleurs',
+			'dice-bingo': 'Bingo aux dés',
 		},
 		status: {
 			unlocked: 'Débloqué',
@@ -817,6 +818,56 @@ export const frMedals = {
 		symbol_surveyor: {
 			title: 'Observateur de Symboles',
 			desc: 'Gagnez une partie avec l’affichage des symboles pour daltoniens activé.',
+		},
+	},
+	'dice-bingo': {
+		lucky_guess: {
+			title: 'Coup de chance',
+			desc: 'Atteignez le seuil de score Bronze sur n’importe quel niveau de difficulté.',
+		},
+		calculated_chaos: {
+			title: 'Chaos calculé',
+			desc: 'Atteignez le seuil de score Argent sur n’importe quel niveau de difficulté.',
+		},
+		probability_defier: {
+			title: 'Défieur de probabilités',
+			desc: 'Atteignez le seuil de score Or sur n’importe quel niveau de difficulté.',
+		},
+		dice_whisperer: {
+			title: 'Le murmure des dés',
+			desc: 'Atteignez le seuil de score ultime sur n’importe quel niveau de difficulté.',
+		},
+		yahtzee_wrong_game: {
+			title: 'Mauvais jeu, mais bravo !',
+			desc: 'Réalisez un brelan quintuple (5 identiques) sur une ligne, colonne ou diagonale.',
+		},
+		the_landfill: {
+			title: 'La décharge',
+			desc: 'Placez 3 sommes extrêmes (2 ou 12) ou plus sur une même ligne à faible score.',
+		},
+		dead_center: {
+			title: 'En plein centre',
+			desc: 'Placez la somme la plus courante (7) exactement sur la case centrale d’une grille 5×5.',
+		},
+		diagonally_gifted: {
+			title: 'Prodige des diagonales',
+			desc: 'Terminez une partie avec plus de points sur les diagonales que sur les lignes.',
+		},
+		against_all_odds: {
+			title: 'Contre toute attente',
+			desc: 'Complétez une suite contenant à la fois les sommes extrêmes 2 et 12.',
+		},
+		the_hoarder: {
+			title: 'L’accumulateur',
+			desc: 'Terminez une partie complète sans valider la moindre suite ou Full.',
+		},
+		clutch_finish: {
+			title: 'Fin d’anthologie',
+			desc: 'Complétez une main de poker de grande valeur lors de votre tout dernier tour.',
+		},
+		clean_sweep: {
+			title: 'Sans faute',
+			desc: 'Terminez une partie où chaque ligne, colonne et diagonale rapporte des points.',
 		},
 	},
 } as const satisfies MedalsTranslationContract;
