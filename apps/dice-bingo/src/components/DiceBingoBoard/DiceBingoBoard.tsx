@@ -26,7 +26,6 @@ const GridContainer = styled.div`
 	padding: 0.5rem;
 	background-color: light-dark(rgba(0, 0, 0, 0.04), rgba(255, 255, 255, 0.04));
 	border-radius: 0.75rem;
-	box-sizing: border-box;
 	user-select: none;
 `;
 

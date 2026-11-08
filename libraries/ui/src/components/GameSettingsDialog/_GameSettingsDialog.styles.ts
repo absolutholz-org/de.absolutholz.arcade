@@ -9,7 +9,6 @@ export const DialogBody = styled.div`
 	gap: 1.25rem;
 	width: 100%;
 	padding: 0.25rem 0;
-	box-sizing: border-box;
 	color: ${themeColor('text-1')};
 `;
 

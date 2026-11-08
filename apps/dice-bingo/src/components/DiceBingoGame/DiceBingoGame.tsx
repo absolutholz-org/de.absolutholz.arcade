@@ -52,7 +52,6 @@ const PlayfieldWrapper = styled.div`
 	max-width: 28rem;
 	margin: 0 auto;
 	padding: 0.25rem 0.5rem;
-	box-sizing: border-box;
 `;
 
 const RollControlRow = styled.div`

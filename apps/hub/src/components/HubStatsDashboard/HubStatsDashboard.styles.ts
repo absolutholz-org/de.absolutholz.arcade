@@ -38,7 +38,6 @@ export const KpiCard = css`
 	text-align: center;
 	gap: 0.25rem;
 	min-height: 5.5rem;
-	box-sizing: border-box;
 	transition: border-color 150ms ease, box-shadow 150ms ease;
 
 	&:hover {
@@ -116,7 +115,6 @@ export const CompactCard = css`
 	padding: 1rem;
 	text-align: left;
 	width: 100%;
-	box-sizing: border-box;
 	cursor: pointer;
 	border-radius: var(--radius-md, 0.75rem);
 `;

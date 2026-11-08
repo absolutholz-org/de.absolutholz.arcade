@@ -21,7 +21,6 @@ export const Header = styled.header`
 		gap: var(--space-2xs);
 		max-width: var(--game-container-max-width, none);
 		margin-inline: auto;
-		box-sizing: border-box;
 
 		@media (max-width: 359px) {
 			padding-inline: var(--space-2xs);

@@ -29,7 +29,6 @@ export const BoardContainer = styled.section`
 	max-width: min(100%, calc(100dvh - var(--game-header-height, 3.5rem) - 13rem));
 	margin-inline: auto;
 	touch-action: none;
-	box-sizing: border-box;
 
 	@media (min-width: 640px) {
 		max-width: min(100%, calc(100dvh - var(--game-header-height, 3.5rem) - 10rem));

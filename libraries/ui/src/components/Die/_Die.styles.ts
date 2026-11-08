@@ -338,7 +338,6 @@ export const Face = styled.div`
 	inset: 0;
 	width: 100%;
 	height: 100%;
-	box-sizing: border-box;
 	padding: 0.45rem;
 	background-color: ${themeColor('container-1')};
 	border: 1px solid ${themeColor('container-2')};

@@ -10,7 +10,6 @@ export const Toast_Host = styled.aside`
 	display: flex;
 	flex-direction: column;
 	padding: ${space('md')};
-	box-sizing: border-box;
 	max-width: 100vw;
 	border: none;
 	background: transparent;
@@ -82,7 +81,6 @@ export const Toast_Item = styled.div`
 	width: 100%;
 	min-width: 18rem;
 	max-width: 24rem;
-	box-sizing: border-box;
 	transition: opacity 160ms ease, transform 160ms ease;
 
 	&[data-variant='info'] {

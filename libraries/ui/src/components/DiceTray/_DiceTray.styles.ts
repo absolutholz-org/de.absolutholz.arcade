@@ -16,7 +16,6 @@ export const TrayContainer = styled.section`
 	border: 1px solid ${themeColor('container-2')};
 	border-radius: ${radiusScale.xl};
 	box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.08);
-	box-sizing: border-box;
 `;
 
 export const TopBar = styled.div`
@@ -52,7 +51,6 @@ export const DiceGrid = styled.div`
 	width: 100%;
 	min-height: 4.5rem;
 	padding: 0.5rem 0;
-	box-sizing: border-box;
 `;
 
 export const ControlsBar = styled.div`

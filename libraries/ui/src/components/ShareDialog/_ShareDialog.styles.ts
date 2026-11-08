@@ -8,7 +8,6 @@ export const ContentRoot = styled.div`
 	align-items: center;
 	gap: 1.25rem;
 	width: 100%;
-	box-sizing: border-box;
 
 	@media (min-width: 34rem) {
 		flex-direction: row;
@@ -30,7 +29,6 @@ export const QrCard = styled.div`
 	border-radius: ${radiusScale.lg};
 	color: ${themeVars['text-1']};
 	width: 100%;
-	box-sizing: border-box;
 
 	@media (min-width: 34rem) {
 		width: 13rem;
@@ -71,5 +69,4 @@ export const StatusBanner = styled.div`
 	color: ${themeVars['text-1']};
 	font-size: 0.875rem;
 	text-align: center;
-	box-sizing: border-box;
 `;

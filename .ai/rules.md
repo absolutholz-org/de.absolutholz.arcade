@@ -63,6 +63,9 @@ Agents are strictly forbidden from introducing alternative tooling. You must adh
     - Media queries (where `px` or `em` is appropriate).
     - Border widths (e.g., `1px solid ...` is acceptable to preserve pixel-level crispness).
     - Accessibility minimums (e.g., enforcing the `24px` by `24px` minimum touch target size for WCAG 2.2 AA).
+- **Use `PageContainer` for Page Max-Width & Centering**: Never define ad-hoc `max-width`, redundant `width: 100%`, or centering `margin: 0 auto` on internal section/workspace wrappers. Content max-width and centering must strictly be delegated to `<PageContainer>` (or the layout's built-in container options).
+- **Zero Redundant `box-sizing: border-box` Declarations**: Do not declare `box-sizing: border-box;` in styled components or CSS classes anywhere across apps or libraries; `box-sizing: border-box` is already enforced globally across all elements via our root CSS reset layer (`@arcade/lib-ui/styles/reset`).
+- **Avoid Redundant Outer Container Padding**: Do not add extra outer padding around workspace/section wrappers when they are already wrapped inside `<PageContainer>` or the game layout shell, as this unnecessarily reduces available viewport space—especially on mobile devices.
 
 ## 6. Code Quality & Documentation Standard
 

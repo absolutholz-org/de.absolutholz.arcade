@@ -5,17 +5,11 @@ export const WorkspaceWrapper = styled.div`
 	display: grid;
 	grid-template-columns: minmax(0, 1fr);
 	gap: 1rem;
-	width: 100%;
-	max-width: 68rem;
-	margin: 0 auto;
-	padding: 0.5rem;
 	align-items: start;
-	box-sizing: border-box;
 
 	@media (min-width: 56rem) {
 		grid-template-columns: minmax(20rem, 1.2fr) minmax(18rem, 0.9fr);
 		gap: 1.25rem;
-		padding: 0.75rem;
 	}
 `;
 
@@ -26,16 +20,10 @@ export const BoardSection = styled.section`
 	gap: 0.75rem;
 	width: 100%;
 	min-width: 0;
-	box-sizing: border-box;
 	container-type: inline-size;
 	background: var(--color-surface-elevated, light-dark(oklch(0.97 0.01 260), oklch(0.19 0.02 260)));
 	border: 1px solid var(--color-border-subtle, light-dark(oklch(0.86 0.02 260), oklch(0.3 0.02 260)));
 	border-radius: 1rem;
-	padding: 0.5rem;
-
-	@media (min-width: 36rem) {
-		padding: 1rem;
-	}
 `;
 
 export const BoardGridContainer = styled.div`
@@ -93,7 +81,6 @@ export const BoardGridContainer = styled.div`
 	border-radius: 0.75rem;
 	border: 2px solid light-dark(oklch(0.78 0.02 260), oklch(0.32 0.02 260));
 	max-width: 100%;
-	box-sizing: border-box;
 	justify-content: center;
 	align-items: center;
 
@@ -156,7 +143,6 @@ export const cellButtonClass = css`
 	height: var(--cell-size);
 	padding: 0;
 	margin: 0;
-	box-sizing: border-box;
 	border-radius: clamp(0.25rem, 0.8cqi, 0.375rem);
 	border: 1.5px solid light-dark(oklch(0.78 0.02 260), oklch(0.32 0.02 260));
 	background: light-dark(oklch(0.99 0.005 260), oklch(0.22 0.02 260));
@@ -282,7 +268,6 @@ export const TraySection = styled.section`
 	gap: 1rem;
 	width: 100%;
 	min-width: 0;
-	box-sizing: border-box;
 	background: var(--color-surface-elevated, light-dark(oklch(0.97 0.01 260), oklch(0.19 0.02 260)));
 	border: 1px solid var(--color-border-subtle, light-dark(oklch(0.86 0.02 260), oklch(0.3 0.02 260)));
 	border-radius: 1rem;

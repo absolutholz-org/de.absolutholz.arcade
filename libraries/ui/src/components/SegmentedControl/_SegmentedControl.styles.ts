@@ -16,7 +16,6 @@ export const Container = styled.div`
 	scrollbar-width: none;
 	-ms-overflow-style: none;
 	-webkit-overflow-scrolling: touch;
-	box-sizing: border-box;
 
 	&::-webkit-scrollbar {
 		display: none;
