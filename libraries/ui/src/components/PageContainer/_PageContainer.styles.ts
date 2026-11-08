@@ -15,6 +15,10 @@ export const PageContainer = styled.div`
 	padding-inline: var(--page-content-padding);
 	width: 100%;
 
+	&[data-padding='slim'] {
+		--page-content-padding: ${space('sm')};
+	}
+
 	&[data-variant='standard'] {
 		max-width: ${PAGE_MAX_WIDTH};
 	}

@@ -12,3 +12,8 @@ export const PAGE_CONTAINER_VARIANTS = {
 	slim: PAGE_MAX_WIDTH_SLIM,
 	full: '100%',
 } as const;
+
+export const PAGE_CONTAINER_PADDINGS = {
+	normal: 'normal',
+	slim: 'slim',
+} as const;

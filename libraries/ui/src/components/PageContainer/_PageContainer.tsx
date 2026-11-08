@@ -8,6 +8,7 @@ import type { PageContainerProps } from './_PageContainer.types';
  */
 export function PageContainer<C extends ElementType = 'div'>({
 	variant = 'standard',
+	padding = 'normal',
 	as,
 	children,
 	...rest
@@ -15,7 +16,7 @@ export function PageContainer<C extends ElementType = 'div'>({
 	const Component = as || 'div';
 
 	return (
-		<S.PageContainer as={Component} data-variant={variant} {...rest}>
+		<S.PageContainer as={Component} data-variant={variant} data-padding={padding} {...rest}>
 			{children}
 		</S.PageContainer>
 	);

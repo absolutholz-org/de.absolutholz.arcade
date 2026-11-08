@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { PageContainer } from '.';
 import { Text } from '../Text';
 import { Theme } from '../Theme';
-import { PAGE_CONTAINER_VARIANTS } from './_PageContainer.constants';
+import { PAGE_CONTAINER_PADDINGS, PAGE_CONTAINER_VARIANTS } from './_PageContainer.constants';
 
 const meta = {
 	component: PageContainer,
@@ -18,6 +18,11 @@ const meta = {
 			options: Object.keys(PAGE_CONTAINER_VARIANTS),
 			description: 'The layout width variant constraint',
 		},
+		padding: {
+			control: 'select',
+			options: Object.keys(PAGE_CONTAINER_PADDINGS),
+			description: 'The horizontal padding preset',
+		},
 		as: {
 			control: 'text',
 			description: 'The HTML tag or component to render',
@@ -25,6 +30,7 @@ const meta = {
 	},
 	args: {
 		variant: 'standard',
+		padding: 'normal',
 		as: 'div',
 	},
 } satisfies Meta<typeof PageContainer>;
@@ -208,6 +214,58 @@ export const FullWidth: Story = {
 							<Text variant="base">
 								Removes max-width limits entirely to stretch across the full viewport, ideal for
 								panoramic hero banners or full-bleed layouts.
+							</Text>
+						</div>
+						<AdaptiveGrid>
+							<Card>
+								<Text variant="h3">Sudoku</Text>
+								<Text variant="small">Play classic number placement puzzles.</Text>
+							</Card>
+							<Card>
+								<Text variant="h3">Minesweeper</Text>
+								<Text variant="small">Navigate the minefield with strategic deduction.</Text>
+							</Card>
+							<Card>
+								<Text variant="h3">Connect Four</Text>
+								<Text variant="small">Align four tokens vertically, horizontally, or diagonally.</Text>
+							</Card>
+						</AdaptiveGrid>
+					</DecorativeWrapper>
+				</PageContainer>
+			</OuterFrame>
+		</Theme>
+	),
+};
+
+export const SlimPadding: Story = {
+	args: {
+		padding: 'slim',
+	},
+	parameters: {
+		docs: {
+			description: {
+				story: 'The slim padding variant reduces horizontal padding to sm (0.75rem), optimizing horizontal screen real estate.',
+			},
+		},
+	},
+	render: (args) => (
+		<Theme name="primary">
+			<OuterFrame>
+				<PageContainer {...args}>
+					<DecorativeWrapper>
+						<Header>
+							<Text variant="h3" as="h1">
+								Arcade Hub (Slim Padding)
+							</Text>
+							<Text variant="small">Container Area (Slim Horizontal Padding)</Text>
+						</Header>
+						<div>
+							<Text variant="h2" as="h2">
+								Slim Horizontal Padding
+							</Text>
+							<Text variant="base">
+								Uses compact lateral padding (token: sm / 0.75rem) to maximize available space for grids
+								and content.
 							</Text>
 						</div>
 						<AdaptiveGrid>
