@@ -10,7 +10,7 @@ export interface HeaderUserMenuProps {
 
 	/**
 	 * Alignment for the popover menu relative to the trigger.
-	 * @default 'end'
+	 * @default 'bottom'
 	 */
 	align?: PopoverAlign;
 

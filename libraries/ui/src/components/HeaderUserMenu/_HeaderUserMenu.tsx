@@ -12,7 +12,7 @@ import * as S from './_HeaderUserMenu.styles';
 import type { HeaderUserMenuProps } from './_HeaderUserMenu.types';
 
 function HeaderUserMenuContent({
-	align = 'end',
+	align = 'bottom',
 	className,
 	id,
 	session,
@@ -78,7 +78,7 @@ function HeaderUserMenuContent({
 			aria-expanded={isAuthenticated ? isMenuOpen : isAuthDialogOpen}
 			aria-label={triggerAriaLabel}
 			title={triggerAriaLabel}
-			onClick={handleTriggerClick}
+			onClick={!isAuthenticated ? handleTriggerClick : undefined}
 			leadingIcon={<EmojiAvatar value={avatar} size="sm" aria-hidden />}
 		>
 			<span className="user-name">{displayName}</span>
@@ -182,7 +182,7 @@ function HeaderUserMenuContent({
 	);
 }
 
-export function HeaderUserMenu({ align = 'end', className, id, lang, session }: HeaderUserMenuProps) {
+export function HeaderUserMenu({ align = 'bottom', className, id, lang, session }: HeaderUserMenuProps) {
 	return (
 		<I18nProvider language={lang}>
 			<HeaderUserMenuContent align={align} className={className} id={id} session={session} />

@@ -24,6 +24,19 @@ describe('HeaderUserMenu', () => {
 				this.dispatchEvent(Object.assign(new Event('toggle'), { newState: 'closed' }));
 			};
 		}
+
+		// Simulate HTML popovertarget invoker on click for happy-dom testing
+		const origClick = HTMLButtonElement.prototype.click;
+		HTMLButtonElement.prototype.click = function () {
+			origClick.call(this);
+			const targetId = this.getAttribute('popovertarget');
+			if (targetId) {
+				const popover = document.getElementById(targetId);
+				if (popover) {
+					popover.showPopover();
+				}
+			}
+		};
 		saveConsentPreferences({ cloudSync: false, publicBroadcast: false });
 	});
 
@@ -121,7 +134,9 @@ describe('HeaderUserMenu', () => {
 		expect(trigger.getAttribute('aria-haspopup')).toBe('menu');
 		expect(trigger.getAttribute('aria-expanded')).toBe('false');
 
-		openPopover(container);
+		act(() => {
+			trigger.click();
+		});
 
 		expect(trigger.getAttribute('aria-expanded')).toBe('true');
 

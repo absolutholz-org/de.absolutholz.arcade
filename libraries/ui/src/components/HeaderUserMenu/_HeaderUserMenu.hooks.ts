@@ -68,8 +68,6 @@ export function useHeaderUserMenu({ session: externalSession }: UseHeaderUserMen
 			if (!session.isAuthenticated) {
 				e.preventDefault();
 				setIsAuthDialogOpen(true);
-			} else {
-				setIsMenuOpen((prev) => !prev);
 			}
 		},
 		[session.isAuthenticated],
