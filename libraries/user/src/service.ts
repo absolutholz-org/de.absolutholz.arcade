@@ -14,7 +14,18 @@ import {
 import { CloudAdapter } from './internal/adapters/cloudAdapter.js';
 import { LocalAdapter } from './internal/adapters/localAdapter.js';
 import { initFirebase, resolveEnvConfig } from './internal/firebase.js';
-import type { IUserService, StorageMode, Unsubscribe, UserProfile, UserServiceOptions, UserSession } from './types.js';
+import {
+	type IUserService,
+	type PlayerAvatar,
+	type PlayerProfile,
+	type ProfileUpdates,
+	type StorageMode,
+	type Unsubscribe,
+	type UserServiceOptions,
+	type UserSession,
+	sanitizeDisplayName,
+	sanitizePlayerAvatar,
+} from './types.js';
 
 /**
  * Core implementation of IUserService coordinating local storage,
@@ -72,7 +83,7 @@ class UserService implements IUserService {
 		this.notifyListeners();
 	}
 
-	private applyConsentToProfile(profile: UserProfile, isAuthenticated: boolean): UserProfile {
+	private applyConsentToProfile(profile: PlayerProfile, isAuthenticated: boolean): PlayerProfile {
 		const consent = loadConsentPreferences();
 		const shouldSync = isAuthenticated && consent.cloudSync;
 		return {
@@ -184,7 +195,7 @@ class UserService implements IUserService {
 		return this.getSession();
 	}
 
-	async signInAnonymously(): Promise<UserProfile> {
+	async signInAnonymously(): Promise<PlayerProfile> {
 		if (this.cloudAdapter.isAvailable()) {
 			const cloudProfile = await this.cloudAdapter.signInAnonymously();
 			const finalProfile = this.applyConsentToProfile(cloudProfile, true);
@@ -209,7 +220,7 @@ class UserService implements IUserService {
 		return localGuest;
 	}
 
-	async signInWithGoogle(): Promise<UserProfile> {
+	async signInWithGoogle(): Promise<PlayerProfile> {
 		if (!this.cloudAdapter.isAvailable()) {
 			throw new Error('[@arcade/lib-user] Google sign-in failed: Firebase cloud adapter is not configured.');
 		}
@@ -227,7 +238,7 @@ class UserService implements IUserService {
 		return finalProfile;
 	}
 
-	async signUpWithEmail(email: string, password: string, displayName?: string): Promise<UserProfile> {
+	async signUpWithEmail(email: string, password: string, displayName?: string): Promise<PlayerProfile> {
 		if (!this.cloudAdapter.isAvailable()) {
 			throw new Error('[@arcade/lib-user] Email registration failed: Firebase cloud adapter is not configured.');
 		}
@@ -245,7 +256,11 @@ class UserService implements IUserService {
 		return finalProfile;
 	}
 
-	async signInWithEmail(email: string, password: string): Promise<UserProfile> {
+	async signUpWithEmailPassword(email: string, password: string, displayName?: string): Promise<PlayerProfile> {
+		return this.signUpWithEmail(email, password, displayName);
+	}
+
+	async signInWithEmail(email: string, password: string): Promise<PlayerProfile> {
 		if (!this.cloudAdapter.isAvailable()) {
 			throw new Error('[@arcade/lib-user] Email sign-in failed: Firebase cloud adapter is not configured.');
 		}
@@ -263,12 +278,20 @@ class UserService implements IUserService {
 		return finalProfile;
 	}
 
+	async signInWithEmailPassword(email: string, password: string): Promise<PlayerProfile> {
+		return this.signInWithEmail(email, password);
+	}
+
 	async sendPasswordReset(email: string): Promise<void> {
 		if (!this.cloudAdapter.isAvailable()) {
 			throw new Error('[@arcade/lib-user] Password reset failed: Firebase cloud adapter is not configured.');
 		}
 
 		await this.cloudAdapter.sendPasswordReset(email);
+	}
+
+	async sendPasswordResetEmail(email: string): Promise<void> {
+		return this.sendPasswordReset(email);
 	}
 
 	async signOut(): Promise<void> {
@@ -285,23 +308,32 @@ class UserService implements IUserService {
 		});
 	}
 
-	async updateProfile(updates: { displayName: string }): Promise<UserProfile> {
-		const trimmedName = updates.displayName.trim();
-		if (!trimmedName) {
-			throw new Error('[@arcade/lib-user] Display name cannot be empty.');
+	async updateProfile(updates: ProfileUpdates): Promise<PlayerProfile> {
+		if (updates.displayName !== undefined) {
+			const trimmedName = updates.displayName.trim();
+			if (!trimmedName) {
+				throw new Error('[@arcade/lib-user] Display name cannot be empty.');
+			}
 		}
 
 		if (this.session.isAuthenticated && this.cloudAdapter.isAvailable()) {
-			const updated = await this.cloudAdapter.updateDisplayName(trimmedName);
+			const updated = await this.cloudAdapter.updateProfile(updates);
 			this.updateSession({ user: updated });
 			await this.localAdapter.saveProfile(updated);
 			return updated;
 		}
 
 		const current = this.session.user ?? (await this.localAdapter.getOrCreateGuestProfile());
-		const updatedLocal: UserProfile = {
+		const newDisplayName =
+			updates.displayName !== undefined ? sanitizeDisplayName(updates.displayName) : current.displayName;
+		const newAvatar = updates.avatar !== undefined ? sanitizePlayerAvatar(updates.avatar) : current.avatar;
+		const now = Date.now();
+
+		const updatedLocal: PlayerProfile = {
 			...current,
-			displayName: trimmedName,
+			displayName: newDisplayName,
+			avatar: newAvatar,
+			updatedAt: now,
 		};
 
 		await this.localAdapter.saveProfile(updatedLocal);
@@ -309,8 +341,12 @@ class UserService implements IUserService {
 		return updatedLocal;
 	}
 
-	async updateDisplayName(name: string): Promise<UserProfile> {
+	async updateDisplayName(name: string): Promise<PlayerProfile> {
 		return this.updateProfile({ displayName: name });
+	}
+
+	async updateAvatar(avatar: PlayerAvatar): Promise<PlayerProfile> {
+		return this.updateProfile({ avatar });
 	}
 
 	async setStorageMode(mode: StorageMode): Promise<void> {
@@ -319,7 +355,7 @@ class UserService implements IUserService {
 		if (mode === 'cloud') {
 			if (this.session.isAuthenticated) {
 				const current = this.session.user;
-				const updatedUser: UserProfile | null = current ? { ...current, storageMode: 'cloud' } : null;
+				const updatedUser: PlayerProfile | null = current ? { ...current, storageMode: 'cloud' } : null;
 				if (updatedUser) {
 					await this.localAdapter.saveProfile(updatedUser);
 				}
@@ -347,7 +383,7 @@ class UserService implements IUserService {
 				await this.cloudAdapter.deleteUserData(this.session.user.id);
 			}
 
-			const localVersion: UserProfile = {
+			const localVersion: PlayerProfile = {
 				...this.session.user,
 				storageMode: 'local',
 			};

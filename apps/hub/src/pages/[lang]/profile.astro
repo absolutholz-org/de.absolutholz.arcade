@@ -1,0 +1,42 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { Breadcrumb } from '@arcade/lib-ui/components/Breadcrumb';
+import { PageContainer } from '@arcade/lib-ui/components/PageContainer';
+import { PlayerProfileView } from '@arcade/lib-ui/components/PlayerProfileView';
+import BaseLayoutWithSiteHeaderAndSiteFooter from '@arcade/lib-ui/layouts/BaseLayoutWithSiteHeaderAndSiteFooter/BaseLayoutWithSiteHeaderAndSiteFooter.astro';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const currentLanguage = lang as SupportedLanguageCode;
+const currentCommon = resources[currentLanguage]?.common ?? resources.en.common;
+const homeText = `${currentCommon.app.title} ${currentCommon.navigation.home}`;
+const profileTitle = currentCommon.profile.title;
+const profileDescription = currentCommon.profile.description;
+---
+
+<BaseLayoutWithSiteHeaderAndSiteFooter
+	titleOptions={{
+		subject: profileTitle,
+	}}
+	description={profileDescription}
+	lang={currentLanguage}
+	currentSlug="profile"
+>
+	<PageContainer variant="standard">
+		<Breadcrumb
+			items={[
+				{ label: homeText, href: `/${currentLanguage}/`, isHome: true },
+				{ label: profileTitle, isCurrent: true },
+			]}
+			client:load
+		/>
+		<PlayerProfileView client:load />
+	</PageContainer>
+</BaseLayoutWithSiteHeaderAndSiteFooter>

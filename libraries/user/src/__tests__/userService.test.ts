@@ -301,6 +301,28 @@ describe('UserService & createUserService', () => {
 		expect(service.getSession().user?.displayName).toBe('DirectName');
 	});
 
+	it('supports updateAvatar method and updating profile with avatar', async () => {
+		const service = createUserService({ firebaseConfig });
+		await service.initialize();
+
+		const emissions: UserSession[] = [];
+		service.subscribe((session) => emissions.push(session));
+
+		const updated = await service.updateAvatar({ type: 'emoji', value: '🎮' });
+		expect(updated.avatar).toEqual({ type: 'emoji', value: '🎮' });
+		expect(service.getSession().user?.avatar).toEqual({ type: 'emoji', value: '🎮' });
+
+		const latest = emissions[emissions.length - 1];
+		expect(latest.user?.avatar).toEqual({ type: 'emoji', value: '🎮' });
+
+		const updatedCombo = await service.updateProfile({
+			displayName: 'ComboHero',
+			avatar: { type: 'emoji', value: '🚀' },
+		});
+		expect(updatedCombo.displayName).toBe('ComboHero');
+		expect(updatedCombo.avatar).toEqual({ type: 'emoji', value: '🚀' });
+	});
+
 	it('persists storageMode cloud on user profile when authenticated user toggles to cloud', async () => {
 		const service = createUserService({ firebaseConfig });
 		await service.initialize();
@@ -409,5 +431,12 @@ describe('UserService & createUserService', () => {
 		await expect(service.signUpWithEmail('test@example.com', 'pass')).rejects.toThrow('Email registration failed');
 		await expect(service.signInWithEmail('test@example.com', 'pass')).rejects.toThrow('Email sign-in failed');
 		await expect(service.sendPasswordReset('test@example.com')).rejects.toThrow('Password reset failed');
+		await expect(service.signUpWithEmailPassword('test@example.com', 'pass')).rejects.toThrow(
+			'Email registration failed',
+		);
+		await expect(service.signInWithEmailPassword('test@example.com', 'pass')).rejects.toThrow(
+			'Email sign-in failed',
+		);
+		await expect(service.sendPasswordResetEmail('test@example.com')).rejects.toThrow('Password reset failed');
 	});
 });

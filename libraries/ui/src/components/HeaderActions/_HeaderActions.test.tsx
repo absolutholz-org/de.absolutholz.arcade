@@ -5,8 +5,11 @@ import { render } from '../../test-utils';
 import { getFocusableItems } from '../Toolbar/_Toolbar.functions';
 
 describe('HeaderActions', () => {
-	it('renders a role="toolbar" container encompassing all 4 controls', () => {
+	it('renders a role="toolbar" container encompassing all 4 controls', async () => {
 		const { container, unmount } = render(<HeaderActions lang="en" />);
+		await act(async () => {
+			await Promise.resolve();
+		});
 
 		const toolbar = container.querySelector('[role="toolbar"]') as HTMLElement;
 		expect(toolbar).not.toBeNull();
@@ -23,7 +26,7 @@ describe('HeaderActions', () => {
 
 		// Fourth: User profile button with explicit accessible name
 		const userButton = items[3];
-		expect(userButton.getAttribute('aria-label')).toBe('User profile');
+		expect(userButton.getAttribute('aria-label')).toBe('Player menu for Guest');
 		expect(userButton.getAttribute('aria-haspopup')).toBe('dialog');
 
 		// Cloud sync icon is removed completely
@@ -32,8 +35,11 @@ describe('HeaderActions', () => {
 		unmount();
 	});
 
-	it('supports roving tabindex across all 4 controls using ArrowRight and ArrowLeft', () => {
+	it('supports roving tabindex across all 4 controls using ArrowRight and ArrowLeft', async () => {
 		const { container, unmount } = render(<HeaderActions lang="en" />);
+		await act(async () => {
+			await Promise.resolve();
+		});
 
 		const toolbar = container.querySelector('[role="toolbar"]') as HTMLElement;
 		const items = getFocusableItems(toolbar);

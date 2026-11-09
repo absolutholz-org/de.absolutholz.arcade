@@ -1,5 +1,5 @@
 import { styled } from '@linaria/react';
-import { radiusScale } from '../../styles/radius/radius.constants';
+import { themeColor } from '../../styles/theme/theme.utils';
 
 export const HeaderUserMenu = styled.div`
 	display: inline-flex;
@@ -18,39 +18,6 @@ export const HeaderUserMenu = styled.div`
 			font-weight: 600;
 		}
 
-		.user-avatar {
-			display: inline-flex;
-			align-items: center;
-			justify-content: center;
-			position: relative;
-			width: 1.25rem;
-			height: 1.25rem;
-			border-radius: ${radiusScale.pill};
-			background-color: oklch(from var(--color-text-1) l c h / 0.1);
-			color: var(--color-text-1);
-			overflow: hidden;
-			flex-shrink: 0;
-
-			.user-avatar-initials {
-				font-size: 0.6875rem;
-				font-weight: 700;
-				line-height: 1;
-				letter-spacing: 0.02em;
-				text-transform: uppercase;
-			}
-
-			> img {
-				width: 100%;
-				height: 100%;
-				object-fit: cover;
-			}
-
-			> svg {
-				width: 75%;
-				height: 75%;
-			}
-		}
-
 		@media (max-width: 640px) {
 			width: 2.625rem;
 			min-width: 2.625rem;
@@ -65,5 +32,84 @@ export const HeaderUserMenu = styled.div`
 				display: none;
 			}
 		}
+	}
+`;
+
+export const MenuContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+	width: 17.5rem;
+	max-width: 100%;
+
+	.menu-error-banner {
+		padding: 0.5rem 0.75rem;
+		font-size: 0.8125rem;
+		border-radius: 0.375rem;
+		color: light-dark(oklch(0.55 0.22 25), oklch(0.68 0.22 25));
+		background-color: light-dark(oklch(0.55 0.22 25 / 0.1), oklch(0.68 0.22 25 / 0.15));
+		border: 1px solid light-dark(oklch(0.55 0.22 25 / 0.25), oklch(0.68 0.22 25 / 0.3));
+	}
+
+	.menu-nav-list {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.menu-nav-button {
+		width: 100%;
+		justify-content: flex-start;
+		text-align: left;
+		font-weight: 500;
+	}
+
+	.menu-account-action {
+		display: flex;
+		flex-direction: column;
+	}
+`;
+
+export const SummaryCard = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	padding: 0.125rem 0.125rem 0.25rem;
+
+	.summary-header {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+	}
+
+	.summary-details {
+		display: flex;
+		flex-direction: column;
+		min-width: 0;
+		flex: 1;
+
+		.summary-name {
+			font-size: 0.9375rem;
+			font-weight: 700;
+			color: ${themeColor('text-1')};
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+
+		.summary-status {
+			font-size: 0.75rem;
+			color: ${themeColor('text-2')};
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+	}
+
+	.summary-tier {
+		align-self: flex-start;
 	}
 `;

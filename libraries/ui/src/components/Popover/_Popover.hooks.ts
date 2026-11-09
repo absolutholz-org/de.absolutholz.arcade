@@ -20,6 +20,7 @@ export function usePopover({ align = 'bottom', onOpenChange }: UsePopoverOptions
 	const id = `popover-${rawId.replace(/:/g, '')}`;
 	const triggerRef = useRef<HTMLElement | null>(null);
 	const popoverRef = useRef<HTMLDivElement | null>(null);
+	const isOpenRef = useRef(false);
 
 	const position: FloatingPosition =
 		align === 'start' ? 'left' : align === 'end' ? 'right' : (align as FloatingPosition);
@@ -49,6 +50,7 @@ export function usePopover({ align = 'bottom', onOpenChange }: UsePopoverOptions
 		const handleToggle = (e: Event) => {
 			const toggleEvent = e as Event & { newState: string };
 			const isOpen = toggleEvent.newState === 'open';
+			isOpenRef.current = isOpen;
 			if (isOpen) {
 				updatePosition();
 				requestAnimationFrame(() => updatePosition());
@@ -63,7 +65,7 @@ export function usePopover({ align = 'bottom', onOpenChange }: UsePopoverOptions
 	// Update floating position when open on resize or scroll
 	useEffect(() => {
 		const handleReposition = () => {
-			if (popoverRef.current?.matches(':popover-open')) {
+			if (isOpenRef.current) {
 				updatePosition();
 			}
 		};
@@ -104,9 +106,45 @@ export function usePopover({ align = 'bottom', onOpenChange }: UsePopoverOptions
 		}
 	}, []);
 
+	// Fallback click handler for environments where HTML Popover invoker attributes are not natively supported
+	const handleTriggerClick = useCallback(() => {
+		const popover = popoverRef.current;
+		if (!popover) return;
+
+		const wasOpen = isOpenRef.current;
+
+		queueMicrotask(() => {
+			// If state did not change via native activation behavior, toggle programmatically
+			if (isOpenRef.current === wasOpen) {
+				if (wasOpen) {
+					if (typeof popover.hidePopover === 'function') {
+						try {
+							popover.hidePopover();
+						} catch {
+							popover.dispatchEvent(Object.assign(new Event('toggle'), { newState: 'closed' }));
+						}
+					} else {
+						popover.dispatchEvent(Object.assign(new Event('toggle'), { newState: 'closed' }));
+					}
+				} else {
+					if (typeof popover.showPopover === 'function') {
+						try {
+							popover.showPopover();
+						} catch {
+							popover.dispatchEvent(Object.assign(new Event('toggle'), { newState: 'open' }));
+						}
+					} else {
+						popover.dispatchEvent(Object.assign(new Event('toggle'), { newState: 'open' }));
+					}
+				}
+			}
+		});
+	}, []);
+
 	return {
 		createMergedRef,
 		handleContentClick,
+		handleTriggerClick,
 		id,
 		popoverRef,
 		triggerRef,

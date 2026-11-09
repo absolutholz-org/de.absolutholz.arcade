@@ -1,0 +1,15 @@
+---
+import { DEFAULT_LANGUAGE } from '@arcade/lib-i18n/constants/languages';
+---
+
+<!doctype html>
+<html lang={DEFAULT_LANGUAGE}>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="refresh" content={`0;url=/${DEFAULT_LANGUAGE}/profile`} />
+		<title>Redirecting...</title>
+	</head>
+	<body>
+		<p>Redirecting to <a href={`/${DEFAULT_LANGUAGE}/profile`}>/{DEFAULT_LANGUAGE}/profile</a>...</p>
+	</body>
+</html>

@@ -11,25 +11,46 @@ import {
 	signInWithPopup,
 } from 'firebase/auth';
 import { deleteDoc, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
-import type { Unsubscribe, UserProfile } from '../../types.js';
+import {
+	DEFAULT_PLAYER_AVATAR,
+	DEFAULT_PLAYER_NAME,
+	type PlayerAvatar,
+	type PlayerProfile,
+	type ProfileUpdates,
+	type Unsubscribe,
+	sanitizeDisplayName,
+	sanitizePlayerAvatar,
+} from '../../types.js';
 import { type FirebaseServices, getFirebaseServices } from '../firebase.js';
 
 const USERS_COLLECTION = 'users';
 
 /**
  * Maps a low-level Firebase User and optional Firestore document data into
- * the public domain UserProfile contract.
+ * the public domain PlayerProfile contract.
+ * Ensures graceful fallback when existing documents only contain displayName or lack avatar.
  */
-export function mapFirebaseUserToProfile(user: FirebaseUser, firestoreData?: Partial<UserProfile> | null): UserProfile {
-	const defaultDisplayName = user.displayName || user.email?.split('@')[0] || (user.isAnonymous ? 'Guest' : 'Player');
+export function mapFirebaseUserToProfile(
+	user: FirebaseUser,
+	firestoreData?: Partial<PlayerProfile> | Record<string, unknown> | null,
+): PlayerProfile {
+	const defaultDisplayName =
+		user.displayName || user.email?.split('@')[0] || (user.isAnonymous ? 'Guest' : DEFAULT_PLAYER_NAME);
+	const rawName = (firestoreData?.displayName as string | undefined) || defaultDisplayName;
+	const displayName = sanitizeDisplayName(rawName, DEFAULT_PLAYER_NAME);
+	const avatar = sanitizePlayerAvatar(firestoreData?.avatar, DEFAULT_PLAYER_AVATAR);
+	const createdAt =
+		(typeof firestoreData?.createdAt === 'number' ? firestoreData.createdAt : null) ||
+		(user.metadata.creationTime ? new Date(user.metadata.creationTime).getTime() : Date.now());
+	const updatedAt = typeof firestoreData?.updatedAt === 'number' ? firestoreData.updatedAt : createdAt;
 
 	return {
 		id: user.uid,
-		displayName: firestoreData?.displayName || defaultDisplayName,
+		displayName,
+		avatar,
 		storageMode: 'cloud',
-		createdAt:
-			firestoreData?.createdAt ||
-			(user.metadata.creationTime ? new Date(user.metadata.creationTime).getTime() : Date.now()),
+		createdAt,
+		updatedAt,
 		email: user.email ?? null,
 		photoURL: user.photoURL ?? null,
 	};
@@ -37,7 +58,7 @@ export function mapFirebaseUserToProfile(user: FirebaseUser, firestoreData?: Par
 
 /**
  * Adapter encapsulating Firebase Auth and Cloud Firestore persistence.
- * Maps all Firebase SDK events to domain UserProfile instances.
+ * Maps all Firebase SDK events to domain PlayerProfile instances.
  */
 export class CloudAdapter {
 	private services: FirebaseServices | null;
@@ -71,14 +92,21 @@ export class CloudAdapter {
 
 	/**
 	 * Fetches user profile document from Cloud Firestore.
+	 * Hydrates missing avatar and updatedAt with graceful defaults for backward compatibility.
 	 */
-	async getProfileDoc(uid: string): Promise<Partial<UserProfile> | null> {
+	async getProfileDoc(uid: string): Promise<Partial<PlayerProfile> | null> {
 		const { firestore } = this.getActiveServices();
 		try {
 			const userRef = doc(firestore, USERS_COLLECTION, uid);
 			const snapshot = await getDoc(userRef);
 			if (snapshot.exists()) {
-				return snapshot.data() as Partial<UserProfile>;
+				const raw = snapshot.data();
+				return {
+					...raw,
+					displayName: sanitizeDisplayName(raw.displayName as string | undefined, DEFAULT_PLAYER_NAME),
+					avatar: sanitizePlayerAvatar(raw.avatar, DEFAULT_PLAYER_AVATAR),
+					updatedAt: typeof raw.updatedAt === 'number' ? raw.updatedAt : Date.now(),
+				} as Partial<PlayerProfile>;
 			}
 			return null;
 		} catch (error) {
@@ -90,7 +118,7 @@ export class CloudAdapter {
 	/**
 	 * Persists user profile document to Cloud Firestore.
 	 */
-	async saveProfileDoc(profile: UserProfile): Promise<void> {
+	async saveProfileDoc(profile: PlayerProfile): Promise<void> {
 		const { firestore } = this.getActiveServices();
 		try {
 			const userRef = doc(firestore, USERS_COLLECTION, profile.id);
@@ -98,12 +126,13 @@ export class CloudAdapter {
 				userRef,
 				{
 					id: profile.id,
-					displayName: profile.displayName,
+					displayName: sanitizeDisplayName(profile.displayName, DEFAULT_PLAYER_NAME),
+					avatar: sanitizePlayerAvatar(profile.avatar, DEFAULT_PLAYER_AVATAR),
 					storageMode: 'cloud',
 					createdAt: profile.createdAt,
 					email: profile.email ?? null,
 					photoURL: profile.photoURL ?? null,
-					updatedAt: Date.now(),
+					updatedAt: profile.updatedAt || Date.now(),
 				},
 				{ merge: true },
 			);
@@ -112,10 +141,6 @@ export class CloudAdapter {
 		}
 	}
 
-	/**
-	 * Deletes the user profile and associated data from Cloud Firestore when
-	 * downgrading from cloud sync to local-only persistence per ADR 0003.
-	 */
 	/**
 	 * Persists game medals document under /users/{uid}/gameStats/{gameId} per ADR 0004.
 	 */
@@ -188,7 +213,7 @@ export class CloudAdapter {
 	/**
 	 * Authenticates anonymously with Firebase Auth and synchronizes the profile.
 	 */
-	async signInAnonymously(): Promise<UserProfile> {
+	async signInAnonymously(): Promise<PlayerProfile> {
 		const { auth } = this.getActiveServices();
 		const credential = await firebaseSignInAnonymously(auth);
 		const existingDoc = await this.getProfileDoc(credential.user.uid);
@@ -200,7 +225,7 @@ export class CloudAdapter {
 	/**
 	 * Initiates Google OAuth popup sign-in and synchronizes profile in Firestore.
 	 */
-	async signInWithGoogle(): Promise<UserProfile> {
+	async signInWithGoogle(): Promise<PlayerProfile> {
 		const { auth } = this.getActiveServices();
 		const provider = new GoogleAuthProvider();
 		const credential = await signInWithPopup(auth, provider);
@@ -213,14 +238,17 @@ export class CloudAdapter {
 	/**
 	 * Registers a new user account with email and password, configuring optional display name.
 	 */
-	async signUpWithEmail(email: string, password: string, displayName?: string): Promise<UserProfile> {
+	async signUpWithEmail(email: string, password: string, displayName?: string): Promise<PlayerProfile> {
 		const { auth } = this.getActiveServices();
 		const credential = await firebaseCreateUserWithEmailAndPassword(auth, email, password);
-		const trimmedName = displayName?.trim();
-		if (trimmedName) {
-			await firebaseUpdateProfile(credential.user, { displayName: trimmedName });
+		const sanitizedName = displayName ? sanitizeDisplayName(displayName) : undefined;
+		if (sanitizedName) {
+			await firebaseUpdateProfile(credential.user, { displayName: sanitizedName });
 		}
-		const profile = mapFirebaseUserToProfile(credential.user, trimmedName ? { displayName: trimmedName } : null);
+		const profile = mapFirebaseUserToProfile(
+			credential.user,
+			sanitizedName ? { displayName: sanitizedName } : null,
+		);
 		await this.saveProfileDoc(profile);
 		return profile;
 	}
@@ -228,7 +256,7 @@ export class CloudAdapter {
 	/**
 	 * Authenticates an existing user account with email and password.
 	 */
-	async signInWithEmail(email: string, password: string): Promise<UserProfile> {
+	async signInWithEmail(email: string, password: string): Promise<PlayerProfile> {
 		const { auth } = this.getActiveServices();
 		const credential = await firebaseSignInWithEmailAndPassword(auth, email, password);
 		const existingDoc = await this.getProfileDoc(credential.user.uid);
@@ -254,27 +282,54 @@ export class CloudAdapter {
 	}
 
 	/**
-	 * Updates the current authenticated user's display name in both Firebase Auth and Firestore.
+	 * Updates the current authenticated user's profile attributes in both Firebase Auth and Firestore.
 	 */
-	async updateDisplayName(displayName: string): Promise<UserProfile> {
+	async updateProfile(updates: ProfileUpdates): Promise<PlayerProfile> {
 		const { auth, firestore } = this.getActiveServices();
 		const currentUser = auth.currentUser;
 		if (!currentUser) {
 			throw new Error('[@arcade/lib-user] Cannot update profile: No active cloud user.');
 		}
 
-		await firebaseUpdateProfile(currentUser, { displayName });
+		const updatePayload: Record<string, unknown> = {
+			updatedAt: Date.now(),
+		};
+
+		if (updates.displayName !== undefined) {
+			const sanitized = sanitizeDisplayName(updates.displayName);
+			await firebaseUpdateProfile(currentUser, { displayName: sanitized });
+			updatePayload.displayName = sanitized;
+		}
+
+		if (updates.avatar !== undefined) {
+			updatePayload.avatar = sanitizePlayerAvatar(updates.avatar);
+		}
+
 		const userRef = doc(firestore, USERS_COLLECTION, currentUser.uid);
-		await updateDoc(userRef, { displayName, updatedAt: Date.now() });
+		await updateDoc(userRef, updatePayload);
 
 		const existingDoc = await this.getProfileDoc(currentUser.uid);
 		return mapFirebaseUserToProfile(currentUser, existingDoc);
 	}
 
 	/**
-	 * Attaches an auth state listener, converting Firebase User objects to UserProfile.
+	 * Updates the current authenticated user's display name.
 	 */
-	onAuthStateChanged(callback: (profile: UserProfile | null) => void): Unsubscribe {
+	async updateDisplayName(displayName: string): Promise<PlayerProfile> {
+		return this.updateProfile({ displayName });
+	}
+
+	/**
+	 * Updates the current authenticated user's avatar.
+	 */
+	async updateAvatar(avatar: PlayerAvatar): Promise<PlayerProfile> {
+		return this.updateProfile({ avatar });
+	}
+
+	/**
+	 * Attaches an auth state listener, converting Firebase User objects to PlayerProfile.
+	 */
+	onAuthStateChanged(callback: (profile: PlayerProfile | null) => void): Unsubscribe {
 		if (!this.isAvailable()) {
 			return () => {};
 		}

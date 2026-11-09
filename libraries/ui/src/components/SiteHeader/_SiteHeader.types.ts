@@ -1,9 +1,14 @@
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 import type { SITE_HEADER_VARIANTS } from './_SiteHeader.constants';
 
 export type SiteHeaderVariant = (typeof SITE_HEADER_VARIANTS)[number];
 
 export interface SiteHeaderProps extends ComponentPropsWithoutRef<'header'> {
+	/**
+	 * Active language code for localized navigation routes.
+	 */
+	lang?: SupportedLanguageCode;
 	/**
 	 * Layout variant for the header container.
 	 * @default 'standard'

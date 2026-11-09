@@ -10,7 +10,7 @@ const meta = {
 		docs: {
 			description: {
 				component:
-					'The HeaderUserMenu component renders the interactive user session trigger button and modal dialog for user authentication and profile management.',
+					'The HeaderUserMenu component renders a lightweight popover menu and player avatar trigger linking to profile, medals, and statistics, delegating profile editing to the dedicated profile page.',
 			},
 		},
 	},
