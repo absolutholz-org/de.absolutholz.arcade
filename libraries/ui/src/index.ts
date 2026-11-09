@@ -20,3 +20,6 @@ export { AuthDialog } from './components/AuthDialog';
 export type { AuthDialogProps, AuthDialogMode } from './components/AuthDialog/_AuthDialog.types';
 export { useUserProfile } from './hooks/useUserProfile';
 export type { UseUserProfileReturn } from './hooks/useUserProfile';
+export { FavoriteButton } from './components/FavoriteButton';
+export type { FavoriteButtonProps } from './components/FavoriteButton/_FavoriteButton.types';
+export { useFavorites, type UseFavoritesReturn } from '@arcade/lib-user';

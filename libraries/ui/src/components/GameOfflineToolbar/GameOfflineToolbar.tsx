@@ -3,6 +3,7 @@ import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { useEffect, useState } from 'react';
 import { useOfflineGame } from '../../hooks/useOfflineGame';
 import { Button } from '../Button';
+import { FavoriteButton } from '../FavoriteButton';
 import { Icon } from '../Icon';
 import { OfflineToggle } from '../OfflineToggle/OfflineToggle';
 import { ShareDialog } from '../ShareDialog';
@@ -39,6 +40,7 @@ export function GameOfflineToolbar({ gameId, gameTitle, className }: GameOffline
 				onToggle={status === 'installed' ? uninstallGame : installGame}
 				onUninstall={uninstallGame}
 			/>
+			<FavoriteButton gameId={gameId} gameTitle={gameTitle ?? ''} size="sm" />
 			<Button
 				variant="secondary"
 				size="sm"

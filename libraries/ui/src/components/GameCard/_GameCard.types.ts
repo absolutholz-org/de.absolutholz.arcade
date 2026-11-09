@@ -20,6 +20,10 @@ export interface GameCardBaseProps {
 	footer?: ReactNode;
 	/** Additional children rendered inside the card */
 	children?: ReactNode;
+	/** Optional unique identifier of the game for favorites toggle */
+	gameId?: string;
+	/** Optional flag to show/hide the favorite toggle button (default: true if gameId provided) */
+	showFavorite?: boolean;
 }
 
 export type GameCardProps<C extends ElementType = 'a'> = GameCardBaseProps &

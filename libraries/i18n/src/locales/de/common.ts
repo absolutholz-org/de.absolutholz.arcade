@@ -283,4 +283,9 @@ export const deCommon = {
 		scanToPlay: 'Scannen, um auf dem Handy zu spielen',
 		close: 'Schließen',
 	},
+	favorites: {
+		title: 'Favoriten',
+		action_add: '{{game}} zu Favoriten hinzufügen',
+		action_remove: '{{game}} aus Favoriten entfernen',
+	},
 } as const satisfies CommonTranslationContract;

@@ -27,6 +27,10 @@ export interface BaseButtonProps<C extends ElementType = 'button'> {
 	 */
 	isIconOnly?: boolean;
 	/**
+	 * When true, renders a fully rounded circular or pill button.
+	 */
+	isRound?: boolean;
+	/**
 	 * The HTML element or custom component to render as the wrapping element.
 	 */
 	as?: C;

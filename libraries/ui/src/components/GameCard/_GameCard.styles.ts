@@ -8,6 +8,13 @@ export const Header = styled.div`
 	width: 100%;
 `;
 
+export const FavoriteWrapper = styled.div`
+	position: absolute;
+	top: 0.5rem;
+	right: 0.5rem;
+	z-index: 2;
+`;
+
 export const Icon = styled.span`
 	font-size: 1.75rem;
 	line-height: 1;

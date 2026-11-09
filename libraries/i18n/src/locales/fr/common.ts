@@ -282,4 +282,9 @@ export const frCommon = {
 		scanToPlay: 'Scannez pour jouer sur mobile',
 		close: 'Fermer',
 	},
+	favorites: {
+		title: 'Favoris',
+		action_add: 'Ajouter {{game}} aux favoris',
+		action_remove: 'Retirer {{game}} des favoris',
+	},
 } as const satisfies CommonTranslationContract;

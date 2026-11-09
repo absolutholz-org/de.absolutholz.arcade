@@ -69,6 +69,7 @@ const canonical = `https://arcade.absolutholz.de/${currentLanguage}/categories/$
 					games.map((game) => (
 						<li>
 							<GameCard
+								gameId={game.id}
 								href={`${game.route}/${currentLanguage}/`}
 								title={getGameTitle(game.id, currentLanguage)}
 								description={getGameDescription(game.id, currentLanguage)}

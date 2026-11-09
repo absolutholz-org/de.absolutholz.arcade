@@ -72,6 +72,19 @@ export const Button = styled.button`
 		}
 	}
 
+	/* Fully rounded circular or pill button */
+	&[data-round='true'] {
+		border-radius: ${radiusScale.pill};
+
+		&[data-icon-only='true'] {
+			min-inline-size: 44px;
+			min-block-size: 44px;
+			inline-size: 44px;
+			block-size: 44px;
+			padding: 0;
+		}
+	}
+
 	${focusVisibleRing}
 
 	&:disabled,
@@ -148,6 +161,16 @@ export const Button = styled.button`
 		&:active:not(:disabled):not([aria-disabled='true']) {
 			transform: translateY(1px);
 			background-color: oklch(from ${themeColor('text-1')} l c h / 0.12);
+		}
+
+		/* Toggle state (e.g. aria-pressed) */
+		&[aria-pressed='true'] {
+			color: light-dark(oklch(0.55 0.22 25), oklch(0.68 0.22 25));
+
+			&:hover:not(:disabled):not([aria-disabled='true']) {
+				background-color: light-dark(oklch(0.55 0.22 25 / 0.1), oklch(0.68 0.22 25 / 0.15));
+				color: light-dark(oklch(0.5 0.24 25), oklch(0.72 0.22 25));
+			}
 		}
 	}
 

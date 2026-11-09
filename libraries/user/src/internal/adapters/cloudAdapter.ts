@@ -18,6 +18,7 @@ import {
 	type PlayerProfile,
 	type ProfileUpdates,
 	type Unsubscribe,
+	type UserPreferences,
 	sanitizeDisplayName,
 	sanitizePlayerAvatar,
 } from '../../types.js';
@@ -344,4 +345,75 @@ export class CloudAdapter {
 			callback(mapFirebaseUserToProfile(user, existingDoc));
 		});
 	}
+
+	/**
+	 * Fetches user preferences from Cloud Firestore.
+	 */
+	async getPreferences(uid: string): Promise<UserPreferences | null> {
+		if (!this.isAvailable()) {
+			return null;
+		}
+		const { firestore } = this.getActiveServices();
+		try {
+			const prefRef = doc(firestore, USERS_COLLECTION, uid, 'gameStats', 'preferences');
+			const snapshot = await getDoc(prefRef);
+			if (snapshot.exists()) {
+				const data = snapshot.data();
+				const customStats = data.customStats as Record<string, unknown> | undefined;
+				const favorites = Array.isArray(customStats?.favorites)
+					? (customStats.favorites as string[])
+					: Array.isArray(data.favorites)
+						? (data.favorites as string[])
+						: [];
+				return { favorites };
+			}
+			return null;
+		} catch (error) {
+			console.warn(`[@arcade/lib-user] Failed to fetch Firestore preferences for ${uid}:`, error);
+			return null;
+		}
+	}
+
+	/**
+	 * Persists user preferences to Cloud Firestore.
+	 */
+	async savePreferences(uid: string, preferences: UserPreferences): Promise<void> {
+		if (!this.isAvailable()) {
+			return;
+		}
+		const { firestore } = this.getActiveServices();
+		try {
+			const prefRef = doc(firestore, USERS_COLLECTION, uid, 'gameStats', 'preferences');
+			await setDoc(
+				prefRef,
+				{
+					gameId: 'preferences',
+					baseStats: { updatedAt: Date.now() },
+					customStats: { favorites: preferences.favorites },
+					updatedAt: Date.now(),
+				},
+				{ merge: true },
+			);
+		} catch (error) {
+			console.warn(`[@arcade/lib-user] Failed to persist Firestore preferences for ${uid}:`, error);
+		}
+	}
+
+	/**
+	 * Retrieves persisted favorites list from Cloud Firestore.
+	 */
+	async getFavorites(uid: string): Promise<string[]> {
+		const prefs = await this.getPreferences(uid);
+		return prefs?.favorites ?? [];
+	}
+
+	/**
+	 * Persists favorites list to Cloud Firestore.
+	 */
+	async saveFavorites(uid: string, favorites: string[]): Promise<void> {
+		await this.savePreferences(uid, { favorites });
+	}
 }
+
+export const ServerSyncStorageAdapter = CloudAdapter;
+export type ServerSyncStorageAdapter = CloudAdapter;

@@ -2,6 +2,7 @@ import { type ElementType, type ForwardedRef, forwardRef } from 'react';
 import { Badge } from '../Badge';
 import { ClickableCard } from '../ClickableCard';
 import type { ClickableCardProps } from '../ClickableCard/_ClickableCard.types';
+import { FavoriteButton } from '../FavoriteButton';
 import * as S from './_GameCard.styles';
 import type { GameCardBadge, GameCardProps } from './_GameCard.types';
 
@@ -10,7 +11,18 @@ function isBadgeObject(badge: unknown): badge is GameCardBadge {
 }
 
 function GameCardInner<C extends ElementType = 'a'>(
-	{ title, icon, description, badge, footer, children, as, ...cardProps }: GameCardProps<C>,
+	{
+		title,
+		icon,
+		description,
+		badge,
+		footer,
+		children,
+		as,
+		gameId,
+		showFavorite = true,
+		...cardProps
+	}: GameCardProps<C>,
 	ref: ForwardedRef<HTMLElement>,
 ) {
 	const Component = as || 'a';
@@ -26,8 +38,15 @@ function GameCardInner<C extends ElementType = 'a'>(
 		)
 	) : null;
 
+	const stringTitle = typeof title === 'string' ? title : '';
+
 	return (
 		<ClickableCard as={Component} ref={ref} {...(cardProps as ClickableCardProps<C>)}>
+			{gameId && showFavorite && (
+				<S.FavoriteWrapper>
+					<FavoriteButton gameId={gameId} gameTitle={stringTitle} size="sm" />
+				</S.FavoriteWrapper>
+			)}
 			<S.Header>
 				<S.Icon aria-hidden="true">{icon}</S.Icon>
 				<S.Title>{title}</S.Title>

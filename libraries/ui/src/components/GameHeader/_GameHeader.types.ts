@@ -58,6 +58,14 @@ export interface GameHeaderProps {
 	 */
 	'aria-label'?: string;
 	/**
+	 * Optional unique game identifier for rendering a FavoriteButton in the header.
+	 */
+	gameId?: string;
+	/**
+	 * Optional title of the game for accessibility announcements.
+	 */
+	gameTitle?: string;
+	/**
 	 * Optional fallback children rendered in center slot when timer is omitted.
 	 */
 	children?: ReactNode;

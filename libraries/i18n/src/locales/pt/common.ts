@@ -280,4 +280,9 @@ export const ptCommon = {
 		scanToPlay: 'Leia para jogar no telemóvel',
 		close: 'Fechar',
 	},
+	favorites: {
+		title: 'Favoritos',
+		action_add: 'Adicionar {{game}} aos favoritos',
+		action_remove: 'Remover {{game}} dos favoritos',
+	},
 } as const satisfies CommonTranslationContract;

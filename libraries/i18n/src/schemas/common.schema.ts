@@ -268,6 +268,11 @@ export const commonSchema = {
 		scanToPlay: 'share.scanToPlay',
 		close: 'share.close',
 	},
+	favorites: {
+		title: 'favorites.title',
+		action_add: 'favorites.action_add',
+		action_remove: 'favorites.action_remove',
+	},
 } as const;
 
 export type CommonSchema = typeof commonSchema;

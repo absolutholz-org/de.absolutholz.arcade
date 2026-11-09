@@ -10,6 +10,7 @@ import { Logo } from '@arcade/lib-ui/components/Logo';
 import { PageContainer } from '@arcade/lib-ui/components/PageContainer';
 import { Text } from '@arcade/lib-ui/components/Text';
 import BaseLayoutWithSiteHeaderAndSiteFooter from '@arcade/lib-ui/layouts/BaseLayoutWithSiteHeaderAndSiteFooter/BaseLayoutWithSiteHeaderAndSiteFooter.astro';
+import { FavoritesSection } from '../../components/FavoritesSection';
 import { HubGamesCatalog } from '../../components/HubGamesCatalog';
 import { UserMedalSummaryWidget } from '../../components/UserMedalSummaryWidget';
 
@@ -34,6 +35,8 @@ const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? 
 		<Hero title={currentTranslations.app.title} tagline={currentTranslations.app.tagline}>
 			<Logo size="xl" slot="logo" />
 		</Hero>
+
+		<FavoritesSection client:load lang={lang as SupportedLanguageCode} />
 
 		<UserMedalSummaryWidget client:idle lang={lang as SupportedLanguageCode} />
 

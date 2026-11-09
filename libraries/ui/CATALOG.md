@@ -49,6 +49,7 @@ Interactive controls for user commands, choices, and data input.
 | Component | Export Path | Primary Purpose | Key Props & Patterns |
 | :--- | :--- | :--- | :--- |
 | **`Button`** | `@arcade/lib-ui/components/Button` | Primary action primitive. Supports polymorphic rendering as links. | `variant="primary" \| "secondary" \| "outline" \| "ghost" \| "danger"`, `size="sm" \| "md" \| "lg"`, `as="button" \| "a"`, `leadingIcon`, `trailingIcon`. |
+| **`FavoriteButton`** | `@arcade/lib-ui` | Accessible button toggle for bookmarking favorite games with ADR 0003 tier persistence and 44x44px target bounds. | `gameId: string`, `gameTitle: string`, `size?: "sm" \| "md"`, `className?: string`. |
 | **`TextField`** | `@arcade/lib-ui` | Form input with built-in accessible labeling, error messaging, and helper text. | `label`, `error`, `helperText`, `fullWidth`, `type`, standard HTML input props. |
 | **`Switch`** | `@arcade/lib-ui/components/Switch` | Accessible binary toggle switch for options and preferences. | `checked`, `onChange`, `label`, `disabled`. |
 | **`SegmentedControl`** | `@arcade/lib-ui` | Pill-shaped radio group for mutually exclusive options (e.g. difficulty, modes). | `items: SegmentedControlItem[]`, `value`, `onChange`, `name`. |

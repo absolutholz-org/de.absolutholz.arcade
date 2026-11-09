@@ -218,6 +218,17 @@ export function serializePlayerProfile(profile: PlayerProfile): PlayerProfile {
 }
 
 /**
+ * User preferences contract adhering to ADR 0003 storage tiers.
+ */
+export interface UserPreferences {
+	readonly favorites: string[];
+}
+
+export const DEFAULT_USER_PREFERENCES: UserPreferences = {
+	favorites: [],
+};
+
+/**
  * Common storage adapter interface for player profile persistence.
  * Adheres to ADR 0003 & ADR 0008 storage abstraction.
  */
@@ -246,6 +257,26 @@ export interface IStorageAdapter {
 	 * Persists the storage mode preference.
 	 */
 	setStorageMode(mode: StorageMode): Promise<void>;
+
+	/**
+	 * Retrieves persisted favorites list.
+	 */
+	getFavorites?(): Promise<string[]>;
+
+	/**
+	 * Persists updated favorites list.
+	 */
+	saveFavorites?(favorites: string[]): Promise<void>;
+
+	/**
+	 * Retrieves user preferences.
+	 */
+	getPreferences?(): Promise<UserPreferences>;
+
+	/**
+	 * Persists user preferences.
+	 */
+	savePreferences?(preferences: Partial<UserPreferences>): Promise<void>;
 }
 
 /**

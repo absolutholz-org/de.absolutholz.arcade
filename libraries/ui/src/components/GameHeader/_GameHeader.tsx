@@ -1,5 +1,6 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { Button } from '../Button';
+import { FavoriteButton } from '../FavoriteButton';
 import { Icon } from '../Icon';
 import { SchemeSwitcher } from '../SchemeSwitcher';
 import {
@@ -31,6 +32,8 @@ export function GameHeader({
 	actions,
 	hasBorder = true,
 	'aria-label': ariaLabel = DEFAULT_HEADER_ARIA_LABEL,
+	gameId,
+	gameTitle,
 	children,
 }: GameHeaderProps) {
 	const { t } = useI18n('common');
@@ -82,6 +85,7 @@ export function GameHeader({
 				<div className="game-header-center">{centerSlot}</div>
 
 				<div className="game-header-right">
+					{gameId && <FavoriteButton gameId={gameId} gameTitle={gameTitle ?? ''} size="md" />}
 					{showSchemeSwitcher && <SchemeSwitcher size="md" variant="ghost" />}
 					{actions}
 					{onOpenRules ? (

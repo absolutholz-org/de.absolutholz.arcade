@@ -281,4 +281,9 @@ export const enCommon = {
 		scanToPlay: 'Scan to play on mobile',
 		close: 'Close',
 	},
+	favorites: {
+		title: 'Favorites',
+		action_add: 'Add {{game}} to favorites',
+		action_remove: 'Remove {{game}} from favorites',
+	},
 } as const satisfies CommonTranslationContract;

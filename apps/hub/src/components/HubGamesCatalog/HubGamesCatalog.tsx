@@ -71,6 +71,7 @@ function HubGamesCatalogContent({ lang }: HubGamesCatalogProps) {
 					visibleGames.map((game) => (
 						<GameCard
 							key={game.id}
+							gameId={game.id}
 							href={`${game.route}/${lang}/`}
 							title={getGameTitle(game.id, lang)}
 							description={getGameDescription(game.id, lang)}

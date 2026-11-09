@@ -9,6 +9,7 @@ function ButtonInner<C extends ElementType = 'button'>(
 		leadingIcon,
 		trailingIcon,
 		isIconOnly = false,
+		isRound = false,
 		as,
 		children,
 		...restProps
@@ -28,6 +29,7 @@ function ButtonInner<C extends ElementType = 'button'>(
 			data-variant={variant}
 			data-size={size}
 			data-icon-only={isIconOnly ? 'true' : undefined}
+			data-round={isRound ? 'true' : undefined}
 			{...restProps}
 		>
 			{leadingIcon && (
