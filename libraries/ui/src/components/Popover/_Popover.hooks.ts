@@ -41,10 +41,26 @@ export function usePopover({ align = 'bottom', onOpenChange }: UsePopoverOptions
 		}
 	}, [id]);
 
-	// Native Popover toggle event listener
+	// Close popover on window or container scroll unless originating within popover
 	useEffect(() => {
 		const popover = popoverRef.current;
 		if (!popover) return;
+
+		const handleScroll = (event: Event) => {
+			// Ignore if event target is inside popover content
+			if (popover.contains(event.target as Node)) {
+				return;
+			}
+
+			if (typeof popover.hidePopover === 'function') {
+				try {
+					popover.hidePopover();
+				} catch {
+					// In case popover is not in open state
+				}
+			}
+			onOpenChange?.(false);
+		};
 
 		const handleToggle = (e: Event) => {
 			const toggleEvent = e as Event & { newState: string };
@@ -52,15 +68,21 @@ export function usePopover({ align = 'bottom', onOpenChange }: UsePopoverOptions
 			if (isOpen) {
 				updatePosition();
 				requestAnimationFrame(() => updatePosition());
+				window.addEventListener('scroll', handleScroll, { capture: true, passive: true });
+			} else {
+				window.removeEventListener('scroll', handleScroll, { capture: true });
 			}
 			onOpenChange?.(isOpen);
 		};
 
 		popover.addEventListener('toggle', handleToggle);
-		return () => popover.removeEventListener('toggle', handleToggle);
+		return () => {
+			popover.removeEventListener('toggle', handleToggle);
+			window.removeEventListener('scroll', handleScroll, { capture: true });
+		};
 	}, [updatePosition, onOpenChange]);
 
-	// Update floating position when open on resize or scroll
+	// Update floating position when open on resize
 	useEffect(() => {
 		const handleReposition = () => {
 			if (popoverRef.current?.matches(':popover-open')) {
@@ -69,15 +91,8 @@ export function usePopover({ align = 'bottom', onOpenChange }: UsePopoverOptions
 		};
 
 		window.addEventListener('resize', handleReposition);
-		window.addEventListener('scroll', handleReposition, {
-			passive: true,
-			capture: true,
-		});
 		return () => {
 			window.removeEventListener('resize', handleReposition);
-			window.removeEventListener('scroll', handleReposition, {
-				capture: true,
-			});
 		};
 	}, [updatePosition]);
 
