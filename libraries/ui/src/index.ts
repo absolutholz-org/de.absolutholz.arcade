@@ -22,4 +22,8 @@ export { useUserProfile } from './hooks/useUserProfile';
 export type { UseUserProfileReturn } from './hooks/useUserProfile';
 export { FavoriteButton } from './components/FavoriteButton';
 export type { FavoriteButtonProps } from './components/FavoriteButton/_FavoriteButton.types';
+export { GameActionBar } from './components/GameActionBar';
+export type { GameActionBarProps } from './components/GameActionBar/_GameActionBar.types';
+export { TurnDialog } from './components/TurnDialog';
+export type { TurnDialogProps } from './components/TurnDialog/_TurnDialog.types';
 export { useFavorites, type UseFavoritesReturn } from '@arcade/lib-user';

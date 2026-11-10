@@ -31,6 +31,11 @@ export interface BaseButtonProps<C extends ElementType = 'button'> {
 	 */
 	isRound?: boolean;
 	/**
+	 * Optional toggle state. When provided, sets aria-pressed accordingly
+	 * and triggers active/pressed styling tokens.
+	 */
+	pressed?: boolean;
+	/**
 	 * The HTML element or custom component to render as the wrapping element.
 	 */
 	as?: C;

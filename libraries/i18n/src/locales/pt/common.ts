@@ -180,6 +180,16 @@ export const ptCommon = {
 			resume: 'Continuar',
 			restart: 'Reiniciar',
 		},
+		turn: {
+			title: 'Vez de {{name}}',
+			nextTurn: 'Próxima Jogada',
+			passDevice: 'Passe o dispositivo para {{name}}.',
+			passDevicePrompt: 'Passe o dispositivo para o próximo jogador.',
+			waitingTitle: 'Aguardando Jogada',
+			waitingForPlayer: 'Aguardando a jogada de {{name}}...',
+			waitingDescription: 'Aguardando o oponente concluir a jogada...',
+			ok: 'OK',
+		},
 	},
 	offline: {
 		title: 'Gerenciador de Jogos Offline',
@@ -282,6 +292,8 @@ export const ptCommon = {
 	},
 	favorites: {
 		title: 'Favoritos',
+		favorite: 'Favorito',
+		favorited: 'Favorito',
 		action_add: 'Adicionar {{game}} aos favoritos',
 		action_remove: 'Remover {{game}} dos favoritos',
 	},

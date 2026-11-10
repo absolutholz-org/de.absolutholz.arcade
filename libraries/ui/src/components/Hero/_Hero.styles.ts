@@ -35,6 +35,10 @@ export const Hero_TagItem = styled.li`
 	display: inline-flex;
 `;
 
+export const Hero_Actions = styled.div`
+	margin-top: ${space('md')};
+`;
+
 export const Hero_Body = styled.div`
 	flex-basis: 20rem;
 	flex-grow: 1;

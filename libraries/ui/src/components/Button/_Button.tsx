@@ -10,6 +10,7 @@ function ButtonInner<C extends ElementType = 'button'>(
 		trailingIcon,
 		isIconOnly = false,
 		isRound = false,
+		pressed,
 		as,
 		children,
 		...restProps
@@ -18,6 +19,10 @@ function ButtonInner<C extends ElementType = 'button'>(
 ) {
 	const Component = as || 'button';
 	const isButtonElement = Component === 'button';
+	const ariaPressed =
+		pressed !== undefined
+			? pressed
+			: ((restProps as Record<string, unknown>)['aria-pressed'] as boolean | undefined);
 
 	return (
 		<S.Button
@@ -30,6 +35,7 @@ function ButtonInner<C extends ElementType = 'button'>(
 			data-size={size}
 			data-icon-only={isIconOnly ? 'true' : undefined}
 			data-round={isRound ? 'true' : undefined}
+			aria-pressed={ariaPressed}
 			{...restProps}
 		>
 			{leadingIcon && (

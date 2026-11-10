@@ -15,6 +15,7 @@ import { GameSettingsPanel } from '@arcade/lib-ui/components/GameSettingsPanel';
 import { GameStatusStrip } from '@arcade/lib-ui/components/GameStatusStrip';
 import { Stack } from '@arcade/lib-ui/components/Stack';
 import { Text } from '@arcade/lib-ui/components/Text';
+import { TurnDialog } from '@arcade/lib-ui/components/TurnDialog';
 import { VictoryDialog } from '@arcade/lib-ui/components/VictoryDialog';
 import { VisuallyHidden } from '@arcade/lib-ui/components/VisuallyHidden';
 import { GameLayout } from '@arcade/lib-ui/layouts/GameLayout';
@@ -78,11 +79,13 @@ function GameInner({
 	const [settings, setSettings] = useState<TicTacToeSettings>({
 		highlightWinningLine: true,
 		showCellCoordinates: false,
+		confirmTurnPass: true,
 	});
 
 	const [isRulesOpen, setIsRulesOpen] = useState(false);
 	const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 	const [isCompletionOpen, setIsCompletionOpen] = useState(false);
+	const [isTurnDialogOpen, setIsTurnDialogOpen] = useState(false);
 	const [srAnnouncement, setSrAnnouncement] = useState<string>('');
 	const [completedPlayTime, setCompletedPlayTime] = useState<number>(0);
 
@@ -180,14 +183,18 @@ function GameInner({
 				void saveActiveGame(nextState);
 				const nextName = nextState.currentTurn === 'X' ? nextState.player1Name : nextState.player2Name;
 				setSrAnnouncement(t('game.turn', { name: nextName, mark: nextState.currentTurn }));
+				if (settings.confirmTurnPass) {
+					setIsTurnDialogOpen(true);
+				}
 			}
 		},
-		[state, t],
+		[settings.confirmTurnPass, state, t],
 	);
 
 	// Play Again / Restart Round (alternates starting turn)
 	const handlePlayAgain = useCallback(() => {
 		setIsCompletionOpen(false);
+		setIsTurnDialogOpen(false);
 		startTimeRef.current = Date.now();
 		setState((prev) => reduce(prev, { type: 'RESTART' }));
 		setFocusedIndex(4);
@@ -195,6 +202,7 @@ function GameInner({
 
 	// Back to Menu
 	const handleBackToMenu = useCallback(() => {
+		setIsTurnDialogOpen(false);
 		void clearActiveGame();
 		window.location.href = `/tictactoe/${lang}/`;
 	}, [lang]);
@@ -286,6 +294,17 @@ function GameInner({
 					}}
 				/>
 			</GameSettingsDialog>
+
+			{/* Standard TurnDialog prompting player pass-and-play handoff */}
+			<TurnDialog
+				isOpen={isTurnDialogOpen}
+				playerName={activePlayerName}
+				playerMark={state.currentTurn}
+				title={t('game.turnDialog.title', { name: activePlayerName, mark: state.currentTurn })}
+				message={t('game.turnDialog.passDevice', { name: activePlayerName })}
+				confirmText={t('game.turnDialog.ok')}
+				onConfirm={() => setIsTurnDialogOpen(false)}
+			/>
 
 			{/* Standard VictoryDialog when a player wins */}
 			<VictoryDialog

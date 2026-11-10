@@ -34,6 +34,12 @@ export const tictactoeSchema = {
 		playAgain: 'game.playAgain',
 		backToMenu: 'game.backToMenu',
 		startingTurnInfo: 'game.startingTurnInfo',
+		turnDialog: {
+			title: 'game.turnDialog.title',
+			passDevice: 'game.turnDialog.passDevice',
+			waiting: 'game.turnDialog.waiting',
+			ok: 'game.turnDialog.ok',
+		},
 	},
 	victory: {
 		title: 'victory.title',
@@ -60,6 +66,10 @@ export const tictactoeSchema = {
 		showCellCoordinates: {
 			label: 'settings.showCellCoordinates.label',
 			description: 'settings.showCellCoordinates.description',
+		},
+		confirmTurnPass: {
+			label: 'settings.confirmTurnPass.label',
+			description: 'settings.confirmTurnPass.description',
 		},
 	},
 } as const;

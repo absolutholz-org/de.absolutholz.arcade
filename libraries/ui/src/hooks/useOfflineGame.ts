@@ -37,7 +37,7 @@ export function useOfflineGame(gameId: string): UseOfflineGameResult {
 	const isSupported = typeof window !== 'undefined' && 'serviceWorker' in navigator && 'caches' in window;
 
 	const checkStatus = useCallback(async () => {
-		if (!isSupported) {
+		if (!isSupported || !gameId) {
 			setStatus('idle');
 			return;
 		}

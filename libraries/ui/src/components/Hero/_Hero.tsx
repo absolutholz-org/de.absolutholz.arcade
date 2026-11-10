@@ -9,6 +9,7 @@ import type { HeroProps } from './_Hero.types';
  * optional visual logo/graphic, category eyebrow, title, tagline, and metadata tag pills.
  */
 export function Hero<C extends ElementType = 'header'>({
+	actions,
 	as,
 	eyebrow,
 	headingLevel = 'h1',
@@ -50,6 +51,7 @@ export function Hero<C extends ElementType = 'header'>({
 						))}
 					</S.Hero_TagsList>
 				) : null}
+				{actions ? <S.Hero_Actions>{actions}</S.Hero_Actions> : null}
 			</S.Hero_Body>
 		</S.Hero>
 	);

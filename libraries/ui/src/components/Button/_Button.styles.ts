@@ -51,7 +51,7 @@ export const Button = styled.button`
 	}
 
 	&[data-size='md'] {
-		min-height: 2.625rem;
+		min-height: 2.75rem;
 		padding: 0 1.25rem;
 		font-size: 0.9375rem;
 		gap: 0.5rem;
@@ -127,6 +127,11 @@ export const Button = styled.button`
 			transform: translateY(4px);
 			box-shadow: 0 0 0 oklch(from ${themeColor('container-1')} calc(l - 0.08) c h), 0 0 4px rgba(0, 0, 0, 0.15);
 		}
+
+		&[aria-pressed='true'] {
+			background-color: ${themeColor('container-2')};
+			border-color: ${themeColor('accent')};
+		}
 	}
 
 	/* Outline Variant (3px bottom depth) */
@@ -144,6 +149,11 @@ export const Button = styled.button`
 		&:active:not(:disabled):not([aria-disabled='true']) {
 			transform: translateY(3px);
 			box-shadow: 0 0 0 oklch(from ${themeColor('container-2')} calc(l - 0.05) c h);
+		}
+
+		&[aria-pressed='true'] {
+			background-color: oklch(from ${themeColor('text-1')} l c h / 0.12);
+			border-color: ${themeColor('accent')};
 		}
 	}
 

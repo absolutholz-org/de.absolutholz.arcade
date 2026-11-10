@@ -182,6 +182,16 @@ export const deCommon = {
 			resume: 'Fortsetzen',
 			restart: 'Neu starten',
 		},
+		turn: {
+			title: '{{name}} ist am Zug',
+			nextTurn: 'Nächster Zug',
+			passDevice: 'Gib das Gerät an {{name}} weiter.',
+			passDevicePrompt: 'Gib das Gerät an den nächsten Spieler weiter.',
+			waitingTitle: 'Warte auf Zug',
+			waitingForPlayer: 'Warte darauf, dass {{name}} den Zug beendet...',
+			waitingDescription: 'Warte auf den Zug des Gegners...',
+			ok: 'OK',
+		},
 	},
 	offline: {
 		title: 'Offline-Spieleverwaltung',
@@ -285,6 +295,8 @@ export const deCommon = {
 	},
 	favorites: {
 		title: 'Favoriten',
+		favorite: 'Favorit',
+		favorited: 'Favorisiert',
 		action_add: '{{game}} zu Favoriten hinzufügen',
 		action_remove: '{{game}} aus Favoriten entfernen',
 	},

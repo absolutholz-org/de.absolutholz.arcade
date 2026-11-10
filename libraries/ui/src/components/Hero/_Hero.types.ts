@@ -34,6 +34,10 @@ export interface BaseHeroProps<C extends ElementType = 'header'> {
 	 */
 	logo?: ReactNode;
 	/**
+	 * Optional actions cluster or controls (such as GameActionBar) rendered at the bottom of the hero body.
+	 */
+	actions?: ReactNode;
+	/**
 	 * Semantic HTML heading level for the title element.
 	 * @default 'h1'
 	 */

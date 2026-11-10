@@ -35,6 +35,12 @@ export const frTicTacToe: TicTacToeTranslationContract = {
 		playAgain: 'Rejouer',
 		backToMenu: 'Retour au menu',
 		startingTurnInfo: 'Le premier tour alterne à chaque manche.',
+		turnDialog: {
+			title: 'Tour de {{name}} ({{mark}})',
+			passDevice: 'Passez l’appareil à {{name}}.',
+			waiting: 'En attente du coup adverse...',
+			ok: 'Prêt',
+		},
 	},
 	victory: {
 		title: 'Partie terminée',
@@ -61,6 +67,10 @@ export const frTicTacToe: TicTacToeTranslationContract = {
 		showCellCoordinates: {
 			label: 'Afficher les coordonnées',
 			description: 'Affiche des repères de ligne et de colonne sur la grille.',
+		},
+		confirmTurnPass: {
+			label: 'Confirmer le passage de tour',
+			description: 'Affiche un dialogue demandant de passer l’appareil après chaque coup.',
 		},
 	},
 };

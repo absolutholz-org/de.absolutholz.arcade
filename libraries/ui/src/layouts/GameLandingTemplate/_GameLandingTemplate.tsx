@@ -2,7 +2,7 @@ import { getGame, isGameId } from '@arcade/lib-games';
 import { useTaxonomyLabel } from '@arcade/lib-i18n/hooks/useI18n';
 import { Banner } from '../../components/Banner';
 import { Button } from '../../components/Button';
-import { GameOfflineToolbar } from '../../components/GameOfflineToolbar';
+import { GameActionBar } from '../../components/GameActionBar';
 import { Hero } from '../../components/Hero';
 import { PageContainer } from '../../components/PageContainer';
 import * as S from './_GameLandingTemplate.styles';
@@ -48,6 +48,11 @@ export function GameLandingTemplate({
 						tags={resolvedTags}
 						tagsAriaLabel={resolvedTagsAriaLabel}
 						logo={heroIcon}
+						actions={
+							offlineGameId ? (
+								<GameActionBar gameId={offlineGameId} gameTitle={title} justify="start" />
+							) : null
+						}
 					/>
 				</PageContainer>
 				{resumeState && (
@@ -68,10 +73,7 @@ export function GameLandingTemplate({
 
 			{/* Zone 2: Main Area */}
 			<PageContainer variant={mainContainerVariant}>
-				<S.MainZone>
-					{offlineGameId && <GameOfflineToolbar gameId={offlineGameId} gameTitle={title} />}
-					{children}
-				</S.MainZone>
+				<S.MainZone>{children}</S.MainZone>
 			</PageContainer>
 
 			{/* Zone 3: Game Page Footer */}

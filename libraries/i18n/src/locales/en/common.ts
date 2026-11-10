@@ -181,6 +181,16 @@ export const enCommon = {
 			resume: 'Resume',
 			restart: 'Restart',
 		},
+		turn: {
+			title: "{{name}}'s Turn",
+			nextTurn: 'Next Turn',
+			passDevice: 'Pass the device to {{name}}.',
+			passDevicePrompt: 'Pass the device to the next player.',
+			waitingTitle: 'Waiting for Turn',
+			waitingForPlayer: 'Waiting for {{name}} to take their turn...',
+			waitingDescription: 'Waiting for opponent to complete their turn...',
+			ok: 'OK',
+		},
 	},
 	offline: {
 		title: 'Offline Game Manager',
@@ -283,6 +293,8 @@ export const enCommon = {
 	},
 	favorites: {
 		title: 'Favorites',
+		favorite: 'Favorite',
+		favorited: 'Favorited',
 		action_add: 'Add {{game}} to favorites',
 		action_remove: 'Remove {{game}} from favorites',
 	},

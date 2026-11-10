@@ -35,6 +35,12 @@ export const deTicTacToe: TicTacToeTranslationContract = {
 		playAgain: 'Nochmal spielen',
 		backToMenu: 'Zurück zum Menü',
 		startingTurnInfo: 'Das Eröffnungszeichen wechselt nach jedem Durchgang.',
+		turnDialog: {
+			title: '{{name}} ist am Zug ({{mark}})',
+			passDevice: 'Gib das Gerät an {{name}} weiter.',
+			waiting: 'Warte auf den Zug des Gegners...',
+			ok: 'Bereit',
+		},
 	},
 	victory: {
 		title: 'Spiel beendet',
@@ -61,6 +67,10 @@ export const deTicTacToe: TicTacToeTranslationContract = {
 		showCellCoordinates: {
 			label: 'Koordinaten anzeigen',
 			description: 'Zeigt Zeilen- und Spaltenhinweise auf den Spielfeldern an.',
+		},
+		confirmTurnPass: {
+			label: 'Zugbestätigungsdialog anzeigen',
+			description: 'Zeigt nach jedem Zug einen Bestätigungsdialog für das Weitergeben des Geräts an.',
 		},
 	},
 };

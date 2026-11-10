@@ -181,6 +181,16 @@ export const frCommon = {
 			resume: 'Reprendre',
 			restart: 'Recommencer',
 		},
+		turn: {
+			title: 'Tour de {{name}}',
+			nextTurn: 'Tour suivant',
+			passDevice: "Passez l'appareil à {{name}}.",
+			passDevicePrompt: "Passez l'appareil au joueur suivant.",
+			waitingTitle: 'En attente du tour',
+			waitingForPlayer: 'En attente du tour de {{name}}...',
+			waitingDescription: "En attente du coup de l'adversaire...",
+			ok: 'OK',
+		},
 	},
 	offline: {
 		title: 'Gestionnaire de jeux hors ligne',
@@ -284,6 +294,8 @@ export const frCommon = {
 	},
 	favorites: {
 		title: 'Favoris',
+		favorite: 'Favori',
+		favorited: 'Favori',
 		action_add: 'Ajouter {{game}} aux favoris',
 		action_remove: 'Retirer {{game}} des favoris',
 	},

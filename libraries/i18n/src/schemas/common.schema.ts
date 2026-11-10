@@ -170,6 +170,16 @@ export const commonSchema = {
 			resume: 'game.pause.resume',
 			restart: 'game.pause.restart',
 		},
+		turn: {
+			title: 'game.turn.title',
+			nextTurn: 'game.turn.nextTurn',
+			passDevice: 'game.turn.passDevice',
+			passDevicePrompt: 'game.turn.passDevicePrompt',
+			waitingTitle: 'game.turn.waitingTitle',
+			waitingForPlayer: 'game.turn.waitingForPlayer',
+			waitingDescription: 'game.turn.waitingDescription',
+			ok: 'game.turn.ok',
+		},
 	},
 	offline: {
 		title: 'offline.title',
@@ -270,6 +280,8 @@ export const commonSchema = {
 	},
 	favorites: {
 		title: 'favorites.title',
+		favorite: 'favorites.favorite',
+		favorited: 'favorites.favorited',
 		action_add: 'favorites.action_add',
 		action_remove: 'favorites.action_remove',
 	},

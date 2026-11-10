@@ -35,6 +35,12 @@ export const ptTicTacToe: TicTacToeTranslationContract = {
 		playAgain: 'Jogar Novamente',
 		backToMenu: 'Voltar ao Menu',
 		startingTurnInfo: 'A marca inicial alterna a cada partida.',
+		turnDialog: {
+			title: 'Vez de {{name}} ({{mark}})',
+			passDevice: 'Passe o dispositivo para {{name}}.',
+			waiting: 'A aguardar a jogada do adversário...',
+			ok: 'Pronto',
+		},
 	},
 	victory: {
 		title: 'Fim de Jogo',
@@ -61,6 +67,10 @@ export const ptTicTacToe: TicTacToeTranslationContract = {
 		showCellCoordinates: {
 			label: 'Mostrar Coordenadas',
 			description: 'Exibe dicas de linha e coluna nas células da grelha.',
+		},
+		confirmTurnPass: {
+			label: 'Confirmar passagem de vez',
+			description: 'Exibe um diálogo para passar o dispositivo após cada jogada.',
 		},
 	},
 };

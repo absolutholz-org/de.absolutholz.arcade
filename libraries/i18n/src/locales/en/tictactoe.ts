@@ -35,6 +35,12 @@ export const enTicTacToe: TicTacToeTranslationContract = {
 		playAgain: 'Play Again',
 		backToMenu: 'Back to Menu',
 		startingTurnInfo: 'Starting mark rotates each round.',
+		turnDialog: {
+			title: "{{name}}'s Turn ({{mark}})",
+			passDevice: 'Pass the device to {{name}}.',
+			waiting: 'Waiting for opponent to take their turn...',
+			ok: 'Ready to Play',
+		},
 	},
 	victory: {
 		title: 'Game Over',
@@ -61,6 +67,10 @@ export const enTicTacToe: TicTacToeTranslationContract = {
 		showCellCoordinates: {
 			label: 'Show Coordinate Labels',
 			description: 'Display accessible row and column indicator hints on grid cells.',
+		},
+		confirmTurnPass: {
+			label: 'Pass-and-Play Turn Dialog',
+			description: 'Display a modal dialog between turns to hand over the device.',
 		},
 	},
 };
