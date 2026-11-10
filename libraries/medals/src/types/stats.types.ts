@@ -140,6 +140,13 @@ export interface GameCustomStatsMap {
 	'color-flood': ColorFloodCustomStats;
 	'dice-bingo': DiceBingoCustomStats;
 	pentominoes: PentominoesCustomStats;
+	tictactoe: TicTacToeCustomStats;
+}
+
+export interface TicTacToeCustomStats {
+	readonly passAndPlayWins?: number;
+	readonly draws?: number;
+	readonly flawlessWins?: number;
 }
 
 export interface PentominoesCustomStats {

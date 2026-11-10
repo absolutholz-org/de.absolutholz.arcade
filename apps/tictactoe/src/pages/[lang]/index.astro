@@ -1,0 +1,45 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import BaseLayoutWithSiteHeaderAndSiteFooter from '@arcade/lib-ui/layouts/BaseLayoutWithSiteHeaderAndSiteFooter/BaseLayoutWithSiteHeaderAndSiteFooter.astro';
+import { TicTacToeLobby } from '../../components/TicTacToeLobby/TicTacToeLobby.tsx';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const currentLanguage = lang as SupportedLanguageCode;
+const currentTicTacToe = resources[currentLanguage]?.tictactoe ?? resources.en.tictactoe;
+
+const videoGameJsonLd = {
+	'@context': 'https://schema.org',
+	'@type': 'VideoGame',
+	name: currentTicTacToe.title,
+	description: currentTicTacToe.description,
+	genre: ['Board Game', 'Turn-Based Strategy'],
+	playMode: 'MultiPlayer',
+	applicationCategory: 'Game',
+	operatingSystem: 'Web Browser',
+	inLanguage: currentLanguage,
+	url: `https://arcade.absolutholz.de/tictactoe/${currentLanguage}/`,
+};
+---
+
+<BaseLayoutWithSiteHeaderAndSiteFooter
+	titleOptions={{
+		scope: currentTicTacToe.title,
+	}}
+	description={currentTicTacToe.description}
+	lang={currentLanguage}
+	currentSlug=""
+>
+	<script
+		type="application/ld+json"
+		set:html={JSON.stringify(videoGameJsonLd)}
+	/>
+	<TicTacToeLobby client:load lang={currentLanguage} />
+</BaseLayoutWithSiteHeaderAndSiteFooter>

@@ -266,6 +266,25 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 			sessionLength: ['snack-under-3m', 'standard-5-10m', 'deep-15m-plus'],
 		},
 	},
+	tictactoe: {
+		id: 'tictactoe',
+		route: '/tictactoe',
+		assets: {
+			icon: '❌',
+		},
+		i18nNamespace: 'tictactoe',
+		category: {
+			primary: 'card-board',
+			secondary: 'party-duel',
+		},
+		tags: {
+			mechanics: ['grid-based', 'alignment-capture', 'pattern-recognition'],
+			inputs: ['touch-optimized', 'keyboard-controls', 'tap-only'],
+			pacing: ['turn-paced', 'zen-untimed'],
+			modes: ['pass-and-play', 'multiplayer-turn-based'],
+			sessionLength: ['snack-under-3m'],
+		},
+	},
 };
 
 /**

@@ -11,6 +11,7 @@ import { PENTOMINOES_MEDAL_DEFINITIONS } from '../../../pentominoes/src/config/m
 import { STAR_BATTLE_MEDAL_DEFINITIONS } from '../../../star-battle/src/config/medals';
 import { SUDOKU_MEDAL_DEFINITIONS } from '../../../sudoku/src/config/medals';
 import { TENTS_MEDAL_DEFINITIONS } from '../../../tents/src/config/medals';
+import { TICTACTOE_MEDAL_DEFINITIONS } from '../../../tictactoe/src/config/medals';
 import { TRACKS_MEDAL_DEFINITIONS } from '../../../tracks/src/config/medals';
 import { UNTANGLE_MEDAL_DEFINITIONS } from '../../../untangle/src/config/medals';
 
@@ -31,6 +32,7 @@ export const HUB_MEDAL_DEFINITIONS: {
 	'color-flood': COLOR_FLOOD_MEDAL_DEFINITIONS,
 	'dice-bingo': DICE_BINGO_MEDAL_DEFINITIONS,
 	pentominoes: PENTOMINOES_MEDAL_DEFINITIONS,
+	tictactoe: TICTACTOE_MEDAL_DEFINITIONS,
 };
 
 export function getHubMedalDefinitionsForGame<G extends GameId>(gameId: G): readonly AchievementDefinition<G>[] {

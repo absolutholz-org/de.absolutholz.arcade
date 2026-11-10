@@ -14,6 +14,7 @@ import type { StarBattleSchema, StarBattleTranslationContract } from '../schemas
 import type { SudokuSchema, SudokuTranslationContract } from '../schemas/sudoku.schema.js';
 import type { TaxonomySchema, TaxonomyTranslationContract } from '../schemas/taxonomy.schema.js';
 import type { TentsSchema, TentsTranslationContract } from '../schemas/tents.schema.js';
+import type { TicTacToeSchema, TicTacToeTranslationContract } from '../schemas/tictactoe.schema.js';
 import type { TracksSchema, TracksTranslationContract } from '../schemas/tracks.schema.js';
 import type { UntangleSchema, UntangleTranslationContract } from '../schemas/untangle.schema.js';
 
@@ -41,6 +42,7 @@ export type NetTranslationKey = LeafKeys<NetSchema> | `net.${LeafKeys<NetSchema>
 export type ColorFloodTranslationKey = LeafKeys<ColorFloodSchema> | `color-flood.${LeafKeys<ColorFloodSchema>}`;
 export type DiceBingoTranslationKey = LeafKeys<DiceBingoSchema> | `dice-bingo.${LeafKeys<DiceBingoSchema>}`;
 export type PentominoesTranslationKey = LeafKeys<PentominoesSchema> | `pentominoes.${LeafKeys<PentominoesSchema>}`;
+export type TicTacToeTranslationKey = LeafKeys<TicTacToeSchema> | `tictactoe.${LeafKeys<TicTacToeSchema>}`;
 export type MedalsTranslationKey = LeafKeys<MedalsSchema> | `medals.${LeafKeys<MedalsSchema>}`;
 export type TaxonomyTranslationKey = LeafKeys<TaxonomySchema> | `taxonomy.${LeafKeys<TaxonomySchema>}`;
 
@@ -60,6 +62,7 @@ export type TranslationKey =
 	| ColorFloodTranslationKey
 	| DiceBingoTranslationKey
 	| PentominoesTranslationKey
+	| TicTacToeTranslationKey
 	| MedalsTranslationKey
 	| TaxonomyTranslationKey;
 
@@ -89,6 +92,7 @@ export type TranslationResources = Record<
 		readonly 'color-flood': ColorFloodTranslationContract;
 		readonly 'dice-bingo': DiceBingoTranslationContract;
 		readonly pentominoes: PentominoesTranslationContract;
+		readonly tictactoe: TicTacToeTranslationContract;
 		readonly medals: MedalsTranslationContract;
 		readonly taxonomy: TaxonomyTranslationContract;
 	}

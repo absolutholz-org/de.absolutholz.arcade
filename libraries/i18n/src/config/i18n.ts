@@ -16,6 +16,7 @@ import { deStarBattle } from '../locales/de/star-battle.js';
 import { deSudoku } from '../locales/de/sudoku.js';
 import { deTaxonomy } from '../locales/de/taxonomy.js';
 import { deTents } from '../locales/de/tents.js';
+import { deTicTacToe } from '../locales/de/tictactoe.js';
 import { deTracks } from '../locales/de/tracks.js';
 import { deUntangle } from '../locales/de/untangle.js';
 import { enAnagram } from '../locales/en/anagram.js';
@@ -33,6 +34,7 @@ import { enStarBattle } from '../locales/en/star-battle.js';
 import { enSudoku } from '../locales/en/sudoku.js';
 import { enTaxonomy } from '../locales/en/taxonomy.js';
 import { enTents } from '../locales/en/tents.js';
+import { enTicTacToe } from '../locales/en/tictactoe.js';
 import { enTracks } from '../locales/en/tracks.js';
 import { enUntangle } from '../locales/en/untangle.js';
 import { frAnagram } from '../locales/fr/anagram.js';
@@ -50,6 +52,7 @@ import { frStarBattle } from '../locales/fr/star-battle.js';
 import { frSudoku } from '../locales/fr/sudoku.js';
 import { frTaxonomy } from '../locales/fr/taxonomy.js';
 import { frTents } from '../locales/fr/tents.js';
+import { frTicTacToe } from '../locales/fr/tictactoe.js';
 import { frTracks } from '../locales/fr/tracks.js';
 import { frUntangle } from '../locales/fr/untangle.js';
 import { ptAnagram } from '../locales/pt/anagram.js';
@@ -67,6 +70,7 @@ import { ptStarBattle } from '../locales/pt/star-battle.js';
 import { ptSudoku } from '../locales/pt/sudoku.js';
 import { ptTaxonomy } from '../locales/pt/taxonomy.js';
 import { ptTents } from '../locales/pt/tents.js';
+import { ptTicTacToe } from '../locales/pt/tictactoe.js';
 import { ptTracks } from '../locales/pt/tracks.js';
 import { ptUntangle } from '../locales/pt/untangle.js';
 import type { TranslationResources } from '../types/i18n.types.js';
@@ -89,6 +93,7 @@ export const resources: TranslationResources = {
 		'color-flood': enColorFlood,
 		'dice-bingo': enDiceBingo,
 		pentominoes: enPentominoes,
+		tictactoe: enTicTacToe,
 		medals: enMedals,
 		taxonomy: enTaxonomy,
 	},
@@ -108,6 +113,7 @@ export const resources: TranslationResources = {
 		'color-flood': deColorFlood,
 		'dice-bingo': deDiceBingo,
 		pentominoes: dePentominoes,
+		tictactoe: deTicTacToe,
 		medals: deMedals,
 		taxonomy: deTaxonomy,
 	},
@@ -127,6 +133,7 @@ export const resources: TranslationResources = {
 		'color-flood': frColorFlood,
 		'dice-bingo': frDiceBingo,
 		pentominoes: frPentominoes,
+		tictactoe: frTicTacToe,
 		medals: frMedals,
 		taxonomy: frTaxonomy,
 	},
@@ -146,6 +153,7 @@ export const resources: TranslationResources = {
 		'color-flood': ptColorFlood,
 		'dice-bingo': ptDiceBingo,
 		pentominoes: ptPentominoes,
+		tictactoe: ptTicTacToe,
 		medals: ptMedals,
 		taxonomy: ptTaxonomy,
 	},
@@ -175,6 +183,7 @@ i18n.use(initReactI18next).init({
 		'color-flood',
 		'dice-bingo',
 		'pentominoes',
+		'tictactoe',
 		'medals',
 		'taxonomy',
 	],
