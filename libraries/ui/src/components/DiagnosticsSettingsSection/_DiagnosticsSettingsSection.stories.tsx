@@ -13,7 +13,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Components/Actions & Inputs/DiagnosticsSettingsSection',
+	title: 'Components/DiagnosticsSettingsSection',
 } satisfies Meta<typeof DiagnosticsSettingsSection>;
 
 export default meta;

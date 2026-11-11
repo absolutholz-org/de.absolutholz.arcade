@@ -13,7 +13,7 @@ const meta = {
 		},
 	},
 	tags: ['autodocs'],
-	title: 'Overlays/ShareDialog',
+	title: 'Components/ShareDialog',
 	argTypes: {
 		id: {
 			control: 'text',

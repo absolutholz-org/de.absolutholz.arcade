@@ -28,13 +28,15 @@ This skill outlines the strict rules and standards for authoring interactive Sto
   - E.g., `import { Theme } from '../Theme';`
 - **Storybook MDX Imports**: When creating or updating MDX documentation files (`.mdx`), always import `Meta` from `@storybook/addon-docs/blocks` (e.g., `import { Meta } from '@storybook/addon-docs/blocks';`). Do NOT import `Meta` from `@storybook/blocks`.
 
-- **Storybook Title Hierarchy & Categorization**: All components under `Components/` must be assigned to their canonical design system category:
-  - `Components/Cards & Surfaces/<ComponentName>` (e.g. `ClickableCard`, `GameSelectionCard`, `QuickPlayCard`, `Banner`)
-  - `Components/Actions & Inputs/<ComponentName>` (e.g. `Button`, `TextField`, `Switch`, `SegmentedControl`, `Toolbar`)
-  - `Components/Overlays & Feedback/<ComponentName>` (e.g. `Dialog`, `Popover`, `Tooltip`, `Toast`, `VictoryDialog`)
-  - `Components/Layout & Structure/<ComponentName>` (e.g. `PageContainer`, `Stack`, `Divider`, `Hero`, `MarkdownContent`)
-  - `Components/Navigation & Shell/<ComponentName>` (e.g. `SiteHeader`, `SiteFooter`, `Breadcrumb`, `HeaderUserMenu`, `Logo`)
-  - `Components/Data & Display/<ComponentName>` (e.g. `Badge`, `Icon`, `Text`, `Theme`, `Timer`, `VisuallyHidden`)
+- **Storybook Title Hierarchy & Categorization**:
+  - **Strict Existing Categories Enforcement**: Agents are strictly prohibited from inventing or introducing new root or intermediate category directories in Storybook (such as `Overlays/`, `Buttons/`, `Actions/`, or arbitrary custom titles). All story files MUST only be assigned to existing top-level categories configured in Storybook (`libraries/ui/.storybook/preview.tsx`):
+    - `Foundations/...` (e.g. `Foundations/Typography`, `Foundations/Spacing`)
+    - `Components/<ComponentName>` (e.g. `Components/Button`, `Components/Dialog`, `Components/AuthDialog`, `Components/GameActionBar`, `Components/FavoriteButton`)
+    - `Layouts/...` (e.g. `Layouts/Base Layout/BaseLayout`, `Layouts/Game Layout/GameContainer`)
+    - `Templates/...` (e.g. `Templates/Game Landing Template/GameLandingTemplate`, `Templates/Game Subpage Template/GameMedalGrid`)
+    - `System Pages/...` (e.g. `System Pages/404 Not Found`, `System Pages/Offline`)
+  - **No Unprompted Categories**: If an agent feels a new or different category would be more appropriate for a component, it must **never** make up or create new categories unilaterally; it must stop and ask the user for confirmation.
+  - Standard UI components under `libraries/ui/src/components/` must be filed directly under `Components/<ComponentName>` (e.g. `title: 'Components/Button'`).
 
 ### Code Example (Stories File)
 

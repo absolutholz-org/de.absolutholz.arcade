@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { AuthDialog } from './_AuthDialog';
 
 const meta: Meta<typeof AuthDialog> = {
-	title: 'Overlays/Dialogs/AuthDialog',
+	title: 'Components/AuthDialog',
 	component: AuthDialog,
 	parameters: {
 		layout: 'centered',

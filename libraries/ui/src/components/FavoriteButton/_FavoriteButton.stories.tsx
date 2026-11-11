@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { FavoriteButton } from './_FavoriteButton';
 
 const meta = {
-	title: 'Buttons/FavoriteButton',
+	title: 'Components/FavoriteButton',
 	component: FavoriteButton,
 	parameters: {
 		layout: 'centered',

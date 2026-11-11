@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { GameActionBar } from './_GameActionBar';
 
 const meta = {
-	title: 'Actions/GameActionBar',
+	title: 'Components/GameActionBar',
 	component: GameActionBar,
 	parameters: {
 		layout: 'centered',
