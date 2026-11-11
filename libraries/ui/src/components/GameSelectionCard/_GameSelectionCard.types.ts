@@ -12,8 +12,6 @@ export interface GameSelectionCardBaseProps {
 	title: ReactNode;
 	/** Subtitle or secondary description (e.g. "6×6 Grid") */
 	subtitle?: ReactNode;
-	/** Grid dimensions or parameters (e.g. "15% mines") */
-	dimensions?: ReactNode;
 	/** Optional status badge configuration */
 	badge?: GameSelectionCardBadge;
 	/** Slot for thumbnail preview, puzzle grid snippet, or artwork */

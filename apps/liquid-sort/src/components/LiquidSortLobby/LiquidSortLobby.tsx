@@ -143,7 +143,6 @@ function LobbyContent({ initialDifficulty }: { initialDifficulty?: DifficultyLev
 									void saveLastConfig({ difficulty: diff });
 								}}
 								title={t(`difficulty.${diff}` as Parameters<typeof t>[0])}
-								dimensions={`${cfg.colorCount} colors`}
 								subtitle={t(`difficulty.${diff}Desc` as Parameters<typeof t>[0])}
 								badge={
 									solvedCount > 0
@@ -193,7 +192,6 @@ function LobbyContent({ initialDifficulty }: { initialDifficulty?: DifficultyLev
 											void saveLastConfig({ difficulty: selectedDifficulty });
 										}}
 										title={t('levels.puzzleNum', { number: String(preset.level) })}
-										dimensions={`${DIFFICULTY_CONFIG[selectedDifficulty].colorCount + DIFFICULTY_CONFIG[selectedDifficulty].emptyTubes} tubes`}
 										subtitle={subtitle}
 										badge={
 											isCompleted

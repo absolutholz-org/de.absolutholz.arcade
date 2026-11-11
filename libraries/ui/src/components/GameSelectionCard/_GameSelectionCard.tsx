@@ -6,7 +6,7 @@ import * as S from './_GameSelectionCard.styles';
 import type { GameSelectionCardProps } from './_GameSelectionCard.types';
 
 function GameSelectionCardInner<C extends ElementType = 'button'>(
-	{ title, subtitle, dimensions, badge, preview, children, ...cardProps }: GameSelectionCardProps<C>,
+	{ title, subtitle, badge, preview, children, ...cardProps }: GameSelectionCardProps<C>,
 	ref: ForwardedRef<HTMLElement>,
 ) {
 	return (
@@ -20,11 +20,9 @@ function GameSelectionCardInner<C extends ElementType = 'button'>(
 					</Badge>
 				)}
 			</S.Header>
-			{(subtitle || dimensions) && (
+			{subtitle && (
 				<S.Metadata>
-					{subtitle && <span>{subtitle}</span>}
-					{subtitle && dimensions && <span aria-hidden="true">•</span>}
-					{dimensions && <span>{dimensions}</span>}
+					<span>{subtitle}</span>
 				</S.Metadata>
 			)}
 			{children}

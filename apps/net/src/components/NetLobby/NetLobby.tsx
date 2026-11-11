@@ -108,7 +108,6 @@ function LobbyContent(): JSX.Element {
 									void saveLastConfig({ difficulty: diff });
 								}}
 								title={t(`difficulty.${diff}`)}
-								dimensions={getDifficultyDescription(diff)}
 								subtitle={solvedCount > 0 ? `${t('lobby.completed')}: ${solvedCount}` : undefined}
 								badge={
 									solvedCount > 0

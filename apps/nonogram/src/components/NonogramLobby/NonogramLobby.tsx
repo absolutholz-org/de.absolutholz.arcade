@@ -144,7 +144,6 @@ function LobbyContent(): JSX.Element {
 									saveLastConfig({ difficulty: selectedDifficulty, puzzleId: puz.id });
 								}}
 								title={t(puz.titleKey as TranslationKey)}
-								dimensions={`${puz.width}×${puz.height}`}
 								subtitle={
 									record?.bestTime !== undefined
 										? t('lobby.bestTime', { time: formatTime(record.bestTime) })

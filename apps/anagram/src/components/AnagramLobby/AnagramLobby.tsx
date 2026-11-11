@@ -198,7 +198,6 @@ function LobbyContent(): JSX.Element {
 									void saveLastConfig({ vocab: vocabLanguage, mode: selectedMode, difficulty: diff });
 								}}
 								title={t(`difficulty.${diff}`)}
-								dimensions={t(`difficulty.${diff}Dimensions`)}
 								subtitle={t(`difficulty.${diff}Desc`)}
 								badge={
 									record?.completed

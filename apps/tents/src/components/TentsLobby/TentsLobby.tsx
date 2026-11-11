@@ -155,7 +155,6 @@ function LobbyContent(): JSX.Element {
 									void saveLastConfig({ difficulty: diff });
 								}}
 								title={t(`difficulty.${diff}`)}
-								dimensions={`${size.width}×${size.height}`}
 								subtitle={t(`difficulty.${diff}Desc` as 'difficulty.easyDesc')}
 								badge={
 									solvedCount > 0
@@ -199,7 +198,6 @@ function LobbyContent(): JSX.Element {
 											void saveLastConfig({ difficulty: selectedDifficulty });
 										}}
 										title={t('levels.puzzleNum', { number: String(index + 1) })}
-										dimensions={`${puzzle.size}×${puzzle.size}`}
 										subtitle={
 											puzzleRecord?.bestTime !== undefined
 												? t('levels.bestTime', { time: formatTime(puzzleRecord.bestTime) })

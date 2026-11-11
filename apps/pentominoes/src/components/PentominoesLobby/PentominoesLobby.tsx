@@ -221,7 +221,6 @@ function LobbyContent(): JSX.Element {
 									});
 								}}
 								title={copy.title}
-								dimensions={`${lvl.rows}×${lvl.cols} • ${lvl.pieceIds.length} ${t('status.placed')}`}
 								subtitle={copy.description}
 								badge={
 									isDone

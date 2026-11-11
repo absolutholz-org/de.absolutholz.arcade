@@ -125,7 +125,6 @@ function LobbyContent(): JSX.Element {
 									});
 								}}
 								title={t(`difficulty.${diff}` as 'difficulty.easy')}
-								dimensions={getDifficultyDescription(diff)}
 								subtitle={solvedCount > 0 ? `${t('lobby.completed')}: ${solvedCount}` : undefined}
 								badge={
 									solvedCount > 0

@@ -17,7 +17,6 @@ const meta = {
 	args: {
 		title: 'Puzzle 1',
 		subtitle: 'Standard Level',
-		dimensions: '6×6 Grid',
 	},
 } satisfies Meta<typeof GameSelectionCard>;
 
@@ -45,7 +44,6 @@ export const CompletedLevel: Story = {
 	args: {
 		title: 'Heart Pattern',
 		subtitle: '15% mines',
-		dimensions: '8×8 Grid',
 		badge: {
 			label: 'Completed',
 			variant: 'success',
@@ -64,7 +62,6 @@ export const WithPreviewSlot: Story = {
 	args: {
 		title: 'Temple of Bridges',
 		subtitle: '2 Islands',
-		dimensions: '10×10 Grid',
 		badge: {
 			label: 'Best: 00:48',
 			variant: 'neutral',

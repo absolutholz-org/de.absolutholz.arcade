@@ -155,7 +155,6 @@ function LobbyContent(): JSX.Element {
 								key={diffConfig.id}
 								title={t(`difficulty.${diffConfig.id}`)}
 								subtitle={t(`difficulty.${diffConfig.id}Desc`)}
-								dimensions={`${mineCount} ${t('status.minesLeft')}`}
 								badge={
 									bestScore
 										? {

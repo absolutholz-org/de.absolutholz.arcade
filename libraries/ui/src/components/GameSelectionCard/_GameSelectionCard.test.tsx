@@ -4,14 +4,11 @@ import { GameSelectionCard } from '.';
 import { render } from '../../test-utils';
 
 describe('GameSelectionCard', () => {
-	it('renders title, subtitle, and dimensions', () => {
-		const { container, unmount } = render(
-			<GameSelectionCard title="Puzzle 42" subtitle="Easy Pack" dimensions="6×6 Grid" />,
-		);
+	it('renders title and subtitle', () => {
+		const { container, unmount } = render(<GameSelectionCard title="Puzzle 42" subtitle="Easy Pack" />);
 
 		expect(container.textContent).toContain('Puzzle 42');
 		expect(container.textContent).toContain('Easy Pack');
-		expect(container.textContent).toContain('6×6 Grid');
 
 		unmount();
 	});
