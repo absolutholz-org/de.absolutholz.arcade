@@ -4,7 +4,7 @@ import { resources } from '@arcade/lib-i18n/config/i18n';
 import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { getGameDescription, getGameTitle } from '@arcade/lib-i18n/utils/gameTitle';
-import { getCategoryDescription, getCategoryLabel } from '@arcade/lib-i18n/utils/taxonomy';
+import { getCategoryDescription, getCategoryLabel, getPlayModeLabel, getPlayersLabel } from '@arcade/lib-i18n/utils/taxonomy';
 import { Breadcrumb } from '@arcade/lib-ui/components/Breadcrumb';
 import { GameCard } from '@arcade/lib-ui/components/GameCard';
 import { GamesGrid } from '@arcade/lib-ui/components/GamesGrid';
@@ -66,18 +66,26 @@ const canonical = `https://arcade.absolutholz.de/${currentLanguage}/categories/$
 			<Text id="category-games-heading" as="h2" variant="h2">{currentCommon.hub.gamesTitle}</Text>
 			<GamesGrid as="ul" role="list">
 				{
-					games.map((game) => (
-						<li>
-							<GameCard
-								gameId={game.id}
-								href={`${game.route}/${currentLanguage}/`}
-								title={getGameTitle(game.id, currentLanguage)}
-								description={getGameDescription(game.id, currentLanguage)}
-								icon={game.assets.icon}
-								badge={categoryTitle}
-							/>
-						</li>
-					))
+					games.map((game) => {
+						const isMultiplayer = game.mode === 'multiplayer' || game.mode === 'both';
+						const playersLabel = getPlayersLabel(game.players, currentLanguage);
+						const modeLabel = getPlayModeLabel(game.mode, currentLanguage);
+						const modeChipText = playersLabel ? `👥 ${playersLabel}` : `👥 ${modeLabel}`;
+
+						return (
+							<li>
+								<GameCard
+									gameId={game.id}
+									href={`${game.route}/${currentLanguage}/`}
+									title={getGameTitle(game.id, currentLanguage)}
+									description={getGameDescription(game.id, currentLanguage)}
+									icon={game.assets.icon}
+									badge={categoryTitle}
+									modeBadge={isMultiplayer ? { label: modeChipText, variant: 'accent' } : undefined}
+								/>
+							</li>
+						);
+					})
 				}
 			</GamesGrid>
 		</section>

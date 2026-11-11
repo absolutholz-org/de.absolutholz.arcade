@@ -1,4 +1,4 @@
-import { type ElementType, type ForwardedRef, forwardRef } from 'react';
+import { type ElementType, type ForwardedRef, type ReactNode, forwardRef } from 'react';
 import { Badge } from '../Badge';
 import { ClickableCard } from '../ClickableCard';
 import type { ClickableCardProps } from '../ClickableCard/_ClickableCard.types';
@@ -10,12 +10,30 @@ function isBadgeObject(badge: unknown): badge is GameCardBadge {
 	return typeof badge === 'object' && badge !== null && 'label' in badge;
 }
 
+function renderBadgeItem(item: ReactNode | GameCardBadge, key?: number | string) {
+	if (!item) return null;
+	if (isBadgeObject(item)) {
+		return (
+			<Badge key={key} variant={item.variant || 'neutral'} size="sm">
+				{item.label}
+			</Badge>
+		);
+	}
+	return (
+		<Badge key={key} variant="neutral" size="sm">
+			{item}
+		</Badge>
+	);
+}
+
 function GameCardInner<C extends ElementType = 'a'>(
 	{
 		title,
 		icon,
 		description,
 		badge,
+		modeBadge,
+		badges,
 		footer,
 		children,
 		as,
@@ -26,40 +44,43 @@ function GameCardInner<C extends ElementType = 'a'>(
 	ref: ForwardedRef<HTMLElement>,
 ) {
 	const Component = as || 'a';
-	const renderedBadge = badge ? (
-		isBadgeObject(badge) ? (
-			<Badge variant={badge.variant || 'neutral'} size="sm">
-				{badge.label}
-			</Badge>
-		) : (
-			<Badge variant="neutral" size="sm">
-				{badge}
-			</Badge>
-		)
-	) : null;
+	const renderedBadges = badges
+		? badges.map((item, idx) => renderBadgeItem(item, idx))
+		: [
+				badge ? renderBadgeItem(badge, 'primary') : null,
+				modeBadge ? renderBadgeItem(modeBadge, 'mode') : null,
+			].filter(Boolean);
+	const hasBadges = renderedBadges.length > 0;
 
 	const stringTitle = typeof title === 'string' ? title : '';
+	const hasFavorite = Boolean(gameId && showFavorite);
 
 	return (
-		<ClickableCard as={Component} ref={ref} {...(cardProps as ClickableCardProps<C>)}>
-			{gameId && showFavorite && (
-				<S.FavoriteWrapper>
+		<S.CardContainer>
+			<ClickableCard as={Component} ref={ref} {...(cardProps as ClickableCardProps<C>)}>
+				<S.Header data-has-favorite={hasFavorite ? 'true' : undefined}>
+					<S.Icon aria-hidden="true">{icon}</S.Icon>
+					<S.Title>{title}</S.Title>
+				</S.Header>
+				{description && <S.Description>{description}</S.Description>}
+				{children}
+				{(hasBadges || footer) && (
+					<S.Footer>
+						{renderedBadges}
+						{footer}
+					</S.Footer>
+				)}
+			</ClickableCard>
+			{hasFavorite && gameId && (
+				<S.FavoriteWrapper
+					onClick={(e) => {
+						e.stopPropagation();
+					}}
+				>
 					<FavoriteButton gameId={gameId} gameTitle={stringTitle} size="sm" />
 				</S.FavoriteWrapper>
 			)}
-			<S.Header>
-				<S.Icon aria-hidden="true">{icon}</S.Icon>
-				<S.Title>{title}</S.Title>
-			</S.Header>
-			{description && <S.Description>{description}</S.Description>}
-			{children}
-			{(renderedBadge || footer) && (
-				<S.Footer>
-					{renderedBadge}
-					{footer}
-				</S.Footer>
-			)}
-		</ClickableCard>
+		</S.CardContainer>
 	);
 }
 

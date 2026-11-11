@@ -16,6 +16,10 @@ export interface GameCardBaseProps {
 	description?: ReactNode;
 	/** Optional category or status badge displayed in the footer */
 	badge?: ReactNode | GameCardBadge;
+	/** Optional secondary play mode chip displayed alongside the category badge */
+	modeBadge?: ReactNode | GameCardBadge;
+	/** Optional list of badges displayed in the footer */
+	badges?: readonly (ReactNode | GameCardBadge)[];
 	/** Optional custom footer slot */
 	footer?: ReactNode;
 	/** Additional children rendered inside the card */

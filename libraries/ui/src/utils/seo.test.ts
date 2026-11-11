@@ -129,18 +129,18 @@ describe('buildVideoGameJsonLd', () => {
 		});
 	});
 
-	it('includes MultiPlayer in playMode when game modes contain multiplayer tags', () => {
-		const baseSudoku = getGame('sudoku');
-		const multiplayerGame: GameMetadata = {
-			...baseSudoku,
-			tags: {
-				...baseSudoku.tags,
-				modes: ['single-player', 'pass-and-play'],
-			},
-		};
+	it('populates playMode based on game.mode (singleplayer, multiplayer, or both)', () => {
+		const singleplayerGame = getGame('sudoku');
+		expect(buildVideoGameJsonLd(singleplayerGame, 'en').playMode).toEqual(['SinglePlayer']);
 
-		const jsonLd = buildVideoGameJsonLd(multiplayerGame, 'en');
-		expect(jsonLd.playMode).toEqual(['SinglePlayer', 'MultiPlayer']);
+		const multiplayerGame = getGame('tictactoe');
+		expect(buildVideoGameJsonLd(multiplayerGame, 'en').playMode).toEqual(['MultiPlayer']);
+
+		const bothGame: GameMetadata = {
+			...singleplayerGame,
+			mode: 'both',
+		};
+		expect(buildVideoGameJsonLd(bothGame, 'en').playMode).toEqual(['SinglePlayer', 'MultiPlayer']);
 	});
 
 	it('validates generated JSON-LD output for every registered game across all supported languages', () => {
@@ -157,7 +157,13 @@ describe('buildVideoGameJsonLd', () => {
 				expect(parsed.gamePlatform).toEqual(['Web Browser']);
 				expect(Array.isArray(parsed.genre)).toBe(true);
 				expect(parsed.genre.length).toBeGreaterThanOrEqual(2);
-				expect(parsed.playMode).toContain('SinglePlayer');
+				if (game.mode === 'multiplayer') {
+					expect(parsed.playMode).toEqual(['MultiPlayer']);
+				} else if (game.mode === 'both') {
+					expect(parsed.playMode).toEqual(['SinglePlayer', 'MultiPlayer']);
+				} else {
+					expect(parsed.playMode).toEqual(['SinglePlayer']);
+				}
 				expect(seo.keywords.length).toBeGreaterThan(0);
 				expect(seo.openGraph.type).toBe('website');
 				expect(seo.openGraph.title).toBe(parsed.name);

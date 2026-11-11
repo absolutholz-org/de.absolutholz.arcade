@@ -60,3 +60,21 @@ export const AsButton: Story = {
 		href: undefined,
 	},
 };
+
+export const Multiplayer: Story = {
+	parameters: {
+		docs: {
+			description: {
+				story: 'Multiplayer game card displaying a category badge alongside a distinct mode chip.',
+			},
+		},
+	},
+	args: {
+		title: 'Tic-Tac-Toe',
+		icon: '❌',
+		description: 'Play the classic 3×3 duel against friends in local pass-and-play.',
+		href: '/tictactoe/en/',
+		badge: 'Card & Board',
+		modeBadge: { label: '👥 2 Players', variant: 'accent' },
+	},
+};

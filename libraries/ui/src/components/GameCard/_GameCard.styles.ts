@@ -1,11 +1,23 @@
 import { styled } from '@linaria/react';
 import { themeColor } from '../../styles/theme/theme.utils';
 
+export const CardContainer = styled.div`
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+`;
+
 export const Header = styled.div`
 	display: flex;
 	align-items: center;
 	gap: 0.75rem;
 	width: 100%;
+
+	&[data-has-favorite='true'] {
+		padding-right: 2rem;
+	}
 `;
 
 export const FavoriteWrapper = styled.div`
@@ -42,6 +54,7 @@ export const Footer = styled.footer`
 	display: flex;
 	align-items: center;
 	gap: 0.5rem;
+	flex-wrap: wrap;
 	margin-top: 0.5rem;
 	width: 100%;
 `;

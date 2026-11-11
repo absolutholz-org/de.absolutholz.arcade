@@ -1,5 +1,14 @@
 import { css } from '@linaria/core';
 
+export const Section = css`
+	margin-top: 2rem;
+	width: 100%;
+`;
+
+export const SectionTitle = css`
+	margin-bottom: 1rem;
+`;
+
 export const FilterBarWrapper = css`
 	margin-top: 1rem;
 	width: 100%;

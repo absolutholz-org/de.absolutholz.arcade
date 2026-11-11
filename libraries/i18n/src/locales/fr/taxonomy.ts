@@ -21,6 +21,12 @@ export const frTaxonomy = {
 		'card-board': 'Jouez à des grands classiques de plateau, de dés et de cartes conçus pour l’accessibilité.',
 		'party-duel': 'Affrontez vos proches dans des duels de mémoire rapides et des jeux au tour par tour.',
 	},
+	playModes: {
+		singleplayer: 'Solo',
+		multiplayer: 'Multijoueur',
+		both: 'Les deux',
+		twoPlayers: '2 Joueurs',
+	},
 	tags: {
 		mechanics: {
 			'grid-based': 'Sur grille',

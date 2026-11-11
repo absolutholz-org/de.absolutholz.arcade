@@ -157,6 +157,8 @@ export const enCommon = {
 	},
 	hub: {
 		gamesTitle: 'Games',
+		singlePlayerTitle: 'Single-Player Games',
+		multiplayerTitle: 'Multiplayer Games',
 		toolsTitle: 'Tools & Utilities',
 		categoryFilterAriaLabel: 'Filter games by category',
 		allCategories: 'All',

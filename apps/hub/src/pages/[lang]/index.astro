@@ -40,10 +40,7 @@ const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? 
 
 		<UserMedalSummaryWidget client:idle lang={lang as SupportedLanguageCode} />
 
-		<section class="games-section">
-			<Text as="h2" variant="h2">{currentTranslations.hub.gamesTitle}</Text>
-			<HubGamesCatalog client:load lang={lang as SupportedLanguageCode} />
-		</section>
+		<HubGamesCatalog client:load lang={lang as SupportedLanguageCode} />
 
 		<section class="tools-section">
 			<Text as="h2" variant="h2">{currentTranslations.hub.toolsTitle}</Text>
@@ -65,7 +62,6 @@ const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? 
 </BaseLayoutWithSiteHeaderAndSiteFooter>
 
 <style>
-	.games-section,
 	.tools-section {
 		margin-top: 2rem;
 	}

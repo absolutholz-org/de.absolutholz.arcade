@@ -2,7 +2,7 @@ import { ALL_GAMES } from '@arcade/lib-games';
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import { getGameDescription, getGameTitle } from '@arcade/lib-i18n/utils/gameTitle';
-import { getCategoryLabel } from '@arcade/lib-i18n/utils/taxonomy';
+import { getCategoryLabel, getPlayModeLabel, getPlayersLabel } from '@arcade/lib-i18n/utils/taxonomy';
 import { GameCard } from '@arcade/lib-ui/components/GameCard';
 import { GamesGrid } from '@arcade/lib-ui/components/GamesGrid';
 import { Text } from '@arcade/lib-ui/components/Text';
@@ -39,17 +39,25 @@ function FavoritesSectionContent({ lang, className }: FavoritesSectionProps) {
 				{t('favorites.title')}
 			</Text>
 			<GamesGrid id={FAVORITES_GRID_ID} aria-live="polite">
-				{favoriteGames.map((game) => (
-					<GameCard
-						key={game.id}
-						gameId={game.id}
-						href={`${game.route}/${lang}/`}
-						title={getGameTitle(game.id, lang)}
-						description={getGameDescription(game.id, lang)}
-						icon={game.assets.icon}
-						badge={getCategoryLabel(game.category.primary, lang)}
-					/>
-				))}
+				{favoriteGames.map((game) => {
+					const isMultiplayer = game.mode === 'multiplayer' || game.mode === 'both';
+					const playersLabel = getPlayersLabel(game.players, lang);
+					const modeLabel = getPlayModeLabel(game.mode, lang);
+					const modeChipText = playersLabel ? `👥 ${playersLabel}` : `👥 ${modeLabel}`;
+
+					return (
+						<GameCard
+							key={game.id}
+							gameId={game.id}
+							href={`${game.route}/${lang}/`}
+							title={getGameTitle(game.id, lang)}
+							description={getGameDescription(game.id, lang)}
+							icon={game.assets.icon}
+							badge={getCategoryLabel(game.category.primary, lang)}
+							modeBadge={isMultiplayer ? { label: modeChipText, variant: 'accent' } : undefined}
+						/>
+					);
+				})}
 			</GamesGrid>
 		</section>
 	);

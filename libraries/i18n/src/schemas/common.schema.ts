@@ -146,6 +146,8 @@ export const commonSchema = {
 	},
 	hub: {
 		gamesTitle: 'hub.gamesTitle',
+		singlePlayerTitle: 'hub.singlePlayerTitle',
+		multiplayerTitle: 'hub.multiplayerTitle',
 		toolsTitle: 'hub.toolsTitle',
 		categoryFilterAriaLabel: 'hub.categoryFilterAriaLabel',
 		allCategories: 'hub.allCategories',

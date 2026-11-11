@@ -66,6 +66,14 @@ export interface GameMetadata {
 	 */
 	readonly i18nNamespace: GameId;
 	/**
+	 * Play mode topology (solitaire singleplayer, multiplayer, or both).
+	 */
+	readonly mode: GamePlayMode;
+	/**
+	 * Optional player count bounds.
+	 */
+	readonly players?: GamePlayers;
+	/**
 	 * Primary and optional distinct secondary genre category.
 	 */
 	readonly category: GameCategoryAssignment;
@@ -73,6 +81,19 @@ export interface GameMetadata {
 	 * Multi-faceted gameplay, input/accessibility, pacing, mode, and session-length tags.
 	 */
 	readonly tags: TaxonomyTags;
+}
+
+/**
+ * Supported game play modes.
+ */
+export type GamePlayMode = 'singleplayer' | 'multiplayer' | 'both';
+
+/**
+ * Player count bounds for a game.
+ */
+export interface GamePlayers {
+	readonly min: number;
+	readonly max: number;
 }
 
 /**

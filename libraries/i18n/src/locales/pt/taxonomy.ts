@@ -21,6 +21,12 @@ export const ptTaxonomy = {
 		'card-board': 'Jogue clássicos de tabuleiro, dados e cartas desenvolvidos com foco em acessibilidade.',
 		'party-duel': 'Desafie amigos em duelos rápidos de memória e partidas por turnos.',
 	},
+	playModes: {
+		singleplayer: 'Um Jogador',
+		multiplayer: 'Multijogador',
+		both: 'Ambos',
+		twoPlayers: '2 Jogadores',
+	},
 	tags: {
 		mechanics: {
 			'grid-based': 'Em grade',

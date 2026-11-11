@@ -20,6 +20,12 @@ export const taxonomySchema = {
 		'card-board': 'categoryDescriptions.card-board',
 		'party-duel': 'categoryDescriptions.party-duel',
 	},
+	playModes: {
+		singleplayer: 'playModes.singleplayer',
+		multiplayer: 'playModes.multiplayer',
+		both: 'playModes.both',
+		twoPlayers: 'playModes.twoPlayers',
+	},
 	tags: {
 		mechanics: {
 			'grid-based': 'tags.mechanics.grid-based',

@@ -156,6 +156,8 @@ export const ptCommon = {
 	},
 	hub: {
 		gamesTitle: 'Jogos',
+		singlePlayerTitle: 'Jogos para Um Jogador',
+		multiplayerTitle: 'Jogos Multijogador',
 		toolsTitle: 'Ferramentas e utilitários',
 		categoryFilterAriaLabel: 'Filtrar jogos por categoria',
 		allCategories: 'Todos',

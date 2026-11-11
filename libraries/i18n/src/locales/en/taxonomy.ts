@@ -20,6 +20,12 @@ export const enTaxonomy = {
 		'card-board': 'Play classic tabletop board, dice, and card games built for accessible play.',
 		'party-duel': 'Challenge friends in quick-turn memory duels and pass-and-play games.',
 	},
+	playModes: {
+		singleplayer: 'Single Player',
+		multiplayer: 'Multiplayer',
+		both: 'Both',
+		twoPlayers: '2 Players',
+	},
 	tags: {
 		mechanics: {
 			'grid-based': 'Grid-Based',

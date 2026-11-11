@@ -158,6 +158,8 @@ export const deCommon = {
 	},
 	hub: {
 		gamesTitle: 'Spiele',
+		singlePlayerTitle: 'Einzelspieler-Spiele',
+		multiplayerTitle: 'Mehrspieler-Spiele',
 		toolsTitle: 'Werkzeuge & Hilfsmittel',
 		categoryFilterAriaLabel: 'Spiele nach Kategorie filtern',
 		allCategories: 'Alle',

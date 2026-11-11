@@ -126,9 +126,15 @@ export function buildVideoGameJsonLd(gameOrId: GameId | GameMetadata, lang?: Sup
 	const mechanicLabels = metadata.tags.mechanics.map((tag) => getTagLabel('mechanics', tag, lang));
 	const genre = Array.from(new Set([primaryCategoryLabel, ...mechanicLabels].filter(Boolean)));
 
-	const playMode: VideoGamePlayMode[] = ['SinglePlayer'];
-	if (metadata.tags.modes.includes('pass-and-play') || metadata.tags.modes.includes('multiplayer-turn-based')) {
+	const playMode: VideoGamePlayMode[] = [];
+	if (metadata.mode === 'singleplayer' || metadata.mode === 'both') {
+		playMode.push('SinglePlayer');
+	}
+	if (metadata.mode === 'multiplayer' || metadata.mode === 'both') {
 		playMode.push('MultiPlayer');
+	}
+	if (playMode.length === 0) {
+		playMode.push('SinglePlayer');
 	}
 
 	return {

@@ -157,6 +157,8 @@ export const frCommon = {
 	},
 	hub: {
 		gamesTitle: 'Jeux',
+		singlePlayerTitle: 'Jeux en Solo',
+		multiplayerTitle: 'Jeux Multijoueur',
 		toolsTitle: 'Outils et utilitaires',
 		categoryFilterAriaLabel: 'Filtrer les jeux par catégorie',
 		allCategories: 'Tous',

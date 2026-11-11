@@ -12,6 +12,7 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 			icon: '🔢',
 		},
 		i18nNamespace: 'sudoku',
+		mode: 'singleplayer',
 		category: {
 			primary: 'logic-deduction',
 		},
@@ -30,6 +31,7 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 			icon: '💣',
 		},
 		i18nNamespace: 'minesweeper',
+		mode: 'singleplayer',
 		category: {
 			primary: 'logic-deduction',
 		},
@@ -48,6 +50,7 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 			icon: '🎨',
 		},
 		i18nNamespace: 'nonogram',
+		mode: 'singleplayer',
 		category: {
 			primary: 'logic-deduction',
 			secondary: 'spatial-puzzle',
@@ -67,6 +70,7 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 			icon: '⭐',
 		},
 		i18nNamespace: 'star-battle',
+		mode: 'singleplayer',
 		category: {
 			primary: 'logic-deduction',
 		},
@@ -85,6 +89,7 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 			icon: '🌉',
 		},
 		i18nNamespace: 'bridges',
+		mode: 'singleplayer',
 		category: {
 			primary: 'logic-deduction',
 			secondary: 'spatial-puzzle',
@@ -104,6 +109,7 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 			icon: '🚂',
 		},
 		i18nNamespace: 'tracks',
+		mode: 'singleplayer',
 		category: {
 			primary: 'logic-deduction',
 			secondary: 'spatial-puzzle',
@@ -123,6 +129,7 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 			icon: '⛺',
 		},
 		i18nNamespace: 'tents',
+		mode: 'singleplayer',
 		category: {
 			primary: 'logic-deduction',
 		},
@@ -141,6 +148,7 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 			icon: '🔤',
 		},
 		i18nNamespace: 'anagram',
+		mode: 'singleplayer',
 		category: {
 			primary: 'word-trivia',
 		},
@@ -159,6 +167,7 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 			icon: '🧪',
 		},
 		i18nNamespace: 'liquid-sort',
+		mode: 'singleplayer',
 		category: {
 			primary: 'casual-sorting',
 			secondary: 'logic-deduction',
@@ -178,6 +187,7 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 			icon: '🕸️',
 		},
 		i18nNamespace: 'untangle',
+		mode: 'singleplayer',
 		category: {
 			primary: 'spatial-puzzle',
 			secondary: 'casual-sorting',
@@ -197,6 +207,7 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 			icon: '🌐',
 		},
 		i18nNamespace: 'net',
+		mode: 'singleplayer',
 		category: {
 			primary: 'logic-deduction',
 			secondary: 'spatial-puzzle',
@@ -216,6 +227,7 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 			icon: '🌊',
 		},
 		i18nNamespace: 'color-flood',
+		mode: 'singleplayer',
 		category: {
 			primary: 'casual-sorting',
 			secondary: 'spatial-puzzle',
@@ -235,6 +247,7 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 			icon: '🎲',
 		},
 		i18nNamespace: 'dice-bingo',
+		mode: 'singleplayer',
 		category: {
 			primary: 'card-board',
 			secondary: 'casual-sorting',
@@ -254,6 +267,7 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 			icon: '🧩',
 		},
 		i18nNamespace: 'pentominoes',
+		mode: 'singleplayer',
 		category: {
 			primary: 'spatial-puzzle',
 			secondary: 'logic-deduction',
@@ -273,6 +287,8 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 			icon: '❌',
 		},
 		i18nNamespace: 'tictactoe',
+		mode: 'multiplayer',
+		players: { min: 2, max: 2 },
 		category: {
 			primary: 'card-board',
 			secondary: 'party-duel',

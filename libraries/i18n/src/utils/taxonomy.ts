@@ -7,10 +7,34 @@ import { isSupportedLanguage } from './detection.js';
 export type TaxonomyCategoryKey = keyof TaxonomySchema['categories'];
 export type TaxonomyFacetKey = keyof TaxonomySchema['tags'];
 export type TaxonomyTagKey<F extends TaxonomyFacetKey = TaxonomyFacetKey> = keyof TaxonomySchema['tags'][F] & string;
+export type TaxonomyPlayModeKey = keyof TaxonomySchema['playModes'];
 
 function getTaxonomyDictionary(lang?: SupportedLanguageCode): TaxonomyTranslationContract {
 	const activeLang = lang && isSupportedLanguage(lang) ? lang : DEFAULT_LANGUAGE;
 	return resources[activeLang]?.taxonomy ?? resources.en.taxonomy;
+}
+
+/**
+ * Resolves the localized display label for a play mode ('singleplayer' | 'multiplayer' | 'both').
+ */
+export function getPlayModeLabel(mode: TaxonomyPlayModeKey, lang?: SupportedLanguageCode): string {
+	const dict = getTaxonomyDictionary(lang);
+	return dict.playModes[mode] ?? resources.en.taxonomy.playModes[mode];
+}
+
+/**
+ * Resolves the localized player count label (e.g. "2 Players", "2 Spieler", "2 Jogadores", "2 Joueurs").
+ */
+export function getPlayersLabel(
+	players: { min: number; max: number } | undefined,
+	lang?: SupportedLanguageCode,
+): string | undefined {
+	if (!players) return undefined;
+	const dict = getTaxonomyDictionary(lang);
+	if (players.min === 2 && players.max === 2) {
+		return dict.playModes.twoPlayers ?? resources.en.taxonomy.playModes.twoPlayers;
+	}
+	return `${players.min}-${players.max}`;
 }
 
 /**

@@ -20,6 +20,12 @@ export const deTaxonomy = {
 		'card-board': 'Spiele klassische Brett-, Würfel- und Kartenspiele mit barrierefreier Bedienung.',
 		'party-duel': 'Tritt in schnellen Gedächtnisduellen und Mehrspielerspielen gegeneinander an.',
 	},
+	playModes: {
+		singleplayer: 'Einzelspieler',
+		multiplayer: 'Mehrspieler',
+		both: 'Beide',
+		twoPlayers: '2 Spieler',
+	},
 	tags: {
 		mechanics: {
 			'grid-based': 'Gitterbasiert',

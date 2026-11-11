@@ -1,4 +1,9 @@
-import type { GameId, GameMetadata } from './types.js';
+import type { GameId, GameMetadata, GamePlayMode, GamePlayers } from './types.js';
+
+/**
+ * Supported game play modes.
+ */
+export const GAME_PLAY_MODES = Object.freeze(['singleplayer', 'multiplayer', 'both'] as const);
 
 /**
  * High-level genre categories for primary and optional secondary game classification.
@@ -144,6 +149,7 @@ const GAME_ID_LOOKUP = {
 	tictactoe: true,
 } as const satisfies Readonly<Record<GameId, true>>;
 
+const PLAY_MODE_SET: ReadonlySet<string> = new Set(GAME_PLAY_MODES);
 const CATEGORY_SET: ReadonlySet<string> = new Set(GAME_CATEGORIES);
 const MECHANIC_TAG_SET: ReadonlySet<string> = new Set(MECHANIC_TAGS);
 const INPUT_TAG_SET: ReadonlySet<string> = new Set(INPUT_TAGS);
@@ -153,6 +159,10 @@ const SESSION_LENGTH_TAG_SET: ReadonlySet<string> = new Set(SESSION_LENGTH_TAGS)
 
 export function isGameId(value: unknown): value is GameId {
 	return typeof value === 'string' && Object.hasOwn(GAME_ID_LOOKUP, value);
+}
+
+export function isGamePlayMode(value: unknown): value is GamePlayMode {
+	return typeof value === 'string' && PLAY_MODE_SET.has(value);
 }
 
 export function isGameCategory(value: unknown): value is GameCategory {
@@ -268,7 +278,43 @@ export function validateGameMetadata(candidate: unknown, pathPrefix = ''): Taxon
 		};
 	}
 
-	const { id, route, assets, i18nNamespace, category, tags } = candidate;
+	const { id, route, assets, i18nNamespace, mode, players, category, tags } = candidate;
+
+	if (!isGamePlayMode(mode)) {
+		issues.push({
+			path: `${prefix}mode`,
+			message: `Invalid game mode "${String(mode)}". Expected "singleplayer", "multiplayer", or "both".`,
+		});
+	}
+
+	if (players !== undefined) {
+		if (!isPlainRecord(players)) {
+			issues.push({
+				path: `${prefix}players`,
+				message: 'Expected players to be an object ({ min, max }) when defined.',
+			});
+		} else {
+			const { min, max } = players;
+			if (typeof min !== 'number' || !Number.isInteger(min) || min < 1) {
+				issues.push({
+					path: `${prefix}players.min`,
+					message: 'Expected players.min to be an integer >= 1.',
+				});
+			}
+			if (typeof max !== 'number' || !Number.isInteger(max) || max < 1) {
+				issues.push({
+					path: `${prefix}players.max`,
+					message: 'Expected players.max to be an integer >= 1.',
+				});
+			}
+			if (typeof min === 'number' && typeof max === 'number' && min > max) {
+				issues.push({
+					path: `${prefix}players`,
+					message: `players.min (${min}) cannot exceed players.max (${max}).`,
+				});
+			}
+		}
+	}
 
 	if (!isGameId(id)) {
 		issues.push({
