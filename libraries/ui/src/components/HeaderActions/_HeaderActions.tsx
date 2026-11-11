@@ -5,8 +5,6 @@ import { persistLanguage } from '@arcade/lib-i18n/utils/detection';
 import { Button } from '../Button';
 import { HeaderUserMenu } from '../HeaderUserMenu';
 import { Icon } from '../Icon';
-import { LanguageSwitcher } from '../LanguageSwitcher';
-import { SchemeSwitcher } from '../SchemeSwitcher';
 import { Toolbar } from '../Toolbar';
 import type { HeaderActionsProps } from './_HeaderActions.types';
 
@@ -24,8 +22,6 @@ function HeaderActionsContent({
 
 	return (
 		<Toolbar variant="ghost" size="sm" aria-label={t('switchers.toolbarLabel')}>
-			<LanguageSwitcher activeLanguage={lang} onLanguageChange={handleLanguageChange} />
-			<SchemeSwitcher />
 			<Button
 				as="a"
 				href={`/${lang ?? 'en'}/settings`}
