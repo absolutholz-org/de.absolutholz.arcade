@@ -299,4 +299,5 @@ export const ptCommon = {
 		action_add: 'Adicionar {{game}} aos favoritos',
 		action_remove: 'Remover {{game}} dos favoritos',
 	},
+	curatedPuzzles: 'Navegar por quebra-cabeças predefinidos',
 } as const satisfies CommonTranslationContract;

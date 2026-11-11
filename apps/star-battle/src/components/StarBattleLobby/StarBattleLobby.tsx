@@ -1,13 +1,12 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
+import { Collapsible } from '@arcade/lib-ui/components/Collapsible';
 import { GameSelectionCard } from '@arcade/lib-ui/components/GameSelectionCard';
-import { Icon } from '@arcade/lib-ui/components/Icon';
-import { QuickPlayCard } from '@arcade/lib-ui/components/QuickPlayCard';
 import { SegmentedControl, type SegmentedControlItem } from '@arcade/lib-ui/components/SegmentedControl';
 import { formatTime } from '@arcade/lib-ui/components/Timer';
 import { GameLandingTemplate } from '@arcade/lib-ui/layouts/GameLandingTemplate';
 import { type JSX, useEffect, useState } from 'react';
-import { getPuzzlesByDifficulty } from '../../engine/puzzles';
+import { STAR_BATTLE_PUZZLES, getPuzzlesByDifficulty } from '../../engine/puzzles';
 import { loadActiveGame, loadLastConfig, loadProgress, saveLastConfig } from '../../engine/storage';
 import {
 	DIFFICULTY_LEVELS,
@@ -25,6 +24,7 @@ function LobbyContent(): JSX.Element {
 	const [activeGame, setActiveGame] = useState<GameSnapshot | null>(null);
 	const [progress, setProgress] = useState<ProgressMap>({});
 	const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty>('easy');
+	const [hasActivePuzzleQuery, setHasActivePuzzleQuery] = useState(false);
 
 	useEffect(() => {
 		async function init() {
@@ -41,6 +41,9 @@ function LobbyContent(): JSX.Element {
 			let hasUrlDiff = false;
 			if (typeof window !== 'undefined') {
 				const params = new URLSearchParams(window.location.search);
+				if (params.has('puzzle')) {
+					setHasActivePuzzleQuery(true);
+				}
 				const diff = params.get('difficulty') as Difficulty | null;
 				if (diff && (DIFFICULTY_LEVELS as readonly string[]).includes(diff)) {
 					setSelectedDifficulty(diff);
@@ -58,7 +61,7 @@ function LobbyContent(): JSX.Element {
 				setSelectedDifficulty(lastConfig.difficulty);
 			}
 		}
-		init();
+		void init();
 	}, []);
 
 	const handleSelectDifficulty = (diff: Difficulty) => {
@@ -107,62 +110,90 @@ function LobbyContent(): JSX.Element {
 			pageFooterLinks={pageFooterLinks}
 			offlineGameId="star-battle"
 		>
-			<SegmentedControl
-				items={difficultyItems}
-				value={selectedDifficulty}
-				onChange={(diff) => handleSelectDifficulty(diff as Difficulty)}
-				ariaLabel={t('difficulty.label')}
-			/>
-
-			<S.PuzzlesSection>
-				<h2>{t('levels.selectLevel')}</h2>
-				<S.PuzzlesGrid>
-					<QuickPlayCard
-						key="quick-play"
-						as="a"
-						href={`/star-battle/${language}/game?difficulty=${selectedDifficulty}&random=true&new=true`}
-						onClick={() => {
-							void saveLastConfig({ difficulty: selectedDifficulty });
-						}}
-						title={t('levels.quickPlay')}
-						subtitle={t('levels.quickPlayDesc')}
-						icon={<Icon emoji="🎲" size="md" />}
-					/>
-
-					{currentPuzzles.map((puzzle, index) => {
-						const puzzleNum = index + 1;
-						const puzzleData = progress[puzzle.id];
-						const isDone = Boolean(puzzleData?.completed);
-						const bestTime = puzzleData?.bestTime;
+			<S.Section aria-labelledby="star-battle-quickplay-title">
+				<h2 id="star-battle-quickplay-title">{t('difficulty.label')}</h2>
+				<S.QuickPlayGrid>
+					{DIFFICULTY_LEVELS.map((diff) => {
+						const size = GRID_SIZES[diff];
+						const puzzles = getPuzzlesByDifficulty(diff);
+						const solvedCount = puzzles.filter((p) => progress[p.id]?.completed).length;
 
 						return (
 							<GameSelectionCard
-								key={puzzle.id}
+								key={diff}
 								as="a"
-								href={`/star-battle/${language}/game?puzzle=${puzzle.id}&new=true`}
+								href={`/star-battle/${language}/game?difficulty=${diff}&random=true&new=true`}
 								onClick={() => {
-									void saveLastConfig({ difficulty: selectedDifficulty });
+									void saveLastConfig({ difficulty: diff });
 								}}
-								title={t('levels.puzzleNum', { number: puzzleNum })}
-								dimensions={`${puzzle.size}×${puzzle.size}`}
-								subtitle={
-									bestTime !== undefined
-										? t('levels.bestTime', { time: formatTime(bestTime) })
-										: undefined
-								}
+								title={t(`difficulty.${diff}`)}
+								dimensions={`${size}×${size}`}
+								subtitle={t(`difficulty.${diff}Desc` as 'difficulty.easyDesc')}
 								badge={
-									isDone
+									solvedCount > 0
 										? {
-												label: t('levels.completed'),
-												variant: 'success',
+												label: `${solvedCount}/${puzzles.length} ${t('levels.completed')}`,
+												variant: solvedCount === puzzles.length ? 'success' : 'neutral',
 											}
 										: undefined
 								}
 							/>
 						);
 					})}
-				</S.PuzzlesGrid>
-			</S.PuzzlesSection>
+				</S.QuickPlayGrid>
+			</S.Section>
+
+			<S.ArchiveWrapper>
+				<Collapsible
+					title={tCommon('curatedPuzzles')}
+					count={STAR_BATTLE_PUZZLES.length}
+					defaultOpen={hasActivePuzzleQuery}
+				>
+					<S.ArchiveContent>
+						<SegmentedControl
+							items={difficultyItems}
+							value={selectedDifficulty}
+							onChange={(diff) => handleSelectDifficulty(diff as Difficulty)}
+							ariaLabel={t('difficulty.label')}
+						/>
+
+						<S.PuzzlesGrid>
+							{currentPuzzles.map((puzzle, index) => {
+								const puzzleNum = index + 1;
+								const puzzleData = progress[puzzle.id];
+								const isDone = Boolean(puzzleData?.completed);
+								const bestTime = puzzleData?.bestTime;
+
+								return (
+									<GameSelectionCard
+										key={puzzle.id}
+										as="a"
+										href={`/star-battle/${language}/game?puzzle=${puzzle.id}&new=true`}
+										onClick={() => {
+											void saveLastConfig({ difficulty: selectedDifficulty });
+										}}
+										title={t('levels.puzzleNum', { number: puzzleNum })}
+										dimensions={`${puzzle.size}×${puzzle.size}`}
+										subtitle={
+											bestTime !== undefined
+												? t('levels.bestTime', { time: formatTime(bestTime) })
+												: undefined
+										}
+										badge={
+											isDone
+												? {
+														label: t('levels.completed'),
+														variant: 'success',
+													}
+												: undefined
+										}
+									/>
+								);
+							})}
+						</S.PuzzlesGrid>
+					</S.ArchiveContent>
+				</Collapsible>
+			</S.ArchiveWrapper>
 		</GameLandingTemplate>
 	);
 }

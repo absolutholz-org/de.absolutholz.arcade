@@ -6,11 +6,17 @@ export const enSudoku = {
 	difficulty: {
 		label: 'Difficulty',
 		easy: 'Easy',
+		easyDesc: 'Gentle starting board with plenty of initial clues',
 		medium: 'Medium',
+		mediumDesc: 'Balanced 9×9 grid requiring single-candidate logic',
 		hard: 'Hard',
+		hardDesc: 'Challenging puzzle requiring hidden pairs and block elimination',
 		veryHard: 'Very Hard',
+		veryHardDesc: 'Advanced logic puzzle with pointing pairs and box-line reductions',
 		insane: 'Insane',
+		insaneDesc: 'Expert-tier grid featuring X-Wings, swordfish, and complex chains',
 		inhuman: 'Inhuman',
+		inhumanDesc: 'Master-level puzzle requiring near-exhaustive deduction techniques',
 	},
 	controls: {
 		undo: 'Undo',

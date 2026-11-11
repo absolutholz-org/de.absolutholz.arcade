@@ -6,11 +6,17 @@ export const deSudoku = {
 	difficulty: {
 		label: 'Schwierigkeitsgrad',
 		easy: 'Leicht',
+		easyDesc: 'Sanftes Startfeld mit vielen vorgegebenen Hinweisen',
 		medium: 'Mittel',
+		mediumDesc: 'Ausgewogenes 9×9-Gitter mit grundlegender Logik',
 		hard: 'Schwer',
+		hardDesc: 'Anspruchsvolles Rätsel mit versteckten Paaren und Blockausschluss',
 		veryHard: 'Sehr schwer',
+		veryHardDesc: 'Fortgeschrittene Logik mit Schnittmengen und Linienausschluss',
 		insane: 'Wahnsinnig',
+		insaneDesc: 'Experten-Gitter mit X-Wings, Swordfish und komplexen Ketten',
 		inhuman: 'Unmenschlich',
+		inhumanDesc: 'Meister-Rätsel, das tiefste Deduktionstechniken erfordert',
 	},
 	controls: {
 		undo: 'Rückgängig',

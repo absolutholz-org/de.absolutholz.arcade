@@ -6,11 +6,17 @@ export const ptSudoku = {
 	difficulty: {
 		label: 'Dificuldade',
 		easy: 'Fácil',
+		easyDesc: 'Tabuleiro inicial simples com muitas pistas predefinidas',
 		medium: 'Médio',
+		mediumDesc: 'Grade 9×9 equilibrada exigindo lógica de candidato único',
 		hard: 'Difícil',
+		hardDesc: 'Desafio exigente que requer pares ocultos e eliminação de blocos',
 		veryHard: 'Muito difícil',
+		veryHardDesc: 'Lógica avançada com pares apontados e reduções de linha',
 		insane: 'Insano',
+		insaneDesc: 'Grade para especialistas com X-Wings, swordfish e cadeias complexas',
 		inhuman: 'Desumano',
+		inhumanDesc: 'Nível mestre que requer técnicas de dedução quase exaustivas',
 	},
 	controls: {
 		undo: 'Desfazer',

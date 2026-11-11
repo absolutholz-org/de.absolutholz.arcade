@@ -37,44 +37,40 @@ export function GameLandingTemplate({
 	const resolvedTagsAriaLabel = tagsAriaLabel ?? gameAttributesAriaLabel;
 
 	return (
-		<S.Root>
+		<>
 			{/* Zone 1: Header / Intro */}
-			<S.HeaderZone>
+			<PageContainer>
+				<Hero
+					eyebrow={resolvedCategory}
+					title={title}
+					tagline={description}
+					tags={resolvedTags}
+					tagsAriaLabel={resolvedTagsAriaLabel}
+					logo={heroIcon}
+					actions={
+						offlineGameId ? (
+							<GameActionBar gameId={offlineGameId} gameTitle={title} justify="start" />
+						) : null
+					}
+				/>
+			</PageContainer>
+			{resumeState && (
 				<PageContainer>
-					<Hero
-						eyebrow={resolvedCategory}
-						title={title}
-						tagline={description}
-						tags={resolvedTags}
-						tagsAriaLabel={resolvedTagsAriaLabel}
-						logo={heroIcon}
-						actions={
-							offlineGameId ? (
-								<GameActionBar gameId={offlineGameId} gameTitle={title} justify="start" />
-							) : null
+					<Banner
+						variant="info"
+						statusLabel="Resume"
+						message={resumeState.message}
+						action={
+							<Button variant="primary" size="md" onClick={resumeState.onResume}>
+								{resumeState.buttonLabel ?? 'Resume'}
+							</Button>
 						}
 					/>
 				</PageContainer>
-				{resumeState && (
-					<PageContainer>
-						<Banner
-							variant="info"
-							statusLabel="Resume"
-							message={resumeState.message}
-							action={
-								<Button variant="primary" size="md" onClick={resumeState.onResume}>
-									{resumeState.buttonLabel ?? 'Resume'}
-								</Button>
-							}
-						/>
-					</PageContainer>
-				)}
-			</S.HeaderZone>
+			)}
 
 			{/* Zone 2: Main Area */}
-			<PageContainer variant={mainContainerVariant}>
-				<S.MainZone>{children}</S.MainZone>
-			</PageContainer>
+			<PageContainer variant={mainContainerVariant}>{children}</PageContainer>
 
 			{/* Zone 3: Game Page Footer */}
 			{pageFooterLinks && pageFooterLinks.length > 0 && (
@@ -99,6 +95,6 @@ export function GameLandingTemplate({
 					</S.FooterZone>
 				</PageContainer>
 			)}
-		</S.Root>
+		</>
 	);
 }

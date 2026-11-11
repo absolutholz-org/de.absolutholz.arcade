@@ -6,11 +6,17 @@ export const sudokuSchema = {
 	difficulty: {
 		label: 'difficulty.label',
 		easy: 'difficulty.easy',
+		easyDesc: 'difficulty.easyDesc',
 		medium: 'difficulty.medium',
+		mediumDesc: 'difficulty.mediumDesc',
 		hard: 'difficulty.hard',
+		hardDesc: 'difficulty.hardDesc',
 		veryHard: 'difficulty.veryHard',
+		veryHardDesc: 'difficulty.veryHardDesc',
 		insane: 'difficulty.insane',
+		insaneDesc: 'difficulty.insaneDesc',
 		inhuman: 'difficulty.inhuman',
+		inhumanDesc: 'difficulty.inhumanDesc',
 	},
 	controls: {
 		undo: 'controls.undo',

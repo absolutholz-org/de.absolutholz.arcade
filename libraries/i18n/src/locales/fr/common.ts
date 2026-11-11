@@ -301,4 +301,5 @@ export const frCommon = {
 		action_add: 'Ajouter {{game}} aux favoris',
 		action_remove: 'Retirer {{game}} des favoris',
 	},
+	curatedPuzzles: 'Parcourir les puzzles prédéfinis',
 } as const satisfies CommonTranslationContract;

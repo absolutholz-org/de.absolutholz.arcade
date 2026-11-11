@@ -1,13 +1,12 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
+import { Collapsible } from '@arcade/lib-ui/components/Collapsible';
 import { GameSelectionCard } from '@arcade/lib-ui/components/GameSelectionCard';
-import { Icon } from '@arcade/lib-ui/components/Icon';
-import { QuickPlayCard } from '@arcade/lib-ui/components/QuickPlayCard';
 import { SegmentedControl, type SegmentedControlItem } from '@arcade/lib-ui/components/SegmentedControl';
 import { formatTime } from '@arcade/lib-ui/components/Timer';
 import { GameLandingTemplate } from '@arcade/lib-ui/layouts/GameLandingTemplate';
 import { type JSX, useEffect, useState } from 'react';
-import { getPresetsByDifficulty } from '../../engine/presets/index.js';
+import { PRESET_CATALOG, getPresetsByDifficulty } from '../../engine/presets/index.js';
 import { loadActiveGame, loadLastConfig, loadProgress, saveLastConfig } from '../../engine/storage.js';
 import {
 	DIFFICULTY_CONFIG,
@@ -41,6 +40,7 @@ function LobbyContent({ initialDifficulty }: { initialDifficulty?: DifficultyLev
 	const [selectedDifficulty, setSelectedDifficulty] = useState<DifficultyLevel>(() =>
 		getInitialLobbyDifficulty(initialDifficulty),
 	);
+	const [hasActivePuzzleQuery, setHasActivePuzzleQuery] = useState(false);
 
 	useEffect(() => {
 		async function init() {
@@ -53,6 +53,9 @@ function LobbyContent({ initialDifficulty }: { initialDifficulty?: DifficultyLev
 			let hasUrlDiff = false;
 			if (typeof window !== 'undefined') {
 				const params = new URLSearchParams(window.location.search);
+				if (params.has('puzzle')) {
+					setHasActivePuzzleQuery(true);
+				}
 				const queryDiff = params.get('difficulty') as DifficultyLevel | null;
 				if (queryDiff && (DIFFICULTY_LEVELS as readonly string[]).includes(queryDiff)) {
 					setSelectedDifficulty(queryDiff);
@@ -70,7 +73,7 @@ function LobbyContent({ initialDifficulty }: { initialDifficulty?: DifficultyLev
 				setSelectedDifficulty(lastConfig.difficulty);
 			}
 		}
-		init();
+		void init();
 	}, []);
 
 	const handleSelectDifficulty = (diff: DifficultyLevel) => {
@@ -110,6 +113,7 @@ function LobbyContent({ initialDifficulty }: { initialDifficulty?: DifficultyLev
 	];
 
 	const presets = getPresetsByDifficulty(selectedDifficulty);
+	const totalCuratedCount = Object.values(PRESET_CATALOG).reduce((acc, list) => acc + list.length, 0);
 
 	return (
 		<GameLandingTemplate
@@ -119,64 +123,93 @@ function LobbyContent({ initialDifficulty }: { initialDifficulty?: DifficultyLev
 			pageFooterLinks={pageFooterLinks}
 			offlineGameId="liquid-sort"
 		>
-			<SegmentedControl
-				items={difficultyItems}
-				value={selectedDifficulty}
-				onChange={(val) => handleSelectDifficulty(val as DifficultyLevel)}
-				ariaLabel={t('difficulty.label')}
-			/>
-
-			<S.PuzzlesSection aria-labelledby="liquid-sort-puzzles-section-title">
-				<h2 id="liquid-sort-puzzles-section-title">
-					{t('levels.selectLevel')} ({t(`difficulty.${selectedDifficulty}` as Parameters<typeof t>[0])})
-				</h2>
-
-				<QuickPlayCard
-					title={t('levels.quickPlay')}
-					subtitle={t('levels.quickPlayDesc')}
-					actionLabel={t('controls.play')}
-					icon={<Icon emoji="🎲" size="md" />}
-					as="a"
-					href={`/liquid-sort/${language}/game?difficulty=${selectedDifficulty}&new=true`}
-					onClick={() => {
-						void saveLastConfig({ difficulty: selectedDifficulty });
-					}}
-				/>
-
-				<S.PuzzlesGrid>
-					{presets.map((preset) => {
-						const puzzleRecord = progress[`${selectedDifficulty}-${preset.level}`] ?? progress[preset.id];
-						const isCompleted = Boolean(puzzleRecord?.completed);
-
-						const subtitle =
-							puzzleRecord?.bestTime !== undefined
-								? t('levels.bestTime', { time: formatTime(puzzleRecord.bestTime) })
-								: undefined;
+			<S.Section aria-labelledby="liquid-sort-quickplay-title">
+				<h2 id="liquid-sort-quickplay-title">{t('difficulty.label')}</h2>
+				<S.QuickPlayGrid>
+					{DIFFICULTY_LEVELS.map((diff) => {
+						const cfg = DIFFICULTY_CONFIG[diff];
+						const diffPresets = getPresetsByDifficulty(diff);
+						const solvedCount = diffPresets.filter((p) => {
+							const rec = progress[`${diff}-${p.level}`] ?? progress[p.id];
+							return rec?.completed;
+						}).length;
 
 						return (
 							<GameSelectionCard
-								key={preset.id}
+								key={diff}
 								as="a"
-								href={`/liquid-sort/${language}/game?difficulty=${selectedDifficulty}&seed=${preset.level}&puzzle=${preset.id}&new=true`}
+								href={`/liquid-sort/${language}/game?difficulty=${diff}&new=true`}
 								onClick={() => {
-									void saveLastConfig({ difficulty: selectedDifficulty });
+									void saveLastConfig({ difficulty: diff });
 								}}
-								title={t('levels.puzzleNum', { number: String(preset.level) })}
-								dimensions={`${DIFFICULTY_CONFIG[selectedDifficulty].colorCount + DIFFICULTY_CONFIG[selectedDifficulty].emptyTubes} tubes`}
-								subtitle={subtitle}
+								title={t(`difficulty.${diff}` as Parameters<typeof t>[0])}
+								dimensions={`${cfg.colorCount} colors`}
+								subtitle={t(`difficulty.${diff}Desc` as Parameters<typeof t>[0])}
 								badge={
-									isCompleted
+									solvedCount > 0
 										? {
-												label: t('levels.completed'),
-												variant: 'success',
+												label: `${solvedCount}/${diffPresets.length} ${t('levels.completed')}`,
+												variant: solvedCount === diffPresets.length ? 'success' : 'neutral',
 											}
 										: undefined
 								}
 							/>
 						);
 					})}
-				</S.PuzzlesGrid>
-			</S.PuzzlesSection>
+				</S.QuickPlayGrid>
+			</S.Section>
+
+			<S.ArchiveWrapper>
+				<Collapsible
+					title={tCommon('curatedPuzzles')}
+					count={totalCuratedCount}
+					defaultOpen={hasActivePuzzleQuery}
+				>
+					<S.ArchiveContent>
+						<SegmentedControl
+							items={difficultyItems}
+							value={selectedDifficulty}
+							onChange={(val) => handleSelectDifficulty(val as DifficultyLevel)}
+							ariaLabel={t('difficulty.label')}
+						/>
+
+						<S.PuzzlesGrid>
+							{presets.map((preset) => {
+								const puzzleRecord =
+									progress[`${selectedDifficulty}-${preset.level}`] ?? progress[preset.id];
+								const isCompleted = Boolean(puzzleRecord?.completed);
+
+								const subtitle =
+									puzzleRecord?.bestTime !== undefined
+										? t('levels.bestTime', { time: formatTime(puzzleRecord.bestTime) })
+										: undefined;
+
+								return (
+									<GameSelectionCard
+										key={preset.id}
+										as="a"
+										href={`/liquid-sort/${language}/game?difficulty=${selectedDifficulty}&seed=${preset.level}&puzzle=${preset.id}&new=true`}
+										onClick={() => {
+											void saveLastConfig({ difficulty: selectedDifficulty });
+										}}
+										title={t('levels.puzzleNum', { number: String(preset.level) })}
+										dimensions={`${DIFFICULTY_CONFIG[selectedDifficulty].colorCount + DIFFICULTY_CONFIG[selectedDifficulty].emptyTubes} tubes`}
+										subtitle={subtitle}
+										badge={
+											isCompleted
+												? {
+														label: t('levels.completed'),
+														variant: 'success',
+													}
+												: undefined
+										}
+									/>
+								);
+							})}
+						</S.PuzzlesGrid>
+					</S.ArchiveContent>
+				</Collapsible>
+			</S.ArchiveWrapper>
 		</GameLandingTemplate>
 	);
 }

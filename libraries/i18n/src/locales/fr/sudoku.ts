@@ -6,11 +6,17 @@ export const frSudoku = {
 	difficulty: {
 		label: 'Difficulté',
 		easy: 'Facile',
+		easyDesc: 'Grille de départ simple avec de nombreux indices initiaux',
 		medium: 'Moyen',
+		mediumDesc: 'Grille 9×9 équilibrée nécessitant une logique simple',
 		hard: 'Difficile',
+		hardDesc: 'Casse-tête exigeant nécessitant paires cachées et éliminations',
 		veryHard: 'Très difficile',
+		veryHardDesc: 'Logique avancée avec paires pointées et réductions de lignes',
 		insane: 'Dément',
+		insaneDesc: 'Grille experte avec X-Wings, swordfish et chaînes complexes',
 		inhuman: 'Inhumain',
+		inhumanDesc: 'Niveau maître exigeant des techniques de déduction quasi-exhaustives',
 	},
 	controls: {
 		undo: 'Annuler',

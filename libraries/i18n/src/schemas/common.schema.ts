@@ -287,6 +287,7 @@ export const commonSchema = {
 		action_add: 'favorites.action_add',
 		action_remove: 'favorites.action_remove',
 	},
+	curatedPuzzles: 'curatedPuzzles',
 } as const;
 
 export type CommonSchema = typeof commonSchema;

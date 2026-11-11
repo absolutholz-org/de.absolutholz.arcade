@@ -26,4 +26,6 @@ export { GameActionBar } from './components/GameActionBar';
 export type { GameActionBarProps } from './components/GameActionBar/_GameActionBar.types';
 export { TurnDialog } from './components/TurnDialog';
 export type { TurnDialogProps } from './components/TurnDialog/_TurnDialog.types';
+export { Collapsible } from './components/Collapsible';
+export type { CollapsibleProps, CollapsibleVariant } from './components/Collapsible/_Collapsible.types';
 export { useFavorites, type UseFavoritesReturn } from '@arcade/lib-user';

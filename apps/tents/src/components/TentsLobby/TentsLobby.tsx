@@ -1,13 +1,12 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
+import { Collapsible } from '@arcade/lib-ui/components/Collapsible';
 import { GameSelectionCard } from '@arcade/lib-ui/components/GameSelectionCard';
-import { Icon } from '@arcade/lib-ui/components/Icon';
-import { QuickPlayCard } from '@arcade/lib-ui/components/QuickPlayCard';
 import { SegmentedControl, type SegmentedControlItem } from '@arcade/lib-ui/components/SegmentedControl';
 import { formatTime } from '@arcade/lib-ui/components/Timer';
 import { GameLandingTemplate } from '@arcade/lib-ui/layouts/GameLandingTemplate';
 import { type JSX, useEffect, useState } from 'react';
-import { getPresetById, getPresetsByDifficulty } from '../../engine/presets/index.ts';
+import { COMPACT_PRESETS, getPresetById, getPresetsByDifficulty } from '../../engine/presets/index.ts';
 import { loadActiveGame, loadLastConfig, loadProgress, saveLastConfig } from '../../engine/storage.ts';
 import {
 	DIFFICULTY_GRID_SIZES,
@@ -16,8 +15,8 @@ import {
 	type GameSnapshot,
 	type ProgressMap,
 } from '../../engine/types.ts';
-import * as S from './TentsLobby.styles.js';
-import type { TentsLobbyProps } from './TentsLobby.types.js';
+import * as S from './TentsLobby.styles.ts';
+import type { TentsLobbyProps } from './TentsLobby.types.ts';
 
 function getInitialLobbyDifficulty(): DifficultyLevel {
 	if (typeof window !== 'undefined') {
@@ -36,6 +35,7 @@ function LobbyContent(): JSX.Element {
 	const [activeGame, setActiveGame] = useState<GameSnapshot | null>(null);
 	const [progress, setProgress] = useState<ProgressMap>({});
 	const [selectedDifficulty, setSelectedDifficulty] = useState<DifficultyLevel>(getInitialLobbyDifficulty);
+	const [hasActivePuzzleQuery, setHasActivePuzzleQuery] = useState(false);
 
 	useEffect(() => {
 		async function init() {
@@ -52,6 +52,9 @@ function LobbyContent(): JSX.Element {
 
 			if (typeof window !== 'undefined') {
 				const params = new URLSearchParams(window.location.search);
+				if (params.has('puzzle')) {
+					setHasActivePuzzleQuery(true);
+				}
 				const diff = params.get('difficulty') as DifficultyLevel | null;
 				if (diff && (DIFFICULTY_LEVELS as readonly string[]).includes(diff)) {
 					setSelectedDifficulty(diff);
@@ -85,7 +88,7 @@ function LobbyContent(): JSX.Element {
 				setSelectedDifficulty(latestDiff);
 			}
 		}
-		init();
+		void init();
 	}, []);
 
 	const handleSelectDifficulty = (diff: DifficultyLevel) => {
@@ -135,63 +138,88 @@ function LobbyContent(): JSX.Element {
 			pageFooterLinks={pageFooterLinks}
 			offlineGameId="tents"
 		>
-			<SegmentedControl
-				items={difficultyItems}
-				value={selectedDifficulty}
-				onChange={(diff) => handleSelectDifficulty(diff as DifficultyLevel)}
-				ariaLabel={t('difficulty.label')}
-			/>
-
-			<S.PuzzlesSection aria-labelledby="tents-puzzles-section-title">
-				<h2 id="tents-puzzles-section-title">
-					{t('levels.selectLevel')} ({t(`difficulty.${selectedDifficulty}`)})
-				</h2>
-
-				<S.PuzzlesGrid>
-					<QuickPlayCard
-						key="quick-play"
-						as="a"
-						href={`/tents/${language}/game?difficulty=${selectedDifficulty}&random=true&new=true`}
-						onClick={() => {
-							void saveLastConfig({ difficulty: selectedDifficulty });
-						}}
-						title={t('levels.quickPlay')}
-						subtitle={t('levels.quickPlayDesc')}
-						icon={<Icon emoji="🎲" size="md" />}
-					/>
-
-					{currentPuzzles.map((puzzle, index) => {
-						const puzzleRecord = progress[puzzle.id];
-						const isCompleted = Boolean(puzzleRecord?.completed);
+			<S.Section aria-labelledby="tents-quickplay-title">
+				<h2 id="tents-quickplay-title">{t('difficulty.label')}</h2>
+				<S.QuickPlayGrid>
+					{DIFFICULTY_LEVELS.map((diff) => {
+						const size = DIFFICULTY_GRID_SIZES[diff];
+						const presets = getPresetsByDifficulty(diff);
+						const solvedCount = presets.filter((p) => progress[p.id]?.completed).length;
 
 						return (
 							<GameSelectionCard
-								key={puzzle.id}
+								key={diff}
 								as="a"
-								href={`/tents/${language}/game?difficulty=${selectedDifficulty}&puzzle=${puzzle.id}&new=true`}
+								href={`/tents/${language}/game?difficulty=${diff}&random=true&new=true`}
 								onClick={() => {
-									void saveLastConfig({ difficulty: selectedDifficulty });
+									void saveLastConfig({ difficulty: diff });
 								}}
-								title={t('levels.puzzleNum', { number: String(index + 1) })}
-								dimensions={t('levels.gridSize', { size: String(puzzle.size) })}
-								subtitle={
-									puzzleRecord?.bestTime !== undefined
-										? t('levels.bestTime', { time: formatTime(puzzleRecord.bestTime) })
-										: undefined
-								}
+								title={t(`difficulty.${diff}`)}
+								dimensions={`${size.width}×${size.height}`}
+								subtitle={t(`difficulty.${diff}Desc` as 'difficulty.easyDesc')}
 								badge={
-									isCompleted
+									solvedCount > 0
 										? {
-												label: t('levels.completed'),
-												variant: 'success',
+												label: `${solvedCount}/${presets.length} ${t('levels.completed')}`,
+												variant: solvedCount === presets.length ? 'success' : 'neutral',
 											}
 										: undefined
 								}
 							/>
 						);
 					})}
-				</S.PuzzlesGrid>
-			</S.PuzzlesSection>
+				</S.QuickPlayGrid>
+			</S.Section>
+
+			<S.ArchiveWrapper>
+				<Collapsible
+					title={tCommon('curatedPuzzles')}
+					count={COMPACT_PRESETS.length}
+					defaultOpen={hasActivePuzzleQuery}
+				>
+					<S.ArchiveContent>
+						<SegmentedControl
+							items={difficultyItems}
+							value={selectedDifficulty}
+							onChange={(diff) => handleSelectDifficulty(diff as DifficultyLevel)}
+							ariaLabel={t('difficulty.label')}
+						/>
+
+						<S.PuzzlesGrid>
+							{currentPuzzles.map((puzzle, index) => {
+								const puzzleRecord = progress[puzzle.id];
+								const isCompleted = Boolean(puzzleRecord?.completed);
+
+								return (
+									<GameSelectionCard
+										key={puzzle.id}
+										as="a"
+										href={`/tents/${language}/game?puzzle=${puzzle.id}&new=true`}
+										onClick={() => {
+											void saveLastConfig({ difficulty: selectedDifficulty });
+										}}
+										title={t('levels.puzzleNum', { number: String(index + 1) })}
+										dimensions={`${puzzle.size}×${puzzle.size}`}
+										subtitle={
+											puzzleRecord?.bestTime !== undefined
+												? t('levels.bestTime', { time: formatTime(puzzleRecord.bestTime) })
+												: undefined
+										}
+										badge={
+											isCompleted
+												? {
+														label: t('levels.completed'),
+														variant: 'success',
+													}
+												: undefined
+										}
+									/>
+								);
+							})}
+						</S.PuzzlesGrid>
+					</S.ArchiveContent>
+				</Collapsible>
+			</S.ArchiveWrapper>
 		</GameLandingTemplate>
 	);
 }

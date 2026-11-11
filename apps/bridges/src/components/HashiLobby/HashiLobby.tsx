@@ -1,13 +1,12 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
+import { Collapsible } from '@arcade/lib-ui/components/Collapsible';
 import { GameSelectionCard } from '@arcade/lib-ui/components/GameSelectionCard';
-import { Icon } from '@arcade/lib-ui/components/Icon';
-import { QuickPlayCard } from '@arcade/lib-ui/components/QuickPlayCard';
 import { SegmentedControl, type SegmentedControlItem } from '@arcade/lib-ui/components/SegmentedControl';
 import { formatTime } from '@arcade/lib-ui/components/Timer';
 import { GameLandingTemplate } from '@arcade/lib-ui/layouts/GameLandingTemplate';
 import { type JSX, useEffect, useState } from 'react';
-import { getPuzzleById, getPuzzlesByDifficulty } from '../../engine/puzzles.js';
+import { STATIC_PUZZLES, getPuzzleById, getPuzzlesByDifficulty } from '../../engine/puzzles.js';
 import { loadActiveGame, loadLastConfig, loadProgress, saveLastConfig } from '../../engine/storage.js';
 import {
 	DIFFICULTY_GRID_SIZES,
@@ -36,6 +35,7 @@ function LobbyContent(): JSX.Element {
 	const [activeGame, setActiveGame] = useState<GameSnapshot | null>(null);
 	const [progress, setProgress] = useState<ProgressMap>({});
 	const [selectedDifficulty, setSelectedDifficulty] = useState<DifficultyLevel>(getInitialLobbyDifficulty);
+	const [hasActivePuzzleQuery, setHasActivePuzzleQuery] = useState(false);
 
 	useEffect(() => {
 		async function init() {
@@ -53,6 +53,9 @@ function LobbyContent(): JSX.Element {
 			let hasUrlDiff = false;
 			if (typeof window !== 'undefined') {
 				const params = new URLSearchParams(window.location.search);
+				if (params.has('puzzle')) {
+					setHasActivePuzzleQuery(true);
+				}
 				const diff = params.get('difficulty') as DifficultyLevel | null;
 				if (diff && (DIFFICULTY_LEVELS as readonly string[]).includes(diff)) {
 					setSelectedDifficulty(diff);
@@ -86,7 +89,7 @@ function LobbyContent(): JSX.Element {
 				}
 			}
 		}
-		init();
+		void init();
 	}, []);
 
 	const handleSelectDifficulty = (diff: DifficultyLevel) => {
@@ -101,6 +104,7 @@ function LobbyContent(): JSX.Element {
 
 	const currentPuzzles = getPuzzlesByDifficulty(selectedDifficulty);
 	const currentGrid = DIFFICULTY_GRID_SIZES[selectedDifficulty];
+	const totalCuratedCount = Object.values(STATIC_PUZZLES).reduce((acc, list) => acc + list.length, 0);
 
 	const resumeState = activeGame
 		? {
@@ -136,63 +140,88 @@ function LobbyContent(): JSX.Element {
 			pageFooterLinks={pageFooterLinks}
 			offlineGameId="bridges"
 		>
-			<SegmentedControl
-				items={difficultyItems}
-				value={selectedDifficulty}
-				onChange={(diff) => handleSelectDifficulty(diff as DifficultyLevel)}
-				ariaLabel={t('difficulty.label')}
-			/>
-
-			<S.PuzzlesSection aria-labelledby="puzzles-section-title">
-				<h2 id="puzzles-section-title">
-					{t('levels.selectLevel')} ({t(`difficulty.${selectedDifficulty}`)})
-				</h2>
-
-				<S.PuzzlesGrid>
-					<QuickPlayCard
-						key="quick-play"
-						as="a"
-						href={`/bridges/${language}/game?difficulty=${selectedDifficulty}&random=true&new=true`}
-						onClick={() => {
-							void saveLastConfig({ difficulty: selectedDifficulty });
-						}}
-						title={t('levels.quickPlay')}
-						subtitle={t('levels.quickPlayDesc')}
-						icon={<Icon emoji="🎲" size="md" />}
-					/>
-
-					{currentPuzzles.map((puzzle, index) => {
-						const puzzleRecord = progress[puzzle.id];
-						const isCompleted = Boolean(puzzleRecord?.completed);
+			<S.Section aria-labelledby="bridges-quickplay-title">
+				<h2 id="bridges-quickplay-title">{t('difficulty.label')}</h2>
+				<S.QuickPlayGrid>
+					{DIFFICULTY_LEVELS.map((diff) => {
+						const size = DIFFICULTY_GRID_SIZES[diff];
+						const puzzles = getPuzzlesByDifficulty(diff);
+						const solvedCount = puzzles.filter((p) => progress[p.id]?.completed).length;
 
 						return (
 							<GameSelectionCard
-								key={puzzle.id}
+								key={diff}
 								as="a"
-								href={`/bridges/${language}/game?difficulty=${selectedDifficulty}&puzzle=${puzzle.id}&new=true`}
+								href={`/bridges/${language}/game?difficulty=${diff}&random=true&new=true`}
 								onClick={() => {
-									void saveLastConfig({ difficulty: selectedDifficulty });
+									void saveLastConfig({ difficulty: diff });
 								}}
-								title={t('levels.puzzleNum', { number: String(index + 1) })}
-								dimensions={`${currentGrid.width}×${currentGrid.height}`}
-								subtitle={
-									puzzleRecord?.bestTime !== undefined
-										? t('levels.bestTime', { time: formatTime(puzzleRecord.bestTime) })
-										: undefined
-								}
+								title={t(`difficulty.${diff}`)}
+								dimensions={`${size.width}×${size.height}`}
+								subtitle={t(`difficulty.${diff}Desc` as 'difficulty.beginnerDesc')}
 								badge={
-									isCompleted
+									solvedCount > 0
 										? {
-												label: t('levels.completed'),
-												variant: 'success',
+												label: `${solvedCount}/${puzzles.length} ${t('levels.completed')}`,
+												variant: solvedCount === puzzles.length ? 'success' : 'neutral',
 											}
 										: undefined
 								}
 							/>
 						);
 					})}
-				</S.PuzzlesGrid>
-			</S.PuzzlesSection>
+				</S.QuickPlayGrid>
+			</S.Section>
+
+			<S.ArchiveWrapper>
+				<Collapsible
+					title={tCommon('curatedPuzzles')}
+					count={totalCuratedCount}
+					defaultOpen={hasActivePuzzleQuery}
+				>
+					<S.ArchiveContent>
+						<SegmentedControl
+							items={difficultyItems}
+							value={selectedDifficulty}
+							onChange={(diff) => handleSelectDifficulty(diff as DifficultyLevel)}
+							ariaLabel={t('difficulty.label')}
+						/>
+
+						<S.PuzzlesGrid>
+							{currentPuzzles.map((puzzle, index) => {
+								const puzzleRecord = progress[puzzle.id];
+								const isCompleted = Boolean(puzzleRecord?.completed);
+
+								return (
+									<GameSelectionCard
+										key={puzzle.id}
+										as="a"
+										href={`/bridges/${language}/game?difficulty=${selectedDifficulty}&puzzle=${puzzle.id}&new=true`}
+										onClick={() => {
+											void saveLastConfig({ difficulty: selectedDifficulty });
+										}}
+										title={t('levels.puzzleNum', { number: String(index + 1) })}
+										dimensions={`${currentGrid.width}×${currentGrid.height}`}
+										subtitle={
+											puzzleRecord?.bestTime !== undefined
+												? t('levels.bestTime', { time: formatTime(puzzleRecord.bestTime) })
+												: undefined
+										}
+										badge={
+											isCompleted
+												? {
+														label: t('levels.completed'),
+														variant: 'success',
+													}
+												: undefined
+										}
+									/>
+								);
+							})}
+						</S.PuzzlesGrid>
+					</S.ArchiveContent>
+				</Collapsible>
+			</S.ArchiveWrapper>
 		</GameLandingTemplate>
 	);
 }

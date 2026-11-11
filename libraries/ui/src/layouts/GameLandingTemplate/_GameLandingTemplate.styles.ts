@@ -3,28 +3,7 @@ import { focusVisibleRing } from '../../styles/focus.css';
 import { space } from '../../styles/spacing';
 import { themeColor } from '../../styles/theme/theme.utils';
 
-export const Root = styled.div`
-	display: flex;
-	flex-direction: column;
-	gap: ${space('2xl')};
-	width: 100%;
-	padding-top: ${space('lg')};
-	padding-bottom: ${space('2xl')};
-`;
-
-export const HeaderZone = styled.div`
-	display: flex;
-	flex-direction: column;
-	gap: ${space('lg')};
-	width: 100%;
-`;
-
-export const MainZone = styled.main`
-	width: 100%;
-`;
-
 export const FooterZone = styled.footer`
-	width: 100%;
 	border-top: 1px solid ${themeColor('container-2')};
 	padding-top: ${space('xl')};
 `;
