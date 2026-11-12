@@ -14,10 +14,8 @@ export function AnagramControls({
 	onClear,
 	onSubmit,
 	onReveal,
-	onNewRound,
 }: AnagramControlsProps): JSX.Element {
 	const { t } = useI18n('anagram');
-	const { t: tCommon } = useI18n('common');
 
 	return (
 		<S.ControlsContainer>
@@ -68,16 +66,6 @@ export function AnagramControls({
 						<span>{t('controls.reveal')}</span>
 					</S.ActionButton>
 				)}
-
-				<S.ActionButton
-					type="button"
-					onClick={onNewRound}
-					aria-label={tCommon('actions.restart')}
-					title={tCommon('actions.restart')}
-				>
-					<Icon name="rotate-ccw" size="sm" />
-					<span>{tCommon('actions.restart')}</span>
-				</S.ActionButton>
 			</S.ActionsRow>
 		</S.ControlsContainer>
 	);

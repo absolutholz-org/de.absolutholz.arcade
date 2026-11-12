@@ -3,6 +3,7 @@ import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { isSupportedLanguage } from '@arcade/lib-i18n/utils/detection';
+import { GameControls } from '@arcade/lib-ui';
 import { GameHeader } from '@arcade/lib-ui/components/GameHeader';
 import { GameRulesDialog } from '@arcade/lib-ui/components/GameRulesDialog';
 import { GameSettingsDialog } from '@arcade/lib-ui/components/GameSettingsDialog';
@@ -14,7 +15,6 @@ import { type JSX, type ReactNode, useState } from 'react';
 import { LIQUID_SORT_SETTINGS_CONFIG } from '../../config/settings.js';
 import type { DifficultyLevel } from '../../engine/types.js';
 import { LiquidSortBoard } from '../LiquidSortBoard/index.js';
-import { LiquidSortControls } from '../LiquidSortControls/index.js';
 import { LiquidSortDeadlockDialog } from '../LiquidSortDeadlockDialog/index.js';
 import { LiquidSortVictoryDialog } from '../LiquidSortVictoryDialog/index.js';
 import { useLiquidSortGame } from './LiquidSortGame.hooks.js';
@@ -67,7 +67,20 @@ function GameContent({
 					/>
 				</div>
 			}
-			toolbar={<LiquidSortControls canUndo={game.canUndo} onUndo={game.onUndo} onReset={game.onReset} />}
+			toolbar={
+				<GameControls
+					canUndo={game.canUndo && !game.isPaused && !game.isWon}
+					onUndo={game.onUndo}
+					canRedo={game.canRedo && !game.isPaused && !game.isWon}
+					onRedo={game.onRedo}
+					canRestart={!game.isPaused && !game.isWon}
+					onRestart={game.onReset}
+					canNewGame={!game.isPaused}
+					onNewGame={game.onNextPuzzle}
+					hasActiveProgress={game.elapsedSeconds > 0 || game.moves > 0 || game.canUndo}
+					isComplete={game.isWon}
+				/>
+			}
 		>
 			<div className={S.boardArea}>
 				<div aria-live="polite" aria-atomic="true" className={S.liveRegion}>

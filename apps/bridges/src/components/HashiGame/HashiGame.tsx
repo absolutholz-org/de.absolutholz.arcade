@@ -3,6 +3,7 @@ import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { isSupportedLanguage } from '@arcade/lib-i18n/utils/detection';
+import { GameControls } from '@arcade/lib-ui';
 import { GameHeader } from '@arcade/lib-ui/components/GameHeader';
 import { GameRulesDialog } from '@arcade/lib-ui/components/GameRulesDialog';
 import { GameSettingsDialog } from '@arcade/lib-ui/components/GameSettingsDialog';
@@ -13,7 +14,6 @@ import { GameLayout } from '@arcade/lib-ui/layouts/GameLayout';
 import { type JSX, useState } from 'react';
 import { BRIDGES_SETTINGS_CONFIG } from '../../config/settings.js';
 import { HashiBoard } from '../HashiBoard/index.js';
-import { HashiControls } from '../HashiControls/index.js';
 import { VictoryDialog } from '../VictoryDialog/index.js';
 import { useHashiGame } from './HashiGame.hooks.js';
 import * as S from './HashiGame.styles.js';
@@ -98,6 +98,20 @@ export function HashiGame({
 					)}
 				</div>
 			}
+			toolbar={
+				<GameControls
+					canUndo={game.canUndo && !game.isPaused && !game.isComplete}
+					onUndo={game.handleUndo}
+					canRedo={game.canRedo && !game.isPaused && !game.isComplete}
+					onRedo={game.handleRedo}
+					canRestart={!game.isPaused && !game.isComplete}
+					onRestart={game.handleReset}
+					canNewGame={!game.isPaused}
+					onNewGame={game.handleNextPuzzle}
+					hasActiveProgress={game.elapsedSeconds > 0 || game.canUndo}
+					isComplete={game.isComplete}
+				/>
+			}
 		>
 			<div className={S.boardArea}>
 				<HashiBoard
@@ -113,16 +127,6 @@ export function HashiGame({
 					onBridgeClick={game.handleBridgeClick}
 				/>
 			</div>
-
-			<S.ControlsWrapper>
-				<HashiControls
-					canUndo={game.canUndo}
-					canRedo={game.canRedo}
-					onUndo={game.handleUndo}
-					onRedo={game.handleRedo}
-					onReset={game.handleReset}
-				/>
-			</S.ControlsWrapper>
 
 			<PauseDialog
 				isOpen={game.isPaused && !game.isComplete && !game.isSettingsOpen && !game.isRulesOpen}

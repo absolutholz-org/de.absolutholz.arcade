@@ -467,6 +467,24 @@ export function useAnagramGame(difficulty: DifficultyLevel, mode: GameMode, init
 		setHasClearedBaseline(false);
 	}, [isEnded, recordRound, foundWords, score, difficulty, vocabLanguage]);
 
+	const restartRound = useCallback(() => {
+		void clearActiveGame();
+		stats.current = createStats();
+		setTiles(createTiles(round));
+		setStagedIds([]);
+		setFoundWords([]);
+		setScore(0);
+		setFeedback(null);
+		setElapsedSeconds(0);
+		setRemainingSeconds(TIMED_MODE_INITIAL_SECONDS);
+		setIsPaused(false);
+		setIsEnded(false);
+		setIsRevealed(false);
+		setOutcome(null);
+		setDialog(null);
+		setHasClearedBaseline(false);
+	}, [round]);
+
 	const togglePause = useCallback(() => {
 		if (!isEnded && dialog === null) setIsPaused((paused) => !paused);
 	}, [isEnded, dialog]);
@@ -544,6 +562,7 @@ export function useAnagramGame(difficulty: DifficultyLevel, mode: GameMode, init
 		submit,
 		reveal,
 		newRound,
+		restartRound,
 		togglePause,
 		closeDialog,
 		selectWord,

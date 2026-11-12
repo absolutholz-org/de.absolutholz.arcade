@@ -3,6 +3,7 @@ import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { isSupportedLanguage } from '@arcade/lib-i18n/utils/detection';
+import { GameControls } from '@arcade/lib-ui';
 import { GameHeader } from '@arcade/lib-ui/components/GameHeader';
 import { GameRulesDialog } from '@arcade/lib-ui/components/GameRulesDialog';
 import { GameSettingsDialog } from '@arcade/lib-ui/components/GameSettingsDialog';
@@ -182,6 +183,17 @@ export function AnagramGame({
 					</div>
 				}
 				toolbar={
+					<GameControls
+						canRestart={!game.isPaused && !game.isEnded}
+						onRestart={game.restartRound}
+						canNewGame={!game.isPaused}
+						onNewGame={game.newRound}
+						hasActiveProgress={game.score > 0 || game.foundWords.length > 0 || game.elapsedSeconds > 0}
+						isComplete={game.isEnded}
+					/>
+				}
+			>
+				<div className={S.boardArea}>
 					<AnagramControls
 						canSubmit={game.stagedIds.length > 0}
 						isDisabled={!game.isInteractive}
@@ -192,11 +204,7 @@ export function AnagramGame({
 						onClear={game.clearStaged}
 						onSubmit={game.submit}
 						onReveal={game.reveal}
-						onNewRound={game.newRound}
 					/>
-				}
-			>
-				<div className={S.boardArea}>
 					<AnagramSlots
 						words={game.round.words}
 						foundWords={game.foundWords}

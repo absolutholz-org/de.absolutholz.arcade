@@ -3,6 +3,7 @@ import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { isSupportedLanguage } from '@arcade/lib-i18n/utils/detection';
+import { GameControls } from '@arcade/lib-ui';
 import { Button } from '@arcade/lib-ui/components/Button';
 import { GameHeader } from '@arcade/lib-ui/components/GameHeader';
 import { GameRulesDialog } from '@arcade/lib-ui/components/GameRulesDialog';
@@ -99,6 +100,20 @@ export function MinesweeperGame({
 					</Button>
 				</div>
 			}
+			toolbar={
+				<GameControls
+					canUndo={game.canUndo && !game.isPaused && !game.isGameOver}
+					onUndo={game.handleUndo}
+					canRedo={game.canRedo && !game.isPaused && !game.isGameOver}
+					onRedo={game.handleRedo}
+					canRestart={!game.isPaused && !game.isGameOver}
+					onRestart={game.handleRestart}
+					canNewGame={!game.isPaused}
+					onNewGame={() => game.handleStartNewGame(game.size, game.difficulty)}
+					hasActiveProgress={game.status === 'playing' || game.elapsedSeconds > 0 || game.canUndo}
+					isComplete={game.isGameOver}
+				/>
+			}
 		>
 			<div className={S.boardArea}>
 				<MinesweeperBoard
@@ -125,28 +140,6 @@ export function MinesweeperGame({
 						size="sm"
 					/>
 				</S.ModeRow>
-
-				<S.ActionsRow>
-					<S.ActionButton
-						type="button"
-						onClick={game.handleUndo}
-						disabled={!game.canUndo}
-						aria-label={tCommon('actions.undo')}
-					>
-						<Icon name="undo" size="sm" />
-						<span>{tCommon('actions.undo')}</span>
-					</S.ActionButton>
-
-					<S.ActionButton
-						type="button"
-						onClick={game.handleRedo}
-						disabled={!game.canRedo}
-						aria-label={tCommon('actions.redo')}
-					>
-						<Icon name="redo" size="sm" />
-						<span>{tCommon('actions.redo')}</span>
-					</S.ActionButton>
-				</S.ActionsRow>
 			</S.ControlsContainer>
 
 			<PauseDialog

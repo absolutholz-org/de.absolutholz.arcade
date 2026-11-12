@@ -3,6 +3,7 @@ import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { isSupportedLanguage } from '@arcade/lib-i18n/utils/detection';
+import { GameControls } from '@arcade/lib-ui';
 import { GameHeader } from '@arcade/lib-ui/components/GameHeader';
 import { GameRulesDialog } from '@arcade/lib-ui/components/GameRulesDialog';
 import { GameSettingsDialog } from '@arcade/lib-ui/components/GameSettingsDialog';
@@ -79,6 +80,20 @@ export function StarBattleGame({
 					/>
 				</div>
 			}
+			toolbar={
+				<GameControls
+					canUndo={game.canUndo && !game.isPaused && !game.isComplete}
+					onUndo={game.handleUndo}
+					canRedo={game.canRedo && !game.isPaused && !game.isComplete}
+					onRedo={game.handleRedo}
+					canRestart={!game.isPaused && !game.isComplete}
+					onRestart={game.handleReset}
+					canNewGame={!game.isPaused}
+					onNewGame={game.handleNextPuzzle}
+					hasActiveProgress={game.elapsedSeconds > 0 || game.canUndo}
+					isComplete={game.isComplete}
+				/>
+			}
 		>
 			<StarBattleBoard
 				size={game.puzzle.size}
@@ -98,15 +113,7 @@ export function StarBattleGame({
 			/>
 
 			<S.ControlsWrapper>
-				<StarBattleControls
-					inputMode={game.inputMode}
-					canUndo={game.canUndo}
-					canRedo={game.canRedo}
-					onToggleMode={game.setInputMode}
-					onUndo={game.handleUndo}
-					onRedo={game.handleRedo}
-					onReset={game.handleReset}
-				/>
+				<StarBattleControls inputMode={game.inputMode} onToggleMode={game.setInputMode} />
 			</S.ControlsWrapper>
 
 			<PauseDialog

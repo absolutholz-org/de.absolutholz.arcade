@@ -38,9 +38,3 @@ export const statusMetric = css`
 		color: var(--color-text-2);
 	}
 `;
-
-export const ControlsWrapper = styled.div`
-	margin-top: var(--space-md);
-	margin-inline: auto;
-	width: 100%;
-`;

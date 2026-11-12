@@ -8,5 +8,4 @@ export interface AnagramControlsProps {
 	onClear: () => void;
 	onSubmit: () => void;
 	onReveal: () => void;
-	onNewRound: () => void;
 }

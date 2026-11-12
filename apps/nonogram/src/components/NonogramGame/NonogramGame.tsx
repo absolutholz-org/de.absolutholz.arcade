@@ -3,6 +3,7 @@ import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { isSupportedLanguage } from '@arcade/lib-i18n/utils/detection';
+import { GameControls } from '@arcade/lib-ui';
 import { GameHeader } from '@arcade/lib-ui/components/GameHeader';
 import { GameRulesDialog } from '@arcade/lib-ui/components/GameRulesDialog';
 import { GameSettingsDialog } from '@arcade/lib-ui/components/GameSettingsDialog';
@@ -81,6 +82,20 @@ export function NonogramGame({
 					/>
 				</div>
 			}
+			toolbar={
+				<GameControls
+					canUndo={game.canUndo && !game.isPaused && !game.isGameOver}
+					onUndo={game.handleUndo}
+					canRedo={game.canRedo && !game.isPaused && !game.isGameOver}
+					onRedo={game.handleRedo}
+					canRestart={!game.isPaused && !game.isGameOver}
+					onRestart={game.handleReset}
+					canNewGame={!game.isPaused}
+					onNewGame={game.handleNextPuzzle}
+					hasActiveProgress={game.elapsedSeconds > 0 || game.canUndo}
+					isComplete={game.isGameOver}
+				/>
+			}
 		>
 			<NonogramBoard
 				puzzle={game.puzzle}
@@ -99,13 +114,8 @@ export function NonogramGame({
 			<S.ControlsWrapper>
 				<NonogramControls
 					interactionMode={game.interactionMode}
-					canUndo={game.canUndo}
-					canRedo={game.canRedo}
 					onToggleMode={game.handleToggleMode}
 					onSetMode={game.setInteractionMode}
-					onUndo={game.handleUndo}
-					onRedo={game.handleRedo}
-					onReset={game.handleReset}
 				/>
 			</S.ControlsWrapper>
 
