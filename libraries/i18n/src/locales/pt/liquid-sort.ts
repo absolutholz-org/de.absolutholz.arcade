@@ -28,7 +28,6 @@ export const ptLiquidSort: LiquidSortTranslationContract = {
 	controls: {
 		undo: 'Desfazer',
 		redo: 'Refazer',
-		reset: 'Redefinir',
 		hint: 'Dica',
 		hintDesc: 'Sugerir um movimento válido',
 		pause: 'Pausar',

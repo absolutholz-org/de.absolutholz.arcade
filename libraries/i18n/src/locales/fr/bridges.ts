@@ -37,7 +37,6 @@ export const frBridges: BridgesTranslationContract = {
 	controls: {
 		undo: 'Annuler',
 		redo: 'Rétablir',
-		reset: 'Réinitialiser',
 		pause: 'Pause',
 		resume: 'Reprendre',
 		restart: 'Recommencer',

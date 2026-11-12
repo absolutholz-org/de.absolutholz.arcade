@@ -52,7 +52,7 @@ export const enTicTacToe: TicTacToeTranslationContract = {
 	},
 	controls: {
 		undo: 'Undo',
-		restart: 'Restart Game',
+		restart: 'Restart',
 		rules: 'Rules',
 		settings: 'Settings',
 		backToLobby: 'Back to Menu',

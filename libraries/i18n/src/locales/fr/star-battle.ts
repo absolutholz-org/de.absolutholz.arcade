@@ -35,7 +35,6 @@ export const frStarBattle = {
 	controls: {
 		undo: 'Annuler',
 		redo: 'Rétablir',
-		reset: 'Réinitialiser',
 		autoCross: 'Croix auto',
 		autoCrossDesc:
 			'Place automatiquement des croix sur la ligne, la colonne et les cases adjacentes lors du placement d’une étoile',

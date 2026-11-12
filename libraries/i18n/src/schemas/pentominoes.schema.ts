@@ -37,7 +37,6 @@ export const pentominoesSchema = {
 		rotateCcw: 'controls.rotateCcw',
 		flipH: 'controls.flipH',
 		returnToTray: 'controls.returnToTray',
-		clearBoard: 'controls.clearBoard',
 		hint: 'controls.hint',
 		undo: 'controls.undo',
 		redo: 'controls.redo',

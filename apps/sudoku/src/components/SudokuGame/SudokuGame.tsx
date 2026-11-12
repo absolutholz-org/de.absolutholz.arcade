@@ -3,6 +3,7 @@ import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { isSupportedLanguage } from '@arcade/lib-i18n/utils/detection';
+import { GameControls } from '@arcade/lib-ui';
 import { GameHeader } from '@arcade/lib-ui/components/GameHeader';
 import { GameRulesDialog } from '@arcade/lib-ui/components/GameRulesDialog';
 import { GameSettingsDialog } from '@arcade/lib-ui/components/GameSettingsDialog';
@@ -61,6 +62,20 @@ export function SudokuGame({ initialDifficulty = 'easy', lang, rulesContent }: S
 					/>
 				</S.StatusBar>
 			}
+			toolbar={
+				<GameControls
+					onUndo={game.handleUndo}
+					canUndo={game.canUndo && !game.isPaused && !game.isComplete}
+					onRedo={game.handleRedo}
+					canRedo={game.canRedo && !game.isPaused && !game.isComplete}
+					onRestart={game.handleRestart}
+					canRestart={!game.isPaused && !game.isComplete}
+					onNewGame={() => game.handleStartNewGame(game.difficulty)}
+					canNewGame={!game.isPaused}
+					hasActiveProgress={game.elapsedSeconds > 0 || game.canUndo}
+					isComplete={game.isComplete}
+				/>
+			}
 		>
 			<SudokuBoard
 				grid={game.grid}
@@ -74,15 +89,10 @@ export function SudokuGame({ initialDifficulty = 'easy', lang, rulesContent }: S
 				<SudokuKeypad
 					digitCounts={game.digitCounts}
 					isNotesMode={game.isNotesMode}
-					canUndo={game.canUndo}
-					canRedo={game.canRedo}
 					layout="auto"
 					onDigitPress={game.handleDigitPress}
 					onToggleNotes={game.handleToggleNotes}
 					onErase={game.handleErase}
-					onUndo={game.handleUndo}
-					onRedo={game.handleRedo}
-					onRestart={game.handleRestart}
 				/>
 			</S.KeypadWrapper>
 

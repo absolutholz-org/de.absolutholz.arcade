@@ -72,6 +72,10 @@ export const frCommon = {
 		undo: 'Annuler',
 		redo: 'Rétablir',
 		restart: 'Recommencer',
+		newGame: 'Nouvelle partie',
+		confirm: 'Confirmer ?',
+		cancel: 'Annuler',
+		gameControls: 'Contrôles du jeu',
 	},
 	undo: 'Annuler',
 	redo: 'Rétablir',
@@ -182,6 +186,14 @@ export const frCommon = {
 			description: "Cliquez n'importe où ou appuyez sur Reprendre pour continuer à jouer.",
 			resume: 'Reprendre',
 			restart: 'Recommencer',
+		},
+		confirmRestart: {
+			title: 'Recommencer la partie ?',
+			message: 'Votre progression actuelle sera perdue.',
+		},
+		confirmNewGame: {
+			title: 'Commencer une nouvelle partie ?',
+			message: 'Votre puzzle et votre progression actuels seront perdus.',
 		},
 		turn: {
 			title: 'Tour de {{name}}',

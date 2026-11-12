@@ -109,17 +109,14 @@ function NetGameInner({
 				<GameControlStrip
 					onUndo={game.handleUndo}
 					canUndo={game.canUndo}
-					undoLabel={t('controls.undo')}
 					onRedo={game.handleRedo}
 					canRedo={game.canRedo}
-					redoLabel={t('controls.redo')}
-					onReset={game.handleReset}
-					canReset={game.movesCount > 0}
-					resetLabel={t('controls.reset')}
-					onNewPuzzle={() => game.handleNewPuzzle()}
-					canNewPuzzle={true}
-					newPuzzleLabel={t('controls.newPuzzle')}
-					aria-label={t('aria.actionsToolbar')}
+					onRestart={game.handleReset}
+					canRestart={game.movesCount > 0}
+					onNewGame={() => game.handleNewPuzzle()}
+					canNewGame={true}
+					hasActiveProgress={game.movesCount > 0}
+					isComplete={game.isComplete}
 				/>
 			}
 		>

@@ -3,14 +3,13 @@ import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { isSupportedLanguage } from '@arcade/lib-i18n/utils/detection';
+import { GameControlStrip } from '@arcade/lib-ui/components/GameControlStrip';
 import { GameHeader } from '@arcade/lib-ui/components/GameHeader';
 import { GameRulesDialog } from '@arcade/lib-ui/components/GameRulesDialog';
 import { GameSettingsDialog } from '@arcade/lib-ui/components/GameSettingsDialog';
 import { GameSettingsPanel } from '@arcade/lib-ui/components/GameSettingsPanel';
-import { Icon } from '@arcade/lib-ui/components/Icon';
 import { PauseDialog } from '@arcade/lib-ui/components/PauseDialog';
 import { Timer } from '@arcade/lib-ui/components/Timer';
-import { Toolbar } from '@arcade/lib-ui/components/Toolbar';
 import { VisuallyHidden } from '@arcade/lib-ui/components/VisuallyHidden';
 import { GameLayout } from '@arcade/lib-ui/layouts/GameLayout';
 import { type JSX, type ReactNode, useCallback, useState } from 'react';
@@ -109,6 +108,20 @@ function UntangleGameInner({
 					)}
 				</div>
 			}
+			toolbar={
+				<GameControlStrip
+					onUndo={game.handleUndo}
+					canUndo={game.canUndo}
+					onRedo={game.handleRedo}
+					canRedo={game.canRedo}
+					onRestart={game.handleReset}
+					canRestart={game.board.moveCount > 0}
+					onNewGame={() => game.handleNewPuzzle()}
+					canNewGame={true}
+					hasActiveProgress={game.board.moveCount > 0}
+					isComplete={game.isComplete}
+				/>
+			}
 		>
 			<VisuallyHidden aria-live="polite" aria-atomic="true">
 				{game.liveAnnouncement}
@@ -134,44 +147,6 @@ function UntangleGameInner({
 					onKeyNudge={game.handleKeyNudge}
 				/>
 			</div>
-
-			<Toolbar fullWidth variant="ghost" size="sm" align="center" aria-label={t('aria.actionsToolbar')}>
-				<S.ActionButton
-					type="button"
-					onClick={game.handleUndo}
-					disabled={!game.canUndo}
-					aria-label={t('controls.undo')}
-				>
-					<Icon name="undo" size="sm" />
-					<span>{t('controls.undo')}</span>
-				</S.ActionButton>
-				<S.ActionButton
-					type="button"
-					onClick={game.handleRedo}
-					disabled={!game.canRedo}
-					aria-label={t('controls.redo')}
-				>
-					<Icon name="redo" size="sm" />
-					<span>{t('controls.redo')}</span>
-				</S.ActionButton>
-				<S.ActionButton
-					type="button"
-					onClick={game.handleReset}
-					disabled={game.board.moveCount === 0}
-					aria-label={t('controls.reset')}
-				>
-					<Icon name="rotate-ccw" size="sm" />
-					<span>{t('controls.reset')}</span>
-				</S.ActionButton>
-				<S.ActionButton
-					type="button"
-					onClick={() => game.handleNewPuzzle()}
-					aria-label={t('controls.newPuzzle')}
-				>
-					<Icon name="sparkles" size="sm" />
-					<span>{t('controls.newPuzzle')}</span>
-				</S.ActionButton>
-			</Toolbar>
 
 			<PauseDialog
 				isOpen={game.isPaused && !game.isComplete && !game.isSettingsOpen && !game.isRulesOpen}

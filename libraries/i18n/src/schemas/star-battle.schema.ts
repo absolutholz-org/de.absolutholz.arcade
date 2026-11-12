@@ -34,7 +34,6 @@ export const starBattleSchema = {
 	controls: {
 		undo: 'controls.undo',
 		redo: 'controls.redo',
-		reset: 'controls.reset',
 		autoCross: 'controls.autoCross',
 		autoCrossDesc: 'controls.autoCrossDesc',
 		pause: 'controls.pause',

@@ -37,7 +37,6 @@ export const enBridges: BridgesTranslationContract = {
 	controls: {
 		undo: 'Undo',
 		redo: 'Redo',
-		reset: 'Reset Board',
 		pause: 'Pause',
 		resume: 'Resume',
 		restart: 'Restart',

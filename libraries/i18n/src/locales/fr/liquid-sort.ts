@@ -29,7 +29,6 @@ export const frLiquidSort: LiquidSortTranslationContract = {
 	controls: {
 		undo: 'Annuler',
 		redo: 'Rétablir',
-		reset: 'Réinitialiser',
 		hint: 'Indice',
 		hintDesc: 'Suggérer un coup valide',
 		pause: 'Pause',

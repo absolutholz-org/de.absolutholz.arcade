@@ -37,7 +37,6 @@ export const deTents = {
 	controls: {
 		undo: 'Rückgängig',
 		redo: 'Wiederholen',
-		reset: 'Zeltplatz zurücksetzen',
 		hint: 'Hinweis',
 		hintDesc: 'Ein korrektes Zelt- oder Grasfeld aufdecken',
 		pause: 'Pause',

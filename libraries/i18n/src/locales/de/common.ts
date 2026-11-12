@@ -72,6 +72,10 @@ export const deCommon = {
 		undo: 'Rückgängig',
 		redo: 'Wiederholen',
 		restart: 'Neustart',
+		newGame: 'Neues Spiel',
+		confirm: 'Bestätigen?',
+		cancel: 'Abbrechen',
+		gameControls: 'Spielsteuerung',
 	},
 	undo: 'Rückgängig',
 	redo: 'Wiederholen',
@@ -183,6 +187,14 @@ export const deCommon = {
 			description: 'Klicke irgendwohin oder drücke auf Fortsetzen, um weiterzuspielen.',
 			resume: 'Fortsetzen',
 			restart: 'Neu starten',
+		},
+		confirmRestart: {
+			title: 'Spiel neu starten?',
+			message: 'Dein aktueller Spielfortschritt geht dabei verloren.',
+		},
+		confirmNewGame: {
+			title: 'Neues Spiel starten?',
+			message: 'Dein aktuelles Rätsel und dein Fortschritt gehen dabei verloren.',
 		},
 		turn: {
 			title: '{{name}} ist am Zug',

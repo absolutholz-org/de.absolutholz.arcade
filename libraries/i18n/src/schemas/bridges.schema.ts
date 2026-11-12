@@ -36,7 +36,6 @@ export const bridgesSchema = {
 	controls: {
 		undo: 'controls.undo',
 		redo: 'controls.redo',
-		reset: 'controls.reset',
 		pause: 'controls.pause',
 		resume: 'controls.resume',
 		restart: 'controls.restart',

@@ -37,7 +37,6 @@ export const enPentominoes: PentominoesTranslationContract = {
 		rotateCcw: 'Rotate CCW (90°)',
 		flipH: 'Flip Horizontal',
 		returnToTray: 'Return to Tray',
-		clearBoard: 'Clear Board',
 		hint: 'Hint',
 		undo: 'Undo',
 		redo: 'Redo',

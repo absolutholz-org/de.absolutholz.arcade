@@ -41,8 +41,6 @@ export const enUntangle = {
 	controls: {
 		undo: 'Undo',
 		redo: 'Redo',
-		reset: 'Reset Puzzle',
-		newPuzzle: 'New Puzzle',
 		keyboardHint:
 			'Use Tab to focus a node, Enter or Space to select, and Arrow keys (Shift for larger steps) to move.',
 		hint: 'Hint',

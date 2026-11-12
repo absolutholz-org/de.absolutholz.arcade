@@ -376,17 +376,14 @@ function ColorFloodGameInner({
 				<GameControlStrip
 					onUndo={handleUndo}
 					canUndo={history.past.length > 0 && isInteractive}
-					undoLabel={t('controls.undo')}
 					onRedo={handleRedo}
 					canRedo={history.future.length > 0 && isInteractive}
-					redoLabel={t('controls.redo')}
-					onReset={handleRestart}
-					canReset={boardState.moves > 0 && !isPaused}
-					resetLabel={t('controls.restart')}
-					onNewPuzzle={() => startNewGame()}
-					canNewPuzzle={!isPaused}
-					newPuzzleLabel={t('controls.newGame')}
-					aria-label={t('title')}
+					onRestart={handleRestart}
+					canRestart={boardState.moves > 0 && !isPaused}
+					onNewGame={() => startNewGame()}
+					canNewGame={!isPaused}
+					hasActiveProgress={boardState.moves > 0}
+					isComplete={boardState.isWon || boardState.isLost}
 				/>
 			}
 		>

@@ -41,8 +41,6 @@ export const frUntangle = {
 	controls: {
 		undo: 'Annuler',
 		redo: 'Rétablir',
-		reset: 'Réinitialiser le puzzle',
-		newPuzzle: 'Nouveau puzzle',
 		keyboardHint:
 			'Utilisez Tab pour cibler un nœud, Entrée ou Espace pour le sélectionner, et les flèches (Maj pour de plus grands pas) pour le déplacer.',
 		hint: 'Indice',

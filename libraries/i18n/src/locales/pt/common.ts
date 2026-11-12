@@ -71,6 +71,10 @@ export const ptCommon = {
 		undo: 'Desfazer',
 		redo: 'Refazer',
 		restart: 'Reiniciar',
+		newGame: 'Novo Jogo',
+		confirm: 'Confirmar?',
+		cancel: 'Cancelar',
+		gameControls: 'Controles do jogo',
 	},
 	undo: 'Desfazer',
 	redo: 'Refazer',
@@ -181,6 +185,14 @@ export const ptCommon = {
 			description: 'Clique em qualquer lugar ou pressione Continuar para continuar a jogar.',
 			resume: 'Continuar',
 			restart: 'Reiniciar',
+		},
+		confirmRestart: {
+			title: 'Reiniciar o jogo?',
+			message: 'Seu progresso atual será perdido.',
+		},
+		confirmNewGame: {
+			title: 'Iniciar novo jogo?',
+			message: 'Seu quebra-cabeça e progresso atuais serão perdidos.',
 		},
 		turn: {
 			title: 'Vez de {{name}}',

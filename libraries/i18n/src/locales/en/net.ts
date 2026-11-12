@@ -35,8 +35,6 @@ export const enNet: NetTranslationContract = {
 	controls: {
 		undo: 'Undo',
 		redo: 'Redo',
-		reset: 'Reset Network',
-		newPuzzle: 'New Puzzle',
 		keyboardHint:
 			'Arrow keys to navigate. Space/Enter to rotate clockwise. Shift+Enter to rotate counter-clockwise. L to lock/unlock.',
 		hint: 'Hint',

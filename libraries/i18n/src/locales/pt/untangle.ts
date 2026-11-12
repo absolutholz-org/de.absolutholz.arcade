@@ -41,8 +41,6 @@ export const ptUntangle = {
 	controls: {
 		undo: 'Desfazer',
 		redo: 'Refazer',
-		reset: 'Reiniciar quebra-cabeça',
-		newPuzzle: 'Novo quebra-cabeça',
 		keyboardHint:
 			'Use Tab para focar em um nó, Enter ou Espaço para selecionar e as setas (Shift para passos maiores) para mover.',
 		hint: 'Dica',

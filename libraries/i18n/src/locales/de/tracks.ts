@@ -36,7 +36,6 @@ export const deTracks = {
 	controls: {
 		undo: 'Rückgängig',
 		redo: 'Wiederholen',
-		reset: 'Spielfeld zurücksetzen',
 		hint: 'Hinweis',
 		hintDesc: 'Ein korrektes Schienen- oder Kreuzfeld aufdecken',
 		pause: 'Pause',

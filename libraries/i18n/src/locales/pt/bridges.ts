@@ -36,7 +36,6 @@ export const ptBridges: BridgesTranslationContract = {
 	controls: {
 		undo: 'Desfazer',
 		redo: 'Refazer',
-		reset: 'Reiniciar tabuleiro',
 		pause: 'Pausar',
 		resume: 'Continuar',
 		restart: 'Reiniciar',

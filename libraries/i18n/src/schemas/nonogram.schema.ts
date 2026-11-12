@@ -17,7 +17,6 @@ export const nonogramSchema = {
 		pause: 'controls.pause',
 		resume: 'controls.resume',
 		restart: 'controls.restart',
-		resetBoard: 'controls.resetBoard',
 		newGame: 'controls.newGame',
 		backToLobby: 'controls.backToLobby',
 		puzzleSelect: 'controls.puzzleSelect',

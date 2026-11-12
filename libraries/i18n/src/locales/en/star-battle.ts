@@ -35,7 +35,6 @@ export const enStarBattle = {
 	controls: {
 		undo: 'Undo',
 		redo: 'Redo',
-		reset: 'Reset Board',
 		autoCross: 'Auto-Cross',
 		autoCrossDesc: 'Automatically place X marks in row, column, and adjacent cells when placing a star',
 		pause: 'Pause',

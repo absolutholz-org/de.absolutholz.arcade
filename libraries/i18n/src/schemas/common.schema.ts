@@ -64,6 +64,10 @@ export const commonSchema = {
 		undo: 'actions.undo',
 		redo: 'actions.redo',
 		restart: 'actions.restart',
+		newGame: 'actions.newGame',
+		confirm: 'actions.confirm',
+		cancel: 'actions.cancel',
+		gameControls: 'actions.gameControls',
 	},
 	undo: 'undo',
 	redo: 'redo',
@@ -171,6 +175,14 @@ export const commonSchema = {
 			description: 'game.pause.description',
 			resume: 'game.pause.resume',
 			restart: 'game.pause.restart',
+		},
+		confirmRestart: {
+			title: 'game.confirmRestart.title',
+			message: 'game.confirmRestart.message',
+		},
+		confirmNewGame: {
+			title: 'game.confirmNewGame.title',
+			message: 'game.confirmNewGame.message',
 		},
 		turn: {
 			title: 'game.turn.title',

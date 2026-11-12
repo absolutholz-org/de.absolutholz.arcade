@@ -36,7 +36,6 @@ export const frTracks = {
 	controls: {
 		undo: 'Annuler',
 		redo: 'Rétablir',
-		reset: 'Réinitialiser',
 		hint: 'Indice',
 		hintDesc: 'Révéler un rail ou une croix correcte',
 		pause: 'Pause',

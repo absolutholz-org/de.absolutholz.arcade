@@ -37,7 +37,6 @@ export const deBridges: BridgesTranslationContract = {
 	controls: {
 		undo: 'Rückgängig',
 		redo: 'Wiederholen',
-		reset: 'Zurücksetzen',
 		pause: 'Pause',
 		resume: 'Fortsetzen',
 		restart: 'Neustart',

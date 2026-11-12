@@ -35,7 +35,6 @@ export const deStarBattle = {
 	controls: {
 		undo: 'Rückgängig',
 		redo: 'Wiederholen',
-		reset: 'Spielfeld zurücksetzen',
 		autoCross: 'Auto-Kreuz',
 		autoCrossDesc:
 			'Setzt beim Platzieren eines Sterns automatisch X-Markierungen in Zeile, Spalte und Nachbarfeldern',

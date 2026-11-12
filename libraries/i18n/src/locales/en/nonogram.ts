@@ -17,7 +17,6 @@ export const enNonogram = {
 		pause: 'Pause',
 		resume: 'Resume',
 		restart: 'Restart',
-		resetBoard: 'Reset Board',
 		newGame: 'New Game',
 		backToLobby: 'Back to Lobby',
 		puzzleSelect: 'Select Puzzle',

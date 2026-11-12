@@ -38,7 +38,6 @@ export const frPentominoes: PentominoesTranslationContract = {
 		rotateCcw: 'Tourner anti-horaire (90°)',
 		flipH: 'Retourner horizontalement',
 		returnToTray: 'Ranger dans la réserve',
-		clearBoard: 'Vider le plateau',
 		hint: 'Indice',
 		undo: 'Annuler',
 		redo: 'Rétablir',

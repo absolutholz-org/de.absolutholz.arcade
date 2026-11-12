@@ -36,7 +36,6 @@ export const enTracks = {
 	controls: {
 		undo: 'Undo',
 		redo: 'Redo',
-		reset: 'Reset Board',
 		hint: 'Hint',
 		hintDesc: 'Reveal one correct track or cross cell',
 		pause: 'Pause',

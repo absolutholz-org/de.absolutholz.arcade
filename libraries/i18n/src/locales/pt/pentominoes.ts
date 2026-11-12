@@ -38,7 +38,6 @@ export const ptPentominoes: PentominoesTranslationContract = {
 		rotateCcw: 'Girar anti-horário (90°)',
 		flipH: 'Inverter Horizontalmente',
 		returnToTray: 'Devolver à Bandeja',
-		clearBoard: 'Limpar Tabuleiro',
 		hint: 'Dica',
 		undo: 'Desfazer',
 		redo: 'Refazer',

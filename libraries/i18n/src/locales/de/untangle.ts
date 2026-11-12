@@ -41,8 +41,6 @@ export const deUntangle = {
 	controls: {
 		undo: 'Rückgängig',
 		redo: 'Wiederholen',
-		reset: 'Rätsel zurücksetzen',
-		newPuzzle: 'Neues Rätsel',
 		keyboardHint:
 			'Nutze Tab zum Fokussieren eines Knotens, Eingabe oder Leertaste zum Auswählen und die Pfeiltasten (Umschalttaste für größere Schritte) zum Bewegen.',
 		hint: 'Hinweis',

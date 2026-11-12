@@ -52,7 +52,7 @@ export const deTicTacToe: TicTacToeTranslationContract = {
 	},
 	controls: {
 		undo: 'Rückgängig',
-		restart: 'Spiel neustarten',
+		restart: 'Neustart',
 		rules: 'Regeln',
 		settings: 'Einstellungen',
 		backToLobby: 'Zurück zum Menü',

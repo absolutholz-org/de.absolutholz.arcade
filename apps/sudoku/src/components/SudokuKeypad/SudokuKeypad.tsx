@@ -46,15 +46,19 @@ export function SudokuKeypad({
 			</S.DigitsGrid>
 
 			<Toolbar fullWidth variant="ghost" size="sm" aria-label={t('aria.actionsToolbar')}>
-				<S.ActionButton type="button" onClick={onUndo} disabled={!canUndo} aria-label={t('controls.undo')}>
-					<Icon name="undo" size="sm" />
-					<span>{t('controls.undo')}</span>
-				</S.ActionButton>
+				{onUndo && (
+					<S.ActionButton type="button" onClick={onUndo} disabled={!canUndo} aria-label={t('controls.undo')}>
+						<Icon name="undo" size="sm" />
+						<span>{t('controls.undo')}</span>
+					</S.ActionButton>
+				)}
 
-				<S.ActionButton type="button" onClick={onRedo} disabled={!canRedo} aria-label={t('controls.redo')}>
-					<Icon name="redo" size="sm" />
-					<span>{t('controls.redo')}</span>
-				</S.ActionButton>
+				{onRedo && (
+					<S.ActionButton type="button" onClick={onRedo} disabled={!canRedo} aria-label={t('controls.redo')}>
+						<Icon name="redo" size="sm" />
+						<span>{t('controls.redo')}</span>
+					</S.ActionButton>
+				)}
 
 				<S.ActionButton type="button" onClick={onErase} aria-label={t('controls.erase')}>
 					<Icon name="eraser" size="sm" />

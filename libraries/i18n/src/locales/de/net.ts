@@ -35,8 +35,6 @@ export const deNet: NetTranslationContract = {
 	controls: {
 		undo: 'Rückgängig',
 		redo: 'Wiederholen',
-		reset: 'Netzwerk zurücksetzen',
-		newPuzzle: 'Neues Puzzle',
 		keyboardHint:
 			'Pfeiltasten zum Navigieren. Leertaste/Enter dreht im Uhrzeigersinn, Umschalt+Enter gegen den Uhrzeigersinn, L zum Sperren.',
 		hint: 'Hinweis',

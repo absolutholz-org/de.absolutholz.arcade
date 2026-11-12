@@ -36,7 +36,6 @@ export const ptTracks = {
 	controls: {
 		undo: 'Desfazer',
 		redo: 'Refazer',
-		reset: 'Reiniciar Tabuleiro',
 		hint: 'Dica',
 		hintDesc: 'Revelar um carril ou cruz correta',
 		pause: 'Pausa',

@@ -37,7 +37,6 @@ export const dePentominoes: PentominoesTranslationContract = {
 		rotateCcw: 'Gegen Uhrzeigersinn drehen (90°)',
 		flipH: 'Horizontal spiegeln',
 		returnToTray: 'Zurück zur Ablage',
-		clearBoard: 'Spielfeld leeren',
 		hint: 'Hinweis',
 		undo: 'Rückgängig',
 		redo: 'Wiederholen',

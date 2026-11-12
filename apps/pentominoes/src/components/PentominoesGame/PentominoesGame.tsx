@@ -647,23 +647,22 @@ function PentominoesGameInner({
 				<GameControlStrip
 					onUndo={handleUndo}
 					canUndo={canUndo(history) && !isPaused}
-					undoLabel={t('controls.undo')}
 					onRedo={handleRedo}
 					canRedo={canRedo(history) && !isPaused}
-					redoLabel={t('controls.redo')}
-					onReset={handleRestartBoard}
-					canReset={placements.length > 0 && !isPaused}
-					resetLabel={t('controls.clearBoard')}
-					onNewPuzzle={handleNextLevel}
-					canNewPuzzle={!isPaused}
-					newPuzzleLabel={t('controls.newGame')}
-					aria-label={t('title')}
+					onRestart={handleRestartBoard}
+					canRestart={placements.length > 0 && !isPaused}
+					onNewGame={handleNextLevel}
+					canNewGame={!isPaused}
+					hasActiveProgress={placements.length > 0}
+					isComplete={isSolved}
 				>
 					<GameControlButton
 						type="button"
 						disabled={isSolved || isPaused}
 						onClick={handleHint}
 						aria-label={t('controls.hint')}
+						title={t('controls.hint')}
+						data-collapse-mobile="true"
 					>
 						<Icon name="lightbulb" size="sm" />
 						<span>{t('controls.hint')}</span>

@@ -35,8 +35,6 @@ export const frNet: NetTranslationContract = {
 	controls: {
 		undo: 'Annuler',
 		redo: 'Rétablir',
-		reset: 'Réinitialiser',
-		newPuzzle: 'Nouveau puzzle',
 		keyboardHint:
 			'Flèches pour naviguer. Espace/Entrée pour tourner dans le sens horaire, Maj+Entrée dans le sens anti-horaire, L pour verrouiller.',
 		hint: 'Indice',

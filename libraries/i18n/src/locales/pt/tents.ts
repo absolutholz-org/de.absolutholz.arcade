@@ -37,7 +37,6 @@ export const ptTents = {
 	controls: {
 		undo: 'Desfazer',
 		redo: 'Refazer',
-		reset: 'Reiniciar Acampamento',
 		hint: 'Dica',
 		hintDesc: 'Revelar uma posição correta de barraca ou grama',
 		pause: 'Pausar',

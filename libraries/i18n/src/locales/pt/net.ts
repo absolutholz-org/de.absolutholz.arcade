@@ -35,8 +35,6 @@ export const ptNet: NetTranslationContract = {
 	controls: {
 		undo: 'Desfazer',
 		redo: 'Refazer',
-		reset: 'Reiniciar Rede',
-		newPuzzle: 'Novo Quebra-cabeça',
 		keyboardHint:
 			'Setas para navegar. Espaço/Enter para girar no sentido horário, Shift+Enter no anti-horário, L para travar.',
 		hint: 'Dica',

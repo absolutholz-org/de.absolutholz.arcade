@@ -34,7 +34,6 @@ export const ptStarBattle = {
 	controls: {
 		undo: 'Desfazer',
 		redo: 'Refazer',
-		reset: 'Redefinir Tabuleiro',
 		autoCross: 'Auto-Cruz',
 		autoCrossDesc: 'Coloca automaticamente marcas X na linha, coluna e células vizinhas ao colocar uma estrela',
 		pause: 'Pausar',

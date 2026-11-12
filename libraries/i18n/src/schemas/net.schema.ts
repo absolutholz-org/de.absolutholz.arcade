@@ -35,8 +35,6 @@ export const netSchema = {
 	controls: {
 		undo: 'controls.undo',
 		redo: 'controls.redo',
-		reset: 'controls.reset',
-		newPuzzle: 'controls.newPuzzle',
 		keyboardHint: 'controls.keyboardHint',
 		hint: 'controls.hint',
 		hintDesc: 'controls.hintDesc',

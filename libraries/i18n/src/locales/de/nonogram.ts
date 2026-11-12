@@ -17,7 +17,6 @@ export const deNonogram = {
 		pause: 'Pause',
 		resume: 'Fortsetzen',
 		restart: 'Neustart',
-		resetBoard: 'Spielfeld leeren',
 		newGame: 'Neues Spiel',
 		backToLobby: 'Zurück zur Lobby',
 		puzzleSelect: 'Rätsel wählen',

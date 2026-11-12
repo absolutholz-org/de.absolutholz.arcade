@@ -29,7 +29,6 @@ export const deLiquidSort: LiquidSortTranslationContract = {
 	controls: {
 		undo: 'Rückgängig',
 		redo: 'Wiederholen',
-		reset: 'Zurücksetzen',
 		hint: 'Hinweis',
 		hintDesc: 'Einen gültigen nächsten Zug vorschlagen',
 		pause: 'Pause',

@@ -28,7 +28,6 @@ export const liquidSortSchema = {
 	controls: {
 		undo: 'controls.undo',
 		redo: 'controls.redo',
-		reset: 'controls.reset',
 		hint: 'controls.hint',
 		hintDesc: 'controls.hintDesc',
 		pause: 'controls.pause',

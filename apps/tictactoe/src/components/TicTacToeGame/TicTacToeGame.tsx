@@ -253,13 +253,13 @@ function GameInner({
 			}
 			toolbar={
 				<GameControlStrip
-					onReset={handlePlayAgain}
-					canReset={state.moveCount > 0 || state.isComplete}
-					resetLabel={t('controls.restart')}
-					onNewPuzzle={handleBackToMenu}
-					canNewPuzzle={true}
-					newPuzzleLabel={t('controls.backToLobby')}
-					aria-label={t('title')}
+					onRestart={handlePlayAgain}
+					canRestart={state.moveCount > 0 || state.isComplete}
+					onNewGame={handleBackToMenu}
+					canNewGame={true}
+					newGameLabel={t('controls.backToLobby')}
+					hasActiveProgress={state.moveCount > 0}
+					isComplete={state.isComplete}
 				/>
 			}
 		>

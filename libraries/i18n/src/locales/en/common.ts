@@ -72,6 +72,10 @@ export const enCommon = {
 		undo: 'Undo',
 		redo: 'Redo',
 		restart: 'Restart',
+		newGame: 'New Game',
+		confirm: 'Confirm?',
+		cancel: 'Cancel',
+		gameControls: 'Game controls',
 	},
 	undo: 'Undo',
 	redo: 'Redo',
@@ -182,6 +186,14 @@ export const enCommon = {
 			description: 'Click anywhere or press Resume to continue playing.',
 			resume: 'Resume',
 			restart: 'Restart',
+		},
+		confirmRestart: {
+			title: 'Restart Game?',
+			message: 'Your current progress will be lost.',
+		},
+		confirmNewGame: {
+			title: 'Start New Game?',
+			message: 'Your current puzzle and progress will be lost.',
 		},
 		turn: {
 			title: "{{name}}'s Turn",

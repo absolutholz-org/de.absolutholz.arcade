@@ -37,7 +37,6 @@ export const frTents = {
 	controls: {
 		undo: 'Annuler',
 		redo: 'Rétablir',
-		reset: 'Réinitialiser le campement',
 		hint: 'Indice',
 		hintDesc: 'Révéler un emplacement correct de tente ou d’herbe',
 		pause: 'Pause',

@@ -37,7 +37,6 @@ export const enTents = {
 	controls: {
 		undo: 'Undo',
 		redo: 'Redo',
-		reset: 'Reset Campsite',
 		hint: 'Hint',
 		hintDesc: 'Reveal one correct tent or grass placement',
 		pause: 'Pause',

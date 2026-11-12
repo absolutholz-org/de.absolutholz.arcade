@@ -17,7 +17,6 @@ export const ptNonogram = {
 		pause: 'Pausa',
 		resume: 'Continuar',
 		restart: 'Reiniciar',
-		resetBoard: 'Limpar tabuleiro',
 		newGame: 'Novo Jogo',
 		backToLobby: 'Voltar ao Menu',
 		puzzleSelect: 'Escolher Quebra-Cabeça',

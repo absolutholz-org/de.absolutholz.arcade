@@ -28,7 +28,6 @@ export const enLiquidSort: LiquidSortTranslationContract = {
 	controls: {
 		undo: 'Undo',
 		redo: 'Redo',
-		reset: 'Reset Board',
 		hint: 'Hint',
 		hintDesc: 'Suggest a valid next pour',
 		pause: 'Pause',

@@ -408,15 +408,14 @@ function GameContent({
 			status={<GameStatusStrip statusText={statusText} statusState={statusState} />}
 			toolbar={
 				<GameControlStrip
-					onReset={handleRestart}
-					canReset={snapshot.currentTurn > 0 && !isPaused}
-					resetLabel={t('controls.restart')}
-					onNewPuzzle={() => {
+					onRestart={handleRestart}
+					canRestart={snapshot.currentTurn > 0 && !isPaused}
+					onNewGame={() => {
 						window.location.href = `/dice-bingo/${activeLang}/`;
 					}}
-					canNewPuzzle={!isPaused}
-					newPuzzleLabel={t('controls.newGame')}
-					aria-label={t('title')}
+					canNewGame={!isPaused}
+					hasActiveProgress={snapshot.currentTurn > 0}
+					isComplete={snapshot.isComplete}
 				/>
 			}
 		>

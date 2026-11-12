@@ -17,7 +17,6 @@ export const frNonogram = {
 		pause: 'Pause',
 		resume: 'Reprendre',
 		restart: 'Recommencer',
-		resetBoard: 'Effacer la grille',
 		newGame: 'Nouvelle partie',
 		backToLobby: 'Retour au menu',
 		puzzleSelect: 'Choisir une grille',
