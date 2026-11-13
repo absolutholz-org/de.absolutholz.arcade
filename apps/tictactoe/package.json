@@ -8,13 +8,14 @@
 		"build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
 		"preview": "astro preview",
 		"test": "node --experimental-strip-types --test src/engine/reducer.test.ts",
-		"typecheck": "astro sync && tsc --noEmit"
+		"typecheck": "ASTRO_TELEMETRY_DISABLED=1 astro sync && tsc --noEmit"
 	},
 	"dependencies": {
 		"@arcade/lib-astro-config": "workspace:*",
 		"@arcade/lib-audio": "workspace:*",
 		"@arcade/lib-i18n": "workspace:*",
 		"@arcade/lib-medals": "workspace:*",
+		"@arcade/lib-multiplayer": "workspace:*",
 		"@arcade/lib-storage": "workspace:*",
 		"@arcade/lib-ui": "workspace:*",
 		"@arcade/lib-user": "workspace:*",
@@ -22,6 +23,7 @@
 		"@linaria/core": "catalog:",
 		"@linaria/react": "catalog:",
 		"astro": "catalog:",
+		"peerjs": "^1.5.4",
 		"react": "catalog:",
 		"react-dom": "catalog:"
 	},

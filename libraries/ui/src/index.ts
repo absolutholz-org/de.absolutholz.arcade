@@ -32,4 +32,10 @@ export { TurnDialog } from './components/TurnDialog';
 export type { TurnDialogProps } from './components/TurnDialog/_TurnDialog.types';
 export { Collapsible } from './components/Collapsible';
 export type { CollapsibleProps, CollapsibleVariant } from './components/Collapsible/_Collapsible.types';
+export { DefeatDialog, VictoryDialog } from './components/VictoryDialog';
+export type {
+	VictoryDialogProps,
+	VictoryDialogVariant,
+	VictoryStatItem,
+} from './components/VictoryDialog';
 export { useFavorites, type UseFavoritesReturn } from '@arcade/lib-user';

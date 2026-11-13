@@ -99,7 +99,8 @@ export function reduce(state: TicTacToeState, action: TicTacToeAction): TicTacTo
 			};
 		}
 
-		case 'RESTART': {
+		case 'RESTART':
+		case 'RESET_GAME': {
 			// Alternating starting turn: if X started, O starts the rematch
 			const nextStartingMark = getNextTurn(state.startingMark);
 			return {

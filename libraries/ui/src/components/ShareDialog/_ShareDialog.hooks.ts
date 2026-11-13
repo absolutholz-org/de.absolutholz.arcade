@@ -4,10 +4,11 @@ export interface UseShareContentOptions {
 	shareUrl: string;
 	title?: string;
 	shareText?: string;
+	roomCode?: string;
 }
 
-export function useShareContent({ shareUrl, title, shareText }: UseShareContentOptions) {
-	const [copied, setCopied] = useState(false);
+export function useShareContent({ shareUrl, title, shareText, roomCode }: UseShareContentOptions) {
+	const [copiedType, setCopiedType] = useState<'link' | 'code' | null>(null);
 	const [canShare, setCanShare] = useState(false);
 
 	useEffect(() => {
@@ -15,23 +16,35 @@ export function useShareContent({ shareUrl, title, shareText }: UseShareContentO
 	}, []);
 
 	useEffect(() => {
-		if (!copied) return;
+		if (!copiedType) return;
 		const timer = setTimeout(() => {
-			setCopied(false);
+			setCopiedType(null);
 		}, 3000);
 		return () => clearTimeout(timer);
-	}, [copied]);
+	}, [copiedType]);
 
 	const copyLink = useCallback(async () => {
 		if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
 			try {
 				await navigator.clipboard.writeText(shareUrl);
-				setCopied(true);
+				setCopiedType('link');
 			} catch {
 				// Clipboard write failed or denied
 			}
 		}
 	}, [shareUrl]);
+
+	const copyCode = useCallback(async () => {
+		if (!roomCode) return;
+		if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+			try {
+				await navigator.clipboard.writeText(roomCode);
+				setCopiedType('code');
+			} catch {
+				// Clipboard write failed or denied
+			}
+		}
+	}, [roomCode]);
 
 	const shareNative = useCallback(async () => {
 		if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
@@ -51,8 +64,10 @@ export function useShareContent({ shareUrl, title, shareText }: UseShareContentO
 
 	return {
 		canShare,
-		copied,
+		copied: copiedType !== null,
+		copiedType,
 		copyLink,
+		copyCode,
 		shareNative,
 	};
 }

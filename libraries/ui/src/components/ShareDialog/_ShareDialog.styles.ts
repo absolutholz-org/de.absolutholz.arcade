@@ -61,6 +61,28 @@ export const ActionsContainer = styled.div`
 	flex: 1 1 auto;
 `;
 
+export const RoomCodeBox = styled.div`
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.75rem;
+	width: 100%;
+	padding: 0.625rem 0.875rem;
+	background-color: ${themeVars['container-1']};
+	border: 1px dashed ${themeVars['container-2']};
+	border-radius: ${radiusScale.md};
+`;
+
+export const RoomCodeValue = styled.span`
+	font-family: monospace;
+	font-size: 1.125rem;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	color: ${themeVars['text-1']};
+	text-transform: uppercase;
+`;
+
 export const StatusBanner = styled.div`
 	width: 100%;
 	padding: 0.5rem 0.75rem;

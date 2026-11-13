@@ -18,8 +18,10 @@ This project is structured as a strict multi-app monorepo utilizing `pnpm worksp
     *   `apps/anagram`: Anagram Scramble word puzzle game with 4 difficulty tiers, Zen & Timed Arcade modes, pluggable UTF-8 signature-indexed lexicon, and full keyboard/tile controls, built with **Astro** and interactive React canvas.
     *   `apps/untangle`: Untangle planar graph puzzle game (`@arcade/untangle`, port `4331`) with 4 difficulty tiers, procedural planar graph generation, real-time line intersection detection, accessible node controls, and timer, built with **Astro** and interactive React canvas.
     *   `apps/pentominoes`: Pentominoes exact-cover polyomino packing puzzle game (`@arcade/pentominoes`, port `4335`) with 16 curated boards (5×3–5×12 Penta Ladder, 6×10, 8×8, and silhouettes), Dancing Links (Algorithm X) solver, dual-input tray/board accessibility, and timer, built with **Astro** and interactive React canvas.
+    *   `apps/tictactoe`: Tic-Tac-Toe turn-based duel game (`@arcade/tictactoe`, port `4336`) supporting local Pass & Play and P2P WebRTC Online multiplayer with alternating starting turns, accessible WAI-ARIA 3×3 grid, and room code sharing, built with **Astro** and interactive React canvas.
     *   `apps/[game]`: Additional interactive game canvases built as pure **React/Vite** Single Page Applications (or Astro Islands).
     *   `libraries/games`: Central game registry, metadata definitions, canonical game IDs, and visual assets (`@arcade/lib-games`).
+    *   `libraries/multiplayer`: Headless peer-to-peer WebRTC multiplayer hooks (`useHostSession`, `useGuestSession`), EU-first STUN/TURN ICE configuration, and namespaced room code utilities (`@arcade/lib-multiplayer`).
     *   `libraries/ui`: Shared design system components styled exclusively with **Linaria**.
     *   `libraries/i18n`: Shared localization engine, language constants, dictionaries, and React hook abstraction (`useI18n`).
     *   `libraries/storage`: Namespaced wrappers for LocalStorage/IndexedDB to prevent cross-game data collisions, session telemetry, and global statistics aggregation (`@arcade/lib-storage`).

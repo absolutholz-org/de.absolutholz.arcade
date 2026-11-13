@@ -26,8 +26,8 @@ To maintain simplicity, speed of execution, and privacy compliance, the followin
     - The aggressive 15-second severance timer from the planning-poker blueprint is removed.
     - Both host and guest persist their active match state in `localStorage` and can reconnect transparently when a tab is reopened, backgrounded, or refreshed.
 5. **Human-Friendly Room Codes:**
-    - Users see and share a concise 6-character code (e.g., `482-915` or `K7M2P9`).
-    - Under the hood, PeerJS registers namespaced identifiers (e.g., `ah-arcade-482915`) to eliminate global collision risk on public signaling brokers.
+    - Users see and share a concise 6-character code (e.g., `k7m2p9`).
+    - Under the hood, PeerJS registers namespaced identifiers (e.g., `ah-arcade-k7m2p9`) to eliminate global collision risk on public signaling brokers.
 
 ---
 
@@ -37,35 +37,26 @@ To maintain simplicity, speed of execution, and privacy compliance, the followin
 
 ```
 +--------------------------------------------------------------+
-|                    1. Match Setup Modal                      |
+|                    1. Mode Selection                         |
 |                                                              |
-|   "Play Tic-Tac-Toe"                                         |
-|                                                              |
-|   [ Option A: Same Device ]        [ Option B: Play Remote ] |
-|   (Instant pass-and-play)          (Invite friend via link)  |
-+-----------------------------+--------------------------------+
-                              |
-              +---------------+---------------+
-              |                               |
-              v                               v
+|        [ Pass & Play ]              [ Online ]               |
++---------------+------------------------------+---------------+
+                |                              |
+                v                              v
 +-------------------------------+ +-------------------------------+
-|  2A. Local Match Init         | |  2B. Remote Host Lobby        |
+|  2A. Local Match Setup        | |  2B. Online Lobby Form        |
 |                               | |                               |
-|  Player 1 (X): [ Dominic    ] | |  Room Code: [ 4 8 2 - 9 1 5 ] |
-|  Player 2 (O): [ Dad        ] | |  [ Copy Link ] [ Show QR ]    |
+|  Player 1 (X): [ Guest      ] | |  Your Name: [ Guest         ] |
+|  Player 2 (O): [ Player 2   ] | |                               |
+|                               | |  "Join via room code?"        |
+|  [ Start Game ]               | |  (Or expanded Room Code input)|
 |                               | |                               |
-|  [ Start Game ]               | |  Status: Waiting for peer...  |
+|                               | |  [ Host a Session -> ]        |
+|                               | |  (Or [ Join Session -> ] if   |
+|                               | |   code is entered / in URL)   |
+|                               | |                               |
+|                               | |  [ (i) How it works & Privacy]|
 +---------------+---------------+ +---------------+---------------+
-                |                                 |
-                |                                 | (Guest clicks link)
-                |                                 v
-                |                 +-------------------------------+
-                |                 |  2C. Remote Guest Landing     |
-                |                 |                               |
-                |                 |  "Join Dad's Room"            |
-                |                 |  Your Name: [ Dominic ]       |
-                |                 |  [ Connect & Play ]           |
-                |                 +---------------+---------------+
                 |                                 |
                 +----------------+----------------+
                                  |
@@ -73,8 +64,8 @@ To maintain simplicity, speed of execution, and privacy compliance, the followin
 +-----------------------------------------------------------------+
 |                        3. Active Game Screen                    |
 |                                                                 |
-|   Header: Dominic (X) vs Dad (O)    | Connection: [ Live / Offline ]
-|   Turn Status: "Dad's Turn"                                     |
+|   Header: Guest (X) vs Player 2 (O) | Share Link / Room Status  |
+|   Turn Status: "Guest's Turn (X)"                               |
 |                                                                 |
 |                          [   |   |   ]                          |
 |                          [---+---+---]                          |
@@ -86,57 +77,32 @@ To maintain simplicity, speed of execution, and privacy compliance, the followin
                                  |
                                  v
 +-----------------------------------------------------------------+
-|                       4. Game Over Overlay                      |
+|                       4. Game Over Dialog                       |
 |                                                                 |
-|   "Dominic Wins!"                                               |
-|   [ Play Again ] (Swaps first turn)    [ Exit to Setup ]        |
+|   "Guest Wins!" / "Match Drawn"                                 |
+|   [ Back to Menu ]                      [ Play Again ]          |
 +-----------------------------------------------------------------+
 ```
 
-### 2.2 Screen Specifications
+### 2.2 Online Lobby Form Specification (Adapted from P2P Planning Poker)
 
-#### Screen 1: Match Setup Modal (`LobbyModeSelectModal`)
+When the user switches the Segmented Control to **Online** (or arrives via a deep link `?room=XXXXXX`), the form renders the progressive-disclosure Lobby pattern:
 
-- **Trigger:** Initial launch of any multiplayer game or clicking "New Game".
-- **Two distinct paths:**
-    1. **Pass & Play (Same Device):** Proceeds to Screen 2A with immediate start.
-    2. **Play Remote (Different Devices):** Prompts Host/Join selection.
-
-#### Screen 2A: Local Match Init (`LocalSetupCard`)
-
-- Configures Player 1 and Player 2 labels (e.g., "Dominic" & "Dad").
-- Randomizes or assigns starting token ($X$ vs $O$).
-- Action: Instantly mounts the board. No network libraries or peers are invoked.
-
-#### Screen 2B: Remote Host Lobby (`RemoteHostLobby`)
-
-- Generates a 6-character room code (e.g. `K7M2P9`).
-- Displays:
-    - Clickable direct invite URL (`arcade.absolutholz.de/tictactoe?room=K7M2P9`).
-    - Native Web Share API trigger button (convenient for mobile messaging apps).
-    - High-contrast QR code for instant phone-to-phone camera scanning.
-    - Live status beacon: _"Waiting for friend to join..."_.
-
-#### Screen 2C: Remote Guest Landing (`RemoteGuestJoin`)
-
-- Automatically populates the room code from the URL parameter `?room=...`.
-- Input for Guest Name (remembers last entered name in `localStorage`).
-- Button: "Join Match" which initiates PeerJS handshake.
-
-#### Screen 3: Unified Game Board (`GameBoardContainer`)
-
-- Renders the game board component (`Grid`, `Tokens`, `TurnBanner`).
-- **Input gating:**
-    - **Local Mode:** Active player alternates with each valid tap. Inputs are always open to whoever has the current turn.
-    - **Remote Mode:** Inputs are only active if `isMyTurn === true`. When waiting on the remote peer, the board shows a subtle pulsing indicator.
-- **Connection Pill:** Shows `Local`, `Connected (Direct)`, `Connected (Relay)`, or `Peer Away (Saved)`.
-
-#### Screen 4: Match Resolution & Rematch (`GameOverModal`)
-
-- Highlights the winning line or declares a draw.
-- Rematch flow:
-    - **Local:** "Play Again" immediately clears the board and inverts the starting mark ($O$ starts next).
-    - **Remote:** "Play Again" sends a `REQUEST_REMATCH` action over the data channel. The opponent accepts with one tap, swapping starting turns.
+1. **Your Name Input:**
+    - Pre-populated from the arcade user profile (`useUserProfile().name`, defaulting to `"Guest"`).
+2. **Progressive Room Code Field:**
+    - **Default State (No URL `room` param):** Displays a clean text button: `"Join via room code?"`.
+    - **Expanded State (Clicked toggle):** Reveals the `"ROOM CODE (OPTIONAL)"` input with placeholder `"Enter code or leave blank to host"`.
+    - **Smart URL Parsing (`extractRoomCode`):** If a user pastes a full invite URL (`https://arcade.absolutholz.de/tictactoe/en/?room=k7m2p9`) into the Room Code input, it automatically strips the URL and extracts `k7m2p9`.
+    - **Deep-Link State (`?room=k7m2p9` in URL):** If accessed directly via a shared link, the room code is automatically set, the mode switches to **Online**, and the CTA defaults to joining that room.
+3. **Dynamic Primary CTA Button:**
+    - When Room Code is empty: **`Host a Session`** (creates a 6-character code, sets role to `host`, and opens the room).
+    - When Room Code has value: **`Join Session`** (sets role to `guest` and connects to the host's room).
+4. **Host Disclaimer & Privacy Disclosure:**
+    - Subtle disclaimer below the button: _"As the host, you hold the only copy of this session."_
+    - Collapsible **`How it works & Privacy`** disclosure explaining:
+        - **Serverless & Private:** WebRTC connects directly between browsers; game moves never touch a server.
+        - **Session Persistence:** State is kept locally in the browser for the duration of the match.
 
 ---
 
@@ -144,153 +110,58 @@ To maintain simplicity, speed of execution, and privacy compliance, the followin
 
 Unlike real-time fast-twitch games or strict conference tools, casual turn-based board games need to survive mobile screen locks, background tab pausing, and slow turn responses.
 
-```
-       [Tab Active] ──(Screen Lock / Tab Switch)──> [Suspended]
-            │                                             │
-            ▼                                             ▼
-     Direct DataChannel                             Channel Closes
-            │                                             │
-            │                                 (Local State Persisted)
-            │                                             │
-       [Tab Resumed] ◄──(Re-open Link / Return)───────────┘
-            │
-            ▼
-    Auto-Reconnect via
-   Saved Room ID & UUID
-            │
-            ▼
-   Host Sends SYNC_STATE
-   (Game continues seamlessly)
-```
-
-1. **State Persistence in LocalStorage:**
-    - Every time `state` updates, the Host saves `{ roomId, state, players }` to `localStorage`.
-    - Guests save `{ roomId, myPeerId, lastState }`.
-2. **No Arbitrary 15s Timeout:**
-    - The 15-second severance destruction timer is eliminated.
-    - If the peer drops, the UI displays a non-blocking indicator: _"Opponent is away. You can leave this page open or return later via your game link."_
-3. **Seamless Reconnection Handshake:**
-    - When the guest re-opens the URL or wakes their device, their persistent UUID dials into the Host's room ID.
-    - If the Host tab was refreshed, the Host reclaims their registered room ID (`ah-arcade-ROOMID`), restores the game state from `localStorage`, and waits for the guest to re-ping.
-    - The Host emits `SYNC_STATE` upon reconnection, restoring the board instantly to the last valid turn.
+1. **State Persistence in Storage:**
+    - Every time `state` updates, the Host backs up `{ roomId, state, users }` to storage.
+    - Guests persist their `peerId` UUID in `localStorage` (`getOrCreatePersistentId`) so refreshing the browser re-identifies them into their existing player slot (`X` or `O`) rather than adding a 3rd spectator.
+2. **Heartbeat for Presence (Without Destructive Severance):**
+    - The Host sends a `HEARTBEAT` pulse every `5000ms`.
+    - If a peer's connection drops or times out, their entry in `users` is marked `isConnected: false` and the UI displays an unobtrusive status badge (_"Opponent offline — waiting to reconnect"_), allowing them to rejoin using the same link at any time.
 
 ---
 
 ## 4. Technical Architecture & Monorepo Boundaries
 
-Games are located under `apps/` while reusable logic resides in shared packages.
+Games are located under `apps/` while reusable logic resides in shared libraries.
 
-```text
-apps/
-└── tictactoe/                    # Game application package
-    ├── src/
-    │   ├── engine/               # Pure Rules: board logic, win checks, reducer
-    │   │   ├── tictactoeEngine.ts
-    │   │   └── types.ts
-    │   ├── components/           # Board UI: Grid, Cell, TurnIndicator
-    │   │   ├── Board.tsx
-    │   │   └── Cell.tsx
-    │   └── ...                   # Reuses shared UI tokens/components
-packages/
-└── shared/
-    ├── lib-game-core/            # Pure TypeScript: Contracts and interfaces
-    │   └── src/types.ts          # GameEngine, BaseAction, PlayerId
-    └── lib-multiplayer/          # Reusable P2P & Local Session Management
-        └── src/                  # ArcadeEngine, session orchestration, EU ICE
-```
+### 4.1 Core Hook Architecture (`useHostSession` & `useGuestSession`)
 
-### 4.1 Shared Game Engine Contract (`@arcade/lib-game-core`)
+Ported directly from the proven Scrum Poker architecture and generalized for turn-based reducers:
 
-All games export a deterministic reducer completely decoupled from rendering and networking:
+- **`useHostSession<TState, TAction>`:**
+    - Registers `new Peer(toPeerId(roomId), { config: { iceServers } })`.
+    - Maintains `connectionsRef = useRef<Map<string, DataConnection>>(new Map())`.
+    - Handles `JOIN_ROOM` (reconnecting existing `conn.peer` UUIDs or adding new players up to `maxPlayers`).
+    - Processes incoming `GAME_ACTION` payloads through the game's pure reducer using functional state updates `setRoomState((prevState) => ...)` to prevent stale closures, then broadcasts `SYNC_STATE` to all open connections.
+    - Runs the 5-second `HEARTBEAT` interval.
+- **`useGuestSession<TState, TAction>`:**
+    - Generates/reads a persistent UUID from `localStorage`.
+    - Registers `new Peer(persistentId, { config: { iceServers } })`.
+    - Inside `peer.on('open')` (preventing race conditions), calls `peer.connect(toPeerId(roomId))`.
+    - Sends `JOIN_ROOM` on open, listens for `SYNC_STATE`, and exposes `sendAction(action)`.
 
-```typescript
-export type PlayerMark = "X" | "O";
-
-export interface BaseAction<TType extends string = string, TPayload = unknown> {
-	type: TType;
-	payload: TPayload;
-}
-
-export interface GameEngine<TState, TAction extends BaseAction> {
-	initialState: TState;
-	reduce: (state: TState, action: TAction, senderMark: PlayerMark) => TState;
-	checkWinner: (state: TState) => PlayerMark | "draw" | null;
-	getNextTurn: (state: TState) => PlayerMark;
-}
-```
-
-### 4.2 Unified Session Hook (`useMultiplayerRoom`)
-
-Whether local or remote, the game UI consumes a single unified API:
-
-```typescript
-export interface MultiplayerRoomResult<TState, TAction> {
-	gameState: TState;
-	mode: "local" | "remote";
-	activeTurnMark: PlayerMark;
-	localPlayerMark: PlayerMark;
-	isMyTurn: boolean;
-	winner: PlayerMark | "draw" | null;
-	connectionStatus: "idle" | "local" | "connecting" | "connected" | "peer-away" | "error";
-	dispatch: (action: TAction) => void;
-	restartGame: () => void;
-}
-```
-
-- When `mode === 'local'`, actions are dispatched synchronously to `LocalEngine`.
-- When `mode === 'remote'`, actions are routed through `ArcadeEngine` (via WebRTC `RTCDataChannel`).
-
----
-
-## 5. Network Configuration & Privacy Defaults
-
-### 5.1 Namespaced Room IDs
-
-To prevent room code collisions on `0.peerjs.com` while presenting a clean 6-character code to players:
+### 4.2 Namespaced Room IDs & Smart Code Extractor
 
 ```typescript
 const ROOM_NAMESPACE = "ah-arcade-";
 
 export function toPeerId(shortCode: string): string {
-	return `${ROOM_NAMESPACE}${shortCode.toLowerCase().replace(/[^a-z0-9]/g, "")}`;
+	return `${ROOM_NAMESPACE}${shortCode.trim().toLowerCase()}`;
 }
 
-export function generateShortRoomCode(): string {
-	return Math.random().toString(36).substring(2, 8).toUpperCase();
+export function extractRoomCode(input: string): string {
+	const trimmed = input.trim();
+	if (!trimmed) return "";
+	try {
+		if (trimmed.includes("://") || trimmed.includes("?")) {
+			const url = new URL(trimmed.startsWith("http") ? trimmed : `https://${trimmed}`);
+			const roomParam = url.searchParams.get("room");
+			if (roomParam) return roomParam.trim().toLowerCase();
+			const parts = url.pathname.split("/").filter(Boolean);
+			return (parts[parts.length - 1] || trimmed).toLowerCase();
+		}
+	} catch {
+		// Fallback to raw input
+	}
+	return trimmed.toLowerCase();
 }
 ```
-
-### 5.2 EU-First ICE Configuration
-
-```typescript
-export const DEFAULT_ICE_SERVERS: RTCIceServer[] = [
-	// 1. Primary EU STUN Servers (Germany - Fast, No Relay, Privacy First)
-	{ urls: ["stun:stun.1und1.de:3478", "stun:stun.hosteurope.de:3478"] },
-	// 2. Metered STUN
-	{ urls: import.meta.env.VITE_METERED_PROJECT_URL || "stun:stun.relay.metered.ca:80" },
-	// 3. Metered TURN Relay Fallback (Protected under Canada EU Adequacy Decision)
-	{
-		urls: [
-			import.meta.env.VITE_METERED_TURN_URL || "turn:standard.relay.metered.ca:80?transport=tcp",
-			import.meta.env.VITE_METERED_TURN_URL_TLS || "turns:standard.relay.metered.ca:443?transport=tcp",
-		],
-		username: import.meta.env.VITE_METERED_USERNAME || "49bd01bf0aa87c984af8ad6d",
-		credential: import.meta.env.VITE_METERED_CREDENTIAL || "Rf/OQ/E+MLxhEYiZ",
-	},
-];
-```
-
----
-
-## 6. Implementation Sequence
-
-1. **Step 1: Game Engine & Local Pass-and-Play (Instant Win)**
-    - Implement Tic-Tac-Toe under `apps/` with a pure reducer and local UI.
-    - Verify complete local two-player pass-and-play functionality with zero network dependencies.
-2. **Step 2: Core Multiplayer Library (`@arcade/lib-multiplayer`)**
-    - Port `ArcadeEngine.ts` with the removed 15s severance watchdog and added `localStorage` persistence.
-    - Add `toPeerId` room namespacing and the EU-first ICE defaults.
-3. **Step 3: Lobby & Sharing UX**
-    - Build the reusable `LobbyModal`, `InviteShareCard`, and QR code generator.
-4. **Step 4: End-to-End Testing**
-    - Validate peer connection between desktop and mobile across separate networks (Wi-Fi vs Cellular).

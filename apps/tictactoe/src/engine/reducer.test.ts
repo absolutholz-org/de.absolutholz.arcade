@@ -1,5 +1,11 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
+import {
+	ROOM_NAMESPACE,
+	extractRoomCode,
+	generateRoomCode,
+	toPeerId,
+} from '../../../../libraries/multiplayer/src/roomCode.ts';
 import { checkWinner, createInitialState, getNextTurn, isValidMove, reduce } from './reducer.ts';
 import type { CellValue } from './types.ts';
 
@@ -206,6 +212,13 @@ describe('Tic-Tac-Toe Engine - Reducer & Rules', () => {
 			state = reduce(state, { type: 'RESTART' });
 			assert.equal(state.startingMark, 'X');
 			assert.equal(state.currentTurn, 'X');
+
+			// Triggering RESET_GAME also swaps startingMark for online rematch parity
+			state = reduce(state, { type: 'RESET_GAME' });
+			assert.equal(state.startingMark, 'O');
+			assert.equal(state.currentTurn, 'O');
+			assert.equal(state.moveCount, 0);
+			assert.equal(state.isComplete, false);
 		});
 
 		it('updates player names via SET_PLAYERS', () => {
@@ -225,6 +238,21 @@ describe('Tic-Tac-Toe Engine - Reducer & Rules', () => {
 			assert.equal(state.moveCount, 0);
 			assert.equal(state.currentTurn, 'X');
 			assert.ok(state.board.every((cell) => cell === null));
+		});
+	});
+
+	describe('Online Room Code & Peer ID Utilities', () => {
+		it('generates a 6-character alphanumeric room code and formats Peer IDs', () => {
+			const code = generateRoomCode();
+			assert.equal(code.length, 6);
+			assert.match(code, /^[a-z0-9]{6}$/);
+			assert.equal(toPeerId('k7m2p9'), `${ROOM_NAMESPACE}k7m2p9`);
+		});
+
+		it('extracts room codes from full URLs, query parameters, and raw inputs', () => {
+			assert.equal(extractRoomCode('https://arcade.absolutholz.de/tictactoe/en/?room=k7m2p9'), 'k7m2p9');
+			assert.equal(extractRoomCode('https://arcade.absolutholz.de/tictactoe/room/m8n9p0'), 'm8n9p0');
+			assert.equal(extractRoomCode('  AbC123  '), 'abc123');
 		});
 	});
 });

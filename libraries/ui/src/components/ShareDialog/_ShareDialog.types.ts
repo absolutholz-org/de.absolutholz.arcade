@@ -30,6 +30,18 @@ export interface IShareDialog {
 	 * Optional toast/announcement string displayed upon successful link copy.
 	 */
 	copySuccessMessage?: string;
+	/**
+	 * Optional multiplayer room code to display with its own copy action.
+	 */
+	roomCode?: string;
+	/**
+	 * Optional custom label for the copy room code button.
+	 */
+	copyCodeLabel?: string;
+	/**
+	 * Optional toast/announcement string displayed upon successful room code copy.
+	 */
+	codeCopiedMessage?: string;
 }
 
 /**
@@ -52,4 +64,16 @@ export interface ShareContentProps {
 	 * Optional toast/announcement message.
 	 */
 	copySuccessMessage?: string;
+	/**
+	 * Optional multiplayer room code to display with its own copy action.
+	 */
+	roomCode?: string;
+	/**
+	 * Optional custom label for the copy room code button.
+	 */
+	copyCodeLabel?: string;
+	/**
+	 * Optional toast/announcement string displayed upon successful room code copy.
+	 */
+	codeCopiedMessage?: string;
 }

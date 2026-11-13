@@ -19,5 +19,6 @@ export interface TicTacToeState {
 export type TicTacToeAction =
 	| { type: 'MAKE_MOVE'; payload: { index: number; senderMark?: PlayerMark } }
 	| { type: 'RESTART' }
+	| { type: 'RESET_GAME' }
 	| { type: 'SET_PLAYERS'; payload: { player1Name: string; player2Name: string } }
 	| { type: 'RESET'; payload?: { startingMark?: PlayerMark } };

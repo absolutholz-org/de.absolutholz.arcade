@@ -10,12 +10,21 @@ import type { IShareDialog, ShareContentProps } from './_ShareDialog.types';
 /**
  * Reusable body content for sharing URLs via QR Code, native Web Share API, and clipboard copy.
  */
-export function ShareContent({ shareUrl, shareText, title, copySuccessMessage }: ShareContentProps): JSX.Element {
+export function ShareContent({
+	shareUrl,
+	shareText,
+	title,
+	copySuccessMessage,
+	roomCode,
+	copyCodeLabel,
+	codeCopiedMessage,
+}: ShareContentProps): JSX.Element {
 	const { t } = useI18n('common');
-	const { canShare, copied, copyLink, shareNative } = useShareContent({
+	const { canShare, copied, copiedType, copyLink, copyCode, shareNative } = useShareContent({
 		shareUrl,
 		title,
 		shareText,
+		roomCode,
 	});
 
 	const resolvedCopyMessage = copySuccessMessage ?? t('share.linkCopied');
@@ -34,18 +43,26 @@ export function ShareContent({ shareUrl, shareText, title, copySuccessMessage }:
 			</S.QrCard>
 
 			<S.ActionsContainer>
+				{roomCode && (
+					<S.RoomCodeBox>
+						<S.RoomCodeValue>{roomCode}</S.RoomCodeValue>
+						<Button variant="outline" size="sm" type="button" onClick={copyCode}>
+							{copyCodeLabel ?? t('share.copyCode')}
+						</Button>
+					</S.RoomCodeBox>
+				)}
 				{canShare && (
-					<Button variant="primary" size="md" onClick={shareNative}>
+					<Button variant="primary" size="md" type="button" onClick={shareNative}>
 						{t('share.share')}
 					</Button>
 				)}
-				<Button variant={canShare ? 'outline' : 'primary'} size="md" onClick={copyLink}>
+				<Button variant={canShare ? 'outline' : 'primary'} size="md" type="button" onClick={copyLink}>
 					{t('share.copyLink')}
 				</Button>
 				{copied && (
 					// biome-ignore lint/a11y/useSemanticElements: ARIA role="status" is mandated by the architectural specification for persistent toast live regions
 					<S.StatusBanner role="status" aria-live="polite">
-						{resolvedCopyMessage}
+						{copiedType === 'code' ? (codeCopiedMessage ?? t('share.codeCopied')) : resolvedCopyMessage}
 					</S.StatusBanner>
 				)}
 			</S.ActionsContainer>
@@ -65,6 +82,9 @@ export function ShareDialog({
 	shareUrl,
 	shareText,
 	copySuccessMessage,
+	roomCode,
+	copyCodeLabel,
+	codeCopiedMessage,
 }: IShareDialog): JSX.Element {
 	return (
 		<Dialog id={id} isOpen={isOpen} onCancel={onClose} title={title}>
@@ -73,6 +93,9 @@ export function ShareDialog({
 				shareText={shareText}
 				title={title}
 				copySuccessMessage={copySuccessMessage}
+				roomCode={roomCode}
+				copyCodeLabel={copyCodeLabel}
+				codeCopiedMessage={codeCopiedMessage}
 			/>
 		</Dialog>
 	);

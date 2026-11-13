@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react';
 
+export type VictoryDialogVariant = 'victory' | 'defeat' | 'draw';
+
 export interface VictoryStatItem {
 	label: string;
 	value: ReactNode;
@@ -12,6 +14,8 @@ export interface VictoryDialogProps {
 	isOpen: boolean;
 	/** Callback when dialog is closed or canceled */
 	onClose: () => void;
+	/** Dialog outcome variant (default: 'victory') */
+	variant?: VictoryDialogVariant;
 	/** Dialog title (e.g. "Puzzle Solved!", "Congratulations!") */
 	title?: string;
 	/** Optional congratulatory or completion description message */

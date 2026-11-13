@@ -1,4 +1,4 @@
-import { playMedalChime, playVictoryFanfare, triggerHaptic } from '@arcade/lib-audio';
+import { playMedalChime, playRegression, playVictoryFanfare, triggerHaptic } from '@arcade/lib-audio';
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import React, { useEffect, useRef } from 'react';
 import { Button } from '../Button';
@@ -25,7 +25,7 @@ export function VictoryDialog({
 	bestTimeText,
 	children,
 	elapsedSeconds,
-	hasConfetti = true,
+	hasConfetti,
 	hasNextPuzzle = false,
 	id,
 	isNewBestTime = false,
@@ -46,9 +46,11 @@ export function VictoryDialog({
 	stats,
 	timeLabel,
 	title,
+	variant = 'victory',
 }: VictoryDialogProps) {
 	const { t } = useI18n();
 
+	const shouldShowConfetti = hasConfetti ?? variant === 'victory';
 	const resolvedTitle = title || t('app.title');
 	const resolvedTimeLabel = formatStatLabel(timeLabel, 'TIME');
 	const resolvedMovesLabel = formatStatLabel(movesLabel, 'MOVES');
@@ -66,21 +68,28 @@ export function VictoryDialog({
 	const prevIsOpenRef = useRef(false);
 	useEffect(() => {
 		if (isOpen && !prevIsOpenRef.current) {
-			playVictoryFanfare();
-			triggerHaptic('success');
-			if (isNewBestTime) {
-				const timer = setTimeout(() => {
-					playMedalChime();
-				}, 600);
-				return () => clearTimeout(timer);
+			if (variant === 'victory') {
+				playVictoryFanfare();
+				triggerHaptic('success');
+				if (isNewBestTime) {
+					const timer = setTimeout(() => {
+						playMedalChime();
+					}, 600);
+					return () => clearTimeout(timer);
+				}
+			} else if (variant === 'defeat') {
+				playRegression();
+				triggerHaptic('warning');
+			} else if (variant === 'draw') {
+				triggerHaptic('light');
 			}
 		}
 		prevIsOpenRef.current = isOpen;
-	}, [isOpen, isNewBestTime]);
+	}, [isOpen, isNewBestTime, variant]);
 
 	return (
 		<>
-			{isOpen && hasConfetti && <Confetti />}
+			{isOpen && shouldShowConfetti && <Confetti />}
 			<Dialog
 				id={id}
 				isOpen={isOpen}
@@ -158,4 +167,8 @@ export function VictoryDialog({
 			</Dialog>
 		</>
 	);
+}
+
+export function DefeatDialog(props: Omit<VictoryDialogProps, 'variant' | 'hasConfetti'>) {
+	return <VictoryDialog {...props} variant="defeat" hasConfetti={false} />;
 }
