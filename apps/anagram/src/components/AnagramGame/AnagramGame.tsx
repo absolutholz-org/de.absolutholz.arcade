@@ -194,17 +194,6 @@ export function AnagramGame({
 				}
 			>
 				<div className={S.boardArea}>
-					<AnagramControls
-						canSubmit={game.stagedIds.length > 0}
-						isDisabled={!game.isInteractive}
-						isEnded={game.isEnded}
-						hasClearedBaseline={game.hasClearedBaseline}
-						showReveal={mode === 'zen'}
-						onShuffle={game.shuffle}
-						onClear={game.clearStaged}
-						onSubmit={game.submit}
-						onReveal={game.reveal}
-					/>
 					<AnagramSlots
 						words={game.round.words}
 						foundWords={game.foundWords}
@@ -221,6 +210,18 @@ export function AnagramGame({
 						feedbackKind={game.feedback?.kind ?? 'idle'}
 						onStageTile={game.stageTile}
 						onRecallTile={game.recallTile}
+					/>
+
+					<AnagramControls
+						canSubmit={game.stagedIds.length > 0}
+						isDisabled={!game.isInteractive}
+						isEnded={game.isEnded}
+						hasClearedBaseline={game.hasClearedBaseline}
+						showReveal={mode === 'zen'}
+						onShuffle={game.shuffle}
+						onClear={game.clearStaged}
+						onSubmit={game.submit}
+						onReveal={game.reveal}
 					/>
 				</div>
 
