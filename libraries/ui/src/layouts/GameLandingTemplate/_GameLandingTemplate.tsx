@@ -5,6 +5,7 @@ import { Button } from '../../components/Button';
 import { GameActionBar } from '../../components/GameActionBar';
 import { Hero } from '../../components/Hero';
 import { PageContainer } from '../../components/PageContainer';
+import { Stack } from '../../components/Stack';
 import * as S from './_GameLandingTemplate.styles';
 import type { GameLandingTemplateProps } from './_GameLandingTemplate.types';
 
@@ -76,7 +77,15 @@ export function GameLandingTemplate({
 			{pageFooterLinks && pageFooterLinks.length > 0 && (
 				<PageContainer variant="standard">
 					<S.FooterZone>
-						<S.FooterNav aria-label="Game links">
+						<Stack
+							as={S.FooterNav}
+							direction="row"
+							wrap
+							justify="center"
+							spacing="lg"
+							crossSpacing="xs"
+							aria-label="Game links"
+						>
 							{pageFooterLinks.map((link) => {
 								if (link.href) {
 									return (
@@ -91,7 +100,7 @@ export function GameLandingTemplate({
 									</button>
 								);
 							})}
-						</S.FooterNav>
+						</Stack>
 					</S.FooterZone>
 				</PageContainer>
 			)}

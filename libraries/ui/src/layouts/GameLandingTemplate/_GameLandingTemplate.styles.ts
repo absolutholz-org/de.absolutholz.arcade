@@ -5,15 +5,11 @@ import { themeColor } from '../../styles/theme/theme.utils';
 
 export const FooterZone = styled.footer`
 	border-top: 1px solid ${themeColor('container-2')};
+	margin-top: ${space('xl')};
 	padding-top: ${space('xl')};
 `;
 
 export const FooterNav = styled.nav`
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	gap: ${space('lg')};
-
 	a,
 	button {
 		background: none;
