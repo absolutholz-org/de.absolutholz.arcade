@@ -3,8 +3,7 @@ import type { TicTacToeTranslationContract } from '../../schemas/tictactoe.schem
 export const enTicTacToe: TicTacToeTranslationContract = {
 	title: 'Tic-Tac-Toe',
 	subtitle: 'Classic 3x3 duel of strategy, marks, and alignment.',
-	description:
-		'Challenge a friend in local pass-and-play Tic-Tac-Toe. Align three X or O marks in a row, column, or diagonal to claim victory.',
+	description: 'Align three matching marks in a line to outsmart your opponent.',
 	playButton: 'Play Tic-Tac-Toe',
 	difficulty: {
 		standard: 'Classic 3×3',
@@ -43,7 +42,7 @@ export const enTicTacToe: TicTacToeTranslationContract = {
 	online: {
 		roomCode: 'Room Code: {{code}}',
 		waitingForOpponent: 'Waiting for opponent...',
-		waitingBannerMessage: 'Room {{code}} — Share the invite link with Player 2 to start the match.',
+		waitingBannerMessage: 'Join Tic Tac Toe game',
 		copyInviteLink: 'Copy Invite Link',
 		inviteLinkCopied: 'Invite link copied to clipboard!',
 		connected: 'Connected',

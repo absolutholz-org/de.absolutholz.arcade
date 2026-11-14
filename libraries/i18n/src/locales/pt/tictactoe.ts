@@ -3,8 +3,7 @@ import type { TicTacToeTranslationContract } from '../../schemas/tictactoe.schem
 export const ptTicTacToe: TicTacToeTranslationContract = {
 	title: 'Jogo da Velha',
 	subtitle: 'Clássico duelo 3x3 de estratégia, marcas e alinhamento.',
-	description:
-		'Desafie um amigo no modo local passa-e-joga. Alinhe três símbolos X ou O em linha, coluna ou diagonal para vencer.',
+	description: 'Alinhe três símbolos iguais na grade para superar o seu oponente.',
 	playButton: 'Jogar Jogo da Velha',
 	difficulty: {
 		standard: 'Clássico 3×3',
@@ -43,7 +42,7 @@ export const ptTicTacToe: TicTacToeTranslationContract = {
 	online: {
 		roomCode: 'Código da Sala: {{code}}',
 		waitingForOpponent: 'A aguardar adversário...',
-		waitingBannerMessage: 'Sala {{code}} — Partilhe a ligação de convite com o Jogador 2 para iniciar.',
+		waitingBannerMessage: 'Entrar no jogo de Tic-Tac-Toe',
 		copyInviteLink: 'Copiar Ligação de Convite',
 		inviteLinkCopied: 'Ligação de convite copiada para a área de transferência!',
 		connected: 'Ligado',

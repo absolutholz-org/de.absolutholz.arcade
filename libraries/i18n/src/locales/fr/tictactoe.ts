@@ -3,8 +3,7 @@ import type { TicTacToeTranslationContract } from '../../schemas/tictactoe.schem
 export const frTicTacToe: TicTacToeTranslationContract = {
 	title: 'Morpion (Tic-Tac-Toe)',
 	subtitle: 'Duel classique 3x3 de stratégie et d’alignement.',
-	description:
-		'Défiez un ami en mode passe-et-joue local. Alignez trois symboles X ou O à l’horizontale, à la verticale ou en diagonale.',
+	description: 'Alignez trois symboles identiques sur la grille pour l’emporter.',
 	playButton: 'Jouer au Morpion',
 	difficulty: {
 		standard: 'Classique 3×3',
@@ -43,7 +42,7 @@ export const frTicTacToe: TicTacToeTranslationContract = {
 	online: {
 		roomCode: 'Code du salon : {{code}}',
 		waitingForOpponent: 'En attente d’un adversaire...',
-		waitingBannerMessage: 'Salon {{code}} — Partagez le lien d’invitation avec le Joueur 2 pour commencer.',
+		waitingBannerMessage: 'Rejoindre la partie de Tic-Tac-Toe',
 		copyInviteLink: 'Copier le lien d’invitation',
 		inviteLinkCopied: 'Lien d’invitation copié dans le presse-papiers !',
 		connected: 'Connecté',

@@ -3,8 +3,7 @@ import type { TicTacToeTranslationContract } from '../../schemas/tictactoe.schem
 export const deTicTacToe: TicTacToeTranslationContract = {
 	title: 'Tic-Tac-Toe',
 	subtitle: 'Klassisches 3x3-Duell aus Strategie, Zeichen und Reihenbildung.',
-	description:
-		'Fordere eine andere Person im lokalen Pass-and-Play Tic-Tac-Toe heraus. Bilde eine Dreierreihe aus X oder O waagerecht, senkrecht oder diagonal.',
+	description: 'Bilde eine Dreierreihe aus deinen Symbolen, um das Duell zu gewinnen.',
 	playButton: 'Tic-Tac-Toe spielen',
 	difficulty: {
 		standard: 'Klassisch 3×3',
@@ -43,7 +42,7 @@ export const deTicTacToe: TicTacToeTranslationContract = {
 	online: {
 		roomCode: 'Raumcode: {{code}}',
 		waitingForOpponent: 'Warte auf Gegner...',
-		waitingBannerMessage: 'Raum {{code}} — Teile den Einladungslink mit Spieler 2, um das Spiel zu starten.',
+		waitingBannerMessage: 'Tic-Tac-Toe-Spiel beitreten',
 		copyInviteLink: 'Einladungslink kopieren',
 		inviteLinkCopied: 'Einladungslink in die Zwischenablage kopiert!',
 		connected: 'Verbunden',
