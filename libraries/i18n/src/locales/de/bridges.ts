@@ -2,8 +2,7 @@ import type { BridgesTranslationContract } from '../../schemas/bridges.schema.js
 
 export const deBridges: BridgesTranslationContract = {
 	title: 'Bridges',
-	description:
-		'Verbinde Inseln mit horizontalen und vertikalen Brücken zu einem einzigen Netzwerk entsprechend aller Vorgaben.',
+	description: 'Verbinde Inseln mit Brücken zu einem Netz entsprechend aller Vorgaben.',
 	difficulty: {
 		label: 'Schwierigkeit',
 		beginner: 'Anfänger',

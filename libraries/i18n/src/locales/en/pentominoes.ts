@@ -3,7 +3,7 @@ import type { PentominoesTranslationContract } from '../../schemas/pentominoes.s
 export const enPentominoes: PentominoesTranslationContract = {
 	title: 'Pentominoes',
 	subtitle: 'Polyomino spatial packing puzzle',
-	description: 'Fit polyomino tile pieces perfectly into defined geometric frames without overlaps or voids.',
+	description: 'Fit polyomino tiles perfectly into frames without overlaps or voids.',
 	difficulty: {
 		label: 'Difficulty',
 		easy: 'Easy',

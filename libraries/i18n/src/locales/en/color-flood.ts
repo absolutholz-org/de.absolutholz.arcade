@@ -3,8 +3,7 @@ import type { ColorFloodTranslationContract } from '../../schemas/color-flood.sc
 export const enColorFlood: ColorFloodTranslationContract = {
 	title: 'Color Flood',
 	subtitle: 'Flood the entire board with a single color within the move limit.',
-	description:
-		'A casual color-sorting puzzle game where you expand your cluster from the top-left cell until the entire board matches.',
+	description: 'Flood the entire board with a single color within the move limit.',
 	difficulty: {
 		label: 'Difficulty',
 		beginner: 'Beginner (8×8)',

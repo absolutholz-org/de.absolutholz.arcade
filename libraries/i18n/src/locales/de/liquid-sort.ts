@@ -2,8 +2,7 @@ import type { LiquidSortTranslationContract } from '../../schemas/liquid-sort.sc
 
 export const deLiquidSort: LiquidSortTranslationContract = {
 	title: 'Flüssig-Sort',
-	description:
-		'Farbige Flüssigkeiten in Reagenzgläser umfüllen und sortieren, bis jedes Glas nur eine Farbe enthält.',
+	description: 'Sortiere bunte Flüssigkeiten in Gläser, bis jedes nur eine Farbe hat.',
 	difficulty: {
 		label: 'Schwierigkeit',
 		easy: 'Leicht',

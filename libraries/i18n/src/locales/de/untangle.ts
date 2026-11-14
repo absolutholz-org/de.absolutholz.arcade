@@ -3,7 +3,7 @@ import type { UntangleTranslationContract } from '../../schemas/untangle.schema.
 export const deUntangle = {
 	title: 'Entwirren',
 	subtitle: 'Ziehe Knoten, um sich kreuzende Kanten zu einem überschneidungsfreien Graphen zu entwirren.',
-	description: 'Verschiebe die verbundenen Knoten auf der Spielfläche, bis sich keine zwei Kanten mehr schneiden.',
+	description: 'Verschiebe Knoten auf dem Feld, bis sich keine Kanten mehr kreuzen.',
 	difficulty: {
 		label: 'Schwierigkeitsgrad',
 		easy: 'Anfänger / Kinderfreundlich',

@@ -3,7 +3,7 @@ import type { NetTranslationContract } from '../../schemas/net.schema.js';
 export const ptNet: NetTranslationContract = {
 	title: 'Net',
 	subtitle: 'Gire as peças para conectar todos os terminais e computadores ao servidor central.',
-	description: 'Conecte todos os nós da rede ao servidor central girando os cabos de conexão.',
+	description: 'Gire as conexões para ligar cada terminal ao servidor central.',
 	difficulty: {
 		label: 'Dificuldade',
 		easy: 'Fácil (5×5)',

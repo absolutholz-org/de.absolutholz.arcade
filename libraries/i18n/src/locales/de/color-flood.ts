@@ -3,8 +3,7 @@ import type { ColorFloodTranslationContract } from '../../schemas/color-flood.sc
 export const deColorFlood: ColorFloodTranslationContract = {
 	title: 'Farbflut',
 	subtitle: 'Flute das gesamte Spielfeld mit einer einzigen Farbe innerhalb des Zuglimits.',
-	description:
-		'Ein entspannendes Farbsortier-Puzzlespiel, bei dem du ausgehend von der oberen linken Zelle das gesamte Spielfeld eroberst.',
+	description: 'Flute das gesamte Spielfeld mit einer Farbe innerhalb des Zuglimits.',
 	difficulty: {
 		label: 'Schwierigkeitsgrad',
 		beginner: 'Anfänger (8×8)',

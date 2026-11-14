@@ -3,8 +3,7 @@ import type { DiceBingoTranslationContract } from '../../schemas/dice-bingo.sche
 export const enDiceBingo: DiceBingoTranslationContract = {
 	title: 'Dice Bingo',
 	subtitle: 'Roll dice, place sums strategically, and score poker hands across the grid.',
-	description:
-		'A casual board logic game where you roll two dice each turn and place their sum into a spatial grid to construct poker hands across rows, columns, and diagonals.',
+	description: 'Roll dice and place sums strategically to score lines across the grid.',
 	difficulty: {
 		label: 'Difficulty',
 		easy: 'Easy (4×4)',

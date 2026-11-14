@@ -3,7 +3,7 @@ import type { NetTranslationContract } from '../../schemas/net.schema.js';
 export const enNet: NetTranslationContract = {
 	title: 'Net',
 	subtitle: 'Rotate tiles to connect every terminal and computer to the central root server.',
-	description: 'Connect every node in the network to the central power server by rotating network cables.',
+	description: 'Rotate network tiles to connect every computer to the central server.',
 	difficulty: {
 		label: 'Difficulty',
 		easy: 'Easy (5×5)',

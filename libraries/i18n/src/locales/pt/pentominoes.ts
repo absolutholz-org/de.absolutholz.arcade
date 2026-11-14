@@ -3,8 +3,7 @@ import type { PentominoesTranslationContract } from '../../schemas/pentominoes.s
 export const ptPentominoes: PentominoesTranslationContract = {
 	title: 'Pentaminós',
 	subtitle: 'Quebra-cabeça de empacotamento espacial de poliominós',
-	description:
-		'Encaixe peças poliominós com perfeição em molduras geométricas definidas sem sobreposições nem espaços vazios.',
+	description: 'Encaixe poliominós nas molduras sem sobreposições nem espaços vazios.',
 	difficulty: {
 		label: 'Dificuldade',
 		easy: 'Fácil',

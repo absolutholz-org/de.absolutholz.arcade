@@ -3,7 +3,7 @@ import type { NetTranslationContract } from '../../schemas/net.schema.js';
 export const frNet: NetTranslationContract = {
 	title: 'Net',
 	subtitle: 'Faites pivoter les tuiles pour connecter chaque terminal au serveur central.',
-	description: 'Connectez chaque nœud du réseau au serveur central en faisant pivoter les câbles.',
+	description: 'Pivotez les câbles pour relier chaque poste au serveur central.',
 	difficulty: {
 		label: 'Difficulté',
 		easy: 'Facile (5×5)',

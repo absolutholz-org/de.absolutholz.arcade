@@ -3,8 +3,7 @@ import type { TentsTranslationContract } from '../../schemas/tents.schema.js';
 export const ptTents = {
 	title: 'Tendas',
 	subtitle: 'Acampe na natureza com lógica e precisão.',
-	description:
-		'Arme uma barraca ao lado de cada árvore na floresta. Certifique-se de que nenhuma barraca se toque, mesmo na diagonal, e cumpra todas as contagens das linhas e colunas.',
+	description: 'Arme barracas junto às árvores cumprindo as cotas das linhas e colunas.',
 	difficulty: {
 		label: 'Dificuldade',
 		easy: 'Fácil',

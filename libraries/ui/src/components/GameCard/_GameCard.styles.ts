@@ -7,6 +7,10 @@ export const CardContainer = styled.div`
 	flex-direction: column;
 	width: 100%;
 	height: 100%;
+
+	> :first-child {
+		height: 100%;
+	}
 `;
 
 export const Header = styled.div`
@@ -16,7 +20,7 @@ export const Header = styled.div`
 	width: 100%;
 
 	&[data-has-favorite='true'] {
-		padding-right: 2rem;
+		padding-right: 2.75rem;
 	}
 `;
 
@@ -25,6 +29,11 @@ export const FavoriteWrapper = styled.div`
 	top: 0.5rem;
 	right: 0.5rem;
 	z-index: 2;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 44px;
+	min-height: 44px;
 `;
 
 export const Icon = styled.span`
@@ -55,6 +64,7 @@ export const Footer = styled.footer`
 	align-items: center;
 	gap: 0.5rem;
 	flex-wrap: wrap;
-	margin-top: 0.5rem;
+	margin-top: auto;
+	padding-top: 0.5rem;
 	width: 100%;
 `;

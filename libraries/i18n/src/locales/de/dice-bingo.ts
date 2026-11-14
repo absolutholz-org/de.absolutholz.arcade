@@ -3,8 +3,7 @@ import type { DiceBingoTranslationContract } from '../../schemas/dice-bingo.sche
 export const deDiceBingo: DiceBingoTranslationContract = {
 	title: 'Würfel-Bingo',
 	subtitle: 'Würfle, platziere Summen taktisch und bilde Pokerhände auf dem Spielfeld.',
-	description:
-		'Ein entspanntes Logikspiel, bei dem du in jeder Runde zwei Würfel wirfst und deren Summe in ein Gitter einträgst, um Pokerhände in Reihen, Spalten und Diagonalen zu bilden.',
+	description: 'Würfle und trage Summen klug ein, um Reihen auf dem Gitter zu werten.',
 	difficulty: {
 		label: 'Schwierigkeit',
 		easy: 'Leicht (4×4)',

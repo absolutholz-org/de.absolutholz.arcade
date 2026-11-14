@@ -3,8 +3,7 @@ import type { TentsTranslationContract } from '../../schemas/tents.schema.js';
 export const enTents = {
 	title: 'Tents',
 	subtitle: 'Camp in the wild with logic and precision.',
-	description:
-		'Pitch a tent next to each tree in the forest. Ensure no tents touch each other, not even diagonally, and match all row and column numbers.',
+	description: 'Pitch a tent next to every tree while matching row and column counts.',
 	difficulty: {
 		label: 'Difficulty',
 		easy: 'Easy',

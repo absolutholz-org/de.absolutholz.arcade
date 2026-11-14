@@ -3,8 +3,7 @@ import type { TentsTranslationContract } from '../../schemas/tents.schema.js';
 export const frTents = {
 	title: 'Tentes',
 	subtitle: 'Campez dans la forêt avec logique et précision.',
-	description:
-		'Plantez une tente à côté de chaque arbre dans la forêt. Veillez à ce qu’aucune tente ne se touche, même en diagonale, et respectez les totaux par ligne et colonne.',
+	description: 'Plantez des tentes près des arbres en respectant les totaux par rangée.',
 	difficulty: {
 		label: 'Difficulté',
 		easy: 'Facile',

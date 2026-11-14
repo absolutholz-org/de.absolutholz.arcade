@@ -2,8 +2,7 @@ import type { StarBattleTranslationContract } from '../../schemas/star-battle.sc
 
 export const deStarBattle = {
 	title: 'Sternenschlacht',
-	description:
-		'Platziere neutrale Sterne so, dass jede Zeile, Spalte und Farbzone genau einen Stern enthält, ohne sich zu berühren.',
+	description: 'Setze Sterne in jede Zeile, Spalte und Zone, ohne dass sie sich berühren.',
 	difficulty: {
 		label: 'Schwierigkeitsgrad',
 		easy: 'Einfach',

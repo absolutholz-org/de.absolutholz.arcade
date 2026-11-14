@@ -3,8 +3,7 @@ import type { DiceBingoTranslationContract } from '../../schemas/dice-bingo.sche
 export const ptDiceBingo: DiceBingoTranslationContract = {
 	title: 'Bingo de dados',
 	subtitle: 'Role os dados, posicione somas com estratégia e forme mãos de pôquer no tabuleiro.',
-	description:
-		'Um jogo de lógica casual onde você rola dois dados a cada rodada e posiciona a soma no tabuleiro para formar mãos de pôquer em linhas, colunas e diagonais.',
+	description: 'Role os dados e posicione somas para pontuar linhas no tabuleiro.',
 	difficulty: {
 		label: 'Dificuldade',
 		easy: 'Fácil (4×4)',

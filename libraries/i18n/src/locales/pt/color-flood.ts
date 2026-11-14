@@ -3,8 +3,7 @@ import type { ColorFloodTranslationContract } from '../../schemas/color-flood.sc
 export const ptColorFlood: ColorFloodTranslationContract = {
 	title: 'Maré de cores',
 	subtitle: 'Inunde todo o tabuleiro com uma única cor dentro do limite de movimentos.',
-	description:
-		'Um jogo casual de ordenação de cores no qual você expande seu grupo do canto superior esquerdo até preencher o tabuleiro.',
+	description: 'Inunde o tabuleiro com uma só cor dentro do limite de movimentos.',
 	difficulty: {
 		label: 'Dificuldade',
 		beginner: 'Iniciante (8×8)',

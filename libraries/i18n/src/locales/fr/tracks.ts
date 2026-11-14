@@ -2,8 +2,7 @@ import type { TracksTranslationContract } from '../../schemas/tracks.schema.js';
 
 export const frTracks = {
 	title: 'Tracks',
-	description:
-		'Construisez une voie ferrée continue de la gare de départ à la gare d’arrivée en respectant les indices de chaque ligne et colonne.',
+	description: 'Créez une voie ferrée continue du départ à l’arrivée selon les indices.',
 	difficulty: {
 		label: 'Difficulté',
 		easy: 'Facile',

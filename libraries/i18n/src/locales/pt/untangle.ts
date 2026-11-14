@@ -3,7 +3,7 @@ import type { UntangleTranslationContract } from '../../schemas/untangle.schema.
 export const ptUntangle = {
 	title: 'Desembaraçar',
 	subtitle: 'Arraste os nós para desembaraçar arestas cruzadas em um grafo planar limpo.',
-	description: 'Reposicione os vértices conectados na tela até que nenhuma aresta cruze outra.',
+	description: 'Mova os vértices na tela até que nenhuma linha cruze outra.',
 	difficulty: {
 		label: 'Dificuldade',
 		easy: 'Iniciante / Infantil',

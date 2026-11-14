@@ -3,8 +3,7 @@ import type { DiceBingoTranslationContract } from '../../schemas/dice-bingo.sche
 export const frDiceBingo: DiceBingoTranslationContract = {
 	title: 'Bingo aux dés',
 	subtitle: 'Lancez les dés, placez les sommes avec stratégie et formez des mains de poker.',
-	description:
-		'Un jeu de logique où vous lancez deux dés à chaque tour et placez leur somme dans une grille pour former des combinaisons de poker sur les lignes, colonnes et diagonales.',
+	description: 'Lancez les dés et placez les sommes pour former des lignes payantes.',
 	difficulty: {
 		label: 'Difficulté',
 		easy: 'Facile (4×4)',

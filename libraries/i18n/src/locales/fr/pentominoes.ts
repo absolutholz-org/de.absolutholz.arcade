@@ -3,8 +3,7 @@ import type { PentominoesTranslationContract } from '../../schemas/pentominoes.s
 export const frPentominoes: PentominoesTranslationContract = {
 	title: 'Pentaminos',
 	subtitle: 'Casse-tête de pavage spatial en polyominos',
-	description:
-		'Insérez parfaitement des pièces de polyominos dans des cadres géométriques sans chevauchement ni case vide.',
+	description: 'Placez les polyominos dans le cadre sans chevauchement ni vide.',
 	difficulty: {
 		label: 'Difficulté',
 		easy: 'Facile',

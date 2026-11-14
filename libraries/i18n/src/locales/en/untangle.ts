@@ -3,7 +3,7 @@ import type { UntangleTranslationContract } from '../../schemas/untangle.schema.
 export const enUntangle = {
 	title: 'Untangle',
 	subtitle: 'Drag nodes to untangle intersecting edges into a clean planar graph.',
-	description: 'Reposition connected vertices on the canvas until no two edges cross each other.',
+	description: 'Reposition vertices on the canvas until no connecting edges cross.',
 	difficulty: {
 		label: 'Difficulty',
 		easy: 'Beginner / Kid-friendly',

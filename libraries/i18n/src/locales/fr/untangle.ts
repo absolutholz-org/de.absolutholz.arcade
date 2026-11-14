@@ -3,7 +3,7 @@ import type { UntangleTranslationContract } from '../../schemas/untangle.schema.
 export const frUntangle = {
 	title: 'Démêler',
 	subtitle: 'Déplacez les nœuds pour démêler les arêtes qui se croisent en un graphe planaire net.',
-	description: 'Repositionnez les sommets reliés sur le canevas jusqu’à ce qu’aucune arête ne coupe une autre.',
+	description: 'Déplacez les sommets jusqu’à ce qu’aucune arête ne se croise.',
 	difficulty: {
 		label: 'Difficulté',
 		easy: 'Débutant / Enfants',

@@ -2,8 +2,7 @@ import type { TracksTranslationContract } from '../../schemas/tracks.schema.js';
 
 export const deTracks = {
 	title: 'Tracks',
-	description:
-		'Baue eine durchgehende Bahnstrecke vom Startbahnhof zum Zielbahnhof, sodass alle Zeilen- und Spaltenvorgaben erfüllt sind.',
+	description: 'Baue ein durchgehendes Gleis vom Start zum Ziel passend zu allen Hinweisen.',
 	difficulty: {
 		label: 'Schwierigkeitsgrad',
 		easy: 'Leicht',

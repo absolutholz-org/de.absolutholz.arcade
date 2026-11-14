@@ -2,7 +2,7 @@ import type { StarBattleTranslationContract } from '../../schemas/star-battle.sc
 
 export const ptStarBattle = {
 	title: 'Batalha de Estrelas',
-	description: 'Posicione estrelas em cada linha, coluna e região colorida sem que se toquem.',
+	description: 'Posicione estrelas em cada linha, coluna e região sem que se toquem.',
 	difficulty: {
 		label: 'Dificuldade',
 		easy: 'Fácil',

@@ -3,8 +3,7 @@ import type { ColorFloodTranslationContract } from '../../schemas/color-flood.sc
 export const frColorFlood: ColorFloodTranslationContract = {
 	title: 'Marée de couleurs',
 	subtitle: 'Inondez tout le plateau d’une seule couleur dans la limite des coups.',
-	description:
-		'Un jeu de puzzle décontracté de tri des couleurs où vous agrandissez votre groupe depuis le coin supérieur gauche.',
+	description: 'Inondez le plateau d’une seule couleur dans la limite de coups impartie.',
 	difficulty: {
 		label: 'Difficulté',
 		beginner: 'Débutant (8×8)',

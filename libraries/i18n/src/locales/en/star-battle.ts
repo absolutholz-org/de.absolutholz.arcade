@@ -2,8 +2,7 @@ import type { StarBattleTranslationContract } from '../../schemas/star-battle.sc
 
 export const enStarBattle = {
 	title: 'Star Battle',
-	description:
-		'Place neutral star markers so each row, column, and colored region contains exactly one star without any touching.',
+	description: 'Place stars in each row, column, and region without any touching.',
 	difficulty: {
 		label: 'Difficulty',
 		easy: 'Easy',

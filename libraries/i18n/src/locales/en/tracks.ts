@@ -2,8 +2,7 @@ import type { TracksTranslationContract } from '../../schemas/tracks.schema.js';
 
 export const enTracks = {
 	title: 'Tracks',
-	description:
-		'Build a continuous railway track from the start gate to the end gate matching every row and column track count.',
+	description: 'Lay a continuous rail track from start to end matching all line clues.',
 	difficulty: {
 		label: 'Difficulty',
 		easy: 'Easy',

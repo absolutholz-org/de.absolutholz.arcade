@@ -6,6 +6,7 @@ export const ClickableCard = styled.button`
 	display: flex;
 	flex-direction: column;
 	width: 100%;
+	height: 100%;
 	text-align: left;
 	position: relative;
 	border: 1px solid ${themeColor('container-2')};
@@ -38,8 +39,17 @@ export const ClickableCard = styled.button`
 		transform 140ms cubic-bezier(0, 0, 0.2, 1);
 
 	/* Enforce WCAG 2.2 AA minimum touch target bounds */
-	min-width: 24px;
-	min-height: 24px;
+	min-width: 44px;
+	min-height: 44px;
+
+	@media (prefers-reduced-motion: reduce) {
+		transition: none;
+
+		&:hover:not(:disabled):not([aria-disabled='true']),
+		&:active:not(:disabled):not([aria-disabled='true']) {
+			transform: none;
+		}
+	}
 
 	/* Density variants */
 	&[data-density='compact'] {

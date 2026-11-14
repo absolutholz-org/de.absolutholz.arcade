@@ -2,7 +2,7 @@ import type { LiquidSortTranslationContract } from '../../schemas/liquid-sort.sc
 
 export const ptLiquidSort: LiquidSortTranslationContract = {
 	title: 'Sort Líquido',
-	description: 'Despeje e organize líquidos coloridos em tubos de ensaio até que cada tubo contenha apenas uma cor.',
+	description: 'Organize líquidos nos tubos até que cada um tenha apenas uma cor.',
 	difficulty: {
 		label: 'Dificuldade',
 		easy: 'Fácil',

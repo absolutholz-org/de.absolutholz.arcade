@@ -2,8 +2,7 @@ import type { StarBattleTranslationContract } from '../../schemas/star-battle.sc
 
 export const frStarBattle = {
 	title: "Bataille d'étoiles",
-	description:
-		'Placez des étoiles de manière à ce que chaque ligne, colonne et région colorée contienne exactement une étoile sans aucun contact.',
+	description: 'Placez des étoiles par ligne, colonne et zone sans aucun contact direct.',
 	difficulty: {
 		label: 'Difficulté',
 		easy: 'Facile',

@@ -2,7 +2,7 @@ import type { NonogramTranslationContract } from '../../schemas/nonogram.schema.
 
 export const frNonogram = {
 	title: 'Nonogramme',
-	description: 'Révélez des dessins en pixel art à l’aide des indices numériques des lignes et des colonnes.',
+	description: 'Révélez des dessins pixel art grâce aux indices de lignes et colonnes.',
 	difficulty: {
 		label: 'Difficulté',
 		easy: 'Facile',

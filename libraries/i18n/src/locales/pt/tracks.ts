@@ -2,8 +2,7 @@ import type { TracksTranslationContract } from '../../schemas/tracks.schema.js';
 
 export const ptTracks = {
 	title: 'Tracks',
-	description:
-		'Construa uma linha férrea contínua da estação de partida até a estação de chegada respeitando a contagem de cada linha e coluna.',
+	description: 'Construa uma ferrovia contínua do início ao fim segundo todas as pistas.',
 	difficulty: {
 		label: 'Dificuldade',
 		easy: 'Fácil',

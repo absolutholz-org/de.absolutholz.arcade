@@ -3,8 +3,7 @@ import type { AnagramTranslationContract } from '../../schemas/anagram.schema.js
 export const enAnagram = {
 	title: 'Anagram Scramble',
 	subtitle: 'Unscramble the rack and find every hidden word.',
-	description:
-		'Build words from the letter tiles in your rack. Each tile can be used once per word. Find a word that uses every tile, or at least half of all words, to clear the round.',
+	description: 'Build valid words from your rack of letter tiles before time runs out.',
 	difficulty: {
 		label: 'Difficulty',
 		easy: 'Easy',

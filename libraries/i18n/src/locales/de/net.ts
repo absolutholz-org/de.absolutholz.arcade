@@ -3,7 +3,7 @@ import type { NetTranslationContract } from '../../schemas/net.schema.js';
 export const deNet: NetTranslationContract = {
 	title: 'Net',
 	subtitle: 'Drehe Kacheln, um alle Terminals und Computer mit dem zentralen Server zu verbinden.',
-	description: 'Verbinde jeden Knoten im Netzwerk mit dem zentralen Strom-Server durch Drehen von Netzwerkkabeln.',
+	description: 'Drehe Leitungen, um alle Knoten mit dem zentralen Server zu verbinden.',
 	difficulty: {
 		label: 'Schwierigkeit',
 		easy: 'Einfach (5×5)',

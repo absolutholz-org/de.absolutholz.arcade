@@ -1,17 +1,15 @@
 import { ALL_GAMES } from '@arcade/lib-games';
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
-import { getGameDescription, getGameTitle } from '@arcade/lib-i18n/utils/gameTitle';
-import { getCategoryLabel, getPlayModeLabel, getPlayersLabel } from '@arcade/lib-i18n/utils/taxonomy';
-import { GameCard } from '@arcade/lib-ui/components/GameCard';
-import { GamesGrid } from '@arcade/lib-ui/components/GamesGrid';
+import { getGameTitle } from '@arcade/lib-i18n/utils/gameTitle';
+import { ClickableCard } from '@arcade/lib-ui/components/ClickableCard';
 import { Text } from '@arcade/lib-ui/components/Text';
 import { useFavorites } from '@arcade/lib-user';
 import { useMemo } from 'react';
 import * as S from './FavoritesSection.styles';
 import type { FavoritesSectionProps } from './FavoritesSection.types';
 
-const FAVORITES_GRID_ID = 'hub-favorites-grid';
+const FAVORITES_STRIP_ID = 'hub-favorites-strip';
 
 function FavoritesSectionContent({ lang, className }: FavoritesSectionProps) {
 	const { t } = useI18n('common');
@@ -38,27 +36,22 @@ function FavoritesSectionContent({ lang, className }: FavoritesSectionProps) {
 			<Text as="h2" variant="h2" id="favorites-section-heading">
 				{t('favorites.title')}
 			</Text>
-			<GamesGrid id={FAVORITES_GRID_ID} aria-live="polite">
-				{favoriteGames.map((game) => {
-					const isMultiplayer = game.mode === 'multiplayer' || game.mode === 'both';
-					const playersLabel = getPlayersLabel(game.players, lang);
-					const modeLabel = getPlayModeLabel(game.mode, lang);
-					const modeChipText = playersLabel ? `👥 ${playersLabel}` : `👥 ${modeLabel}`;
-
-					return (
-						<GameCard
-							key={game.id}
-							gameId={game.id}
-							href={`${game.route}/${lang}/`}
-							title={getGameTitle(game.id, lang)}
-							description={getGameDescription(game.id, lang)}
-							icon={game.assets.icon}
-							badge={getCategoryLabel(game.category.primary, lang)}
-							modeBadge={isMultiplayer ? { label: modeChipText, variant: 'accent' } : undefined}
-						/>
-					);
-				})}
-			</GamesGrid>
+			<div id={FAVORITES_STRIP_ID} className={S.QuickLaunchStrip} aria-live="polite">
+				{favoriteGames.map((game) => (
+					<ClickableCard
+						key={game.id}
+						as="a"
+						href={`${game.route}/${lang}/`}
+						density="compact"
+						className={S.QuickLaunchItem}
+					>
+						<span className={S.QuickLaunchIcon} aria-hidden="true">
+							{game.assets.icon}
+						</span>
+						<span className={S.QuickLaunchTitle}>{getGameTitle(game.id, lang)}</span>
+					</ClickableCard>
+				))}
+			</div>
 		</section>
 	);
 }

@@ -3,7 +3,7 @@ import type { PentominoesTranslationContract } from '../../schemas/pentominoes.s
 export const dePentominoes: PentominoesTranslationContract = {
 	title: 'Pentominos',
 	subtitle: 'Polyomino-Parkettierungsrätsel',
-	description: 'Füge Polyomino-Formen lückenlos und ohne Überlappungen in vorgegebene geometrische Rahmen ein.',
+	description: 'Füge Polyominos lückenlos und ohne Überlappung in den Rahmen ein.',
 	difficulty: {
 		label: 'Schwierigkeit',
 		easy: 'Einfach',

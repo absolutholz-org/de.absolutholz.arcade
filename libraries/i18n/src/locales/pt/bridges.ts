@@ -2,7 +2,7 @@ import type { BridgesTranslationContract } from '../../schemas/bridges.schema.js
 
 export const ptBridges: BridgesTranslationContract = {
 	title: 'Bridges',
-	description: 'Conecte ilhas com pontes horizontais e verticais para formar uma rede única de acordo com cada cota.',
+	description: 'Conecte as ilhas com pontes formando uma rede única segundo cada cota.',
 	difficulty: {
 		label: 'Dificuldade',
 		beginner: 'Iniciante',

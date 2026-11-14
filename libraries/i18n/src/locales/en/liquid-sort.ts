@@ -2,7 +2,7 @@ import type { LiquidSortTranslationContract } from '../../schemas/liquid-sort.sc
 
 export const enLiquidSort: LiquidSortTranslationContract = {
 	title: 'Liquid Sort',
-	description: 'Pour and sort colored liquids into test tubes until each tube holds only one color.',
+	description: 'Sort colored liquids into tubes until each holds only one color.',
 	difficulty: {
 		label: 'Difficulty',
 		easy: 'Easy',

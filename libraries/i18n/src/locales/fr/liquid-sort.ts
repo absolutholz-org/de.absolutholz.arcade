@@ -2,8 +2,7 @@ import type { LiquidSortTranslationContract } from '../../schemas/liquid-sort.sc
 
 export const frLiquidSort: LiquidSortTranslationContract = {
 	title: 'Tri Liquide',
-	description:
-		"Verser et trier des liquides colorés dans des tubes à essai jusqu'à ce que chaque tube ne contienne qu'une seule couleur.",
+	description: 'Triez les liquides dans les tubes jusqu’à isoler chaque couleur.',
 	difficulty: {
 		label: 'Difficulté',
 		easy: 'Facile',
