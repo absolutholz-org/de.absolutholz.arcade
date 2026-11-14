@@ -1,7 +1,7 @@
 import { act } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { render } from '../test-utils';
-import { useShakeToRoll } from './useShakeToRoll';
+import { useShake } from './useShake';
 
 function TestShakeConsumer({
 	onShake,
@@ -14,7 +14,7 @@ function TestShakeConsumer({
 	threshold?: number;
 	cooldownMs?: number;
 }) {
-	const { isSupported, needsPermission, isPermissionGranted, requestPermission } = useShakeToRoll({
+	const { isSupported, needsPermission, isPermissionGranted, requestPermission } = useShake({
 		onShake,
 		enabled,
 		threshold,
@@ -33,7 +33,7 @@ function TestShakeConsumer({
 	);
 }
 
-describe('useShakeToRoll', () => {
+describe('useShake', () => {
 	const originalVibrate = navigator.vibrate;
 
 	beforeEach(() => {

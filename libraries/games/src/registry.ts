@@ -334,6 +334,26 @@ export const TOOL_REGISTRY: Readonly<Record<ToolId, ToolDefinition>> = {
 		i18nKey: 'tools.dice',
 		tags: ['tool', 'tabletop', 'utility', 'dice'],
 	},
+	coin: {
+		id: 'coin',
+		name: 'Coin Flipper',
+		route: '/tools/coin',
+		assets: {
+			icon: '🪙',
+		},
+		i18nKey: 'tools.coin',
+		tags: ['tool', 'tabletop', 'utility', 'coin'],
+	},
+	'table-compass': {
+		id: 'table-compass',
+		name: 'Table Compass',
+		route: '/tools/table-compass',
+		assets: {
+			icon: '🧭',
+		},
+		i18nKey: 'tools.table-compass',
+		tags: ['tool', 'tabletop', 'utility', 'turn-order', 'first-player'],
+	},
 };
 
 /**

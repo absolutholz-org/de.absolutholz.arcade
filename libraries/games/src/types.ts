@@ -23,7 +23,7 @@ export type GameId =
 /**
  * Canonical identifiers for standalone utility tools in the Arcade monorepo.
  */
-export type ToolId = 'dice';
+export type ToolId = 'dice' | 'coin' | 'table-compass';
 
 /**
  * Visual and media assets associated with a game or tool.

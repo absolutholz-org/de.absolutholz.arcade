@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-export interface UseShakeToRollOptions {
+export interface UseShakeOptions {
 	/** Callback invoked when a shake gesture is detected. */
 	onShake: () => void;
 	/** Whether shake-to-roll detection is active. Defaults to true. */
@@ -13,7 +13,7 @@ export interface UseShakeToRollOptions {
 	enableHaptics?: boolean;
 }
 
-export interface UseShakeToRollResult {
+export interface UseShakeResult {
 	/** Whether device motion sensors are supported in this browser. */
 	isSupported: boolean;
 	/** Whether explicit iOS/Safari permission is required. */
@@ -34,13 +34,13 @@ const HAPTIC_ROLL_PATTERN = [30, 20, 50];
  * Hook detecting tabletop physical shake-to-roll gestures using the DeviceMotion API,
  * with iOS permission handling and haptic vibration feedback.
  */
-export function useShakeToRoll({
+export function useShake({
 	onShake,
 	enabled = true,
 	threshold = DEFAULT_THRESHOLD,
 	cooldownMs = DEFAULT_COOLDOWN_MS,
 	enableHaptics = true,
-}: UseShakeToRollOptions): UseShakeToRollResult {
+}: UseShakeOptions): UseShakeResult {
 	const [isSupported, setIsSupported] = useState<boolean>(false);
 	const [needsPermission, setNeedsPermission] = useState<boolean>(false);
 	const [isPermissionGranted, setIsPermissionGranted] = useState<boolean>(false);
@@ -71,10 +71,8 @@ export function useShakeToRoll({
 			return;
 		}
 
-		const hasMotionSupport = 'DeviceMotionEvent' in window;
-		setIsSupported(hasMotionSupport);
-
-		if (!hasMotionSupport) {
+		if (!('DeviceMotionEvent' in window)) {
+			setIsSupported(false);
 			return;
 		}
 
@@ -82,13 +80,28 @@ export function useShakeToRoll({
 			requestPermission?: () => Promise<'granted' | 'denied'>;
 		};
 
-		if (typeof motionClass.requestPermission === 'function') {
+		// iOS/Safari exposes requestPermission() on DeviceMotionEvent
+		if (typeof motionClass?.requestPermission === 'function') {
+			setIsSupported(true);
 			setNeedsPermission(true);
 			setIsPermissionGranted(false);
-		} else {
-			setNeedsPermission(false);
-			setIsPermissionGranted(true);
+			return;
 		}
+
+		// Feature-detect actual accelerometer hardware by listening for a non-null devicemotion sample
+		const handleProbe = (event: DeviceMotionEvent) => {
+			const acc = event.accelerationIncludingGravity ?? event.acceleration;
+			if (acc && (acc.x !== null || acc.y !== null || acc.z !== null)) {
+				setIsSupported(true);
+				setNeedsPermission(false);
+				setIsPermissionGranted(true);
+			}
+		};
+
+		window.addEventListener('devicemotion', handleProbe, { once: true });
+		return () => {
+			window.removeEventListener('devicemotion', handleProbe);
+		};
 	}, []);
 
 	const requestPermission = useCallback(async (): Promise<boolean> => {
