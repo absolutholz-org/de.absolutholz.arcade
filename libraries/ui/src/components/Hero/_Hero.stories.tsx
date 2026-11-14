@@ -42,7 +42,7 @@ const meta = {
 		headingLevel: 'h1',
 		logo: <Logo size="xl" />,
 		tagline: 'Classic games built with accessibility in mind.',
-		title: 'Arcade',
+		title: 'absolutholz Arcade',
 	},
 	decorators: [
 		(Story) => (

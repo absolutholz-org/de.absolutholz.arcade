@@ -27,6 +27,10 @@ export function createBaseConfig(overrides: AstroUserConfig = {}): AstroUserConf
 		vite: {
 			envDir: overrideVite?.envDir ?? rootEnvDir,
 			...overrideVite,
+			ssr: {
+				noExternal: [/@arcade\/.*/],
+				...(overrideVite?.ssr || {}),
+			},
 			plugins: [
 				wywPlugin({
 					include: ['**/*.{ts,tsx,js,jsx}'],

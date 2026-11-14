@@ -2,7 +2,7 @@
 	"name": "@arcade/lib-dice",
 	"version": "0.1.0",
 	"private": true,
-	"description": "Headless core dice engine, cryptographically unbiased RNG, and notation parser for Arcade monorepo",
+	"description": "Headless core dice engine, cryptographically unbiased RNG, and notation parser for absolutholz Arcade monorepo",
 	"type": "module",
 	"exports": {
 		".": {

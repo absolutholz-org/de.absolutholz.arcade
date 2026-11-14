@@ -1,6 +1,6 @@
 # @arcade/lib-storage
 
-Unified asynchronous storage library for the Arcade Web App monorepo. Enforces strict key namespacing and pluggable storage backends in accordance with [ADR 008](../../docs/adr/architecture-decision-records.md#adr-008-state-management-and-backend-abstraction) and [ADR 012](../../docs/adr/architecture-decision-records.md#adr-012-local-storage-and-state-namespacing).
+Unified asynchronous storage library for the absolutholz Arcade Web App monorepo. Enforces strict key namespacing and pluggable storage backends in accordance with [ADR 008](../../docs/adr/architecture-decision-records.md#adr-008-state-management-and-backend-abstraction) and [ADR 012](../../docs/adr/architecture-decision-records.md#adr-012-local-storage-and-state-namespacing).
 
 ---
 
@@ -115,7 +115,7 @@ export class IndexedDbDriver implements StorageDriver {
 
 ## 📊 Unified Statistics Subsystem (ADR 0008)
 
-`@arcade/lib-storage` provides the normalized domain contract, pure reducer, and persistence methods for game statistics across all Arcade games, persisted under `arcade::[gameId]::stats`.
+`@arcade/lib-storage` provides the normalized domain contract, pure reducer, and persistence methods for game statistics across all absolutholz Arcade games, persisted under `arcade::[gameId]::stats`.
 
 ### Schema & Types
 

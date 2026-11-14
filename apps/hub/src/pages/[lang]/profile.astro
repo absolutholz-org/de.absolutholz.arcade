@@ -16,7 +16,7 @@ export function getStaticPaths() {
 const { lang } = Astro.params;
 const currentLanguage = lang as SupportedLanguageCode;
 const currentCommon = resources[currentLanguage]?.common ?? resources.en.common;
-const homeText = `${currentCommon.app.title} ${currentCommon.navigation.home}`;
+const homeText = `${currentCommon.app.shortTitle} ${currentCommon.navigation.home}`;
 const profileTitle = currentCommon.profile.title;
 const profileDescription = currentCommon.profile.description;
 ---

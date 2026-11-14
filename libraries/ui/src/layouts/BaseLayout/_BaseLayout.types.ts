@@ -36,7 +36,7 @@ export interface BaseLayoutProps {
 	canonical?: string;
 	/**
 	 * Mobile web application title.
-	 * @default 'Arcade'
+	 * @default 'absolutholz Arcade'
 	 */
 	appTitle?: string;
 	/**

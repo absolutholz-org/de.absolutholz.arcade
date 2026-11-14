@@ -12,7 +12,7 @@ import {
 describe('formatPageTitle', () => {
 	it('resolves default brand tagline when no subject and no scope are provided', () => {
 		const title = formatPageTitle({});
-		expect(title).toBe('Arcade – Logic & Puzzle Games');
+		expect(title).toBe('absolutholz Arcade – Logic & Puzzle Games');
 	});
 
 	it('resolves custom brand tagline when no subject and no scope are provided', () => {
@@ -22,12 +22,12 @@ describe('formatPageTitle', () => {
 
 	it('resolves scope only (landing/overview)', () => {
 		const title = formatPageTitle({ scope: 'Sudoku' });
-		expect(title).toBe('Sudoku | Arcade');
+		expect(title).toBe('Sudoku | absolutholz Arcade');
 	});
 
 	it('resolves active play session with scope', () => {
 		const title = formatPageTitle({ scope: 'Sudoku', isPlaySession: true });
-		expect(title).toBe('Play Sudoku | Arcade');
+		expect(title).toBe('Play Sudoku | absolutholz Arcade');
 	});
 
 	it('resolves active play session with scope and action', () => {
@@ -36,7 +36,7 @@ describe('formatPageTitle', () => {
 			isPlaySession: true,
 			action: 'Daily Challenge',
 		});
-		expect(title).toBe('Daily Challenge – Play Sudoku | Arcade');
+		expect(title).toBe('Daily Challenge – Play Sudoku | absolutholz Arcade');
 	});
 
 	it('resolves subject and scope (game subpages)', () => {
@@ -44,25 +44,25 @@ describe('formatPageTitle', () => {
 			subject: 'Statistics',
 			scope: 'Star Battle',
 		});
-		expect(statsTitle).toBe('Statistics – Star Battle | Arcade');
+		expect(statsTitle).toBe('Statistics – Star Battle | absolutholz Arcade');
 
 		const rulesTitle = formatPageTitle({
 			subject: 'How to Play',
 			scope: 'Minesweeper',
 		});
-		expect(rulesTitle).toBe('How to Play – Minesweeper | Arcade');
+		expect(rulesTitle).toBe('How to Play – Minesweeper | absolutholz Arcade');
 
 		const settingsTitle = formatPageTitle({
 			subject: 'Settings',
 			scope: 'Nonogram',
 		});
-		expect(settingsTitle).toBe('Settings – Nonogram | Arcade');
+		expect(settingsTitle).toBe('Settings – Nonogram | absolutholz Arcade');
 
 		const medalsTitle = formatPageTitle({
 			subject: 'Medals',
 			scope: 'Sudoku',
 		});
-		expect(medalsTitle).toBe('Medals – Sudoku | Arcade');
+		expect(medalsTitle).toBe('Medals – Sudoku | absolutholz Arcade');
 	});
 
 	it('resolves subject and scope with action', () => {
@@ -71,21 +71,21 @@ describe('formatPageTitle', () => {
 			scope: 'Tracks',
 			action: 'Hard',
 		});
-		expect(title).toBe('Hard – Statistics – Tracks | Arcade');
+		expect(title).toBe('Hard – Statistics – Tracks | absolutholz Arcade');
 	});
 
 	it('resolves subject only (hub/global subpages & tools)', () => {
 		const imprintTitle = formatPageTitle({ subject: 'Imprint' });
-		expect(imprintTitle).toBe('Imprint | Arcade');
+		expect(imprintTitle).toBe('Imprint | absolutholz Arcade');
 
 		const privacyTitle = formatPageTitle({ subject: 'Privacy Policy' });
-		expect(privacyTitle).toBe('Privacy Policy | Arcade');
+		expect(privacyTitle).toBe('Privacy Policy | absolutholz Arcade');
 
 		const diceTitle = formatPageTitle({ subject: 'Dice Roller' });
-		expect(diceTitle).toBe('Dice Roller | Arcade');
+		expect(diceTitle).toBe('Dice Roller | absolutholz Arcade');
 
 		const hubMedalsTitle = formatPageTitle({ subject: 'Medals Showcase' });
-		expect(hubMedalsTitle).toBe('Medals Showcase | Arcade');
+		expect(hubMedalsTitle).toBe('Medals Showcase | absolutholz Arcade');
 	});
 
 	it('resolves subject only with action', () => {
@@ -93,7 +93,7 @@ describe('formatPageTitle', () => {
 			subject: 'Dice Roller',
 			action: '3D Simulation',
 		});
-		expect(title).toBe('3D Simulation – Dice Roller | Arcade');
+		expect(title).toBe('3D Simulation – Dice Roller | absolutholz Arcade');
 	});
 });
 
@@ -193,11 +193,11 @@ describe('serializeJsonLd & buildGameSeoMetadata', () => {
 		const seo = buildGameSeoMetadata({
 			game: 'nonogram',
 			lang: 'en',
-			pageTitle: 'Play Nonogram | Arcade',
+			pageTitle: 'Play Nonogram | absolutholz Arcade',
 		});
 
 		expect(seo.openGraph).toEqual({
-			title: 'Play Nonogram | Arcade',
+			title: 'Play Nonogram | absolutholz Arcade',
 			description: seo.description,
 			type: 'website',
 		});

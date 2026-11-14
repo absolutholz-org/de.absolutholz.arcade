@@ -2,7 +2,7 @@
 	"name": "@arcade/lib-storage",
 	"version": "0.1.0",
 	"private": true,
-	"description": "Unified asynchronous namespaced storage library for Arcade monorepo",
+	"description": "Unified asynchronous namespaced storage library for absolutholz Arcade monorepo",
 	"type": "module",
 	"exports": {
 		".": {

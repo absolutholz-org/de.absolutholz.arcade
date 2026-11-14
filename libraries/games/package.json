@@ -2,7 +2,7 @@
 	"name": "@arcade/lib-games",
 	"version": "0.1.0",
 	"private": true,
-	"description": "Central registry and metadata types for all Arcade games",
+	"description": "Central registry and metadata types for all absolutholz Arcade games",
 	"type": "module",
 	"exports": {
 		".": {

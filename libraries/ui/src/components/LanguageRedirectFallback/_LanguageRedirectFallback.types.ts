@@ -11,7 +11,7 @@ export interface LanguageRedirectItem {
 
 export interface LanguageRedirectFallbackProps {
 	/**
-	 * The title of the application or game (e.g., "Arcade" or "Sudoku").
+	 * The title of the application or game (e.g., "absolutholz Arcade" or "Sudoku").
 	 */
 	title: string;
 

@@ -1,4 +1,5 @@
 import { type GameId, type GameMetadata, getGame, isGameId } from '@arcade/lib-games';
+import { BRAND } from '@arcade/lib-i18n/constants/brand';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { getGameDescription, getGameTitle } from '@arcade/lib-i18n/utils/gameTitle';
 import { getCategoryLabel, getTagLabel } from '@arcade/lib-i18n/utils/taxonomy';
@@ -8,7 +9,7 @@ export interface PageTitleOptions {
 	action?: string; // Secondary variant/action (e.g., "Daily", "Hard")
 	scope?: string; // Enclosing game or context (e.g., "Sudoku", "Minesweeper")
 	isPlaySession?: boolean; // True for the active gameplay screen
-	brand?: string; // Defaults to "Arcade"
+	brand?: string; // Defaults to "absolutholz Arcade"
 }
 
 export type VideoGamePlayMode = 'SinglePlayer' | 'MultiPlayer';
@@ -45,7 +46,13 @@ export interface GameSeoMetadata {
 	readonly jsonLdScript: string;
 }
 
-export function formatPageTitle({ subject, action, scope, isPlaySession, brand = 'Arcade' }: PageTitleOptions): string {
+export function formatPageTitle({
+	subject,
+	action,
+	scope,
+	isPlaySession,
+	brand = BRAND.name,
+}: PageTitleOptions): string {
 	const actionPrefix = action ? `${action} – ` : '';
 
 	// No subject and no scope: ${brand} – Logic & Puzzle Games

@@ -83,7 +83,7 @@ describe('SiteFooter', () => {
 		expect(gamesNavLinks.some((href) => href?.includes('/categories/logic-deduction'))).toBe(true);
 		expect(gamesNavLinks.some((href) => href?.includes('/tools/dice'))).toBe(false);
 
-		const arcadeNav = Array.from(navs).find((nav) => nav.querySelector('h2')?.textContent === 'Arcade');
+		const arcadeNav = Array.from(navs).find((nav) => nav.querySelector('h2')?.textContent === 'absolutholz Arcade');
 		expect(arcadeNav).toBeDefined();
 
 		// Column 3 must contain medals, stats, settings, and dice roller

@@ -2,7 +2,7 @@
 	"name": "@arcade/lib-audio",
 	"version": "0.1.0",
 	"private": true,
-	"description": "Synthesized zero-dependency audio and haptic feedback library for Arcade monorepo",
+	"description": "Synthesized zero-dependency audio and haptic feedback library for absolutholz Arcade monorepo",
 	"type": "module",
 	"exports": {
 		".": {

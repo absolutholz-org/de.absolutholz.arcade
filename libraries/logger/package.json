@@ -2,7 +2,7 @@
 	"name": "@arcade/lib-logger",
 	"version": "0.1.0",
 	"private": true,
-	"description": "Local-only, IndexedDB-backed diagnostic logging for the Arcade monorepo",
+	"description": "Local-only, IndexedDB-backed diagnostic logging for the absolutholz Arcade monorepo",
 	"type": "module",
 	"exports": {
 		".": {

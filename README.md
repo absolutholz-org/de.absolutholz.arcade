@@ -1,6 +1,6 @@
-# 🕹️ Arcade Web App
+# 🕹️ absolutholz Arcade
 
-Welcome to the Arcade Web App monorepo! This project is a unified Progressive Web App (PWA) hosting a collection of classic, highly accessible games (Minesweeper, Sudoku, Connect Four, etc.). 
+Welcome to the absolutholz Arcade monorepo! This project is a unified Progressive Web App (PWA) hosting a collection of classic, highly accessible games (Minesweeper, Sudoku, Connect Four, etc.). 
 
 Our guiding philosophy is **progressive enhancement, mobile-first design, and strict accessibility standards.**
 

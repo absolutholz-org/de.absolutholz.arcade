@@ -2,7 +2,7 @@
 	"name": "@arcade/lib-consent",
 	"version": "0.1.0",
 	"private": true,
-	"description": "Zero-dependency privacy consent manager and four-tier data policy engine for Arcade monorepo",
+	"description": "Zero-dependency privacy consent manager and four-tier data policy engine for absolutholz Arcade monorepo",
 	"type": "module",
 	"exports": {
 		".": {

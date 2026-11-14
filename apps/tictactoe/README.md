@@ -1,6 +1,6 @@
 # Tic-Tac-Toe (`@arcade/tictactoe`)
 
-Classic turn-based alignment duel for two players on an accessible $3 \times 3$ grid, built for the Absolute Holz Arcade monorepo.
+Classic turn-based alignment duel for two players on an accessible $3 \times 3$ grid, built for the absolutholz Arcade monorepo.
 
 ## Overview
 

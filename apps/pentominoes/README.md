@@ -1,6 +1,6 @@
 # @arcade/pentominoes
 
-Classic geometric polyomino exact-cover packing puzzle game for the Arcade monorepo.
+Classic geometric polyomino exact-cover packing puzzle game for the absolutholz Arcade monorepo.
 
 ## Architecture
 

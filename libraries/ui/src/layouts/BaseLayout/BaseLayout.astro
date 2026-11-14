@@ -7,6 +7,7 @@ import { MedalToastListener } from '../../components/MedalToastListener';
 import { SkipLink } from '../../components/SkipLink';
 import { Toast } from '../../components/Toast';
 import { buildGameSeoMetadata, formatPageTitle, resolveGameIdFromPath } from '../../utils/seo';
+import { DEFAULT_APP_TITLE } from './_BaseLayout.constants';
 import type { BaseLayoutProps } from './_BaseLayout.types';
 
 type Props = BaseLayoutProps;
@@ -19,7 +20,7 @@ const {
 	lang = 'en',
 	dir = 'ltr',
 	canonical,
-	appTitle = 'Arcade',
+	appTitle = DEFAULT_APP_TITLE,
 	manifestHref = '/site.webmanifest',
 } = Astro.props;
 

@@ -1,6 +1,6 @@
 # @arcade/dice-bingo
 
-An interactive board puzzle game for the Arcade monorepo where players roll two six-sided dice (2d6) each turn and position their sums onto a spatial grid to construct poker hands across rows, columns, and diagonals.
+An interactive board puzzle game for the absolutholz Arcade monorepo where players roll two six-sided dice (2d6) each turn and position their sums onto a spatial grid to construct poker hands across rows, columns, and diagonals.
 
 ## Technical Architecture
 

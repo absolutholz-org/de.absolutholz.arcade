@@ -1,11 +1,11 @@
 ---
 title: Déclaration d'accessibilité
-description: Engagements et normes d'accessibilité pour Arcade Web App.
+description: Engagements et normes d'accessibilité pour absolutholz Arcade Web App.
 ---
 
 # Déclaration d'accessibilité
 
-Nous nous engageons à rendre notre arcade numérique accessible et inclusive pour tous, y compris les personnes en situation de handicap.
+Nous nous engageons à rendre notre absolutholz Arcade numérique accessible et inclusive pour tous, y compris les personnes en situation de handicap.
 
 ## Normes de conformité
 

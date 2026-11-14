@@ -14,7 +14,7 @@ const meta: Meta<typeof LanguageRedirectFallback> = {
 		layout: 'fullscreen',
 	},
 	args: {
-		title: 'Arcade',
+		title: 'absolutholz Arcade',
 		message: 'Redirecting to your preferred language...',
 		languagesAriaLabel: 'Select language',
 		languages: [

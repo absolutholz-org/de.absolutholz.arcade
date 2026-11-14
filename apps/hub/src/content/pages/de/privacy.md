@@ -1,6 +1,6 @@
 ---
 title: Datenschutzerklärung
-description: Datenschutzerklärung und Informationen zur Datenverarbeitung der Arcade Web App.
+description: Datenschutzerklärung und Informationen zur Datenverarbeitung der absolutholz Arcade Web App.
 ---
 
 # Datenschutzerklärung

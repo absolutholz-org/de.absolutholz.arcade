@@ -1,6 +1,6 @@
 ---
 title: Privacy Policy
-description: Privacy policy and data handling information for Arcade Web App.
+description: Privacy policy and data handling information for absolutholz Arcade Web App.
 ---
 
 # Privacy Policy

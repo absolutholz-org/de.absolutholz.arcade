@@ -1,11 +1,11 @@
 ---
 title: Accessibility Statement
-description: Accessibility conformance and standards commitment for Arcade Web App.
+description: Accessibility conformance and standards commitment for absolutholz Arcade Web App.
 ---
 
 # Accessibility Statement
 
-We are committed to making our digital arcade accessible and barrier-free for all people, including users with visual, auditory, motor, or cognitive disabilities.
+We are committed to making our digital absolutholz Arcade accessible and barrier-free for all people, including users with visual, auditory, motor, or cognitive disabilities.
 
 ## Conformance Standards
 

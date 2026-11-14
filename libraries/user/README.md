@@ -1,12 +1,12 @@
 # @arcade/lib-user
 
-Unified user identity, session management, and cloud persistence facade for the Arcade Web App monorepo. Enforces clean architectural boundaries separating client game code from low-level authentication providers and cloud SDKs in accordance with [ADR 008](../../docs/adr/architecture-decision-records.md#adr-008-state-management-and-backend-abstraction) and [ADR 012](../../docs/adr/architecture-decision-records.md#adr-012-local-storage-and-state-namespacing).
+Unified user identity, session management, and cloud persistence facade for the absolutholz Arcade Web App monorepo. Enforces clean architectural boundaries separating client game code from low-level authentication providers and cloud SDKs in accordance with [ADR 008](../../docs/adr/architecture-decision-records.md#adr-008-state-management-and-backend-abstraction) and [ADR 012](../../docs/adr/architecture-decision-records.md#adr-012-local-storage-and-state-namespacing).
 
 ---
 
 ## 💡 Why This Package Exists
 
-Across the Arcade ecosystem (`apps/hub`, `apps/sudoku`, `apps/minesweeper`, etc.), applications require user identification and state persistence:
+Across the absolutholz Arcade ecosystem (`apps/hub`, `apps/sudoku`, `apps/minesweeper`, etc.), applications require user identification and state persistence:
 
 - **Local Guest First:** Games must function completely offline and without requiring accounts, immediately providing a seamless guest experience.
 - **Architectural Boundary:** Consuming applications (`apps/*`) must **never** directly import Firebase SDKs, manage credentials, or interact with raw storage keys.

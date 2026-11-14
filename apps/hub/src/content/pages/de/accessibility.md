@@ -1,11 +1,11 @@
 ---
 title: Erklärung zur Barrierefreiheit
-description: Barrierefreiheitsstandards und Maßnahmen für die Arcade Web App.
+description: Barrierefreiheitsstandards und Maßnahmen für die absolutholz Arcade Web App.
 ---
 
 # Erklärung zur Barrierefreiheit
 
-Wir setzen uns dafür ein, unsere digitale Arcade für alle Menschen zugänglich und barrierefrei zu gestalten – unabhängig von körperlichen oder kognitiven Einschränkungen.
+Wir setzen uns dafür ein, unsere digitale absolutholz Arcade für alle Menschen zugänglich und barrierefrei zu gestalten – unabhängig von körperlichen oder kognitiven Einschränkungen.
 
 ## Konformitätsstandards
 

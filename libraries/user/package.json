@@ -2,7 +2,7 @@
 	"name": "@arcade/lib-user",
 	"version": "0.1.0",
 	"private": true,
-	"description": "Unified user identity, session management, and cloud persistence facade for Arcade monorepo",
+	"description": "Unified user identity, session management, and cloud persistence facade for absolutholz Arcade monorepo",
 	"type": "module",
 	"exports": {
 		".": {

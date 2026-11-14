@@ -1,4 +1,4 @@
-// Root Service Worker for Arcade Monorepo
+// Root Service Worker for absolutholz Arcade Monorepo
 const CORE_CACHE_NAME = 'arcade-core-v2';
 const GAME_CACHE_PREFIX = 'arcade-game-';
 const SUPPORTED_LOCALES = ['en', 'de', 'fr', 'pt'];

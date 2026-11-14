@@ -2,7 +2,7 @@
 	"name": "@arcade/lib-ui",
 	"version": "0.1.0",
 	"private": true,
-	"description": "Design system package for Arcade monorepo",
+	"description": "Design system package for absolutholz Arcade monorepo",
 	"exports": {
 		".": {
 			"types": "./src/index.ts",

@@ -1,6 +1,6 @@
 ---
 title: Imprint
-description: Legal disclosure and contact information for Arcade Web App.
+description: Legal disclosure and contact information for absolutholz Arcade Web App.
 ---
 
 # Imprint

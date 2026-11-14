@@ -9,15 +9,15 @@ Titles follow an inverted specificity hierarchy:
 
 - **Primary separator (`|`):** Separates major hierarchical boundaries (Scope vs. Brand).
 - **Secondary separator (`–`):** Binds sub-features or actions to their parent subject.
-- **Brand default:** `Arcade`.
+- **Brand default:** `absolutholz Arcade`.
 
 ### Structural Logic
 
 1. **Hub / Root:** `${Brand} – Logic & Puzzle Games`
-2. **Global View / Tool:** `${Subject} | ${Brand}` (e.g. `Settings | Arcade`, `Medals | Arcade`, `Imprint | Arcade`)
-3. **Game Root:** `${Game} | ${Brand}` (e.g. `Sudoku | Arcade`)
+2. **Global View / Tool:** `${Subject} | ${Brand}` (e.g. `Settings | absolutholz Arcade`, `Medals | absolutholz Arcade`, `Imprint | absolutholz Arcade`)
+3. **Game Root:** `${Game} | ${Brand}` (e.g. `Sudoku | absolutholz Arcade`)
 4. **Active Play Session:** `Play ${Game} | ${Brand}` (or `${Variant} – Play ${Game} | ${Brand}`)
-5. **Game-Scoped View:** `${Subject} – ${Game} | ${Brand}` (e.g. `Medals – Sudoku | Arcade`, `Settings – Sudoku | Arcade`)
+5. **Game-Scoped View:** `${Subject} – ${Game} | ${Brand}` (e.g. `Medals – Sudoku | absolutholz Arcade`, `Settings – Sudoku | absolutholz Arcade`)
 
 ## 2. Implementation Rules
 

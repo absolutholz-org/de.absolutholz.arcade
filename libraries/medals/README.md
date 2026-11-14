@@ -1,6 +1,6 @@
 # @arcade/lib-medals
 
-Unified medal progression, local achievement evaluation, and conflict-free statistics engine for the Arcade monorepo.
+Unified medal progression, local achievement evaluation, and conflict-free statistics engine for the absolutholz Arcade monorepo.
 
 ## Overview
 

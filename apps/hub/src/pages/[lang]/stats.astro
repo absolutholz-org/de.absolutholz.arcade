@@ -18,14 +18,14 @@ const { lang } = Astro.params;
 const currentLanguage = lang as SupportedLanguageCode;
 const currentCommon = resources[currentLanguage]?.common ?? resources.en.common;
 const pageTitle = currentCommon.navigation?.stats ?? 'Statistics';
-const homeText = `${currentCommon.app.title} ${currentCommon.navigation.home}`;
+const homeText = `${currentCommon.app.shortTitle} ${currentCommon.navigation.home}`;
 ---
 
 <BaseLayoutWithSiteHeaderAndSiteFooter
 	titleOptions={{
 		subject: pageTitle,
 	}}
-	description="Global statistics and records aggregated across all Arcade games"
+	description="Global statistics and records aggregated across all absolutholz Arcade games"
 	lang={currentLanguage}
 	currentSlug="stats"
 >

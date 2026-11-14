@@ -1,6 +1,6 @@
 # Color Flood (`@arcade/color-flood`)
 
-Color Flood is a casual color-sorting single-player puzzle game built for the Arcade monorepo.
+Color Flood is a casual color-sorting single-player puzzle game built for the absolutholz Arcade monorepo.
 
 ## Gameplay & Rules
 

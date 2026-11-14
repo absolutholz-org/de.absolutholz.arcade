@@ -28,7 +28,7 @@ import { frTaxonomy } from '../../libraries/i18n/src/locales/fr/taxonomy.ts';
 import { ptTaxonomy } from '../../libraries/i18n/src/locales/pt/taxonomy.ts';
 
 const APPS_ROOT = path.resolve(import.meta.dirname, '../../apps');
-const EXCLUDED_APP_DIRS = new Set(['hub', '.DS_Store']);
+const EXCLUDED_APP_DIRS = new Set(['hub', 'table-compass', '.DS_Store']);
 
 const REQUIRED_CANONICAL_FILES = [
 	'src/pages/index.astro',

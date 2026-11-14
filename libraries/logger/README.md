@@ -1,6 +1,6 @@
 # @arcade/lib-logger
 
-Local-only diagnostic logging for the Arcade monorepo. Entries are stored in the player's own browser (IndexedDB) and are never sent anywhere. Players can download them from the arcade settings page to attach to a bug report. See [ADR 0010](../../docs/adr/0010-client-side-diagnostic-logging.md).
+Local-only diagnostic logging for the absolutholz Arcade monorepo. Entries are stored in the player's own browser (IndexedDB) and are never sent anywhere. Players can download them from the arcade settings page to attach to a bug report. See [ADR 0010](../../docs/adr/0010-client-side-diagnostic-logging.md).
 
 ## Guarantees
 

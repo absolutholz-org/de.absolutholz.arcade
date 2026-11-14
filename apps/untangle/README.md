@@ -1,6 +1,6 @@
 # @arcade/untangle
 
-Untangle (Planarity) planar graph puzzle web application for the Arcade monorepo. Built as a hybrid application using **Astro** for static multi-page routing and internationalized layouts, and **React** for the zero-runtime interactive SVG graph canvas island. Implemented per **ADR 0008 (Game Shell & Subsystem Contract)**.
+Untangle (Planarity) planar graph puzzle web application for the absolutholz Arcade monorepo. Built as a hybrid application using **Astro** for static multi-page routing and internationalized layouts, and **React** for the zero-runtime interactive SVG graph canvas island. Implemented per **ADR 0008 (Game Shell & Subsystem Contract)**.
 
 ---
 

@@ -2,7 +2,7 @@
 	"name": "@arcade/lib-medals",
 	"version": "0.1.0",
 	"private": true,
-	"description": "Unified medal progression, local achievement evaluation, and conflict-free stats engine for Arcade monorepo",
+	"description": "Unified medal progression, local achievement evaluation, and conflict-free stats engine for absolutholz Arcade monorepo",
 	"type": "module",
 	"exports": {
 		".": {

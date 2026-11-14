@@ -1,6 +1,7 @@
 ---
 import { ALL_TOOLS } from '@arcade/lib-games';
 import { resources } from '@arcade/lib-i18n/config/i18n';
+import { BRAND } from '@arcade/lib-i18n/constants/brand';
 import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { GameCard } from '@arcade/lib-ui/components/GameCard';
@@ -32,7 +33,11 @@ const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? 
 	hasBorder={false}
 >
 	<PageContainer>
-		<Hero title={currentTranslations.app.title} tagline={currentTranslations.app.tagline}>
+		<Hero
+			eyebrow={BRAND.publisher}
+			title={currentTranslations.app.shortTitle}
+			tagline={currentTranslations.app.tagline}
+		>
 			<Logo size="xl" slot="logo" />
 		</Hero>
 

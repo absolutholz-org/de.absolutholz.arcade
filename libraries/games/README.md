@@ -1,6 +1,6 @@
 # `@arcade/lib-games`
 
-Central game registry, taxonomy schemas, validation contracts, and subsystem type definitions for all applications in the Arcade monorepo.
+Central game registry, taxonomy schemas, validation contracts, and subsystem type definitions for all applications in the absolutholz Arcade monorepo.
 
 ## Architectural Role
 

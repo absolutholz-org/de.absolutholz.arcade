@@ -1,13 +1,13 @@
 ---
 title: Declaração de Acessibilidade
-description: Declaração de acessibilidade e compromisso para Arcade Web App.
+description: Declaração de acessibilidade e compromisso para absolutholz Arcade Web App.
 ---
 
-# Declaração de Acessibilidade para Arcade Web App
+# Declaração de Acessibilidade para absolutholz Arcade Web App
 
 ## O Nosso Objetivo
 
-O Arcade Web App tem o compromisso de garantir a acessibilidade digital para todos os utilizadores, independentemente de suas capacidades. O nosso objetivo é alcançar a conformidade total com as normas **WCAG 2.2 Nível AA** e **BITV 2.0**.
+O absolutholz Arcade Web App tem o compromisso de garantir a acessibilidade digital para todos os utilizadores, independentemente de suas capacidades. O nosso objetivo é alcançar a conformidade total com as normas **WCAG 2.2 Nível AA** e **BITV 2.0**.
 
 ## Estado Atual
 

@@ -1,0 +1,42 @@
+{
+	"name": "@arcade/table-compass",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"exports": {
+		".": {
+			"types": "./src/components/TableCompass/index.ts",
+			"default": "./src/components/TableCompass/index.ts"
+		}
+	},
+	"scripts": {
+		"dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev --port 4337",
+		"build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
+		"preview": "astro preview",
+		"test": "node --experimental-strip-types --test src/components/TableCompass/tableCompass.test.ts",
+		"typecheck": "ASTRO_TELEMETRY_DISABLED=1 astro sync && tsc --noEmit"
+	},
+	"dependencies": {
+		"@arcade/lib-astro-config": "workspace:*",
+		"@arcade/lib-audio": "workspace:*",
+		"@arcade/lib-games": "workspace:*",
+		"@arcade/lib-i18n": "workspace:*",
+		"@arcade/lib-storage": "workspace:*",
+		"@arcade/lib-ui": "workspace:*",
+		"@arcade/lib-user": "workspace:*",
+		"@astrojs/react": "^3.6.3",
+		"@linaria/core": "catalog:",
+		"@linaria/react": "catalog:",
+		"astro": "catalog:",
+		"react": "catalog:",
+		"react-dom": "catalog:"
+	},
+	"devDependencies": {
+		"@babel/preset-react": "^7.29.7",
+		"@babel/preset-typescript": "^7.29.7",
+		"@types/react": "catalog:",
+		"@types/react-dom": "catalog:",
+		"@wyw-in-js/vite": "^1.1.0",
+		"typescript": "^5.7.2"
+	}
+}

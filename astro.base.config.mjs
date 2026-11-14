@@ -13,6 +13,9 @@ export function createBaseConfig(overrides = {}) {
 		output: 'static',
 		integrations: [react()],
 		vite: {
+			ssr: {
+				noExternal: [/@arcade\/.*/],
+			},
 			plugins: [
 				wyw({
 					include: ['**/*.{ts,tsx,js,jsx}'],

@@ -1,6 +1,6 @@
 ---
 title: Impressum
-description: Gesetzliche Anbieterkennzeichnung und Kontaktdaten der Arcade Web App.
+description: Gesetzliche Anbieterkennzeichnung und Kontaktdaten der absolutholz Arcade Web App.
 ---
 
 # Impressum

@@ -2,7 +2,7 @@
 	"name": "@arcade/lib-i18n",
 	"version": "0.1.0",
 	"private": true,
-	"description": "Shared localization and multilingual engine for Arcade monorepo",
+	"description": "Shared localization and multilingual engine for absolutholz Arcade monorepo",
 	"type": "module",
 	"exports": {
 		"./schemas/*": {
