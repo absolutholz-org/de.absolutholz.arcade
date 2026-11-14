@@ -1,7 +1,7 @@
 import * as S from './_Coin.styles';
 import type { CoinFace, CoinProps, CoinStyle } from './_Coin.types';
 
-function TokenFaceSvg({ side, label }: { readonly side: CoinFace; readonly label: string }): JSX.Element {
+function TokenFaceSvg({ side }: { readonly side: CoinFace; readonly label: string }): JSX.Element {
 	const isHeads = side === 'heads';
 	return (
 		<svg viewBox="0 0 120 120" aria-hidden="true">
@@ -23,46 +23,23 @@ function TokenFaceSvg({ side, label }: { readonly side: CoinFace; readonly label
 				strokeDasharray={isHeads ? undefined : '4 3'}
 			/>
 			{isHeads ? (
-				<>
-					<path
-						d="M38 46 L46 32 L60 41 L74 32 L82 46 Z"
-						fill="oklch(0.45 0.1 55)"
-						stroke="oklch(0.35 0.08 50)"
-						strokeWidth="2"
-						strokeLinejoin="round"
-					/>
-					<text
-						x="60"
-						y="84"
-						textAnchor="middle"
-						fontSize="30"
-						fontWeight="800"
-						fill="oklch(0.34 0.08 50)"
-						fontFamily="system-ui, sans-serif"
-					>
-						{label}
-					</text>
-				</>
+				<g fill="oklch(0.38 0.08 52)" stroke="oklch(0.3 0.07 50)" strokeWidth="2" strokeLinejoin="round">
+					{/* Classic female coin profile with updo/chignon */}
+					<circle cx="38" cy="46" r="7" />
+					<path d="M44 90 C44 82 47 76 52 72 L50 64 C44 61 41 54 42 46 C43 35 52 28 63 29 C71 30 76 36 77 43 L81 51 C82 53 81 55 78 55 L76 56 L78 59 L75 61 L77 64 C76 67 73 69 68 69 L66 74 C71 78 74 84 74 90 Z" />
+				</g>
 			) : (
-				<>
-					<polygon
-						points="60,26 74,40 60,54 46,40"
-						fill="oklch(0.82 0.12 80)"
-						stroke="oklch(0.66 0.11 74)"
-						strokeWidth="2"
-					/>
-					<text
-						x="60"
-						y="86"
-						textAnchor="middle"
-						fontSize="30"
-						fontWeight="800"
-						fill="oklch(0.92 0.06 82)"
-						fontFamily="system-ui, sans-serif"
-					>
-						{label}
-					</text>
-				</>
+				<g fill="oklch(0.88 0.08 80)" stroke="oklch(0.74 0.1 76)" strokeWidth="1.5" strokeLinejoin="round">
+					{/* Classical bank building */}
+					<polygon points="60,28 32,44 88,44" />
+					<rect x="34" y="44" width="52" height="5" rx="1" />
+					<rect x="38" y="49" width="6" height="26" />
+					<rect x="51" y="49" width="6" height="26" />
+					<rect x="63" y="49" width="6" height="26" />
+					<rect x="76" y="49" width="6" height="26" />
+					<rect x="32" y="75" width="56" height="5" rx="1" />
+					<rect x="28" y="80" width="64" height="5" rx="1" />
+				</g>
 			)}
 		</svg>
 	);
