@@ -1,8 +1,8 @@
 import { type ForwardedRef, forwardRef, useImperativeHandle } from 'react';
 import { Button } from '../Button';
 import { Die } from '../Die';
-import { SegmentedControl } from '../SegmentedControl';
-import { COUNT_SELECTOR_SEGMENTS } from './_DiceTray.constants';
+import { NumberStepper } from '../NumberStepper';
+import { MAX_TRAY_DICE, MIN_TRAY_DICE } from './_DiceTray.constants';
 import { useDiceTray } from './_DiceTray.hooks';
 import * as S from './_DiceTray.styles';
 import type { DiceTrayHandle, DiceTrayProps } from './_DiceTray.types';
@@ -19,6 +19,12 @@ function DiceTrayInner(
 		disabled = false,
 		ariaLabel = 'Dice Tray',
 		className,
+		countLabel = 'Number of dice',
+		decrementLabel = 'Decrease dice count',
+		incrementLabel = 'Increase dice count',
+		rollButtonLabel = 'Roll Dice',
+		resetButtonLabel = 'Reset',
+		totalLabel = 'Total:',
 	}: DiceTrayProps,
 	ref: ForwardedRef<DiceTrayHandle>,
 ): JSX.Element {
@@ -54,20 +60,23 @@ function DiceTrayInner(
 	return (
 		<S.TrayContainer aria-label={ariaLabel} className={className}>
 			<S.TopBar>
-				<SegmentedControl
-					size="sm"
-					ariaLabel="Dice count selector"
-					value={activeCount.toString()}
-					onChange={(val) => handleSelectCount(Number(val))}
-					items={COUNT_SELECTOR_SEGMENTS}
+				<NumberStepper
+					value={activeCount}
+					onChange={handleSelectCount}
+					min={MIN_TRAY_DICE}
+					max={MAX_TRAY_DICE}
+					disabled={disabled || isRolling}
+					label={countLabel}
+					decrementLabel={decrementLabel}
+					incrementLabel={incrementLabel}
 				/>
 				<S.TotalBadge>
-					Total: <strong>{total}</strong>
+					{totalLabel} <strong>{total}</strong>
 				</S.TotalBadge>
 			</S.TopBar>
 
 			{/* biome-ignore lint/a11y/useSemanticElements: W3C APG pattern groups interactive dice controls using role="group" */}
-			<S.DiceGrid role="group" aria-label="Dice in tray">
+			<S.DiceGrid role="group" aria-label="Dice in tray" data-count={activeCount.toString()}>
 				{activeDice.map((die, idx) => (
 					<Die
 						key={die.id}
@@ -82,10 +91,10 @@ function DiceTrayInner(
 
 			<S.ControlsBar>
 				<Button variant="primary" disabled={disabled || isRolling} onClick={handleRoll}>
-					Roll Dice
+					{rollButtonLabel}
 				</Button>
 				<Button variant="secondary" disabled={disabled || isRolling} onClick={handleReset}>
-					Reset
+					{resetButtonLabel}
 				</Button>
 			</S.ControlsBar>
 

@@ -181,6 +181,13 @@ export const enCommon = {
 			shakeDisabled: 'Shake to roll is disabled',
 			enableShake: 'Enable Shake to Roll',
 			shakeHint: 'Shake your device or tap roll',
+			countLabel: 'Number of dice',
+			decreaseCount: 'Decrease dice count',
+			increaseCount: 'Increase dice count',
+			historyLabel: 'Recent rolls',
+			clearHistory: 'Clear history',
+			emptyHistory: 'No rolls yet',
+			rollHistoryEntry: 'Total {{total}} ({{values}})',
 		},
 		coin: {
 			title: 'Coin Flipper',

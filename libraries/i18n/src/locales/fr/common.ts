@@ -180,6 +180,13 @@ export const frCommon = {
 			shakeDisabled: 'Secouer pour lancer est désactivé',
 			enableShake: 'Activer la détection de secousse',
 			shakeHint: 'Secouez votre appareil ou appuyez sur Lancer',
+			countLabel: 'Nombre de dés',
+			decreaseCount: 'Diminuer le nombre de dés',
+			increaseCount: 'Augmenter le nombre de dés',
+			historyLabel: 'Lancers récents',
+			clearHistory: 'Effacer l’historique',
+			emptyHistory: 'Aucun lancer pour le moment',
+			rollHistoryEntry: 'Total {{total}} ({{values}})',
 		},
 		coin: {
 			title: 'Pile ou Face',

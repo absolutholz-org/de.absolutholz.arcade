@@ -168,6 +168,13 @@ export const commonSchema = {
 			shakeDisabled: 'tools.dice.shakeDisabled',
 			enableShake: 'tools.dice.enableShake',
 			shakeHint: 'tools.dice.shakeHint',
+			countLabel: 'tools.dice.countLabel',
+			decreaseCount: 'tools.dice.decreaseCount',
+			increaseCount: 'tools.dice.increaseCount',
+			historyLabel: 'tools.dice.historyLabel',
+			clearHistory: 'tools.dice.clearHistory',
+			emptyHistory: 'tools.dice.emptyHistory',
+			rollHistoryEntry: 'tools.dice.rollHistoryEntry',
 		},
 		coin: {
 			title: 'tools.coin.title',

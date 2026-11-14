@@ -209,8 +209,8 @@ export const hop5 = css`
 
 export const DieWrapper = styled.button`
 	position: relative;
-	width: 3.5rem;
-	height: 3.5rem;
+	width: var(--die-size, 3.5rem);
+	height: var(--die-size, 3.5rem);
 	padding: 0;
 	margin: 0.375rem;
 	background: transparent;
@@ -338,7 +338,7 @@ export const Face = styled.div`
 	inset: 0;
 	width: 100%;
 	height: 100%;
-	padding: 0.45rem;
+	padding: calc(var(--die-size, 3.5rem) * 0.13);
 	background-color: ${themeColor('container-1')};
 	border: 1px solid ${themeColor('container-2')};
 	border-radius: ${radiusScale.lg};
@@ -351,27 +351,27 @@ export const Face = styled.div`
 	backface-visibility: hidden;
 
 	&[data-face-idx='1'] {
-		transform: rotateY(0deg) translateZ(1.75rem);
+		transform: rotateY(0deg) translateZ(calc(var(--die-size, 3.5rem) / 2));
 	}
 	&[data-face-idx='2'] {
-		transform: rotateY(90deg) translateZ(1.75rem);
+		transform: rotateY(90deg) translateZ(calc(var(--die-size, 3.5rem) / 2));
 	}
 	&[data-face-idx='3'] {
-		transform: rotateX(90deg) translateZ(1.75rem);
+		transform: rotateX(90deg) translateZ(calc(var(--die-size, 3.5rem) / 2));
 	}
 	&[data-face-idx='4'] {
-		transform: rotateX(-90deg) translateZ(1.75rem);
+		transform: rotateX(-90deg) translateZ(calc(var(--die-size, 3.5rem) / 2));
 	}
 	&[data-face-idx='5'] {
-		transform: rotateY(-90deg) translateZ(1.75rem);
+		transform: rotateY(-90deg) translateZ(calc(var(--die-size, 3.5rem) / 2));
 	}
 	&[data-face-idx='6'] {
-		transform: rotateY(180deg) translateZ(1.75rem);
+		transform: rotateY(180deg) translateZ(calc(var(--die-size, 3.5rem) / 2));
 	}
 
 	> span {
-		width: 0.625rem;
-		height: 0.625rem;
+		width: calc(var(--die-size, 3.5rem) * 0.18);
+		height: calc(var(--die-size, 3.5rem) * 0.18);
 		border-radius: 50%;
 		background-color: ${themeColor('text-1')};
 

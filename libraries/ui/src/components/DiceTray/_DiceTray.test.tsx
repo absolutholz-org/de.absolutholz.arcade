@@ -3,6 +3,11 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { DiceTray } from '.';
 import { render } from '../../test-utils';
 
+function getTrayAnnouncer(container: HTMLElement): Element | undefined {
+	const announcers = container.querySelectorAll('[aria-live="polite"]');
+	return announcers[announcers.length - 1];
+}
+
 describe('DiceTray', () => {
 	beforeEach(() => {
 		vi.useFakeTimers();
@@ -59,7 +64,7 @@ describe('DiceTray', () => {
 			vi.advanceTimersByTime(600);
 		});
 
-		const announcer = container.querySelector('[aria-live="polite"]');
+		const announcer = getTrayAnnouncer(container);
 		expect(announcer?.textContent).toContain('Rolled 3 dice');
 		expect(announcer?.textContent).toContain('Total');
 
@@ -76,23 +81,21 @@ describe('DiceTray', () => {
 		let diceButtons = container.querySelectorAll<HTMLButtonElement>('[data-held]');
 		expect(diceButtons.length).toBe(2);
 
-		// Find the segment button for "5d"
-		const segment5d = Array.from(container.querySelectorAll<HTMLButtonElement>('[role="radio"]')).find((b) =>
-			b.textContent?.includes('5d'),
-		);
-		expect(segment5d).toBeDefined();
+		// Click the NumberStepper increment button to go from 2 -> 3 dice
+		const incrementBtn = container.querySelector<HTMLButtonElement>('button[aria-label="Increase dice count"]');
+		expect(incrementBtn).not.toBeNull();
 
 		act(() => {
-			segment5d?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+			incrementBtn?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
 		});
 
-		expect(handleCountChange).toHaveBeenCalledWith(5);
+		expect(handleCountChange).toHaveBeenCalledWith(3);
 
 		diceButtons = container.querySelectorAll<HTMLButtonElement>('[data-held]');
-		expect(diceButtons.length).toBe(5);
+		expect(diceButtons.length).toBe(3);
 
-		const announcer = container.querySelector('[aria-live="polite"]');
-		expect(announcer?.textContent).toBe('Selected 5 dice.');
+		const announcer = getTrayAnnouncer(container);
+		expect(announcer?.textContent).toBe('Selected 3 dice.');
 
 		unmount();
 	});
@@ -110,7 +113,7 @@ describe('DiceTray', () => {
 		expect(firstDie?.getAttribute('data-held')).toBe('true');
 		expect(firstDie?.getAttribute('aria-pressed')).toBe('true');
 
-		const announcer = container.querySelector('[aria-live="polite"]');
+		const announcer = getTrayAnnouncer(container);
 		expect(announcer?.textContent).toBe('Die 1 held.');
 
 		unmount();
@@ -139,7 +142,7 @@ describe('DiceTray', () => {
 		const total = container.querySelector('strong');
 		expect(total?.textContent).toBe('4');
 
-		const announcer = container.querySelector('[aria-live="polite"]');
+		const announcer = getTrayAnnouncer(container);
 		expect(announcer?.textContent).toBe('Reset 4 dice. Total 4.');
 
 		unmount();

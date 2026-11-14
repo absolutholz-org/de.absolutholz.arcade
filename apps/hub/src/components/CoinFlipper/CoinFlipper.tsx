@@ -1,22 +1,12 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import { Button } from '@arcade/lib-ui/components/Button';
-import { NumberStepper } from '@arcade/lib-ui/components/NumberStepper';
+import type { CoinFace, CoinStyle } from '@arcade/lib-ui/components/Coin';
+import { type CoinFlipResult, CoinTray, type CoinTrayHandle } from '@arcade/lib-ui/components/CoinTray';
 import { ShakeToggle } from '@arcade/lib-ui/components/ShakeToggle';
-// import { SegmentedControl } from '@arcade/lib-ui/components/SegmentedControl';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import * as S from './CoinFlipper.styles';
-import type {
-	CoinFace,
-	CoinFlipperProps,
-	CoinHistoryEntry,
-	CoinPreferences,
-	CoinState,
-	CoinStyle,
-} from './CoinFlipper.types';
-import { CoinVisual } from './CoinVisual';
-import { playCoinLandClack, playCoinTossPing, triggerCoinHaptic } from './coinAudio';
-import { flipCryptoCoins } from './coinRng';
+import type { CoinFlipperProps, CoinHistoryEntry, CoinPreferences } from './CoinFlipper.types';
 
 const PREFS_STORAGE_KEY = 'arcade::tool::coin::prefs';
 const MAX_HISTORY_ITEMS = 50;
@@ -69,51 +59,16 @@ function writeStoredPreferences(prefs: CoinPreferences): void {
 	}
 }
 
-function prefersReducedMotion(): boolean {
-	if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
-		return false;
-	}
-	return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-}
-
 function CoinFlipperContent(): JSX.Element {
 	const { t } = useI18n();
 
 	const [prefs, setPrefs] = useState<CoinPreferences>(DEFAULT_PREFS);
-	const [coins, setCoins] = useState<CoinState[]>(() =>
-		Array.from({ length: DEFAULT_PREFS.batchCount }, (_, idx) => ({
-			id: idx,
-			face: 'heads',
-			spinVariant: 'a',
-		})),
-	);
-	const [isFlipping, setIsFlipping] = useState<boolean>(false);
-	const [hasFlipped, setHasFlipped] = useState<boolean>(false);
 	const [history, setHistory] = useState<CoinHistoryEntry[]>([]);
-	const [announcement, setAnnouncement] = useState<string>('');
-
-	const settleTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+	const trayRef = useRef<CoinTrayHandle>(null);
 	const nextHistoryIdRef = useRef<number>(1);
-	const spinToggleRef = useRef<'a' | 'b'>('a');
 
 	useEffect(() => {
-		const loaded = readStoredPreferences();
-		setPrefs(loaded);
-		setCoins(
-			Array.from({ length: loaded.batchCount }, (_, idx) => ({
-				id: idx,
-				face: 'heads',
-				spinVariant: 'a',
-			})),
-		);
-	}, []);
-
-	useEffect(() => {
-		return () => {
-			if (settleTimeoutRef.current) {
-				clearTimeout(settleTimeoutRef.current);
-			}
-		};
+		setPrefs(readStoredPreferences());
 	}, []);
 
 	const updatePrefs = useCallback((updater: (prev: CoinPreferences) => CoinPreferences) => {
@@ -124,14 +79,6 @@ function CoinFlipperContent(): JSX.Element {
 		});
 	}, []);
 
-	// Kept for future coin style selector iteration
-	// const handleStyleChange = useCallback(
-	// 	(nextStyle: CoinStyle) => {
-	// 		updatePrefs((prev) => ({ ...prev, style: nextStyle }));
-	// 	},
-	// 	[updatePrefs],
-	// );
-
 	const handleCountChange = useCallback(
 		(nextCount: number) => {
 			const clamped = Math.max(MIN_COIN_COUNT, Math.min(MAX_COIN_COUNT, nextCount));
@@ -140,73 +87,24 @@ function CoinFlipperContent(): JSX.Element {
 				mode: clamped === 1 ? 'single' : 'batch',
 				batchCount: clamped,
 			}));
-			setCoins((prev) => {
-				if (prev.length === clamped) return prev;
-				if (prev.length < clamped) {
-					const extras: CoinState[] = Array.from({ length: clamped - prev.length }, (_, idx) => ({
-						id: prev.length + idx,
-						face: 'heads',
-						spinVariant: spinToggleRef.current,
-					}));
-					return [...prev, ...extras];
-				}
-				return prev.slice(0, clamped);
-			});
 		},
 		[updatePrefs],
 	);
 
-	const triggerFlip = useCallback(() => {
-		if (isFlipping) return;
-
-		if (settleTimeoutRef.current) {
-			clearTimeout(settleTimeoutRef.current);
-		}
-
-		const nextSpin: 'a' | 'b' = spinToggleRef.current === 'a' ? 'b' : 'a';
-		spinToggleRef.current = nextSpin;
-
-		playCoinTossPing();
-		triggerCoinHaptic();
-		setIsFlipping(true);
-
-		const settleMs = prefersReducedMotion() ? 150 : 620;
-		const outcomes = flipCryptoCoins(prefs.batchCount);
-
-		setCoins(
-			outcomes.map((face, idx) => ({
-				id: idx,
-				face,
-				spinVariant: nextSpin,
-			})),
-		);
-
-		settleTimeoutRef.current = setTimeout(() => {
-			setIsFlipping(false);
-			setHasFlipped(true);
-			playCoinLandClack();
-			triggerCoinHaptic();
-
-			setHistory((prev) => {
-				const newEntries: CoinHistoryEntry[] = outcomes.map((face) => {
-					const entryId = nextHistoryIdRef.current;
-					nextHistoryIdRef.current += 1;
-					return { id: entryId, face };
-				});
-				return [...newEntries, ...prev].slice(0, MAX_HISTORY_ITEMS);
+	const handleFlipComplete = useCallback((result: CoinFlipResult) => {
+		setHistory((prev) => {
+			const newEntries: CoinHistoryEntry[] = result.outcomes.map((face) => {
+				const entryId = nextHistoryIdRef.current;
+				nextHistoryIdRef.current += 1;
+				return { id: entryId, face };
 			});
+			return [...newEntries, ...prev].slice(0, MAX_HISTORY_ITEMS);
+		});
+	}, []);
 
-			if (outcomes.length === 1) {
-				const outcome = outcomes[0] ?? 'heads';
-				const label = outcome === 'heads' ? t('tools.coin.heads') : t('tools.coin.tails');
-				setAnnouncement(t('tools.coin.resultSingle', { result: label }));
-			} else {
-				const headsCount = outcomes.filter((f) => f === 'heads').length;
-				const tailsCount = outcomes.length - headsCount;
-				setAnnouncement(t('tools.coin.resultBatch', { heads: headsCount, tails: tailsCount }));
-			}
-		}, settleMs);
-	}, [isFlipping, prefs.batchCount, t]);
+	const handleShake = useCallback(() => {
+		trayRef.current?.flip();
+	}, []);
 
 	const handleClearHistory = useCallback(() => {
 		setHistory([]);
@@ -217,121 +115,36 @@ function CoinFlipperContent(): JSX.Element {
 	const headsShort = t('tools.coin.headsShort');
 	const tailsShort = t('tools.coin.tailsShort');
 
-	const summary = useMemo(() => {
-		const heads = coins.filter((c) => c.face === 'heads').length;
-		const tails = coins.length - heads;
-		return { heads, tails };
-	}, [coins]);
-
-	const isSingle = prefs.batchCount === 1;
-	const singleCoin = coins[0] ?? { id: 0, face: 'heads' as CoinFace, spinVariant: 'a' as const };
-	const singleFaceText = singleCoin.face === 'heads' ? headsLabel : tailsLabel;
-
 	return (
 		<div className={S.Container}>
 			<div className={S.Toolbar}>
 				<ShakeToggle
-					onShake={triggerFlip}
+					onShake={handleShake}
 					enableLabel={t('tools.coin.enableShake')}
 					enabledLabel={t('tools.coin.shakeEnabled')}
 					disabledLabel={t('tools.coin.shakeDisabled')}
 				/>
 			</div>
 
-			{/* Coin style selector hidden for now; will return in a future iteration
-			<div className={S.Toolbar}>
-				<SegmentedControl
-					size="sm"
-					ariaLabel={t('tools.coin.styleLabel')}
-					value={prefs.style}
-					onChange={handleStyleChange}
-					options={[
-						{ value: 'token' as const, label: t('tools.coin.styleToken') },
-						{ value: 'classic' as const, label: t('tools.coin.styleClassic') },
-						{ value: 'minimal' as const, label: t('tools.coin.styleMinimal') },
-					]}
-				/>
-			</div>
-			*/}
-
-			<section className={S.StageCard} aria-label={t('tools.coin.title')}>
-				<div className={S.BatchControls}>
-					<NumberStepper
-						value={prefs.batchCount}
-						onChange={handleCountChange}
-						min={MIN_COIN_COUNT}
-						max={MAX_COIN_COUNT}
-						disabled={isFlipping}
-						label={t('tools.coin.countLabel')}
-						decrementLabel={t('tools.coin.decreaseCount')}
-						incrementLabel={t('tools.coin.increaseCount')}
-					/>
-				</div>
-
-				{isSingle ? (
-					<div className={S.SingleStage}>
-						<button
-							type="button"
-							className={S.CoinButton}
-							onClick={triggerFlip}
-							disabled={isFlipping}
-							aria-label={`${t('tools.coin.flipButton')} (${singleFaceText})`}
-						>
-							<CoinVisual
-								face={singleCoin.face}
-								styleVariant={prefs.style}
-								isFlipping={isFlipping}
-								spinVariant={singleCoin.spinVariant}
-								size="md"
-								headsShort={headsShort}
-								tailsShort={tailsShort}
-							/>
-						</button>
-						<div className={S.ResultLabel}>{hasFlipped && !isFlipping ? singleFaceText : '\u00A0'}</div>
-					</div>
-				) : (
-					<>
-						{hasFlipped && !isFlipping && (
-							<div className={S.SummaryPill}>
-								{t('tools.coin.summary', { heads: summary.heads, tails: summary.tails })}
-							</div>
-						)}
-						<div className={S.BatchGrid}>
-							{coins.map((coin) => {
-								const coinLabel = coin.face === 'heads' ? headsLabel : tailsLabel;
-								return (
-									<button
-										key={coin.id}
-										type="button"
-										className={S.CoinButton}
-										onClick={triggerFlip}
-										disabled={isFlipping}
-										aria-label={`${coinLabel} — ${t('tools.coin.flipBatchButton', { count: prefs.batchCount })}`}
-									>
-										<CoinVisual
-											face={coin.face}
-											styleVariant={prefs.style}
-											isFlipping={isFlipping}
-											spinVariant={coin.spinVariant}
-											size="sm"
-											headsShort={headsShort}
-											tailsShort={tailsShort}
-										/>
-									</button>
-								);
-							})}
-						</div>
-					</>
-				)}
-
-				<div className={S.ActionRow}>
-					<Button size="lg" variant="primary" onClick={triggerFlip} disabled={isFlipping}>
-						{isSingle
-							? t('tools.coin.flipButton')
-							: t('tools.coin.flipBatchButton', { count: prefs.batchCount })}
-					</Button>
-				</div>
-			</section>
+			<CoinTray
+				ref={trayRef}
+				count={prefs.batchCount}
+				onCountChange={handleCountChange}
+				onFlipComplete={handleFlipComplete}
+				styleVariant={prefs.style}
+				ariaLabel={t('tools.coin.title')}
+				headsLabel={headsLabel}
+				tailsLabel={tailsLabel}
+				headsShort={headsShort}
+				tailsShort={tailsShort}
+				countLabel={t('tools.coin.countLabel')}
+				decrementLabel={t('tools.coin.decreaseCount')}
+				incrementLabel={t('tools.coin.increaseCount')}
+				flipButtonLabel={t('tools.coin.flipButton')}
+				flipBatchButtonLabel={t('tools.coin.flipBatchButton', { count: prefs.batchCount })}
+				singleResultFormatter={(result) => t('tools.coin.resultSingle', { result })}
+				batchResultFormatter={(heads, tails) => t('tools.coin.resultBatch', { heads, tails })}
+			/>
 
 			<section className={S.HistorySection} aria-label={t('tools.coin.historyLabel')}>
 				<div className={S.HistoryHeader}>
@@ -370,10 +183,6 @@ function CoinFlipperContent(): JSX.Element {
 					</div>
 				)}
 			</section>
-
-			<output className={S.LiveRegion} aria-live="polite" aria-atomic="true">
-				{announcement}
-			</output>
 		</div>
 	);
 }

@@ -19,6 +19,62 @@ export const UtilityHeader = css`
 `;
 
 export const StyledDiceTrayWrapper = css`
+	display: flex;
+	width: 100%;
+`;
+
+export const HistorySection = css`
+	display: flex;
+	flex-direction: column;
+	gap: 0.625rem;
+	width: 100%;
+	padding: 1rem 1.25rem;
+	background-color: var(--color-surface);
+	border: 1px solid var(--color-container-2);
+	border-radius: 0.875rem;
+`;
+
+export const HistoryHeader = css`
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.75rem;
+`;
+
+export const HistoryTitle = css`
+	font-size: 0.875rem;
+	font-weight: 600;
+	color: var(--color-text-2);
+	margin: 0;
+`;
+
+export const HistoryStrip = css`
+	display: flex;
+	align-items: center;
+	gap: 0.4375rem;
+	overflow-x: auto;
+	padding: 0.25rem 0;
+	scrollbar-width: thin;
+`;
+
+export const HistoryPill = css`
 	display: inline-flex;
-	max-width: 100%;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	min-width: 2rem;
+	height: 2rem;
+	padding: 0 0.5rem;
+	border-radius: var(--radius-pill);
+	font-size: 0.8125rem;
+	font-weight: 700;
+	font-variant-numeric: tabular-nums;
+	background-color: var(--color-container-1);
+	color: var(--color-text-1);
+	border: 1px solid var(--color-container-2);
+`;
+
+export const EmptyHistory = css`
+	font-size: 0.875rem;
+	color: var(--color-text-2);
 `;

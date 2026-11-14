@@ -1,16 +1,9 @@
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import type { CoinFace, CoinStyle } from '@arcade/lib-ui/components/Coin';
 
-export type CoinFace = 'heads' | 'tails';
-
-export type CoinStyle = 'token' | 'classic' | 'minimal';
+export type { CoinFace, CoinStyle };
 
 export type CoinFlipMode = 'single' | 'batch';
-
-export interface CoinState {
-	readonly id: number;
-	readonly face: CoinFace;
-	readonly spinVariant: 'a' | 'b';
-}
 
 export interface CoinHistoryEntry {
 	readonly id: number;

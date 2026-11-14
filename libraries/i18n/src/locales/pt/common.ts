@@ -179,6 +179,13 @@ export const ptCommon = {
 			shakeDisabled: 'Agitar para rolar está desativado',
 			enableShake: 'Ativar agitar para rolar',
 			shakeHint: 'Agite o seu dispositivo ou toque em Rolar',
+			countLabel: 'Número de dados',
+			decreaseCount: 'Diminuir número de dados',
+			increaseCount: 'Aumentar número de dados',
+			historyLabel: 'Lançamentos recentes',
+			clearHistory: 'Limpar histórico',
+			emptyHistory: 'Nenhum lançamento ainda',
+			rollHistoryEntry: 'Total {{total}} ({{values}})',
 		},
 		coin: {
 			title: 'Cara ou Coroa',

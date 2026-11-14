@@ -28,4 +28,16 @@ export interface DiceTrayProps {
 	ariaLabel?: string;
 	/** Optional CSS class name for styling composition. */
 	className?: string;
+	/** Accessible label for the dice count stepper. */
+	countLabel?: string;
+	/** Accessible label for the stepper decrement button. */
+	decrementLabel?: string;
+	/** Accessible label for the stepper increment button. */
+	incrementLabel?: string;
+	/** Label for the roll button. */
+	rollButtonLabel?: string;
+	/** Label for the reset button. */
+	resetButtonLabel?: string;
+	/** Label prefix for the total badge. */
+	totalLabel?: string;
 }

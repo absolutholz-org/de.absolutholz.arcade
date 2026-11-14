@@ -1,21 +1,10 @@
-import * as S from './CoinFlipper.styles';
-import type { CoinFace, CoinStyle } from './CoinFlipper.types';
-
-interface CoinVisualProps {
-	readonly face: CoinFace;
-	readonly styleVariant: CoinStyle;
-	readonly isFlipping: boolean;
-	readonly spinVariant: 'a' | 'b';
-	readonly size?: 'md' | 'sm';
-	readonly headsShort: string;
-	readonly tailsShort: string;
-}
+import * as S from './_Coin.styles';
+import type { CoinFace, CoinProps, CoinStyle } from './_Coin.types';
 
 function TokenFaceSvg({ side, label }: { readonly side: CoinFace; readonly label: string }): JSX.Element {
 	const isHeads = side === 'heads';
 	return (
 		<svg viewBox="0 0 120 120" aria-hidden="true">
-			{/* Outer warm wood/brass rim */}
 			<circle
 				cx="60"
 				cy="60"
@@ -35,7 +24,6 @@ function TokenFaceSvg({ side, label }: { readonly side: CoinFace; readonly label
 			/>
 			{isHeads ? (
 				<>
-					{/* Crown / Sunburst emblem for Heads */}
 					<path
 						d="M38 46 L46 32 L60 41 L74 32 L82 46 Z"
 						fill="oklch(0.45 0.1 55)"
@@ -57,7 +45,6 @@ function TokenFaceSvg({ side, label }: { readonly side: CoinFace; readonly label
 				</>
 			) : (
 				<>
-					{/* Geometric diamond emblem for Tails */}
 					<polygon
 						points="60,26 74,40 60,54 46,40"
 						fill="oklch(0.82 0.12 80)"
@@ -215,29 +202,35 @@ function CoinFaceContent({
 	return <TokenFaceSvg side={side} label={label} />;
 }
 
-export function CoinVisual({
+export function Coin({
 	face,
-	styleVariant,
-	isFlipping,
-	spinVariant,
+	styleVariant = 'token',
+	isFlipping = false,
+	spinVariant = 'a',
 	size = 'md',
-	headsShort,
-	tailsShort,
-}: CoinVisualProps): JSX.Element {
+	headsShort = 'H',
+	tailsShort = 'T',
+	onClick,
+	disabled = false,
+	ariaLabel,
+}: CoinProps): JSX.Element {
+	const defaultLabel = face === 'heads' ? 'Flip coin (Heads)' : 'Flip coin (Tails)';
+
 	return (
-		<div
-			className={S.CoinRotor}
-			data-face={face}
-			data-flipping={isFlipping ? 'true' : 'false'}
-			data-spin={spinVariant}
-			data-size={size}
-		>
-			<div className={S.CoinFaceLayer} data-side="heads">
-				<CoinFaceContent side="heads" styleVariant={styleVariant} label={headsShort} />
-			</div>
-			<div className={S.CoinFaceLayer} data-side="tails">
-				<CoinFaceContent side="tails" styleVariant={styleVariant} label={tailsShort} />
-			</div>
-		</div>
+		<S.CoinButton type="button" onClick={onClick} disabled={disabled} aria-label={ariaLabel ?? defaultLabel}>
+			<S.CoinRotor
+				data-face={face}
+				data-flipping={isFlipping ? 'true' : 'false'}
+				data-spin={spinVariant}
+				data-size={size}
+			>
+				<S.CoinFaceLayer data-side="heads">
+					<CoinFaceContent side="heads" styleVariant={styleVariant} label={headsShort} />
+				</S.CoinFaceLayer>
+				<S.CoinFaceLayer data-side="tails">
+					<CoinFaceContent side="tails" styleVariant={styleVariant} label={tailsShort} />
+				</S.CoinFaceLayer>
+			</S.CoinRotor>
+		</S.CoinButton>
 	);
 }

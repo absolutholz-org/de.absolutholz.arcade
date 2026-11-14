@@ -4,14 +4,13 @@ import { themeColor } from '../../styles/theme/theme.utils';
 
 export const TrayContainer = styled.section`
 	position: relative;
-	display: inline-flex;
+	display: flex;
 	flex-direction: column;
-	align-items: flex-start;
+	align-items: center;
 	gap: 1.25rem;
-	width: auto;
-	max-width: 100%;
+	width: 100%;
 	margin: 0;
-	padding: 1.25rem;
+	padding: 1.5rem;
 	background-color: ${themeColor('surface')};
 	border: 1px solid ${themeColor('container-2')};
 	border-radius: ${radiusScale.xl};
@@ -45,18 +44,43 @@ export const TotalBadge = styled.div`
 export const DiceGrid = styled.div`
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: flex-start;
+	justify-content: center;
 	align-items: center;
-	gap: 0.75rem;
+	gap: 0.875rem;
 	width: 100%;
 	min-height: 4.5rem;
-	padding: 0.5rem 0;
+	padding: 0.75rem 0;
+	--die-size: 3.5rem;
+
+	&[data-count='1'] {
+		--die-size: 8.5rem;
+	}
+
+	&[data-count='2'] {
+		--die-size: 6.5rem;
+	}
+
+	&[data-count='3'] {
+		--die-size: 5.25rem;
+	}
+
+	&[data-count='4'] {
+		--die-size: 4.5rem;
+	}
+
+	&[data-count='5'] {
+		--die-size: 4rem;
+	}
+
+	&[data-count='6'] {
+		--die-size: 3.5rem;
+	}
 `;
 
 export const ControlsBar = styled.div`
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: flex-start;
+	justify-content: center;
 	align-items: center;
 	gap: 0.75rem;
 	width: 100%;

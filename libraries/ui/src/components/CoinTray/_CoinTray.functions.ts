@@ -1,10 +1,9 @@
-import type { CoinFace } from './CoinFlipper.types';
+import type { CoinFace } from '../Coin';
 
 const randomWordBuffer = new Uint32Array(1);
 
 /**
  * Generates an unbiased 50/50 coin flip outcome using `crypto.getRandomValues()`.
- * Reads the least significant bit of a 32-bit uniform word.
  */
 export function flipCryptoCoin(): CoinFace {
 	if (typeof globalThis.crypto?.getRandomValues !== 'function') {
@@ -24,4 +23,11 @@ export function flipCryptoCoins(count: number): CoinFace[] {
 		results.push(flipCryptoCoin());
 	}
 	return results;
+}
+
+export function prefersReducedMotion(): boolean {
+	if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
+		return false;
+	}
+	return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }

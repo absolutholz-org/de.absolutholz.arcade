@@ -182,6 +182,13 @@ export const deCommon = {
 			shakeDisabled: 'Schütteln zum Würfeln ist deaktiviert',
 			enableShake: 'Schütteln zum Würfeln aktivieren',
 			shakeHint: 'Schüttle dein Gerät oder tippe auf Würfeln',
+			countLabel: 'Anzahl der Würfel',
+			decreaseCount: 'Würfelanzahl verringern',
+			increaseCount: 'Würfelanzahl erhöhen',
+			historyLabel: 'Letzte Würfe',
+			clearHistory: 'Verlauf löschen',
+			emptyHistory: 'Noch keine Würfe',
+			rollHistoryEntry: 'Summe {{total}} ({{values}})',
 		},
 		coin: {
 			title: 'Münzwurf',
