@@ -1,7 +1,7 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import { Button } from '@arcade/lib-ui/components/Button';
-import { NumberInput } from '@arcade/lib-ui/components/NumberInput';
+import { NumberStepper } from '@arcade/lib-ui/components/NumberStepper';
 import { ShakeToggle } from '@arcade/lib-ui/components/ShakeToggle';
 // import { SegmentedControl } from '@arcade/lib-ui/components/SegmentedControl';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -256,16 +256,15 @@ function CoinFlipperContent(): JSX.Element {
 
 			<section className={S.StageCard} aria-label={t('tools.coin.title')}>
 				<div className={S.BatchControls}>
-					<NumberInput
-						size="sm"
+					<NumberStepper
 						value={prefs.batchCount}
 						onChange={handleCountChange}
 						min={MIN_COIN_COUNT}
 						max={MAX_COIN_COUNT}
 						disabled={isFlipping}
-						ariaLabel={t('tools.coin.countLabel')}
-						decrementAriaLabel={t('tools.coin.decreaseCount')}
-						incrementAriaLabel={t('tools.coin.increaseCount')}
+						label={t('tools.coin.countLabel')}
+						decrementLabel={t('tools.coin.decreaseCount')}
+						incrementLabel={t('tools.coin.increaseCount')}
 					/>
 				</div>
 
