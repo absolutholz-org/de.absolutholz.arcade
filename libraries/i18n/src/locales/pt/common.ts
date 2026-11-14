@@ -470,6 +470,8 @@ export const ptCommon = {
 		favorited: 'Favorito',
 		action_add: 'Adicionar {{game}} aos favoritos',
 		action_remove: 'Remover {{game}} dos favoritos',
+		edit: 'Editar',
+		done: 'Concluído',
 	},
 	curatedPuzzles: 'Navegar por quebra-cabeças predefinidos',
 } as const satisfies CommonTranslationContract;

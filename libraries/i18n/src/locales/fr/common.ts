@@ -472,6 +472,8 @@ export const frCommon = {
 		favorited: 'Favori',
 		action_add: 'Ajouter {{game}} aux favoris',
 		action_remove: 'Retirer {{game}} des favoris',
+		edit: 'Modifier',
+		done: 'Terminé',
 	},
 	curatedPuzzles: 'Parcourir les puzzles prédéfinis',
 } as const satisfies CommonTranslationContract;

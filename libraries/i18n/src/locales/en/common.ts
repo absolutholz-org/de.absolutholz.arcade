@@ -472,6 +472,8 @@ export const enCommon = {
 		favorited: 'Favorited',
 		action_add: 'Add {{game}} to favorites',
 		action_remove: 'Remove {{game}} from favorites',
+		edit: 'Edit',
+		done: 'Done',
 	},
 	curatedPuzzles: 'Browse Curated Puzzles',
 } as const satisfies CommonTranslationContract;

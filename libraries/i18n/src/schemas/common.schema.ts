@@ -457,6 +457,8 @@ export const commonSchema = {
 		favorited: 'favorites.favorited',
 		action_add: 'favorites.action_add',
 		action_remove: 'favorites.action_remove',
+		edit: 'favorites.edit',
+		done: 'favorites.done',
 	},
 	curatedPuzzles: 'curatedPuzzles',
 } as const;

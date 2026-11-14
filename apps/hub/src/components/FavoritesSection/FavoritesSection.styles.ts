@@ -7,35 +7,25 @@ export const FavoritesSectionRoot = css`
 	gap: 1rem;
 `;
 
+export const FavoritesHeader = css`
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 0.75rem;
+`;
+
 export const QuickLaunchStrip = css`
 	display: flex;
-	overflow-x: auto;
-	scroll-snap-type: x mandatory;
-	-webkit-overflow-scrolling: touch;
+	flex-wrap: wrap;
 	gap: 0.75rem;
-	padding-bottom: 0.5rem;
-	scrollbar-width: thin;
-	scrollbar-color: var(--color-container-3) transparent;
+`;
 
-	&::-webkit-scrollbar {
-		height: 4px;
-	}
-
-	&::-webkit-scrollbar-track {
-		background: transparent;
-	}
-
-	&::-webkit-scrollbar-thumb {
-		background: var(--color-container-3);
-		border-radius: var(--radius-pill, 9999px);
-	}
-
-	@media (min-width: 768px) {
-		flex-wrap: wrap;
-		overflow-x: visible;
-		scroll-snap-type: none;
-		padding-bottom: 0;
-	}
+export const QuickLaunchItemWrapper = css`
+	display: inline-flex;
+	align-items: center;
+	gap: 0.25rem;
+	flex-shrink: 0;
+	scroll-snap-align: start;
 `;
 
 export const QuickLaunchItem = css`
@@ -43,8 +33,6 @@ export const QuickLaunchItem = css`
 	height: auto;
 	flex-direction: row;
 	align-items: center;
-	flex-shrink: 0;
-	scroll-snap-align: start;
 	min-height: 44px;
 	min-width: 44px;
 	padding: 0.625rem 1rem;

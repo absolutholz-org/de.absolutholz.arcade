@@ -474,6 +474,8 @@ export const deCommon = {
 		favorited: 'Favorisiert',
 		action_add: '{{game}} zu Favoriten hinzufügen',
 		action_remove: '{{game}} aus Favoriten entfernen',
+		edit: 'Bearbeiten',
+		done: 'Fertig',
 	},
 	curatedPuzzles: 'Vorgefertigte Rätsel durchsuchen',
 } as const satisfies CommonTranslationContract;
