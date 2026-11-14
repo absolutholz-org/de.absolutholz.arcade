@@ -13,6 +13,7 @@ This document outlines the global rules and operational boundaries that all AI a
 
 - **Local Commits Only**: Do not perform any remote git push operations. All commits must be made locally.
 - **Do Not Bypass Hooks**: Never use `--no-verify` or bypass git pre-commit/commit-msg hooks.
+- **Strict Commit Message Format**: All commit messages must strictly adhere to [Git Agent Profile](/.ai/agents/git-agent.md) and [Semantic Commit Skill](/.ai/skills/semantic-commit/SKILL.md) using the format `<emoji> (<scope>): <Capitalized summary>` (e.g., `✨ (hub): Add compact favorites strip`). Never use conventional commit text prefixes (`feat(...)`, `fix(...)`, `chore(...)`, `refactor(...)`).
 
 ## 3. Core Architectural Principles (DRY & SOLID)
 

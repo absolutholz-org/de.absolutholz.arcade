@@ -1,0 +1,7 @@
+{
+	"entries": [
+		{ "path": ".ai/skills" },
+		{ "path": "libraries/ui/.ai/skills" },
+		{ "path": "libraries/storage/.ai/skills" }
+	]
+}

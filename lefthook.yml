@@ -6,3 +6,8 @@ pre-commit:
       stage_fixed: true
     typecheck:
       run: pnpm typecheck
+
+commit-msg:
+  commands:
+    validate-commit-msg:
+      run: node scripts/validate-commit-msg.mjs {1}
