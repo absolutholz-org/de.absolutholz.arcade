@@ -3,6 +3,8 @@ import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import { Button } from '@arcade/lib-ui/components/Button';
 import { DiceTray, type DiceTrayHandle, type DiceTrayProps } from '@arcade/lib-ui/components/DiceTray';
 import { ShakeToggle } from '@arcade/lib-ui/components/ShakeToggle';
+import { WakeLockToggleButton } from '@arcade/lib-ui/components/WakeLockToggleButton';
+import { useWakeLock } from '@arcade/lib-ui/hooks/useWakeLock';
 import { useCallback, useRef, useState } from 'react';
 import * as S from './DiceRoller.styles';
 import type { DiceRollerProps } from './DiceRoller.types';
@@ -21,7 +23,9 @@ function DiceRollerContent(_props: DiceRollerProps): JSX.Element {
 	const { t } = useI18n();
 	const trayRef = useRef<DiceTrayHandle>(null);
 	const [history, setHistory] = useState<DiceHistoryEntry[]>([]);
+	const [wakeLockEnabled, setWakeLockEnabled] = useState<boolean>(true);
 	const nextHistoryIdRef = useRef<number>(1);
+	const { isSupported: wakeLockSupported, isActive: wakeLockActive } = useWakeLock(wakeLockEnabled);
 
 	const handleShake = useCallback(() => {
 		trayRef.current?.roll();
@@ -50,6 +54,12 @@ function DiceRollerContent(_props: DiceRollerProps): JSX.Element {
 					enableLabel={t('tools.dice.enableShake')}
 					enabledLabel={t('tools.dice.shakeEnabled')}
 					disabledLabel={t('tools.dice.shakeDisabled')}
+				/>
+				<WakeLockToggleButton
+					enabled={wakeLockEnabled}
+					isActive={wakeLockActive}
+					isSupported={wakeLockSupported}
+					onToggle={setWakeLockEnabled}
 				/>
 			</div>
 

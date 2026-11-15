@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { type JSX, useState } from 'react';
 import { useShake } from '../../hooks/useShake';
-import { Button } from '../Button';
+import { Icon } from '../Icon';
+import * as S from './_ShakeToggle.styles';
 import type { ShakeToggleProps } from './_ShakeToggle.types';
 
 /**
  * Shared toggle button for shake-to-trigger gestures on motion-capable mobile/tablet devices.
+ * Matches the pill toggle aesthetic and active/inactive icon states of WakeLockToggleButton.
  */
 export function ShakeToggle({
 	onShake,
@@ -32,21 +34,33 @@ export function ShakeToggle({
 
 	if (needsPermission && !isPermissionGranted) {
 		return (
-			<Button size="sm" variant="secondary" onClick={() => void requestPermission()}>
-				📱 {enableLabel}
-			</Button>
+			<S.ShakeToggle
+				type="button"
+				aria-pressed={false}
+				aria-label={enableLabel}
+				title={enableLabel}
+				data-state="off"
+				onClick={() => void requestPermission()}
+			>
+				<Icon name="smartphone" size="sm" />
+				<span>{enableLabel}</span>
+			</S.ShakeToggle>
 		);
 	}
 
+	const label = isShakeActive ? enabledLabel : disabledLabel;
+
 	return (
-		<Button
-			size="sm"
-			variant={isShakeActive ? 'secondary' : 'outline'}
-			onClick={() => setIsShakeActive((prev) => !prev)}
+		<S.ShakeToggle
+			type="button"
 			aria-pressed={isShakeActive}
-			title={isShakeActive ? enabledLabel : disabledLabel}
+			aria-label={label}
+			title={label}
+			data-state={isShakeActive ? 'active' : 'off'}
+			onClick={() => setIsShakeActive((prev) => !prev)}
 		>
-			📱 {isShakeActive ? enabledLabel : disabledLabel}
-		</Button>
+			<Icon name={isShakeActive ? 'smartphone-filled' : 'smartphone'} size="sm" />
+			<span>{label}</span>
+		</S.ShakeToggle>
 	);
 }

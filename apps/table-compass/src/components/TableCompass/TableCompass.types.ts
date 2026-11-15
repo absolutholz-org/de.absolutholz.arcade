@@ -3,6 +3,7 @@ import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 export type PickMode = 'first-player' | 'turn-order';
 export type Direction = 'cw' | 'ccw';
 export type AppPhase = 'pick' | 'naming' | 'compass';
+export type CompassHistoryAction = 'turn' | 'skip' | 'reverse';
 
 export interface Seat {
 	readonly id: string;
@@ -22,6 +23,16 @@ export interface TouchPoint {
 	readonly playerConfigIndex: number;
 }
 
+export interface CompassHistoryEntry {
+	readonly id: number;
+	readonly kind: CompassHistoryAction;
+	readonly turn?: number;
+	readonly seatId?: string;
+	readonly playerConfigIndex?: number;
+	readonly playerName?: string;
+	readonly direction?: Direction;
+}
+
 export interface TableCompassState {
 	phase: AppPhase;
 	pickMode: PickMode;
@@ -29,6 +40,7 @@ export interface TableCompassState {
 	seats: Seat[];
 	activeSeatIndex: number;
 	turnCount: number;
+	history?: CompassHistoryEntry[];
 }
 
 export interface TableCompassProps {

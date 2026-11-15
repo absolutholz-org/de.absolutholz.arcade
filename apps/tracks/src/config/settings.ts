@@ -17,6 +17,7 @@ export const DEFAULT_TRACKS_SETTINGS: TracksSettings = {
 export const TRACKS_SETTINGS_CONFIG: GameSettingsConfig<TracksSettings> = {
 	gameId: 'tracks',
 	defaults: DEFAULT_TRACKS_SETTINGS,
+	wakeLock: { supported: true, defaultEnabled: true },
 	fields: [
 		{
 			key: 'casualMode',

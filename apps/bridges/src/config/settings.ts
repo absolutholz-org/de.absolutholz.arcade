@@ -17,6 +17,7 @@ export const DEFAULT_BRIDGES_SETTINGS: BridgesSettings = {
 export const BRIDGES_SETTINGS_CONFIG: GameSettingsConfig<BridgesSettings> = {
 	gameId: 'bridges',
 	defaults: DEFAULT_BRIDGES_SETTINGS,
+	wakeLock: { supported: true, defaultEnabled: true },
 	fields: [
 		{
 			key: 'zenMode',

@@ -15,6 +15,7 @@ export const DEFAULT_TICTACTOE_SETTINGS: TicTacToeSettings = {
 export const TICTACTOE_SETTINGS_CONFIG: GameSettingsConfig<TicTacToeSettings> = {
 	gameId: 'tictactoe',
 	defaults: DEFAULT_TICTACTOE_SETTINGS,
+	wakeLock: { supported: false, defaultEnabled: false },
 	fields: [
 		{
 			key: 'highlightWinningLine',

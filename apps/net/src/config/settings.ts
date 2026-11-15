@@ -15,6 +15,7 @@ export const DEFAULT_NET_SETTINGS: NetSettings = {
 export const NET_SETTINGS_CONFIG: GameSettingsConfig<NetSettings> = {
 	gameId: 'net',
 	defaults: DEFAULT_NET_SETTINGS,
+	wakeLock: { supported: true, defaultEnabled: true },
 	fields: [
 		{
 			key: 'casualMode',

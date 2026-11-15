@@ -598,4 +598,65 @@ export const ICON_CATALOG: Record<string, () => JSX.Element> = {
 			<path d="M10 22h4" stroke="var(--icon-accent, currentColor)" />
 		</svg>
 	),
+	'lightbulb-filled': () => (
+		<svg
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			strokeWidth={2}
+			strokeLinecap="round"
+			strokeLinejoin="round"
+			focusable="false"
+			aria-hidden="true"
+		>
+			<path
+				d="M15 14c.2-1 .7-1.7 1.5-2.5 1-1 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5Z"
+				fill="var(--icon-accent, currentColor)"
+				stroke="var(--icon-accent, currentColor)"
+			/>
+			<path d="M9 18h6" />
+			<path d="M10 22h4" />
+		</svg>
+	),
+	smartphone: () => (
+		<svg
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			strokeWidth={2}
+			strokeLinecap="round"
+			strokeLinejoin="round"
+			focusable="false"
+			aria-hidden="true"
+		>
+			<rect width="12" height="20" x="6" y="2" rx="2" ry="2" />
+			<path d="M12 18h.01" stroke="var(--icon-accent, currentColor)" />
+		</svg>
+	),
+	'smartphone-filled': () => (
+		<svg
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			strokeWidth={2}
+			strokeLinecap="round"
+			strokeLinejoin="round"
+			focusable="false"
+			aria-hidden="true"
+		>
+			<rect
+				width="12"
+				height="20"
+				x="6"
+				y="2"
+				rx="2"
+				ry="2"
+				fill="var(--icon-accent, currentColor)"
+				stroke="var(--icon-accent, currentColor)"
+			/>
+			<path d="M11 18h2" stroke="var(--color-surface, currentColor)" />
+			<path d="M3 8v8" stroke="var(--icon-accent, currentColor)" />
+			<path d="M21 8v8" stroke="var(--icon-accent, currentColor)" />
+		</svg>
+	),
 } as const;

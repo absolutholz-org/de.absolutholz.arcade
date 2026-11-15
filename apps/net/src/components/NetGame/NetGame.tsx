@@ -11,6 +11,7 @@ import { GameSettingsPanel } from '@arcade/lib-ui/components/GameSettingsPanel';
 import { PauseDialog } from '@arcade/lib-ui/components/PauseDialog';
 import { Timer } from '@arcade/lib-ui/components/Timer';
 import { VisuallyHidden } from '@arcade/lib-ui/components/VisuallyHidden';
+import { useGameWakeLock } from '@arcade/lib-ui/hooks/useGameWakeLock';
 import { GameLayout } from '@arcade/lib-ui/layouts/GameLayout';
 import { type JSX, type ReactNode, useCallback, useState } from 'react';
 import { NET_SETTINGS_CONFIG } from '../../config/settings.ts';
@@ -51,6 +52,7 @@ function NetGameInner({
 		formatLiveStatus,
 		formatSolvedAnnouncement,
 	});
+	const wakeLock = useGameWakeLock(NET_SETTINGS_CONFIG, !game.isPaused && !game.isComplete, game.settings);
 
 	const getCellAriaLabel = useCallback(
 		(cell: Cell) =>
@@ -157,6 +159,7 @@ function NetGameInner({
 					lang={activeLang}
 					mode="compact"
 					onSettingsChange={game.handleUpdateSettings}
+					wakeLockActive={wakeLock.isActive}
 				/>
 			</GameSettingsDialog>
 

@@ -206,95 +206,100 @@ export function TouchArena({ hasActiveCompass, onPickComplete, onReturnToCompass
 	const strokeDashoffset = circumference - countdownProgress * circumference;
 
 	return (
-		<Stack spacing="md">
-			{hasActiveCompass && (
-				<Stack direction="row" justify="end" align="center" className={S.ToolHeader}>
-					<Button variant="outline" size="sm" onClick={onReturnToCompass}>
-						<Icon name="arrow-left" size="sm" />
-						{t('tools.tableCompass.pick.backToCompass')}
-					</Button>
-				</Stack>
-			)}
-
-			<section
-				ref={arenaRef}
-				className={S.Arena}
-				onPointerDown={handlePointerDown}
-				onPointerMove={handlePointerMove}
-				onPointerUp={handlePointerUp}
-				onPointerCancel={handlePointerCancel}
-				aria-label={t('tools.tableCompass.title')}
-			>
-				{touches.length === 0 && (
-					<div className={S.ArenaHint}>
-						<span style={{ fontSize: '3rem' }}>👆</span>
-						<h3>{t('tools.tableCompass.pick.instruction')}</h3>
-						<p>{t('tools.tableCompass.tagline')}</p>
-					</div>
-				)}
-
-				{touches.length === 1 && (
-					<div className={S.ArenaHint}>
-						<h3>{t('tools.tableCompass.pick.holdingInstruction')}</h3>
-						<p>{t('tools.tableCompass.pick.instruction')}</p>
-					</div>
-				)}
-
-				{touches.map((touch) => {
-					const config = PLAYER_CONFIGS[touch.playerConfigIndex];
-					return (
-						<div
-							key={touch.pointerId}
-							className={S.TouchRing}
-							style={{
-								left: `${touch.x}px`,
-								top: `${touch.y}px`,
-								backgroundColor: config.bgLight,
-								boxShadow: `0 0 24px ${config.color}`,
-							}}
-						>
-							<svg className={S.CountdownSvg} viewBox="0 0 92 92" aria-hidden="true">
-								<circle
-									cx="46"
-									cy="46"
-									r={radius}
-									className={S.CountdownCircle}
-									stroke={config.color}
-									strokeWidth="6"
-									strokeDasharray={circumference}
-									strokeDashoffset={strokeDashoffset}
-								/>
-							</svg>
-
-							<div className={S.TouchBadge} style={{ borderColor: config.color, color: config.color }}>
-								{config.icon}
-							</div>
-						</div>
-					);
-				})}
-			</section>
-
-			<div className={S.DividerWrap}>
-				<Divider>{t('tools.tableCompass.pick.manualSetupDivider')}</Divider>
-			</div>
-
-			<div className={S.FallbackSection}>
-				<Stack spacing="md" align="center">
-					<Stack direction="row" justify="center" align="center" wrap spacing="sm">
-						<span className={S.FallbackLabel}>{t('tools.tableCompass.pick.playerCountLabel')}:</span>
-						<SegmentedControl
-							name="fallbackCount"
-							items={playerCountItems}
-							value={String(fallbackCount)}
-							onChange={(val) => setFallbackCount(Number(val))}
-						/>
+		<div className={S.MainCard}>
+			<Stack spacing="md">
+				{hasActiveCompass && (
+					<Stack direction="row" justify="end" align="center">
+						<Button variant="outline" size="sm" onClick={onReturnToCompass}>
+							<Icon name="arrow-left" size="sm" />
+							{t('tools.tableCompass.pick.backToCompass')}
+						</Button>
 					</Stack>
+				)}
 
-					<Button variant="primary" size="md" onClick={handleAccessiblePick}>
-						🎲 {t('tools.tableCompass.pick.pickRandomStarter')}
-					</Button>
-				</Stack>
-			</div>
-		</Stack>
+				<section
+					ref={arenaRef}
+					className={S.Arena}
+					onPointerDown={handlePointerDown}
+					onPointerMove={handlePointerMove}
+					onPointerUp={handlePointerUp}
+					onPointerCancel={handlePointerCancel}
+					aria-label={t('tools.tableCompass.title')}
+				>
+					{touches.length === 0 && (
+						<div className={S.ArenaHint}>
+							<span style={{ fontSize: '3rem' }}>👆</span>
+							<h3>{t('tools.tableCompass.pick.instruction')}</h3>
+							<p>{t('tools.tableCompass.tagline')}</p>
+						</div>
+					)}
+
+					{touches.length === 1 && (
+						<div className={S.ArenaHint}>
+							<h3>{t('tools.tableCompass.pick.holdingInstruction')}</h3>
+							<p>{t('tools.tableCompass.pick.instruction')}</p>
+						</div>
+					)}
+
+					{touches.map((touch) => {
+						const config = PLAYER_CONFIGS[touch.playerConfigIndex];
+						return (
+							<div
+								key={touch.pointerId}
+								className={S.TouchRing}
+								style={{
+									left: `${touch.x}px`,
+									top: `${touch.y}px`,
+									backgroundColor: config.bgLight,
+									boxShadow: `0 0 24px ${config.color}`,
+								}}
+							>
+								<svg className={S.CountdownSvg} viewBox="0 0 92 92" aria-hidden="true">
+									<circle
+										cx="46"
+										cy="46"
+										r={radius}
+										className={S.CountdownCircle}
+										stroke={config.color}
+										strokeWidth="6"
+										strokeDasharray={circumference}
+										strokeDashoffset={strokeDashoffset}
+									/>
+								</svg>
+
+								<div
+									className={S.TouchBadge}
+									style={{ borderColor: config.color, color: config.color }}
+								>
+									{config.icon}
+								</div>
+							</div>
+						);
+					})}
+				</section>
+
+				<div className={S.DividerWrap}>
+					<Divider>{t('tools.tableCompass.pick.manualSetupDivider')}</Divider>
+				</div>
+
+				<div className={S.FallbackSection}>
+					<Stack spacing="md" align="center">
+						<Stack direction="row" justify="center" align="center" wrap spacing="sm">
+							<span className={S.FallbackLabel}>{t('tools.tableCompass.pick.playerCountLabel')}:</span>
+							<SegmentedControl
+								name="fallbackCount"
+								items={playerCountItems}
+								value={String(fallbackCount)}
+								onChange={(val) => setFallbackCount(Number(val))}
+							/>
+						</Stack>
+
+						<Button variant="primary" size="md" onClick={handleAccessiblePick}>
+							🎲 {t('tools.tableCompass.pick.pickRandomStarter')}
+						</Button>
+					</Stack>
+				</div>
+			</Stack>
+		</div>
 	);
 }

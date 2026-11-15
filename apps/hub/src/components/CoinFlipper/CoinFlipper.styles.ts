@@ -11,7 +11,8 @@ export const Toolbar = css`
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	justify-content: space-between;
+	justify-content: flex-start;
+	width: 100%;
 	gap: 0.75rem;
 `;
 

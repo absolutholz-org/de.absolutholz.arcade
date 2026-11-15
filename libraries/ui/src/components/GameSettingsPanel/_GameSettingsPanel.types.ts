@@ -40,4 +40,10 @@ export interface GameSettingsPanelProps<T extends Record<string, unknown> = Reco
 	 * Optional CSS class name for styling container.
 	 */
 	className?: string;
+
+	/**
+	 * Optional current Screen Wake Lock active status from gameplay.
+	 * When `false` while keepScreenOn is enabled, a brief OS-blocked status note is shown.
+	 */
+	wakeLockActive?: boolean;
 }

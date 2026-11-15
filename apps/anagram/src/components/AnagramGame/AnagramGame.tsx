@@ -7,8 +7,10 @@ import { GameControls } from '@arcade/lib-ui';
 import { GameHeader } from '@arcade/lib-ui/components/GameHeader';
 import { GameRulesDialog } from '@arcade/lib-ui/components/GameRulesDialog';
 import { GameSettingsDialog } from '@arcade/lib-ui/components/GameSettingsDialog';
+import { GameSettingsPanel } from '@arcade/lib-ui/components/GameSettingsPanel';
 import { PauseDialog } from '@arcade/lib-ui/components/PauseDialog';
 import { Timer } from '@arcade/lib-ui/components/Timer';
+import { useGameWakeLock } from '@arcade/lib-ui/hooks/useGameWakeLock';
 import { GameLayout } from '@arcade/lib-ui/layouts/GameLayout';
 import { type JSX, useCallback, useMemo, useState } from 'react';
 import { ANAGRAM_SETTINGS_CONFIG } from '../../config/settings.js';
@@ -78,6 +80,7 @@ export function AnagramGame({
 
 	const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 	const [isRulesOpen, setIsRulesOpen] = useState(false);
+	const [anagramSettings, setAnagramSettings] = useState<Record<string, unknown>>({});
 
 	const { difficulty, mode, vocabLanguage } = useMemo(
 		() => resolveSearchParams(initialDifficulty, initialMode, activeLang),
@@ -87,6 +90,7 @@ export function AnagramGame({
 	const { t } = useI18n('anagram');
 	const { t: tCommon } = useI18n('common');
 	const game = useAnagramGame(difficulty, mode, vocabLanguage);
+	const wakeLock = useGameWakeLock(ANAGRAM_SETTINGS_CONFIG, !game.isPaused && !game.isEnded, anagramSettings);
 
 	const openSettings = useCallback(() => {
 		if (!game.isPaused && !game.isEnded) {
@@ -237,7 +241,15 @@ export function AnagramGame({
 				</GameRulesDialog>
 
 				{/* In-game Settings Modal (compact mode) */}
-				<GameSettingsDialog isOpen={isSettingsOpen} onClose={closeSettings} gameTitle={t('title')} />
+				<GameSettingsDialog isOpen={isSettingsOpen} onClose={closeSettings} gameTitle={t('title')}>
+					<GameSettingsPanel
+						config={ANAGRAM_SETTINGS_CONFIG}
+						lang={activeLang}
+						mode="compact"
+						onSettingsChange={setAnagramSettings}
+						wakeLockActive={wakeLock.isActive}
+					/>
+				</GameSettingsDialog>
 
 				<VictoryDialog
 					isOpen={game.dialog === 'victory'}

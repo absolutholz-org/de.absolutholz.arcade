@@ -15,6 +15,7 @@ export const DEFAULT_TENTS_SETTINGS: TentsSettings = {
 export const TENTS_SETTINGS_CONFIG: GameSettingsConfig<TentsSettings> = {
 	gameId: 'tents',
 	defaults: DEFAULT_TENTS_SETTINGS,
+	wakeLock: { supported: true, defaultEnabled: true },
 	fields: [
 		{
 			key: 'autoGrass',

@@ -18,6 +18,7 @@ export const DEFAULT_QUEENS_SETTINGS = DEFAULT_STAR_BATTLE_SETTINGS;
 export const STAR_BATTLE_SETTINGS_CONFIG: GameSettingsConfig<StarBattleSettings> = {
 	gameId: 'star-battle',
 	defaults: DEFAULT_STAR_BATTLE_SETTINGS,
+	wakeLock: { supported: true, defaultEnabled: true },
 	fields: [
 		{
 			key: 'autoCross',

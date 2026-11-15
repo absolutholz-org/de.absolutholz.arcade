@@ -10,6 +10,7 @@ import { GameSettingsDialog } from '@arcade/lib-ui/components/GameSettingsDialog
 import { GameSettingsPanel } from '@arcade/lib-ui/components/GameSettingsPanel';
 import { PauseDialog } from '@arcade/lib-ui/components/PauseDialog';
 import { Timer } from '@arcade/lib-ui/components/Timer';
+import { useGameWakeLock } from '@arcade/lib-ui/hooks/useGameWakeLock';
 import { GameLayout } from '@arcade/lib-ui/layouts/GameLayout';
 import { type JSX, useState } from 'react';
 import { SUDOKU_SETTINGS_CONFIG } from '../../config/settings';
@@ -35,6 +36,7 @@ export function SudokuGame({ initialDifficulty = 'easy', lang, rulesContent }: S
 	const { t } = useI18n('sudoku');
 	const { t: tCommon } = useI18n('common');
 	const game = useSudokuGame(initialDifficulty);
+	const wakeLock = useGameWakeLock(SUDOKU_SETTINGS_CONFIG, !game.isPaused && !game.isComplete, game.settings);
 
 	const content = (
 		<GameLayout
@@ -114,6 +116,7 @@ export function SudokuGame({ initialDifficulty = 'easy', lang, rulesContent }: S
 					lang={activeLang}
 					mode="compact"
 					onSettingsChange={game.updateSettings}
+					wakeLockActive={wakeLock.isActive}
 				/>
 			</GameSettingsDialog>
 

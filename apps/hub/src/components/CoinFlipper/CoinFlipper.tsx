@@ -4,6 +4,8 @@ import { Button } from '@arcade/lib-ui/components/Button';
 import type { CoinFace, CoinStyle } from '@arcade/lib-ui/components/Coin';
 import { type CoinFlipResult, CoinTray, type CoinTrayHandle } from '@arcade/lib-ui/components/CoinTray';
 import { ShakeToggle } from '@arcade/lib-ui/components/ShakeToggle';
+import { WakeLockToggleButton } from '@arcade/lib-ui/components/WakeLockToggleButton';
+import { useWakeLock } from '@arcade/lib-ui/hooks/useWakeLock';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import * as S from './CoinFlipper.styles';
 import type { CoinFlipperProps, CoinHistoryEntry, CoinPreferences } from './CoinFlipper.types';
@@ -64,8 +66,10 @@ function CoinFlipperContent(): JSX.Element {
 
 	const [prefs, setPrefs] = useState<CoinPreferences>(DEFAULT_PREFS);
 	const [history, setHistory] = useState<CoinHistoryEntry[]>([]);
+	const [wakeLockEnabled, setWakeLockEnabled] = useState<boolean>(true);
 	const trayRef = useRef<CoinTrayHandle>(null);
 	const nextHistoryIdRef = useRef<number>(1);
+	const { isSupported: wakeLockSupported, isActive: wakeLockActive } = useWakeLock(wakeLockEnabled);
 
 	useEffect(() => {
 		setPrefs(readStoredPreferences());
@@ -123,6 +127,12 @@ function CoinFlipperContent(): JSX.Element {
 					enableLabel={t('tools.coin.enableShake')}
 					enabledLabel={t('tools.coin.shakeEnabled')}
 					disabledLabel={t('tools.coin.shakeDisabled')}
+				/>
+				<WakeLockToggleButton
+					enabled={wakeLockEnabled}
+					isActive={wakeLockActive}
+					isSupported={wakeLockSupported}
+					onToggle={setWakeLockEnabled}
 				/>
 			</div>
 

@@ -14,7 +14,7 @@ export const UtilityHeader = css`
 	align-items: center;
 	justify-content: flex-start;
 	width: 100%;
-	gap: 1rem;
+	gap: 0.75rem;
 	flex-wrap: wrap;
 `;
 

@@ -2,7 +2,7 @@ import type { GameSettingsConfig } from '@arcade/lib-games';
 import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { getGameSettings, saveGameSettings } from '@arcade/lib-storage';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { SupportedLanguage } from './_GameSettingsPanel.types';
 
 export function resolveSupportedLanguage(lang: SupportedLanguage): SupportedLanguageCode {
@@ -16,13 +16,23 @@ export function useGameSettingsPanel<T extends Record<string, unknown>>(
 	onSettingsChange?: (newSettings: T) => void,
 	onResetProgress?: () => void,
 ) {
-	const [settings, setSettings] = useState<T>(config.defaults);
+	const effectiveDefaults = useMemo<T>(() => {
+		if (!config.wakeLock?.supported) {
+			return config.defaults;
+		}
+		return {
+			keepScreenOn: config.wakeLock.defaultEnabled,
+			...config.defaults,
+		} as T;
+	}, [config.defaults, config.wakeLock]);
+
+	const [settings, setSettings] = useState<T>(effectiveDefaults);
 	const [isLoaded, setIsLoaded] = useState<boolean>(false);
 	const [isResetDialogOpen, setIsResetDialogOpen] = useState<boolean>(false);
 
 	useEffect(() => {
 		let isMounted = true;
-		getGameSettings(config.gameId, config.defaults)
+		getGameSettings(config.gameId, effectiveDefaults)
 			.then((persisted) => {
 				if (isMounted) {
 					setSettings(persisted);
@@ -39,7 +49,7 @@ export function useGameSettingsPanel<T extends Record<string, unknown>>(
 		return () => {
 			isMounted = false;
 		};
-	}, [config.gameId, config.defaults]);
+	}, [config.gameId, effectiveDefaults]);
 
 	const updateSetting = useCallback(
 		(key: string, value: unknown) => {

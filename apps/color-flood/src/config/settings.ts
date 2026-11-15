@@ -13,6 +13,7 @@ export const DEFAULT_COLOR_FLOOD_SETTINGS: ColorFloodSettings = {
 export const COLOR_FLOOD_SETTINGS_CONFIG: GameSettingsConfig<ColorFloodSettings> = {
 	gameId: 'color-flood',
 	defaults: DEFAULT_COLOR_FLOOD_SETTINGS,
+	wakeLock: { supported: false, defaultEnabled: false },
 	fields: [
 		{
 			key: 'showColorblindShapes',

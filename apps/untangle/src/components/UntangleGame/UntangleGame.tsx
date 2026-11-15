@@ -11,6 +11,7 @@ import { GameSettingsPanel } from '@arcade/lib-ui/components/GameSettingsPanel';
 import { PauseDialog } from '@arcade/lib-ui/components/PauseDialog';
 import { Timer } from '@arcade/lib-ui/components/Timer';
 import { VisuallyHidden } from '@arcade/lib-ui/components/VisuallyHidden';
+import { useGameWakeLock } from '@arcade/lib-ui/hooks/useGameWakeLock';
 import { GameLayout } from '@arcade/lib-ui/layouts/GameLayout';
 import { type JSX, type ReactNode, useCallback, useState } from 'react';
 import { UntangleCanvas } from '../UntangleCanvas/UntangleCanvas.js';
@@ -52,6 +53,7 @@ function UntangleGameInner({
 		formatLiveCrossings,
 		formatSolvedAnnouncement,
 	});
+	const wakeLock = useGameWakeLock(UNTANGLE_SETTINGS_CONFIG, !game.isPaused && !game.isComplete, game.settings);
 
 	const getNodeAriaLabel = useCallback(
 		(index: number, connections: number, crossings: number) =>
@@ -168,6 +170,7 @@ function UntangleGameInner({
 					lang={activeLang}
 					mode="compact"
 					onSettingsChange={game.handleUpdateSettings}
+					wakeLockActive={wakeLock.isActive}
 				/>
 			</GameSettingsDialog>
 

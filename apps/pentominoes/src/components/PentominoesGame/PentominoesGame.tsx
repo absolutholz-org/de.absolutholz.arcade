@@ -14,6 +14,7 @@ import { GameSettingsPanel } from '@arcade/lib-ui/components/GameSettingsPanel';
 import { GameStatusStrip } from '@arcade/lib-ui/components/GameStatusStrip';
 import { Icon } from '@arcade/lib-ui/components/Icon';
 import { PauseDialog } from '@arcade/lib-ui/components/PauseDialog';
+import { useGameWakeLock } from '@arcade/lib-ui/hooks/useGameWakeLock';
 import { GameLayout } from '@arcade/lib-ui/layouts/GameLayout';
 import { type JSX, type KeyboardEvent, type ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { PENTOMINOES_MEDAL_DEFINITIONS } from '../../config/medals.ts';
@@ -169,6 +170,7 @@ function PentominoesGameInner({
 		() => isPuzzleComplete(level.mask, level.pieceIds, placements),
 		[level.mask, level.pieceIds, placements],
 	);
+	const wakeLock = useGameWakeLock(PENTOMINOES_SETTINGS_CONFIG, !isPaused && !isSolved, settings);
 
 	// Hydrate settings & saved game if resuming
 	useEffect(() => {
@@ -879,6 +881,7 @@ function PentominoesGameInner({
 						setSettings(updated);
 						void saveSettings(updated);
 					}}
+					wakeLockActive={wakeLock.isActive}
 				/>
 			</GameSettingsDialog>
 		</GameLayout>

@@ -10,6 +10,7 @@ import { GameSettingsDialog } from '@arcade/lib-ui/components/GameSettingsDialog
 import { GameSettingsPanel } from '@arcade/lib-ui/components/GameSettingsPanel';
 import { PauseDialog } from '@arcade/lib-ui/components/PauseDialog';
 import { Timer } from '@arcade/lib-ui/components/Timer';
+import { useGameWakeLock } from '@arcade/lib-ui/hooks/useGameWakeLock';
 import { GameLayout } from '@arcade/lib-ui/layouts/GameLayout';
 import { type JSX, useState } from 'react';
 import { STAR_BATTLE_SETTINGS_CONFIG } from '../../config/settings';
@@ -41,6 +42,7 @@ export function StarBattleGame({
 	const { t } = useI18n('star-battle');
 	const { t: tCommon } = useI18n('common');
 	const game = useStarBattleGame(initialDifficulty, initialPuzzleId);
+	const wakeLock = useGameWakeLock(STAR_BATTLE_SETTINGS_CONFIG, !game.isPaused && !game.isComplete);
 
 	const content = (
 		<GameLayout
@@ -134,6 +136,7 @@ export function StarBattleGame({
 					lang={activeLang}
 					mode="compact"
 					onSettingsChange={game.handleUpdateSettings}
+					wakeLockActive={wakeLock.isActive}
 				/>
 			</GameSettingsDialog>
 

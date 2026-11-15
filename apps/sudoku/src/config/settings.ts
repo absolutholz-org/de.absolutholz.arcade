@@ -17,6 +17,7 @@ export const DEFAULT_SUDOKU_SETTINGS: SudokuSettings = {
 export const SUDOKU_SETTINGS_CONFIG: GameSettingsConfig<SudokuSettings> = {
 	gameId: 'sudoku',
 	defaults: DEFAULT_SUDOKU_SETTINGS,
+	wakeLock: { supported: true, defaultEnabled: true },
 	fields: [
 		{
 			key: 'highlightPeerCells',

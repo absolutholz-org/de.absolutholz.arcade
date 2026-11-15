@@ -10,6 +10,7 @@ import { GameSettingsDialog } from '@arcade/lib-ui/components/GameSettingsDialog
 import { GameSettingsPanel } from '@arcade/lib-ui/components/GameSettingsPanel';
 import { PauseDialog } from '@arcade/lib-ui/components/PauseDialog';
 import { Timer } from '@arcade/lib-ui/components/Timer';
+import { useGameWakeLock } from '@arcade/lib-ui/hooks/useGameWakeLock';
 import { GameLayout } from '@arcade/lib-ui/layouts/GameLayout';
 import { type JSX, useState } from 'react';
 import { TENTS_SETTINGS_CONFIG } from '../../config/settings.js';
@@ -41,6 +42,7 @@ export function TentsGame({
 	const { t } = useI18n('tents');
 	const { t: tCommon } = useI18n('common');
 	const game = useTentsGame(initialDifficulty, initialPuzzleId);
+	const wakeLock = useGameWakeLock(TENTS_SETTINGS_CONFIG, !game.isPaused && !game.isComplete, game.settings);
 
 	const difficultyLabel = t(`difficulty.${game.puzzle.difficulty}` as 'difficulty.easy');
 
@@ -138,6 +140,7 @@ export function TentsGame({
 					lang={activeLang}
 					mode="compact"
 					onSettingsChange={game.handleUpdateSettings}
+					wakeLockActive={wakeLock.isActive}
 				/>
 			</GameSettingsDialog>
 

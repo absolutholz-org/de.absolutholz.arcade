@@ -13,6 +13,7 @@ import { Icon } from '@arcade/lib-ui/components/Icon';
 import { PauseDialog } from '@arcade/lib-ui/components/PauseDialog';
 import { SegmentedControl, type SegmentedControlOption } from '@arcade/lib-ui/components/SegmentedControl';
 import { Timer } from '@arcade/lib-ui/components/Timer';
+import { useGameWakeLock } from '@arcade/lib-ui/hooks/useGameWakeLock';
 import { GameLayout } from '@arcade/lib-ui/layouts/GameLayout';
 import { type JSX, type ReactNode, useState } from 'react';
 import { MINESWEEPER_SETTINGS_CONFIG } from '../../config/settings';
@@ -51,6 +52,7 @@ export function MinesweeperGame({
 	const { t } = useI18n('minesweeper');
 	const { t: tCommon } = useI18n('common');
 	const game = useMinesweeperGame(initialSize, initialDifficulty);
+	const wakeLock = useGameWakeLock(MINESWEEPER_SETTINGS_CONFIG, !game.isPaused && !game.isGameOver, game.settings);
 
 	const modeOptions: SegmentedControlOption[] = [
 		{ value: 'reveal', label: t('controls.reveal') },
@@ -160,6 +162,7 @@ export function MinesweeperGame({
 					lang={activeLang}
 					mode="compact"
 					onSettingsChange={game.handleUpdateSettings}
+					wakeLockActive={wakeLock.isActive}
 				/>
 			</GameSettingsDialog>
 

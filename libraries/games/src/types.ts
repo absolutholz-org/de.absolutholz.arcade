@@ -210,6 +210,14 @@ export interface SettingFieldDescriptor<TValue = unknown> {
 }
 
 /**
+ * Per-game Screen Wake Lock configuration.
+ */
+export interface WakeLockConfig {
+	readonly supported: boolean;
+	readonly defaultEnabled: boolean;
+}
+
+/**
  * Declarative configuration schema for a game's settings.
  * Adheres to ADR 0008.
  */
@@ -217,4 +225,5 @@ export interface GameSettingsConfig<TSettings extends Record<string, unknown> = 
 	readonly gameId: GameId;
 	readonly defaults: TSettings;
 	readonly fields: readonly SettingFieldDescriptor[];
+	readonly wakeLock?: WakeLockConfig;
 }

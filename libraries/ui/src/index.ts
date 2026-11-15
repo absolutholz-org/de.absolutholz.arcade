@@ -38,4 +38,12 @@ export type {
 	VictoryDialogVariant,
 	VictoryStatItem,
 } from './components/VictoryDialog';
+export { WakeLockToggleButton } from './components/WakeLockToggleButton';
+export type {
+	WakeLockToggleButtonProps,
+	WakeLockToggleButtonSize,
+} from './components/WakeLockToggleButton';
+export { useWakeLock } from './hooks/useWakeLock';
+export type { UseWakeLockOptions, UseWakeLockReturn } from './hooks/useWakeLock';
+export { useGameWakeLock } from './hooks/useGameWakeLock';
 export { useFavorites, type UseFavoritesReturn } from '@arcade/lib-user';

@@ -1,8 +1,8 @@
-import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import { Stack } from '@arcade/lib-ui/components/Stack';
-import { Switch } from '@arcade/lib-ui/components/Switch';
 import { VisuallyHidden } from '@arcade/lib-ui/components/VisuallyHidden';
+import { WakeLockToggleButton } from '@arcade/lib-ui/components/WakeLockToggleButton';
+import { useWakeLock } from '@arcade/lib-ui/hooks/useWakeLock';
 import { useState } from 'react';
 import { CompassView } from './CompassView';
 import { PlayerNamingDialog } from './PlayerNamingDialog';
@@ -10,10 +10,8 @@ import * as S from './TableCompass.styles';
 import type { TableCompassProps } from './TableCompass.types';
 import { TouchArena } from './TouchArena';
 import { useTableCompass } from './useTableCompass';
-import { useWakeLock } from './useWakeLock';
 
 function TableCompassContent({ className }: { className?: string }) {
-	const { t } = useI18n();
 	const [wakeLockEnabled, setWakeLockEnabled] = useState<boolean>(true);
 
 	const {
@@ -22,6 +20,7 @@ function TableCompassContent({ className }: { className?: string }) {
 		seats,
 		activeSeatIndex,
 		turnCount,
+		history,
 		isNamingOpen,
 		setIsNamingOpen,
 		liveMessage,
@@ -32,13 +31,14 @@ function TableCompassContent({ className }: { className?: string }) {
 		handlePreviousTurn,
 		handleReverseDirection,
 		handleUpdateSeatName,
+		handleClearHistory,
 		handleResetToPick,
 		handleReturnToCompass,
 		hasActiveCompass,
 	} = useTableCompass();
 
 	const isCompassActive = phase === 'compass' || phase === 'naming';
-	const { isSupported: wakeLockSupported } = useWakeLock(isCompassActive && wakeLockEnabled);
+	const { isSupported: wakeLockSupported, isActive: wakeLockActive } = useWakeLock(wakeLockEnabled);
 
 	return (
 		<Stack spacing="md" className={className}>
@@ -48,15 +48,15 @@ function TableCompassContent({ className }: { className?: string }) {
 			</VisuallyHidden>
 
 			{/* Wake Lock Toggle */}
-			{isCompassActive && wakeLockSupported && (
-				<Stack direction="row" justify="start" align="center" className={S.ToolHeader}>
-					<Switch
-						checked={wakeLockEnabled}
-						onChange={(e) => setWakeLockEnabled(e.target.checked)}
-						label={t('tools.tableCompass.compass.keepScreenOn')}
-						size="sm"
+			{wakeLockSupported && (
+				<div className={S.ToolHeader}>
+					<WakeLockToggleButton
+						enabled={wakeLockEnabled}
+						isActive={wakeLockActive}
+						isSupported={wakeLockSupported}
+						onToggle={setWakeLockEnabled}
 					/>
-				</Stack>
+				</div>
 			)}
 
 			{phase === 'pick' && (
@@ -73,12 +73,14 @@ function TableCompassContent({ className }: { className?: string }) {
 					activeSeatIndex={activeSeatIndex}
 					direction={direction}
 					turnCount={turnCount}
+					history={history}
 					onNextTurn={handleNextTurn}
 					onSkipPlayer={handleSkipPlayer}
 					onPreviousTurn={handlePreviousTurn}
 					onReverseDirection={handleReverseDirection}
 					onEditNames={() => setIsNamingOpen(true)}
 					onRePick={handleResetToPick}
+					onClearHistory={handleClearHistory}
 				/>
 			)}
 

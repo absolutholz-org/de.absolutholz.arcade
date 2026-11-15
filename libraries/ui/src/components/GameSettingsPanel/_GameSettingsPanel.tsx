@@ -2,7 +2,7 @@ import type { SettingFieldDescriptor } from '@arcade/lib-games';
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode, TranslationKey } from '@arcade/lib-i18n/types/i18n.types';
-import type { JSX, ReactNode } from 'react';
+import { type JSX, type ReactNode, useEffect, useState } from 'react';
 import { CollapsibleListbox } from '../CollapsibleListbox';
 import { Dialog } from '../Dialog';
 import { LanguageSelector } from '../LanguageSelector';
@@ -21,11 +21,23 @@ function GameSettingsPanelContent<T extends Record<string, unknown>>({
 	onSettingsChange,
 	onResetProgress,
 	className,
+	wakeLockActive,
 }: GameSettingsPanelProps<T>): JSX.Element {
 	const { t: tCommon } = useI18n('common');
 	const { t: tGame } = useI18n(config.gameId);
 	const { settings, updateSetting, isResetDialogOpen, openResetDialog, closeResetDialog, confirmResetProgress } =
 		useGameSettingsPanel(config, onSettingsChange, onResetProgress);
+
+	const [isWakeLockSupported, setIsWakeLockSupported] = useState<boolean>(false);
+
+	useEffect(() => {
+		if (typeof navigator !== 'undefined' && 'wakeLock' in navigator) {
+			setIsWakeLockSupported(true);
+		}
+	}, []);
+
+	const showWakeLockSetting = Boolean(config.wakeLock?.supported && isWakeLockSupported);
+	const isKeepScreenOnEnabled = Boolean(settings.keepScreenOn ?? config.wakeLock?.defaultEnabled);
 
 	const translate = (key: string | undefined): string => {
 		if (!key) return '';
@@ -43,7 +55,7 @@ function GameSettingsPanelContent<T extends Record<string, unknown>>({
 	};
 
 	const visibleFields = mode === 'compact' ? config.fields.filter((field) => field.availableInGame) : config.fields;
-	if (mode === 'compact' && visibleFields.length === 0) {
+	if (mode === 'compact' && visibleFields.length === 0 && !showWakeLockSetting) {
 		return <></>;
 	}
 
@@ -139,6 +151,30 @@ function GameSettingsPanelContent<T extends Record<string, unknown>>({
 							</S.FieldItem>
 						);
 					})}
+
+					{showWakeLockSetting && (
+						<S.FieldItem data-control="boolean" data-mode={mode}>
+							<S.FieldMeta>
+								<S.FieldLabel id={`setting-label-${config.gameId}-keepScreenOn`}>
+									{tCommon('wakeLock.keepScreenOn')}
+								</S.FieldLabel>
+								{mode === 'detailed' && (
+									<S.FieldDescription>
+										{tCommon('wakeLock.keepScreenOnDescription')}
+									</S.FieldDescription>
+								)}
+							</S.FieldMeta>
+
+							<S.ControlContainer data-control="boolean">
+								<Switch
+									id={`setting-${config.gameId}-keepScreenOn`}
+									checked={isKeepScreenOnEnabled}
+									onChange={(e) => updateSetting('keepScreenOn', e.target.checked)}
+									aria-label={tCommon('wakeLock.keepScreenOn')}
+								/>
+							</S.ControlContainer>
+						</S.FieldItem>
+					)}
 				</S.FieldList>
 			</S.Section>
 

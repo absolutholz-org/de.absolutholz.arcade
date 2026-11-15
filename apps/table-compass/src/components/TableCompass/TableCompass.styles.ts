@@ -1,8 +1,27 @@
 import { css } from '@linaria/core';
 
 export const ToolHeader = css`
-	width: min(100%, 34rem);
-	margin-inline: auto;
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	width: 100%;
+	gap: 0.75rem;
+	flex-wrap: wrap;
+`;
+
+export const MainCard = css`
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	gap: 1.25rem;
+	width: 100%;
+	margin: 0;
+	padding: 1.5rem;
+	background-color: var(--color-surface);
+	border: 1px solid var(--color-container-2);
+	border-radius: 1rem;
+	box-shadow: 0 0.25rem 1rem -0.125rem oklch(0 0 0 / 0.08);
 `;
 
 export const Arena = css`
@@ -368,4 +387,78 @@ export const NamingShapeBadge = css`
 export const NamingFieldWrap = css`
 	flex: 1;
 	min-width: 0;
+`;
+
+export const HistorySection = css`
+	display: flex;
+	flex-direction: column;
+	gap: 0.625rem;
+	width: 100%;
+	padding: 1rem 1.25rem;
+	background-color: var(--color-surface);
+	border: 1px solid var(--color-container-2);
+	border-radius: 0.875rem;
+`;
+
+export const HistoryHeader = css`
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.75rem;
+`;
+
+export const HistoryTitle = css`
+	font-size: 0.875rem;
+	font-weight: 600;
+	color: var(--color-text-2);
+	margin: 0;
+`;
+
+export const HistoryStrip = css`
+	display: flex;
+	align-items: center;
+	gap: 0.4375rem;
+	overflow-x: auto;
+	padding: 0.25rem 0;
+	scrollbar-width: thin;
+`;
+
+export const HistoryPill = css`
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.35rem;
+	flex-shrink: 0;
+	min-width: 2rem;
+	height: 2rem;
+	padding: 0 0.625rem;
+	border-radius: var(--radius-pill);
+	font-size: 0.8125rem;
+	font-weight: 700;
+	font-variant-numeric: tabular-nums;
+	background-color: var(--color-container-1);
+	color: var(--color-text-1);
+	border: 1px solid var(--color-container-2);
+
+	&[data-kind='skip'] {
+		border-style: dashed;
+		color: var(--color-text-2);
+	}
+
+	&[data-kind='reverse'] {
+		background-color: oklch(from var(--color-accent) l c h / 0.12);
+		border-color: oklch(from var(--color-accent) l c h / 0.35);
+		color: var(--color-text-1);
+	}
+`;
+
+export const HistoryTurnNumber = css`
+	font-size: 0.75rem;
+	font-weight: 800;
+	color: var(--color-text-2);
+`;
+
+export const EmptyHistory = css`
+	font-size: 0.875rem;
+	color: var(--color-text-2);
 `;
