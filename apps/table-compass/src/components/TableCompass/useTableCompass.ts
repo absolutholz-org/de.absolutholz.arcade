@@ -122,6 +122,12 @@ export function useTableCompass() {
 	}, []);
 
 	const handleStartCompass = useCallback(() => {
+		setSeats((prev) =>
+			prev.map((s) => ({
+				...s,
+				name: s.name.trim() || PLAYER_CONFIGS[s.playerConfigIndex]?.defaultNameKey || 'Player',
+			})),
+		);
 		setPhase('compass');
 		setIsNamingOpen(false);
 		triggerHaptic('light');
@@ -241,8 +247,8 @@ export function useTableCompass() {
 	);
 
 	const handleUpdateSeatName = useCallback((seatId: string, newName: string) => {
+		setSeats((prev) => prev.map((s) => (s.id === seatId ? { ...s, name: newName } : s)));
 		const trimmed = newName.trim();
-		setSeats((prev) => prev.map((s) => (s.id === seatId ? { ...s, name: trimmed || s.name } : s)));
 		if (trimmed) {
 			setHistory((prev) =>
 				prev.map((entry) => (entry.seatId === seatId ? { ...entry, playerName: trimmed } : entry)),

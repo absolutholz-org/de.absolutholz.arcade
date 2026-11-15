@@ -53,6 +53,7 @@ export function PlayerNamingDialog({ isOpen, seats, onUpdateName, onStartCompass
 								<TextField
 									label={label}
 									value={seat.name}
+									placeholder={config.defaultNameKey}
 									onChange={(e) => onUpdateName(seat.id, e.target.value)}
 									fullWidth
 								/>
