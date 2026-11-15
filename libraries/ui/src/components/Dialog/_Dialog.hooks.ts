@@ -33,7 +33,38 @@ export function useDialog({ backAriaLabel, closeAriaLabel, id, isOpen, onCancel 
 			const originalOverflow = document.body.style.overflow;
 			document.body.style.overflow = 'hidden';
 
+			const visualViewport = window.visualViewport;
+			const syncVisualViewport = () => {
+				if (!visualViewport) {
+					return;
+				}
+				dialog.style.setProperty('--dialog-vv-height', `${visualViewport.height}px`);
+				dialog.style.setProperty('--dialog-vv-top', `${visualViewport.offsetTop}px`);
+				dialog.style.setProperty(
+					'--dialog-vv-bottom-offset',
+					`${visualViewport.offsetTop + visualViewport.height}px`,
+				);
+
+				const active = document.activeElement;
+				if (active instanceof HTMLElement && dialog.contains(active)) {
+					active.scrollIntoView({ block: 'nearest' });
+				}
+			};
+
+			if (visualViewport) {
+				syncVisualViewport();
+				visualViewport.addEventListener('resize', syncVisualViewport);
+				visualViewport.addEventListener('scroll', syncVisualViewport);
+			}
+
 			return () => {
+				if (visualViewport) {
+					visualViewport.removeEventListener('resize', syncVisualViewport);
+					visualViewport.removeEventListener('scroll', syncVisualViewport);
+					dialog.style.removeProperty('--dialog-vv-height');
+					dialog.style.removeProperty('--dialog-vv-top');
+					dialog.style.removeProperty('--dialog-vv-bottom-offset');
+				}
 				document.body.style.overflow = originalOverflow;
 				if (dialog.open && typeof dialog.close === 'function') {
 					dialog.close();

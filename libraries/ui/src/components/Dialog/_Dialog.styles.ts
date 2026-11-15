@@ -7,12 +7,20 @@ export const DialogBase = styled.dialog`
 	border: none;
 	background: transparent;
 	margin: auto;
+	inset-block-start: var(--dialog-vv-top, 0px);
+	inset-block-end: max(0px, calc(100dvh - var(--dialog-vv-bottom-offset, 100dvh)));
 	max-width: calc(100vw - 2rem);
-	max-height: calc(100dvh - 2rem);
+	max-height: calc(var(--dialog-vv-height, 100dvh) - 2rem);
 	color: inherit;
 	overflow: visible;
 
+	&:modal {
+		overscroll-behavior: contain;
+	}
+
 	&::backdrop {
+		overflow: hidden;
+		overscroll-behavior: contain;
 		background-color: oklch(0 0 0 / 0.5);
 		backdrop-filter: blur(4px);
 		opacity: 0;
@@ -67,7 +75,7 @@ export const DialogContainer = styled.div`
 	width: 100%;
 	min-width: ${DIALOG_MIN_WIDTH};
 	max-width: ${DIALOG_MAX_WIDTH};
-	max-height: calc(100dvh - 4rem);
+	max-height: calc(var(--dialog-vv-height, 100dvh) - 4rem);
 	background-color: ${themeColor('surface')};
 	color: ${themeColor('text-1')};
 	border: 1px solid ${themeColor('container-2')};
