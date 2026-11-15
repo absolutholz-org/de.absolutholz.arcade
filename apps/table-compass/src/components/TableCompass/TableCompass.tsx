@@ -18,8 +18,6 @@ function TableCompassContent({ className }: { className?: string }) {
 
 	const {
 		phase,
-		pickMode,
-		setPickMode,
 		direction,
 		seats,
 		activeSeatIndex,
@@ -35,7 +33,8 @@ function TableCompassContent({ className }: { className?: string }) {
 		handleReverseDirection,
 		handleUpdateSeatName,
 		handleResetToPick,
-		handleSkipToCompass,
+		handleReturnToCompass,
+		hasActiveCompass,
 	} = useTableCompass();
 
 	const isCompassActive = phase === 'compass' || phase === 'naming';
@@ -62,10 +61,9 @@ function TableCompassContent({ className }: { className?: string }) {
 
 			{phase === 'pick' && (
 				<TouchArena
-					pickMode={pickMode}
-					onPickModeChange={setPickMode}
+					hasActiveCompass={hasActiveCompass}
 					onPickComplete={handlePickComplete}
-					onSkipToCompass={handleSkipToCompass}
+					onReturnToCompass={handleReturnToCompass}
 				/>
 			)}
 

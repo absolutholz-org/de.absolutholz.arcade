@@ -1,21 +1,22 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { Button } from '@arcade/lib-ui/components/Button';
+import { Divider } from '@arcade/lib-ui/components/Divider';
+import { Icon } from '@arcade/lib-ui/components/Icon';
 import { SegmentedControl } from '@arcade/lib-ui/components/SegmentedControl';
 import { Stack } from '@arcade/lib-ui/components/Stack';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import * as S from './TableCompass.styles';
-import type { PickMode, Seat, TouchPoint } from './TableCompass.types';
+import type { Seat, TouchPoint } from './TableCompass.types';
 import { COUNTDOWN_DURATION_MS, MAX_PLAYERS, MIN_PLAYERS, PLAYER_CONFIGS } from './constants';
 import { generateSeatsForCount } from './useTableCompass';
 
 interface TouchArenaProps {
-	pickMode: PickMode;
-	onPickModeChange: (mode: PickMode) => void;
+	hasActiveCompass: boolean;
 	onPickComplete: (seats: Seat[], announcement?: string) => void;
-	onSkipToCompass: (count: number) => void;
+	onReturnToCompass: () => void;
 }
 
-export function TouchArena({ pickMode, onPickModeChange, onPickComplete, onSkipToCompass }: TouchArenaProps) {
+export function TouchArena({ hasActiveCompass, onPickComplete, onReturnToCompass }: TouchArenaProps) {
 	const { t } = useI18n();
 	const arenaRef = useRef<HTMLDivElement>(null);
 	const [touches, setTouches] = useState<TouchPoint[]>([]);
@@ -83,15 +84,12 @@ export function TouchArena({ pickMode, onPickModeChange, onPickComplete, onSkipT
 
 		const starterSeat = finalizedSeats.find((s) => s.isStarter);
 		const starterName = starterSeat?.name || 'Player 1';
-		const announcement =
-			pickMode === 'first-player'
-				? t('tools.tableCompass.pick.selectedStarter', { name: starterName })
-				: t('tools.tableCompass.pick.selectedOrder');
+		const announcement = t('tools.tableCompass.pick.selectedStarter', { name: starterName });
 
 		resetCountdown();
 		setTouches([]);
 		onPickComplete(finalizedSeats, announcement);
-	}, [pickMode, resetCountdown, onPickComplete, t]);
+	}, [resetCountdown, onPickComplete, t]);
 
 	// Countdown loop
 	useEffect(() => {
@@ -191,20 +189,12 @@ export function TouchArena({ pickMode, onPickModeChange, onPickComplete, onSkipT
 
 	// Accessible random starter selection for non-touch / keyboard users
 	const handleAccessiblePick = () => {
-		const fallbackSeats = generateSeatsForCount(fallbackCount, pickMode);
+		const fallbackSeats = generateSeatsForCount(fallbackCount, 'turn-order');
 		const starterSeat = fallbackSeats.find((s) => s.isStarter);
 		const starterName = starterSeat?.name || 'Player 1';
-		const announcement =
-			pickMode === 'first-player'
-				? t('tools.tableCompass.pick.selectedStarter', { name: starterName })
-				: t('tools.tableCompass.pick.selectedOrder');
+		const announcement = t('tools.tableCompass.pick.selectedStarter', { name: starterName });
 		onPickComplete(fallbackSeats, announcement);
 	};
-
-	const modeItems = [
-		{ value: 'first-player', label: t('tools.tableCompass.modes.firstPlayer') },
-		{ value: 'turn-order', label: t('tools.tableCompass.modes.turnOrder') },
-	];
 
 	const playerCountItems = [2, 3, 4, 5, 6, 7, 8].map((num) => ({
 		value: String(num),
@@ -217,18 +207,14 @@ export function TouchArena({ pickMode, onPickModeChange, onPickComplete, onSkipT
 
 	return (
 		<Stack spacing="md">
-			<Stack direction="row" justify="between" align="center" wrap spacing="sm" className={S.ToolHeader}>
-				<SegmentedControl
-					name="pickMode"
-					items={modeItems}
-					value={pickMode}
-					onChange={(val) => onPickModeChange(val as PickMode)}
-				/>
-
-				<Button variant="outline" size="sm" onClick={() => onSkipToCompass(fallbackCount)}>
-					🧭 {t('tools.tableCompass.pick.skipToCompass')}
-				</Button>
-			</Stack>
+			{hasActiveCompass && (
+				<Stack direction="row" justify="end" align="center" className={S.ToolHeader}>
+					<Button variant="outline" size="sm" onClick={onReturnToCompass}>
+						<Icon name="arrow-left" size="sm" />
+						{t('tools.tableCompass.pick.backToCompass')}
+					</Button>
+				</Stack>
+			)}
 
 			<section
 				ref={arenaRef}
@@ -287,6 +273,10 @@ export function TouchArena({ pickMode, onPickModeChange, onPickComplete, onSkipT
 					);
 				})}
 			</section>
+
+			<div className={S.DividerWrap}>
+				<Divider>{t('tools.tableCompass.pick.manualSetupDivider')}</Divider>
+			</div>
 
 			<div className={S.FallbackSection}>
 				<Stack spacing="md" align="center">

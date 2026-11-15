@@ -109,6 +109,11 @@ export const FallbackSection = css`
 	padding: 1rem;
 `;
 
+export const DividerWrap = css`
+	width: min(100%, 34rem);
+	margin-inline: auto;
+`;
+
 export const FallbackLabel = css`
 	font-size: 0.9rem;
 	font-weight: 600;

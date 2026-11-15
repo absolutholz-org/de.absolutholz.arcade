@@ -149,10 +149,14 @@ export function useTableCompass() {
 		triggerHaptic('medium');
 		setPhase('pick');
 		setIsNamingOpen(false);
-		try {
-			localStorage.removeItem(STORAGE_KEY);
-		} catch {}
 	}, []);
+
+	const handleReturnToCompass = useCallback(() => {
+		if (seats.length < MIN_PLAYERS) return;
+		triggerHaptic('light');
+		playTap();
+		setPhase('compass');
+	}, [seats.length]);
 
 	const handleSkipToCompass = useCallback(
 		(count = 4) => {
@@ -191,6 +195,8 @@ export function useTableCompass() {
 		handleReverseDirection,
 		handleUpdateSeatName,
 		handleResetToPick,
+		handleReturnToCompass,
+		hasActiveCompass: seats.length >= MIN_PLAYERS,
 		handleSkipToCompass,
 	};
 }
