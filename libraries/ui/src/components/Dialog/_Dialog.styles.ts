@@ -8,7 +8,7 @@ export const DialogBase = styled.dialog`
 	background: transparent;
 	margin: auto;
 	max-width: calc(100vw - 2rem);
-	max-height: calc(100vh - 2rem);
+	max-height: calc(100dvh - 2rem);
 	color: inherit;
 	overflow: visible;
 
@@ -67,7 +67,7 @@ export const DialogContainer = styled.div`
 	width: 100%;
 	min-width: ${DIALOG_MIN_WIDTH};
 	max-width: ${DIALOG_MAX_WIDTH};
-	max-height: calc(100vh - 4rem);
+	max-height: calc(100dvh - 4rem);
 	background-color: ${themeColor('surface')};
 	color: ${themeColor('text-1')};
 	border: 1px solid ${themeColor('container-2')};
@@ -123,4 +123,5 @@ export const DialogFooter = styled.footer`
 	padding: 1rem 1.5rem;
 	border-top: 1px solid ${themeColor('container-2')};
 	background-color: ${themeColor('surface')};
+	flex-shrink: 0;
 `;
