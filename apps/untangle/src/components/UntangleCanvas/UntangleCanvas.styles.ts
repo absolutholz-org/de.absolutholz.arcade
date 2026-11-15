@@ -72,12 +72,13 @@ export const VertexGroup = styled.g`
 
 export const HitCircle = styled.circle`
 	fill: transparent;
+	pointer-events: all;
 `;
 
 export const FocusRing = styled.circle`
 	fill: none;
 	stroke: ${themeColor('accent')};
-	stroke-width: 3.5;
+	stroke-width: 4;
 	stroke-dasharray: 6 4;
 	opacity: 0;
 	pointer-events: none;
@@ -89,13 +90,14 @@ export const FocusRing = styled.circle`
 `;
 
 export const VertexCircle = styled.circle`
-	fill: light-dark(oklch(0.55 0.18 145), oklch(0.7 0.18 145));
-	stroke: ${themeColor('surface')};
+	fill: light-dark(oklch(0.4 0.14 145), oklch(0.38 0.13 145));
+	stroke: light-dark(${themeColor('surface')}, oklch(0.78 0.17 145));
 	stroke-width: 4;
-	transition: fill 120ms ease, transform 120ms ease;
+	transition: fill 120ms ease, stroke 120ms ease, transform 120ms ease;
 
 	&[data-has-crossings='true'] {
-		fill: light-dark(oklch(0.55 0.22 25), oklch(0.68 0.22 25));
+		fill: light-dark(oklch(0.43 0.19 25), oklch(0.4 0.17 25));
+		stroke: light-dark(${themeColor('surface')}, oklch(0.76 0.18 25));
 	}
 
 	&[data-selected='true'],
@@ -106,11 +108,16 @@ export const VertexCircle = styled.circle`
 `;
 
 export const VertexLabel = styled.text`
-	fill: ${themeColor('accent-contrast')};
-	font-size: 1rem;
-	font-weight: 700;
+	fill: oklch(0.99 0 0);
+	font-size: 1.625rem;
+	font-weight: 800;
+	font-variant-numeric: tabular-nums;
 	text-anchor: middle;
 	dominant-baseline: central;
 	pointer-events: none;
 	user-select: none;
+
+	&[data-active='true'] {
+		fill: ${themeColor('accent-contrast')};
+	}
 `;

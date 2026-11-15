@@ -30,9 +30,9 @@ export interface UntangleCanvasProps {
 }
 
 const VIEWBOX_SIZE = 1000;
-const VERTEX_RADIUS = 22;
-const VERTEX_HIT_RADIUS = 32;
-const PADDING = 28;
+const VERTEX_RADIUS = 32;
+const VERTEX_HIT_RADIUS = 56;
+const PADDING = 40;
 
 function clamp(value: number, min: number, max: number): number {
 	return Math.max(min, Math.min(max, value));
@@ -131,31 +131,69 @@ export function UntangleCanvas({
 		[isNormalized],
 	);
 
+	const resolveTargetVertexId = useCallback(
+		(clientX: number, clientY: number, fallbackVertexId: string): string => {
+			const coords = clientToBoardCoords(clientX, clientY);
+			if (!coords) {
+				return fallbackVertexId;
+			}
+			const fallbackVertex = vertexMap.get(fallbackVertexId);
+			if (!fallbackVertex) {
+				return fallbackVertexId;
+			}
+			const fx = isNormalized ? fallbackVertex.x * VIEWBOX_SIZE : fallbackVertex.x;
+			const fy = isNormalized ? fallbackVertex.y * VIEWBOX_SIZE : fallbackVertex.y;
+			const cx = isNormalized ? coords.x * VIEWBOX_SIZE : coords.x;
+			const cy = isNormalized ? coords.y * VIEWBOX_SIZE : coords.y;
+			const fallbackDist = Math.hypot(fx - cx, fy - cy);
+
+			// Only disambiguate overlapping hit halos when the pointer is within the hit radius of the clicked group
+			if (fallbackDist > VERTEX_HIT_RADIUS) {
+				return fallbackVertexId;
+			}
+
+			let closestId = fallbackVertexId;
+			let closestDist = fallbackDist;
+			for (const vertex of vertices) {
+				const vx = isNormalized ? vertex.x * VIEWBOX_SIZE : vertex.x;
+				const vy = isNormalized ? vertex.y * VIEWBOX_SIZE : vertex.y;
+				const dist = Math.hypot(vx - cx, vy - cy);
+				if (dist < closestDist) {
+					closestDist = dist;
+					closestId = vertex.id;
+				}
+			}
+			return closestId;
+		},
+		[clientToBoardCoords, isNormalized, vertexMap, vertices],
+	);
+
 	const handleVertexPointerDown = useCallback(
 		(event: ReactPointerEvent<SVGGElement>, vertexId: string) => {
 			if (disabled) {
 				return;
 			}
 			event.stopPropagation();
+			const targetVertexId = resolveTargetVertexId(event.clientX, event.clientY, vertexId);
 			event.currentTarget.setPointerCapture(event.pointerId);
-			activePointerRef.current = { pointerId: event.pointerId, vertexId };
-			onSelectVertex(vertexId);
-			onDragStart(vertexId);
+			activePointerRef.current = { pointerId: event.pointerId, vertexId: targetVertexId };
+			onSelectVertex(targetVertexId);
+			onDragStart(targetVertexId);
 		},
-		[disabled, onDragStart, onSelectVertex],
+		[disabled, onDragStart, onSelectVertex, resolveTargetVertexId],
 	);
 
 	const handleVertexPointerMove = useCallback(
-		(event: ReactPointerEvent<SVGGElement>, vertexId: string) => {
+		(event: ReactPointerEvent<SVGGElement>) => {
 			const active = activePointerRef.current;
-			if (disabled || !active || active.pointerId !== event.pointerId || active.vertexId !== vertexId) {
+			if (disabled || !active || active.pointerId !== event.pointerId) {
 				return;
 			}
 			const coords = clientToBoardCoords(event.clientX, event.clientY);
 			if (!coords) {
 				return;
 			}
-			pendingMoveRef.current = { vertexId, x: coords.x, y: coords.y };
+			pendingMoveRef.current = { vertexId: active.vertexId, x: coords.x, y: coords.y };
 			if (rafIdRef.current === null) {
 				rafIdRef.current = requestAnimationFrame(() => {
 					rafIdRef.current = null;
@@ -171,11 +209,12 @@ export function UntangleCanvas({
 	);
 
 	const finishPointerDrag = useCallback(
-		(event: ReactPointerEvent<SVGGElement>, vertexId: string) => {
+		(event: ReactPointerEvent<SVGGElement>) => {
 			const active = activePointerRef.current;
-			if (!active || active.pointerId !== event.pointerId || active.vertexId !== vertexId) {
+			if (!active || active.pointerId !== event.pointerId) {
 				return;
 			}
+			const targetVertexId = active.vertexId;
 			if (event.currentTarget.hasPointerCapture(event.pointerId)) {
 				event.currentTarget.releasePointerCapture(event.pointerId);
 			}
@@ -188,11 +227,11 @@ export function UntangleCanvas({
 
 			const coords = clientToBoardCoords(event.clientX, event.clientY);
 			if (coords) {
-				onDragEnd(vertexId, coords.x, coords.y);
+				onDragEnd(targetVertexId, coords.x, coords.y);
 			} else {
-				const existing = vertexMap.get(vertexId);
+				const existing = vertexMap.get(targetVertexId);
 				if (existing) {
-					onDragEnd(vertexId, existing.x, existing.y);
+					onDragEnd(targetVertexId, existing.x, existing.y);
 				}
 			}
 		},
@@ -311,18 +350,16 @@ export function UntangleCanvas({
 								onPointerDown={(e: ReactPointerEvent<SVGGElement>) =>
 									handleVertexPointerDown(e, vertex.id)
 								}
-								onPointerMove={(e: ReactPointerEvent<SVGGElement>) =>
-									handleVertexPointerMove(e, vertex.id)
-								}
-								onPointerUp={(e: ReactPointerEvent<SVGGElement>) => finishPointerDrag(e, vertex.id)}
-								onPointerCancel={(e: ReactPointerEvent<SVGGElement>) => finishPointerDrag(e, vertex.id)}
+								onPointerMove={handleVertexPointerMove}
+								onPointerUp={finishPointerDrag}
+								onPointerCancel={finishPointerDrag}
 								onKeyDown={(e: ReactKeyboardEvent<SVGGElement>) => handleVertexKeyDown(e, vertex.id)}
 							>
 								<S.HitCircle r={VERTEX_HIT_RADIUS} />
 								<S.FocusRing
 									data-focus-ring="true"
 									data-visible={isSelected || isDragging ? 'true' : 'false'}
-									r={VERTEX_RADIUS + 7}
+									r={VERTEX_RADIUS + 8}
 								/>
 								<S.VertexCircle
 									r={VERTEX_RADIUS}
@@ -330,7 +367,9 @@ export function UntangleCanvas({
 									data-selected={isSelected ? 'true' : 'false'}
 									data-dragging={isDragging ? 'true' : 'false'}
 								/>
-								<S.VertexLabel>{vertexIndex}</S.VertexLabel>
+								<S.VertexLabel data-active={isSelected || isDragging ? 'true' : 'false'}>
+									{vertexIndex}
+								</S.VertexLabel>
 							</S.VertexGroup>
 						);
 					})}

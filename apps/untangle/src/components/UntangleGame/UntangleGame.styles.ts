@@ -36,9 +36,9 @@ export const boardArea = css`
   justify-content: center;
   align-items: center;
   width: 100%;
-  max-width: 38rem;
+  max-width: 42.5rem;
   margin: 0 auto;
-  padding: 0.5rem;
+  padding: 0;
 `;
 
 export const RulesContainer = styled.div`
