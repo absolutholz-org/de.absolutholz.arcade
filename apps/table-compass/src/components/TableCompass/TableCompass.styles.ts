@@ -1,13 +1,13 @@
 import { css } from '@linaria/core';
 
 export const ToolHeader = css`
-	max-width: 34rem;
+	width: min(100%, 34rem);
 	margin-inline: auto;
 `;
 
 export const Arena = css`
 	position: relative;
-	max-width: 34rem;
+	width: min(100%, 34rem);
 	margin-inline: auto;
 	height: clamp(18rem, 50svh, 28rem);
 	background: var(--color-container-1);
@@ -101,7 +101,7 @@ export const CountdownCircle = css`
 `;
 
 export const FallbackSection = css`
-	max-width: 34rem;
+	width: min(100%, 34rem);
 	margin-inline: auto;
 	background: var(--color-surface);
 	border: 0.0625rem solid var(--color-container-2);
@@ -117,7 +117,7 @@ export const FallbackLabel = css`
 
 export const CompassBoard = css`
 	position: relative;
-	max-width: 21rem;
+	width: min(100%, 21rem);
 	margin-inline: auto;
 	aspect-ratio: 1 / 1;
 	border-radius: 50%;
@@ -141,7 +141,7 @@ export const CompassNeedle = css`
 	pointer-events: none;
 	transform-origin: 50% 50%;
 	transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-	z-index: 2;
+	z-index: 5;
 
 	@media (prefers-reduced-motion: reduce) {
 		transition: none;
@@ -150,8 +150,8 @@ export const CompassNeedle = css`
 
 export const CompassDial = css`
 	position: relative;
-	width: 44%;
-	height: 44%;
+	width: 36%;
+	height: 36%;
 	border-radius: 50%;
 	background: var(--color-surface);
 	border: 0.15rem solid var(--color-container-2);
@@ -262,15 +262,42 @@ export const SeatRankBadge = css`
 	border: 0.1rem solid var(--color-surface);
 `;
 
+export const CompassToolbar = css`
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 0.5rem;
+
+	@media (max-width: 36rem) {
+		button {
+			flex-direction: column;
+			gap: 0.25rem;
+			height: auto;
+			min-height: 3rem;
+			padding: 0.45rem 0.75rem;
+			line-height: 1.15;
+		}
+	}
+`;
+
+export const TurnQueueSection = css`
+	width: min(100%, 34rem);
+	margin-inline: auto;
+`;
+
+export const SectionHeading = css`
+	margin: 0 0 0.5rem;
+	font-size: 0.95rem;
+	font-weight: 700;
+	color: var(--color-text-2);
+`;
+
 export const TurnQueueGrid = css`
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
+	grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr));
 	gap: 0.5rem;
-	max-width: 34rem;
-	margin-inline: auto;
 	list-style: none;
 	padding: 0;
-	margin-block: 0;
+	margin: 0;
 `;
 
 export const TurnQueueItem = css`
@@ -319,18 +346,6 @@ export const TurnQueueRank = css`
 	border-radius: 9999px;
 	color: var(--color-surface);
 	flex-shrink: 0;
-`;
-
-export const VisuallyHidden = css`
-	position: absolute;
-	width: 1px;
-	height: 1px;
-	padding: 0;
-	margin: -1px;
-	overflow: hidden;
-	clip: rect(0, 0, 0, 0);
-	white-space: nowrap;
-	border: 0;
 `;
 
 export const NamingShapeBadge = css`

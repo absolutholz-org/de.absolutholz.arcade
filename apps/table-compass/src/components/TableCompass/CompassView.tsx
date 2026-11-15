@@ -1,8 +1,9 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { Button } from '@arcade/lib-ui/components/Button';
+import { Icon } from '@arcade/lib-ui/components/Icon';
 import { Stack } from '@arcade/lib-ui/components/Stack';
 import { Toolbar } from '@arcade/lib-ui/components/Toolbar';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import * as S from './TableCompass.styles';
 import type { Direction, Seat } from './TableCompass.types';
 import { PLAYER_CONFIGS } from './constants';
@@ -13,8 +14,11 @@ interface CompassViewProps {
 	direction: Direction;
 	turnCount: number;
 	onNextTurn: (template?: (turn: number, name: string, shape: string) => string) => void;
+	onSkipPlayer: (template?: (turn: number, name: string, shape: string) => string) => void;
 	onPreviousTurn: () => void;
 	onReverseDirection: (cwMessage?: string, ccwMessage?: string) => void;
+	onEditNames: () => void;
+	onRePick: () => void;
 }
 
 function getShortestRotation(currentAngle: number, targetAngle: number): number {
@@ -28,10 +32,14 @@ export function CompassView({
 	direction,
 	turnCount,
 	onNextTurn,
+	onSkipPlayer,
 	onPreviousTurn,
 	onReverseDirection,
+	onEditNames,
+	onRePick,
 }: CompassViewProps) {
 	const { t } = useI18n();
+	const turnOrderHeadingId = useId();
 	const activeSeat = seats[activeSeatIndex] || seats[0];
 	const activeConfig = PLAYER_CONFIGS[activeSeat?.playerConfigIndex ?? 0];
 
@@ -49,6 +57,10 @@ export function CompassView({
 	const handleNext = useCallback(() => {
 		onNextTurn((turn, name, shape) => t('tools.tableCompass.compass.turnAnnouncement', { turn, name, shape }));
 	}, [onNextTurn, t]);
+
+	const handleSkip = useCallback(() => {
+		onSkipPlayer((turn, name, shape) => t('tools.tableCompass.compass.turnAnnouncement', { turn, name, shape }));
+	}, [onSkipPlayer, t]);
 
 	const handleReverse = useCallback(() => {
 		onReverseDirection(
@@ -80,15 +92,26 @@ export function CompassView({
 							<path
 								d={
 									direction === 'cw'
-										? 'M 97.5,43 L 102.5,46 L 97.5,49'
-										: 'M 102.5,43 L 97.5,46 L 102.5,49'
+										? 'M 96.5,42 L 103.5,46 L 96.5,50'
+										: 'M 103.5,42 L 96.5,46 L 103.5,50'
+								}
+								fill="none"
+								stroke="var(--color-surface)"
+								strokeWidth="4.5"
+								strokeLinecap="round"
+								strokeLinejoin="round"
+							/>
+							<path
+								d={
+									direction === 'cw'
+										? 'M 96.5,42 L 103.5,46 L 96.5,50'
+										: 'M 103.5,42 L 96.5,46 L 103.5,50'
 								}
 								fill="none"
 								stroke="var(--color-accent)"
-								strokeWidth="2"
+								strokeWidth="2.5"
 								strokeLinecap="round"
 								strokeLinejoin="round"
-								opacity="0.8"
 							/>
 						</g>
 					))}
@@ -102,11 +125,23 @@ export function CompassView({
 				>
 					<svg viewBox="0 0 200 200" width="100%" height="100%" aria-hidden="true">
 						<polygon
-							points="100,30 109,57 100,51 91,57"
+							points="100,26 111,62 100,55 89,62"
 							fill={activeConfig.color}
+							stroke="var(--color-surface)"
+							strokeWidth="2.5"
+							strokeLinejoin="round"
+							paintOrder="stroke"
 							filter="drop-shadow(0 1px 3px oklch(0 0 0 / 0.25))"
 						/>
-						<polygon points="100,164 105,144 100,148 95,144" fill="var(--color-text-3)" opacity="0.5" />
+						<polygon
+							points="100,160 106,138 100,143 94,138"
+							fill="var(--color-text-3)"
+							stroke="var(--color-surface)"
+							strokeWidth="2"
+							strokeLinejoin="round"
+							paintOrder="stroke"
+							opacity="0.7"
+						/>
 					</svg>
 				</div>
 
@@ -167,67 +202,104 @@ export function CompassView({
 				</button>
 			</section>
 
-			{/* Player Turn Queue Strip (Shows full player names without clipping) */}
-			<ol className={S.TurnQueueGrid} aria-label={t('tools.tableCompass.modes.turnOrder')}>
-				{seats.map((seat, idx) => {
-					const config = PLAYER_CONFIGS[seat.playerConfigIndex];
-					const isActive = idx === activeSeatIndex;
-
-					return (
-						<li
-							key={seat.id}
-							className={S.TurnQueueItem}
-							data-active={isActive ? 'true' : 'false'}
-							style={{
-								borderColor: isActive ? config.color : undefined,
-								backgroundColor: isActive ? config.bgLight : undefined,
-							}}
-							aria-current={isActive ? 'step' : undefined}
-						>
-							<span className={S.TurnQueueBadge} style={{ color: config.color }} aria-hidden="true">
-								{config.icon}
-							</span>
-							<span className={S.TurnQueueName}>{seat.name}</span>
-							{seat.turnRank && (
-								<span className={S.TurnQueueRank} style={{ backgroundColor: config.color }}>
-									#{seat.turnRank}
-								</span>
-							)}
-						</li>
-					);
-				})}
-			</ol>
-
 			{/* Accessible Action Controls */}
-			<Toolbar align="center" aria-label={t('actions.gameControls')}>
-				<Button
-					variant="outline"
-					size="md"
-					onClick={onPreviousTurn}
-					disabled={turnCount <= 1}
-					aria-label={t('tools.tableCompass.compass.previousTurn')}
-				>
-					⏮️ {t('tools.tableCompass.compass.previousTurn')}
-				</Button>
+			<Toolbar variant="ghost" align="center" className={S.CompassToolbar} aria-label={t('actions.gameControls')}>
+				<Stack direction="row" inline fullWidth={false} spacing="xs">
+					<Button
+						variant="outline"
+						size="md"
+						onClick={onPreviousTurn}
+						disabled={turnCount <= 1}
+						aria-label={t('tools.tableCompass.compass.previousTurn')}
+						title={t('tools.tableCompass.compass.previousTurn')}
+					>
+						<Icon name="undo" size="sm" />
+						<span>{t('tools.tableCompass.compass.previousTurn')}</span>
+					</Button>
 
-				<Button
-					variant="primary"
-					size="lg"
-					onClick={handleNext}
-					aria-label={t('tools.tableCompass.compass.nextTurn')}
-				>
-					⏭️ {t('tools.tableCompass.compass.nextTurn')}
-				</Button>
+					<Button
+						variant="outline"
+						size="md"
+						onClick={handleNext}
+						aria-label={t('tools.tableCompass.compass.nextTurn')}
+						title={t('tools.tableCompass.compass.nextTurn')}
+					>
+						<Icon name="redo" size="sm" />
+						<span>{t('tools.tableCompass.compass.nextTurn')}</span>
+					</Button>
+				</Stack>
 
-				<Button
-					variant="secondary"
-					size="md"
-					onClick={handleReverse}
-					aria-label={t('tools.tableCompass.compass.reverseDirection')}
-				>
-					{direction === 'cw' ? '↻' : '↺'} {t('tools.tableCompass.compass.reverseDirection')}
-				</Button>
+				<Stack direction="row" inline fullWidth={false} spacing="xs">
+					<Button
+						variant="outline"
+						size="md"
+						onClick={handleSkip}
+						aria-label={t('tools.tableCompass.compass.skipPlayer')}
+						title={t('tools.tableCompass.compass.skipPlayer')}
+					>
+						<Icon name="chevron-right" size="sm" />
+						<span>{t('tools.tableCompass.compass.skipShort')}</span>
+					</Button>
+
+					<Button
+						variant="outline"
+						size="md"
+						onClick={handleReverse}
+						aria-label={t('tools.tableCompass.compass.reverseDirection')}
+						title={t('tools.tableCompass.compass.reverseDirection')}
+					>
+						<Icon name="rotate-ccw" size="sm" />
+						<span>{t('tools.tableCompass.compass.reverseShort')}</span>
+					</Button>
+				</Stack>
 			</Toolbar>
+
+			{/* Player Turn Queue Section */}
+			<section className={S.TurnQueueSection} aria-labelledby={turnOrderHeadingId}>
+				<h2 id={turnOrderHeadingId} className={S.SectionHeading}>
+					{t('tools.tableCompass.modes.turnOrder')}
+				</h2>
+				<ol className={S.TurnQueueGrid} aria-labelledby={turnOrderHeadingId}>
+					{seats.map((seat, idx) => {
+						const config = PLAYER_CONFIGS[seat.playerConfigIndex];
+						const isActive = idx === activeSeatIndex;
+
+						return (
+							<li
+								key={seat.id}
+								className={S.TurnQueueItem}
+								data-active={isActive ? 'true' : 'false'}
+								style={{
+									borderColor: isActive ? config.color : undefined,
+									backgroundColor: isActive ? config.bgLight : undefined,
+								}}
+								aria-current={isActive ? 'step' : undefined}
+							>
+								<span className={S.TurnQueueBadge} style={{ color: config.color }} aria-hidden="true">
+									{config.icon}
+								</span>
+								<span className={S.TurnQueueName}>{seat.name}</span>
+								{seat.turnRank && (
+									<span className={S.TurnQueueRank} style={{ backgroundColor: config.color }}>
+										#{seat.turnRank}
+									</span>
+								)}
+							</li>
+						);
+					})}
+				</ol>
+			</section>
+
+			{/* Edit Names & New Pick below user list */}
+			<Stack direction="row" justify="center" align="center" wrap spacing="sm">
+				<Button variant="outline" size="sm" onClick={onEditNames}>
+					{t('tools.tableCompass.compass.editNames')}
+				</Button>
+				<Button variant="outline" size="sm" onClick={onRePick}>
+					<Icon name="rotate-ccw" size="sm" />
+					{t('tools.tableCompass.compass.rePick')}
+				</Button>
+			</Stack>
 		</Stack>
 	);
 }

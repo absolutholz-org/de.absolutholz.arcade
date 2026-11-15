@@ -78,8 +78,8 @@ export function useTableCompass() {
 		playTap();
 	}, []);
 
-	const handleNextTurn = useCallback(
-		(announcementTemplate?: (turn: number, name: string, shape: string) => string) => {
+	const advanceTurn = useCallback(
+		(steps: number, announcementTemplate?: (turn: number, name: string, shape: string) => string) => {
 			if (seats.length === 0) return;
 
 			triggerHaptic('light');
@@ -88,8 +88,8 @@ export function useTableCompass() {
 			setTurnCount((prev) => {
 				const nextTurn = prev + 1;
 				setActiveSeatIndex((currentIdx) => {
-					const delta = direction === 'cw' ? 1 : -1;
-					const nextIdx = (currentIdx + delta + seats.length) % seats.length;
+					const delta = direction === 'cw' ? steps : -steps;
+					const nextIdx = (((currentIdx + delta) % seats.length) + seats.length) % seats.length;
 					const activeSeat = seats[nextIdx];
 					if (announcementTemplate && activeSeat) {
 						const config = PLAYER_CONFIGS[activeSeat.playerConfigIndex];
@@ -101,6 +101,20 @@ export function useTableCompass() {
 			});
 		},
 		[seats, direction],
+	);
+
+	const handleNextTurn = useCallback(
+		(announcementTemplate?: (turn: number, name: string, shape: string) => string) => {
+			advanceTurn(1, announcementTemplate);
+		},
+		[advanceTurn],
+	);
+
+	const handleSkipPlayer = useCallback(
+		(announcementTemplate?: (turn: number, name: string, shape: string) => string) => {
+			advanceTurn(2, announcementTemplate);
+		},
+		[advanceTurn],
 	);
 
 	const handlePreviousTurn = useCallback(() => {
@@ -172,6 +186,7 @@ export function useTableCompass() {
 		handlePickComplete,
 		handleStartCompass,
 		handleNextTurn,
+		handleSkipPlayer,
 		handlePreviousTurn,
 		handleReverseDirection,
 		handleUpdateSeatName,
