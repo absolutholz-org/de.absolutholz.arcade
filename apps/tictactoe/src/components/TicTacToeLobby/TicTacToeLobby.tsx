@@ -88,9 +88,9 @@ function LobbyContent({ lang }: { readonly lang: SupportedLanguageCode }): JSX.E
 	const handleRoomCodeChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const rawValue = e.target.value;
 		if (rawValue.includes('room=') || rawValue.includes('/room/') || rawValue.startsWith('http')) {
-			setRoomCode(extractRoomCode(rawValue));
+			setRoomCode(extractRoomCode(rawValue).toUpperCase());
 		} else {
-			setRoomCode(rawValue);
+			setRoomCode(rawValue.toUpperCase());
 		}
 	};
 
@@ -196,6 +196,7 @@ function LobbyContent({ lang }: { readonly lang: SupportedLanguageCode }): JSX.E
 									placeholder={t('lobby.roomCodePlaceholder')}
 									value={roomCode}
 									onChange={handleRoomCodeChange}
+									autoCapitalize="characters"
 									maxLength={128}
 									fullWidth
 								/>

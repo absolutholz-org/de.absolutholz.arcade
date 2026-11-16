@@ -14,6 +14,8 @@ export interface TicTacToeState {
 	readonly isComplete: boolean;
 	readonly player1Name: string;
 	readonly player2Name: string;
+	readonly player1Wins: number;
+	readonly player2Wins: number;
 }
 
 export type TicTacToeAction =

@@ -519,7 +519,7 @@ function GameInner({
 				<GameHeader
 					backHref={`/tictactoe/${lang}/`}
 					backLabel={t('controls.backToLobby')}
-					difficulty={isOnlineMode ? t('online.roomCode', { code: roomId }) : t('title')}
+					difficulty={isOnlineMode ? t('online.roomCode', { code: roomId.toUpperCase() }) : t('title')}
 					onOpenRules={() => setIsRulesOpen(true)}
 					rulesLabel={tCommon('navigation.rules')}
 					onOpenSettings={() => setIsSettingsOpen(true)}
@@ -550,7 +550,7 @@ function GameInner({
 						<Banner
 							variant="info"
 							statusLabel={t('online.waitingForOpponent')}
-							message={t('online.waitingBannerMessage', { code: roomId })}
+							message={t('online.waitingBannerMessage', { code: roomId.toUpperCase() })}
 							action={
 								<Button
 									variant="outline"
@@ -573,7 +573,7 @@ function GameInner({
 								}
 								size="md"
 							>
-								{activeState.player1Name} (X)
+								{activeState.player1Name} (X) · {activeState.player1Wins ?? 0}
 							</Badge>
 							<Text as="span" variant="small">
 								vs
@@ -584,7 +584,7 @@ function GameInner({
 								}
 								size="md"
 							>
-								{activeState.player2Name} (O)
+								{activeState.player2Name} (O) · {activeState.player2Wins ?? 0}
 							</Badge>
 
 							{isOnlineMode && role === 'guest' && guestSession.status === 'disconnected' && (
@@ -707,8 +707,8 @@ function GameInner({
 					onClose={() => setIsShareOpen(false)}
 					title={tCommon('share.shareRoom')}
 					shareUrl={inviteUrl}
-					shareText={t('online.waitingBannerMessage', { code: roomId })}
-					roomCode={roomId}
+					shareText={t('online.waitingBannerMessage', { code: roomId.toUpperCase() })}
+					roomCode={roomId.toUpperCase()}
 					copySuccessMessage={t('online.inviteLinkCopied')}
 				/>
 			)}
@@ -718,7 +718,7 @@ function GameInner({
 					id="tictactoe-join-room-dialog"
 					isOpen={isJoinDialogOpen}
 					title={t('lobby.joinSession')}
-					message={t('online.roomCode', { code: roomId })}
+					message={t('online.roomCode', { code: roomId.toUpperCase() })}
 					confirmText={t('lobby.joinSession')}
 					cancelText={t('controls.backToLobby')}
 					onConfirm={handleConfirmGuestJoin}
