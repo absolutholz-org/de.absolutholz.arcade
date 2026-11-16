@@ -7,6 +7,8 @@ export interface VictoryStatItem {
 	value: ReactNode;
 }
 
+export type VictoryPrimaryAction = 'nextPuzzle' | 'playAgain';
+
 export interface VictoryDialogProps {
 	/** Unique HTML ID for accessibility */
 	id?: string;
@@ -43,6 +45,9 @@ export interface VictoryDialogProps {
 	/** Custom text or badge label for best time (e.g. "New Best Time!") */
 	bestTimeText?: string;
 
+	/** Which gameplay action receives primary emphasis when both are present (default: 'nextPuzzle') */
+	primaryAction?: VictoryPrimaryAction;
+
 	/** Next puzzle action */
 	hasNextPuzzle?: boolean;
 	onNextPuzzle?: () => void;
@@ -52,12 +57,20 @@ export interface VictoryDialogProps {
 	onPlayAgain?: () => void;
 	playAgainLabel?: string;
 
+	/** Statistics page link */
+	statsHref?: string;
+	statsLabel?: string;
+
+	/** Medals showcase page link */
+	medalsHref?: string;
+	medalsLabel?: string;
+
 	/** Lobby action (either link href or callback) */
 	lobbyHref?: string;
 	onLobby?: () => void;
 	lobbyLabel?: string;
 
-	/** Auxiliary action slot rendered below the split button row */
+	/** Auxiliary action slot rendered below the action rows */
 	secondaryActions?: ReactNode;
 
 	/** Slot for custom game-specific visual content (e.g. Nonogram solved pixel art preview) */

@@ -33,6 +33,8 @@ export function VictoryDialog({
 			nextPuzzleLabel={t('victory.nextLevel')}
 			onPlayAgain={onPlayAgain}
 			playAgainLabel={t('victory.playAgain')}
+			statsHref={`/bridges/${language}/stats`}
+			medalsHref={`/bridges/${language}/medals`}
 			lobbyHref={lobbyHref}
 			lobbyLabel={t('controls.backToLobby')}
 		/>

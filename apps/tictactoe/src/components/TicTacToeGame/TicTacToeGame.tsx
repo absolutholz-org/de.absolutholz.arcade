@@ -151,7 +151,7 @@ function GameInner({
 	readonly lang: SupportedLanguageCode;
 	readonly rulesContent?: ReactNode;
 }): JSX.Element {
-	const { t } = useI18n('tictactoe');
+	const { t, language } = useI18n('tictactoe');
 	const { t: tCommon } = useI18n('common');
 	const { isAuthenticated, profile, name: defaultProfileName } = useUserProfile();
 
@@ -671,6 +671,8 @@ function GameInner({
 				movesCount={activeState.moveCount}
 				onPlayAgain={handlePlayAgain}
 				playAgainLabel={t('victory.playAgain')}
+				statsHref={`/tictactoe/${language}/stats`}
+				medalsHref={`/tictactoe/${language}/medals`}
 				onLobby={handleBackToMenu}
 				lobbyLabel={t('victory.backToMenu')}
 			/>
@@ -685,6 +687,8 @@ function GameInner({
 				movesCount={activeState.moveCount}
 				onPlayAgain={handlePlayAgain}
 				playAgainLabel={t('victory.playAgain')}
+				statsHref={`/tictactoe/${language}/stats`}
+				medalsHref={`/tictactoe/${language}/medals`}
 				onLobby={handleBackToMenu}
 				lobbyLabel={t('victory.backToMenu')}
 			/>

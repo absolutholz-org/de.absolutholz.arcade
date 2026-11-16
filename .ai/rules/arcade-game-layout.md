@@ -75,6 +75,15 @@ Tier 1: Document Layouts (@arcade/lib-ui/layouts/)
 - `/[lang]/medals.astro` must **never** maintain bespoke per-game `[Game]MedalGrid` components or inline custom threshold branching.
 - Render `<GameMedalGrid gameId={gameId} lang={lang} />` directly from `@arcade/lib-ui`.
 
+### E. Victory Dialog Contract (`VictoryDialog` from `@arcade/lib-ui`)
+- **Gameplay Action Row (`onPlayAgain` & optional `hasNextPuzzle` / `onNextPuzzle`):**
+  - Every game must provide `onPlayAgain`.
+  - Provide `hasNextPuzzle` + `onNextPuzzle` **only** for games with sequential levels or puzzle-to-puzzle progression (e.g., Nonogram, Bridges, Tents, Tracks, Star Battle, Net, Untangle, Pentominoes, Liquid Sort, Color Flood). Omit them for match/duel or single-round games where "Next Puzzle" is not meaningful (e.g., Tic-Tac-Toe, Dice Bingo, Anagram).
+  - `primaryAction` defaults to `'nextPuzzle'` when `hasNextPuzzle && onNextPuzzle` is present and `'playAgain'` otherwise; override with `primaryAction="playAgain"` only when replaying the current mode is the primary action.
+- **Footer Navigation Row (`statsHref`, `medalsHref`, `lobbyHref` / `onLobby`):**
+  - Every game must pass `statsHref={`/${gameId}/${language}/stats`}`, `medalsHref={`/${gameId}/${language}/medals`}`, and `lobbyHref` (or `onLobby`), which `VictoryDialog` renders below a `<Divider />` as a wrapping row of `size="sm"` `variant="ghost"` buttons.
+  - Do **not** pass Stats or Medals links manually via `secondaryActions`; reserve `secondaryActions` strictly for game-specific extra actions (e.g., Nonogram's Puzzle Select).
+
 ---
 
 ## 4. Interactive Canvas Grid & Accessibility Standards (WAI-ARIA & Biome Compliance)

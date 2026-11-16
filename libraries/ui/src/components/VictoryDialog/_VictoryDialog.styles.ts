@@ -82,16 +82,6 @@ export const Actions = styled.div`
 	margin-top: 0.5rem;
 `;
 
-export const PrimaryAction = styled.div`
-	width: 100%;
-
-	> button,
-	> a {
-		width: 100%;
-		justify-content: center;
-	}
-`;
-
 export const SplitActions = styled.div`
 	display: flex;
 	flex-wrap: wrap;
@@ -104,6 +94,15 @@ export const SplitActions = styled.div`
 		min-width: 0;
 		justify-content: center;
 	}
+`;
+
+export const FooterLinks = styled.div`
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	gap: 0.375rem 0.75rem;
+	width: 100%;
 `;
 
 export const SecondaryActions = styled.div`

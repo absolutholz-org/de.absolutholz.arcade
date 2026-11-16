@@ -4,7 +4,6 @@ import type { VictoryDialogProps } from './VictoryDialog.types';
 
 export function VictoryDialog({ isOpen, elapsedSeconds, isNewBestTime, onPlayAgain, onClose }: VictoryDialogProps) {
 	const { t, language } = useI18n('sudoku');
-	const { t: tCommon } = useI18n('common');
 
 	return (
 		<SharedVictoryDialog
@@ -18,14 +17,10 @@ export function VictoryDialog({ isOpen, elapsedSeconds, isNewBestTime, onPlayAga
 			bestTimeText={t('status.newBestTime')}
 			onPlayAgain={onPlayAgain}
 			playAgainLabel={t('victory.playAgain')}
+			statsHref={`/sudoku/${language}/stats`}
+			medalsHref={`/sudoku/${language}/medals`}
 			lobbyHref={`/sudoku/${language}/`}
 			lobbyLabel={t('controls.backToLobby')}
-			secondaryActions={
-				<>
-					<a href={`/sudoku/${language}/stats`}>{t('stats.title')}</a>
-					<a href={`/sudoku/${language}/medals`}>🏅 {tCommon('navigation.medals')}</a>
-				</>
-			}
 		/>
 	);
 }

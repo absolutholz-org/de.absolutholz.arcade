@@ -57,6 +57,8 @@ export function VictoryDialog({
 			nextPuzzleLabel={t('victory.nextPuzzle')}
 			onPlayAgain={onPlayAgain}
 			playAgainLabel={t('victory.playAgain')}
+			statsHref={`/nonogram/${language}/stats`}
+			medalsHref={`/nonogram/${language}/medals`}
 			lobbyHref={`/nonogram/${language}/`}
 			lobbyLabel={t('victory.viewLobby')}
 			secondaryActions={

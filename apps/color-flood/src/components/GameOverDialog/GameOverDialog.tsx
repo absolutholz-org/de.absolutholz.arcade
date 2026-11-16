@@ -70,7 +70,6 @@ export function GameOverDialog({
 	difficulty,
 }: GameOverDialogProps): JSX.Element {
 	const { t, language } = useI18n('color-flood');
-	const { t: tCommon } = useI18n('common');
 
 	const lobbyHref = `/color-flood/${language}/?difficulty=${difficulty}`;
 
@@ -88,13 +87,10 @@ export function GameOverDialog({
 				nextPuzzleLabel={t('controls.newGame')}
 				onPlayAgain={onPlayAgain}
 				playAgainLabel={t('controls.restart')}
+				statsHref={`/color-flood/${language}/stats`}
+				medalsHref={`/color-flood/${language}/medals`}
 				lobbyHref={lobbyHref}
 				lobbyLabel={t('controls.backToLobby')}
-				secondaryActions={
-					<a href={`/color-flood/${language}/medals`} style={{ textDecoration: 'none' }}>
-						🏅 {tCommon('navigation.medals')}
-					</a>
-				}
 			/>
 		);
 	}

@@ -13,7 +13,6 @@ export function VictoryDialog({
 	onClose,
 }: VictoryDialogProps): JSX.Element {
 	const { t, language } = useI18n('star-battle');
-	const { t: tCommon } = useI18n('common');
 
 	return (
 		<SharedVictoryDialog
@@ -30,9 +29,10 @@ export function VictoryDialog({
 			nextPuzzleLabel={t('victory.nextLevel')}
 			onPlayAgain={onPlayAgain}
 			playAgainLabel={t('victory.playAgain')}
+			statsHref={`/star-battle/${language}/stats`}
+			medalsHref={`/star-battle/${language}/medals`}
 			lobbyHref={`/star-battle/${language}/`}
 			lobbyLabel={t('controls.backToLobby')}
-			secondaryActions={<a href={`/star-battle/${language}/medals`}>🏅 {tCommon('navigation.medals')}</a>}
 		/>
 	);
 }

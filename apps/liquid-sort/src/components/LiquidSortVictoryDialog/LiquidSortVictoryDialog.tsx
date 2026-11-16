@@ -44,6 +44,8 @@ export function LiquidSortVictoryDialog({
 			nextPuzzleLabel={t('victory.nextLevel')}
 			onPlayAgain={onPlayAgain}
 			playAgainLabel={t('victory.playAgain')}
+			statsHref={`/liquid-sort/${language}/stats`}
+			medalsHref={`/liquid-sort/${language}/medals`}
 			lobbyHref={lobbyHref}
 			lobbyLabel={t('controls.backToLobby')}
 		/>

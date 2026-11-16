@@ -14,7 +14,6 @@ export function VictoryDialog({
 	difficulty,
 }: VictoryDialogProps): JSX.Element {
 	const { t, language } = useI18n('dice-bingo');
-	const { t: tCommon } = useI18n('common');
 
 	const lobbyHref = difficulty ? `/dice-bingo/${language}/?difficulty=${difficulty}` : `/dice-bingo/${language}/`;
 
@@ -38,9 +37,10 @@ export function VictoryDialog({
 			bestTimeText={t('victory.newBestScore')}
 			onPlayAgain={onPlayAgain}
 			playAgainLabel={t('victory.playAgain')}
+			statsHref={`/dice-bingo/${language}/stats`}
+			medalsHref={`/dice-bingo/${language}/medals`}
 			lobbyHref={lobbyHref}
 			lobbyLabel={t('controls.backToLobby')}
-			secondaryActions={<a href={`/dice-bingo/${language}/medals`}>🏅 {tCommon('navigation.medals')}</a>}
 		/>
 	);
 }

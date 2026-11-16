@@ -154,6 +154,11 @@ Construct the application shell and React canvas in `apps/[gameId]/`:
       - In `[Game]Lobby.tsx`: Query `loadActiveGame()` on mount. If an uncompleted active game snapshot exists, populate the `resumeState` prop of `GameLandingTemplate` with localized round metadata and an `onResume` callback navigating to `/game?resume=true`.
       - When starting a fresh game from lobby cards, append `&new=true` to query parameters to prevent restoring previous stale snapshots.
     - Game overlays: Implement `PauseOverlay` and `VictoryDialog` from `@arcade/lib-ui`.
+      - **`VictoryDialog` Action & Link Contract:**
+        - Always pass `onPlayAgain`, `lobbyHref` (or `onLobby`), `statsHref={`/${gameId}/${language}/stats`}`, and `medalsHref={`/${gameId}/${language}/medals`}`.
+        - Pass `hasNextPuzzle` and `onNextPuzzle` **only** when advancing to a next puzzle/level makes sense for the game's progression model (e.g. level- or seed-based puzzles); omit them for match/duel or single-round games (e.g. Tic-Tac-Toe, Dice Bingo, Anagram).
+        - `VictoryDialog` defaults `primaryAction` to `'nextPuzzle'` when `hasNextPuzzle && onNextPuzzle` is present and `'playAgain'` otherwise; set `primaryAction="playAgain"` only if replaying the current mode is the primary loop.
+        - Never duplicate Stats/Medals links in `secondaryActions`; reserve `secondaryActions` strictly for game-specific auxiliary actions.
 4. **Result Recording, Telemetry & Medal Toasts (ADR 0008):**
     - Call `recordGameStats(gameId, roundResult)` from `@arcade/lib-storage` to persist normalized bucket and lifetime telemetry under `arcade::[gameId]::stats`.
     - Call `recordGameResult({ gameId, won, playTimeSeconds, levelKey, sizeKey, roundContext })` from `@arcade/lib-medals` upon round victory or defeat.

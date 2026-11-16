@@ -28,6 +28,8 @@ const meta = {
 		playAgainLabel: 'Play Again',
 		lobbyLabel: 'Back to Lobby',
 		lobbyHref: '#',
+		statsHref: '#stats',
+		medalsHref: '#medals',
 	},
 	render: (args) => {
 		const [open, setOpen] = useState(args.isOpen);

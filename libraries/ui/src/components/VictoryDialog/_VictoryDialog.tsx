@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from 'react';
 import { Button } from '../Button';
 import { Confetti } from '../Confetti';
 import { Dialog } from '../Dialog';
+import { Divider } from '../Divider';
 import { Timer } from '../Timer';
 import * as S from './_VictoryDialog.styles';
 import type { VictoryDialogProps } from './_VictoryDialog.types';
@@ -32,6 +33,8 @@ export function VictoryDialog({
 	isOpen,
 	lobbyHref,
 	lobbyLabel,
+	medalsHref,
+	medalsLabel,
 	message,
 	movesCount,
 	movesLabel,
@@ -41,9 +44,12 @@ export function VictoryDialog({
 	onNextPuzzle,
 	onPlayAgain,
 	playAgainLabel,
+	primaryAction = 'nextPuzzle',
 	secondaryActions,
 	showCloseButton = true,
 	stats,
+	statsHref,
+	statsLabel,
 	timeLabel,
 	title,
 	variant = 'victory',
@@ -55,15 +61,21 @@ export function VictoryDialog({
 	const resolvedTimeLabel = formatStatLabel(timeLabel, 'TIME');
 	const resolvedMovesLabel = formatStatLabel(movesLabel, 'MOVES');
 	const resolvedPlayAgain = playAgainLabel || 'Play Again';
-	const resolvedLobby = lobbyLabel || 'Lobby';
+	const resolvedLobby = lobbyLabel || 'Back to Lobby';
 	const resolvedNextPuzzle = nextPuzzleLabel || 'Next Puzzle';
+	const resolvedStatsLabel = statsLabel || t('navigation.stats');
+	const resolvedMedalsLabel = medalsLabel || t('navigation.medals');
 
 	const hasTime = elapsedSeconds !== undefined;
 	const hasMoves = movesCount !== undefined;
 	const statItemsCount = (hasTime ? 1 : 0) + (hasMoves ? 1 : 0) + (stats?.length ?? 0);
 	const columnCount = Math.min(Math.max(statItemsCount, 1), 3);
 
-	const showSplitActions = Boolean(onPlayAgain || lobbyHref || onLobby);
+	const showNextPuzzle = Boolean(hasNextPuzzle && onNextPuzzle);
+	const showPlayAgain = Boolean(onPlayAgain);
+	const showGameplayActions = showNextPuzzle || showPlayAgain;
+	const isNextPuzzlePrimary = showNextPuzzle && (primaryAction !== 'playAgain' || !showPlayAgain);
+	const hasFooterLinks = Boolean(statsHref || medalsHref || lobbyHref || onLobby);
 
 	const prevIsOpenRef = useRef(false);
 	useEffect(() => {
@@ -129,36 +141,63 @@ export function VictoryDialog({
 					{isNewBestTime && <S.BestTimeBadge>{bestTimeText || 'New Best Time!'}</S.BestTimeBadge>}
 
 					<S.Actions>
-						{hasNextPuzzle && onNextPuzzle && (
-							<S.PrimaryAction>
-								<Button variant="primary" size="md" onClick={onNextPuzzle}>
-									{resolvedNextPuzzle}
-								</Button>
-							</S.PrimaryAction>
+						{showGameplayActions && (
+							<S.SplitActions>
+								{isNextPuzzlePrimary ? (
+									<>
+										{showNextPuzzle && (
+											<Button variant="primary" size="md" onClick={onNextPuzzle}>
+												{resolvedNextPuzzle}
+											</Button>
+										)}
+										{showPlayAgain && (
+											<Button variant="secondary" size="md" onClick={onPlayAgain}>
+												{resolvedPlayAgain}
+											</Button>
+										)}
+									</>
+								) : (
+									<>
+										{showPlayAgain && (
+											<Button variant="primary" size="md" onClick={onPlayAgain}>
+												{resolvedPlayAgain}
+											</Button>
+										)}
+										{showNextPuzzle && (
+											<Button variant="secondary" size="md" onClick={onNextPuzzle}>
+												{resolvedNextPuzzle}
+											</Button>
+										)}
+									</>
+								)}
+							</S.SplitActions>
 						)}
 
-						{showSplitActions && (
-							<S.SplitActions>
-								{onPlayAgain && (
-									<Button
-										variant={hasNextPuzzle && onNextPuzzle ? 'secondary' : 'primary'}
-										size="md"
-										onClick={onPlayAgain}
-									>
-										{resolvedPlayAgain}
-									</Button>
-								)}
-
-								{lobbyHref ? (
-									<Button as="a" href={lobbyHref} variant="secondary" size="md">
-										{resolvedLobby}
-									</Button>
-								) : onLobby ? (
-									<Button variant="secondary" size="md" onClick={onLobby}>
-										{resolvedLobby}
-									</Button>
-								) : null}
-							</S.SplitActions>
+						{hasFooterLinks && (
+							<>
+								<Divider />
+								<S.FooterLinks>
+									{statsHref && (
+										<Button as="a" href={statsHref} variant="ghost" size="sm">
+											{resolvedStatsLabel}
+										</Button>
+									)}
+									{medalsHref && (
+										<Button as="a" href={medalsHref} variant="ghost" size="sm">
+											{resolvedMedalsLabel}
+										</Button>
+									)}
+									{lobbyHref ? (
+										<Button as="a" href={lobbyHref} variant="ghost" size="sm">
+											{resolvedLobby}
+										</Button>
+									) : onLobby ? (
+										<Button variant="ghost" size="sm" onClick={onLobby}>
+											{resolvedLobby}
+										</Button>
+									) : null}
+								</S.FooterLinks>
+							</>
 						)}
 
 						{secondaryActions && <S.SecondaryActions>{secondaryActions}</S.SecondaryActions>}

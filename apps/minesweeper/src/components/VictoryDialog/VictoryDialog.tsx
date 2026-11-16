@@ -16,8 +16,8 @@ export interface VictoryDialogProps {
 export function VictoryDialog({
 	isOpen,
 	elapsedSeconds,
-	size,
-	difficulty,
+	size: _size,
+	difficulty: _difficulty,
 	rankPosition,
 	onPlayAgain,
 	onClose,
@@ -45,15 +45,10 @@ export function VictoryDialog({
 			bestTimeText={rankText}
 			onPlayAgain={onPlayAgain}
 			playAgainLabel={t('victory.playAgain')}
+			statsHref={`/minesweeper/${language}/stats`}
+			medalsHref={`/minesweeper/${language}/medals`}
 			lobbyHref={`/minesweeper/${language}/`}
-			lobbyLabel={t('controls.newGame')}
-			secondaryActions={
-				<a
-					href={`/minesweeper/${language}/high-scores?size=${size}&difficulty=${difficulty}&highlight=${rankPosition}`}
-				>
-					{t('victory.viewHighScores')}
-				</a>
-			}
+			lobbyLabel={t('controls.backToLobby')}
 		/>
 	);
 }

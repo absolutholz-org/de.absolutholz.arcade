@@ -15,7 +15,6 @@ export function VictoryDialog({
 	difficulty,
 }: VictoryDialogProps): JSX.Element {
 	const { t, language } = useI18n('tents');
-	const { t: tCommon } = useI18n('common');
 
 	const lobbyHref = difficulty ? `/tents/${language}/?difficulty=${difficulty}` : `/tents/${language}/`;
 
@@ -36,9 +35,10 @@ export function VictoryDialog({
 			nextPuzzleLabel={t('victory.nextLevel')}
 			onPlayAgain={onPlayAgain}
 			playAgainLabel={t('victory.playAgain')}
+			statsHref={`/tents/${language}/stats`}
+			medalsHref={`/tents/${language}/medals`}
 			lobbyHref={lobbyHref}
 			lobbyLabel={t('controls.backToLobby')}
-			secondaryActions={<a href={`/tents/${language}/medals`}>🏅 {tCommon('navigation.medals')}</a>}
 		/>
 	);
 }

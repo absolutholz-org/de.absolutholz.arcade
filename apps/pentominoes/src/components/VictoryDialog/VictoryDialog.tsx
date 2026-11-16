@@ -15,7 +15,6 @@ export function VictoryDialog({
 	difficulty,
 }: VictoryDialogProps): JSX.Element {
 	const { t, language } = useI18n('pentominoes');
-	const { t: tCommon } = useI18n('common');
 
 	const lobbyHref = difficulty ? `/pentominoes/${language}/?difficulty=${difficulty}` : `/pentominoes/${language}/`;
 
@@ -36,14 +35,10 @@ export function VictoryDialog({
 			nextPuzzleLabel={t('victory.nextPuzzle')}
 			onPlayAgain={onPlayAgain}
 			playAgainLabel={t('victory.playAgain')}
+			statsHref={`/pentominoes/${language}/stats`}
+			medalsHref={`/pentominoes/${language}/medals`}
 			lobbyHref={lobbyHref}
 			lobbyLabel={t('controls.backToLobby')}
-			secondaryActions={
-				<>
-					<a href={`/pentominoes/${language}/stats`}>{tCommon('stats.title')}</a>
-					<a href={`/pentominoes/${language}/medals`}>🏅 {tCommon('navigation.medals')}</a>
-				</>
-			}
 		/>
 	);
 }

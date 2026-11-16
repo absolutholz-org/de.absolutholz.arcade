@@ -16,7 +16,6 @@ export function VictoryDialog({
 	onClose,
 }: VictoryDialogProps): JSX.Element {
 	const { t, language } = useI18n('anagram');
-	const { t: tCommon } = useI18n('common');
 
 	return (
 		<SharedVictoryDialog
@@ -33,9 +32,10 @@ export function VictoryDialog({
 			]}
 			onPlayAgain={onPlayAgain}
 			playAgainLabel={t('controls.newRound')}
+			statsHref={`/anagram/${language}/stats`}
+			medalsHref={`/anagram/${language}/medals`}
 			lobbyHref={`/anagram/${language}/?difficulty=${difficulty}&mode=${mode}`}
 			lobbyLabel={t('navigation.lobby')}
-			secondaryActions={<a href={`/anagram/${language}/medals`}>🏅 {tCommon('navigation.medals')}</a>}
 		/>
 	);
 }
