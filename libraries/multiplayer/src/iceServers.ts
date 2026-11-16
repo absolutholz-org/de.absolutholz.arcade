@@ -29,22 +29,22 @@ export function getIceServers(): RTCIceServer[] {
 		const credential = env.VITE_METERED_CREDENTIAL ?? '';
 		servers.push(
 			{
-				urls: 'turn:global.relay.metered.ca:80',
+				urls: 'turn:eu.relay.metered.ca:80',
 				username,
 				credential,
 			},
 			{
-				urls: 'turn:global.relay.metered.ca:80?transport=tcp',
+				urls: 'turn:eu.relay.metered.ca:80?transport=tcp',
 				username,
 				credential,
 			},
 			{
-				urls: 'turn:global.relay.metered.ca:443',
+				urls: 'turn:eu.relay.metered.ca:443',
 				username,
 				credential,
 			},
 			{
-				urls: 'turns:global.relay.metered.ca:443?transport=tcp',
+				urls: 'turns:eu.relay.metered.ca:443?transport=tcp',
 				username,
 				credential,
 			},

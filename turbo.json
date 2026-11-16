@@ -10,5 +10,5 @@
 			"outputs": ["storybook-static/**"]
 		}
 	},
-	"globalEnv": ["PUBLIC_FIREBASE_*"]
+	"globalEnv": ["PUBLIC_FIREBASE_*", "VITE_METERED_*"]
 }
