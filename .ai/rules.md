@@ -122,6 +122,10 @@ To maintain a consistent, accessible landmark structure, prevent spatial contain
 - **Game Lobbies (`apps/[game]/src/pages/[lang]/index.astro`)**: Must use `BaseLayoutWithSiteHeaderAndSiteFooter`; serves as the game's root lobby navigation landmark and must **NEVER** render breadcrumbs.
 - **Static Content & Informational Subpages (`rules.astro`, `settings.astro`, `stats.astro`, `medals.astro`, `[slug].astro`)**: Must consume `BaseLayoutWithSiteHeaderAndSiteFooter.astro` (or `MarkdownPageTemplate.astro` for `rules.astro`). Content is placed inside the unconstrained `<main id="main-content">` wrapped in the appropriate `<PageContainer>` variant (`slim`, `standard`, `wide`) at the template/page level.
 - **Breadcrumb Root Label**: When rendering `<Breadcrumb>`, the root home item (`isHome: true`) must use `${currentCommon.app.shortTitle} ${currentCommon.navigation.home}` (e.g., `"Arcade home"`)—never `currentCommon.app.title`.
+- **Games vs. Tools URL & Breadcrumb Hierarchy**:
+  - **Games** remain direct children of the project root (`/<gameId>`, e.g. `/sudoku` with `base: '/sudoku'`).
+  - **Tools** must always live under `/tools/<toolId>` (in `TOOL_REGISTRY`, `apps/hub/src/pages/[lang]/tools/<toolId>.astro`, `apps/hub/src/pages/tools/<toolId>.astro`, and `base: '/tools/<toolId>'` for standalone tool apps).
+  - **Tool Breadcrumbs**: Every tool page must include the `/[lang]/tools` index item in its `<Breadcrumb>` trail (`Arcade home / Tools / <Tool Title>`), and the `/[lang]/tools` index page renders `Arcade home / Tools`.
 - **Standard 6-Route Game Shell & Subsystem Contracts (ADR 0008)**: Every game package (`apps/[gameId]`) must implement `src/pages/index.astro` (language redirect) plus 6 canonical localized routes under `src/pages/[lang]/`:
   1. `index.astro` (Lobby / Landing)
   2. `game.astro` (Gameplay playfield + in-game overlays, projecting `<MarkdownContent slot="rulesContent">` and `<GameSettingsPanel mode="compact" />`)

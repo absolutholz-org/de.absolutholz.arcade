@@ -1,0 +1,70 @@
+---
+import { ALL_TOOLS } from '@arcade/lib-games';
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { Breadcrumb } from '@arcade/lib-ui/components/Breadcrumb';
+import { GameCard } from '@arcade/lib-ui/components/GameCard';
+import { GamesGrid } from '@arcade/lib-ui/components/GamesGrid';
+import { Hero } from '@arcade/lib-ui/components/Hero';
+import { PageContainer } from '@arcade/lib-ui/components/PageContainer';
+import BaseLayoutWithSiteHeaderAndSiteFooter from '@arcade/lib-ui/layouts/BaseLayoutWithSiteHeaderAndSiteFooter/BaseLayoutWithSiteHeaderAndSiteFooter.astro';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const currentLanguage = lang as SupportedLanguageCode;
+const currentCommon = resources[currentLanguage]?.common ?? resources.en.common;
+const homeText = `${currentCommon.app.shortTitle} ${currentCommon.navigation.home}`;
+const canonical = `https://arcade.absolutholz.de/${currentLanguage}/tools`;
+---
+
+<BaseLayoutWithSiteHeaderAndSiteFooter
+	titleOptions={{
+		subject: currentCommon.navigation.tools,
+	}}
+	description={currentCommon.hub.toolsDescription}
+	lang={currentLanguage}
+	canonical={canonical}
+	currentSlug="tools"
+>
+	<Fragment slot="head">
+		<meta property="og:url" content={canonical} />
+	</Fragment>
+	<PageContainer variant="standard">
+		<Breadcrumb
+			items={[
+				{ label: homeText, href: `/${currentLanguage}/`, isHome: true },
+				{ label: currentCommon.navigation.tools, isCurrent: true },
+			]}
+			client:load
+		/>
+		<Hero
+			title={currentCommon.hub.toolsTitle}
+			tagline={currentCommon.hub.toolsDescription}
+		/>
+		<section aria-label={currentCommon.navigation.tools}>
+			<GamesGrid as="ul" role="list">
+				{
+					ALL_TOOLS.map((tool) => {
+						const toolTranslation = currentCommon.tools?.[tool.id];
+						return (
+							<li>
+								<GameCard
+									href={`/${currentLanguage}${tool.route}`}
+									title={toolTranslation?.title ?? tool.name}
+									description={toolTranslation?.description}
+									icon={tool.assets.icon}
+								/>
+							</li>
+						);
+					})
+				}
+			</GamesGrid>
+		</section>
+	</PageContainer>
+</BaseLayoutWithSiteHeaderAndSiteFooter>

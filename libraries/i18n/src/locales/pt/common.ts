@@ -144,6 +144,7 @@ export const ptCommon = {
 	navigation: {
 		home: 'Início',
 		categories: 'Categorias',
+		tools: 'Ferramentas',
 		games: 'Jogos',
 		catalog: 'Catálogo',
 		about: 'Sobre',
@@ -169,6 +170,7 @@ export const ptCommon = {
 		allCategories: 'Todos',
 		emptyCategoryMessage: 'Nenhum jogo encontrado nesta categoria.',
 		categoriesDescription: 'Explore todos os jogos do absolutholz Arcade organizados por gênero e estilo de jogo.',
+		toolsDescription: 'Utilitários práticos e ferramentas de apoio para jogos de tabuleiro e decisões rápidas.',
 	},
 	tools: {
 		dice: {

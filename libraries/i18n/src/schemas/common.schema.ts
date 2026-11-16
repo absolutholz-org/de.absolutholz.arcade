@@ -133,6 +133,7 @@ export const commonSchema = {
 	navigation: {
 		home: 'navigation.home',
 		categories: 'navigation.categories',
+		tools: 'navigation.tools',
 		games: 'navigation.games',
 		catalog: 'navigation.catalog',
 		about: 'navigation.about',
@@ -158,6 +159,7 @@ export const commonSchema = {
 		allCategories: 'hub.allCategories',
 		emptyCategoryMessage: 'hub.emptyCategoryMessage',
 		categoriesDescription: 'hub.categoriesDescription',
+		toolsDescription: 'hub.toolsDescription',
 	},
 	tools: {
 		dice: {

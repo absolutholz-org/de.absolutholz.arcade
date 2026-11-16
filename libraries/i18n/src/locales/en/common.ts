@@ -146,6 +146,7 @@ export const enCommon = {
 	navigation: {
 		home: 'Home',
 		categories: 'Categories',
+		tools: 'Tools',
 		games: 'Games',
 		catalog: 'Catalog',
 		about: 'About',
@@ -171,6 +172,7 @@ export const enCommon = {
 		allCategories: 'All',
 		emptyCategoryMessage: 'No games found in this category.',
 		categoriesDescription: 'Browse absolutholz Arcade games grouped by genre and play style.',
+		toolsDescription: 'Practical tabletop utilities and companion tools for board games and quick decisions.',
 	},
 	tools: {
 		dice: {

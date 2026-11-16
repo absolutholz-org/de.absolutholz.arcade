@@ -146,6 +146,7 @@ export const deCommon = {
 	navigation: {
 		home: 'Startseite',
 		categories: 'Kategorien',
+		tools: 'Werkzeuge',
 		games: 'Spiele',
 		catalog: 'Katalog',
 		about: 'Über uns',
@@ -172,6 +173,8 @@ export const deCommon = {
 		emptyCategoryMessage: 'Keine Spiele in dieser Kategorie gefunden.',
 		categoriesDescription:
 			'Entdecke alle absolutholz Arcade-Spiele übersichtlich sortiert nach Genre und Spielprinzip.',
+		toolsDescription:
+			'Praktische Tischspiel-Helfer und nützliche Werkzeuge für Brettspiele und schnelle Entscheidungen.',
 	},
 	tools: {
 		dice: {

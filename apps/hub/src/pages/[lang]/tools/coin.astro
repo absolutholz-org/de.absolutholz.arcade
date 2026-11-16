@@ -24,6 +24,7 @@ const homeText = `${currentCommon.app.shortTitle} ${currentCommon.navigation.hom
 <BaseLayoutWithSiteHeaderAndSiteFooter
 	titleOptions={{
 		subject: currentTool.title,
+		scope: currentCommon.navigation.tools,
 	}}
 	description={currentTool.description}
 	lang={currentLanguage}
@@ -33,6 +34,7 @@ const homeText = `${currentCommon.app.shortTitle} ${currentCommon.navigation.hom
 		<Breadcrumb
 			items={[
 				{ label: homeText, href: `/${currentLanguage}/`, isHome: true },
+				{ label: currentCommon.navigation.tools, href: `/${currentLanguage}/tools` },
 				{ label: currentTool.title, isCurrent: true },
 			]}
 			client:load
