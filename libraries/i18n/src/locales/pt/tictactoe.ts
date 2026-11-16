@@ -51,7 +51,7 @@ export const ptTicTacToe: TicTacToeTranslationContract = {
 		reconnect: 'Religar',
 		unavailableIdError: 'Este código de sala já está em utilização. Por favor, tente outro.',
 		yourTurn: 'A Sua Vez ({{mark}})',
-		opponentTurn: 'A aguardar {{name}} ({{mark}})...',
+		opponentTurn: 'Vez de {{name}} ({{mark}})',
 	},
 	game: {
 		turn: 'Vez de {{name}} ({{mark}})',

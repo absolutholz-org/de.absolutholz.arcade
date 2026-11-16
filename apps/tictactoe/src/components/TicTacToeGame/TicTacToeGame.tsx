@@ -565,8 +565,8 @@ function GameInner({
 						/>
 					)}
 
-					<GameStatusStrip statusText={statusText} statusState={statusState} hideTimer>
-						<Stack direction="row" spacing="md" align="center" justify="center" inline fullWidth={false}>
+					<Stack direction="column" spacing="xs" align="center">
+						<Stack direction="row" spacing="sm" align="center" justify="center" wrap>
 							<Badge
 								variant={
 									!activeState.isComplete && activeState.currentTurn === 'X' ? 'accent' : 'outline'
@@ -587,23 +587,15 @@ function GameInner({
 								{activeState.player2Name} (O)
 							</Badge>
 
-							{isOnlineMode && (
-								<Badge variant={isOpponentConnected ? 'success' : 'neutral'} size="sm">
-									{isOpponentConnected
-										? t('online.connected')
-										: role === 'host' && hostSession.status === 'waiting'
-											? t('online.waitingForOpponent')
-											: t('online.disconnected')}
-								</Badge>
-							)}
-
 							{isOnlineMode && role === 'guest' && guestSession.status === 'disconnected' && (
 								<Button variant="outline" size="sm" type="button" onClick={guestSession.reconnect}>
 									{t('online.reconnect')}
 								</Button>
 							)}
 						</Stack>
-					</GameStatusStrip>
+
+						<GameStatusStrip statusText={statusText} statusState={statusState} hideTimer />
+					</Stack>
 				</Stack>
 			}
 			toolbar={

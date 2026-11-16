@@ -51,7 +51,7 @@ export const deTicTacToe: TicTacToeTranslationContract = {
 		reconnect: 'Neu verbinden',
 		unavailableIdError: 'Dieser Raumcode wird bereits verwendet. Bitte versuche einen anderen Code.',
 		yourTurn: 'Du bist am Zug ({{mark}})',
-		opponentTurn: 'Warte auf {{name}} ({{mark}})...',
+		opponentTurn: '{{name}} ist am Zug ({{mark}})',
 	},
 	game: {
 		turn: '{{name}} ist am Zug ({{mark}})',

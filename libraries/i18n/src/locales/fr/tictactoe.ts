@@ -51,7 +51,7 @@ export const frTicTacToe: TicTacToeTranslationContract = {
 		reconnect: 'Reconnecter',
 		unavailableIdError: 'Ce code de salon est déjà utilisé. Veuillez en essayer un autre.',
 		yourTurn: 'À votre tour ({{mark}})',
-		opponentTurn: 'En attente de {{name}} ({{mark}})...',
+		opponentTurn: 'Au tour de {{name}} ({{mark}})',
 	},
 	game: {
 		turn: 'Tour de {{name}} ({{mark}})',

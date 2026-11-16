@@ -51,7 +51,7 @@ export const enTicTacToe: TicTacToeTranslationContract = {
 		reconnect: 'Reconnect',
 		unavailableIdError: 'This room code is already in use. Please try another room code.',
 		yourTurn: 'Your Turn ({{mark}})',
-		opponentTurn: 'Waiting for {{name}} ({{mark}})...',
+		opponentTurn: "{{name}}'s Turn ({{mark}})",
 	},
 	game: {
 		turn: "{{name}}'s Turn ({{mark}})",
