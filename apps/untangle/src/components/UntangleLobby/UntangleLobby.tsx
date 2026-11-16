@@ -121,15 +121,7 @@ function LobbyContent(): JSX.Element {
 									void saveLastConfig({ difficulty: diff });
 								}}
 								title={t(`difficulty.${diff}`)}
-								subtitle={solvedCount > 0 ? `${t('levels.completed')}: ${solvedCount}` : undefined}
-								badge={
-									solvedCount > 0
-										? {
-												label: t('levels.completed'),
-												variant: 'success',
-											}
-										: undefined
-								}
+								metadata={solvedCount > 0 ? [`${t('levels.completed')}: ${solvedCount}`] : undefined}
 							/>
 						);
 					})}

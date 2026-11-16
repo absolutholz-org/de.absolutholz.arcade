@@ -22,7 +22,6 @@ import {
 	loadLastConfig,
 	saveLastConfig,
 } from '../../engine';
-import { DifficultyGraphic } from '../Graphics';
 import * as S from './MinesweeperLobby.styles';
 
 export interface MinesweeperLobbyProps {
@@ -93,19 +92,11 @@ function LobbyContent(): JSX.Element {
 		saveLastConfig({ size, difficulty: selectedDifficulty });
 	};
 
-	const handleStartGame = (difficulty: DifficultyId) => {
-		setSelectedDifficulty(difficulty);
-		saveLastConfig({ size: selectedSize, difficulty });
-		if (typeof window !== 'undefined') {
-			window.location.href = `/minesweeper/${language}/game?size=${selectedSize}&difficulty=${difficulty}&new=true`;
-		}
-	};
-
 	const resumeState = activeGame
 		? {
 				message: `${t(`size.${activeGame.size}`)} • ${t(`difficulty.${activeGame.difficulty}`)} • ${formatTime(activeGame.elapsedSeconds)}`,
 				onResume: () => {
-					window.location.href = `/minesweeper/${language}/game?resume=true`;
+					window.location.href = `/minesweeper/${language}/game?size=${activeGame.size}&difficulty=${activeGame.difficulty}&resume=true`;
 				},
 				buttonLabel: t('controls.resume'),
 			}
@@ -153,19 +144,21 @@ function LobbyContent(): JSX.Element {
 						return (
 							<GameSelectionCard
 								key={diffConfig.id}
+								as="a"
+								href={`/minesweeper/${language}/game?size=${selectedSize}&difficulty=${diffConfig.id}&new=true`}
+								onClick={() => {
+									setSelectedDifficulty(diffConfig.id);
+									void saveLastConfig({ size: selectedSize, difficulty: diffConfig.id });
+								}}
 								title={t(`difficulty.${diffConfig.id}`)}
-								subtitle={t(`difficulty.${diffConfig.id}Desc`)}
-								badge={
+								metadata={
 									bestScore
-										? {
-												label: `${t('status.bestTime')}: ${formatTime(bestScore.seconds)}`,
-												variant: 'accent',
-											}
+										? [`${t('status.bestTime')}: ${formatTime(bestScore.seconds)}`]
 										: undefined
 								}
-								preview={<DifficultyGraphic difficulty={diffConfig.id} />}
-								onClick={() => handleStartGame(diffConfig.id)}
-							/>
+							>
+								{t(`difficulty.${diffConfig.id}Desc`)}
+							</GameSelectionCard>
 						);
 					})}
 				</S.DifficultyGrid>

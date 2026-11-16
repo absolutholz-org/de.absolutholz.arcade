@@ -24,7 +24,7 @@ const SectionDiv = styled.section`
 
 const PuzzlesGrid = styled.div`
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+	grid-template-columns: repeat(auto-fit, minmax(min(18rem, 100%), 1fr));
 	gap: 1rem;
 `;
 
@@ -125,15 +125,7 @@ function LobbyContent(): JSX.Element {
 									});
 								}}
 								title={t(`difficulty.${diff}` as 'difficulty.easy')}
-								subtitle={solvedCount > 0 ? `${t('lobby.completed')}: ${solvedCount}` : undefined}
-								badge={
-									solvedCount > 0
-										? {
-												label: t('lobby.completed'),
-												variant: 'success',
-											}
-										: undefined
-								}
+								metadata={solvedCount > 0 ? [`${t('lobby.completed')}: ${solvedCount}`] : undefined}
 							/>
 						);
 					})}

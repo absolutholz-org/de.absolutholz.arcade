@@ -4,8 +4,8 @@ import { GameSelectionCard } from '.';
 import { render } from '../../test-utils';
 
 describe('GameSelectionCard', () => {
-	it('renders title and subtitle', () => {
-		const { container, unmount } = render(<GameSelectionCard title="Puzzle 42" subtitle="Easy Pack" />);
+	it('renders title and children', () => {
+		const { container, unmount } = render(<GameSelectionCard title="Puzzle 42">Easy Pack</GameSelectionCard>);
 
 		expect(container.textContent).toContain('Puzzle 42');
 		expect(container.textContent).toContain('Easy Pack');
@@ -13,17 +13,32 @@ describe('GameSelectionCard', () => {
 		unmount();
 	});
 
-	it('renders optional badge and preview slots', () => {
+	it('renders metadata items with unified separator and skips falsy entries', () => {
 		const { container, unmount } = render(
-			<GameSelectionCard
-				title="Heart"
-				badge={{ label: 'Completed', variant: 'success' }}
-				preview={<div data-testid="preview-artwork">Preview Artwork</div>}
-			/>,
+			<GameSelectionCard title="Heart" metadata={['Completed', false, null, 'Best: 00:12']}>
+				<div data-testid="preview-artwork">Preview Artwork</div>
+			</GameSelectionCard>,
 		);
 
 		expect(container.textContent).toContain('Completed');
+		expect(container.textContent).toContain('•');
+		expect(container.textContent).toContain('Best: 00:12');
 		expect(container.querySelector('[data-testid="preview-artwork"]')).not.toBeNull();
+
+		unmount();
+	});
+
+	it('preserves ClickableCard attributes when rendered as an anchor', () => {
+		const { container, unmount } = render(
+			<GameSelectionCard as="a" href="/sudoku/en/game" title="Easy">
+				Description
+			</GameSelectionCard>,
+		);
+
+		const anchor = container.querySelector('a');
+		expect(anchor).not.toBeNull();
+		expect(anchor?.getAttribute('href')).toBe('/sudoku/en/game');
+		expect(anchor?.getAttribute('data-density')).toBe('normal');
 
 		unmount();
 	});

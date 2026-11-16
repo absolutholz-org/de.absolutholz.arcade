@@ -143,16 +143,14 @@ function LobbyContent({ initialDifficulty }: { initialDifficulty?: DifficultyLev
 									void saveLastConfig({ difficulty: diff });
 								}}
 								title={t(`difficulty.${diff}` as Parameters<typeof t>[0])}
-								subtitle={t(`difficulty.${diff}Desc` as Parameters<typeof t>[0])}
-								badge={
+								metadata={
 									solvedCount > 0
-										? {
-												label: `${solvedCount}/${diffPresets.length} ${t('levels.completed')}`,
-												variant: solvedCount === diffPresets.length ? 'success' : 'neutral',
-											}
+										? [`${solvedCount}/${diffPresets.length} ${t('levels.completed')}`]
 										: undefined
 								}
-							/>
+							>
+								{t(`difficulty.${diff}Desc` as Parameters<typeof t>[0])}
+							</GameSelectionCard>
 						);
 					})}
 				</S.QuickPlayGrid>
@@ -178,11 +176,6 @@ function LobbyContent({ initialDifficulty }: { initialDifficulty?: DifficultyLev
 									progress[`${selectedDifficulty}-${preset.level}`] ?? progress[preset.id];
 								const isCompleted = Boolean(puzzleRecord?.completed);
 
-								const subtitle =
-									puzzleRecord?.bestTime !== undefined
-										? t('levels.bestTime', { time: formatTime(puzzleRecord.bestTime) })
-										: undefined;
-
 								return (
 									<GameSelectionCard
 										key={preset.id}
@@ -192,15 +185,11 @@ function LobbyContent({ initialDifficulty }: { initialDifficulty?: DifficultyLev
 											void saveLastConfig({ difficulty: selectedDifficulty });
 										}}
 										title={t('levels.puzzleNum', { number: String(preset.level) })}
-										subtitle={subtitle}
-										badge={
-											isCompleted
-												? {
-														label: t('levels.completed'),
-														variant: 'success',
-													}
-												: undefined
-										}
+										metadata={[
+											isCompleted && t('levels.completed'),
+											puzzleRecord?.bestTime !== undefined &&
+												t('levels.bestTime', { time: formatTime(puzzleRecord.bestTime) }),
+										]}
 									/>
 								);
 							})}

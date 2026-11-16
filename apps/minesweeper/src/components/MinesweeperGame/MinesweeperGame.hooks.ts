@@ -169,6 +169,8 @@ export function useMinesweeperGame(initialSize: BoardSizeId = 'md', initialDiffi
 
 			let targetSize = initialSize;
 			let targetDiff = initialDifficulty;
+			let hasUrlSize = false;
+			let hasUrlDiff = false;
 
 			if (typeof window !== 'undefined') {
 				const params = new URLSearchParams(window.location.search);
@@ -177,8 +179,14 @@ export function useMinesweeperGame(initialSize: BoardSizeId = 'md', initialDiffi
 				const isNew = params.get('new') === 'true';
 				const isResume = params.get('resume') === 'true';
 
-				if (querySize && BOARD_SIZES[querySize]) targetSize = querySize;
-				if (queryDiff && DIFFICULTIES[queryDiff]) targetDiff = queryDiff;
+				if (querySize && BOARD_SIZES[querySize]) {
+					targetSize = querySize;
+					hasUrlSize = true;
+				}
+				if (queryDiff && DIFFICULTIES[queryDiff]) {
+					targetDiff = queryDiff;
+					hasUrlDiff = true;
+				}
 
 				if (isResume || !isNew) {
 					const saved = await loadActiveGame();
@@ -202,8 +210,9 @@ export function useMinesweeperGame(initialSize: BoardSizeId = 'md', initialDiffi
 			}
 
 			const lastConfig = await loadLastConfig();
-			if (!targetSize && lastConfig?.size) targetSize = lastConfig.size;
-			if (!targetDiff && lastConfig?.difficulty) targetDiff = lastConfig.difficulty;
+			if (!hasUrlSize && lastConfig?.size && BOARD_SIZES[lastConfig.size]) targetSize = lastConfig.size;
+			if (!hasUrlDiff && lastConfig?.difficulty && DIFFICULTIES[lastConfig.difficulty])
+				targetDiff = lastConfig.difficulty;
 
 			setSize(targetSize);
 			setDifficulty(targetDiff);

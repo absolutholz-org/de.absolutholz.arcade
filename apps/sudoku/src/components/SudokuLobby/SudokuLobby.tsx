@@ -112,16 +112,14 @@ function LobbyContent(): JSX.Element {
 									void saveLastConfig({ difficulty: diff });
 								}}
 								title={t(`difficulty.${diff}`)}
-								subtitle={t(`difficulty.${diff}Desc` as 'difficulty.easyDesc')}
-								badge={
+								metadata={
 									solvedCount > 0
-										? {
-												label: `${solvedCount}/${puzzles.length} ${t('levels.completed')}`,
-												variant: solvedCount === puzzles.length ? 'success' : 'neutral',
-											}
+										? [`${solvedCount}/${puzzles.length} ${t('levels.completed')}`]
 										: undefined
 								}
-							/>
+							>
+								{t(`difficulty.${diff}Desc` as 'difficulty.easyDesc')}
+							</GameSelectionCard>
 						);
 					})}
 				</S.QuickPlayGrid>
@@ -155,19 +153,11 @@ function LobbyContent(): JSX.Element {
 											void saveLastConfig({ difficulty: selectedDifficulty });
 										}}
 										title={t('levels.puzzleNum', { number: String(puzzle.index) })}
-										subtitle={
-											puzzleRecord?.bestTime !== undefined
-												? t('levels.bestTime', { time: formatTime(puzzleRecord.bestTime) })
-												: undefined
-										}
-										badge={
-											isCompleted
-												? {
-														label: t('levels.completed'),
-														variant: 'success',
-													}
-												: undefined
-										}
+										metadata={[
+											isCompleted && t('levels.completed'),
+											puzzleRecord?.bestTime !== undefined &&
+												t('levels.bestTime', { time: formatTime(puzzleRecord.bestTime) }),
+										]}
 									/>
 								);
 							})}

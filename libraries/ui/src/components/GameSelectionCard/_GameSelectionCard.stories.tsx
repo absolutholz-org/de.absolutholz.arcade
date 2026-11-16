@@ -8,15 +8,15 @@ const meta = {
 		docs: {
 			description: {
 				component:
-					'GameSelectionCard is the standard direct-launch card for deterministic puzzle presets and campaign levels.',
+					'GameSelectionCard is the standard direct-launch card for deterministic puzzle presets and difficulty levels.',
 			},
 		},
 	},
 	tags: ['autodocs'],
 	title: 'Templates/Game Landing Template/GameSelectionCard',
 	args: {
-		title: 'Puzzle 1',
-		subtitle: 'Standard Level',
+		title: 'Easy',
+		children: 'Gentle starting board with plenty of initial clues',
 	},
 } satisfies Meta<typeof GameSelectionCard>;
 
@@ -27,45 +27,40 @@ export const Default: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Standard preset level without badge or preview.',
+				story: 'Standard level card with title and open content.',
 			},
 		},
 	},
 };
 
-export const CompletedLevel: Story = {
+export const WithMetadata: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Completed puzzle showing a success status badge.',
+				story: 'Level card displaying brief statistics in the metadata footer with a unified separator.',
 			},
 		},
 	},
 	args: {
-		title: 'Heart Pattern',
-		subtitle: '15% mines',
-		badge: {
-			label: 'Completed',
-			variant: 'success',
-		},
+		title: 'Easy',
+		children: 'Gentle starting board with plenty of initial clues',
+		metadata: ['2/6 Completed', 'Best: 01:24'],
 	},
 };
 
-export const WithPreviewSlot: Story = {
+export const AsAnchorLink: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: 'Card displaying a visual preview slot for level thumbnail or piece artwork.',
+				story: 'Card rendered polymorphically as an anchor element (`as="a"`).',
 			},
 		},
 	},
 	args: {
+		as: 'a',
+		href: '#puzzle-1',
 		title: 'Temple of Bridges',
-		subtitle: '2 Islands',
-		badge: {
-			label: 'Best: 00:48',
-			variant: 'neutral',
-		},
-		preview: <span style={{ fontSize: '2rem' }}>🌉</span>,
+		children: <div style={{ fontSize: '2rem', paddingBlock: '0.5rem' }}>🌉</div>,
+		metadata: ['Completed', 'Best: 00:48'],
 	},
 };

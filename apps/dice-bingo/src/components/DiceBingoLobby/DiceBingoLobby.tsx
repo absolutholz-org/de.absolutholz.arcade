@@ -26,7 +26,7 @@ const SectionDiv = styled.section`
 
 const PuzzlesGrid = styled.div`
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+	grid-template-columns: repeat(auto-fit, minmax(min(18rem, 100%), 1fr));
 	gap: 1rem;
 `;
 
@@ -112,9 +112,10 @@ function LobbyContent(): JSX.Element {
 								as="a"
 								href={`/dice-bingo/${language}/game?difficulty=${diff}&new=true`}
 								title={t(`difficulty.${diff}` as 'difficulty.easy')}
-								subtitle={getDifficultyDescription(diff)}
-								badge={count > 0 ? { label: `${count} ${t('lobby.completed')}` } : undefined}
-							/>
+								metadata={count > 0 ? [`${count} ${t('lobby.completed')}`] : undefined}
+							>
+								{getDifficultyDescription(diff)}
+							</GameSelectionCard>
 						);
 					})}
 				</PuzzlesGrid>

@@ -198,18 +198,14 @@ function LobbyContent(): JSX.Element {
 									void saveLastConfig({ vocab: vocabLanguage, mode: selectedMode, difficulty: diff });
 								}}
 								title={t(`difficulty.${diff}`)}
-								subtitle={t(`difficulty.${diff}Desc`)}
-								badge={
+								metadata={
 									record?.completed
-										? {
-												label: record.mastered
-													? t('victory.masteredTitle')
-													: t('victory.title'),
-												variant: 'success',
-											}
+										? [record.mastered ? t('victory.masteredTitle') : t('victory.title')]
 										: undefined
 								}
-							/>
+							>
+								{t(`difficulty.${diff}Desc`)}
+							</GameSelectionCard>
 						);
 					})}
 				</S.CardsGrid>

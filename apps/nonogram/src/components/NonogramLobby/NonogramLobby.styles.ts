@@ -16,7 +16,7 @@ export const PuzzlesSection = styled.section`
 
 export const PuzzlesGrid = styled.div`
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+	grid-template-columns: repeat(auto-fill, minmax(min(13rem, 100%), 1fr));
 	gap: 1rem;
 `;
 

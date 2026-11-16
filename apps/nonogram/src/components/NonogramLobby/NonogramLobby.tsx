@@ -144,31 +144,22 @@ function LobbyContent(): JSX.Element {
 									saveLastConfig({ difficulty: selectedDifficulty, puzzleId: puz.id });
 								}}
 								title={t(puz.titleKey as TranslationKey)}
-								subtitle={
-									record?.bestTime !== undefined
-										? t('lobby.bestTime', { time: formatTime(record.bestTime) })
-										: undefined
-								}
-								badge={
-									isSolved
-										? {
-												label: t('lobby.completed'),
-												variant: 'success',
-											}
-										: undefined
-								}
-								preview={
-									<S.MiniThumbnail style={thumbVars} data-unsolved={!isSolved} aria-hidden="true">
-										{isSolved ? (
-											puz.grid.map((val, idx) => (
-												<div key={`thumb-${puz.id}-${idx}`} data-filled={val === 1} />
-											))
-										) : (
-											<PuzzleIcon />
-										)}
-									</S.MiniThumbnail>
-								}
-							/>
+								metadata={[
+									isSolved && t('lobby.completed'),
+									record?.bestTime !== undefined &&
+										t('lobby.bestTime', { time: formatTime(record.bestTime) }),
+								]}
+							>
+								<S.MiniThumbnail style={thumbVars} data-unsolved={!isSolved} aria-hidden="true">
+									{isSolved ? (
+										puz.grid.map((val, idx) => (
+											<div key={`thumb-${puz.id}-${idx}`} data-filled={val === 1} />
+										))
+									) : (
+										<PuzzleIcon />
+									)}
+								</S.MiniThumbnail>
+							</GameSelectionCard>
 						);
 					})}
 				</S.PuzzlesGrid>

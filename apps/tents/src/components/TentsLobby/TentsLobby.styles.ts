@@ -16,7 +16,7 @@ export const Section = styled.section`
 
 export const QuickPlayGrid = styled.div`
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+	grid-template-columns: repeat(auto-fit, minmax(min(18rem, 100%), 1fr));
 	gap: 1rem;
 `;
 
@@ -32,6 +32,6 @@ export const ArchiveContent = styled.div`
 
 export const PuzzlesGrid = styled.div`
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+	grid-template-columns: repeat(auto-fill, minmax(min(13rem, 100%), 1fr));
 	gap: 1rem;
 `;

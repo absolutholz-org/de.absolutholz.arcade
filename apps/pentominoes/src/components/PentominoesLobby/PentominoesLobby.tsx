@@ -31,7 +31,7 @@ const PuzzlesSection = styled.section`
 
 const PuzzlesGrid = styled.div`
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+	grid-template-columns: repeat(auto-fill, minmax(min(14rem, 100%), 1fr));
 	gap: 1rem;
 `;
 
@@ -221,16 +221,10 @@ function LobbyContent(): JSX.Element {
 									});
 								}}
 								title={copy.title}
-								subtitle={copy.description}
-								badge={
-									isDone
-										? {
-												label: t('lobby.completed'),
-												variant: 'success',
-											}
-										: undefined
-								}
-							/>
+								metadata={isDone ? [t('lobby.completed')] : undefined}
+							>
+								{copy.description}
+							</GameSelectionCard>
 						);
 					})}
 				</PuzzlesGrid>

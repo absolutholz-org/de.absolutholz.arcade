@@ -1,31 +1,34 @@
-import { type ElementType, type ForwardedRef, forwardRef } from 'react';
-import { Badge } from '../Badge';
+import { type ElementType, type ForwardedRef, Fragment, forwardRef } from 'react';
 import { ClickableCard } from '../ClickableCard';
 import type { ClickableCardProps } from '../ClickableCard/_ClickableCard.types';
 import * as S from './_GameSelectionCard.styles';
 import type { GameSelectionCardProps } from './_GameSelectionCard.types';
 
 function GameSelectionCardInner<C extends ElementType = 'button'>(
-	{ title, subtitle, badge, preview, children, ...cardProps }: GameSelectionCardProps<C>,
+	{ title, metadata, children, className, ...cardProps }: GameSelectionCardProps<C>,
 	ref: ForwardedRef<HTMLElement>,
 ) {
+	const metadataItems =
+		metadata?.filter((item) => item !== null && item !== undefined && item !== false && item !== '') ?? [];
+
 	return (
-		<ClickableCard ref={ref} {...(cardProps as ClickableCardProps<C>)}>
-			{preview && <S.PreviewContainer>{preview}</S.PreviewContainer>}
-			<S.Header>
-				<S.Title>{title}</S.Title>
-				{badge && (
-					<Badge variant={badge.variant || 'neutral'} size="sm">
-						{badge.label}
-					</Badge>
-				)}
-			</S.Header>
-			{subtitle && (
+		<ClickableCard
+			ref={ref}
+			{...(cardProps as ClickableCardProps<C>)}
+			className={className ? `${S.card} ${className}` : S.card}
+		>
+			<S.Title>{title}</S.Title>
+			{children && <S.Content>{children}</S.Content>}
+			{metadataItems.length > 0 && (
 				<S.Metadata>
-					<span>{subtitle}</span>
+					{metadataItems.map((item, index) => (
+						<Fragment key={typeof item === 'string' || typeof item === 'number' ? item : `meta-${index}`}>
+							{index > 0 && <S.MetadataSeparator aria-hidden="true">•</S.MetadataSeparator>}
+							<span>{item}</span>
+						</Fragment>
+					))}
 				</S.Metadata>
 			)}
-			{children}
 		</ClickableCard>
 	);
 }

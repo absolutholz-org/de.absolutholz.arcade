@@ -54,12 +54,10 @@ export const ClickableCard = styled.button`
 	/* Density variants */
 	&[data-density='compact'] {
 		padding: 0.75rem 1rem;
-		gap: 0.5rem;
 	}
 
 	&[data-density='normal'] {
 		padding: 1.25rem 1.5rem;
-		gap: 0.75rem;
 	}
 
 	/* Interactive hover state */

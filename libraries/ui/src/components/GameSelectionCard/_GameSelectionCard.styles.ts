@@ -1,41 +1,34 @@
+import { css } from '@linaria/core';
 import { styled } from '@linaria/react';
-import { radiusScale } from '../../styles/radius/radius.constants';
+import { space } from '../../styles/spacing';
 import { themeColor } from '../../styles/theme/theme.utils';
+import { generateFontShorthand } from '../Text/_Text.functions';
 
-export const Header = styled.div`
-	display: flex;
-	align-items: flex-start;
-	justify-content: space-between;
-	flex-wrap: wrap;
-	gap: 0.375rem 0.5rem;
-	width: 100%;
+export const card = css`
+	display: block;
+	font: ${generateFontShorthand('base', 'regular')};
+	color: ${themeColor('text-2')};
 `;
 
 export const Title = styled.h3`
 	margin: 0;
-	font-size: 1.125rem;
-	font-weight: 600;
-	line-height: 1.3;
+	font: ${generateFontShorthand('h3', 'bold')};
 	color: ${themeColor('text-1')};
-	min-width: 0;
 `;
 
-export const Metadata = styled.div`
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	gap: 0.375rem 0.75rem;
-	font-size: 0.875rem;
+export const Content = styled.div`
+	margin-top: ${space('xs')};
+	font: ${generateFontShorthand('base', 'regular')};
 	color: ${themeColor('text-2')};
 `;
 
-export const PreviewContainer = styled.div`
-	width: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	border-radius: ${radiusScale.md};
-	background-color: ${themeColor('container-2')};
-	overflow: hidden;
-	aspect-ratio: 16 / 9;
+export const Metadata = styled.div`
+	margin-top: ${space('sm')};
+	font: ${generateFontShorthand('small', 'regular')};
+	color: ${themeColor('text-2')};
+`;
+
+export const MetadataSeparator = styled.span`
+	margin-inline: ${space('xs')};
+	opacity: 0.6;
 `;
