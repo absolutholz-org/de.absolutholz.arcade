@@ -13,7 +13,7 @@ import type { GameActionBarProps } from './_GameActionBar.types';
  * Standardized Game Action Bar rendering the unified game action cluster:
  * 1. Save Offline (state-aware caching action with download/check icon)
  * 2. Favorite (toggle button with outline/filled heart and aria-pressed)
- * 3. Share Game (triggers Web Share API with ShareDialog fallback)
+ * 3. Share Game (opens ShareDialog with QR code, native Web Share API, and copy link)
  *
  * Laid out horizontally using the shared Stack primitive with flex-wrap enabled.
  */
@@ -49,7 +49,7 @@ export function GameActionBar({
 	const resolvedSavedOffline = isSavedOffline !== undefined ? isSavedOffline : offlineHook.status === 'installed';
 	const isDownloading = offlineHook.status === 'downloading';
 
-	// Share Dialog fallback state
+	// Share Dialog state
 	const [isShareDialogOpen, setIsShareDialogOpen] = useState(false);
 	const relativeCanonicalUrl = gameId ? `/${currentLang}/games/${gameId}` : `/${currentLang}/`;
 	const [resolvedShareUrl, setResolvedShareUrl] = useState(shareUrl ?? relativeCanonicalUrl);
@@ -87,26 +87,11 @@ export function GameActionBar({
 	const shareDialogTitle = gameTitle ? `${t('share.share')}: ${gameTitle}` : t('share.shareGame');
 	const resolvedShareText = shareText ?? gameTitle ?? t('app.tagline');
 
-	const handleShare = async (e: MouseEvent<HTMLButtonElement>) => {
+	const handleShare = (e: MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 		if (onShare) {
 			void onShare();
 			return;
-		}
-
-		if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
-			try {
-				await navigator.share({
-					title: shareDialogTitle,
-					text: resolvedShareText,
-					url: resolvedShareUrl,
-				});
-				return;
-			} catch (err: unknown) {
-				if (err instanceof Error && err.name === 'AbortError') {
-					return;
-				}
-			}
 		}
 
 		setIsShareDialogOpen(true);
@@ -169,7 +154,7 @@ export function GameActionBar({
 				</Button>
 			</Stack>
 
-			{/* Contextual Web Share API Fallback Dialog */}
+			{/* Share Dialog */}
 			<ShareDialog
 				id={`share-dialog-${gameId ?? 'action-bar'}`}
 				isOpen={isShareDialogOpen}

@@ -12,8 +12,6 @@ export const ContentRoot = styled.div`
 	@media (min-width: 34rem) {
 		flex-direction: row;
 		align-items: stretch;
-		min-width: 30rem;
-		max-width: 32rem;
 		gap: 1.5rem;
 	}
 `;
@@ -58,6 +56,7 @@ export const ActionsContainer = styled.div`
 	justify-content: center;
 	gap: 0.75rem;
 	width: 100%;
+	min-width: 0;
 	flex: 1 1 auto;
 `;
 

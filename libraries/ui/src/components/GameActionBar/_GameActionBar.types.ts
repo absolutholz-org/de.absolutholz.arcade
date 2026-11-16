@@ -32,7 +32,7 @@ export interface GameActionBarProps {
 	onSaveOffline?: () => void | Promise<void>;
 	/**
 	 * Callback triggered when the Share Game button is clicked.
-	 * If omitted, invokes navigator.share when available, falling back to ShareDialog.
+	 * If omitted, opens ShareDialog (which provides QR code, native navigator.share, and copy link).
 	 */
 	onShare?: () => void | Promise<void>;
 	/**

@@ -159,7 +159,7 @@ describe('GameActionBar', () => {
 			utils?.unmount();
 		});
 
-		it('triggers navigator.share if available when onShare is not provided', async () => {
+		it('opens ShareDialog without immediately invoking navigator.share when onShare is not provided', async () => {
 			const shareMock = vi.fn().mockResolvedValue(undefined);
 			Object.defineProperty(navigator, 'share', {
 				value: shareMock,
@@ -177,6 +177,21 @@ describe('GameActionBar', () => {
 				shareBtn?.click();
 			});
 
+			expect(shareMock).not.toHaveBeenCalled();
+
+			const dialog = utils?.container.querySelector('dialog');
+			expect(dialog?.hasAttribute('open')).toBe(true);
+
+			const nativeShareBtn = Array.from(dialog?.querySelectorAll('button') ?? []).find(
+				(btn) => btn.textContent?.trim() === 'Share',
+			);
+			expect(nativeShareBtn).toBeTruthy();
+
+			await act(async () => {
+				nativeShareBtn?.click();
+			});
+
+			expect(shareMock).toHaveBeenCalledTimes(1);
 			expect(shareMock).toHaveBeenCalledWith(
 				expect.objectContaining({
 					url: 'https://arcade.example.com/games/sudoku',
