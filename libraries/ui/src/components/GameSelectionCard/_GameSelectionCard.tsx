@@ -1,4 +1,4 @@
-import { type ElementType, type ForwardedRef, Fragment, forwardRef } from 'react';
+import { type ElementType, type ForwardedRef, forwardRef } from 'react';
 import { ClickableCard } from '../ClickableCard';
 import type { ClickableCardProps } from '../ClickableCard/_ClickableCard.types';
 import * as S from './_GameSelectionCard.styles';
@@ -22,10 +22,11 @@ function GameSelectionCardInner<C extends ElementType = 'button'>(
 			{metadataItems.length > 0 && (
 				<S.Metadata>
 					{metadataItems.map((item, index) => (
-						<Fragment key={typeof item === 'string' || typeof item === 'number' ? item : `meta-${index}`}>
-							{index > 0 && <S.MetadataSeparator aria-hidden="true">•</S.MetadataSeparator>}
-							<span>{item}</span>
-						</Fragment>
+						<S.MetadataPill
+							key={typeof item === 'string' || typeof item === 'number' ? item : `meta-${index}`}
+						>
+							{item}
+						</S.MetadataPill>
 					))}
 				</S.Metadata>
 			)}

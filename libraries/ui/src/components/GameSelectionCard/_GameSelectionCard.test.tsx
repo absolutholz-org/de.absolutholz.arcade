@@ -13,7 +13,7 @@ describe('GameSelectionCard', () => {
 		unmount();
 	});
 
-	it('renders metadata items with unified separator and skips falsy entries', () => {
+	it('renders metadata items as pills and skips falsy entries', () => {
 		const { container, unmount } = render(
 			<GameSelectionCard title="Heart" metadata={['Completed', false, null, 'Best: 00:12']}>
 				<div data-testid="preview-artwork">Preview Artwork</div>
@@ -21,7 +21,6 @@ describe('GameSelectionCard', () => {
 		);
 
 		expect(container.textContent).toContain('Completed');
-		expect(container.textContent).toContain('•');
 		expect(container.textContent).toContain('Best: 00:12');
 		expect(container.querySelector('[data-testid="preview-artwork"]')).not.toBeNull();
 

@@ -1,5 +1,6 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
+import { type GameStats, getGameStats } from '@arcade/lib-storage';
 import { Collapsible } from '@arcade/lib-ui/components/Collapsible';
 import { GameSelectionCard } from '@arcade/lib-ui/components/GameSelectionCard';
 import { SegmentedControl, type SegmentedControlItem } from '@arcade/lib-ui/components/SegmentedControl';
@@ -37,6 +38,7 @@ function LobbyContent({ initialDifficulty }: { initialDifficulty?: DifficultyLev
 	const { t: tCommon } = useI18n('common');
 	const [activeGame, setActiveGame] = useState<GameSnapshot | null>(null);
 	const [progress, setProgress] = useState<ProgressMap>({});
+	const [stats, setStats] = useState<GameStats | null>(null);
 	const [selectedDifficulty, setSelectedDifficulty] = useState<DifficultyLevel>(() =>
 		getInitialLobbyDifficulty(initialDifficulty),
 	);
@@ -44,11 +46,17 @@ function LobbyContent({ initialDifficulty }: { initialDifficulty?: DifficultyLev
 
 	useEffect(() => {
 		async function init() {
-			const [saved, prog, lastConfig] = await Promise.all([loadActiveGame(), loadProgress(), loadLastConfig()]);
+			const [saved, prog, lastConfig, gameStats] = await Promise.all([
+				loadActiveGame(),
+				loadProgress(),
+				loadLastConfig(),
+				getGameStats('liquid-sort'),
+			]);
 			if (saved && !saved.isComplete) {
 				setActiveGame(saved);
 			}
 			setProgress(prog);
+			setStats(gameStats);
 
 			let hasUrlDiff = false;
 			if (typeof window !== 'undefined') {
@@ -127,12 +135,9 @@ function LobbyContent({ initialDifficulty }: { initialDifficulty?: DifficultyLev
 				<h2 id="liquid-sort-quickplay-title">{t('difficulty.label')}</h2>
 				<S.QuickPlayGrid>
 					{DIFFICULTY_LEVELS.map((diff) => {
-						const cfg = DIFFICULTY_CONFIG[diff];
-						const diffPresets = getPresetsByDifficulty(diff);
-						const solvedCount = diffPresets.filter((p) => {
-							const rec = progress[`${diff}-${p.level}`] ?? progress[p.id];
-							return rec?.completed;
-						}).length;
+						const bucketStats = stats?.byBucket[diff];
+						const gamesWon = bucketStats?.gamesWon ?? 0;
+						const bestTime = bucketStats?.bestTimeSeconds;
 
 						return (
 							<GameSelectionCard
@@ -143,11 +148,12 @@ function LobbyContent({ initialDifficulty }: { initialDifficulty?: DifficultyLev
 									void saveLastConfig({ difficulty: diff });
 								}}
 								title={t(`difficulty.${diff}` as Parameters<typeof t>[0])}
-								metadata={
-									solvedCount > 0
-										? [`${solvedCount}/${diffPresets.length} ${t('levels.completed')}`]
-										: undefined
-								}
+								metadata={[
+									gamesWon > 0 && `${gamesWon} ${tCommon('stats.gamesWon')}`,
+									bestTime !== null &&
+										bestTime !== undefined &&
+										`${tCommon('stats.bestTime')}: ${formatTime(bestTime)}`,
+								]}
 							>
 								{t(`difficulty.${diff}Desc` as Parameters<typeof t>[0])}
 							</GameSelectionCard>

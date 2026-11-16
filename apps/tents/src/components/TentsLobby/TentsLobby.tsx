@@ -1,5 +1,6 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
+import { type GameStats, getGameStats } from '@arcade/lib-storage';
 import { Collapsible } from '@arcade/lib-ui/components/Collapsible';
 import { GameSelectionCard } from '@arcade/lib-ui/components/GameSelectionCard';
 import { SegmentedControl, type SegmentedControlItem } from '@arcade/lib-ui/components/SegmentedControl';
@@ -34,16 +35,19 @@ function LobbyContent(): JSX.Element {
 	const { t: tCommon } = useI18n('common');
 	const [activeGame, setActiveGame] = useState<GameSnapshot | null>(null);
 	const [progress, setProgress] = useState<ProgressMap>({});
+	const [stats, setStats] = useState<GameStats | null>(null);
 	const [selectedDifficulty, setSelectedDifficulty] = useState<DifficultyLevel>(getInitialLobbyDifficulty);
 	const [hasActivePuzzleQuery, setHasActivePuzzleQuery] = useState(false);
 
 	useEffect(() => {
 		async function init() {
-			const [savedGame, savedProgress, lastConfig] = await Promise.all([
+			const [savedGame, savedProgress, lastConfig, gameStats] = await Promise.all([
 				loadActiveGame(),
 				loadProgress(),
 				loadLastConfig(),
+				getGameStats('tents'),
 			]);
+			setStats(gameStats);
 
 			if (savedGame && !savedGame.isComplete) {
 				setActiveGame(savedGame);
@@ -142,9 +146,9 @@ function LobbyContent(): JSX.Element {
 				<h2 id="tents-quickplay-title">{t('difficulty.label')}</h2>
 				<S.QuickPlayGrid>
 					{DIFFICULTY_LEVELS.map((diff) => {
-						const size = DIFFICULTY_GRID_SIZES[diff];
-						const presets = getPresetsByDifficulty(diff);
-						const solvedCount = presets.filter((p) => progress[p.id]?.completed).length;
+						const bucketStats = stats?.byBucket[diff];
+						const gamesWon = bucketStats?.gamesWon ?? 0;
+						const bestTime = bucketStats?.bestTimeSeconds;
 
 						return (
 							<GameSelectionCard
@@ -155,11 +159,12 @@ function LobbyContent(): JSX.Element {
 									void saveLastConfig({ difficulty: diff });
 								}}
 								title={t(`difficulty.${diff}`)}
-								metadata={
-									solvedCount > 0
-										? [`${solvedCount}/${presets.length} ${t('levels.completed')}`]
-										: undefined
-								}
+								metadata={[
+									gamesWon > 0 && `${gamesWon} ${tCommon('stats.gamesWon')}`,
+									bestTime !== null &&
+										bestTime !== undefined &&
+										`${tCommon('stats.bestTime')}: ${formatTime(bestTime)}`,
+								]}
 							>
 								{t(`difficulty.${diff}Desc` as 'difficulty.easyDesc')}
 							</GameSelectionCard>
