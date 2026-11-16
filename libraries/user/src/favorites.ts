@@ -19,6 +19,8 @@ class DefaultFavoritesManager implements FavoritesManager {
 	private favorites: string[] = [];
 	private initialized = false;
 	private initPromise: Promise<readonly string[]> | null = null;
+	private userSubscribed = false;
+	private lastSyncedUid: string | null = null;
 	private readonly listeners = new Set<(favorites: readonly string[]) => void>();
 	private readonly localAdapter: LocalStorageAdapter;
 	private readonly cloudAdapter: ServerSyncStorageAdapter;
@@ -104,19 +106,21 @@ class DefaultFavoritesManager implements FavoritesManager {
 
 				// 3. Tiers 3 & 4: Synchronize with Cloud Firestore
 				if (tier >= 3 && session.user?.id) {
-					try {
-						const cloudFavs = await this.cloudAdapter.getFavorites(session.user.id);
-						if (Array.isArray(cloudFavs) && cloudFavs.length > 0) {
-							// Merge unique values
-							merged = Array.from(new Set([...merged, ...cloudFavs]));
-							await this.localAdapter.saveFavorites(merged);
-							await this.cloudAdapter.saveFavorites(session.user.id, merged);
-						} else if (merged.length > 0) {
-							await this.cloudAdapter.saveFavorites(session.user.id, merged);
+					merged = await this.syncWithCloudInternal(session.user.id, merged);
+				}
+
+				// 4. Subscribe to user session changes so late auth resolution or post-mount login syncs favorites
+				if (!this.userSubscribed) {
+					this.userSubscribed = true;
+					userService.subscribe((nextSession) => {
+						if (nextSession.isAuthenticated && nextSession.isCloudSynced && nextSession.user?.id) {
+							if (this.lastSyncedUid !== nextSession.user.id) {
+								void this.syncWithCloud(nextSession.user.id);
+							}
+						} else {
+							this.lastSyncedUid = null;
 						}
-					} catch (cloudErr) {
-						console.warn('[@arcade/lib-user] Failed to sync favorites with cloud:', cloudErr);
-					}
+					});
 				}
 
 				this.updateLocalState(merged, false);
@@ -128,6 +132,33 @@ class DefaultFavoritesManager implements FavoritesManager {
 		})();
 
 		return this.initPromise;
+	}
+
+	private async syncWithCloudInternal(uid: string, localBaseline: string[]): Promise<string[]> {
+		let merged = [...localBaseline];
+		try {
+			const cloudFavs = await this.cloudAdapter.getFavorites(uid);
+			if (Array.isArray(cloudFavs) && cloudFavs.length > 0) {
+				merged = Array.from(new Set([...merged, ...cloudFavs]));
+				await this.localAdapter.saveFavorites(merged);
+				if (merged.length !== cloudFavs.length) {
+					await this.cloudAdapter.saveFavorites(uid, merged);
+				}
+			} else if (merged.length > 0) {
+				await this.cloudAdapter.saveFavorites(uid, merged);
+			}
+			this.lastSyncedUid = uid;
+		} catch (cloudErr) {
+			console.warn('[@arcade/lib-user] Failed to sync favorites with cloud:', cloudErr);
+		}
+		return merged;
+	}
+
+	private async syncWithCloud(uid: string): Promise<void> {
+		const local = await this.localAdapter.getFavorites();
+		const baseline = Array.isArray(local) ? [...local] : [...this.favorites];
+		const merged = await this.syncWithCloudInternal(uid, baseline);
+		this.updateLocalState(merged, true);
 	}
 
 	private async refreshFromStorage(): Promise<void> {

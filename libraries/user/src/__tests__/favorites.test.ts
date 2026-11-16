@@ -1,6 +1,9 @@
+import { saveConsentPreferences } from '@arcade/lib-consent';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { FAVORITES_UPDATED_EVENT, getFavoritesManager, resetSharedFavoritesManager } from '../favorites.js';
+import type { ServerSyncStorageAdapter } from '../internal/adapters/cloudAdapter.js';
 import { LocalStorageAdapter } from '../internal/adapters/localAdapter.js';
+import { getSharedUserService, resetSharedUserService } from '../service.js';
 import type { UserPreferences } from '../types.js';
 
 describe('LocalStorageAdapter favorites', () => {
@@ -65,5 +68,41 @@ describe('FavoritesManager', () => {
 		expect(manager.getFavorites()).not.toContain('sudoku');
 
 		unsubscribe();
+	});
+
+	it('syncs cloud favorites when user session resolves to cloud-synced after initialization', async () => {
+		resetSharedUserService();
+		saveConsentPreferences({ cloudSync: true, publicBroadcast: false }, true);
+		await adapter.saveFavorites([]);
+
+		const cloudAdapter = {
+			getFavorites: vi.fn(async () => ['tents', 'sudoku']),
+			saveFavorites: vi.fn(async () => {}),
+		} as unknown as ServerSyncStorageAdapter;
+
+		const manager = getFavoritesManager(adapter, cloudAdapter);
+		await manager.initialize();
+
+		expect(manager.getFavorites()).toEqual([]);
+
+		// Simulate late auth resolution on UserService
+		const userService = getSharedUserService();
+		(userService as unknown as { updateSession: (p: unknown) => void }).updateSession({
+			isAuthenticated: true,
+			isCloudSynced: true,
+			user: {
+				id: 'woody-123',
+				displayName: 'Woody',
+				avatar: '🪵',
+				storageMode: 'cloud',
+				createdAt: 1,
+				updatedAt: 1,
+			},
+		});
+
+		await vi.waitFor(() => {
+			expect(manager.getFavorites()).toEqual(['tents', 'sudoku']);
+		});
+		expect(cloudAdapter.getFavorites).toHaveBeenCalledWith('woody-123');
 	});
 });
