@@ -6,6 +6,7 @@ import {
 	type MedalDefinition,
 	getGameMedalState,
 	subscribeToMedalUnlocked,
+	subscribeToMedalsReconciled,
 } from '@arcade/lib-medals';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { GameMedalSummaryCounts, HydratedGameMedalItem } from './_GameMedalGrid.types';
@@ -37,12 +38,20 @@ export function useGameMedalGrid<G extends GameId = GameId>(
 	useEffect(() => {
 		setMedalState(null);
 		hydrateMedals();
-		const unsubscribe = subscribeToMedalUnlocked((detail) => {
+		const unsubscribeUnlocked = subscribeToMedalUnlocked((detail) => {
 			if (detail.gameId === gameId) {
 				hydrateMedals();
 			}
 		});
-		return unsubscribe;
+		const unsubscribeReconciled = subscribeToMedalsReconciled((detail) => {
+			if (!detail.gameId || detail.gameId === gameId) {
+				hydrateMedals();
+			}
+		});
+		return () => {
+			unsubscribeUnlocked();
+			unsubscribeReconciled();
+		};
 	}, [gameId, hydrateMedals]);
 
 	const medals = useMemo<readonly HydratedGameMedalItem[]>(() => {

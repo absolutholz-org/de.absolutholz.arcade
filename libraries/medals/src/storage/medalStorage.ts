@@ -176,6 +176,20 @@ export function createInitialCustomStats<G extends GameId>(gameId: G): GameCusto
 				cleanSweeps: 0,
 				completedTiers: {},
 			} as unknown as GameCustomStatsMap[G];
+		case 'pentominoes':
+			return {
+				pentaLadderSolved: 0,
+				silhouettesSolved: 0,
+				fullSet60Solved: 0,
+				flawlessPacks: 0,
+				fastHardPacks: 0,
+			} as unknown as GameCustomStatsMap[G];
+		case 'tictactoe':
+			return {
+				passAndPlayWins: 0,
+				draws: 0,
+				flawlessWins: 0,
+			} as unknown as GameCustomStatsMap[G];
 		default:
 			throw new Error(`createInitialCustomStats error: Unknown gameId "${String(gameId)}"`);
 	}

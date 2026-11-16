@@ -28,6 +28,17 @@ rules_version = '2';
 //      - schemaVersion: number (optional) - Data schema version number
 //      - updatedAt: number (optional) - Update timestamp (ms since epoch)
 //
+// 3. Storage Stats Subcollection (@arcade/lib-storage GameStats)
+//    Path: /users/{userId}/storageStats/{gameId}
+//    Document ID: {gameId} (Game identifier, e.g., 'sudoku', 'minesweeper', etc.)
+//    Fields:
+//      - schemaVersion: number (required, == 1) - Data schema version number
+//      - gameId: string (required, immutable, 1-64 chars) - Game identifier matching docId
+//      - updatedAt: number (required) - Update timestamp (ms since epoch)
+//      - overall: map (required) - Overall aggregate bucket statistics
+//      - byBucket: map (required) - Per-bucket statistics keyed by bucket ID
+//      - lifetimeMetrics: map (required) - Accumulated custom lifetime metrics
+//
 // ===============================================================
 
 service cloud.firestore {
@@ -108,6 +119,26 @@ service cloud.firestore {
              (!('updatedAt' in data) || data.updatedAt is number);
     }
 
+    // Domain validator for /users/{userId}/storageStats/{gameId} documents
+    function isValidStorageStatsDoc(gameId) {
+      let data = request.resource.data;
+      let allowedFields = ['schemaVersion', 'gameId', 'updatedAt', 'overall', 'byBucket', 'lifetimeMetrics'];
+      let requiredFields = ['schemaVersion', 'gameId', 'updatedAt', 'overall', 'byBucket', 'lifetimeMetrics'];
+
+      return hasRequiredFields(requiredFields) &&
+             hasOnlyAllowedFields(allowedFields) &&
+             data.schemaVersion is number &&
+             data.schemaVersion == 1 &&
+             data.gameId is string &&
+             data.gameId == gameId &&
+             data.gameId.size() >= 1 &&
+             data.gameId.size() <= 64 &&
+             data.updatedAt is number &&
+             data.overall is map &&
+             data.byBucket is map &&
+             data.lifetimeMetrics is map;
+    }
+
     // ===============================================================
     // Collection Rules
     // ===============================================================
@@ -130,6 +161,14 @@ service cloud.firestore {
         allow read, delete: if isOwner(userId);
         allow create: if isOwner(userId) && isValidGameStatsDoc(gameId);
         allow update: if isOwner(userId) && isValidGameStatsDoc(gameId) && areImmutableFieldsUnchanged(['gameId']);
+      }
+
+      // Per-Game Storage Statistics Subcollection (@arcade/lib-storage GameStats)
+      // Strictly scoped per user and per game ID
+      match /storageStats/{gameId} {
+        allow read, delete: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidStorageStatsDoc(gameId);
+        allow update: if isOwner(userId) && isValidStorageStatsDoc(gameId) && areImmutableFieldsUnchanged(['gameId']);
       }
     }
   }

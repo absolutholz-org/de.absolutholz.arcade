@@ -1,4 +1,5 @@
 import type { GameStorage } from '@arcade/lib-storage';
+import { dispatchMedalsReconciledEvent } from '../events/medalEvents.js';
 import { getGameMedalState, setGameMedalState } from '../storage/medalStorage.js';
 import { getMedalSyncAdapter } from '../sync/syncAdapter.js';
 import type { GameId, GameMedalState } from '../types/index.js';
@@ -10,6 +11,16 @@ export const SUPPORTED_GAME_IDS: readonly GameId[] = [
 	'nonogram',
 	'star-battle',
 	'tracks',
+	'bridges',
+	'tents',
+	'anagram',
+	'liquid-sort',
+	'untangle',
+	'net',
+	'color-flood',
+	'dice-bingo',
+	'pentominoes',
+	'tictactoe',
 ] as const;
 
 /**
@@ -41,6 +52,7 @@ export async function reconcileGameMedals<G extends GameId>(
 
 		// Persist locally
 		await setGameMedalState(merged, customStorage);
+		dispatchMedalsReconciledEvent(gameId);
 
 		// Synchronize back to cloud to guarantee both ends are identical
 		await adapter.syncGameMedals(gameId, merged);
@@ -64,6 +76,8 @@ export async function reconcileAllGameMedals(customStorage?: GameStorage): Promi
 			results[gameId] = state;
 		}),
 	);
+
+	dispatchMedalsReconciledEvent();
 
 	return results;
 }

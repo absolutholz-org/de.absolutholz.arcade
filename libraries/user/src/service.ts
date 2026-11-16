@@ -11,6 +11,7 @@ import {
 	reconcileAllGameMedals,
 	registerMedalSyncAdapter,
 } from '@arcade/lib-medals';
+import { type GameStats, reconcileAllGameStats, registerStatsSyncAdapter } from '@arcade/lib-storage';
 import { CloudAdapter } from './internal/adapters/cloudAdapter.js';
 import { LocalAdapter } from './internal/adapters/localAdapter.js';
 import { initFirebase, resolveEnvConfig } from './internal/firebase.js';
@@ -115,6 +116,22 @@ class UserService implements IUserService {
 			fetchGameMedals: async (gameId) => {
 				if (this.session.user && this.cloudAdapter.isAvailable()) {
 					return await this.cloudAdapter.getGameMedals(this.session.user.id, gameId);
+				}
+				return null;
+			},
+		});
+		// Register per-game statistics sync adapter for Tier 3 & Tier 4 cloud synchronization
+		registerStatsSyncAdapter({
+			isSyncEnabled: () =>
+				Boolean(this.session.isAuthenticated && this.session.isCloudSynced && this.session.user),
+			syncGameStats: async (gameId, stats) => {
+				if (this.session.user && this.cloudAdapter.isAvailable()) {
+					await this.cloudAdapter.saveGameStats(this.session.user.id, gameId, stats);
+				}
+			},
+			fetchGameStats: async (gameId) => {
+				if (this.session.user && this.cloudAdapter.isAvailable()) {
+					return await this.cloudAdapter.getGameStats<GameStats>(this.session.user.id, gameId);
 				}
 				return null;
 			},
@@ -405,9 +422,9 @@ class UserService implements IUserService {
 	async syncMedalsAcrossGames(): Promise<void> {
 		if (this.session.isAuthenticated && this.session.isCloudSynced && this.session.user) {
 			try {
-				await reconcileAllGameMedals();
+				await Promise.allSettled([reconcileAllGameMedals(), reconcileAllGameStats()]);
 			} catch (error) {
-				console.warn('[@arcade/lib-user] Cross-game medal reconciliation failed:', error);
+				console.warn('[@arcade/lib-user] Cross-game reconciliation failed:', error);
 			}
 		}
 	}

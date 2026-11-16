@@ -93,9 +93,17 @@ export {
 	createEmptyDifficultyBucketStats,
 	createEmptyGameStats,
 	getGameStats,
+	mergeGameStats,
+	reconcileAllGameStats,
+	reconcileGameStats,
 	recordGameStats,
 	updateStatsWithRound,
 } from './stats.js';
+export {
+	type StatsSyncAdapter,
+	getStatsSyncAdapter,
+	registerStatsSyncAdapter,
+} from './stats/sync.js';
 export {
 	GAME_SETTINGS_STORAGE_KEY,
 	GLOBAL_SETTINGS_APP_SCOPE,

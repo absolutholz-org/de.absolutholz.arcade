@@ -1,3 +1,4 @@
+import { SUPPORTED_GAME_IDS } from '@arcade/lib-medals';
 import {
 	type User as FirebaseUser,
 	GoogleAuthProvider,
@@ -183,9 +184,8 @@ export class CloudAdapter {
 				const gameRef = doc(firestore, USERS_COLLECTION, uid, 'gameStats', gameId);
 				await deleteDoc(gameRef);
 			} else {
-				const knownGames = ['sudoku', 'nonogram', 'minesweeper', 'star-battle', 'tracks'];
 				await Promise.all(
-					knownGames.map(async (g) => {
+					SUPPORTED_GAME_IDS.map(async (g) => {
 						const ref = doc(firestore, USERS_COLLECTION, uid, 'gameStats', g);
 						await deleteDoc(ref);
 					}),
@@ -197,13 +197,66 @@ export class CloudAdapter {
 	}
 
 	/**
-	 * Deletes the user profile and associated data (including medals subcollection)
+	 * Persists per-game statistics document under /users/{uid}/storageStats/{gameId} per ADR 0008.
+	 */
+	async saveGameStats(uid: string, gameId: string, stats: unknown): Promise<void> {
+		const { firestore } = this.getActiveServices();
+		try {
+			const statsRef = doc(firestore, USERS_COLLECTION, uid, 'storageStats', gameId);
+			await setDoc(statsRef, stats as Record<string, unknown>, { merge: true });
+		} catch (error) {
+			console.warn(`[@arcade/lib-user] Failed to persist game stats for ${uid}/${gameId}:`, error);
+		}
+	}
+
+	/**
+	 * Fetches per-game statistics document from Cloud Firestore.
+	 */
+	async getGameStats<T>(uid: string, gameId: string): Promise<T | null> {
+		const { firestore } = this.getActiveServices();
+		try {
+			const statsRef = doc(firestore, USERS_COLLECTION, uid, 'storageStats', gameId);
+			const snapshot = await getDoc(statsRef);
+			if (snapshot.exists()) {
+				return snapshot.data() as T;
+			}
+			return null;
+		} catch (error) {
+			console.warn(`[@arcade/lib-user] Failed to fetch game stats for ${uid}/${gameId}:`, error);
+			return null;
+		}
+	}
+
+	/**
+	 * Deletes per-game statistics documents under /users/{uid}/storageStats.
+	 */
+	async deleteGameStats(uid: string, gameId?: string): Promise<void> {
+		const { firestore } = this.getActiveServices();
+		try {
+			if (gameId) {
+				const statsRef = doc(firestore, USERS_COLLECTION, uid, 'storageStats', gameId);
+				await deleteDoc(statsRef);
+			} else {
+				await Promise.all(
+					SUPPORTED_GAME_IDS.map(async (g) => {
+						const ref = doc(firestore, USERS_COLLECTION, uid, 'storageStats', g);
+						await deleteDoc(ref);
+					}),
+				);
+			}
+		} catch (error) {
+			console.warn(`[@arcade/lib-user] Failed to delete game stats for ${uid}:`, error);
+		}
+	}
+
+	/**
+	 * Deletes the user profile and associated data (including medals and storageStats subcollections)
 	 * from Cloud Firestore when downgrading from cloud sync to local-only persistence per ADR 0003 & ADR 0004.
 	 */
 	async deleteUserData(uid: string): Promise<void> {
 		const { firestore } = this.getActiveServices();
 		try {
-			await this.deleteGameMedals(uid);
+			await Promise.all([this.deleteGameMedals(uid), this.deleteGameStats(uid)]);
 			const userRef = doc(firestore, USERS_COLLECTION, uid);
 			await deleteDoc(userRef);
 		} catch (error) {

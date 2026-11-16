@@ -6,6 +6,7 @@ import {
 	type GameStats,
 	createEmptyDifficultyBucketStats,
 	getGameStats,
+	subscribeToStatsUpdated,
 } from '@arcade/lib-storage';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
@@ -39,10 +40,14 @@ export function useGameStatsDashboard(gameId: GameId, preloadedStats?: GameStats
 	useEffect(() => {
 		if (!preloadedStats) {
 			loadStats();
-		} else {
-			setIsLoading(false);
+			return subscribeToStatsUpdated((detail) => {
+				if (!detail?.gameId || detail.gameId === gameId) {
+					loadStats();
+				}
+			});
 		}
-	}, [loadStats, preloadedStats]);
+		setIsLoading(false);
+	}, [gameId, loadStats, preloadedStats]);
 
 	const stats: GameStats | null = preloadedStats ?? fetchedStats;
 

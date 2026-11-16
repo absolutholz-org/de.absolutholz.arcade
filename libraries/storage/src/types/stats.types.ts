@@ -14,6 +14,9 @@ export type GameId =
 	| 'untangle'
 	| 'net'
 	| 'color-flood'
+	| 'dice-bingo'
+	| 'pentominoes'
+	| 'tictactoe'
 	| (string & {});
 
 /**

@@ -3,7 +3,7 @@ import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { getGameTitle } from '@arcade/lib-i18n/utils/gameTitle';
-import { getGameMedalState, subscribeToMedalUnlocked } from '@arcade/lib-medals';
+import { getGameMedalState, subscribeToMedalUnlocked, subscribeToMedalsReconciled } from '@arcade/lib-medals';
 import {
 	type AggregatedGameStats,
 	type HubGlobalStats,
@@ -111,10 +111,15 @@ function HubStatsDashboardContent({ lang }: HubStatsDashboardProps) {
 			if (isMounted) hydrateData();
 		});
 
+		const unsubscribeReconciled = subscribeToMedalsReconciled(() => {
+			if (isMounted) hydrateData();
+		});
+
 		return () => {
 			isMounted = false;
 			unsubscribeStats();
 			unsubscribeMedals();
+			unsubscribeReconciled();
 		};
 	}, [hydrateData]);
 

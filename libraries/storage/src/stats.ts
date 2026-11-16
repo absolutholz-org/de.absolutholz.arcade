@@ -1,5 +1,12 @@
 import { createGameStorage } from './createGameStorage.js';
-import { recordGameSession } from './stats/store.js';
+import {
+	AGGREGATED_STATS_STORAGE_KEY,
+	DEFAULT_REGISTERED_GAMES,
+	STATS_UPDATED_EVENT,
+	recordGameSession,
+} from './stats/store.js';
+import { getStatsSyncAdapter } from './stats/sync.js';
+import type { AggregatedGameStats } from './stats/types.js';
 import type { DifficultyBucketStats, GameId, GameStats, RoundStatsInput } from './types/stats.types.js';
 import type { GameStorage, GameStorageOptions } from './types/storage.types.js';
 
@@ -220,5 +227,194 @@ export async function recordGameStats<
 		// Non-blocking fallback if session recording fails
 	}
 
+	// Synchronize with cloud backend if Tier 3/4 sync adapter is active
+	const syncAdapter = getStatsSyncAdapter();
+	if (syncAdapter?.isSyncEnabled()) {
+		try {
+			await syncAdapter.syncGameStats(input.gameId, updatedStats);
+		} catch (error) {
+			console.warn(`[@arcade/lib-storage] Failed to sync game stats for ${input.gameId}:`, error);
+		}
+	}
+
 	return updatedStats;
+}
+
+function minNullable(a: number | null | undefined, b: number | null | undefined): number | null {
+	if (a != null && b != null) return Math.min(a, b);
+	return a ?? b ?? null;
+}
+
+function maxNullable(a: number | null | undefined, b: number | null | undefined): number | null {
+	if (a != null && b != null) return Math.max(a, b);
+	return a ?? b ?? null;
+}
+
+function mergeBucketStats(
+	local: DifficultyBucketStats,
+	remote: DifficultyBucketStats,
+	preferRemoteCurrentStreak: boolean,
+): DifficultyBucketStats {
+	return {
+		gamesPlayed: Math.max(local.gamesPlayed ?? 0, remote.gamesPlayed ?? 0),
+		gamesWon: Math.max(local.gamesWon ?? 0, remote.gamesWon ?? 0),
+		gamesLost: Math.max(local.gamesLost ?? 0, remote.gamesLost ?? 0),
+		currentStreak: preferRemoteCurrentStreak ? (remote.currentStreak ?? 0) : (local.currentStreak ?? 0),
+		bestStreak: Math.max(local.bestStreak ?? 0, remote.bestStreak ?? 0),
+		bestTimeSeconds: minNullable(local.bestTimeSeconds, remote.bestTimeSeconds),
+		totalPlayTimeSeconds: Math.max(local.totalPlayTimeSeconds ?? 0, remote.totalPlayTimeSeconds ?? 0),
+		bestMoves: minNullable(local.bestMoves, remote.bestMoves),
+		bestScore: maxNullable(local.bestScore, remote.bestScore),
+		flawlessWins: Math.max(local.flawlessWins ?? 0, remote.flawlessWins ?? 0),
+	};
+}
+
+/**
+ * Pure monotonic merge between local and remote GameStats documents.
+ */
+export function mergeGameStats<
+	TBucketKey extends string = string,
+	TCustomMetrics extends Record<string, number> = Record<string, number>,
+>(
+	local: GameStats<TBucketKey, TCustomMetrics>,
+	remote: GameStats<TBucketKey, TCustomMetrics>,
+): GameStats<TBucketKey, TCustomMetrics> {
+	const preferRemote = (remote.updatedAt ?? 0) >= (local.updatedAt ?? 0);
+	const overall = mergeBucketStats(
+		{ ...createEmptyDifficultyBucketStats(), ...(local.overall ?? {}) },
+		{ ...createEmptyDifficultyBucketStats(), ...(remote.overall ?? {}) },
+		preferRemote,
+	);
+
+	const allBucketKeys = new Set<string>([
+		...Object.keys(local.byBucket ?? {}),
+		...Object.keys(remote.byBucket ?? {}),
+	]);
+	const byBucket: Partial<Record<TBucketKey, DifficultyBucketStats>> = {};
+	for (const key of allBucketKeys) {
+		const l = local.byBucket?.[key as TBucketKey] ?? createEmptyDifficultyBucketStats();
+		const r = remote.byBucket?.[key as TBucketKey] ?? createEmptyDifficultyBucketStats();
+		byBucket[key as TBucketKey] = mergeBucketStats(l, r, preferRemote);
+	}
+
+	const allMetricKeys = new Set<string>([
+		...Object.keys(local.lifetimeMetrics ?? {}),
+		...Object.keys(remote.lifetimeMetrics ?? {}),
+	]);
+	const lifetimeMetrics: Record<string, number> = {};
+	for (const key of allMetricKeys) {
+		const lVal = local.lifetimeMetrics?.[key] ?? 0;
+		const rVal = remote.lifetimeMetrics?.[key] ?? 0;
+		lifetimeMetrics[key] = Math.max(lVal, rVal);
+	}
+
+	return {
+		schemaVersion: 1,
+		gameId: local.gameId || remote.gameId,
+		updatedAt: Math.max(local.updatedAt ?? 0, remote.updatedAt ?? 0),
+		overall,
+		byBucket,
+		lifetimeMetrics: lifetimeMetrics as TCustomMetrics,
+	};
+}
+
+function dispatchStatsUpdatedEvent(gameId?: GameId): void {
+	if (typeof window !== 'undefined') {
+		window.dispatchEvent(new CustomEvent(STATS_UPDATED_EVENT, { detail: { gameId } }));
+	}
+}
+
+async function syncAggregatedStatsMirror(stats: GameStats, storage: GameStorage): Promise<void> {
+	const played = stats.overall.gamesPlayed ?? 0;
+	if (played <= 0) return;
+
+	const won = stats.overall.gamesWon ?? 0;
+	const aggregated: AggregatedGameStats = {
+		gameId: stats.gameId,
+		totalPlayed: played,
+		totalWon: won,
+		winRate: played > 0 ? Math.round((won / played) * 100) : 0,
+		totalTimeMs: (stats.overall.totalPlayTimeSeconds ?? 0) * 1000,
+		bestTimeMs: stats.overall.bestTimeSeconds != null ? stats.overall.bestTimeSeconds * 1000 : undefined,
+		currentStreak: stats.overall.currentStreak ?? 0,
+		maxStreak: stats.overall.bestStreak ?? 0,
+		lastPlayed: stats.updatedAt ?? null,
+	};
+
+	await storage.set(AGGREGATED_STATS_STORAGE_KEY, aggregated);
+
+	if (typeof window !== 'undefined' && window.localStorage) {
+		try {
+			const serialized = JSON.stringify(aggregated);
+			window.localStorage.setItem(`arcade:stats:${stats.gameId}`, serialized);
+			window.localStorage.setItem(`arcade::${stats.gameId}::aggregated_stats`, serialized);
+		} catch {
+			// Ignore storage mirror write issues
+		}
+	}
+}
+
+/**
+ * Reconciles local per-game statistics with the cloud backend when Tier 3/4 sync is enabled.
+ */
+export async function reconcileGameStats(
+	gameId: GameId,
+	storageOrOptions?: GameStorage | GameStorageOptions,
+): Promise<GameStats> {
+	const storage = resolveGameStorage(gameId, storageOrOptions);
+	const localStats = await getGameStats(gameId, storage);
+	const adapter = getStatsSyncAdapter();
+
+	if (!adapter || !adapter.isSyncEnabled()) {
+		return localStats;
+	}
+
+	try {
+		const remoteStats = await adapter.fetchGameStats(gameId);
+		if (!remoteStats) {
+			if ((localStats.overall.gamesPlayed ?? 0) > 0) {
+				await adapter.syncGameStats(gameId, localStats);
+			}
+			return localStats;
+		}
+
+		const merged = mergeGameStats(localStats, remoteStats);
+		await storage.set(GAME_STATS_STORAGE_KEY, merged);
+		await syncAggregatedStatsMirror(merged, storage);
+		dispatchStatsUpdatedEvent(gameId);
+
+		// Push merged back if local had newer or higher values not yet on remote
+		if (
+			merged.updatedAt !== remoteStats.updatedAt ||
+			merged.overall.gamesPlayed !== remoteStats.overall?.gamesPlayed
+		) {
+			await adapter.syncGameStats(gameId, merged);
+		}
+
+		return merged;
+	} catch (error) {
+		console.warn(`[@arcade/lib-storage] Failed to reconcile stats for ${gameId}:`, error);
+		return localStats;
+	}
+}
+
+/**
+ * Reconciles per-game statistics across all registered arcade games with the cloud backend.
+ */
+export async function reconcileAllGameStats(
+	gameIds: readonly GameId[] = DEFAULT_REGISTERED_GAMES,
+	customStorageResolver?: (gameId: GameId) => GameStorage,
+): Promise<Record<string, GameStats>> {
+	const results: Record<string, GameStats> = {};
+
+	await Promise.allSettled(
+		gameIds.map(async (gameId) => {
+			const storage = customStorageResolver ? customStorageResolver(gameId) : undefined;
+			results[gameId] = await reconcileGameStats(gameId, storage);
+		}),
+	);
+
+	dispatchStatsUpdatedEvent();
+
+	return results;
 }

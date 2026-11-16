@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import {
 	type GameMedalState,
 	type MedalSyncAdapter,
+	SUPPORTED_GAME_IDS,
 	getGameMedalState,
 	reconcileAllGameMedals,
 	reconcileGameMedals,
@@ -193,6 +194,7 @@ describe('Medals Reconciliation Engine', () => {
 		expect(allResults.nonogram).toBeDefined();
 		expect(allResults['star-battle']).toBeDefined();
 		expect(allResults.tracks).toBeDefined();
-		expect(syncAdapter.fetchGameMedals).toHaveBeenCalledTimes(5);
+		expect(allResults.tents).toBeDefined();
+		expect(syncAdapter.fetchGameMedals).toHaveBeenCalledTimes(SUPPORTED_GAME_IDS.length);
 	});
 });

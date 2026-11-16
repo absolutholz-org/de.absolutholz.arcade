@@ -1,10 +1,38 @@
 import type { GameId, MedalUnlock } from '../types/index.js';
 
 export const MEDAL_UNLOCKED_EVENT = 'medalUnlocked';
+export const MEDALS_RECONCILED_EVENT = 'arcade:medals-reconciled';
 
 export interface MedalUnlockedEventDetail {
 	readonly gameId: GameId;
 	readonly medals: readonly MedalUnlock[];
+}
+
+export interface MedalsReconciledEventDetail {
+	readonly gameId?: GameId;
+}
+
+export function dispatchMedalsReconciledEvent(gameId?: GameId): void {
+	if (typeof window !== 'undefined') {
+		const detail: MedalsReconciledEventDetail = { gameId };
+		window.dispatchEvent(new CustomEvent<MedalsReconciledEventDetail>(MEDALS_RECONCILED_EVENT, { detail }));
+	}
+}
+
+export function subscribeToMedalsReconciled(listener: (detail: MedalsReconciledEventDetail) => void): () => void {
+	if (typeof window === 'undefined') {
+		return () => {};
+	}
+
+	const handler = (event: Event) => {
+		const customEvent = event as CustomEvent<MedalsReconciledEventDetail>;
+		listener(customEvent.detail ?? {});
+	};
+
+	window.addEventListener(MEDALS_RECONCILED_EVENT, handler);
+	return () => {
+		window.removeEventListener(MEDALS_RECONCILED_EVENT, handler);
+	};
 }
 
 export function dispatchMedalUnlockedEvent(gameId: GameId, medals: readonly MedalUnlock[]): void {
