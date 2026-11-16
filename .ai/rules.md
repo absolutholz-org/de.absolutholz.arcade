@@ -121,6 +121,7 @@ To maintain a consistent, accessible landmark structure, prevent spatial contain
 - **Hub Homepage (`apps/hub/src/pages/[lang]/index.astro`)**: Uses `BaseLayoutWithSiteFooter`; serves as the root hub navigation landmark and must **NEVER** render breadcrumbs.
 - **Game Lobbies (`apps/[game]/src/pages/[lang]/index.astro`)**: Must use `BaseLayoutWithSiteHeaderAndSiteFooter`; serves as the game's root lobby navigation landmark and must **NEVER** render breadcrumbs.
 - **Static Content & Informational Subpages (`rules.astro`, `settings.astro`, `stats.astro`, `medals.astro`, `[slug].astro`)**: Must consume `BaseLayoutWithSiteHeaderAndSiteFooter.astro` (or `MarkdownPageTemplate.astro` for `rules.astro`). Content is placed inside the unconstrained `<main id="main-content">` wrapped in the appropriate `<PageContainer>` variant (`slim`, `standard`, `wide`) at the template/page level.
+- **Breadcrumb Root Label**: When rendering `<Breadcrumb>`, the root home item (`isHome: true`) must use `${currentCommon.app.shortTitle} ${currentCommon.navigation.home}` (e.g., `"Arcade home"`)—never `currentCommon.app.title`.
 - **Standard 6-Route Game Shell & Subsystem Contracts (ADR 0008)**: Every game package (`apps/[gameId]`) must implement `src/pages/index.astro` (language redirect) plus 6 canonical localized routes under `src/pages/[lang]/`:
   1. `index.astro` (Lobby / Landing)
   2. `game.astro` (Gameplay playfield + in-game overlays, projecting `<MarkdownContent slot="rulesContent">` and `<GameSettingsPanel mode="compact" />`)

@@ -18,7 +18,7 @@ const { lang } = Astro.params;
 const currentLanguage = lang as SupportedLanguageCode;
 const currentCommon = resources[currentLanguage]?.common ?? resources.en.common;
 const currentTools = currentCommon.tools.tableCompass;
-const homeText = `${currentCommon.app.title} ${currentCommon.navigation.home}`;
+const homeText = `${currentCommon.app.shortTitle} ${currentCommon.navigation.home}`;
 ---
 
 <BaseLayoutWithSiteHeaderAndSiteFooter
