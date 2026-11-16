@@ -61,18 +61,37 @@ export function useGuestSession<TState, TAction>({
 
 		let isCancelled = false;
 		let peerInstance: PeerInstance | null = null;
+		let connectTimeout: number | null = null;
+
+		const clearConnectTimeout = () => {
+			if (connectTimeout !== null) {
+				window.clearTimeout(connectTimeout);
+				connectTimeout = null;
+			}
+		};
 
 		void import('peerjs')
 			.then((peerModule) => {
 				if (isCancelled) return;
 				const PeerCtor = peerModule.Peer ?? peerModule.default;
-				const peer = new PeerCtor(persistentId, {
+				const peer = new PeerCtor({
 					config: {
 						iceServers: getIceServers(),
 						iceTransportPolicy: 'all',
 					},
 				});
 				peerInstance = peer;
+
+				connectTimeout = window.setTimeout(() => {
+					if (isCancelled) return;
+					setStatus((prev) => {
+						if (prev === 'connecting') {
+							setError('connection-timeout');
+							return 'disconnected';
+						}
+						return prev;
+					});
+				}, 15000);
 
 				peer.on('open', () => {
 					if (isCancelled) return;
@@ -82,6 +101,7 @@ export function useGuestSession<TState, TAction>({
 
 					conn.on('open', () => {
 						if (isCancelled) return;
+						clearConnectTimeout();
 						setStatus('connected');
 						setError(null);
 						const joinMessage: P2PMessage<TState, TAction> = {
@@ -102,6 +122,7 @@ export function useGuestSession<TState, TAction>({
 						}
 
 						if (message.type === 'SYNC_STATE') {
+							clearConnectTimeout();
 							setRoomState(message.payload);
 							setStatus('connected');
 						} else if (message.type === 'HEARTBEAT') {
@@ -111,6 +132,7 @@ export function useGuestSession<TState, TAction>({
 
 					const handleCloseOrError = () => {
 						if (isCancelled) return;
+						clearConnectTimeout();
 						setStatus('disconnected');
 						setRoomState((prev) => ({
 							...prev,
@@ -124,23 +146,31 @@ export function useGuestSession<TState, TAction>({
 
 				peer.on('disconnected', () => {
 					if (isCancelled) return;
-					setStatus('disconnected');
+					if (!peer.destroyed) {
+						peer.reconnect();
+					} else {
+						clearConnectTimeout();
+						setStatus('disconnected');
+					}
 				});
 
 				peer.on('error', (err: Error & { type?: string }) => {
 					if (isCancelled) return;
+					clearConnectTimeout();
 					setError(err.type || err.message || 'peer-error');
 					setStatus('disconnected');
 				});
 			})
 			.catch((err: unknown) => {
 				if (isCancelled) return;
+				clearConnectTimeout();
 				setError(err instanceof Error ? err.message : 'peer-load-error');
 				setStatus('disconnected');
 			});
 
 		return () => {
 			isCancelled = true;
+			clearConnectTimeout();
 			connRef.current?.close();
 			connRef.current = null;
 			peerInstance?.destroy();

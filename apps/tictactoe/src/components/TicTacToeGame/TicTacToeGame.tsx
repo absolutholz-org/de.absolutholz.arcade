@@ -469,8 +469,8 @@ function GameInner({
 					return t('online.waitingForOpponent');
 				}
 				if (
-					(role === 'host' && hostSession.status === 'disconnected') ||
-					(role === 'guest' && guestSession.status === 'disconnected')
+					(role === 'host' && (hostSession.status === 'disconnected' || hostSession.status === 'error')) ||
+					(role === 'guest' && (guestSession.status === 'disconnected' || guestSession.status === 'error'))
 				) {
 					return t('online.disconnected');
 				}

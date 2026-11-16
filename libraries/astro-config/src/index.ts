@@ -26,6 +26,7 @@ export function createBaseConfig(overrides: AstroUserConfig = {}): AstroUserConf
 		...restOverrides,
 		vite: {
 			envDir: overrideVite?.envDir ?? rootEnvDir,
+			envPrefix: overrideVite?.envPrefix ?? ['PUBLIC_', 'VITE_'],
 			...overrideVite,
 			ssr: {
 				noExternal: [/@arcade\/.*/],

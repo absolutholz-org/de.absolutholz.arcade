@@ -1,22 +1,55 @@
 import type { PeerJSOption } from 'peerjs';
 
-interface ViteMetaEnv {
-	readonly VITE_METERED_PROJECT_URL?: string;
-	readonly VITE_METERED_USERNAME?: string;
-	readonly VITE_METERED_CREDENTIAL?: string;
+interface MeteredConfig {
+	readonly projectUrl?: string;
+	readonly username?: string;
+	readonly credential?: string;
 }
 
-function readMetaEnv(): ViteMetaEnv | undefined {
+function readMeteredConfig(): MeteredConfig {
+	let projectUrl: string | undefined;
+	let username: string | undefined;
+	let credential: string | undefined;
+
 	try {
-		return (import.meta as unknown as { readonly env?: ViteMetaEnv }).env;
+		// Explicit literal accesses so Vite / Astro static define replaces them at bundle time
+		projectUrl = import.meta.env.VITE_METERED_PROJECT_URL ?? import.meta.env.PUBLIC_METERED_PROJECT_URL;
+		username = import.meta.env.VITE_METERED_USERNAME ?? import.meta.env.PUBLIC_METERED_USERNAME;
+		credential = import.meta.env.VITE_METERED_CREDENTIAL ?? import.meta.env.PUBLIC_METERED_CREDENTIAL;
 	} catch {
-		return undefined;
+		// In pure Node or non-ESM environments, import.meta.env may be undefined
 	}
+
+	const globalScope =
+		typeof globalThis !== 'undefined'
+			? (globalThis as { process?: { env?: Record<string, string | undefined> } })
+			: undefined;
+	const nodeEnv = globalScope?.process?.env;
+
+	projectUrl = projectUrl ?? nodeEnv?.VITE_METERED_PROJECT_URL ?? nodeEnv?.PUBLIC_METERED_PROJECT_URL;
+	username = username ?? nodeEnv?.VITE_METERED_USERNAME ?? nodeEnv?.PUBLIC_METERED_USERNAME;
+	credential = credential ?? nodeEnv?.VITE_METERED_CREDENTIAL ?? nodeEnv?.PUBLIC_METERED_CREDENTIAL;
+
+	return {
+		projectUrl: projectUrl?.trim(),
+		username: username?.trim(),
+		credential: credential?.trim(),
+	};
+}
+
+function resolveStunUrl(rawUrl: string | undefined): string {
+	if (!rawUrl) {
+		return 'stun:stun.relay.metered.ca:80';
+	}
+	if (/^(stun|turns?):/i.test(rawUrl)) {
+		return rawUrl;
+	}
+	return 'stun:stun.relay.metered.ca:80';
 }
 
 export function getIceServers(): RTCIceServer[] {
-	const env = readMetaEnv();
-	const fallbackStunUrl = env?.VITE_METERED_PROJECT_URL || 'stun:stun.relay.metered.ca:80';
+	const config = readMeteredConfig();
+	const fallbackStunUrl = resolveStunUrl(config.projectUrl);
 
 	const servers: RTCIceServer[] = [
 		{ urls: 'stun:stun.1und1.de:3478' },
@@ -24,9 +57,9 @@ export function getIceServers(): RTCIceServer[] {
 		{ urls: fallbackStunUrl },
 	];
 
-	if (env?.VITE_METERED_USERNAME) {
-		const username = env.VITE_METERED_USERNAME;
-		const credential = env.VITE_METERED_CREDENTIAL ?? '';
+	if (config.username) {
+		const username = config.username;
+		const credential = config.credential ?? '';
 		servers.push(
 			{
 				urls: 'turn:eu.relay.metered.ca:80',

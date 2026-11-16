@@ -139,6 +139,9 @@ export function useHostSession<TState, TAction>({
 						if (message.type === 'JOIN_ROOM') {
 							const guestPeerId = message.payload.peerId || conn.peer;
 							const guestName = message.payload.name.trim() || 'Player 2';
+							if (registeredGuestPeerId !== guestPeerId) {
+								connectionsRef.current.delete(registeredGuestPeerId);
+							}
 							registeredGuestPeerId = guestPeerId;
 							connectionsRef.current.set(guestPeerId, conn);
 
@@ -160,11 +163,20 @@ export function useHostSession<TState, TAction>({
 									? onGuestJoinRef.current(prev.gameState, guestUser)
 									: prev.gameState;
 
-								return {
+								const nextState: RoomState<TState> = {
 									...prev,
 									gameState: nextGameState,
 									users: nextUsers,
 								};
+
+								if (conn.open) {
+									conn.send({
+										type: 'SYNC_STATE',
+										payload: nextState,
+									});
+								}
+
+								return nextState;
 							});
 
 							setStatus('connected');
@@ -212,6 +224,13 @@ export function useHostSession<TState, TAction>({
 
 					conn.on('close', handleDisconnect);
 					conn.on('error', handleDisconnect);
+				});
+
+				peer.on('disconnected', () => {
+					if (isCancelled) return;
+					if (!peer.destroyed) {
+						peer.reconnect();
+					}
 				});
 
 				peer.on('error', (err: Error & { type?: string }) => {
