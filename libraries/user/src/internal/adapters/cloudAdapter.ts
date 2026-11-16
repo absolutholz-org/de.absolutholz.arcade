@@ -64,9 +64,17 @@ export function mapFirebaseUserToProfile(
  */
 export class CloudAdapter {
 	private services: FirebaseServices | null;
+	private existingCloudSyncByUid = new Map<string, boolean>();
 
 	constructor(services?: FirebaseServices | null) {
 		this.services = services ?? getFirebaseServices();
+	}
+
+	/**
+	 * Returns whether the last fetched Firestore profile for `uid` already had `storageMode === 'cloud'`.
+	 */
+	hadExistingCloudSync(uid: string): boolean {
+		return this.existingCloudSyncByUid.get(uid) ?? false;
 	}
 
 	/**
@@ -103,6 +111,7 @@ export class CloudAdapter {
 			const snapshot = await getDoc(userRef);
 			if (snapshot.exists()) {
 				const raw = snapshot.data();
+				this.existingCloudSyncByUid.set(uid, raw.storageMode === 'cloud');
 				return {
 					...raw,
 					displayName: sanitizeDisplayName(raw.displayName as string | undefined, DEFAULT_PLAYER_NAME),
@@ -110,6 +119,7 @@ export class CloudAdapter {
 					updatedAt: typeof raw.updatedAt === 'number' ? raw.updatedAt : Date.now(),
 				} as Partial<PlayerProfile>;
 			}
+			this.existingCloudSyncByUid.set(uid, false);
 			return null;
 		} catch (error) {
 			console.warn(`[@arcade/lib-user] Failed to fetch Firestore profile for ${uid}:`, error);

@@ -84,9 +84,21 @@ class UserService implements IUserService {
 		this.notifyListeners();
 	}
 
-	private applyConsentToProfile(profile: PlayerProfile, isAuthenticated: boolean): PlayerProfile {
+	private applyConsentToProfile(
+		profile: PlayerProfile,
+		isAuthenticated: boolean,
+		hadExistingCloudSync = false,
+	): PlayerProfile {
 		const consent = loadConsentPreferences();
-		const shouldSync = isAuthenticated && consent.cloudSync;
+		let shouldSync = isAuthenticated && consent.cloudSync;
+
+		// On a clean device with no local consent choice yet (updatedAt === 0),
+		// inherit cloudSync: true when signing into an account that already has cloud sync enabled.
+		if (isAuthenticated && !consent.cloudSync && consent.updatedAt === 0 && hadExistingCloudSync) {
+			saveConsentPreferences({ cloudSync: true }, { isAuthenticated: true });
+			shouldSync = true;
+		}
+
 		return {
 			...profile,
 			storageMode: shouldSync ? 'cloud' : 'local',
@@ -164,7 +176,8 @@ class UserService implements IUserService {
 		if (this.cloudAdapter.isAvailable()) {
 			this.cloudAdapter.onAuthStateChanged(async (cloudProfile) => {
 				if (cloudProfile) {
-					const profile = this.applyConsentToProfile(cloudProfile, true);
+					const hadCloudSync = this.cloudAdapter.hadExistingCloudSync(cloudProfile.id);
+					const profile = this.applyConsentToProfile(cloudProfile, true, hadCloudSync);
 					const isSynced = profile.storageMode === 'cloud';
 					this.updateSession({
 						user: profile,
@@ -243,7 +256,8 @@ class UserService implements IUserService {
 		}
 
 		const profile = await this.cloudAdapter.signInWithGoogle();
-		const finalProfile = this.applyConsentToProfile(profile, true);
+		const hadCloudSync = this.cloudAdapter.hadExistingCloudSync(profile.id);
+		const finalProfile = this.applyConsentToProfile(profile, true, hadCloudSync);
 		const isSynced = finalProfile.storageMode === 'cloud';
 		this.updateSession({
 			user: finalProfile,
@@ -252,6 +266,9 @@ class UserService implements IUserService {
 		});
 		await this.localAdapter.saveProfile(finalProfile);
 		await this.localAdapter.setStorageMode(finalProfile.storageMode);
+		if (isSynced) {
+			await this.syncMedalsAcrossGames();
+		}
 		return finalProfile;
 	}
 
@@ -283,7 +300,8 @@ class UserService implements IUserService {
 		}
 
 		const profile = await this.cloudAdapter.signInWithEmail(email, password);
-		const finalProfile = this.applyConsentToProfile(profile, true);
+		const hadCloudSync = this.cloudAdapter.hadExistingCloudSync(profile.id);
+		const finalProfile = this.applyConsentToProfile(profile, true, hadCloudSync);
 		const isSynced = finalProfile.storageMode === 'cloud';
 		this.updateSession({
 			user: finalProfile,
@@ -292,6 +310,9 @@ class UserService implements IUserService {
 		});
 		await this.localAdapter.saveProfile(finalProfile);
 		await this.localAdapter.setStorageMode(finalProfile.storageMode);
+		if (isSynced) {
+			await this.syncMedalsAcrossGames();
+		}
 		return finalProfile;
 	}
 

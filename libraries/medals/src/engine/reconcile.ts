@@ -40,7 +40,7 @@ export async function reconcileGameMedals<G extends GameId>(
 
 	try {
 		const remoteState = await adapter.fetchGameMedals(gameId);
-		if (!remoteState) {
+		if (!remoteState || !remoteState.baseStats) {
 			// Remote has no state yet: push local state up to seed remote
 			if (Object.keys(localState.unlockedMedals).length > 0 || (localState.baseStats.gamesPlayed ?? 0) > 0) {
 				await adapter.syncGameMedals(gameId, localState);

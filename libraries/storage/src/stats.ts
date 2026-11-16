@@ -371,7 +371,7 @@ export async function reconcileGameStats(
 
 	try {
 		const remoteStats = await adapter.fetchGameStats(gameId);
-		if (!remoteStats) {
+		if (!remoteStats || !remoteStats.overall) {
 			if ((localStats.overall.gamesPlayed ?? 0) > 0) {
 				await adapter.syncGameStats(gameId, localStats);
 			}
