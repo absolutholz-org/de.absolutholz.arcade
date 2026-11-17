@@ -39,7 +39,6 @@ function LobbyContent({ lang }: { readonly lang: SupportedLanguageCode }): JSX.E
 	const [player2Name, setPlayer2Name] = useState<string>('Player 2');
 
 	const [roomCode, setRoomCode] = useState<string>('');
-	const [isRoomCodeExpanded, setIsRoomCodeExpanded] = useState<boolean>(false);
 	const { rooms: onlineRooms, myUid, closeOrRemoveRoom } = useActiveRooms<TicTacToeState>('tictactoe');
 
 	useEffect(() => {
@@ -67,18 +66,33 @@ function LobbyContent({ lang }: { readonly lang: SupportedLanguageCode }): JSX.E
 		});
 	}, [lang]);
 
+	const getResolvedPlayerName = (): string => {
+		const fallbackName = profile?.displayName?.trim() || defaultProfileName || 'Guest';
+		return player1Name.trim() || fallbackName;
+	};
+
+	const handleHostSession = () => {
+		const finalName = getResolvedPlayerName();
+		const generatedCode = generateRoomCode();
+		window.location.href = `/tictactoe/${lang}/game?mode=online&role=host&room=${encodeURIComponent(generatedCode)}&name=${encodeURIComponent(finalName)}`;
+	};
+
+	const handleJoinSession = () => {
+		const cleanRoomCode = extractRoomCode(roomCode);
+		if (cleanRoomCode.length === 0) return;
+		const finalName = getResolvedPlayerName();
+		window.location.href = `/tictactoe/${lang}/game?mode=online&role=guest&room=${encodeURIComponent(cleanRoomCode)}&name=${encodeURIComponent(finalName)}`;
+	};
+
 	const handleStartGame = (e: FormEvent) => {
 		e.preventDefault();
-		const fallbackName = profile?.displayName?.trim() || defaultProfileName || 'Guest';
-		const finalName = player1Name.trim() || fallbackName;
+		const finalName = getResolvedPlayerName();
 
 		if (selectedMode === 'online') {
-			const cleanRoomCode = extractRoomCode(roomCode);
-			if (cleanRoomCode.length > 0) {
-				window.location.href = `/tictactoe/${lang}/game?mode=online&role=guest&room=${encodeURIComponent(cleanRoomCode)}&name=${encodeURIComponent(finalName)}`;
+			if (extractRoomCode(roomCode).length > 0) {
+				handleJoinSession();
 			} else {
-				const generatedCode = generateRoomCode();
-				window.location.href = `/tictactoe/${lang}/game?mode=online&role=host&room=${encodeURIComponent(generatedCode)}&name=${encodeURIComponent(finalName)}`;
+				handleHostSession();
 			}
 			return;
 		}
@@ -168,6 +182,9 @@ function LobbyContent({ lang }: { readonly lang: SupportedLanguageCode }): JSX.E
 								maxLength={24}
 								fullWidth
 							/>
+							<Button type="submit" variant="primary" size="lg">
+								{t('lobby.startGame')}
+							</Button>
 						</Stack>
 					) : (
 						<Stack direction="column" spacing="md">
@@ -182,38 +199,31 @@ function LobbyContent({ lang }: { readonly lang: SupportedLanguageCode }): JSX.E
 								fullWidth
 							/>
 
-							{!isRoomCodeExpanded ? (
-								<Stack direction="row" justify="start">
-									<Button
-										variant="ghost"
-										size="sm"
-										type="button"
-										onClick={() => setIsRoomCodeExpanded(true)}
-									>
-										{t('lobby.joinViaRoomCode')}
-									</Button>
-								</Stack>
-							) : (
+							<Button type="button" variant="primary" size="lg" onClick={handleHostSession}>
+								{t('lobby.hostSession')}
+							</Button>
+
+							<S.OrDivider aria-hidden="true">
+								<span>{t('lobby.orDivider')}</span>
+							</S.OrDivider>
+
+							<Stack direction="column" spacing="sm">
 								<TextField
 									label={t('lobby.roomCodeLabel')}
 									placeholder={t('lobby.roomCodePlaceholder')}
+									helperText={t('lobby.joinAssistive')}
 									value={roomCode}
 									onChange={handleRoomCodeChange}
 									autoCapitalize="characters"
 									maxLength={128}
 									fullWidth
 								/>
-							)}
+								<Button type="submit" variant="outline" size="lg" disabled={!isJoiningRoom}>
+									{t('lobby.joinSession')}
+								</Button>
+							</Stack>
 						</Stack>
 					)}
-
-					<Button type="submit" variant="primary" size="lg">
-						{selectedMode === 'local'
-							? t('lobby.startGame')
-							: isJoiningRoom
-								? t('lobby.joinSession')
-								: t('lobby.hostSession')}
-					</Button>
 				</Stack>
 
 				{selectedMode === 'online' && onlineRooms.length > 0 && (

@@ -29,6 +29,8 @@ export const tictactoeSchema = {
 		roomCodePlaceholder: 'lobby.roomCodePlaceholder',
 		hostSession: 'lobby.hostSession',
 		joinSession: 'lobby.joinSession',
+		orDivider: 'lobby.orDivider',
+		joinAssistive: 'lobby.joinAssistive',
 		hostDisclaimer: 'lobby.hostDisclaimer',
 		activeGamesTitle: 'lobby.activeGamesTitle',
 		resumeGame: 'lobby.resumeGame',
