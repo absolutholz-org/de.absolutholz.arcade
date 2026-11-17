@@ -797,7 +797,7 @@ function GameInner({
 				elapsedSeconds={completedPlayTime}
 				movesCount={activeState.moveCount}
 				onPlayAgain={handlePlayAgain}
-				playAgainLabel={t('victory.playAgain')}
+				playAgainLabel={isRematchRequestedByOpponent ? t('online.acceptRematch') : t('victory.playAgain')}
 				statsHref={`/tictactoe/${language}/stats`}
 				medalsHref={`/tictactoe/${language}/medals`}
 				onLobby={handleBackToMenu}
@@ -813,7 +813,7 @@ function GameInner({
 				elapsedSeconds={completedPlayTime}
 				movesCount={activeState.moveCount}
 				onPlayAgain={handlePlayAgain}
-				playAgainLabel={t('victory.playAgain')}
+				playAgainLabel={isRematchRequestedByOpponent ? t('online.acceptRematch') : t('victory.playAgain')}
 				statsHref={`/tictactoe/${language}/stats`}
 				medalsHref={`/tictactoe/${language}/medals`}
 				onLobby={handleBackToMenu}
@@ -825,7 +825,7 @@ function GameInner({
 				isOpen={isCompletionOpen && isDrawMatch}
 				title={t('victory.drawTitle')}
 				message={t('victory.drawDescription')}
-				confirmText={t('victory.playAgain')}
+				confirmText={isRematchRequestedByOpponent ? t('online.acceptRematch') : t('victory.playAgain')}
 				cancelText={t('victory.backToMenu')}
 				onConfirm={handlePlayAgain}
 				onCancel={handleBackToMenu}
