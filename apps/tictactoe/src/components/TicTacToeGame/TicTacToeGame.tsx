@@ -4,10 +4,14 @@ import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { isSupportedLanguage } from '@arcade/lib-i18n/utils/detection';
 import { recordGameResult } from '@arcade/lib-medals';
+import {
+	getNotificationPermission,
+	notifyTurnIfHidden,
+	requestTurnNotificationPermission,
+} from '@arcade/lib-multiplayer/notifications';
 import { extractRoomCode, generateRoomCode } from '@arcade/lib-multiplayer/roomCode';
-import type { PlayerRole, RoomUser } from '@arcade/lib-multiplayer/types';
-import { useGuestSession } from '@arcade/lib-multiplayer/useGuestSession';
-import { type HostActionContext, useHostSession } from '@arcade/lib-multiplayer/useHostSession';
+import type { PlayerRole, RoomParticipant } from '@arcade/lib-multiplayer/types';
+import { type CloudActionContext, useCloudRoom } from '@arcade/lib-multiplayer/useCloudRoom';
 import { useUserProfile } from '@arcade/lib-ui';
 import { Badge } from '@arcade/lib-ui/components/Badge';
 import { Banner } from '@arcade/lib-ui/components/Banner';
@@ -123,7 +127,7 @@ function resolveSessionParams(defaultP1Name: string): ResolvedSessionParams {
 function reduceOnlineAction(
 	prevState: TicTacToeState,
 	action: TicTacToeAction,
-	context: HostActionContext,
+	context: CloudActionContext,
 ): TicTacToeState {
 	if (action.type === 'MAKE_MOVE') {
 		return reduce(prevState, {
@@ -137,11 +141,15 @@ function reduceOnlineAction(
 	return reduce(prevState, action);
 }
 
-function handleGuestJoinState(prevState: TicTacToeState, guest: RoomUser): TicTacToeState {
+function handleGuestJoinState(prevState: TicTacToeState, guest: RoomParticipant): TicTacToeState {
 	return {
 		...prevState,
 		player2Name: guest.name.trim() || 'Player 2',
 	};
+}
+
+function isTicTacToeComplete(state: TicTacToeState): boolean {
+	return state.isComplete;
 }
 
 function GameInner({
@@ -156,7 +164,17 @@ function GameInner({
 	const { isAuthenticated, profile, name: defaultProfileName } = useUserProfile();
 
 	const [sessionParams] = useState(() => resolveSessionParams(defaultProfileName));
-	const { isOnlineMode, role, roomId } = sessionParams;
+	const { isOnlineMode, roomId } = sessionParams;
+
+	// Ensure ?room=<code> is persisted in the URL so refreshing never creates a duplicate room
+	useEffect(() => {
+		if (!isOnlineMode || !roomId || typeof window === 'undefined') return;
+		const url = new URL(window.location.href);
+		if (url.searchParams.get('room') !== roomId) {
+			url.searchParams.set('room', roomId);
+			window.history.replaceState(null, '', url.toString());
+		}
+	}, [isOnlineMode, roomId]);
 
 	const [isJoinDialogOpen, setIsJoinDialogOpen] = useState<boolean>(
 		() => sessionParams.isOnlineMode && sessionParams.role === 'guest' && !sessionParams.hasExplicitName,
@@ -166,6 +184,9 @@ function GameInner({
 	);
 	const [hasEditedGuestName, setHasEditedGuestName] = useState<boolean>(false);
 	const [confirmedGuestName, setConfirmedGuestName] = useState<string>(() => sessionParams.localPlayerName);
+	const [notifPermission, setNotifPermission] = useState<NotificationPermission | 'unsupported'>(() =>
+		getNotificationPermission(),
+	);
 
 	useEffect(() => {
 		const profileName = profile?.displayName?.trim();
@@ -178,27 +199,22 @@ function GameInner({
 		createInitialState('X', sessionParams.player1Name, sessionParams.player2Name),
 	);
 
-	const hostSession = useHostSession<TicTacToeState, TicTacToeAction>({
+	const cloudRoom = useCloudRoom<TicTacToeState, TicTacToeAction>({
 		roomId,
-		hostName: sessionParams.player1Name,
+		gameId: 'tictactoe',
+		playerName: sessionParams.role === 'host' ? sessionParams.player1Name : confirmedGuestName,
 		initialGameState: localState,
 		reducer: reduceOnlineAction,
+		isCompleteCheck: isTicTacToeComplete,
 		onGuestJoin: handleGuestJoinState,
-		enabled: isOnlineMode && role === 'host',
+		roleHint: sessionParams.role,
+		canJoin: sessionParams.role === 'host' || !isJoinDialogOpen,
+		enabled: isOnlineMode,
 	});
 
-	const guestSession = useGuestSession<TicTacToeState, TicTacToeAction>({
-		roomId,
-		guestName: confirmedGuestName,
-		initialGameState: localState,
-		enabled: isOnlineMode && role === 'guest' && !isJoinDialogOpen,
-	});
+	const role: PlayerRole = isOnlineMode ? (cloudRoom.myRole ?? sessionParams.role) : 'host';
 
-	const activeState: TicTacToeState = isOnlineMode
-		? role === 'host'
-			? hostSession.roomState.gameState
-			: guestSession.roomState.gameState
-		: localState;
+	const activeState: TicTacToeState = isOnlineMode ? (cloudRoom.room?.gameState ?? localState) : localState;
 
 	const [focusedIndex, setFocusedIndex] = useState<number>(4);
 	const [settings, setSettings] = useState<TicTacToeSettings>({
@@ -317,12 +333,24 @@ function GameInner({
 	const opponentMark: PlayerMark = myMark === 'X' ? 'O' : 'X';
 	const opponentName = myMark === 'X' ? activeState.player2Name : activeState.player1Name;
 	const didIWin = activeState.winner === myMark;
-	const isMyTurn = !activeState.isComplete && activeState.currentTurn === myMark;
-	const isOpponentConnected = isOnlineMode
-		? role === 'host'
-			? hostSession.isOpponentConnected
-			: guestSession.isConnected
-		: true;
+	const isRoomActive = !isOnlineMode || cloudRoom.status === 'active';
+	const isMyTurn = isOnlineMode ? cloudRoom.isMyTurn : !activeState.isComplete && activeState.currentTurn === myMark;
+	const isOpponentJoined = isOnlineMode ? Boolean(cloudRoom.room?.guest) : true;
+
+	// Notify the player when it becomes their turn while the tab is hidden
+	const prevIsMyTurnRef = useRef<boolean>(false);
+	useEffect(() => {
+		if (!isOnlineMode) return;
+		if (isMyTurn && !prevIsMyTurnRef.current) {
+			return notifyTurnIfHidden({
+				title: t('title'),
+				body: t('online.yourTurn', { mark: myMark }),
+				tabTitlePrefix: t('lobby.yourTurnBadge'),
+			});
+		}
+		prevIsMyTurnRef.current = isMyTurn;
+		return undefined;
+	}, [isOnlineMode, isMyTurn, myMark, t]);
 
 	const inviteUrl =
 		typeof window !== 'undefined' && roomId
@@ -344,18 +372,14 @@ function GameInner({
 			}
 
 			if (isOnlineMode) {
-				if (!isMyTurn || !isOpponentConnected) {
+				if (!isMyTurn || !isRoomActive) {
 					return;
 				}
 				const moveAction: TicTacToeAction = {
 					type: 'MAKE_MOVE',
 					payload: { index, senderMark: myMark },
 				};
-				if (role === 'host') {
-					hostSession.dispatch(moveAction);
-				} else {
-					guestSession.sendAction(moveAction);
-				}
+				void cloudRoom.dispatchAction(moveAction);
 				return;
 			}
 
@@ -412,20 +436,18 @@ function GameInner({
 		[
 			activeState.board,
 			activeState.isComplete,
-			guestSession,
-			hostSession,
+			cloudRoom,
 			isMyTurn,
 			isOnlineMode,
-			isOpponentConnected,
+			isRoomActive,
 			localState,
 			myMark,
-			role,
 			settings.confirmTurnPass,
 			t,
 		],
 	);
 
-	// Play Again / Restart Round (alternates starting turn)
+	// Play Again / Request or Accept Rematch (alternates starting turn)
 	const handlePlayAgain = useCallback(() => {
 		setIsCompletionOpen(false);
 		setIsTurnDialogOpen(false);
@@ -433,16 +455,19 @@ function GameInner({
 		setFocusedIndex(4);
 
 		if (isOnlineMode) {
-			if (role === 'host') {
-				hostSession.dispatch({ type: 'RESET_GAME' });
+			const rematchRequester = cloudRoom.room?.rematchRequestedBy;
+			if (rematchRequester && rematchRequester !== cloudRoom.myUid) {
+				const nextState = reduce(activeState, { type: 'RESET_GAME' });
+				const nextStarterRole: PlayerRole = nextState.startingMark === 'X' ? 'host' : 'guest';
+				void cloudRoom.acceptRematch(nextState, nextStarterRole);
 			} else {
-				guestSession.sendAction({ type: 'RESET_GAME' });
+				void cloudRoom.requestRematch();
 			}
 			return;
 		}
 
 		setLocalState((prev) => reduce(prev, { type: 'RESTART' }));
-	}, [guestSession, hostSession, isOnlineMode, role]);
+	}, [activeState, cloudRoom, isOnlineMode]);
 
 	// Back to Menu
 	const handleBackToMenu = useCallback(() => {
@@ -453,7 +478,38 @@ function GameInner({
 		window.location.href = `/tictactoe/${lang}/`;
 	}, [isOnlineMode, lang]);
 
+	const handleLeaveRoom = useCallback(async () => {
+		await cloudRoom.leaveRoom();
+		window.location.href = `/tictactoe/${lang}/`;
+	}, [cloudRoom, lang]);
+
+	const closedByName = useMemo(() => {
+		const closedBy = cloudRoom.room?.closedBy;
+		if (!closedBy || !cloudRoom.room) return opponentName;
+		if (closedBy === cloudRoom.room.host.uid) return cloudRoom.room.host.name;
+		if (closedBy === cloudRoom.room.guest?.uid) return cloudRoom.room.guest.name;
+		return opponentName;
+	}, [cloudRoom.room, opponentName]);
+
 	const statusText = useMemo(() => {
+		if (isOnlineMode) {
+			if (cloudRoom.status === 'abandoned') {
+				return t('online.roomClosedBy', { name: closedByName });
+			}
+			if (cloudRoom.status === 'not-found') {
+				return t('online.roomNotFound');
+			}
+			if (cloudRoom.status === 'room-full') {
+				return t('online.roomFull');
+			}
+			if (cloudRoom.status === 'initializing' || cloudRoom.status === 'idle') {
+				return t('online.connecting');
+			}
+			if (cloudRoom.status === 'waiting' || !isOpponentJoined) {
+				return t('online.waitingForOpponent');
+			}
+		}
+
 		if (activeState.isComplete) {
 			if (activeState.winner === 'draw') {
 				return t('game.draw');
@@ -463,19 +519,8 @@ function GameInner({
 			}
 			return t('game.winner', { name: `${winnerName} (${activeState.winner})` });
 		}
+
 		if (isOnlineMode) {
-			if (!isOpponentConnected) {
-				if (role === 'host' && hostSession.status === 'waiting') {
-					return t('online.waitingForOpponent');
-				}
-				if (
-					(role === 'host' && (hostSession.status === 'disconnected' || hostSession.status === 'error')) ||
-					(role === 'guest' && (guestSession.status === 'disconnected' || guestSession.status === 'error'))
-				) {
-					return t('online.disconnected');
-				}
-				return t('online.connecting');
-			}
 			return isMyTurn
 				? t('online.yourTurn', { mark: myMark })
 				: t('online.opponentTurn', { name: activePlayerName, mark: activeState.currentTurn });
@@ -486,14 +531,13 @@ function GameInner({
 		activeState.currentTurn,
 		activeState.isComplete,
 		activeState.winner,
+		closedByName,
+		cloudRoom.status,
 		didIWin,
-		guestSession.status,
-		hostSession.status,
 		isMyTurn,
 		isOnlineMode,
-		isOpponentConnected,
+		isOpponentJoined,
 		myMark,
-		role,
 		t,
 		winnerName,
 	]);
@@ -503,15 +547,25 @@ function GameInner({
 	const isOnlineVictory = isOnlineMode && isPlayerWinner && didIWin;
 	const isOnlineDefeat = isOnlineMode && isPlayerWinner && !didIWin;
 	const isDrawMatch = activeState.isComplete && activeState.winner === 'draw';
-	const statusState = activeState.isComplete
-		? activeState.winner === 'draw'
-			? 'warning'
-			: isOnlineDefeat
-				? 'danger'
-				: 'solved'
-		: 'default';
+	const statusState =
+		isOnlineMode && cloudRoom.status === 'abandoned'
+			? 'danger'
+			: activeState.isComplete
+				? activeState.winner === 'draw'
+					? 'warning'
+					: isOnlineDefeat
+						? 'danger'
+						: 'solved'
+				: 'default';
 
-	const isBoardDisabled = activeState.isComplete || (isOnlineMode && (!isMyTurn || !isOpponentConnected));
+	const isBoardDisabled = activeState.isComplete || (isOnlineMode && (!isMyTurn || !isRoomActive));
+	const rematchRequester = cloudRoom.room?.rematchRequestedBy;
+	const isRematchRequestedByOpponent = Boolean(
+		isOnlineMode && activeState.isComplete && rematchRequester && rematchRequester !== cloudRoom.myUid,
+	);
+	const isRematchWaitingForOpponent = Boolean(
+		isOnlineMode && activeState.isComplete && rematchRequester && rematchRequester === cloudRoom.myUid,
+	);
 
 	return (
 		<GameLayout
@@ -542,11 +596,28 @@ function GameInner({
 			}
 			status={
 				<Stack direction="column" spacing="sm">
-					{isOnlineMode && role === 'host' && hostSession.error === 'unavailable-id' && (
-						<Banner variant="danger" statusLabel="ERROR" message={t('online.unavailableIdError')} />
+					{isOnlineMode && cloudRoom.status === 'not-found' && (
+						<Banner variant="danger" statusLabel="ERROR" message={t('online.roomNotFound')} />
 					)}
 
-					{isOnlineMode && role === 'host' && !hostSession.isOpponentConnected && !hostSession.error && (
+					{isOnlineMode && cloudRoom.status === 'room-full' && (
+						<Banner variant="danger" statusLabel="ERROR" message={t('online.roomFull')} />
+					)}
+
+					{isOnlineMode && cloudRoom.status === 'abandoned' && (
+						<Banner
+							variant="danger"
+							statusLabel={t('lobby.closedBadge')}
+							message={t('online.roomClosedBy', { name: closedByName })}
+							action={
+								<Button variant="outline" size="sm" type="button" onClick={handleBackToMenu}>
+									{t('controls.backToLobby')}
+								</Button>
+							}
+						/>
+					)}
+
+					{isOnlineMode && cloudRoom.status === 'waiting' && (
 						<Banner
 							variant="info"
 							statusLabel={t('online.waitingForOpponent')}
@@ -562,6 +633,27 @@ function GameInner({
 									{tCommon('share.shareRoom')}
 								</Button>
 							}
+						/>
+					)}
+
+					{isRematchRequestedByOpponent && (
+						<Banner
+							variant="info"
+							statusLabel={t('victory.playAgain')}
+							message={t('online.rematchRequestedByOpponent', { name: opponentName })}
+							action={
+								<Button variant="primary" size="sm" type="button" onClick={handlePlayAgain}>
+									{t('online.acceptRematch')}
+								</Button>
+							}
+						/>
+					)}
+
+					{isRematchWaitingForOpponent && (
+						<Banner
+							variant="info"
+							statusLabel={t('victory.playAgain')}
+							message={t('online.rematchWaitingForOpponent', { name: opponentName })}
 						/>
 					)}
 
@@ -587,11 +679,34 @@ function GameInner({
 								{activeState.player2Name} (O) · {activeState.player2Wins ?? 0}
 							</Badge>
 
-							{isOnlineMode && role === 'guest' && guestSession.status === 'disconnected' && (
-								<Button variant="outline" size="sm" type="button" onClick={guestSession.reconnect}>
-									{t('online.reconnect')}
+							{isOnlineMode && notifPermission === 'default' && (
+								<Button
+									variant="ghost"
+									size="sm"
+									type="button"
+									onClick={() => {
+										void requestTurnNotificationPermission().then((perm) =>
+											setNotifPermission(perm),
+										);
+									}}
+								>
+									{t('online.enableNotifications')}
 								</Button>
 							)}
+
+							{isOnlineMode &&
+								cloudRoom.status !== 'abandoned' &&
+								cloudRoom.status !== 'not-found' &&
+								cloudRoom.status !== 'room-full' && (
+									<Button
+										variant="ghost"
+										size="sm"
+										type="button"
+										onClick={() => void handleLeaveRoom()}
+									>
+										{t('online.leaveRoom')}
+									</Button>
+								)}
 						</Stack>
 
 						<GameStatusStrip statusText={statusText} statusState={statusState} hideTimer />

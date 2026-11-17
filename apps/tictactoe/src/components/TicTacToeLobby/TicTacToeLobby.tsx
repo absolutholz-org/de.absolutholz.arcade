@@ -4,7 +4,9 @@ import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { isSupportedLanguage } from '@arcade/lib-i18n/utils/detection';
 import { extractRoomCode, generateRoomCode } from '@arcade/lib-multiplayer/roomCode';
+import { useActiveRooms } from '@arcade/lib-multiplayer/useActiveRooms';
 import { useUserProfile } from '@arcade/lib-ui';
+import { Badge } from '@arcade/lib-ui/components/Badge';
 import { Button } from '@arcade/lib-ui/components/Button';
 import { SegmentedControl, type SegmentedControlOption } from '@arcade/lib-ui/components/SegmentedControl';
 import { Stack } from '@arcade/lib-ui/components/Stack';
@@ -38,6 +40,7 @@ function LobbyContent({ lang }: { readonly lang: SupportedLanguageCode }): JSX.E
 
 	const [roomCode, setRoomCode] = useState<string>('');
 	const [isRoomCodeExpanded, setIsRoomCodeExpanded] = useState<boolean>(false);
+	const { rooms: onlineRooms, myUid, closeOrRemoveRoom } = useActiveRooms<TicTacToeState>('tictactoe');
 
 	useEffect(() => {
 		const displayName = profile?.displayName?.trim();
@@ -212,6 +215,71 @@ function LobbyContent({ lang }: { readonly lang: SupportedLanguageCode }): JSX.E
 								: t('lobby.hostSession')}
 					</Button>
 				</Stack>
+
+				{selectedMode === 'online' && onlineRooms.length > 0 && (
+					<Stack direction="column" spacing="sm">
+						<Text as="h3" variant="h3">
+							{t('lobby.activeGamesTitle')}
+						</Text>
+						{onlineRooms.map((room) => {
+							const isMyTurn = room.phase === 'active' && room.currentTurnUid === myUid;
+							const opponentName =
+								room.host.uid === myUid
+									? (room.guest?.name ?? t('online.waitingForOpponent'))
+									: room.host.name;
+							const badgeLabel =
+								room.phase === 'abandoned'
+									? t('lobby.closedBadge')
+									: isMyTurn
+										? t('lobby.yourTurnBadge')
+										: t('lobby.waitingBadge');
+							const badgeVariant =
+								room.phase === 'abandoned' ? 'outline' : isMyTurn ? 'accent' : 'outline';
+
+							return (
+								<Stack
+									key={room.roomId}
+									direction="row"
+									spacing="sm"
+									align="center"
+									justify="between"
+									wrap
+								>
+									<Stack direction="row" spacing="xs" align="center" wrap>
+										<Text as="span" variant="small">
+											{room.roomId.toUpperCase()} · {opponentName}
+										</Text>
+										<Badge variant={badgeVariant} size="sm">
+											{badgeLabel}
+										</Badge>
+									</Stack>
+									<Stack direction="row" spacing="xs" align="center">
+										<Button
+											type="button"
+											variant="outline"
+											size="sm"
+											onClick={() => {
+												window.location.href = `/tictactoe/${lang}/game?room=${encodeURIComponent(room.roomId)}`;
+											}}
+										>
+											{t('lobby.resumeGame')}
+										</Button>
+										<Button
+											type="button"
+											variant="ghost"
+											size="sm"
+											onClick={() => {
+												void closeOrRemoveRoom(room);
+											}}
+										>
+											{t('lobby.deleteGame')}
+										</Button>
+									</Stack>
+								</Stack>
+							);
+						})}
+					</Stack>
+				)}
 			</S.FormContainer>
 		</GameLandingTemplate>
 	);

@@ -1,167 +1,100 @@
 # ADR-0011: Multiplayer Architecture and Engine for Turn-Based Arcade Games
 
-**Status:** Accepted  
+**Status:** Accepted (Revised — Cloud-Backed Async Architecture)  
 **Context:** Absolute Holz Arcade (`arcade.absolutholz.de`)  
-**Scope:** `@arcade/lib-multiplayer`, `@arcade/lib-game-core`, game applications under `apps/` (initial pilot: `apps/tictactoe`)
+**Scope:** `@arcade/lib-multiplayer`, `@arcade/lib-user`, `firestore.rules`, game applications under `apps/` (initial pilot: `apps/tictactoe`)  
+**Related Spec:** [Multiplayer Gameplay & State-Flow Specification](../multiplayer-gameplay-spec.md)
 
 ---
 
-## 1. Context & Baseline Principles
+## 1. Context & Revision Rationale
 
-The Absolute Holz Arcade is introducing multiplayer gaming, starting with two-player Tic-Tac-Toe under `apps/` as the architectural pilot, with Yahtzee and Dominoes following.
+The original draft of ADR-0011 specified a serverless WebRTC DataChannel architecture using PeerJS (`0.peerjs.com`) with STUN/TURN ICE negotiation. Real-world testing across home Wi-Fi, mobile browsers, and desktop PWAs revealed fundamental incompatibilities with casual turn-based gameplay:
 
-To maintain simplicity, speed of execution, and privacy compliance, the following baseline decisions are finalized:
+1. **Mobile Backgrounding & Sleep:** Switching apps to share an invite link or locking a phone suspends browser WebSockets and WebRTC connections, causing PeerJS handshakes to hang or drop.
+2. **No True Asynchronous Play:** In a Host-Guest P2P topology, the Host tab *is* the server. If Player 1 puts their phone down, Player 2 cannot take their turn until Player 1 wakes their device and re-establishes a live WebRTC tunnel.
+3. **Consumer Router / Firewall Fragility:** Home routers frequently drop NAT hairpinning (loopback) packets, and Windows Firewall blocks mDNS on public Wi-Fi profiles, making P2P unreliable without always-on TURN relays.
+
+Therefore, remote multiplayer is **moved from PeerJS/WebRTC to Cloud-Backed Asynchronous State Synchronization** using the existing Firebase stack (`@arcade/lib-user`, Cloud Firestore, and Firebase Anonymous Auth).
+
+---
+
+## 2. Baseline Architectural Principles
 
 1. **Clean Mode Separation (No Hybrid Local/Remote):**
-    - Games are explicitly either **Local Multiplayer (Pass-and-Play)** or **Remote Multiplayer (Networked)**.
-    - Mixing local participants and remote peers in the same session is intentionally excluded to simplify turn coordination, UI state, and connection models.
+    - Games are explicitly either **Local Multiplayer (Pass-and-Play)** or **Remote Multiplayer (Online)**.
+    - Mixing local participants and remote peers in the same session is excluded to keep turn coordination and UI state simple.
 2. **Zero-Network Local Mode:**
-    - Local Pass-and-Play runs 100% in-memory with zero WebRTC, zero signaling, and zero network calls. It is completely instant and works entirely offline.
-3. **P2P Star Topology via PeerJS & EU-First ICE:**
-    - Remote play uses WebRTC DataChannels in an authoritative Host-Guest star topology ($O(N)$ connections).
-    - Signaling uses public PeerJS (`0.peerjs.com:443`) under Art. 6 (1) (f) GDPR legitimate technical necessity (no game state or moves ever touch signaling).
-    - ICE resolution prioritizes German STUN relays (`stun.1und1.de:3478`, `stun.hosteurope.de:3478`) with authenticated Metered.ca TURN fallback covered under the EU-Canada Adequacy Decision.
-4. **Resilient & Extended Play (No Premature Disconnects):**
-    - Turn-based matches may unfold over minutes or hours.
-    - The aggressive 15-second severance timer from the planning-poker blueprint is removed.
-    - Both host and guest persist their active match state in `localStorage` and can reconnect transparently when a tab is reopened, backgrounded, or refreshed.
-5. **Human-Friendly Room Codes:**
-    - Users see and share a concise 6-character code (e.g., `k7m2p9`).
-    - Under the hood, PeerJS registers namespaced identifiers (e.g., `ah-arcade-k7m2p9`) to eliminate global collision risk on public signaling brokers.
+    - Local Pass-and-Play runs 100% in-memory and local storage with zero Firestore reads/writes and zero network calls. It works completely offline.
+3. **Cloud-Backed Room State (Firestore):**
+    - Each online match is stored as a document in `rooms/{roomId}` in Cloud Firestore.
+    - Both players subscribe to the room document via `onSnapshot` when the app is open, and can close their browser/PWA at any time without losing the match or blocking the opponent.
+    - Turn validation and state transitions run through deterministic game reducers and optimistic concurrency (Firestore transactions or versioned `moveCount` checks) enforced by `firestore.rules`.
+4. **Frictionless Identity (Anyone with the Link):**
+    - Creating or joining a room **does not require creating an account**.
+    - Players enter a display name (pre-populated from `@arcade/lib-user` profile if signed in, or `"Guest"` / custom name).
+    - Under the hood, Firebase Anonymous Auth (or an existing signed-in Firebase `uid`) provides a stable `playerUid` for Firestore security rules and reconnects, even if the user refreshes or switches tabs.
+5. **Wait-for-Opponent Start Gate:**
+    - After creating a room, Player 1 (Host) waits until Player 2 (Guest) joins the room before the first move is unlocked.
+    - Once Player 2 joins, the room transitions from `waiting` to `active`, and both players are notified that the match is ready and it is Player 1's turn.
+6. **Zero-Cost Firebase Spark Plan Constraint (Layered Alerts):**
+    - The architecture must run **100% within the Firebase Spark (Free) plan**—no Blaze-only services (such as Firebase Cloud Functions).
+    - Live turn updates arrive via Firestore `onSnapshot` listeners (with browser `Notification` API / tab-title / audio alerts when a tab is open).
+    - When players are offline or have closed the app, turn discovery uses an in-app **Active Games** list plus an optional one-tap **"Share turn reminder"** link via the OS Share sheet.
+    - *(True closed-app background Web Push can be added later via a free-tier edge worker or Blaze Cloud Function without changing the Firestore room schema.)*
+7. **Human-Friendly Room Codes:**
+    - Users see and share a concise 6-character code (e.g., `k7m2p9`) via `?room=k7m2p9`.
+    - Role (`host` vs `guest`) is **never** trusted blindly from URL parameters alone; it is derived from matching the user's `uid` against `players.host.uid` / `players.guest.uid` in the room document.
 
 ---
 
-## 2. User Journey & Screen States
-
-### 2.1 Screen State Flow
-
-```
-+--------------------------------------------------------------+
-|                    1. Mode Selection                         |
-|                                                              |
-|        [ Pass & Play ]              [ Online ]               |
-+---------------+------------------------------+---------------+
-                |                              |
-                v                              v
-+-------------------------------+ +-------------------------------+
-|  2A. Local Match Setup        | |  2B. Online Lobby Form        |
-|                               | |                               |
-|  Player 1 (X): [ Guest      ] | |  Your Name: [ Guest         ] |
-|  Player 2 (O): [ Player 2   ] | |                               |
-|                               | |  "Join via room code?"        |
-|  [ Start Game ]               | |  (Or expanded Room Code input)|
-|                               | |                               |
-|                               | |  [ Host a Session -> ]        |
-|                               | |  (Or [ Join Session -> ] if   |
-|                               | |   code is entered / in URL)   |
-|                               | |                               |
-|                               | |  [ (i) How it works & Privacy]|
-+---------------+---------------+ +---------------+---------------+
-                |                                 |
-                +----------------+----------------+
-                                 |
-                                 v
-+-----------------------------------------------------------------+
-|                        3. Active Game Screen                    |
-|                                                                 |
-|   Header: Guest (X) vs Player 2 (O) | Share Link / Room Status  |
-|   Turn Status: "Guest's Turn (X)"                               |
-|                                                                 |
-|                          [   |   |   ]                          |
-|                          [---+---+---]                          |
-|                          [   | X |   ]                          |
-|                          [---+---+---]                          |
-|                          [   |   | O ]                          |
-|                                                                 |
-+--------------------------------+--------------------------------+
-                                 |
-                                 v
-+-----------------------------------------------------------------+
-|                       4. Game Over Dialog                       |
-|                                                                 |
-|   "Guest Wins!" / "Match Drawn"                                 |
-|   [ Back to Menu ]                      [ Play Again ]          |
-+-----------------------------------------------------------------+
-```
-
-### 2.2 Online Lobby Form Specification (Adapted from P2P Planning Poker)
-
-When the user switches the Segmented Control to **Online** (or arrives via a deep link `?room=XXXXXX`), the form renders the progressive-disclosure Lobby pattern:
-
-1. **Your Name Input:**
-    - Pre-populated from the arcade user profile (`useUserProfile().name`, defaulting to `"Guest"`).
-2. **Progressive Room Code Field:**
-    - **Default State (No URL `room` param):** Displays a clean text button: `"Join via room code?"`.
-    - **Expanded State (Clicked toggle):** Reveals the `"ROOM CODE (OPTIONAL)"` input with placeholder `"Enter code or leave blank to host"`.
-    - **Smart URL Parsing (`extractRoomCode`):** If a user pastes a full invite URL (`https://arcade.absolutholz.de/tictactoe/en/?room=k7m2p9`) into the Room Code input, it automatically strips the URL and extracts `k7m2p9`.
-    - **Deep-Link State (`?room=k7m2p9` in URL):** If accessed directly via a shared link, the room code is automatically set, the mode switches to **Online**, and the CTA defaults to joining that room.
-3. **Dynamic Primary CTA Button:**
-    - When Room Code is empty: **`Host a Session`** (creates a 6-character code, sets role to `host`, and opens the room).
-    - When Room Code has value: **`Join Session`** (sets role to `guest` and connects to the host's room).
-4. **Host Disclaimer & Privacy Disclosure:**
-    - Subtle disclaimer below the button: _"As the host, you hold the only copy of this session."_
-    - Collapsible **`How it works & Privacy`** disclosure explaining:
-        - **Serverless & Private:** WebRTC connects directly between browsers; game moves never touch a server.
-        - **Session Persistence:** State is kept locally in the browser for the duration of the match.
-
----
-
-## 3. Disconnection, Backgrounding, and Extended Play
-
-Unlike real-time fast-twitch games or strict conference tools, casual turn-based board games need to survive mobile screen locks, background tab pausing, and slow turn responses.
-
-1. **State Persistence in Storage:**
-    - Every time `state` updates, the Host backs up `{ roomId, state, users }` to storage.
-    - Guests persist their `peerId` UUID in `localStorage` (`getOrCreatePersistentId`) so refreshing the browser re-identifies them into their existing player slot (`X` or `O`) rather than adding a 3rd spectator.
-2. **Heartbeat for Presence (Without Destructive Severance):**
-    - The Host sends a `HEARTBEAT` pulse every `5000ms`.
-    - If a peer's connection drops or times out, their entry in `users` is marked `isConnected: false` and the UI displays an unobtrusive status badge (_"Opponent offline — waiting to reconnect"_), allowing them to rejoin using the same link at any time.
-
----
-
-## 4. Technical Architecture & Monorepo Boundaries
-
-Games are located under `apps/` while reusable logic resides in shared libraries.
-
-### 4.1 Core Hook Architecture (`useHostSession` & `useGuestSession`)
-
-Ported directly from the proven Scrum Poker architecture and generalized for turn-based reducers:
-
-- **`useHostSession<TState, TAction>`:**
-    - Registers `new Peer(toPeerId(roomId), { config: { iceServers } })`.
-    - Maintains `connectionsRef = useRef<Map<string, DataConnection>>(new Map())`.
-    - Handles `JOIN_ROOM` (reconnecting existing `conn.peer` UUIDs or adding new players up to `maxPlayers`).
-    - Processes incoming `GAME_ACTION` payloads through the game's pure reducer using functional state updates `setRoomState((prevState) => ...)` to prevent stale closures, then broadcasts `SYNC_STATE` to all open connections.
-    - Runs the 5-second `HEARTBEAT` interval.
-- **`useGuestSession<TState, TAction>`:**
-    - Generates/reads a persistent UUID from `localStorage`.
-    - Registers `new Peer(persistentId, { config: { iceServers } })`.
-    - Inside `peer.on('open')` (preventing race conditions), calls `peer.connect(toPeerId(roomId))`.
-    - Sends `JOIN_ROOM` on open, listens for `SYNC_STATE`, and exposes `sendAction(action)`.
-
-### 4.2 Namespaced Room IDs & Smart Code Extractor
+## 3. High-Level Data Model (`rooms/{roomId}`)
 
 ```typescript
-const ROOM_NAMESPACE = "ah-arcade-";
+export type RoomPhase = 'waiting' | 'active' | 'completed' | 'abandoned';
 
-export function toPeerId(shortCode: string): string {
-	return `${ROOM_NAMESPACE}${shortCode.trim().toLowerCase()}`;
+export interface RoomParticipant {
+	readonly uid: string;
+	readonly name: string;
+	readonly role: 'host' | 'guest';
+	readonly mark: 'X' | 'O'; // or game-specific slot index
+	readonly joinedAt: number;
+	readonly lastSeenAt: number;
 }
 
-export function extractRoomCode(input: string): string {
-	const trimmed = input.trim();
-	if (!trimmed) return "";
-	try {
-		if (trimmed.includes("://") || trimmed.includes("?")) {
-			const url = new URL(trimmed.startsWith("http") ? trimmed : `https://${trimmed}`);
-			const roomParam = url.searchParams.get("room");
-			if (roomParam) return roomParam.trim().toLowerCase();
-			const parts = url.pathname.split("/").filter(Boolean);
-			return (parts[parts.length - 1] || trimmed).toLowerCase();
-		}
-	} catch {
-		// Fallback to raw input
-	}
-	return trimmed.toLowerCase();
+export interface CloudRoomDocument<TState> {
+	readonly roomId: string;
+	readonly gameId: string; // e.g. 'tictactoe'
+	readonly phase: RoomPhase;
+	readonly version: number; // monotonically incremented on every valid move/reset
+	readonly currentTurnUid: string | null;
+	readonly rematchRequestedBy: string | null; // uid of player requesting rematch
+	readonly closedBy: string | null; // uid of player who left/closed the room
+	readonly host: RoomParticipant;
+	readonly guest: RoomParticipant | null;
+	readonly gameState: TState;
+	readonly createdAt: number;
+	readonly updatedAt: number;
+	readonly expiresAt: number; // Firestore TTL (+14 days)
 }
 ```
+
+### Concurrency & Security Rules Invariants
+
+- **No Double-Join:** Once `guest` is non-null, a third user with a different `uid` cannot overwrite `guest` (they may either be shown a "Room is full" screen or an optional read-only spectator view).
+- **Turn Enforcement:** A player can only update `gameState` when `phase === 'active'` and `request.auth.uid == resource.data.currentTurnUid` (plus `version == resource.data.version + 1`).
+- **Role Recovery on Refresh:** If the Host opens the shared link (`?room=k7m2p9` without `&role=host`) on their own device, matching `uid === room.host.uid` automatically restores them as the Host.
+
+---
+
+## 4. Monorepo Boundaries & Migration Scope
+
+- **`@arcade/lib-multiplayer`:**
+    - Replaces `peerjs` hooks (`useHostSession`, `useGuestSession`) and `iceServers.ts` with a unified cloud room hook (e.g., `useCloudRoom<TState, TAction>`), room lifecycle helpers, and push subscription hooks.
+    - Removes the `peerjs` dependency and PeerJS/STUN/TURN GDPR disclosures.
+- **`@arcade/lib-user`:**
+    - Exposes/ensures an active Firebase Auth `uid` (upgrading seamlessly via Anonymous Auth when a guest starts or joins an online game) and stores the user's active room list for quick resume.
+- **`firestore.rules`:**
+    - Authored exclusively via the `firestore-rules-author` specialist subagent when implementing the `rooms/{roomId}` rules.
+- **Legal / Privacy Documentation (Deferred Follow-Up):**
+    - Privacy policy and consent disclosures will be updated in a dedicated follow-up step to remove PeerJS/STUN/TURN references and document Firestore room storage & anonymous session IDs.

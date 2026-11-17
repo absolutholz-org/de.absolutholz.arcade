@@ -39,6 +39,25 @@ rules_version = '2';
 //      - byBucket: map (required) - Per-bucket statistics keyed by bucket ID
 //      - lifetimeMetrics: map (required) - Accumulated custom lifetime metrics
 //
+// 4. Cloud Multiplayer Room Document (ADR-0011)
+//    Path: /rooms/{roomId}
+//    Document ID: {roomId} (Room code, 4-16 chars)
+//    Fields:
+//      - roomId: string (required, immutable, 4-16 chars) - Room code matching docId
+//      - gameId: string (required, immutable, 1-64 chars) - Game identifier
+//      - phase: string (required, 'waiting' | 'active' | 'completed' | 'abandoned')
+//      - version: int (required, >= 1, must increment by +1 on every update)
+//      - currentTurnUid: string | null (required) - UID of player whose turn it is
+//      - rematchRequestedBy: string | null (required) - UID of player requesting rematch
+//      - closedBy: string | null (required) - UID of player who abandoned/closed the room
+//      - participantUids: list<string> (required, 1-2 UIDs) - Host UID, plus Guest UID once joined
+//      - host: map (required, immutable) - { uid, name, role: 'host', mark, joinedAt, lastSeenAt }
+//      - guest: map | null (required) - null or { uid, name, role: 'guest', mark, joinedAt, lastSeenAt }
+//      - gameState: map (required) - Game-specific serialized state
+//      - createdAt: number (required, immutable) - Creation timestamp (ms since epoch)
+//      - updatedAt: number (required) - Last update timestamp (ms since epoch)
+//      - expiresAt: timestamp (required) - Expiration Firestore Timestamp (for native TTL policy)
+//
 // ===============================================================
 
 service cloud.firestore {
@@ -139,6 +158,108 @@ service cloud.firestore {
              data.lifetimeMetrics is map;
     }
 
+    // Validator for a RoomParticipant map (host or guest)
+    function isValidRoomParticipant(participant, expectedRole) {
+      let allowedKeys = ['uid', 'name', 'role', 'mark', 'joinedAt', 'lastSeenAt'];
+
+      return participant is map &&
+             participant.keys().hasAll(allowedKeys) &&
+             participant.keys().hasOnly(allowedKeys) &&
+             participant.uid is string &&
+             participant.uid.size() >= 1 &&
+             participant.uid.size() <= 128 &&
+             participant.name is string &&
+             participant.name.size() >= 1 &&
+             participant.name.size() <= 100 &&
+             participant.role is string &&
+             participant.role == expectedRole &&
+             participant.mark is string &&
+             participant.mark.size() >= 1 &&
+             participant.mark.size() <= 16 &&
+             participant.joinedAt is number &&
+             participant.joinedAt >= 0 &&
+             participant.lastSeenAt is number &&
+             participant.lastSeenAt >= 0;
+    }
+
+    // Domain validator for /rooms/{roomId} documents
+    function isValidRoomDoc(roomId) {
+      let data = request.resource.data;
+      let allowedFields = [
+        'roomId', 'gameId', 'phase', 'version', 'currentTurnUid',
+        'rematchRequestedBy', 'closedBy', 'participantUids',
+        'host', 'guest', 'gameState', 'createdAt', 'updatedAt', 'expiresAt'
+      ];
+
+      return hasRequiredFields(allowedFields) &&
+             hasOnlyAllowedFields(allowedFields) &&
+             data.roomId is string &&
+             data.roomId == roomId &&
+             data.roomId.size() >= 4 &&
+             data.roomId.size() <= 16 &&
+             data.gameId is string &&
+             data.gameId.size() >= 1 &&
+             data.gameId.size() <= 64 &&
+             data.phase is string &&
+             data.phase in ['waiting', 'active', 'completed', 'abandoned'] &&
+             data.version is int &&
+             data.version >= 1 &&
+             data.participantUids is list &&
+             data.participantUids.size() >= 1 &&
+             data.participantUids.size() <= 2 &&
+             data.participantUids[0] is string &&
+             data.participantUids[0].size() >= 1 &&
+             data.participantUids[0].size() <= 128 &&
+             (data.participantUids.size() == 1 || (data.participantUids[1] is string && data.participantUids[1].size() >= 1 && data.participantUids[1].size() <= 128)) &&
+             (data.currentTurnUid == null || (data.currentTurnUid is string && data.currentTurnUid.size() >= 1 && data.currentTurnUid.size() <= 128 && data.currentTurnUid in data.participantUids)) &&
+             (data.rematchRequestedBy == null || (data.rematchRequestedBy is string && data.rematchRequestedBy.size() >= 1 && data.rematchRequestedBy.size() <= 128 && data.rematchRequestedBy in data.participantUids)) &&
+             (data.closedBy == null || (data.closedBy is string && data.closedBy.size() >= 1 && data.closedBy.size() <= 128 && data.closedBy in data.participantUids)) &&
+             isValidRoomParticipant(data.host, 'host') &&
+             (data.guest == null || isValidRoomParticipant(data.guest, 'guest')) &&
+             data.gameState is map &&
+             data.gameState.keys().size() <= 64 &&
+             data.createdAt is number &&
+             data.createdAt >= 0 &&
+             data.updatedAt is number &&
+             data.updatedAt >= 0 &&
+             data.expiresAt is timestamp &&
+             data.expiresAt.toMillis() >= data.createdAt;
+    }
+
+    // State transition validator for /rooms/{roomId} updates
+    function isValidRoomTransition() {
+      let prev = resource.data;
+      let next = request.resource.data;
+
+      let isGuestJoin = prev.phase == 'waiting' &&
+                        next.phase == 'active' &&
+                        prev.guest == null &&
+                        request.auth.uid != prev.host.uid &&
+                        next.guest is map &&
+                        next.guest.uid == request.auth.uid &&
+                        next.participantUids == [prev.host.uid, request.auth.uid] &&
+                        next.currentTurnUid == prev.host.uid;
+
+      let isGameplayMove = prev.phase == 'active' &&
+                           next.phase in ['active', 'completed'] &&
+                           request.auth.uid == prev.currentTurnUid &&
+                           next.guest == prev.guest &&
+                           next.participantUids == prev.participantUids;
+
+      let isRematchAction = prev.phase == 'completed' &&
+                            next.phase in ['completed', 'active'] &&
+                            request.auth.uid in prev.participantUids &&
+                            next.guest == prev.guest &&
+                            next.participantUids == prev.participantUids;
+
+      let isAbandonRoom = prev.phase in ['waiting', 'active', 'completed'] &&
+                          next.phase == 'abandoned' &&
+                          request.auth.uid in prev.participantUids &&
+                          next.closedBy == request.auth.uid;
+
+      return isGuestJoin || isGameplayMove || isRematchAction || isAbandonRoom;
+    }
+
     // ===============================================================
     // Collection Rules
     // ===============================================================
@@ -170,6 +291,28 @@ service cloud.firestore {
         allow create: if isOwner(userId) && isValidStorageStatsDoc(gameId);
         allow update: if isOwner(userId) && isValidStorageStatsDoc(gameId) && areImmutableFieldsUnchanged(['gameId']);
       }
+    }
+
+    // Cloud Multiplayer Rooms (ADR-0011)
+    // Link-based join via get; participant-scoped list/delete; versioned state-machine updates
+    match /rooms/{roomId} {
+      allow get: if isAuthenticated();
+      allow list: if isAuthenticated() && request.auth.uid in resource.data.participantUids;
+      allow create: if isAuthenticated() &&
+                       isValidRoomDoc(roomId) &&
+                       request.resource.data.phase == 'waiting' &&
+                       request.resource.data.version == 1 &&
+                       request.resource.data.guest == null &&
+                       request.resource.data.closedBy == null &&
+                       request.resource.data.rematchRequestedBy == null &&
+                       request.resource.data.host.uid == request.auth.uid &&
+                       request.resource.data.participantUids == [request.auth.uid];
+      allow update: if isAuthenticated() &&
+                       isValidRoomDoc(roomId) &&
+                       areImmutableFieldsUnchanged(['roomId', 'gameId', 'createdAt', 'host']) &&
+                       request.resource.data.version == resource.data.version + 1 &&
+                       isValidRoomTransition();
+      allow delete: if isAuthenticated() && request.auth.uid in resource.data.participantUids;
     }
   }
 }

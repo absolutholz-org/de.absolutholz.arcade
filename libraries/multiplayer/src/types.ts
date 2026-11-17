@@ -1,41 +1,42 @@
+import type { Timestamp } from 'firebase/firestore';
+
 export type PlayerRole = 'host' | 'guest';
 
-export type ConnectionStatus = 'idle' | 'connecting' | 'waiting' | 'connected' | 'disconnected' | 'error';
+export type RoomPhase = 'waiting' | 'active' | 'completed' | 'abandoned';
 
-export interface RoomUser {
-	readonly peerId: string;
+export type RoomConnectionStatus =
+	| 'idle'
+	| 'initializing'
+	| 'waiting'
+	| 'active'
+	| 'completed'
+	| 'abandoned'
+	| 'room-full'
+	| 'not-found'
+	| 'error';
+
+export interface RoomParticipant {
+	readonly uid: string;
 	readonly name: string;
 	readonly role: PlayerRole;
 	readonly mark: 'X' | 'O';
-	readonly isConnected: boolean;
+	readonly joinedAt: number;
+	readonly lastSeenAt: number;
 }
 
-export interface RoomState<TState> {
+export interface CloudRoomDocument<TState> {
 	readonly roomId: string;
+	readonly gameId: string;
+	readonly phase: RoomPhase;
+	readonly version: number;
+	readonly currentTurnUid: string | null;
+	readonly rematchRequestedBy: string | null;
+	readonly closedBy: string | null;
+	readonly participantUids: readonly string[];
+	readonly host: RoomParticipant;
+	readonly guest: RoomParticipant | null;
 	readonly gameState: TState;
-	readonly users: readonly RoomUser[];
+	readonly createdAt: number;
+	readonly updatedAt: number;
+	readonly expiresAt: Timestamp;
 }
-
-export type P2PMessage<TState, TAction> =
-	| {
-			readonly type: 'JOIN_ROOM';
-			readonly payload: {
-				readonly name: string;
-				readonly peerId: string;
-			};
-	  }
-	| {
-			readonly type: 'GAME_ACTION';
-			readonly payload: {
-				readonly action: TAction;
-				readonly senderPeerId: string;
-			};
-	  }
-	| {
-			readonly type: 'SYNC_STATE';
-			readonly payload: RoomState<TState>;
-	  }
-	| {
-			readonly type: 'HEARTBEAT';
-			readonly timestamp: number;
-	  };

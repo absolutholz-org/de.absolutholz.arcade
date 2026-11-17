@@ -17,17 +17,17 @@
 			"types": "./src/roomCode.ts",
 			"default": "./src/roomCode.ts"
 		},
-		"./iceServers": {
-			"types": "./src/iceServers.ts",
-			"default": "./src/iceServers.ts"
+		"./useCloudRoom": {
+			"types": "./src/useCloudRoom.ts",
+			"default": "./src/useCloudRoom.ts"
 		},
-		"./useHostSession": {
-			"types": "./src/useHostSession.ts",
-			"default": "./src/useHostSession.ts"
+		"./useActiveRooms": {
+			"types": "./src/useActiveRooms.ts",
+			"default": "./src/useActiveRooms.ts"
 		},
-		"./useGuestSession": {
-			"types": "./src/useGuestSession.ts",
-			"default": "./src/useGuestSession.ts"
+		"./notifications": {
+			"types": "./src/notifications.ts",
+			"default": "./src/notifications.ts"
 		}
 	},
 	"scripts": {
@@ -36,7 +36,7 @@
 		"test": "node --experimental-strip-types --test src/roomCode.test.ts"
 	},
 	"dependencies": {
-		"peerjs": "^1.5.4"
+		"firebase": "catalog:"
 	},
 	"peerDependencies": {
 		"react": "catalog:"

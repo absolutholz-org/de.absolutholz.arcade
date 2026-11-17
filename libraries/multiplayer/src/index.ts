@@ -1,4 +1,10 @@
-export { getIceServers, PEER_CONFIG } from './iceServers.js';
+export {
+	getNotificationPermission,
+	isBrowserNotificationSupported,
+	notifyTurnIfHidden,
+	requestTurnNotificationPermission,
+	type TurnAlertOptions,
+} from './notifications.js';
 export {
 	extractRoomCode,
 	generateRoomCode,
@@ -7,15 +13,17 @@ export {
 	ROOM_NAMESPACE,
 	toPeerId,
 } from './roomCode.js';
-export type { ConnectionStatus, P2PMessage, PlayerRole, RoomState, RoomUser } from './types.js';
+export type {
+	CloudRoomDocument,
+	PlayerRole,
+	RoomConnectionStatus,
+	RoomParticipant,
+	RoomPhase,
+} from './types.js';
+export { type UseActiveRoomsReturn, useActiveRooms } from './useActiveRooms.js';
 export {
-	type UseGuestSessionOptions,
-	type UseGuestSessionReturn,
-	useGuestSession,
-} from './useGuestSession.js';
-export {
-	type HostActionContext,
-	type UseHostSessionOptions,
-	type UseHostSessionReturn,
-	useHostSession,
-} from './useHostSession.js';
+	type CloudActionContext,
+	type UseCloudRoomOptions,
+	type UseCloudRoomReturn,
+	useCloudRoom,
+} from './useCloudRoom.js';
