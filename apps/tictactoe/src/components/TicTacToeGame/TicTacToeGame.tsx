@@ -514,6 +514,11 @@ function GameInner({
 		}
 
 		if (activeState.isComplete) {
+			if (isOnlineMode && cloudRoom.room?.rematchRequestedBy) {
+				return cloudRoom.room.rematchRequestedBy === cloudRoom.myUid
+					? t('online.rematchWaitingForOpponent', { name: opponentName })
+					: t('online.rematchRequestedByOpponent', { name: opponentName });
+			}
 			if (activeState.winner === 'draw') {
 				return t('game.draw');
 			}
@@ -536,12 +541,15 @@ function GameInner({
 		activeState.winner,
 		closedByName,
 		cloudRoom.error,
+		cloudRoom.myUid,
+		cloudRoom.room?.rematchRequestedBy,
 		cloudRoom.status,
 		didIWin,
 		isMyTurn,
 		isOnlineMode,
 		isOpponentJoined,
 		myMark,
+		opponentName,
 		t,
 		winnerName,
 	]);

@@ -239,40 +239,64 @@ export function useCloudRoom<TState, TAction>({
 	const dispatchAction = useCallback(
 		async (action: TAction) => {
 			const services = getMultiplayerFirebase();
-			if (!services || !myUid || !roomId) return;
+			if (!services || !myUid || !roomId || !room) return;
+			if (room.phase !== 'active' || room.currentTurnUid !== myUid) return;
+
+			const senderRole: PlayerRole = room.host.uid === myUid ? 'host' : 'guest';
+			const senderMark = senderRole === 'host' ? room.host.mark : (room.guest?.mark ?? 'O');
+
+			// Optimistic local update so the player sees their move immediately (0ms)
+			const optimisticGameState = reducerRef.current(room.gameState, action, {
+				senderUid: myUid,
+				senderRole,
+				senderMark,
+			});
+			if (optimisticGameState === room.gameState) return;
+
+			const optimisticComplete = isCompleteCheckRef.current(optimisticGameState);
+			const optimisticOpponentUid = senderRole === 'host' ? (room.guest?.uid ?? null) : room.host.uid;
+			setRoom({
+				...room,
+				gameState: optimisticGameState,
+				phase: optimisticComplete ? 'completed' : 'active',
+				currentTurnUid: optimisticComplete ? null : optimisticOpponentUid,
+			});
+
 			const roomRef = doc(services.firestore, 'rooms', roomId);
 
-			await runTransaction(services.firestore, async (tx) => {
-				const snap = await tx.get(roomRef);
-				if (!snap.exists()) return;
-				const latest = snap.data() as CloudRoomDocument<TState>;
-				if (latest.phase !== 'active' || latest.currentTurnUid !== myUid) return;
+			try {
+				await runTransaction(services.firestore, async (tx) => {
+					const snap = await tx.get(roomRef);
+					if (!snap.exists()) return;
+					const latest = snap.data() as CloudRoomDocument<TState>;
+					if (latest.phase !== 'active' || latest.currentTurnUid !== myUid) return;
 
-				const senderRole: PlayerRole = latest.host.uid === myUid ? 'host' : 'guest';
-				const senderMark = senderRole === 'host' ? latest.host.mark : (latest.guest?.mark ?? 'O');
+					const nextGameState = reducerRef.current(latest.gameState, action, {
+						senderUid: myUid,
+						senderRole,
+						senderMark,
+					});
+					if (nextGameState === latest.gameState) return;
 
-				const nextGameState = reducerRef.current(latest.gameState, action, {
-					senderUid: myUid,
-					senderRole,
-					senderMark,
+					const now = Date.now();
+					const complete = isCompleteCheckRef.current(nextGameState);
+					const opponentUid = senderRole === 'host' ? (latest.guest?.uid ?? null) : latest.host.uid;
+
+					tx.update(roomRef, {
+						gameState: nextGameState,
+						phase: complete ? 'completed' : 'active',
+						currentTurnUid: complete ? null : opponentUid,
+						version: latest.version + 1,
+						updatedAt: now,
+						expiresAt: Timestamp.fromMillis(now + ROOM_TTL_MS),
+					});
 				});
-				if (nextGameState === latest.gameState) return;
-
-				const now = Date.now();
-				const complete = isCompleteCheckRef.current(nextGameState);
-				const opponentUid = senderRole === 'host' ? (latest.guest?.uid ?? null) : latest.host.uid;
-
-				tx.update(roomRef, {
-					gameState: nextGameState,
-					phase: complete ? 'completed' : 'active',
-					currentTurnUid: complete ? null : opponentUid,
-					version: latest.version + 1,
-					updatedAt: now,
-					expiresAt: Timestamp.fromMillis(now + ROOM_TTL_MS),
-				});
-			});
+			} catch (err: unknown) {
+				console.error('[@arcade/lib-multiplayer] dispatchAction failed:', err);
+				setError(err instanceof Error ? err.message : 'action-error');
+			}
 		},
-		[myUid, roomId],
+		[myUid, room, roomId],
 	);
 
 	const requestRematch = useCallback(async () => {
