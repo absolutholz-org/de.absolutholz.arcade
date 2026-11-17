@@ -493,6 +493,9 @@ function GameInner({
 
 	const statusText = useMemo(() => {
 		if (isOnlineMode) {
+			if (cloudRoom.status === 'error') {
+				return cloudRoom.error ?? t('online.roomNotFound');
+			}
 			if (cloudRoom.status === 'abandoned') {
 				return t('online.roomClosedBy', { name: closedByName });
 			}
@@ -532,6 +535,7 @@ function GameInner({
 		activeState.isComplete,
 		activeState.winner,
 		closedByName,
+		cloudRoom.error,
 		cloudRoom.status,
 		didIWin,
 		isMyTurn,
@@ -596,6 +600,14 @@ function GameInner({
 			}
 			status={
 				<Stack direction="column" spacing="sm">
+					{isOnlineMode && cloudRoom.status === 'error' && (
+						<Banner
+							variant="danger"
+							statusLabel="ERROR"
+							message={cloudRoom.error ?? t('online.roomNotFound')}
+						/>
+					)}
+
 					{isOnlineMode && cloudRoom.status === 'not-found' && (
 						<Banner variant="danger" statusLabel="ERROR" message={t('online.roomNotFound')} />
 					)}

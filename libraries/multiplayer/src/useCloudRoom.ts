@@ -136,6 +136,7 @@ export function useCloudRoom<TState, TAction>({
 									}
 								}).catch((err: unknown) => {
 									if (isCancelled) return;
+									console.error('[@arcade/lib-multiplayer] Room create failed:', err);
 									setError(err instanceof Error ? err.message : 'room-create-error');
 									setStatus('error');
 								});
@@ -219,6 +220,7 @@ export function useCloudRoom<TState, TAction>({
 			})
 			.catch((err: unknown) => {
 				if (isCancelled) return;
+				console.error('[@arcade/lib-multiplayer] Auth/room init failed:', err);
 				setError(err instanceof Error ? err.message : 'auth-error');
 				setStatus('error');
 			});
