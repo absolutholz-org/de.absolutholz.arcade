@@ -14,9 +14,12 @@ export function getPuzzlesByDifficulty(difficulty: Difficulty): StarBattlePuzzle
 }
 
 export function getNextPuzzle(currentId: string): StarBattlePuzzle | undefined {
-	const idx = STAR_BATTLE_PUZZLES.findIndex((p) => p.id === currentId);
-	if (idx >= 0 && idx < STAR_BATTLE_PUZZLES.length - 1) {
-		return STAR_BATTLE_PUZZLES[idx + 1];
+	const current = getPuzzleById(currentId);
+	if (!current) return undefined;
+	const sameDifficulty = getPuzzlesByDifficulty(current.difficulty);
+	const idx = sameDifficulty.findIndex((p) => p.id === currentId);
+	if (idx >= 0 && idx < sameDifficulty.length - 1) {
+		return sameDifficulty[idx + 1];
 	}
 	return undefined;
 }

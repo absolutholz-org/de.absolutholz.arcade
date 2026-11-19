@@ -907,18 +907,49 @@ export function useStarBattleGame(initialDifficulty: Difficulty = 'easy', initia
 		[recordSurrender, resetRoundContext],
 	);
 
+	// Start a newly generated random puzzle at the current difficulty
+	const handleNewGame = useCallback(() => {
+		const nextPuzzle = generateStarBattlePuzzle(puzzle.difficulty);
+		handleSelectPuzzle(nextPuzzle);
+		if (typeof window !== 'undefined') {
+			const url = new URL(window.location.href);
+			url.searchParams.delete('puzzle');
+			url.searchParams.delete('procedural');
+			url.searchParams.delete('new');
+			url.searchParams.delete('resume');
+			url.searchParams.set('difficulty', nextPuzzle.difficulty);
+			url.searchParams.set('random', 'true');
+			window.history.replaceState(null, '', url.toString());
+		}
+	}, [puzzle.difficulty, handleSelectPuzzle]);
+
+	const isRandomPuzzle = useMemo(() => !getPuzzleById(puzzle.id), [puzzle.id]);
+	const nextPreset = useMemo(
+		() => (isRandomPuzzle ? undefined : getNextPuzzle(puzzle.id)),
+		[isRandomPuzzle, puzzle.id],
+	);
+	const hasNextPuzzle = isRandomPuzzle || Boolean(nextPreset);
+
 	// Next puzzle handler
 	const handleNextPuzzle = useCallback(() => {
-		const next = getNextPuzzle(puzzle.id);
-		if (next) {
-			handleSelectPuzzle(next);
+		if (isRandomPuzzle) {
+			handleNewGame();
+			return;
+		}
+		if (nextPreset) {
+			handleSelectPuzzle(nextPreset);
 			if (typeof window !== 'undefined') {
 				const url = new URL(window.location.href);
-				url.searchParams.set('puzzle', next.id);
+				url.searchParams.set('puzzle', nextPreset.id);
+				url.searchParams.set('difficulty', nextPreset.difficulty);
+				url.searchParams.delete('random');
+				url.searchParams.delete('procedural');
+				url.searchParams.delete('new');
+				url.searchParams.delete('resume');
 				window.history.replaceState(null, '', url.toString());
 			}
 		}
-	}, [puzzle.id, handleSelectPuzzle]);
+	}, [isRandomPuzzle, nextPreset, handleNewGame, handleSelectPuzzle]);
 
 	// Play again (restart current puzzle)
 	const handlePlayAgain = useCallback(() => {
@@ -943,7 +974,7 @@ export function useStarBattleGame(initialDifficulty: Difficulty = 'easy', initia
 		progress,
 		canUndo: history.length > 0,
 		canRedo: redoStack.length > 0,
-		hasNextPuzzle: !!getNextPuzzle(puzzle.id),
+		hasNextPuzzle,
 		setInputMode,
 		setSettings,
 		openRules: () => {
@@ -977,6 +1008,7 @@ export function useStarBattleGame(initialDifficulty: Difficulty = 'easy', initia
 		handleTogglePause,
 		handleUpdateSettings,
 		handleSelectPuzzle,
+		handleNewGame,
 		handleNextPuzzle,
 		handlePlayAgain,
 	};
