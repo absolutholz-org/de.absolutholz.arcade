@@ -463,6 +463,7 @@ export const commonSchema = {
 		emptyDescription: 'stats.emptyDescription',
 		playNow: 'stats.playNow',
 		bucketSelectorAria: 'stats.bucketSelectorAria',
+		fastestGames: 'stats.fastestGames',
 	},
 	share: {
 		share: 'share.share',

@@ -20,6 +20,15 @@ export type GameId =
 	| (string & {});
 
 /**
+ * Recorded entry for one of a player's fastest completed runs.
+ */
+export interface FastestRunEntry {
+	readonly playTimeSeconds: number;
+	readonly timestamp: number;
+	readonly bucketKey?: string;
+}
+
+/**
  * Statistics tracked within a specific difficulty bucket or overall.
  * Adheres to ADR 0008.
  */
@@ -34,6 +43,7 @@ export interface DifficultyBucketStats {
 	readonly bestMoves?: number | null;
 	readonly bestScore?: number | null;
 	readonly flawlessWins: number;
+	readonly fastestRuns?: readonly FastestRunEntry[];
 }
 
 /**

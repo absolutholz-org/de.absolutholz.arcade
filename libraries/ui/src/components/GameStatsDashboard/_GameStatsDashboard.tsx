@@ -53,6 +53,7 @@ function GameStatsDashboardContent({
 	bucketLabels,
 	playHref,
 	hideTitle = false,
+	showFastestRuns = false,
 	className,
 }: GameStatsDashboardProps): JSX.Element {
 	const { t } = useI18n('common');
@@ -204,6 +205,42 @@ function GameStatsDashboardContent({
 						</S.MetricCard>
 					)}
 				</S.SecondaryMetricsGrid>
+			)}
+
+			{showFastestRuns && activeBucketStats.fastestRuns && activeBucketStats.fastestRuns.length > 0 && (
+				<S.FastestRunsSection aria-label={t('stats.fastestGames')}>
+					<h3>{t('stats.fastestGames')}</h3>
+					<S.FastestRunsList>
+						{activeBucketStats.fastestRuns.slice(0, 10).map((entry, index) => {
+							const rank = index + 1;
+							const dateText = new Intl.DateTimeFormat(lang, { dateStyle: 'medium' }).format(
+								new Date(entry.timestamp),
+							);
+							const bucketLabel =
+								activeTab === 'overall' && entry.bucketKey
+									? resolveBucketLabel(entry.bucketKey, bucketLabels, tGame)
+									: null;
+
+							return (
+								<S.FastestRunRow
+									key={`${entry.timestamp}-${entry.playTimeSeconds}-${rank}`}
+									data-rank={rank}
+								>
+									<span data-slot="meta">
+										<span data-slot="rank">#{rank}</span>
+										{bucketLabel && <span data-slot="bucket">{bucketLabel}</span>}
+										<span data-slot="date">{dateText}</span>
+									</span>
+									<span data-slot="time">
+										<time dateTime={formatDurationIso(entry.playTimeSeconds)}>
+											{formatTime(entry.playTimeSeconds)}
+										</time>
+									</span>
+								</S.FastestRunRow>
+							);
+						})}
+					</S.FastestRunsList>
+				</S.FastestRunsSection>
 			)}
 		</S.Container>
 	);

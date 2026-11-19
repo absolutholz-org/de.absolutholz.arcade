@@ -346,5 +346,35 @@ describe('Game Statistics Contract & Reducer', () => {
 			expect(stats.schemaVersion).toBe(1);
 			expect(stats.overall.gamesPlayed).toBe(0);
 		});
+
+		it('tracks and caps top 10 fastest winning runs per bucket and overall', () => {
+			let stats = createEmptyGameStats('sudoku');
+			const times = [180, 95, 240, 60, 150, 310, 75, 200, 110, 85, 50, 400];
+
+			for (const playTimeSeconds of times) {
+				stats = updateStatsWithRound(stats, {
+					gameId: 'sudoku',
+					won: true,
+					bucketKey: 'easy',
+					playTimeSeconds,
+				});
+			}
+
+			// Losses should not enter fastestRuns
+			stats = updateStatsWithRound(stats, {
+				gameId: 'sudoku',
+				won: false,
+				bucketKey: 'easy',
+				playTimeSeconds: 5,
+			});
+
+			expect(stats.overall.fastestRuns?.map((r) => r.playTimeSeconds)).toEqual([
+				50, 60, 75, 85, 95, 110, 150, 180, 200, 240,
+			]);
+			expect(stats.byBucket.easy?.fastestRuns?.map((r) => r.playTimeSeconds)).toEqual([
+				50, 60, 75, 85, 95, 110, 150, 180, 200, 240,
+			]);
+			expect(stats.overall.fastestRuns?.[0]?.bucketKey).toBe('easy');
+		});
 	});
 });

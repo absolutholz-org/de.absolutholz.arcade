@@ -7,7 +7,13 @@ import {
 } from './stats/store.js';
 import { getStatsSyncAdapter } from './stats/sync.js';
 import type { AggregatedGameStats } from './stats/types.js';
-import type { DifficultyBucketStats, GameId, GameStats, RoundStatsInput } from './types/stats.types.js';
+import type {
+	DifficultyBucketStats,
+	FastestRunEntry,
+	GameId,
+	GameStats,
+	RoundStatsInput,
+} from './types/stats.types.js';
 import type { GameStorage, GameStorageOptions } from './types/storage.types.js';
 
 /**
@@ -51,6 +57,25 @@ export function createEmptyGameStats<
 	};
 }
 
+const MAX_FASTEST_RUNS = 10;
+
+function sortAndCapFastestRuns(entries: readonly FastestRunEntry[]): readonly FastestRunEntry[] {
+	const seen = new Set<string>();
+	const unique: FastestRunEntry[] = [];
+
+	for (const entry of entries) {
+		const key = `${entry.timestamp}:${entry.playTimeSeconds}:${entry.bucketKey ?? ''}`;
+		if (!seen.has(key)) {
+			seen.add(key);
+			unique.push(entry);
+		}
+	}
+
+	return unique
+		.sort((a, b) => a.playTimeSeconds - b.playTimeSeconds || a.timestamp - b.timestamp)
+		.slice(0, MAX_FASTEST_RUNS);
+}
+
 /**
  * Pure helper function to update a single DifficultyBucketStats instance with a round result.
  */
@@ -90,6 +115,13 @@ function updateBucketStats(
 
 		const flawlessWins = current.flawlessWins + (input.isFlawless ? 1 : 0);
 
+		const newRun: FastestRunEntry = {
+			playTimeSeconds: input.playTimeSeconds,
+			timestamp: Date.now(),
+			...(input.bucketKey?.trim() ? { bucketKey: input.bucketKey.trim() } : {}),
+		};
+		const fastestRuns = sortAndCapFastestRuns([...(current.fastestRuns ?? []), newRun]);
+
 		return {
 			gamesPlayed,
 			gamesWon,
@@ -101,6 +133,7 @@ function updateBucketStats(
 			bestMoves,
 			bestScore,
 			flawlessWins,
+			fastestRuns,
 		};
 	}
 
@@ -115,6 +148,7 @@ function updateBucketStats(
 		bestMoves: current.bestMoves ?? null,
 		bestScore: current.bestScore ?? null,
 		flawlessWins: current.flawlessWins,
+		...(current.fastestRuns ? { fastestRuns: current.fastestRuns } : {}),
 	};
 }
 
@@ -255,6 +289,8 @@ function mergeBucketStats(
 	remote: DifficultyBucketStats,
 	preferRemoteCurrentStreak: boolean,
 ): DifficultyBucketStats {
+	const mergedRuns = sortAndCapFastestRuns([...(local.fastestRuns ?? []), ...(remote.fastestRuns ?? [])]);
+
 	return {
 		gamesPlayed: Math.max(local.gamesPlayed ?? 0, remote.gamesPlayed ?? 0),
 		gamesWon: Math.max(local.gamesWon ?? 0, remote.gamesWon ?? 0),
@@ -266,6 +302,7 @@ function mergeBucketStats(
 		bestMoves: minNullable(local.bestMoves, remote.bestMoves),
 		bestScore: maxNullable(local.bestScore, remote.bestScore),
 		flawlessWins: Math.max(local.flawlessWins ?? 0, remote.flawlessWins ?? 0),
+		...(mergedRuns.length > 0 ? { fastestRuns: mergedRuns } : {}),
 	};
 }
 

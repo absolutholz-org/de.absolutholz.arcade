@@ -123,3 +123,88 @@ export const EmptyStateCard = styled.div`
 		line-height: 1.5;
 	}
 `;
+
+export const FastestRunsSection = styled.section`
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+	width: 100%;
+
+	h3 {
+		margin: 0;
+		font-size: 1rem;
+		font-weight: 700;
+		color: ${themeColor('text-1')};
+	}
+`;
+
+export const FastestRunsList = styled.ol`
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	border-radius: ${radiusScale.md};
+	border: 1px solid ${themeColor('container-2')};
+	background: ${themeColor('surface')};
+	overflow: hidden;
+`;
+
+export const FastestRunRow = styled.li`
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.75rem;
+	padding: 0.75rem 1rem;
+	border-bottom: 1px solid ${themeColor('container-2')};
+
+	&:last-child {
+		border-bottom: none;
+	}
+
+	[data-slot='meta'] {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		min-width: 0;
+	}
+
+	[data-slot='rank'] {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-width: 1.75rem;
+		font-size: 0.875rem;
+		font-weight: 700;
+		color: ${themeColor('text-2')};
+		font-variant-numeric: tabular-nums;
+	}
+
+	&[data-rank='1'] [data-slot='rank'] {
+		color: ${themeColor('accent')};
+	}
+
+	[data-slot='bucket'] {
+		font-size: 0.75rem;
+		font-weight: 600;
+		padding: 0.125rem 0.5rem;
+		border-radius: ${radiusScale.sm};
+		background: color-mix(in oklch, ${themeColor('accent')} 12%, transparent);
+		color: ${themeColor('accent')};
+		white-space: nowrap;
+	}
+
+	[data-slot='date'] {
+		font-size: 0.875rem;
+		color: ${themeColor('text-2')};
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	[data-slot='time'] {
+		font-size: 1rem;
+		font-weight: 700;
+		color: ${themeColor('text-1')};
+		font-variant-numeric: tabular-nums;
+		white-space: nowrap;
+	}
+`;

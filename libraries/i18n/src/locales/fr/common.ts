@@ -478,6 +478,7 @@ export const frCommon = {
 			'Jouez une partie pour commencer à enregistrer votre taux de victoire, vos séries et vos records personnels !',
 		playNow: 'Jouer maintenant',
 		bucketSelectorAria: 'Sélectionner la difficulté',
+		fastestGames: 'Top 10 des parties les plus rapides',
 	},
 	share: {
 		share: 'Partager',

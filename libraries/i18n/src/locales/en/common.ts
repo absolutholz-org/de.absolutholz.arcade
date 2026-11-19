@@ -478,6 +478,7 @@ export const enCommon = {
 		emptyDescription: 'Play a round to start tracking your win rate, streaks, and personal best times!',
 		playNow: 'Play Now',
 		bucketSelectorAria: 'Select difficulty bucket',
+		fastestGames: 'Top 10 Fastest Games',
 	},
 	share: {
 		share: 'Share',

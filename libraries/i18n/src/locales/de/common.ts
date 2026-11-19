@@ -481,6 +481,7 @@ export const deCommon = {
 			'Spiele eine Runde, um deine Gewinnrate, Siegesserien und persönlichen Bestzeiten zu erfassen!',
 		playNow: 'Jetzt spielen',
 		bucketSelectorAria: 'Schwierigkeitsstufe wählen',
+		fastestGames: 'Top 10 Schnellste Spiele',
 	},
 	share: {
 		share: 'Teilen',

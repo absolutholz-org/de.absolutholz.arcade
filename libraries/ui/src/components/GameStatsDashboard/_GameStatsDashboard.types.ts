@@ -16,6 +16,8 @@ export interface GameStatsDashboardProps {
 	readonly playHref?: string;
 	/** Whether to hide the redundant title header (e.g. when rendered within a page hero) */
 	readonly hideTitle?: boolean;
+	/** Whether to display the Top 10 Fastest Games list when recorded runs exist */
+	readonly showFastestRuns?: boolean;
 	/** Optional CSS class name */
 	readonly className?: string;
 }

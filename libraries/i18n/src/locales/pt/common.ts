@@ -476,6 +476,7 @@ export const ptCommon = {
 		emptyDescription: 'Jogue uma rodada para começar a acompanhar sua taxa de vitória, séries e recordes pessoais!',
 		playNow: 'Jogar agora',
 		bucketSelectorAria: 'Selecionar nível de dificuldade',
+		fastestGames: 'Top 10 Jogos Mais Rápidos',
 	},
 	share: {
 		share: 'Partilhar',
