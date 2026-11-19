@@ -1102,20 +1102,52 @@ export function useTracksGame(initialDifficulty: DifficultyLevel = 'easy', initi
 		[recordSurrender, resetTrackingRefs],
 	);
 
-	const hasNextPuzzle = useMemo(() => !!getNextPuzzle(puzzle.id), [puzzle.id]);
-
-	const handleNextPuzzle = useCallback(() => {
-		const next = unwrapPuzzle(getNextPuzzle(puzzle.id));
-		if (next) {
-			handleSelectPuzzle(next);
+	const handleNewGame = useCallback(() => {
+		try {
+			const size = DIFFICULTY_GRID_SIZES[puzzle.difficulty].width;
+			const nextPuzzle = generateTracksPuzzle(size, puzzle.difficulty);
+			handleSelectPuzzle(nextPuzzle);
 			if (typeof window !== 'undefined') {
 				const url = new URL(window.location.href);
-				url.searchParams.set('difficulty', next.difficulty);
-				url.searchParams.set('puzzle', next.id);
+				url.searchParams.delete('puzzle');
+				url.searchParams.delete('procedural');
+				url.searchParams.delete('new');
+				url.searchParams.delete('resume');
+				url.searchParams.set('difficulty', nextPuzzle.difficulty);
+				url.searchParams.set('random', 'true');
+				window.history.replaceState(null, '', url.toString());
+			}
+		} catch {
+			// Ignore if procedural generation fails
+		}
+	}, [puzzle.difficulty, handleSelectPuzzle]);
+
+	const isRandomPuzzle = useMemo(() => !getPuzzleById(puzzle.id), [puzzle.id]);
+	const nextPreset = useMemo(
+		() => (isRandomPuzzle ? undefined : unwrapPuzzle(getNextPuzzle(puzzle.id))),
+		[isRandomPuzzle, puzzle.id],
+	);
+	const hasNextPuzzle = isRandomPuzzle || Boolean(nextPreset);
+
+	const handleNextPuzzle = useCallback(() => {
+		if (isRandomPuzzle) {
+			handleNewGame();
+			return;
+		}
+		if (nextPreset) {
+			handleSelectPuzzle(nextPreset);
+			if (typeof window !== 'undefined') {
+				const url = new URL(window.location.href);
+				url.searchParams.set('difficulty', nextPreset.difficulty);
+				url.searchParams.set('puzzle', nextPreset.id);
+				url.searchParams.delete('random');
+				url.searchParams.delete('procedural');
+				url.searchParams.delete('new');
+				url.searchParams.delete('resume');
 				window.history.replaceState(null, '', url.toString());
 			}
 		}
-	}, [puzzle.id, handleSelectPuzzle]);
+	}, [isRandomPuzzle, nextPreset, handleNewGame, handleSelectPuzzle]);
 
 	const handlePlayAgain = useCallback(() => {
 		handleSelectPuzzle(puzzle);
@@ -1194,6 +1226,7 @@ export function useTracksGame(initialDifficulty: DifficultyLevel = 'easy', initi
 		handleTogglePause,
 		handleKeyDown,
 		handleUpdateSettings,
+		handleNewGame,
 		handleNextPuzzle,
 		handlePlayAgain,
 	};
