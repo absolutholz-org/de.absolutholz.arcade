@@ -73,19 +73,11 @@ export const ptMedals = {
 		},
 		living_on_edge: {
 			title: 'No Limite',
-			desc: 'Vença uma partida com exatamente 2 erros cometidos, a um passo da derrota.',
+			desc: 'Vença uma partida com exatamente 2 erros cometidos.',
 		},
 		participation: {
 			title: 'Medalha de Participação',
 			desc: 'Resolva qualquer quebra-cabeça em qualquer dificuldade. Você conseguiu!',
-		},
-		old_college_try: {
-			title: 'Valeu a Tentativa',
-			desc: 'Sofra sua primeira derrota. Você tentou, e isso é o que importa.',
-		},
-		speedrun_failure: {
-			title: 'Fracasso Relâmpago',
-			desc: 'Cometa 3 erros e perca uma partida em menos de 20 segundos.',
 		},
 		analysis_paralysis: {
 			title: 'Paralisia por Análise',

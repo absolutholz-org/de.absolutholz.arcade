@@ -428,9 +428,10 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 					autoClearedNotes: autoCleared,
 				};
 
-				let isGameOver = false;
+				let isMistake = false;
 				if (solutionRef.current.length === 9 && solutionRef.current[row]?.[col] !== undefined) {
 					if (digit !== solutionRef.current[row][col]) {
+						isMistake = true;
 						playRegression();
 						triggerHaptic('warning');
 						const nextMistakes = mistakesRef.current + 1;
@@ -440,76 +441,6 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 						if (nextMistakes === 2 && secondMistakeTimeRef.current === null) {
 							secondMistakeTimeRef.current = elapsedRef.current;
 						}
-
-						if (nextMistakes >= 3) {
-							isGameOver = true;
-							setIsComplete(true);
-							const currentDiff = difficultyRef.current;
-							const medalDiff = mapDifficultyToMedalDifficulty(currentDiff);
-							const finalTime = elapsedRef.current;
-							const currentHints = hintsRef.current;
-
-							try {
-								const existingStats = (await storage.get<SudokuStats>('stats')) || INITIAL_SUDOKU_STATS;
-								const currentDiffStats = existingStats[difficultyRef.current] || {
-									gamesPlayed: 0,
-									gamesWon: 0,
-									bestTimeSeconds: null,
-								};
-								const updatedStats: SudokuStats = {
-									...existingStats,
-									[difficultyRef.current]: {
-										...currentDiffStats,
-										gamesPlayed: currentDiffStats.gamesPlayed + 1,
-									},
-								};
-								await storage.set('stats', updatedStats);
-								await storage.remove('activeGame');
-
-								void recordGameStats({
-									gameId: 'sudoku',
-									won: false,
-									bucketKey: difficultyRef.current,
-									playTimeSeconds: finalTime,
-									moves: historyRef.current.length,
-									isFlawless: false,
-								});
-							} catch {
-								// Fallback gracefully
-							}
-
-							void recordGameSession({
-								gameId: 'sudoku',
-								timestamp: Date.now(),
-								durationMs: finalTime * 1000,
-								won: false,
-								difficulty: currentDiff,
-								hintsUsed: currentHints,
-								mistakes: nextMistakes,
-							});
-
-							void recordGameResult(
-								{
-									gameId: 'sudoku',
-									won: false,
-									playTimeSeconds: finalTime,
-									levelKey: medalDiff,
-									roundContext: {
-										difficulty: medalDiff,
-										originalDifficulty: currentDiff,
-										mistakesCount: nextMistakes,
-										hintsUsed: currentHints,
-										consecutiveUndosMax: maxUndoStreakRef.current,
-										notesPlacedBeforeFirstDigit: notesBeforeFirstDigitRef.current,
-										secondMistakeTimeSeconds: secondMistakeTimeRef.current,
-										totalNotesPlaced: totalNotesPlacedRef.current,
-									},
-								},
-								{ definitions: SUDOKU_MEDAL_DEFINITIONS },
-							).catch((error) => {
-								console.warn('[@arcade/sudoku] Failed to record defeat medals result:', error);
-							});
-						}
 					}
 				}
 
@@ -518,7 +449,7 @@ export function useSudokuGame(initialDifficulty: Difficulty = 'easy') {
 				setHistory((prev) => [...prev, move]);
 				setRedoStack([]);
 
-				if (!isGameOver) {
+				if (!isMistake) {
 					playDrop();
 					triggerHaptic('light');
 					checkWinCondition(nextGrid);

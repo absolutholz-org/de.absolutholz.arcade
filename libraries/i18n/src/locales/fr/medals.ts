@@ -73,19 +73,11 @@ export const frMedals = {
 		},
 		living_on_edge: {
 			title: 'Sur le Fil du Rasoir',
-			desc: 'Gagnez une partie avec exactement 2 erreurs, à un faux pas de la défaite.',
+			desc: 'Gagnez une partie avec exactement 2 erreurs.',
 		},
 		participation: {
 			title: 'Médaille de Participation',
 			desc: 'Résolvez une grille dans n’importe quelle difficulté. Vous l’avez fait !',
-		},
-		old_college_try: {
-			title: 'Le Bel Effort',
-			desc: 'Subissez votre première défaite. Vous avez essayé, et c’est ce qui compte.',
-		},
-		speedrun_failure: {
-			title: 'Échec Chrono',
-			desc: 'Faites trois fautes et perdez une partie en moins de 20 secondes.',
 		},
 		analysis_paralysis: {
 			title: 'Paralysie par Analyse',

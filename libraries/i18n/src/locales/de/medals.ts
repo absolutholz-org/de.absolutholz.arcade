@@ -73,19 +73,11 @@ export const deMedals = {
 		},
 		living_on_edge: {
 			title: 'Am seidenen Faden',
-			desc: 'Gewinne ein Spiel mit genau 2 Fehlern – haarscharf am Scheitern vorbei.',
+			desc: 'Gewinne ein Spiel mit genau 2 Fehlern.',
 		},
 		participation: {
 			title: 'Teilnehmermedaille',
 			desc: 'Löse ein beliebiges Rätsel auf einer beliebigen Stufe. Du hast es geschafft!',
-		},
-		old_college_try: {
-			title: 'Hauptsache versucht',
-			desc: 'Erleide deine erste Niederlage. Du hast es versucht, und das zählt.',
-		},
-		speedrun_failure: {
-			title: 'Speedrun ins Verderben',
-			desc: 'Scheitere und verliere ein Spiel in unter 20 Sekunden.',
 		},
 		analysis_paralysis: {
 			title: 'Paralyse durch Analyse',

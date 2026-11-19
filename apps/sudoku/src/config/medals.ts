@@ -263,31 +263,6 @@ export const SUDOKU_MEDAL_DEFINITIONS: readonly AchievementDefinition<'sudoku'>[
 		}),
 	},
 	{
-		id: 'sudoku_old_college_try',
-		type: 'standalone',
-		tier: 'bronze',
-		titleKey: 'medals.sudoku.old_college_try.title',
-		descriptionKey: 'medals.sudoku.old_college_try.desc',
-		icon: 'trophy-bronze',
-		evaluate: ({ result, updatedBaseStats }) => {
-			const losses = updatedBaseStats.gamesPlayed - updatedBaseStats.gamesWon;
-			return {
-				unlocked: Boolean(!result.won && losses === 1),
-			};
-		},
-	},
-	{
-		id: 'sudoku_speedrun_failure',
-		type: 'standalone',
-		tier: 'bronze',
-		titleKey: 'medals.sudoku.speedrun_failure.title',
-		descriptionKey: 'medals.sudoku.speedrun_failure.desc',
-		icon: 'trophy-bronze',
-		evaluate: ({ result }) => ({
-			unlocked: Boolean(!result.won && result.playTimeSeconds > 0 && result.playTimeSeconds <= 20),
-		}),
-	},
-	{
 		id: 'sudoku_analysis_paralysis',
 		type: 'standalone',
 		tier: 'bronze',
@@ -333,7 +308,8 @@ export const SUDOKU_MEDAL_DEFINITIONS: readonly AchievementDefinition<'sudoku'>[
 			return {
 				unlocked: Boolean(
 					result.won &&
-						mistakes === 2 &&
+						typeof mistakes === 'number' &&
+						mistakes >= 2 &&
 						secondMistakeTime !== null &&
 						secondMistakeTime !== undefined &&
 						secondMistakeTime <= 60,

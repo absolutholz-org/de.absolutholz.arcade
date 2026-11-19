@@ -49,8 +49,6 @@ export interface MedalsSchema {
 		readonly beyond_mortal: { readonly title: string; readonly desc: string };
 		readonly living_on_edge: { readonly title: string; readonly desc: string };
 		readonly participation: { readonly title: string; readonly desc: string };
-		readonly old_college_try: { readonly title: string; readonly desc: string };
-		readonly speedrun_failure: { readonly title: string; readonly desc: string };
 		readonly analysis_paralysis: { readonly title: string; readonly desc: string };
 		readonly are_you_sure: { readonly title: string; readonly desc: string };
 		readonly living_on_prayer: { readonly title: string; readonly desc: string };

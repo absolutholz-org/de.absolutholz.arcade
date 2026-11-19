@@ -72,19 +72,11 @@ export const enMedals = {
 		},
 		living_on_edge: {
 			title: 'Living on the Edge',
-			desc: 'Win a game with exactly 2 mistakes, one slip away from defeat.',
+			desc: 'Win a game with exactly 2 mistakes.',
 		},
 		participation: {
 			title: 'Participation Medal',
 			desc: 'Solve any puzzle at any difficulty. You did it!',
-		},
-		old_college_try: {
-			title: 'The Old College Try',
-			desc: 'Suffer your first defeat. You tried, and that counts for something.',
-		},
-		speedrun_failure: {
-			title: 'Speedrun to Failure',
-			desc: 'Strike out and lose a match in under 20 seconds.',
 		},
 		analysis_paralysis: {
 			title: 'Analysis Paralysis',
