@@ -109,7 +109,7 @@ export function HashiGame({
 					canRestart={!game.isPaused && !game.isComplete}
 					onRestart={game.handleReset}
 					canNewGame={!game.isPaused}
-					onNewGame={game.handleNextPuzzle}
+					onNewGame={game.handleNewGame}
 					hasActiveProgress={game.elapsedSeconds > 0 || game.canUndo}
 					isComplete={game.isComplete}
 				/>

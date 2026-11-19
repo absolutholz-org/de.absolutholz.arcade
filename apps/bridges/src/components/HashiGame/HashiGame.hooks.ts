@@ -770,55 +770,71 @@ export function useHashiGame(initialDifficulty: DifficultyLevel = 'easy', initia
 		setElapsedSeconds(0);
 	}, [isComplete, recordSurrender, resetTrackingContext, history]);
 
-	const hasNextPuzzle = useMemo(() => {
-		return !!getNextPuzzle(puzzleId);
-	}, [puzzleId]);
+	const applyNewBoard = useCallback((nextBoard: BoardState, nextPuzzleId: string) => {
+		setBoard(nextBoard);
+		setHistory(createHistory(nextBoard));
+		setSelectedIslandId(null);
+		setFocusedIslandId(null);
+		setElapsedSeconds(0);
+		setIsComplete(false);
+		setIsVictoryOpen(false);
+		setPuzzleId(nextPuzzleId);
+	}, []);
 
-	const handleNextPuzzle = useCallback(() => {
+	const isRandomPuzzle = useMemo(() => !getPuzzleById(puzzleId), [puzzleId]);
+	const nextPreset = useMemo(
+		() => (isRandomPuzzle ? undefined : getNextPuzzle(puzzleId)),
+		[isRandomPuzzle, puzzleId],
+	);
+	const hasNextPuzzle = isRandomPuzzle || Boolean(nextPreset);
+
+	const handleNewGame = useCallback(() => {
 		if (!isComplete) {
 			recordSurrender();
 		}
 		resetTrackingContext();
-		const next = getNextPuzzle(puzzleId);
-		if (next) {
-			const nextBoard = createBoardFromPuzzle(next.puzzle, next.difficulty);
-			setBoard(nextBoard);
-			setHistory(createHistory(nextBoard));
-			setSelectedIslandId(null);
-			setFocusedIslandId(null);
-			setElapsedSeconds(0);
-			setIsComplete(false);
-			setIsVictoryOpen(false);
-			setPuzzleId(next.puzzle.id);
+		try {
+			const diff = board.difficulty;
+			const generated = generatePuzzle(diff);
+			applyNewBoard(generated, `procedural-${diff}-${Date.now()}`);
 			if (typeof window !== 'undefined') {
 				const url = new URL(window.location.href);
-				url.searchParams.set('difficulty', next.difficulty);
-				url.searchParams.set('puzzle', next.puzzle.id);
+				url.searchParams.delete('puzzle');
+				url.searchParams.delete('procedural');
+				url.searchParams.delete('new');
+				url.searchParams.delete('resume');
+				url.searchParams.set('difficulty', diff);
+				url.searchParams.set('random', 'true');
 				window.history.replaceState(null, '', url.toString());
 			}
-		} else {
-			const current = getPuzzleById(puzzleId);
-			const diff = current?.difficulty ?? board.difficulty;
-			const list = getPuzzlesByDifficulty(diff);
-			if (list.length > 0) {
-				const firstBoard = createBoardFromPuzzle(list[0], diff);
-				setBoard(firstBoard);
-				setHistory(createHistory(firstBoard));
-				setSelectedIslandId(null);
-				setFocusedIslandId(null);
-				setElapsedSeconds(0);
-				setIsComplete(false);
-				setIsVictoryOpen(false);
-				setPuzzleId(list[0].id);
-				if (typeof window !== 'undefined') {
-					const url = new URL(window.location.href);
-					url.searchParams.set('difficulty', diff);
-					url.searchParams.set('puzzle', list[0].id);
-					window.history.replaceState(null, '', url.toString());
-				}
-			}
+		} catch {
+			// Ignore if procedural generation fails
 		}
-	}, [isComplete, recordSurrender, resetTrackingContext, puzzleId, board.difficulty]);
+	}, [isComplete, recordSurrender, resetTrackingContext, board.difficulty, applyNewBoard]);
+
+	const handleNextPuzzle = useCallback(() => {
+		if (isRandomPuzzle) {
+			handleNewGame();
+			return;
+		}
+		if (!nextPreset) return;
+		if (!isComplete) {
+			recordSurrender();
+		}
+		resetTrackingContext();
+		const nextBoard = createBoardFromPuzzle(nextPreset.puzzle, nextPreset.difficulty);
+		applyNewBoard(nextBoard, nextPreset.puzzle.id);
+		if (typeof window !== 'undefined') {
+			const url = new URL(window.location.href);
+			url.searchParams.set('difficulty', nextPreset.difficulty);
+			url.searchParams.set('puzzle', nextPreset.puzzle.id);
+			url.searchParams.delete('random');
+			url.searchParams.delete('procedural');
+			url.searchParams.delete('new');
+			url.searchParams.delete('resume');
+			window.history.replaceState(null, '', url.toString());
+		}
+	}, [isRandomPuzzle, nextPreset, handleNewGame, isComplete, recordSurrender, resetTrackingContext, applyNewBoard]);
 
 	const handleUpdateSettings = useCallback((newSettings: HashiSettings) => {
 		const gameMode = newSettings.zenMode ? 'zen' : (newSettings.gameMode ?? 'standard');
@@ -879,6 +895,7 @@ export function useHashiGame(initialDifficulty: DifficultyLevel = 'easy', initia
 		handleReset,
 		handleTogglePause,
 		handlePlayAgain,
+		handleNewGame,
 		handleNextPuzzle,
 		recordSurrender,
 		openSettings,
