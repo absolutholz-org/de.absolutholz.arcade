@@ -3,6 +3,54 @@ import { recordGameResult } from '@arcade/lib-medals';
 import { recordGameStats } from '@arcade/lib-storage';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { KeyboardEvent } from 'react';
+
+const DIRECTION_BY_KEY: Record<string, 'up' | 'down' | 'left' | 'right'> = {
+	ArrowUp: 'up',
+	ArrowDown: 'down',
+	ArrowLeft: 'left',
+	ArrowRight: 'right',
+};
+
+function findNearestIslandInDirection(
+	current: Island,
+	direction: 'up' | 'down' | 'left' | 'right',
+	islands: Island[],
+): Island | undefined {
+	const isVertical = direction === 'up' || direction === 'down';
+
+	const candidates = islands.filter((candidate) => {
+		if (candidate.id === current.id) return false;
+		if (direction === 'up') return candidate.y < current.y;
+		if (direction === 'down') return candidate.y > current.y;
+		if (direction === 'left') return candidate.x < current.x;
+		return candidate.x > current.x;
+	});
+
+	if (candidates.length === 0) return undefined;
+
+	candidates.sort((a, b) => {
+		const aPrimary = isVertical ? Math.abs(a.y - current.y) : Math.abs(a.x - current.x);
+		const bPrimary = isVertical ? Math.abs(b.y - current.y) : Math.abs(b.x - current.x);
+		const aSecondary = isVertical ? Math.abs(a.x - current.x) : Math.abs(a.y - current.y);
+		const bSecondary = isVertical ? Math.abs(b.x - current.x) : Math.abs(b.y - current.y);
+
+		// Strongly prefer islands on the exact same row/column
+		const aAligned = aSecondary === 0 ? 0 : 1;
+		const bAligned = bSecondary === 0 ? 0 : 1;
+		if (aAligned !== bAligned) return aAligned - bAligned;
+
+		// For aligned islands, pick the closest along the axis; for offset islands, weight perpendicular distance
+		const aScore = aPrimary + aSecondary * 2;
+		const bScore = bPrimary + bSecondary * 2;
+		if (aScore !== bScore) return aScore - bScore;
+
+		if (aPrimary !== bPrimary) return aPrimary - bPrimary;
+		if (aSecondary !== bSecondary) return aSecondary - bSecondary;
+		return a.y - b.y || a.x - b.x;
+	});
+
+	return candidates[0];
+}
 import { BRIDGES_MEDAL_DEFINITIONS } from '../../config/medals.js';
 import { generatePuzzle } from '../../engine/generator.js';
 import { createHistory, pushState, redo, reset, undo } from '../../engine/history.js';
@@ -656,20 +704,11 @@ export function useHashiGame(initialDifficulty: DifficultyLevel = 'easy', initia
 				return;
 			}
 
-			// Arrow keys navigate to nearest orthogonal neighbor
-			const raycasts = getOrthogonalRaycasts(island.id, board);
-			let targetNeighbor: Island | undefined;
+			// Spatial arrow key navigation across islands (prefers same row/col, falls back to nearest in direction)
+			const direction = DIRECTION_BY_KEY[e.key];
+			if (!direction) return;
 
-			if (e.key === 'ArrowUp') {
-				targetNeighbor = raycasts.find((n) => n.x === island.x && n.y < island.y);
-			} else if (e.key === 'ArrowDown') {
-				targetNeighbor = raycasts.find((n) => n.x === island.x && n.y > island.y);
-			} else if (e.key === 'ArrowLeft') {
-				targetNeighbor = raycasts.find((n) => n.y === island.y && n.x < island.x);
-			} else if (e.key === 'ArrowRight') {
-				targetNeighbor = raycasts.find((n) => n.y === island.y && n.x > island.x);
-			}
-
+			const targetNeighbor = findNearestIslandInDirection(island, direction, board.islands);
 			if (targetNeighbor) {
 				e.preventDefault();
 				setFocusedIslandId(targetNeighbor.id);

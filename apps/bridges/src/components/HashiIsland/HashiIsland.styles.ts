@@ -5,9 +5,9 @@ export const IslandGroup = styled.g`
 	cursor: pointer;
 	outline: none;
 
-	&:focus-visible circle.island-circle {
-		stroke: ${themeColor('accent')};
-		stroke-width: 4;
+	&:focus-visible circle.focus-ring {
+		stroke: ${themeColor('text-1')};
+		opacity: 1;
 	}
 
 	&[data-selected='true'] circle.island-circle {
@@ -48,4 +48,14 @@ export const IslandText = styled.text`
 export const HitArea = styled.circle`
 	fill: transparent;
 	pointer-events: all;
+`;
+
+export const FocusRing = styled.circle`
+	fill: none;
+	stroke: transparent;
+	stroke-width: 2.5;
+	stroke-dasharray: 4 2.5;
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 120ms ease;
 `;

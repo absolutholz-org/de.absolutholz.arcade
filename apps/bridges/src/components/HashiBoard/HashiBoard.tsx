@@ -23,9 +23,17 @@ export function HashiBoard({
 	const svgWidth = (board.width - 1) * CELL_SPACING + PADDING * 2;
 	const svgHeight = (board.height - 1) * CELL_SPACING + PADDING * 2;
 
-	const islandMap = useMemo(() => {
-		return new Map(board.islands.map((isl) => [isl.id, isl]));
+	const sortedIslands = useMemo(() => {
+		return [...board.islands].sort((a, b) => a.y - b.y || a.x - b.x);
 	}, [board.islands]);
+
+	const islandMap = useMemo(() => {
+		return new Map(sortedIslands.map((isl) => [isl.id, isl]));
+	}, [sortedIslands]);
+
+	// Roving tabindex: default to the top-leftmost island until focus moves
+	const effectiveFocusedIslandId =
+		focusedIslandId && islandMap.has(focusedIslandId) ? focusedIslandId : (sortedIslands[0]?.id ?? null);
 
 	// Background subtle grid dots
 	const gridDots = useMemo(() => {
@@ -79,10 +87,11 @@ export function HashiBoard({
 
 				{/* Layer 2: Islands (above bridges) */}
 				<g className="islands-layer">
-					{board.islands.map((island) => {
+					{sortedIslands.map((island) => {
 						const evaluation = getIslandEvaluation(island.id);
 						const isSelected = selectedIslandId === island.id;
 						const isFocused = focusedIslandId === island.id;
+						const isTabbable = effectiveFocusedIslandId === island.id;
 
 						return (
 							<HashiIsland
@@ -91,6 +100,7 @@ export function HashiBoard({
 								evaluation={evaluation}
 								isSelected={isSelected}
 								isFocused={isFocused}
+								isTabbable={isTabbable}
 								highlightSatisfied={highlightSatisfied}
 								highlightOverflow={highlightOverflow}
 								cellSpacing={CELL_SPACING}

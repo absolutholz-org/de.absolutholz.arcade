@@ -6,6 +6,7 @@ export interface HashiIslandProps {
 	evaluation: IslandEvaluation;
 	isSelected: boolean;
 	isFocused: boolean;
+	isTabbable: boolean;
 	highlightSatisfied: boolean;
 	highlightOverflow: boolean;
 	cellSpacing: number;
