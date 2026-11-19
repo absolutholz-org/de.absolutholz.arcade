@@ -12,8 +12,12 @@ export const CellButton = styled.button`
 	background-color: ${themeColor('surface')};
 	color: ${themeColor('text-1')};
 	font-variant-numeric: tabular-nums;
-	font-size: 1.5rem;
+	font-size: 1.25rem;
 	line-height: 1;
+
+	@container (min-width: 25rem) {
+		font-size: 1.5rem;
+	}
 	user-select: none;
 	touch-action: manipulation;
 	transition: transform 180ms cubic-bezier(0.2, 0, 0, 1),
@@ -109,10 +113,14 @@ export const CellButton = styled.button`
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			font-size: 0.625rem;
+			font-size: 0.5rem;
 			font-weight: 500;
 			color: ${themeColor('text-3')};
 			line-height: 1;
+
+			@container (min-width: 25rem) {
+				font-size: 0.625rem;
+			}
 
 			&[data-empty='true'] {
 				visibility: hidden;

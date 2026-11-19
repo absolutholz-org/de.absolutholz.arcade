@@ -2,6 +2,7 @@ import { themeColor } from '@arcade/lib-ui/styles/theme/theme.utils';
 import { styled } from '@linaria/react';
 
 export const BoardContainer = styled.div`
+	container-type: inline-size;
 	position: relative;
 	width: 100%;
 	max-width: calc(100dvh - var(--game-header-height, 3.5rem) - 15rem);
