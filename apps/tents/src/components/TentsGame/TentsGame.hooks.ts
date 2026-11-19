@@ -667,9 +667,7 @@ export function useTentsGame(initialDifficulty: DifficultyLevel = 'easy', initia
 		setIsVictoryOpen(false);
 	}, []);
 
-	// Play again (restart current puzzle)
-	const handlePlayAgain = useCallback(() => {
-		const freshBoard = createBoardFromPuzzle(puzzle);
+	const resetSessionState = useCallback((freshBoard: BoardState) => {
 		setBoard(freshBoard);
 		setHistory(createHistory(freshBoard));
 		setElapsedSeconds(0);
@@ -683,40 +681,51 @@ export function useTentsGame(initialDifficulty: DifficultyLevel = 'easy', initia
 		placedThreeTentsInSixSecondsRef.current = false;
 		autoGrassedRowsRef.current = new Set();
 		autoGrassedColsRef.current = new Set();
-	}, [puzzle]);
+	}, []);
+
+	// Play again (restart current puzzle)
+	const handlePlayAgain = useCallback(() => {
+		resetSessionState(createBoardFromPuzzle(puzzle));
+	}, [puzzle, resetSessionState]);
 
 	// Next puzzle transition
-	const nextPreset = useMemo(() => getNextPreset(puzzle.id), [puzzle.id]);
-	const hasNextPuzzle = Boolean(nextPreset);
+	const isRandomPuzzle = useMemo(() => !getPresetById(puzzle.id), [puzzle.id]);
+	const nextPreset = useMemo(
+		() => (isRandomPuzzle ? undefined : getNextPreset(puzzle.id)),
+		[isRandomPuzzle, puzzle.id],
+	);
+	const hasNextPuzzle = isRandomPuzzle || Boolean(nextPreset);
 
 	const handleNextPuzzle = useCallback(() => {
-		if (nextPreset) {
-			setPuzzle(nextPreset);
-			const freshBoard = createBoardFromPuzzle(nextPreset);
-			setBoard(freshBoard);
-			setHistory(createHistory(freshBoard));
-			setElapsedSeconds(0);
-			setMistakesCount(0);
-			setIsPaused(false);
-			setIsComplete(false);
-			setIsVictoryOpen(false);
-			hasRecordedResultRef.current = false;
-			maxSimultaneousErrorsRef.current = 0;
-			placedTentsTimestampsRef.current = [];
-			placedThreeTentsInSixSecondsRef.current = false;
-			autoGrassedRowsRef.current = new Set();
-			autoGrassedColsRef.current = new Set();
-
-			if (typeof window !== 'undefined') {
-				const url = new URL(window.location.href);
-				url.searchParams.set('puzzle', nextPreset.id);
-				url.searchParams.set('difficulty', nextPreset.difficulty);
-				url.searchParams.delete('random');
-				url.searchParams.delete('resume');
-				window.history.replaceState(null, '', url.toString());
+		let nextPuzzle: PuzzleDefinition | undefined = nextPreset;
+		if (isRandomPuzzle) {
+			try {
+				nextPuzzle = generateTentsPuzzle(puzzle.difficulty);
+			} catch {
+				return;
 			}
 		}
-	}, [nextPreset]);
+		if (!nextPuzzle) return;
+
+		setPuzzle(nextPuzzle);
+		resetSessionState(createBoardFromPuzzle(nextPuzzle));
+
+		if (typeof window !== 'undefined') {
+			const url = new URL(window.location.href);
+			if (isRandomPuzzle) {
+				url.searchParams.delete('puzzle');
+				url.searchParams.set('difficulty', nextPuzzle.difficulty);
+				url.searchParams.set('random', 'true');
+			} else {
+				url.searchParams.set('puzzle', nextPuzzle.id);
+				url.searchParams.set('difficulty', nextPuzzle.difficulty);
+				url.searchParams.delete('random');
+			}
+			url.searchParams.delete('new');
+			url.searchParams.delete('resume');
+			window.history.replaceState(null, '', url.toString());
+		}
+	}, [isRandomPuzzle, nextPreset, puzzle.difficulty, resetSessionState]);
 
 	// Count currently placed tents
 	const placedTents = useMemo(() => {

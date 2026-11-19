@@ -1346,9 +1346,12 @@ export function getPresetsByDifficulty(difficulty: DifficultyLevel): PuzzleDefin
 }
 
 export function getNextPreset(currentId: string): PuzzleDefinition | undefined {
-	const idx = PRESET_PUZZLES.findIndex((p) => p.id === currentId);
-	if (idx >= 0 && idx < PRESET_PUZZLES.length - 1) {
-		return PRESET_PUZZLES[idx + 1];
+	const current = getPresetById(currentId);
+	if (!current) return undefined;
+	const sameDifficulty = getPresetsByDifficulty(current.difficulty);
+	const idx = sameDifficulty.findIndex((p) => p.id === currentId);
+	if (idx >= 0 && idx < sameDifficulty.length - 1) {
+		return sameDifficulty[idx + 1];
 	}
 	return undefined;
 }
