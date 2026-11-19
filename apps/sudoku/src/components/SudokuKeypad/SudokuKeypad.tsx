@@ -23,29 +23,31 @@ export function SudokuKeypad({
 
 	return (
 		<S.KeypadContainer>
-			<S.DigitsGrid data-layout={layout}>
-				{DIGITS.map((digit) => {
-					const count = digitCounts[digit] || 0;
-					const isComplete = count >= 9;
-					const remaining = Math.max(0, 9 - count);
+			<Toolbar fullWidth variant="ghost" size="sm" align="center" aria-label={t('aria.digitsToolbar')}>
+				<S.DigitsGrid data-layout={layout}>
+					{DIGITS.map((digit) => {
+						const count = digitCounts[digit] || 0;
+						const isComplete = count >= 9;
+						const remaining = Math.max(0, 9 - count);
 
-					return (
-						<S.DigitButton
-							key={digit}
-							type="button"
-							onClick={() => onDigitPress(digit)}
-							disabled={isComplete}
-							data-complete={isComplete ? 'true' : undefined}
-							aria-label={t('aria.keypadDigit', { digit })}
-						>
-							<span>{digit}</span>
-							<span data-slot="count">{remaining}</span>
-						</S.DigitButton>
-					);
-				})}
-			</S.DigitsGrid>
+						return (
+							<S.DigitButton
+								key={digit}
+								type="button"
+								onClick={() => onDigitPress(digit)}
+								disabled={isComplete}
+								data-complete={isComplete ? 'true' : undefined}
+								aria-label={t('aria.keypadDigit', { digit })}
+							>
+								<span>{digit}</span>
+								<span data-slot="count">{remaining}</span>
+							</S.DigitButton>
+						);
+					})}
+				</S.DigitsGrid>
+			</Toolbar>
 
-			<Toolbar fullWidth variant="ghost" size="sm" aria-label={t('aria.actionsToolbar')}>
+			<Toolbar fullWidth variant="ghost" size="sm" align="center" aria-label={t('aria.actionsToolbar')}>
 				{onUndo && (
 					<S.ActionButton type="button" onClick={onUndo} disabled={!canUndo} aria-label={t('controls.undo')}>
 						<Icon name="undo" size="sm" />

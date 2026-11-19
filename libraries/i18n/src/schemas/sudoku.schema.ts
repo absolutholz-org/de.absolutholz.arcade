@@ -94,6 +94,7 @@ export const sudokuSchema = {
 		clueCell: 'aria.clueCell',
 		keypadDigit: 'aria.keypadDigit',
 		boardGrid: 'aria.boardGrid',
+		digitsToolbar: 'aria.digitsToolbar',
 		actionsToolbar: 'aria.actionsToolbar',
 		headerToolbar: 'aria.headerToolbar',
 	},

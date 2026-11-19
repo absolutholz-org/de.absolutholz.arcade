@@ -4,6 +4,7 @@ import { styled } from '@linaria/react';
 
 export const KeypadContainer = styled.div`
 	width: 100%;
+	max-width: 32rem;
 	margin: 0 auto;
 	display: flex;
 	flex-direction: column;
@@ -67,6 +68,7 @@ export const ActionButton = styled.button`
 
 	@media (min-width: 640px) {
 		flex-direction: row;
+		max-width: 11rem;
 		min-height: 2.75rem;
 		gap: 0.375rem;
 		padding: 0.5rem;

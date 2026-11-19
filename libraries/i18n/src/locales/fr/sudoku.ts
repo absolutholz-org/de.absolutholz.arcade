@@ -94,6 +94,7 @@ export const frSudoku = {
 		clueCell: 'Indice de départ',
 		keypadDigit: 'Saisir le chiffre {{digit}}',
 		boardGrid: 'Grille de Sudoku, 9 par 9',
+		digitsToolbar: 'Pavé numérique',
 		actionsToolbar: "Outils d'action",
 		headerToolbar: 'Commandes du jeu',
 	},

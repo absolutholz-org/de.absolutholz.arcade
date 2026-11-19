@@ -94,6 +94,7 @@ export const ptSudoku = {
 		clueCell: 'Dica inicial',
 		keypadDigit: 'Inserir dígito {{digit}}',
 		boardGrid: 'Grade de Sudoku, 9 por 9',
+		digitsToolbar: 'Teclado numérico',
 		actionsToolbar: 'Ferramentas de ação',
 		headerToolbar: 'Controles do jogo',
 	},
