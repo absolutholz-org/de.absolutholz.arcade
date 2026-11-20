@@ -14,13 +14,13 @@ function renderBadgeItem(item: ReactNode | GameCardBadge, key?: number | string)
 	if (!item) return null;
 	if (isBadgeObject(item)) {
 		return (
-			<Badge key={key} variant={item.variant || 'neutral'} size="sm">
+			<Badge key={key} variant={item.variant || 'subtle'} tone={item.tone || 'neutral'} size="sm">
 				{item.label}
 			</Badge>
 		);
 	}
 	return (
-		<Badge key={key} variant="neutral" size="sm">
+		<Badge key={key} variant="subtle" tone="neutral" size="sm">
 			{item}
 		</Badge>
 	);

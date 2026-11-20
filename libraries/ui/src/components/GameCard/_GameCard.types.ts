@@ -1,9 +1,10 @@
 import type { ElementType, ReactNode } from 'react';
-import type { BadgeVariant } from '../Badge/_Badge.types';
+import type { BadgeTone, BadgeVariant } from '../Badge/_Badge.types';
 import type { ClickableCardProps } from '../ClickableCard/_ClickableCard.types';
 
 export interface GameCardBadge {
 	label: ReactNode;
+	tone?: BadgeTone;
 	variant?: BadgeVariant;
 }
 

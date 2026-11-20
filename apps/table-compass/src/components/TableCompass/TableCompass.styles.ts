@@ -423,35 +423,6 @@ export const HistoryStrip = css`
 	scrollbar-width: thin;
 `;
 
-export const HistoryPill = css`
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	gap: 0.35rem;
-	flex-shrink: 0;
-	min-width: 2rem;
-	height: 2rem;
-	padding: 0 0.625rem;
-	border-radius: var(--radius-pill);
-	font-size: 0.8125rem;
-	font-weight: 700;
-	font-variant-numeric: tabular-nums;
-	background-color: var(--color-container-1);
-	color: var(--color-text-1);
-	border: 1px solid var(--color-container-2);
-
-	&[data-kind='skip'] {
-		border-style: dashed;
-		color: var(--color-text-2);
-	}
-
-	&[data-kind='reverse'] {
-		background-color: oklch(from var(--color-accent) l c h / 0.12);
-		border-color: oklch(from var(--color-accent) l c h / 0.35);
-		color: var(--color-text-1);
-	}
-`;
-
 export const HistoryTurnNumber = css`
 	font-size: 0.75rem;
 	font-weight: 800;

@@ -24,7 +24,8 @@ describe('WakeLockToggleButton', () => {
 		const button = container.querySelector('button') as HTMLButtonElement;
 		expect(button).not.toBeNull();
 		expect(button.getAttribute('aria-pressed')).toBe('true');
-		expect(button.getAttribute('data-state')).toBe('active');
+		expect(button.getAttribute('data-variant')).toBe('subtle');
+		expect(button.getAttribute('data-tone')).toBe('accent');
 		expect(button.textContent).toContain('Keep screen awake');
 
 		button.click();
@@ -40,7 +41,8 @@ describe('WakeLockToggleButton', () => {
 
 		const button = container.querySelector('button') as HTMLButtonElement;
 		expect(button.getAttribute('aria-pressed')).toBe('true');
-		expect(button.getAttribute('data-state')).toBe('blocked');
+		expect(button.getAttribute('data-variant')).toBe('dashed');
+		expect(button.getAttribute('data-tone')).toBe('neutral');
 		expect(button.textContent).toContain('Screen stay-awake inactive');
 	});
 
@@ -54,7 +56,8 @@ describe('WakeLockToggleButton', () => {
 
 		const button = container.querySelector('button') as HTMLButtonElement;
 		expect(button.getAttribute('aria-pressed')).toBe('false');
-		expect(button.getAttribute('data-state')).toBe('off');
+		expect(button.getAttribute('data-variant')).toBe('outline');
+		expect(button.getAttribute('data-tone')).toBe('neutral');
 
 		button.click();
 		expect(onToggle).toHaveBeenCalledWith(true);

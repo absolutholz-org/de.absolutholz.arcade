@@ -1,4 +1,5 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
+import { Badge } from '@arcade/lib-ui/components/Badge';
 import { Button } from '@arcade/lib-ui/components/Button';
 import { Icon } from '@arcade/lib-ui/components/Icon';
 import { Stack } from '@arcade/lib-ui/components/Stack';
@@ -349,16 +350,16 @@ export function CompassView({
 										? t('tools.tableCompass.compass.historyReverseCcw')
 										: t('tools.tableCompass.compass.historyReverseCw');
 								return (
-									<span
+									<Badge
 										key={entry.id}
-										className={S.HistoryPill}
-										data-kind="reverse"
-										aria-label={label}
-										title={label}
+										variant="subtle"
+										tone="accent"
+										tabular
+										screenReaderLabel={label}
+										leadingIcon={<Icon name="rotate-ccw" size="xs" />}
 									>
-										<Icon name="rotate-ccw" size="xs" />
-										<span>{label}</span>
-									</span>
+										{label}
+									</Badge>
 								);
 							}
 
@@ -368,19 +369,19 @@ export function CompassView({
 									name: entry.playerName ?? '',
 								});
 								return (
-									<span
+									<Badge
 										key={entry.id}
-										className={S.HistoryPill}
-										data-kind="skip"
-										aria-label={skipLabel}
-										title={skipLabel}
+										variant="dashed"
+										tone="neutral"
+										tabular
+										screenReaderLabel={skipLabel}
+										leadingIcon={<Icon name="chevron-right" size="xs" />}
 									>
-										<Icon name="chevron-right" size="xs" />
 										<span style={{ color: config?.color }} aria-hidden="true">
 											{config?.icon}
 										</span>
 										<span>{skipLabel}</span>
-									</span>
+									</Badge>
 								);
 							}
 
@@ -389,19 +390,19 @@ export function CompassView({
 								name: entry.playerName ?? '',
 							});
 							return (
-								<span
+								<Badge
 									key={entry.id}
-									className={S.HistoryPill}
-									data-kind="turn"
-									aria-label={turnLabel}
-									title={turnLabel}
+									variant="subtle"
+									tone="neutral"
+									tabular
+									screenReaderLabel={turnLabel}
 								>
 									<span className={S.HistoryTurnNumber}>#{entry.turn ?? 1}</span>
 									<span style={{ color: config?.color }} aria-hidden="true">
 										{config?.icon}
 									</span>
 									<span>{entry.playerName}</span>
-								</span>
+								</Badge>
 							);
 						})}
 					</div>

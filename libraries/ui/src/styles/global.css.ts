@@ -5,6 +5,7 @@ import { patternCssTokens } from './patterns';
 import { radiusCssTokens } from './radius/radius.constants';
 import { reset } from './reset/reset.css';
 import { spacingCssTokensCompact, spacingCssTokensExpanded } from './spacing';
+import { statusCssTokens } from './theme/status-tokens';
 import { getThemeMapping } from './theme/theme.utils';
 import { themesetBaseCss } from './theme/themeset-base.css';
 import { themesetBuckeyePrideCss } from './theme/themeset-buckeye-pride.css';
@@ -38,6 +39,9 @@ export const globalStyles = css`
 
 			/* Border radius tokens */
 			${radiusCssTokens}
+
+			/* Semantic status color tokens */
+			${statusCssTokens}
 
 			/* Accessible high-contrast pattern tokens */
 			${patternCssTokens}
@@ -166,6 +170,9 @@ export const getGlobalStyles = (themesetCss: string = themesetBaseCss): string =
 
 		/* Border radius tokens */
 		${radiusCssTokens}
+
+		/* Semantic status color tokens */
+		${statusCssTokens}
 
 		/* Accessible high-contrast pattern tokens */
 		${patternCssTokens}

@@ -1,5 +1,6 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
+import { Badge } from '@arcade/lib-ui/components/Badge';
 import { Button } from '@arcade/lib-ui/components/Button';
 import type { CoinFace, CoinStyle } from '@arcade/lib-ui/components/Coin';
 import { type CoinFlipResult, CoinTray, type CoinTrayHandle } from '@arcade/lib-ui/components/CoinTray';
@@ -179,15 +180,15 @@ function CoinFlipperContent(): JSX.Element {
 							const short = face === 'heads' ? headsShort : tailsShort;
 							const full = face === 'heads' ? headsLabel : tailsLabel;
 							return (
-								<span
+								<Badge
 									key={entry.id}
-									className={S.HistoryPill}
-									data-face={face}
-									aria-label={full}
-									title={full}
+									variant="subtle"
+									tone={face === 'heads' ? 'warning' : 'info'}
+									size="md"
+									screenReaderLabel={full}
 								>
 									{short}
-								</span>
+								</Badge>
 							);
 						})}
 					</div>

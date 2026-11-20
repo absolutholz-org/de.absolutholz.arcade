@@ -1,7 +1,7 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import type { JSX } from 'react';
+import { Badge } from '../Badge';
 import { Icon } from '../Icon';
-import * as S from './_WakeLockToggleButton.styles';
 import type { WakeLockToggleButtonProps } from './_WakeLockToggleButton.types';
 
 /**
@@ -22,24 +22,26 @@ export function WakeLockToggleButton({
 		return null;
 	}
 
-	const visualState = enabled ? (isActive ? 'active' : 'blocked') : 'off';
+	const variant = enabled ? (isActive ? 'subtle' : 'dashed') : 'outline';
+	const tone = enabled && isActive ? 'accent' : 'neutral';
 	const statusText = enabled && isActive ? t('wakeLock.wakeLockActive') : t('wakeLock.wakeLockInactive');
 	const label = `${t('wakeLock.keepScreenOn')} (${statusText})`;
 	const iconName = enabled && isActive ? 'lightbulb-filled' : 'lightbulb';
 
 	return (
-		<S.WakeLockToggleButton
-			type="button"
-			aria-pressed={enabled}
+		<Badge
+			as="button"
+			pressed={enabled}
+			variant={variant}
+			tone={tone}
+			size={size}
+			className={className}
 			aria-label={label}
 			title={label}
-			data-size={size}
-			data-state={visualState}
-			className={className}
+			leadingIcon={<Icon name={iconName} size="sm" />}
 			onClick={() => onToggle(!enabled)}
 		>
-			<Icon name={iconName} size="sm" />
-			<span>{enabled && !isActive ? t('wakeLock.wakeLockInactive') : t('wakeLock.keepScreenOn')}</span>
-		</S.WakeLockToggleButton>
+			{enabled && !isActive ? t('wakeLock.wakeLockInactive') : t('wakeLock.keepScreenOn')}
+		</Badge>
 	);
 }

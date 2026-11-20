@@ -36,7 +36,7 @@ export const Default: Story = {
 					borderRadius: '0.5rem',
 				}}
 			>
-				<Badge variant="neutral" size="md">
+				<Badge variant="subtle" tone="neutral" size="md">
 					Main Content Area (Unconstrained Slot)
 				</Badge>
 			</div>

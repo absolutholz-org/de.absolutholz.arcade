@@ -1,7 +1,7 @@
 import { type JSX, useState } from 'react';
 import { useShake } from '../../hooks/useShake';
+import { Badge } from '../Badge';
 import { Icon } from '../Icon';
-import * as S from './_ShakeToggle.styles';
 import type { ShakeToggleProps } from './_ShakeToggle.types';
 
 /**
@@ -34,33 +34,37 @@ export function ShakeToggle({
 
 	if (needsPermission && !isPermissionGranted) {
 		return (
-			<S.ShakeToggle
-				type="button"
-				aria-pressed={false}
+			<Badge
+				as="button"
+				pressed={false}
+				variant="outline"
+				tone="neutral"
+				size="sm"
 				aria-label={enableLabel}
 				title={enableLabel}
-				data-state="off"
+				leadingIcon={<Icon name="smartphone" size="sm" />}
 				onClick={() => void requestPermission()}
 			>
-				<Icon name="smartphone" size="sm" />
-				<span>{enableLabel}</span>
-			</S.ShakeToggle>
+				{enableLabel}
+			</Badge>
 		);
 	}
 
 	const label = isShakeActive ? enabledLabel : disabledLabel;
 
 	return (
-		<S.ShakeToggle
-			type="button"
-			aria-pressed={isShakeActive}
+		<Badge
+			as="button"
+			pressed={isShakeActive}
+			variant={isShakeActive ? 'subtle' : 'outline'}
+			tone={isShakeActive ? 'accent' : 'neutral'}
+			size="sm"
 			aria-label={label}
 			title={label}
-			data-state={isShakeActive ? 'active' : 'off'}
+			leadingIcon={<Icon name={isShakeActive ? 'smartphone-filled' : 'smartphone'} size="sm" />}
 			onClick={() => setIsShakeActive((prev) => !prev)}
 		>
-			<Icon name={isShakeActive ? 'smartphone-filled' : 'smartphone'} size="sm" />
-			<span>{label}</span>
-		</S.ShakeToggle>
+			{label}
+		</Badge>
 	);
 }

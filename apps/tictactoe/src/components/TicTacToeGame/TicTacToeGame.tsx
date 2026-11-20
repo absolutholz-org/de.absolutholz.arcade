@@ -681,8 +681,9 @@ function GameInner({
 						<Stack direction="row" spacing="sm" align="center" justify="center" wrap>
 							<Badge
 								variant={
-									!activeState.isComplete && activeState.currentTurn === 'X' ? 'accent' : 'outline'
+									!activeState.isComplete && activeState.currentTurn === 'X' ? 'subtle' : 'outline'
 								}
+								tone={!activeState.isComplete && activeState.currentTurn === 'X' ? 'accent' : 'neutral'}
 								size="md"
 							>
 								{activeState.player1Name} (X) · {activeState.player1Wins ?? 0}
@@ -692,8 +693,9 @@ function GameInner({
 							</Text>
 							<Badge
 								variant={
-									!activeState.isComplete && activeState.currentTurn === 'O' ? 'accent' : 'outline'
+									!activeState.isComplete && activeState.currentTurn === 'O' ? 'subtle' : 'outline'
 								}
+								tone={!activeState.isComplete && activeState.currentTurn === 'O' ? 'accent' : 'neutral'}
 								size="md"
 							>
 								{activeState.player2Name} (O) · {activeState.player2Wins ?? 0}

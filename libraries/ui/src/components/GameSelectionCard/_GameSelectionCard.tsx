@@ -1,4 +1,5 @@
 import { type ElementType, type ForwardedRef, forwardRef } from 'react';
+import { Badge } from '../Badge';
 import { ClickableCard } from '../ClickableCard';
 import type { ClickableCardProps } from '../ClickableCard/_ClickableCard.types';
 import * as S from './_GameSelectionCard.styles';
@@ -22,11 +23,14 @@ function GameSelectionCardInner<C extends ElementType = 'button'>(
 			{metadataItems.length > 0 && (
 				<S.Metadata>
 					{metadataItems.map((item, index) => (
-						<S.MetadataPill
+						<Badge
 							key={typeof item === 'string' || typeof item === 'number' ? item : `meta-${index}`}
+							size="sm"
+							variant="subtle"
+							tone="neutral"
 						>
 							{item}
-						</S.MetadataPill>
+						</Badge>
 					))}
 				</S.Metadata>
 			)}

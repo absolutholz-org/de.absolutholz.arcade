@@ -75,6 +75,6 @@ export const Multiplayer: Story = {
 		description: 'Play the classic 3×3 duel against friends in local pass-and-play.',
 		href: '/tictactoe/en/',
 		badge: 'Card & Board',
-		modeBadge: { label: '👥 2 Players', variant: 'accent' },
+		modeBadge: { label: '👥 2 Players', tone: 'accent' },
 	},
 };

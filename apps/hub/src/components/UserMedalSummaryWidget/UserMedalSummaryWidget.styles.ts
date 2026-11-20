@@ -62,19 +62,3 @@ export const TallyItem = css`
 	align-items: center;
 	gap: 0.25rem;
 `;
-
-export const CtaBadge = css`
-	display: inline-flex;
-	align-items: center;
-	gap: 0.375rem;
-	font-size: 0.8125rem;
-	font-weight: 600;
-	padding: 0.375rem 0.75rem;
-	border-radius: var(--radius-sm, 0.375rem);
-	background: var(--color-container-2, #e2e8f0);
-	color: var(--color-text-1, #0f172a);
-	flex-shrink: 0;
-	transition:
-		background-color 150ms ease,
-		color 150ms ease;
-`;

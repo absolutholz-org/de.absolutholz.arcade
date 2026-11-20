@@ -61,19 +61,6 @@ export const StatCard = styled.div`
 	}
 `;
 
-export const BestTimeBadge = styled.div`
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	padding: 0.375rem 0.875rem;
-	border-radius: 9999px;
-	background-color: ${themeColor('accent')};
-	color: ${themeColor('accent-contrast')};
-	font-size: 0.8125rem;
-	font-weight: 700;
-	letter-spacing: 0.03ch;
-`;
-
 export const Actions = styled.div`
 	display: flex;
 	flex-direction: column;

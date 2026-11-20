@@ -243,8 +243,8 @@ function LobbyContent({ lang }: { readonly lang: SupportedLanguageCode }): JSX.E
 									: isMyTurn
 										? t('lobby.yourTurnBadge')
 										: t('lobby.waitingBadge');
-							const badgeVariant =
-								room.phase === 'abandoned' ? 'outline' : isMyTurn ? 'accent' : 'outline';
+							const badgeVariant = isMyTurn ? 'subtle' : 'outline';
+							const badgeTone = isMyTurn ? 'accent' : 'neutral';
 
 							return (
 								<Stack
@@ -259,7 +259,7 @@ function LobbyContent({ lang }: { readonly lang: SupportedLanguageCode }): JSX.E
 										<Text as="span" variant="small">
 											{room.roomId.toUpperCase()} · {opponentName}
 										</Text>
-										<Badge variant={badgeVariant} size="sm">
+										<Badge variant={badgeVariant} tone={badgeTone} size="sm">
 											{badgeLabel}
 										</Badge>
 									</Stack>

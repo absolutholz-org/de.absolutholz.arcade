@@ -139,7 +139,7 @@ Primitives for data presentation, micro-indicators, typography, and styling cont
 
 | Component | Export Path | Primary Purpose | Key Props & Patterns |
 | :--- | :--- | :--- | :--- |
-| **`Badge`** | `@arcade/lib-ui` | Compact status indicator or category pill. | `variant="default" \| "accent" \| "neutral"`, `size="sm" \| "md"`. |
+| **`Badge`** | `@arcade/lib-ui` | Canonical capsule primitive for static metadata/status tags (`as="span"`) and interactive toggle/link badges (`as="button"` / `as="a"`). Enforces root OKLCH status tokens, `screenReaderLabel`, touch targets, and Forced Colors Mode. | `as="span" \| "button" \| "a"`, `variant="subtle" \| "solid" \| "outline" \| "dashed"`, `tone="neutral" \| "accent" \| "accent-secondary" \| "success" \| "warning" \| "danger" \| "info"`, `size="sm" \| "md" \| "lg"`, `pressed`, `current`, `screenReaderLabel`, `tabular`. |
 | **`Icon`** | `@arcade/lib-ui` | Accessible SVG icon component drawing from the central design system sprite. | `name: IconName`, `size="xs" \| "sm" \| "md" \| "lg"`, `aria-hidden`. |
 | **`MedalIcon`** | `@arcade/lib-ui` | Parameterized vector award medal with hanging ribbons, circular medallion, dashed border, and customizable center emblem. | `tier="bronze" \| "silver" \| "gold"`, `state="locked" \| "unlocked"`, `size={number \| string}`. |
 | **`TriadBadge`** | `@arcade/lib-ui` | Triangular 3-medal cluster badge (Silver, Bronze, Gold) for progressive ladder achievements. | `bronzeUnlocked`, `silverUnlocked`, `goldUnlocked`, `size`. |

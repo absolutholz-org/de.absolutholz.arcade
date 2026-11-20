@@ -1,5 +1,6 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
+import { Badge } from '@arcade/lib-ui/components/Badge';
 import { Button } from '@arcade/lib-ui/components/Button';
 import { DiceTray, type DiceTrayHandle, type DiceTrayProps } from '@arcade/lib-ui/components/DiceTray';
 import { ShakeToggle } from '@arcade/lib-ui/components/ShakeToggle';
@@ -99,14 +100,16 @@ function DiceRollerContent(_props: DiceRollerProps): JSX.Element {
 								values: entry.values.join(', '),
 							});
 							return (
-								<span
+								<Badge
 									key={entry.id}
-									className={S.HistoryPill}
-									aria-label={detailLabel}
-									title={detailLabel}
+									variant="subtle"
+									tone="neutral"
+									size="md"
+									tabular
+									screenReaderLabel={detailLabel}
 								>
 									{entry.total}
-								</span>
+								</Badge>
 							);
 						})}
 					</div>

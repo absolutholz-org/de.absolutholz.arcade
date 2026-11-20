@@ -161,7 +161,7 @@ export function PlayerProfileView({
 				<section data-slot="tier-card" aria-label={t('profile.activeTierLabel')}>
 					<div data-slot="tier-header">
 						<span data-slot="tier-title">{activeTierInfo.title}</span>
-						<Badge variant={activeTierInfo.badgeVariant} size="md">
+						<Badge variant="subtle" tone={activeTierInfo.badgeVariant} size="md">
 							{t('profile.activeTierLabel')}: Tier {currentTier}
 						</Badge>
 					</div>

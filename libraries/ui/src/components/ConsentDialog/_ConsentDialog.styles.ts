@@ -50,15 +50,6 @@ export const CardTitle = styled.h3`
 	color: var(--color-text-1);
 `;
 
-export const CardBadge = styled.span`
-	font-size: 0.75rem;
-	font-weight: 500;
-	padding: 0.125rem 0.5rem;
-	background-color: var(--color-container-2);
-	border-radius: var(--radius-sm, 0.25rem);
-	color: var(--color-text-2);
-`;
-
 export const CardDescription = styled.p`
 	font-size: 0.8125rem;
 	line-height: 1.45;

@@ -123,12 +123,12 @@ export const WithStatusSubBar: Story = {
 				}}
 			>
 				<div style={{ display: 'flex', gap: 'var(--space-xs)' }}>
-					<Badge variant="accent" size="sm">
+					<Badge variant="subtle" tone="accent" size="sm">
 						Lives: 3/3
 					</Badge>
 				</div>
 				<div style={{ display: 'flex', gap: 'var(--space-xs)' }}>
-					<Badge variant="outline" size="sm">
+					<Badge variant="outline" tone="neutral" size="sm">
 						Moves: 14
 					</Badge>
 				</div>

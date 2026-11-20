@@ -120,7 +120,7 @@ function HeaderUserMenuContent({
 								<span className="summary-status">{authStatusLabel}</span>
 							</div>
 						</div>
-						<Badge variant={tierInfo.badgeVariant} size="sm" className="summary-tier">
+						<Badge variant="subtle" tone={tierInfo.badgeVariant} size="sm" className="summary-tier">
 							{tierBadgeLabel}
 						</Badge>
 					</S.SummaryCard>

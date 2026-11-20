@@ -31,7 +31,7 @@ export function Collapsible({
 	const badgeElement =
 		badge ??
 		(count !== undefined ? (
-			<Badge variant="neutral" size="sm">
+			<Badge variant="subtle" tone="neutral" size="sm" tabular>
 				{count}
 			</Badge>
 		) : null);

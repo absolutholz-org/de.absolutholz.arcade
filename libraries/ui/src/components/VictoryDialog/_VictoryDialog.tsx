@@ -1,6 +1,7 @@
 import { playMedalChime, playRegression, playVictoryFanfare, triggerHaptic } from '@arcade/lib-audio';
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import React, { useEffect, useRef } from 'react';
+import { Badge } from '../Badge';
 import { Button } from '../Button';
 import { Confetti } from '../Confetti';
 import { Dialog } from '../Dialog';
@@ -138,7 +139,11 @@ export function VictoryDialog({
 						</S.StatsGrid>
 					)}
 
-					{isNewBestTime && <S.BestTimeBadge>{bestTimeText || 'New Best Time!'}</S.BestTimeBadge>}
+					{isNewBestTime && (
+						<Badge size="md" variant="solid" tone="accent">
+							{bestTimeText || 'New Best Time!'}
+						</Badge>
+					)}
 
 					<S.Actions>
 						{showGameplayActions && (

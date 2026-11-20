@@ -3,6 +3,7 @@ import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { type GameId, getGameMedalState, subscribeToMedalUnlocked } from '@arcade/lib-medals';
+import { Badge } from '@arcade/lib-ui/components/Badge';
 import { ClickableCard } from '@arcade/lib-ui/components/ClickableCard';
 import { createUserService } from '@arcade/lib-user';
 import { useCallback, useEffect, useState } from 'react';
@@ -116,9 +117,9 @@ function UserMedalSummaryWidgetContent({ lang }: { lang: SupportedLanguageCode }
 						</div>
 					</div>
 				</div>
-				<span className={S.CtaBadge} aria-hidden="true">
+				<Badge variant="subtle" tone="neutral" size="md" aria-hidden>
 					{t('showcase.widget.viewShowcase')} →
-				</span>
+				</Badge>
 			</ClickableCard>
 		</div>
 	);

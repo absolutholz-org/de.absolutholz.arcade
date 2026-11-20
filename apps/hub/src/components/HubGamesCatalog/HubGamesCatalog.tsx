@@ -25,7 +25,7 @@ function renderGameCard(game: GameMetadata, lang: HubGamesCatalogProps['lang']) 
 			description={getGameDescription(game.id, lang)}
 			icon={game.assets.icon}
 			badge={getCategoryLabel(game.category.primary, lang)}
-			modeBadge={isMultiplayer ? { label: modeChipText, variant: 'accent' } : undefined}
+			modeBadge={isMultiplayer ? { label: modeChipText, variant: 'subtle', tone: 'accent' } : undefined}
 		/>
 	);
 }

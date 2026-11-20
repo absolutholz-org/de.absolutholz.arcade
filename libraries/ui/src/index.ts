@@ -46,4 +46,15 @@ export type {
 export { useWakeLock } from './hooks/useWakeLock';
 export type { UseWakeLockOptions, UseWakeLockReturn } from './hooks/useWakeLock';
 export { useGameWakeLock } from './hooks/useGameWakeLock';
+export { Badge } from './components/Badge';
+export type {
+	BadgeElement,
+	BadgeProps,
+	BadgeSize,
+	BadgeTone,
+	BadgeVariant,
+	ButtonBadgeProps,
+	LinkBadgeProps,
+	StaticBadgeProps,
+} from './components/Badge/_Badge.types';
 export { useFavorites, type UseFavoritesReturn } from '@arcade/lib-user';

@@ -10,6 +10,7 @@ import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import type React from 'react';
 import { useEffect, useState } from 'react';
 import { useUserDataTier } from '../../hooks/useUserDataTier';
+import { Badge } from '../Badge';
 import { Button } from '../Button';
 import { Dialog } from '../Dialog';
 import { Divider } from '../Divider';
@@ -183,7 +184,9 @@ export function ConsentDialog({
 				<S.PreferenceCard>
 					<S.CardHeader>
 						<S.CardTitle>{t('consent.modal.essentialTitle')}</S.CardTitle>
-						<S.CardBadge>{t('consent.modal.essentialBadge')}</S.CardBadge>
+						<Badge size="sm" variant="subtle" tone="neutral">
+							{t('consent.modal.essentialBadge')}
+						</Badge>
 					</S.CardHeader>
 					<S.CardDescription>{t('consent.modal.essentialDescription')}</S.CardDescription>
 				</S.PreferenceCard>

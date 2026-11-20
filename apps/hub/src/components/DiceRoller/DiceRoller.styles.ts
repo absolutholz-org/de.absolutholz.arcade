@@ -57,23 +57,6 @@ export const HistoryStrip = css`
 	scrollbar-width: thin;
 `;
 
-export const HistoryPill = css`
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	flex-shrink: 0;
-	min-width: 2rem;
-	height: 2rem;
-	padding: 0 0.5rem;
-	border-radius: var(--radius-pill);
-	font-size: 0.8125rem;
-	font-weight: 700;
-	font-variant-numeric: tabular-nums;
-	background-color: var(--color-container-1);
-	color: var(--color-text-1);
-	border: 1px solid var(--color-container-2);
-`;
-
 export const EmptyHistory = css`
 	font-size: 0.875rem;
 	color: var(--color-text-2);

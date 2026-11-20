@@ -44,7 +44,7 @@ export function Hero<C extends ElementType = 'header'>({
 					<S.Hero_TagsList role="list" aria-label={tagsAriaLabel}>
 						{tags.map((tag) => (
 							<S.Hero_TagItem key={tag}>
-								<Badge variant="neutral" size="sm">
+								<Badge variant="subtle" tone="neutral" size="sm">
 									{tag}
 								</Badge>
 							</S.Hero_TagItem>
