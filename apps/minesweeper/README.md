@@ -26,17 +26,9 @@ Classic, accessible Minesweeper puzzle web application for the absolutholz Arcad
 
 ---
 
-## 🗺️ Canonical 6-Route Architecture (ADR 0008)
+## 🗺️ Canonical 6-Route Architecture
 
-| Route | Description | Template / Island |
-| :--- | :--- | :--- |
-| `/minesweeper/` | Root language redirector | Static SSG + Client redirect |
-| `/minesweeper/[lang]/` | 1. Lobby / Landing with size and difficulty selectors | `<GameLandingTemplate>` + `<MinesweeperLobby client:load />` |
-| `/minesweeper/[lang]/game` | 2. Gameplay canvas with in-game Rules & Settings modals | `<GameLayout>` + `<MinesweeperGame client:only="react" />` projecting `<MarkdownContent slot="rulesContent">` |
-| `/minesweeper/[lang]/rules` | 3. Standalone How-to-Play Rules guide | `<MarkdownPageTemplate>` rendering localized `rules.md` |
-| `/minesweeper/[lang]/settings` | 4. Standalone Settings page | `<GameSubpageTemplate>` + `<GameSettingsPanel mode="detailed" client:load />` |
-| `/minesweeper/[lang]/stats` | 5. Standalone Statistics dashboard | `<GameSubpageTemplate>` + `<GameStatsDashboard client:load />` |
-| `/minesweeper/[lang]/medals` | 6. Standalone Medal Showcase | `<GameSubpageTemplate>` + `<GameMedalGrid client:load />` |
+Implements the standard 6-route shell and subsystem contracts defined in [ADR 0008](../../docs/adr/0008-game-shell-and-subsystem-contract.md).
 
 ---
 

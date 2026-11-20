@@ -29,5 +29,35 @@
 			"quoteStyle": "single",
 			"trailingCommas": "all"
 		}
-	}
+	},
+	"overrides": [
+		{
+			"include": ["apps/**/*.ts", "apps/**/*.tsx"],
+			"linter": {
+				"rules": {
+					"style": {
+						"noRestrictedGlobals": {
+							"level": "error",
+							"options": {
+								"deniedGlobals": ["localStorage", "sessionStorage", "indexedDB"]
+							}
+						}
+					}
+				}
+			}
+		},
+		{
+			"include": [
+				"apps/hub/src/components/CoinFlipper/CoinFlipper.tsx",
+				"apps/table-compass/src/components/TableCompass/useTableCompass.ts"
+			],
+			"linter": {
+				"rules": {
+					"style": {
+						"noRestrictedGlobals": "off"
+					}
+				}
+			}
+		}
+	]
 }

@@ -25,17 +25,9 @@ Classic Hashiwokakero (Hashi / Bridges) island network puzzle web application fo
 
 ---
 
-## 🗺️ Canonical 6-Route Architecture (ADR 0008)
+## 🗺️ Canonical 6-Route Architecture
 
-| Route | Description | Template / Island |
-| :--- | :--- | :--- |
-| `/bridges/` | Root language redirector | Static SSG + Client redirect |
-| `/bridges/[lang]/` | 1. Lobby / Landing with puzzle selector | `<GameLandingTemplate>` + `<HashiLobby client:load />` |
-| `/bridges/[lang]/game` | 2. Gameplay canvas with in-game Rules & Settings modals | `<GameLayout>` + `<HashiGame client:only="react" />` projecting `<MarkdownContent slot="rulesContent">` |
-| `/bridges/[lang]/rules` | 3. Standalone How-to-Play Rules guide | `<MarkdownPageTemplate>` rendering localized `rules.md` |
-| `/bridges/[lang]/settings` | 4. Standalone Settings page | `<GameSubpageTemplate>` + `<GameSettingsPanel mode="detailed" client:load />` |
-| `/bridges/[lang]/stats` | 5. Standalone Statistics dashboard | `<GameSubpageTemplate>` + `<GameStatsDashboard client:load />` |
-| `/bridges/[lang]/medals` | 6. Standalone Medal Showcase | `<GameSubpageTemplate>` + `<GameMedalGrid client:load />` |
+Implements the standard 6-route shell and subsystem contracts defined in [ADR 0008](../../docs/adr/0008-game-shell-and-subsystem-contract.md).
 
 ---
 

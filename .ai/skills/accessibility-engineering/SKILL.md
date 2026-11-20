@@ -1,31 +1,25 @@
 ---
 id: accessibility-engineering
 name: Accessibility Engineering
-description: Technical implementation blueprints and coding patterns to satisfy WCAG 2.2 AA and BITV 2.0 standards
-targets: ['libraries/design-system/src/components/*']
+description: Project-specific BITV 2.0 / BFSG, Forced Colors Mode, OKLCH contrast, and non-color game cue constraints
+targets: ['libraries/ui/src/components/*', 'apps/*/src/**/*']
 ---
 
 # Accessibility Engineering Skill
 
-This skill defines the technical implementation blueprints and coding patterns required to satisfy WCAG 2.2 AA and BITV 2.0 standards.
+This skill defines **project-specific** accessibility constraints beyond baseline web standards. For general ARIA, focus management, `<dialog>`, popover, and form accessibility patterns, consult [`modern-web-guidance`](/.agents/skills/modern-web-guidance/SKILL.md) first.
 
-## 1. Focus Management Blueprints
+## 1. Regulatory & Target Compliance (BITV 2.0 / BFSG / WCAG 2.2 AA)
 
-- Explicitly engineer interactive focus states using highly visible focus indicators.
-- Complex overlay components (modals, dialogs, drawers) must implement strict keyboard focus traps, return focus to the triggering element upon closing, and support standard Escape key exits.
+- All interactive controls, grid cells, and buttons must meet the **24×24 CSS pixel** minimum touch target size.
+- Gameboards implementing 2D grids must follow the monorepo WAI-ARIA Grid + Biome pragma standard in [`game-shell.md`](/.ai/rules/game-shell.md#4-interactive-canvas-grid--accessibility-standards-wai-aria--biome-compliance).
 
-## 2. Semantic HTML & ARIA Mapping
+## 2. Forced Colors Mode (`@media (forced-colors: active)`)
 
-- Use native semantic interactive elements wherever possible.
-- When custom interactive roles are structurally required, map out valid, active ARIA attributes (e.g., aria-expanded, aria-controls, aria-describedby) to reflect live state transformations.
-- Ensure all form fields feature programmatic labels (via htmlFor in React/JSX) so screen readers can calculate accurate accessible names.
+- Components in `@arcade/lib-ui` and game canvases must remain operable and clearly bounded in Windows High Contrast / Forced Colors Mode.
+- Provide explicit `@media (forced-colors: active)` rules using CSS system color keywords (`buttonborder`, `highlight`, `mark`, `canvas`, `canvastext`) for borders, focus outlines, and invalid/selected states where background-only styling would be stripped.
 
-## 3. Contrast & Sensory Constraints
+## 3. OKLCH `light-dark()` Tokens & Non-Color Game Cues
 
-- Enforce minimum color contrast ratios: 4.5:1 for standard text and 3:1 for large graphical elements or headers.
-- Interface cues, state changes, and validation errors must never rely solely on sensory characteristics like color, shape, or sound alone to convey information.
-
-## 4. Self-Documenting Implementation & Logic Comments
-
-- Use self-explanatory naming for accessibility state flags, ref variables, and event handlers (e.g., `isFocusTrapped`, `previousActiveElementRef`).
-- Add concise comments explaining complex accessibility logic, such as focus restoration sequences, keyboard trapping algorithms, or live region update throttling. Avoid redundant commentary on self-evident markup.
+- Author theme colors using OKLCH CSS custom properties and `light-dark()` tokens (never raw hex codes) maintaining `>= 4.5:1` text contrast and `>= 3:1` UI/graphical contrast.
+- Puzzle and game states (e.g., color-sorting layers, intersecting graph edges, energized wires, region boundaries) must never rely on color alone—pair color with distinct geometric symbols, SVG patterns, letter badges, or `stroke-dasharray` styles.

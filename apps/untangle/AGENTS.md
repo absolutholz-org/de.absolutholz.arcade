@@ -1,0 +1,5 @@
+# @arcade/untangle — Local Agent Invariants
+
+- **Planar Graph Engine (`src/engine/`):** Generate strictly planar graphs from collision-free `solutionPositions` (`0..1000` integer space) scrambled onto a circle with `intersectionCount > 0`. Detect crossings using **exact integer cross-product arithmetic** (`ccw`)—never flag shared-endpoint edges, and catch collinear overlaps without floating-point drift. Tiers: `easy` (6–8 vertices), `medium` (10–14), `hard` (16–22).
+- **Accessibility & Visuals:** Interactive SVG vertices (`<g role="button" tabIndex={0}>`) with `aria-label` (index, coordinates, intersecting status), `aria-pressed`, `>= 24×24px` hit target, dashed pattern (`stroke-dasharray`) on intersecting edges, and obscured board when paused. Keyboard: `Tab`/`Shift+Tab`, `Enter`/`Space` select, `Arrow` (10u) / `Shift+Arrow` (40u) move, `Z`/`U` undo, `Y` redo, `H` hint, `Esc`/`P` pause.
+- **Namespaces:** i18n `untangle`; storage `createGameStorage('untangle')` with keys `untangle:save:v1` and `untangle:settings:v1`.

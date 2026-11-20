@@ -4,8 +4,15 @@ pre-commit:
       glob: "*.{js,ts,jsx,tsx,mjs,cjs,json}"
       run: pnpm exec biome check --write --unsafe --no-errors-on-unmatched {staged_files}
       stage_fixed: true
+    typecheck-affected:
+      run: ASTRO_TELEMETRY_DISABLED=1 pnpm -r --filter "...[HEAD]" run --if-present typecheck
+
+pre-push:
+  commands:
     typecheck:
       run: pnpm typecheck
+    conformance:
+      run: pnpm test:conformance
 
 commit-msg:
   commands:

@@ -25,17 +25,9 @@ Lexicon anagram rack puzzle web application for the absolutholz Arcade monorepo.
 
 ---
 
-## 🗺️ Canonical 6-Route Architecture (ADR 0008)
+## 🗺️ Canonical 6-Route Architecture
 
-| Route | Description | Template / Island |
-| :--- | :--- | :--- |
-| `/anagram/` | Root language redirector | Static SSG + Client redirect |
-| `/anagram/[lang]/` | 1. Lobby / Landing with vocabulary, mode, and difficulty selectors | `<GameLandingTemplate>` + `<AnagramLobby client:load />` |
-| `/anagram/[lang]/game` | 2. Gameplay canvas with in-game Rules & Settings modals | `<GameLayout>` + `<AnagramGame client:only="react" />` projecting `<MarkdownContent slot="rulesContent">` |
-| `/anagram/[lang]/rules` | 3. Standalone How-to-Play Rules guide | `<MarkdownPageTemplate>` rendering localized `rules.md` |
-| `/anagram/[lang]/settings` | 4. Standalone Settings page | `<GameSubpageTemplate>` + `<GameSettingsPanel mode="detailed" client:load />` |
-| `/anagram/[lang]/stats` | 5. Standalone Statistics dashboard | `<GameSubpageTemplate>` + `<GameStatsDashboard client:load />` |
-| `/anagram/[lang]/medals` | 6. Standalone Medal Showcase | `<GameSubpageTemplate>` + `<GameMedalGrid client:load />` |
+Implements the standard 6-route shell and subsystem contracts defined in [ADR 0008](../../docs/adr/0008-game-shell-and-subsystem-contract.md).
 
 ---
 

@@ -14,7 +14,7 @@ This skill defines the mandatory workflow and architectural constraints for addi
 Per ADR 007, zero hardcoded user-facing strings are permitted in application code (`apps/**`) or component packages (`libraries/ui/**`). All interactive UI text (buttons, labels, dialogs, status messages) must be defined in `@arcade/lib-i18n` and consumed via the `useI18n()` hook.
 
 ### Static Textual Content vs. UI Strings
-Purely textual static content (game rules, legal policies, documentation, informational guides) is managed via localized Markdown content collections and rendered with `<MarkdownContent>` per [rules.md](/.ai/rules.md#3-core-architectural-principles-dry--solid). Do not convert full articles or rule documents into `@arcade/lib-i18n` translation keys.
+Purely textual static content (game rules, legal policies, documentation, informational guides) is managed via localized Markdown content collections and rendered with `<MarkdownContent>` per [game-shell.md](/.ai/rules/game-shell.md#a-rules-dual-mode-delivery-zero-client-side-markdown-parser) and [AGENTS.md](/AGENTS.md). Do not convert full articles or rule documents into `@arcade/lib-i18n` translation keys.
 
 ## 2. Canonical Schema Contract First
 

@@ -1,37 +1,24 @@
-# Agent Router
+# Arcade Monorepo — Agent Instructions
 
-This document serves as the central routing system for AI agents in this monorepo. It maps specific user intents to specialized agent profiles.
+## 1. Non-Negotiable Global Invariants
 
-## Routing Registry
+- **Stack:** `pnpm` workspaces (never manually edit `node_modules/`), `Biome` (never ESLint/Prettier), `Linaria` with `rem` units and static `data-*` selectors (never Tailwind, inline `style={{}}`, or `${({ $prop }) => ...}`), `Astro` (SSG) + `React` (`client:only="react"` for games).
+- **Validation & Builds:** Never run `pnpm build` / `pnpm -r build` during dev. Validate with package-scoped `pnpm --filter <pkg> typecheck`, `pnpm biome check <path>`, and targeted test files (`--reporter=dot`).
+- **Git Safety:** Local commits only (never `git push`). Never use `--no-verify`. Never auto-commit without explicit user approval in the active prompt.
+- **DRY, Minimal Exports & Native Web (`browserslist` SSOT):** Audit shared `libraries/*` before writing utilities (propose new abstractions to the user first). Export only symbols imported elsewhere. Treat [`.browserslistrc`](/.browserslistrc) as the single source of truth for feature support: prefer native HTML, CSS, and Web APIs supported by those targets (`Popover`, `<dialog>`, `light-dark()`, `oklch()`) over third-party libraries or polyfills.
+- **Budget & Fail-Fast:** Cap autonomous turns at 8 tool calls and retries at 1 attempt. Never run FS archeology in `node_modules`/home dirs or iterative scratchpad loops; halt and report if blocked.
 
-| Intent / Domain                                            | Target Agent Profile                                                           | Description                                                                                          |
-| :--------------------------------------------------------- | :----------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------- |
-| Git operations                                             | [Git Agent Profile](/.ai/agents/git-agent.md)                                  | Handles preparing and executing local git commits (`<emoji> (<scope>): <Capitalized summary>` per [Semantic Commit Skill](/.ai/skills/semantic-commit/SKILL.md)). |
-| Component design & structure / Design system               | [Component Agent Profile](/libraries/ui/.ai/agents/component-agent.md)         | Enforces layout constraints, file split matrices, naming rules, and styling boundaries.              |
-| UI components & layout implementation / Design system catalog | [Design System Catalog](/libraries/ui/CATALOG.md)                             | Mandatory UI inventory to audit before authoring interactive elements or layout containers in apps.  |
-| Storybook stories & docs / Component playground            | [Storybook Agent Profile](/libraries/ui/.ai/agents/storybook-agent.md)         | Handles creation and updates of interactive Storybook stories and MDX documentation.                 |
-| UI components / Accessibility / Styling                    | [Accessibility Agent Profile](/.ai/agents/accessibility-agent.md)              | Audits and builds UI components to guarantee strict WCAG 2.2 and BITV 2.0 compliance.                |
-| Localization / Translations / Multilingual (i18n)          | [Localization Agent Profile](/.ai/agents/localization-agent.md)                | Manages translation schemas, dictionaries, and multilingual hooks across all apps and libraries.     |
-| Game taxonomy & metadata / Catalog registry                | [Game Taxonomy Rules](/.ai/rules/game-taxonomy.md)                             | Enforces ADR 0009 categories, multi-faceted tags, WCAG input indicators, and registry validation in `@arcade/lib-games`. |
-| Storage architecture / State persistence / Storage drivers | [Storage Agent Profile](/libraries/storage/.ai/agents/storage-agent.md)        | Enforces asynchronous namespacing and driver contracts adhering to ADR 008 and ADR 012.              |
-| Sudoku game engine & canvas / Puzzle gameplay              | [Sudoku Agent Profile](/apps/sudoku/.ai/agents/sudoku-agent.md)                | Manages puzzle engine, keyboard navigation, grid accessibility, and Sudoku state syncing.            |
-| Minesweeper game engine & canvas / Puzzle gameplay         | [Minesweeper Agent Profile](/apps/minesweeper/.ai/agents/minesweeper-agent.md) | Manages minefield generation, keyboard navigation, grid accessibility, and state syncing.            |
-| Nonogram game engine & canvas / Puzzle gameplay            | [Nonogram Agent Profile](/apps/nonogram/.ai/agents/nonogram-agent.md)          | Manages picture logic puzzle engine, clue derivation, grid accessibility, and state syncing.         |
-| Star Battle game engine & canvas / Puzzle gameplay         | [Star Battle Agent Profile](/apps/star-battle/.ai/agents/star-battle-agent.md) | Manages Star Battle puzzle engine, grid accessibility, rules validation, and state syncing. |
-| Tracks game engine & canvas / Puzzle gameplay              | [Tracks Agent Profile](/apps/tracks/.ai/agents/tracks-agent.md)                | Manages Train Tracks puzzle engine, path connectivity, grid accessibility, and state syncing.        |
-| Tents game engine & canvas / Puzzle gameplay               | [Tents Agent Profile](/apps/tents/.ai/agents/tents-agent.md)                  | Manages Tents puzzle engine, bipartite matching, grid accessibility, and state syncing.              |
-| Anagram Scramble game engine & canvas / Puzzle gameplay    | [Anagram Agent Profile](/apps/anagram/.ai/agents/anagram-agent.md)            | Manages Anagram Scramble lexicon engine, signature indexing, rack accessibility, and state syncing.  |
-| Untangle game engine & canvas / Puzzle gameplay            | [Untangle Agent Profile](/apps/untangle/.ai/agents/untangle-agent.md)          | Manages Untangle planar graph puzzle engine, line intersection detection, node accessibility, and state syncing. |
-| Net game engine & canvas / Puzzle gameplay                 | [Net Agent Profile](/apps/net/.ai/agents/net-agent.md)                        | Manages Net puzzle engine, spanning tree generation, bitwise wire rotation, grid accessibility, and state syncing. |
-| Color Flood game engine & canvas / Puzzle gameplay         | [Color Flood Agent Profile](/apps/color-flood/.ai/agents/color-flood-agent.md) | Manages Color Flood BFS flood fill engine, color palette accessibility, grid WAI-ARIA, and state syncing. |
-| Dice Bingo game engine & canvas / Puzzle gameplay          | [Dice Bingo Agent Profile](/apps/dice-bingo/.ai/agents/dice-bingo-agent.md)   | Manages Dice Bingo scoring evaluator, dice tray integration, grid accessibility, and state syncing. |
-| Pentominoes game engine & canvas / Puzzle gameplay         | [Pentominoes Agent Profile](/apps/pentominoes/.ai/agents/pentominoes-agent.md) | Manages Pentominoes exact-cover DLX engine, polyomino symmetries, grid/tray accessibility, and state syncing. |
-| Tic-Tac-Toe game engine & canvas / Turn-based duel         | [Tic-Tac-Toe Agent Profile](/apps/tictactoe/.ai/agents/tictactoe-agent.md)     | Manages Tic-Tac-Toe deterministic engine, pass-and-play local duel, grid accessibility, and state syncing. |
-| Intent / Domain                                            | Target Agent Profile / Skill                                                   | Description                                                                                          |
-| :---                                                       | :---                                                                           | :---                                                                                                 |
-| Scoped workflows / Quota-sensitive execution               | [Scoped Task Runner](/.ai/skills/scoped-task-runner/SKILL.md)                  | Enforces 8-call execution limits, forbids FS archeology, and stops iterative scratch loops.          |
-| New game integration / Game planning                      | [New Game Skill](/.ai/skills/new-game/SKILL.md)                                | Standardized 6-phase workflow for specifying and integrating new arcade games per ADR 0005 & ADR 0008. |
+## 2. Imperative Pre-Flight Gates (`IF -> THEN`)
 
-## General Rules
-
-All agents must automatically parse and adhere to the monorepo-wide constraints defined in `/.ai/rules.md` before executing any task mapped in this registry.
+| IF your task involves... | THEN you MUST... |
+| :--- | :--- |
+| **Editing inside `apps/<pkg>/` or `libraries/<pkg>/`** | Read `<pkg>/AGENTS.md` first (if present). |
+| **Implementing interactive UI, dialogs/popovers, animations, theming, or forms** | Consult [`modern-web-guidance`](/.agents/skills/modern-web-guidance/SKILL.md) first, aligned with [`.browserslistrc`](/.browserslistrc) targets. |
+| **Creating/styling UI, cards, buttons, overlays, or layouts in `apps/*`** | Read [`libraries/ui/CATALOG.md`](/libraries/ui/CATALOG.md) first. Custom `styled.button`/card wrappers and `box-sizing: border-box` are forbidden; use `@arcade/lib-ui` primitives + `<PageContainer>`. |
+| **Adding/changing user-facing text or rules prose** | Route interactive UI strings through `@arcade/lib-i18n` across all locales (zero hardcoded strings). Author static prose in `src/content/pages/[lang]/`. Read [`localization-engineering`](/.ai/skills/localization-engineering/SKILL.md). |
+| **Persisting browser/game state in `apps/*`** | Use `@arcade/lib-storage` (`createGameStorage`, `arcade::<app>::<key>`). Never call raw `localStorage`/`sessionStorage`/`indexedDB`. Read [`storage-namespacing`](/.ai/skills/storage-namespacing/SKILL.md). |
+| **Preparing or executing a `git commit`** | Run targeted `typecheck` + `biome check`, obtain explicit user approval, and format strictly as `<emoji> (<scope>): <Capitalized summary>` (never `feat:`/`fix:`/`chore:`). Full emoji tokens: [`semantic-commit`](/.ai/skills/semantic-commit/SKILL.md). |
+| **Astro pages, layouts, breadcrumbs, 6-route game shells, or canvas grids** | Follow [`game-shell.md`](/.ai/rules/game-shell.md), [`rendering-boundaries.md`](/.ai/rules/rendering-boundaries.md), and [`metadata.md`](/.ai/rules/metadata.md). |
+| **Styling with Linaria or editing Storybook stories** | Follow [`linaria-styling`](/.ai/skills/linaria-styling/SKILL.md) / [`libraries/ui/AGENTS.md`](/libraries/ui/AGENTS.md). |
+| **Adding a new game or preset levels** | Follow [`new-game`](/.ai/skills/new-game/SKILL.md) or [`add-levels`](/.ai/skills/add-levels/SKILL.md), and verify with `pnpm test:conformance`. |
+| **Architectural rationale / formal contracts** | Consult the ADR Master Index at [`docs/adr/architecture-decision-records.md`](/docs/adr/architecture-decision-records.md). |

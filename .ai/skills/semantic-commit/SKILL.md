@@ -41,12 +41,12 @@ Use the following standard, clean emojis based on the nature of the change:
 
 ## Scoping Rules
 
-- The scope must be the target monorepo workspace/package or logical area of the work enclosed in parentheses (e.g., `(root)` for monorepo-level changes, or `(design-system)` for libraries/design-system).
+- The scope must be the target monorepo workspace/package or logical area of the work enclosed in parentheses (e.g., `(root)` for monorepo-level changes, or `(ui)` for `libraries/ui`).
 
 ## Description Formatting
 
 - The summary/description must be a clear explanation of the changes.
 - The first letter of the description must be capitalized.
 - Examples:
-  - ✨ (design-system): Add scheme switcher component matrix
-  - 🔧 (root): Configure project tooling, ESLint rules
+  - ✨ (ui): Add scheme switcher component matrix
+  - 🔧 (root): Configure project tooling and Biome rules

@@ -7,7 +7,7 @@ targets: ["apps/**/*", "libraries/games/**/*", "libraries/medals/**/*", "librari
 
 # New Game Integration Workflow
 
-This skill guides the end-to-end planning, specification, and implementation of new arcade games in the monorepo, enforcing full adherence to [ADR 0005: Standard Arcade Game Integration Contract](docs/adr/0005-standard-game-contract.md) and [ADR 0008: Standard Game Shell & Per-Game Subsystem Contracts](docs/adr/0008-game-shell-and-subsystem-contract.md).
+This skill guides the end-to-end planning, specification, and implementation of new arcade games in the monorepo, enforcing full adherence to [ADR 0005: Standard Arcade Game Integration Contract](/docs/adr/0005-standard-game-contract.md) and [ADR 0008: Standard Game Shell & Per-Game Subsystem Contracts](/docs/adr/0008-game-shell-and-subsystem-contract.md).
 
 ## When to Apply
 
@@ -42,14 +42,14 @@ Phase 6: Accessibility, Static Verification & Central Hub Activation
 
 Before generating or modifying code:
 
-1. **Audit Recent Games & Documentation:** Inspect recently integrated games (e.g. `apps/tracks` and `apps/bridges`) to observe current patterns for layout wrapping, engine isolation, storage creation, and existing documentation (such as `apps/tracks/README.md` and `apps/tracks/.ai/agents/tracks-agent.md`).
+1. **Audit Recent Games & Documentation:** Inspect recently integrated games (e.g. `apps/tracks` and `apps/bridges`) to observe current patterns for layout wrapping, engine isolation, storage creation, and existing documentation (such as `apps/tracks/README.md` and `apps/tracks/AGENTS.md`).
 2. **Review Root Script Conventions:** Inspect the root `package.json` to observe script naming patterns (`dev:[gameId]`, `build:[gameId]`, `preview:[gameId]`).
 3. **Review Deployment Pipeline Contract:** Note the deployment assembly pipeline in `.github/workflows/deploy.yml` and routing rules in `deploy/.htaccess` to align the game build output (`apps/[gameId]/dist`) and subpath (`/[gameId]`).
-4. **Review Contract Boundaries:** Verify the target game design against [ADR 0005](docs/adr/0005-standard-game-contract.md), [ADR 0008](docs/adr/0008-game-shell-and-subsystem-contract.md), and monorepo constraints:
-    - Zero hardcoded strings ([ADR 007](docs/adr/architecture-decision-records.md)).
-    - Pure static build compatibility ([ADR 002](docs/adr/architecture-decision-records.md)).
-    - Strict local storage namespacing ([ADR 012](docs/adr/architecture-decision-records.md)).
-5. **Audit Component Inventory:** Inspect [libraries/ui/CATALOG.md](libraries/ui/CATALOG.md) to identify all required design system components (`ClickableCard`, `GameSelectionCard`, `SegmentedControl`, `Button`, `Dialog`, `PauseOverlay`, `VictoryDialog`, `MedalCard`, `GameHeader`, `GameSettingsPanel`, `GameStatsDashboard`, `GameMedalGrid`, `MarkdownContent`, `MarkdownPageTemplate`, `GameLayout`).
+4. **Review Contract Boundaries:** Verify the target game design against [ADR 0005](/docs/adr/0005-standard-game-contract.md), [ADR 0008](/docs/adr/0008-game-shell-and-subsystem-contract.md), and monorepo constraints:
+    - Zero hardcoded strings ([BASE-07](/docs/adr/architecture-decision-records.md)).
+    - Pure static build compatibility ([BASE-02](/docs/adr/architecture-decision-records.md)).
+    - Strict local storage namespacing ([BASE-12](/docs/adr/architecture-decision-records.md)).
+5. **Audit Component Inventory:** Inspect [libraries/ui/CATALOG.md](/libraries/ui/CATALOG.md) to identify all required design system components (`ClickableCard`, `GameSelectionCard`, `SegmentedControl`, `Button`, `Dialog`, `PauseOverlay`, `VictoryDialog`, `MedalCard`, `GameHeader`, `GameSettingsPanel`, `GameStatsDashboard`, `GameMedalGrid`, `MarkdownContent`, `MarkdownPageTemplate`, `GameLayout`).
 
 ---
 
@@ -62,7 +62,7 @@ Before generating or modifying code:
     - Canonical `gameId` (lowercase slug matching package name `@arcade/[gameId]`).
     - Primary emoji icon (`assets.icon`) and route (`/${gameId}`).
     - Localized titles, descriptions, and rules registered under `i18nNamespace` in `@arcade/lib-i18n`.
-    - Primary (and optional distinct secondary) `GameCategory` plus complete `TaxonomyTags` (`mechanics`, WCAG-verified `inputs`, `pacing`, `modes`, `sessionLength`) adhering to [/.ai/rules/game-taxonomy.md](/.ai/rules/game-taxonomy.md).
+    - Primary (and optional distinct secondary) `GameCategory` plus complete `TaxonomyTags` (`mechanics`, WCAG-verified `inputs`, `pacing`, `modes`, `sessionLength`) adhering to [`/libraries/games/AGENTS.md`](/libraries/games/AGENTS.md).
 2. **Core Rules & Mathematical Invariants:**
     - **Board Representation & Cell States:** Permitted cell types and player interaction states (e.g. empty, item, helper mark).
     - **Constraint Invariants:** Explicit mathematical rules that define valid board states, adjacency limits, and clue mechanics.
@@ -165,7 +165,7 @@ Construct the application shell and React canvas in `apps/[gameId]/`:
     - Ensure `BaseLayout` / `GameLayout` is present so `MedalToastListener` catches the `medalUnlocked` event and displays achievement notifications.
 5. **App Documentation & Local Agent Profile:**
     - Author `apps/[gameId]/README.md` covering game overview, rules summary, difficulty matrix, engine architecture, and development commands.
-    - Author `apps/[gameId]/.ai/agents/[gameId]-agent.md` providing the local agent cheatsheet and execution boundaries matching existing agent profiles (like `tracks-agent.md`), and register it in root `AGENTS.md`.
+    - Author `apps/[gameId]/AGENTS.md` providing the concise local engine, keyboard/a11y, and namespace invariants matching existing game files (like `apps/tracks/AGENTS.md`).
 
 ---
 

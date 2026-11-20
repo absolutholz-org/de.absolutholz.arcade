@@ -26,7 +26,7 @@ No raw chronological session logs are retained. All comparisons (e.g., "did this
 
 ### 2. Four-Tier Storage Integration
 
-- **Tiers 1 & 2 (Local Only):** Stats and custom state live exclusively in browser IndexedDB via `@arcade/lib-storage`[cite: 1].
+- **Tiers 1 & 2 (Local Only):** Stats and custom state live exclusively in browser IndexedDB via `@arcade/lib-storage`.
 - **Tier 3 (Cloud-Synced Private):** Stats and medals sync to Firestore under `/users/{uid}/gameStats/{gameId}`. Kept private; not exposed to leaderboards.
 - **Tier 4 (Cloud-Synced Public):** Select stats (e.g., high scores, total medals) can be exposed to public leaderboards.
 - **Downgrade Purge:** Downgrading from Tier 3/4 to Tier 2/1 deletes the remote documents in Firestore while preserving local device state.

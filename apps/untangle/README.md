@@ -26,17 +26,9 @@ Untangle (Planarity) planar graph puzzle web application for the absolutholz Arc
 
 ---
 
-## 🗺️ Canonical 6-Route Architecture (ADR 0008)
+## 🗺️ Canonical 6-Route Architecture
 
-| Route | Description | Template / Island |
-| :--- | :--- | :--- |
-| `/untangle/` | Root language redirector | Static SSG + Client redirect |
-| `/untangle/[lang]/` | 1. Lobby / Landing with difficulty selector | `<GameLandingTemplate>` + `<UntangleLobby client:load />` |
-| `/untangle/[lang]/game` | 2. Gameplay SVG canvas with in-game Rules & Settings modals | `<GameLayout>` + `<UntangleGame client:only="react" />` projecting `<MarkdownContent slot="rulesContent">` |
-| `/untangle/[lang]/rules` | 3. Standalone How-to-Play Rules guide | `<MarkdownPageTemplate>` rendering localized `rules.md` |
-| `/untangle/[lang]/settings` | 4. Standalone Settings page | `<GameSubpageTemplate>` + `<GameSettingsPanel mode="detailed" client:load />` |
-| `/untangle/[lang]/stats` | 5. Standalone Statistics dashboard | `<GameSubpageTemplate>` + `<GameStatsDashboard client:load />` |
-| `/untangle/[lang]/medals` | 6. Standalone Medal Showcase | `<GameSubpageTemplate>` + `<GameMedalGrid client:load />` |
+Implements the standard 6-route shell and subsystem contracts defined in [ADR 0008](../../docs/adr/0008-game-shell-and-subsystem-contract.md).
 
 ---
 

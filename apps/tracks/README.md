@@ -22,17 +22,9 @@ Train Tracks route logic puzzle web application for the absolutholz Arcade monor
 
 ---
 
-## 🗺️ Canonical 6-Route Architecture (ADR 0008)
+## 🗺️ Canonical 6-Route Architecture
 
-| Route | Description | Template / Island |
-| :--- | :--- | :--- |
-| `/tracks/` | Root language redirector | Static SSG + Client redirect |
-| `/tracks/[lang]/` | 1. Lobby / Landing with puzzle selector | `<GameLandingTemplate>` + `<TracksLobby client:load />` |
-| `/tracks/[lang]/game` | 2. Gameplay canvas with in-game Rules & Settings modals | `<GameLayout>` + `<TracksGame client:only="react" />` projecting `<MarkdownContent slot="rulesContent">` |
-| `/tracks/[lang]/rules` | 3. Standalone How-to-Play Rules guide | `<MarkdownPageTemplate>` rendering localized `rules.md` |
-| `/tracks/[lang]/settings` | 4. Standalone Settings page | `<GameSubpageTemplate>` + `<GameSettingsPanel mode="detailed" client:load />` |
-| `/tracks/[lang]/stats` | 5. Standalone Statistics dashboard | `<GameSubpageTemplate>` + `<GameStatsDashboard client:load />` |
-| `/tracks/[lang]/medals` | 6. Standalone Medal Showcase | `<GameSubpageTemplate>` + `<GameMedalGrid client:load />` |
+Implements the standard 6-route shell and subsystem contracts defined in [ADR 0008](../../docs/adr/0008-game-shell-and-subsystem-contract.md).
 
 ---
 

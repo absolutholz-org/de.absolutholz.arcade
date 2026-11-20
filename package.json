@@ -5,7 +5,7 @@
 	"type": "module",
 	"scripts": {
 		"test": "pnpm test:conformance",
-		"test:conformance": "node --experimental-strip-types --test tests/architecture/game-structure.test.ts",
+		"test:conformance": "node --experimental-strip-types --test tests/architecture/*.test.ts",
 		"format": "biome format --write .",
 		"lint": "biome lint .",
 		"check": "biome check .",
@@ -82,7 +82,10 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
+		"browserslist": "^4.29.6",
+		"browserslist-to-esbuild": "^2.1.1",
 		"lefthook": "^2.2.1",
+		"lightningcss": "^1.33.0",
 		"turbo": "^2.11.10",
 		"typescript": "^5.7.2"
 	},

@@ -2,7 +2,7 @@
 id: component-development
 name: Component Development
 description: Guidelines for creating and structuring UI component matrices in the design system
-targets: ['libraries/design-system/src/components/*']
+targets: ['libraries/ui/src/components/*']
 ---
 
 # Component Development Skill
@@ -55,14 +55,14 @@ Each component directory must be split into the following distinct files:
 - **Single Responsibility**: Each component should do one thing well. To enforce this, keep components under a **200-line limit**. If a component grows beyond 200 lines, it must be broken down.
 - **No Initial Props Spread**: Do not initially add a `...props` or `...rest` spread to new components. Explicitly destruct and map only the props the component actually requires, keeping props explicit.
 - **Exports**: Prefer **named exports** over default exports for better IDE autocomplete, searchability, and consistent naming across imports.
-- **Zero Hardcoded Strings:** Design system components must never contain hardcoded user-facing text strings. Text labels, actions, and accessibility announcements must be passed as explicit props or integrated via `@arcade/lib-i18n` per ADR 007 and [Localization Engineering](../../../../.ai/skills/localization-engineering/SKILL.md).
+- **Zero Hardcoded Strings:** Design system components must never contain hardcoded user-facing text strings. Text labels, actions, and accessibility announcements must be passed as explicit props or integrated via `@arcade/lib-i18n` per BASE-07 and [Localization Engineering](/.ai/skills/localization-engineering/SKILL.md).
 
 ## 4. Styling Architecture
 
 - **Linaria Styling**: We strictly use Linaria (`@linaria/core` and `@linaria/react`) for all component styling using standard CSS strings inside template literals (`css`...`` and `styled`...``).
 - **No Inline Styles**: Avoid inline styles (`style={{ ... }}`) unless rendering truly dynamic values like runtime-calculated offsets, percentages, or absolute positions.
 - **Styled Component Naming**: In `_ComponentName.styles.ts`, name the exported styled components to match the name of the corresponding component being styled (e.g., `export const Text = styled.div...`).
-- **CSS Nesting Over Child Styled Components**: Adhere to the Minimal Exports Principle in `/.ai/rules.md` by styling child elements using CSS nesting (e.g., `> span`) inside the parent styled component rather than creating and exporting extra standalone styled sub-components (such as `Content = styled.span`). Only export styled components directly rendered by the view layer.
+- **CSS Nesting Over Child Styled Components**: Adhere to the Minimal Exports Principle in `/AGENTS.md` by styling child elements using CSS nesting (e.g., `> span`) inside the parent styled component rather than creating and exporting extra standalone styled sub-components (such as `Content = styled.span`). Only export styled components directly rendered by the view layer.
 - **Zero Runtime Prop Interpolations / Static Data-Attributes Pattern**: Never pass dynamic component props into template literal interpolation functions (e.g., `${({$variant}) => ...}`). In Linaria, runtime prop functions compile into dynamic CSS custom properties injected directly as inline `style="..."` attributes on the DOM node. Instead, map component variants, states, sizes, and layout options to CSS `data-*` attribute selectors (e.g., `&[data-variant='primary']`, `&[data-size='sm']`, `&[data-direction='row']`). This guarantees Linaria extracts 100% static CSS at build time with zero inline styles and zero DOM bloat.
 - **Styled Import Convention**: In `_ComponentName.tsx`, import all styled definitions under the `S` namespace (`import * as S from './_ComponentName.styles'`) and render them as `<S.ComponentName ...>`.
 - **Restricting Overrides**: Protect components from layout-compromising overrides. Do not allow raw `style` props. In `_ComponentName.types.ts`, explicitly omit `'style'` from component props (e.g. `Omit<ComponentPropsWithoutRef<C>, 'style'>`).

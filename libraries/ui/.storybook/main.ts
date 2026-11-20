@@ -2,6 +2,11 @@ import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { StorybookConfig } from '@storybook/react-vite';
 import wyw from '@wyw-in-js/vite';
+import browserslist from 'browserslist';
+import browserslistToEsbuild from 'browserslist-to-esbuild';
+import { browserslistToTargets } from 'lightningcss';
+
+const ROOT_DIR = fileURLToPath(new URL('../../../', import.meta.url));
 
 const config: StorybookConfig = {
 	stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
@@ -14,6 +19,19 @@ const config: StorybookConfig = {
 	],
 	framework: getAbsolutePath('@storybook/react-vite'),
 	async viteFinal(config) {
+		const browserList = browserslist(undefined, { path: ROOT_DIR });
+		config.css = {
+			...config.css,
+			transformer: 'lightningcss',
+			lightningcss: {
+				...config.css?.lightningcss,
+				targets: browserslistToTargets(browserList),
+			},
+		};
+		config.build = {
+			...config.build,
+			target: browserslistToEsbuild(browserList),
+		};
 		config.plugins = config.plugins || [];
 		config.plugins.push(
 			wyw({

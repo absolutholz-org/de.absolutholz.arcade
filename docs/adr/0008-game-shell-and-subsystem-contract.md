@@ -4,7 +4,7 @@
 - **Date:** 2026-10-29
 - **Deciders:** Engineering Team
 - **Consulted:** Monorepo Game Audit Findings
-- **Supersedes / Extends:** Extends [0005. Standard Game Contract](0005-standard-game-contract.md) and aligns with [0007. Static Prose in Astro Content Collections](0007-static-prose-in-astro-content-collections.md)
+- **Supersedes / Extends:** Extends [0005. Standard Game Contract](0005-standard-game-contract.md) and aligns with [BASE-07 (i18n)](architecture-decision-records.md).
 
 ---
 
