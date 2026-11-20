@@ -1,6 +1,7 @@
 import { useCallback, useSyncExternalStore } from 'react';
 import { STORAGE_KEYS } from '../constants/storage';
 import { DEFAULT_THEMESET_ID, THEMESET_IDS, type ThemesetId } from '../styles/theme/theme.constants';
+import { syncMetaThemeColor } from '../utils/themeColor';
 
 const THEMESET_CHANGE_EVENT = 'arcade:themeset-change';
 
@@ -46,6 +47,7 @@ function subscribeThemeset(callback: () => void): () => void {
 				} else {
 					root.removeAttribute('data-themeset');
 				}
+				syncMetaThemeColor();
 			}
 			memoryThemeset = next && (THEMESET_IDS as readonly string[]).includes(next) ? next : DEFAULT_THEMESET_ID;
 			callback();
@@ -95,6 +97,7 @@ export function useThemeset() {
 					// Ignore storage access restrictions
 				}
 			}
+			syncMetaThemeColor();
 			window.dispatchEvent(new CustomEvent(THEMESET_CHANGE_EVENT, { detail: nextThemeset }));
 		}
 	}, []);

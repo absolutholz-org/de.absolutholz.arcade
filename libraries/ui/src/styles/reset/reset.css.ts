@@ -48,8 +48,7 @@ export const reset = `
 		line-height: 1.5;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
-		/* Safe-area insets: protect edges when system bars overlay content */
-		padding-top: env(safe-area-inset-top, 0px);
+		/* Safe-area horizontal insets: top safe-area is owned by headers/top-level shells so backgrounds paint edge-to-edge */
 		padding-left: env(safe-area-inset-left, 0px);
 		padding-right: env(safe-area-inset-right, 0px);
 		text-rendering: optimizeSpeed;

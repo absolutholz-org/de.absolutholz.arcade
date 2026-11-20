@@ -188,6 +188,7 @@ export const getGlobalStyles = (themesetCss: string = themesetBaseCss): string =
 	}
 
 	/* CONTENT LAYER: Paints your brand tokens and typography rules */
+	html,
 	body {
 		background-color: var(
 			--color-surface

@@ -3,8 +3,9 @@ import { styled } from '@linaria/react';
 export const Header = styled.header`
 	--game-header-height: 3.5rem;
 	width: 100%;
-	height: var(--game-header-height);
-	min-height: var(--game-header-height);
+	padding-top: env(safe-area-inset-top, 0px);
+	height: calc(var(--game-header-height) + env(safe-area-inset-top, 0px));
+	min-height: calc(var(--game-header-height) + env(safe-area-inset-top, 0px));
 	border-bottom: 1px solid var(--color-container-2);
 	background-color: var(--color-surface);
 

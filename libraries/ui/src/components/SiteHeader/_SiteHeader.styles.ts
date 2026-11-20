@@ -8,8 +8,9 @@ export const SiteHeader = styled.header`
 		align-items: center;
 		border-bottom: 1px solid var(--color-container-2);
 		display: flex;
-		height: 4rem;
-		min-height: 4rem;
+		height: calc(4rem + env(safe-area-inset-top, 0px));
+		min-height: calc(4rem + env(safe-area-inset-top, 0px));
+		padding-top: env(safe-area-inset-top, 0px);
 
 		&[data-has-border='false'] {
 			border-bottom: none;
@@ -24,7 +25,8 @@ export const SiteHeader = styled.header`
 		border-bottom: none;
 		display: flex;
 		justify-content: flex-end;
-		padding-block: ${space('md')};
+		padding-top: calc(${space('md')} + env(safe-area-inset-top, 0px));
+		padding-bottom: ${space('md')};
 
 		.header-container {
 			justify-content: flex-end;

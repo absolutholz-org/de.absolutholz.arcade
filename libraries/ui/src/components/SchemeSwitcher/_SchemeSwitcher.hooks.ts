@@ -1,6 +1,7 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { useCallback, useEffect, useSyncExternalStore } from 'react';
 import { STORAGE_KEYS } from '../../constants/storage';
+import { syncMetaThemeColor } from '../../utils/themeColor';
 import type { ICollapsibleListboxOption } from '../CollapsibleListbox';
 import { SCHEME_STORAGE_KEY_LEGACY } from './_SchemeSwitcher.constants';
 import type { Scheme } from './_SchemeSwitcher.types';
@@ -80,6 +81,7 @@ function applySchemeToDocument(scheme: Scheme) {
 	} else {
 		root.style.setProperty('color-scheme', scheme);
 	}
+	syncMetaThemeColor();
 }
 
 export function useScheme() {
