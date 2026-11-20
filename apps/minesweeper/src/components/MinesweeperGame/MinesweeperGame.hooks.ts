@@ -128,8 +128,6 @@ export function useMinesweeperGame(initialSize: BoardSizeId = 'md', initialDiffi
 			won,
 			bucketKey: difficultyRef.current,
 			playTimeSeconds: Math.max(1, finalSeconds),
-			moves: safeMoveIndexRef.current,
-			isFlawless: won && perfectFlaggingRef.current,
 		});
 
 		void recordGameResult(

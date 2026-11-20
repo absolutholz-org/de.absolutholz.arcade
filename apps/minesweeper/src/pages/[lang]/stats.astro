@@ -2,8 +2,8 @@
 import { resources } from '@arcade/lib-i18n/config/i18n';
 import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
-import { GameStatsDashboard } from '@arcade/lib-ui/components/GameStatsDashboard';
 import GameSubpageTemplate from '@arcade/lib-ui/templates/GameSubpageTemplate/GameSubpageTemplate.astro';
+import { MinesweeperStats } from '../../components/MinesweeperStats/MinesweeperStats';
 
 export function getStaticPaths() {
 	return SUPPORTED_LANGUAGES.map((item) => ({
@@ -37,11 +37,12 @@ const currentCommon = resources[currentLanguage]?.common ?? resources.en.common;
 	containerWidth="standard"
 	currentSlug="stats"
 >
-	<GameStatsDashboard
+	<MinesweeperStats
 		client:load
 		gameId="minesweeper"
 		lang={currentLanguage}
 		hideTitle
+		showFastestRuns
 		bucketLabels={{
 			simple: currentMinesweeper.difficulty.simple,
 			medium: currentMinesweeper.difficulty.medium,
