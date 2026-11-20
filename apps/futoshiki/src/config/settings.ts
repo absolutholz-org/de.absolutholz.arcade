@@ -39,7 +39,7 @@ export const FUTOSHIKI_SETTINGS_CONFIG: GameSettingsConfig<FutoshikiSettings> = 
 		{
 			key: 'autoClearNotes',
 			control: 'boolean',
-			defaultValue: true,
+			defaultValue: false,
 			availableInGame: true,
 			i18n: {
 				labelKey: 'futoshiki.settings.autoClearNotes.label',

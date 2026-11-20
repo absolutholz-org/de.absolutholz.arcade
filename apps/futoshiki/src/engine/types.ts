@@ -109,7 +109,7 @@ export const DEFAULT_FUTOSHIKI_SETTINGS: FutoshikiSettings = {
 	highlightPeerCells: true,
 	highlightPeerDigits: true,
 	highlightErrors: true,
-	autoClearNotes: true,
+	autoClearNotes: false,
 };
 
 export interface GameSnapshot {
