@@ -44,6 +44,10 @@ export const MetricsGrid = styled.div`
 	@media (min-width: 900px) {
 		grid-template-columns: repeat(5, 1fr);
 	}
+
+	&[data-auto-fit='true'] {
+		grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+	}
 `;
 
 export const SecondaryMetricsGrid = styled.div`

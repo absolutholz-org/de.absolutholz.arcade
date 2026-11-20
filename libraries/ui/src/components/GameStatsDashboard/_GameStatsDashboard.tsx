@@ -54,6 +54,7 @@ function GameStatsDashboardContent({
 	playHref,
 	hideTitle = false,
 	showFastestRuns = false,
+	hideWinLossMetrics = false,
 	className,
 }: GameStatsDashboardProps): JSX.Element {
 	const { t } = useI18n('common');
@@ -122,6 +123,42 @@ function GameStatsDashboardContent({
 		activeBucketStats.bestScore != null ||
 		activeBucketStats.flawlessWins > 0;
 
+	const secondaryMetricCards = (
+		<>
+			{activeBucketStats.totalPlayTimeSeconds > 0 && (
+				<S.MetricCard>
+					<span data-slot="value">
+						<time dateTime={formatDurationIso(activeBucketStats.totalPlayTimeSeconds)}>
+							{formatTime(activeBucketStats.totalPlayTimeSeconds)}
+						</time>
+					</span>
+					<span data-slot="label">{t('stats.totalPlayTime')}</span>
+				</S.MetricCard>
+			)}
+
+			{activeBucketStats.bestMoves != null && (
+				<S.MetricCard>
+					<span data-slot="value">{activeBucketStats.bestMoves}</span>
+					<span data-slot="label">{t('stats.bestMoves')}</span>
+				</S.MetricCard>
+			)}
+
+			{activeBucketStats.bestScore != null && (
+				<S.MetricCard>
+					<span data-slot="value">{activeBucketStats.bestScore}</span>
+					<span data-slot="label">{t('stats.bestScore')}</span>
+				</S.MetricCard>
+			)}
+
+			{activeBucketStats.flawlessWins > 0 && (
+				<S.MetricCard>
+					<span data-slot="value">{activeBucketStats.flawlessWins}</span>
+					<span data-slot="label">{t('stats.flawlessWins')}</span>
+				</S.MetricCard>
+			)}
+		</>
+	);
+
 	return (
 		<S.Container className={className} aria-label={titleText}>
 			{!hideTitle && (
@@ -142,69 +179,43 @@ function GameStatsDashboardContent({
 				</S.SwitcherContainer>
 			)}
 
-			<S.MetricsGrid>
+			<S.MetricsGrid data-auto-fit={hideWinLossMetrics ? 'true' : undefined}>
 				<S.MetricCard>
 					<span data-slot="value">{activeBucketStats.gamesPlayed}</span>
 					<span data-slot="label">{t('stats.gamesPlayed')}</span>
 				</S.MetricCard>
 
-				<S.MetricCard data-variant="highlight">
-					<span data-slot="value">{winRate}%</span>
-					<span data-slot="label">{t('stats.winRate')}</span>
-				</S.MetricCard>
+				{!hideWinLossMetrics && (
+					<>
+						<S.MetricCard data-variant="highlight">
+							<span data-slot="value">{winRate}%</span>
+							<span data-slot="label">{t('stats.winRate')}</span>
+						</S.MetricCard>
 
-				<S.MetricCard>
-					<span data-slot="value">{activeBucketStats.currentStreak}</span>
-					<span data-slot="label">{t('stats.currentStreak')}</span>
-				</S.MetricCard>
+						<S.MetricCard>
+							<span data-slot="value">{activeBucketStats.currentStreak}</span>
+							<span data-slot="label">{t('stats.currentStreak')}</span>
+						</S.MetricCard>
 
-				<S.MetricCard>
-					<span data-slot="value">{activeBucketStats.bestStreak}</span>
-					<span data-slot="label">{t('stats.bestStreak')}</span>
-				</S.MetricCard>
+						<S.MetricCard>
+							<span data-slot="value">{activeBucketStats.bestStreak}</span>
+							<span data-slot="label">{t('stats.bestStreak')}</span>
+						</S.MetricCard>
+					</>
+				)}
 
-				<S.MetricCard>
+				<S.MetricCard data-variant={hideWinLossMetrics ? 'highlight' : undefined}>
 					<span data-slot="value">
 						{bestTimeIso ? <time dateTime={bestTimeIso}>{bestTimeText}</time> : bestTimeText}
 					</span>
 					<span data-slot="label">{t('stats.bestTime')}</span>
 				</S.MetricCard>
+
+				{hideWinLossMetrics && secondaryMetricCards}
 			</S.MetricsGrid>
 
-			{hasSecondaryMetrics && (
-				<S.SecondaryMetricsGrid>
-					{activeBucketStats.totalPlayTimeSeconds > 0 && (
-						<S.MetricCard>
-							<span data-slot="value">
-								<time dateTime={formatDurationIso(activeBucketStats.totalPlayTimeSeconds)}>
-									{formatTime(activeBucketStats.totalPlayTimeSeconds)}
-								</time>
-							</span>
-							<span data-slot="label">{t('stats.totalPlayTime')}</span>
-						</S.MetricCard>
-					)}
-
-					{activeBucketStats.bestMoves != null && (
-						<S.MetricCard>
-							<span data-slot="value">{activeBucketStats.bestMoves}</span>
-							<span data-slot="label">{t('stats.bestMoves')}</span>
-						</S.MetricCard>
-					)}
-
-					{activeBucketStats.bestScore != null && (
-						<S.MetricCard>
-							<span data-slot="value">{activeBucketStats.bestScore}</span>
-							<span data-slot="label">{t('stats.bestScore')}</span>
-						</S.MetricCard>
-					)}
-
-					{activeBucketStats.flawlessWins > 0 && (
-						<S.MetricCard>
-							<span data-slot="value">{activeBucketStats.flawlessWins}</span>
-							<span data-slot="label">{t('stats.flawlessWins')}</span>
-						</S.MetricCard>
-					)}
-				</S.SecondaryMetricsGrid>
+			{!hideWinLossMetrics && hasSecondaryMetrics && (
+				<S.SecondaryMetricsGrid>{secondaryMetricCards}</S.SecondaryMetricsGrid>
 			)}
 
 			{showFastestRuns && activeBucketStats.fastestRuns && activeBucketStats.fastestRuns.length > 0 && (
