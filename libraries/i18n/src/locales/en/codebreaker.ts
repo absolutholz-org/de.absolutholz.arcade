@@ -61,7 +61,7 @@ export const enCodebreaker: CodebreakerTranslationContract = {
 		},
 		allowDuplicates: {
 			label: 'Allow Duplicate Colors',
-			description: 'Permit repeated colors in newly generated secret codes (applies to new games).',
+			description: 'Allow the same color to appear multiple times in the secret code (applies to new games).',
 		},
 	},
 	status: {

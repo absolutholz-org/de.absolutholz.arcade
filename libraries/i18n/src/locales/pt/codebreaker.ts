@@ -61,7 +61,7 @@ export const ptCodebreaker: CodebreakerTranslationContract = {
 		},
 		allowDuplicates: {
 			label: 'Permitir cores repetidas',
-			description: 'Permitir cores duplicadas em novos códigos secretos (aplica-se a novos jogos).',
+			description: 'Permite que a mesma cor apareça várias vezes no código secreto (aplica-se a novos jogos).',
 		},
 	},
 	status: {

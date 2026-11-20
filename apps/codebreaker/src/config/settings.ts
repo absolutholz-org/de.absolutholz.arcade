@@ -39,7 +39,7 @@ export const CODEBREAKER_SETTINGS_CONFIG: GameSettingsConfig<CodebreakerSettings
 		{
 			key: 'allowDuplicates',
 			control: 'boolean',
-			defaultValue: true,
+			defaultValue: false,
 			availableInGame: true,
 			i18n: {
 				labelKey: 'codebreaker.settings.allowDuplicates.label',

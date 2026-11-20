@@ -11,7 +11,7 @@ import {
 } from './history.ts';
 import { isConsistentWithHistory, scoreGuess } from './scorer.ts';
 import { computeHint, findConsistentCandidate } from './solver.ts';
-import { DIFFICULTY_CONFIGS, type GuessRow, type PegColorId } from './types.ts';
+import { DEFAULT_CODEBREAKER_SETTINGS, DIFFICULTY_CONFIGS, type GuessRow, type PegColorId } from './types.ts';
 
 function makeSeededRng(seed: number): () => number {
 	let s = seed >>> 0;
@@ -86,8 +86,18 @@ describe('Codebreaker generator (generateSecretCode)', () => {
 	});
 });
 
+describe('Codebreaker default settings', () => {
+	it('defaults allowDuplicates to false for unique-color secret codes', () => {
+		assert.equal(DEFAULT_CODEBREAKER_SETTINGS.allowDuplicates, false);
+	});
+});
+
 describe('Codebreaker logical consistency hint (computeHint)', () => {
-	const easyConfig = { codeLength: 4, colorCount: 6, allowDuplicates: true };
+	const easyConfig = {
+		codeLength: 4,
+		colorCount: 6,
+		allowDuplicates: DEFAULT_CODEBREAKER_SETTINGS.allowDuplicates,
+	};
 
 	it('suggests a valid color for slot 0 on an empty board', () => {
 		const hint = computeHint([], [null, null, null, null], easyConfig);
@@ -145,6 +155,12 @@ describe('Codebreaker logical consistency hint (computeHint)', () => {
 		const noDupConfig = { codeLength: 4, colorCount: 6, allowDuplicates: false };
 		const hint = computeHint([], [2, 2, null, null], noDupConfig);
 		assert.deepEqual(hint, { kind: 'duplicate-disallowed' });
+	});
+
+	it('allows repeated colors in draft when allowDuplicates is explicitly true', () => {
+		const dupConfig = { codeLength: 4, colorCount: 6, allowDuplicates: true };
+		const hint = computeHint([], [2, 2, null, null], dupConfig);
+		assert.equal(hint.kind, 'suggestion');
 	});
 
 	it('solves 5-peg Hard difficulty hints deterministically', () => {

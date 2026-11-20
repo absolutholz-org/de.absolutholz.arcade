@@ -3,7 +3,7 @@ import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
 import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
 import { isSupportedLanguage } from '@arcade/lib-i18n/utils/detection';
-import { GameControls, VictoryDialog } from '@arcade/lib-ui';
+import { DefeatDialog, GameControls, VictoryDialog } from '@arcade/lib-ui';
 import { Banner } from '@arcade/lib-ui/components/Banner';
 import { GameHeader } from '@arcade/lib-ui/components/GameHeader';
 import { GameRulesDialog } from '@arcade/lib-ui/components/GameRulesDialog';
@@ -203,6 +203,8 @@ function CodebreakerGameInner({
 		};
 	})();
 
+	const EndDialog = game.status === 'won' ? VictoryDialog : DefeatDialog;
+
 	return (
 		<GameLayout
 			header={
@@ -316,7 +318,7 @@ function CodebreakerGameInner({
 				/>
 			</GameSettingsDialog>
 
-			<VictoryDialog
+			<EndDialog
 				isOpen={game.isEndDialogOpen}
 				onClose={game.closeEndDialog}
 				title={game.status === 'won' ? t('victory.title') : t('victory.defeatTitle')}

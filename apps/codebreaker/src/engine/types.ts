@@ -96,7 +96,7 @@ export const DEFAULT_CODEBREAKER_SETTINGS: CodebreakerSettings = {
 	showColorShapes: false,
 	showColorNumbers: false,
 	autoAdvanceSlot: true,
-	allowDuplicates: true,
+	allowDuplicates: false,
 };
 
 export interface GameSnapshot {

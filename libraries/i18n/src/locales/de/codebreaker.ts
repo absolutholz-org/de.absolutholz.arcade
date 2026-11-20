@@ -61,7 +61,7 @@ export const deCodebreaker: CodebreakerTranslationContract = {
 		},
 		allowDuplicates: {
 			label: 'Doppelte Farben erlauben',
-			description: 'Mehrfach vorkommende Farben in neuen Geheimcodes erlauben (gilt für neue Spiele).',
+			description: 'Erlaubt, dass dieselbe Farbe mehrfach im Geheimcode vorkommt (gilt für neue Spiele).',
 		},
 	},
 	status: {

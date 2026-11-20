@@ -61,7 +61,8 @@ export const frCodebreaker: CodebreakerTranslationContract = {
 		},
 		allowDuplicates: {
 			label: 'Autoriser les doublons',
-			description: 'Autoriser des couleurs répétées dans les nouveaux codes secrets (nouvelles parties).',
+			description:
+				'Permet à une même couleur d’apparaître plusieurs fois dans le code secret (nouvelles parties).',
 		},
 	},
 	status: {
