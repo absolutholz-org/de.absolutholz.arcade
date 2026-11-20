@@ -18,7 +18,8 @@ export type GameId =
 	| 'color-flood'
 	| 'dice-bingo'
 	| 'pentominoes'
-	| 'tictactoe';
+	| 'tictactoe'
+	| 'futoshiki';
 
 /**
  * Canonical identifiers for standalone utility tools in the Arcade monorepo.

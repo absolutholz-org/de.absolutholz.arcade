@@ -19,6 +19,7 @@ export interface MedalsSchema {
 			readonly net: string;
 			readonly 'color-flood': string;
 			readonly 'dice-bingo': string;
+			readonly futoshiki: string;
 		};
 		readonly status: {
 			readonly unlocked: string;
@@ -277,6 +278,14 @@ export interface MedalsSchema {
 		readonly spatial_intuitive: { readonly title: string; readonly desc: string };
 		readonly speed_packer: { readonly title: string; readonly desc: string };
 		readonly grand_architect: { readonly title: string; readonly desc: string };
+	};
+	readonly futoshiki: {
+		readonly first_deduction: { readonly title: string; readonly desc: string };
+		readonly inequality_solver: { readonly title: string; readonly desc: string };
+		readonly size_mastery: { readonly title: string; readonly desc: string };
+		readonly pure_logic: { readonly title: string; readonly desc: string };
+		readonly speed_thinker: { readonly title: string; readonly desc: string };
+		readonly streak: { readonly title: string; readonly desc: string };
 	};
 }
 

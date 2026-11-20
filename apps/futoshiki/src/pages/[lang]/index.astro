@@ -1,0 +1,28 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import BaseLayoutWithSiteHeaderAndSiteFooter from '@arcade/lib-ui/layouts/BaseLayoutWithSiteHeaderAndSiteFooter/BaseLayoutWithSiteHeaderAndSiteFooter.astro';
+import { FutoshikiLobby } from '../../components/FutoshikiLobby/FutoshikiLobby';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const currentLanguage = lang as SupportedLanguageCode;
+const currentFutoshiki = resources[currentLanguage]?.futoshiki ?? resources.en.futoshiki;
+---
+
+<BaseLayoutWithSiteHeaderAndSiteFooter
+	titleOptions={{
+		scope: currentFutoshiki.title,
+	}}
+	description={currentFutoshiki.description}
+	lang={currentLanguage}
+	currentSlug=""
+>
+	<FutoshikiLobby client:load lang={currentLanguage} />
+</BaseLayoutWithSiteHeaderAndSiteFooter>

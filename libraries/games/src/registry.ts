@@ -301,6 +301,25 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 			sessionLength: ['snack-under-3m'],
 		},
 	},
+	futoshiki: {
+		id: 'futoshiki',
+		route: '/futoshiki',
+		assets: {
+			icon: '⚖️',
+		},
+		i18nNamespace: 'futoshiki',
+		mode: 'singleplayer',
+		category: {
+			primary: 'logic-deduction',
+		},
+		tags: {
+			mechanics: ['grid-based', 'deduction', 'number-logic'],
+			inputs: ['touch-optimized', 'keyboard-controls', 'tap-only', 'dual-mode-toggle', 'direct-typing'],
+			pacing: ['speedrun-timer', 'undo-friendly'],
+			modes: ['single-player', 'procedural-endless'],
+			sessionLength: ['snack-under-3m', 'standard-5-10m', 'deep-15m-plus'],
+		},
+	},
 };
 
 /**

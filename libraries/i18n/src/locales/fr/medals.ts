@@ -21,6 +21,7 @@ export const frMedals = {
 			net: 'Net',
 			'color-flood': 'Marée de couleurs',
 			'dice-bingo': 'Bingo aux dés',
+			futoshiki: 'Futoshiki',
 		},
 		status: {
 			unlocked: 'Débloqué',
@@ -890,6 +891,32 @@ export const frMedals = {
 		grand_architect: {
 			title: 'Grand Architecte Polyomino',
 			desc: 'Plateaux Pentaminos résolus : Bronze à 5, Argent à 20 et Or à 50 victoires.',
+		},
+	},
+	futoshiki: {
+		first_deduction: {
+			title: 'Première Déduction',
+			desc: 'Résolvez votre première grille de Futoshiki sur n’importe quelle taille.',
+		},
+		inequality_solver: {
+			title: 'Maître des Inégalités',
+			desc: 'Grilles de Futoshiki résolues : Bronze à 5, Argent à 25 et Or à 100.',
+		},
+		size_mastery: {
+			title: 'Maîtrise des Grilles',
+			desc: 'Dominez les grandes grilles : Bronze en 5×5 Moyen, Argent en 6×6 Difficile et Or en 7×7 Expert.',
+		},
+		pure_logic: {
+			title: 'Logique Pure',
+			desc: 'Résolvez des grilles sans indice ni erreur : Bronze à 1, Argent à 10 et Or à 30.',
+		},
+		speed_thinker: {
+			title: 'Déduction Éclair',
+			desc: 'Terminez une grille Moyenne (5×5) ou plus grande en moins de 2 minutes.',
+		},
+		streak: {
+			title: 'Chaîne Ininterrompue',
+			desc: 'Enchaînez les victoires : Bronze à 3, Argent à 7 et Or à 15 victoires consécutives.',
 		},
 	},
 } as const satisfies MedalsTranslationContract;

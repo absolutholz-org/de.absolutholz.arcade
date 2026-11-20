@@ -147,6 +147,7 @@ const GAME_ID_LOOKUP = {
 	'dice-bingo': true,
 	pentominoes: true,
 	tictactoe: true,
+	futoshiki: true,
 } as const satisfies Readonly<Record<GameId, true>>;
 
 const PLAY_MODE_SET: ReadonlySet<string> = new Set(GAME_PLAY_MODES);

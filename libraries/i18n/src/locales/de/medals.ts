@@ -21,6 +21,7 @@ export const deMedals = {
 			net: 'Net',
 			'color-flood': 'Farbflut',
 			'dice-bingo': 'Würfel-Bingo',
+			futoshiki: 'Futoshiki',
 		},
 		status: {
 			unlocked: 'Freigeschaltet',
@@ -890,6 +891,32 @@ export const deMedals = {
 		grand_architect: {
 			title: 'Großarchitekt der Polyominos',
 			desc: 'Gelöste Pentominos-Bretter insgesamt: Bronze bei 5, Silber bei 20 und Gold bei 50 Siegen.',
+		},
+	},
+	futoshiki: {
+		first_deduction: {
+			title: 'Erste Deduktion',
+			desc: 'Löse dein erstes Futoshiki-Rätsel auf einer beliebigen Gittergröße.',
+		},
+		inequality_solver: {
+			title: 'Ungleichungs-Löser',
+			desc: 'Gelöste Futoshiki-Rätsel insgesamt: Bronze bei 5, Silber bei 25 und Gold bei 100.',
+		},
+		size_mastery: {
+			title: 'Gitter-Meisterschaft',
+			desc: 'Meistere größere Gitter: Bronze für 5×5 Mittel, Silber für 6×6 Schwer und Gold für 7×7 Experte.',
+		},
+		pure_logic: {
+			title: 'Reine Logik',
+			desc: 'Löse Rätsel ohne Hinweise und ohne Fehler: Bronze bei 1, Silber bei 10 und Gold bei 30.',
+		},
+		speed_thinker: {
+			title: 'Blitz-Deduktion',
+			desc: 'Löse ein mittleres (5×5) oder größeres Futoshiki-Rätsel in unter 2 Minuten.',
+		},
+		streak: {
+			title: 'Ungebrochene Kette',
+			desc: 'Halte eine Siegesserie: Bronze bei 3, Silber bei 7 und Gold bei 15 Siegen in Folge.',
 		},
 	},
 } as const satisfies MedalsTranslationContract;

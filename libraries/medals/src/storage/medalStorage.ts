@@ -190,6 +190,15 @@ export function createInitialCustomStats<G extends GameId>(gameId: G): GameCusto
 				draws: 0,
 				flawlessWins: 0,
 			} as unknown as GameCustomStatsMap[G];
+		case 'futoshiki':
+			return {
+				easyWins: 0,
+				mediumWins: 0,
+				hardWins: 0,
+				expertWins: 0,
+				pureLogicWins: 0,
+				fastestMediumPlusSeconds: null,
+			} as unknown as GameCustomStatsMap[G];
 		default:
 			throw new Error(`createInitialCustomStats error: Unknown gameId "${String(gameId)}"`);
 	}

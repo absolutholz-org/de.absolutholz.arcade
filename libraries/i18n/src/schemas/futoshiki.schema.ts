@@ -1,0 +1,108 @@
+import type { SchemaToTranslationContract } from './common.schema.js';
+
+export const futoshikiSchema = {
+	title: 'title',
+	description: 'description',
+	difficulty: {
+		label: 'difficulty.label',
+		easy: 'difficulty.easy',
+		easyDesc: 'difficulty.easyDesc',
+		medium: 'difficulty.medium',
+		mediumDesc: 'difficulty.mediumDesc',
+		hard: 'difficulty.hard',
+		hardDesc: 'difficulty.hardDesc',
+		expert: 'difficulty.expert',
+		expertDesc: 'difficulty.expertDesc',
+	},
+	controls: {
+		undo: 'controls.undo',
+		redo: 'controls.redo',
+		erase: 'controls.erase',
+		notes: 'controls.notes',
+		notesOn: 'controls.notesOn',
+		notesOff: 'controls.notesOff',
+		hint: 'controls.hint',
+		pause: 'controls.pause',
+		resume: 'controls.resume',
+		restart: 'controls.restart',
+		newGame: 'controls.newGame',
+		backToLobby: 'controls.backToLobby',
+	},
+	settings: {
+		title: 'settings.title',
+		highlightPeerCells: {
+			label: 'settings.highlightPeerCells.label',
+			description: 'settings.highlightPeerCells.description',
+		},
+		highlightPeerDigits: {
+			label: 'settings.highlightPeerDigits.label',
+			description: 'settings.highlightPeerDigits.description',
+		},
+		highlightErrors: {
+			label: 'settings.highlightErrors.label',
+			description: 'settings.highlightErrors.description',
+		},
+		autoClearNotes: {
+			label: 'settings.autoClearNotes.label',
+			description: 'settings.autoClearNotes.description',
+		},
+	},
+	status: {
+		paused: 'status.paused',
+		pausedDescription: 'status.pausedDescription',
+		resumed: 'status.resumed',
+		cellsRemaining: 'status.cellsRemaining',
+		conflictsCount: 'status.conflictsCount',
+		hintApplied: 'status.hintApplied',
+		noHintAvailable: 'status.noHintAvailable',
+		solved: 'status.solved',
+	},
+	victory: {
+		title: 'victory.title',
+		congratulations: 'victory.congratulations',
+		timeElapsed: 'victory.timeElapsed',
+		moves: 'victory.moves',
+		hintsUsed: 'victory.hintsUsed',
+		playAgain: 'victory.playAgain',
+		nextPuzzle: 'victory.nextPuzzle',
+	},
+	stats: {
+		title: 'stats.title',
+		gamesPlayed: 'stats.gamesPlayed',
+		gamesWon: 'stats.gamesWon',
+		winRate: 'stats.winRate',
+		bestTime: 'stats.bestTime',
+		noStatsYet: 'stats.noStatsYet',
+	},
+	lobby: {
+		quickPlay: 'lobby.quickPlay',
+		quickPlayDesc: 'lobby.quickPlayDesc',
+		chooseDifficulty: 'lobby.chooseDifficulty',
+		resumeSubtitle: 'lobby.resumeSubtitle',
+	},
+	aria: {
+		boardGrid: 'aria.boardGrid',
+		cellCoords: 'aria.cellCoords',
+		cellValue: 'aria.cellValue',
+		emptyCell: 'aria.emptyCell',
+		clueCell: 'aria.clueCell',
+		cellNotes: 'aria.cellNotes',
+		cellConflict: 'aria.cellConflict',
+		greaterThanLeft: 'aria.greaterThanLeft',
+		lessThanLeft: 'aria.lessThanLeft',
+		greaterThanRight: 'aria.greaterThanRight',
+		lessThanRight: 'aria.lessThanRight',
+		greaterThanAbove: 'aria.greaterThanAbove',
+		lessThanAbove: 'aria.lessThanAbove',
+		greaterThanBelow: 'aria.greaterThanBelow',
+		lessThanBelow: 'aria.lessThanBelow',
+		keypadDigit: 'aria.keypadDigit',
+		keypadNoteDigit: 'aria.keypadNoteDigit',
+		digitsToolbar: 'aria.digitsToolbar',
+		actionsToolbar: 'aria.actionsToolbar',
+	},
+} as const;
+
+export type FutoshikiSchema = typeof futoshikiSchema;
+
+export type FutoshikiTranslationContract = SchemaToTranslationContract<FutoshikiSchema>;

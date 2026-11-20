@@ -21,6 +21,7 @@ export const enMedals = {
 			net: 'Net',
 			'color-flood': 'Color Flood',
 			'dice-bingo': 'Dice Bingo',
+			futoshiki: 'Futoshiki',
 		},
 		status: {
 			unlocked: 'Unlocked',
@@ -889,6 +890,32 @@ export const enMedals = {
 		grand_architect: {
 			title: 'Grand Polyomino Architect',
 			desc: 'Win Pentominoes puzzles across your career: Bronze at 5, Silver at 20, and Gold at 50 solved boards.',
+		},
+	},
+	futoshiki: {
+		first_deduction: {
+			title: 'First Deduction',
+			desc: 'Solve your first Futoshiki puzzle on any grid size.',
+		},
+		inequality_solver: {
+			title: 'Inequality Solver',
+			desc: 'Solve Futoshiki puzzles across your career: Bronze at 5, Silver at 25, and Gold at 100.',
+		},
+		size_mastery: {
+			title: 'Grid Mastery',
+			desc: 'Conquer larger grids: Bronze for 5×5 Medium, Silver for 6×6 Hard, and Gold for 7×7 Expert.',
+		},
+		pure_logic: {
+			title: 'Pure Logic',
+			desc: 'Solve puzzles with zero hints and zero mistakes: Bronze at 1, Silver at 10, and Gold at 30.',
+		},
+		speed_thinker: {
+			title: 'Swift Deduction',
+			desc: 'Complete a Medium (5×5) or larger Futoshiki puzzle in under 2 minutes.',
+		},
+		streak: {
+			title: 'Unbroken Chain',
+			desc: 'Maintain a winning streak: Bronze at 3, Silver at 7, and Gold at 15 consecutive wins.',
 		},
 	},
 } as const satisfies MedalsTranslationContract;

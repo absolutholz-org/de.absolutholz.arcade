@@ -141,6 +141,16 @@ export interface GameCustomStatsMap {
 	'dice-bingo': DiceBingoCustomStats;
 	pentominoes: PentominoesCustomStats;
 	tictactoe: TicTacToeCustomStats;
+	futoshiki: FutoshikiCustomStats;
+}
+
+export interface FutoshikiCustomStats {
+	readonly easyWins?: number;
+	readonly mediumWins?: number;
+	readonly hardWins?: number;
+	readonly expertWins?: number;
+	readonly pureLogicWins?: number;
+	readonly fastestMediumPlusSeconds?: number | null;
 }
 
 export interface TicTacToeCustomStats {

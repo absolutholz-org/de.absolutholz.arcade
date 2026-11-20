@@ -21,6 +21,7 @@ export const ptMedals = {
 			net: 'Net',
 			'color-flood': 'Maré de cores',
 			'dice-bingo': 'Bingo de Dados',
+			futoshiki: 'Futoshiki',
 		},
 		status: {
 			unlocked: 'Desbloqueado',
@@ -890,6 +891,32 @@ export const ptMedals = {
 		grand_architect: {
 			title: 'Grande Arquiteto de Poliminós',
 			desc: 'Tabuleiros de Pentaminós resolvidos: Bronze aos 5, Prata aos 20 e Ouro aos 50.',
+		},
+	},
+	futoshiki: {
+		first_deduction: {
+			title: 'Primeira Dedução',
+			desc: 'Resolva seu primeiro quebra-cabeça Futoshiki em qualquer tamanho de grade.',
+		},
+		inequality_solver: {
+			title: 'Mestre das Desigualdades',
+			desc: 'Quebra-cabeças Futoshiki resolvidos: Bronze em 5, Prata em 25 e Ouro em 100.',
+		},
+		size_mastery: {
+			title: 'Domínio da Grade',
+			desc: 'Conquiste grades maiores: Bronze em 5×5 Médio, Prata em 6×6 Difícil e Ouro em 7×7 Especialista.',
+		},
+		pure_logic: {
+			title: 'Lógica Pura',
+			desc: 'Resolva grades sem dicas e sem erros: Bronze em 1, Prata em 10 e Ouro em 30.',
+		},
+		speed_thinker: {
+			title: 'Dedução Relâmpago',
+			desc: 'Conclua uma grade Média (5×5) ou maior em menos de 2 minutos.',
+		},
+		streak: {
+			title: 'Cadeia Ininterrupta',
+			desc: 'Mantenha uma sequência de vitórias: Bronze em 3, Prata em 7 e Ouro em 15 vitórias seguidas.',
 		},
 	},
 } as const satisfies MedalsTranslationContract;

@@ -667,6 +667,35 @@ export function updateCustomStats<G extends GameId>(
 			};
 		}
 
+		case 'futoshiki': {
+			const stats = (current as GameCustomStatsMap['futoshiki']) ?? {};
+			const difficulty = (result.roundContext?.difficulty as string | undefined) ?? result.levelKey;
+			const hintsUsed = Number(result.roundContext?.hintsUsed ?? 0);
+			const mistakesCount = Number(result.roundContext?.mistakesCount ?? 0);
+			const isPureLogic = result.won && hintsUsed === 0 && mistakesCount === 0;
+			const isMediumPlus = difficulty === 'medium' || difficulty === 'hard' || difficulty === 'expert';
+			const prevFastest = stats.fastestMediumPlusSeconds ?? null;
+			const nextFastest =
+				result.won && isMediumPlus && safeTime > 0
+					? prevFastest === null
+						? safeTime
+						: Math.min(prevFastest, safeTime)
+					: prevFastest;
+
+			return {
+				updatedCustom: {
+					...stats,
+					easyWins: (stats.easyWins ?? 0) + (result.won && difficulty === 'easy' ? 1 : 0),
+					mediumWins: (stats.mediumWins ?? 0) + (result.won && difficulty === 'medium' ? 1 : 0),
+					hardWins: (stats.hardWins ?? 0) + (result.won && difficulty === 'hard' ? 1 : 0),
+					expertWins: (stats.expertWins ?? 0) + (result.won && difficulty === 'expert' ? 1 : 0),
+					pureLogicWins: (stats.pureLogicWins ?? 0) + (isPureLogic ? 1 : 0),
+					fastestMediumPlusSeconds: nextFastest,
+				} as unknown as GameCustomStatsMap[G],
+				isNewBestTime,
+			};
+		}
+
 		default:
 			return { updatedCustom: current, isNewBestTime: false };
 	}

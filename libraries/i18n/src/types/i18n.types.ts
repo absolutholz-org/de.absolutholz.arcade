@@ -4,6 +4,7 @@ import type { BridgesSchema, BridgesTranslationContract } from '../schemas/bridg
 import type { ColorFloodSchema, ColorFloodTranslationContract } from '../schemas/color-flood.schema.js';
 import type { CommonSchema, CommonTranslationContract } from '../schemas/common.schema.js';
 import type { DiceBingoSchema, DiceBingoTranslationContract } from '../schemas/dice-bingo.schema.js';
+import type { FutoshikiSchema, FutoshikiTranslationContract } from '../schemas/futoshiki.schema.js';
 import type { LiquidSortSchema, LiquidSortTranslationContract } from '../schemas/liquid-sort.schema.js';
 import type { MedalsSchema, MedalsTranslationContract } from '../schemas/medals.schema.js';
 import type { MinesweeperSchema, MinesweeperTranslationContract } from '../schemas/minesweeper.schema.js';
@@ -43,6 +44,7 @@ export type ColorFloodTranslationKey = LeafKeys<ColorFloodSchema> | `color-flood
 export type DiceBingoTranslationKey = LeafKeys<DiceBingoSchema> | `dice-bingo.${LeafKeys<DiceBingoSchema>}`;
 export type PentominoesTranslationKey = LeafKeys<PentominoesSchema> | `pentominoes.${LeafKeys<PentominoesSchema>}`;
 export type TicTacToeTranslationKey = LeafKeys<TicTacToeSchema> | `tictactoe.${LeafKeys<TicTacToeSchema>}`;
+export type FutoshikiTranslationKey = LeafKeys<FutoshikiSchema> | `futoshiki.${LeafKeys<FutoshikiSchema>}`;
 export type MedalsTranslationKey = LeafKeys<MedalsSchema> | `medals.${LeafKeys<MedalsSchema>}`;
 export type TaxonomyTranslationKey = LeafKeys<TaxonomySchema> | `taxonomy.${LeafKeys<TaxonomySchema>}`;
 
@@ -63,6 +65,7 @@ export type TranslationKey =
 	| DiceBingoTranslationKey
 	| PentominoesTranslationKey
 	| TicTacToeTranslationKey
+	| FutoshikiTranslationKey
 	| MedalsTranslationKey
 	| TaxonomyTranslationKey;
 
@@ -93,6 +96,7 @@ export type TranslationResources = Record<
 		readonly 'dice-bingo': DiceBingoTranslationContract;
 		readonly pentominoes: PentominoesTranslationContract;
 		readonly tictactoe: TicTacToeTranslationContract;
+		readonly futoshiki: FutoshikiTranslationContract;
 		readonly medals: MedalsTranslationContract;
 		readonly taxonomy: TaxonomyTranslationContract;
 	}

@@ -1,0 +1,49 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { GameMedalGrid } from '@arcade/lib-ui/components/GameMedalGrid';
+import GameSubpageTemplate from '@arcade/lib-ui/templates/GameSubpageTemplate/GameSubpageTemplate.astro';
+import { FUTOSHIKI_MEDAL_DEFINITIONS } from '../../config/medals';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const currentLanguage = lang as SupportedLanguageCode;
+const currentFutoshiki = resources[currentLanguage]?.futoshiki ?? resources.en.futoshiki;
+const currentCommon = resources[currentLanguage]?.common ?? resources.en.common;
+const currentMedals = resources[currentLanguage]?.medals ?? resources.en.medals;
+---
+
+<GameSubpageTemplate
+	title={currentMedals.showcase.title}
+	description={`${currentFutoshiki.title} - ${currentMedals.showcase.description}`}
+	lang={currentLanguage}
+	breadcrumbItems={[
+		{ label: `${currentCommon.app.shortTitle} ${currentCommon.navigation.home}`, href: `/${currentLanguage}/`, isHome: true },
+		{ label: currentFutoshiki.title, href: `/futoshiki/${currentLanguage}/` },
+		{ label: currentMedals.showcase.title, isCurrent: true },
+	]}
+	primaryAction={{
+		label: currentFutoshiki.controls.newGame,
+		href: `/futoshiki/${currentLanguage}/game`,
+	}}
+	secondaryAction={{
+		label: currentFutoshiki.controls.backToLobby,
+		href: `/futoshiki/${currentLanguage}/`,
+	}}
+	containerWidth="wide"
+	currentSlug="medals"
+>
+	<GameMedalGrid
+		client:load
+		gameId="futoshiki"
+		definitions={FUTOSHIKI_MEDAL_DEFINITIONS}
+		lang={currentLanguage}
+		hideActions
+	/>
+</GameSubpageTemplate>

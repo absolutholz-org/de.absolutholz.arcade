@@ -1,0 +1,55 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { GameStatsDashboard } from '@arcade/lib-ui/components/GameStatsDashboard';
+import GameSubpageTemplate from '@arcade/lib-ui/templates/GameSubpageTemplate/GameSubpageTemplate.astro';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const currentLanguage = lang as SupportedLanguageCode;
+const currentFutoshiki = resources[currentLanguage]?.futoshiki ?? resources.en.futoshiki;
+const currentCommon = resources[currentLanguage]?.common ?? resources.en.common;
+---
+
+<GameSubpageTemplate
+	title={currentFutoshiki.stats.title}
+	description={`${currentFutoshiki.title} ${currentFutoshiki.stats.title}`}
+	lang={currentLanguage}
+	breadcrumbItems={[
+		{ label: `${currentCommon.app.shortTitle} ${currentCommon.navigation.home}`, href: `/${currentLanguage}/`, isHome: true },
+		{ label: currentFutoshiki.title, href: `/futoshiki/${currentLanguage}/` },
+		{ label: currentFutoshiki.stats.title, isCurrent: true },
+	]}
+	primaryAction={{
+		label: currentFutoshiki.controls.newGame,
+		href: `/futoshiki/${currentLanguage}/game`,
+	}}
+	secondaryAction={{
+		label: currentFutoshiki.controls.backToLobby,
+		href: `/futoshiki/${currentLanguage}/`,
+	}}
+	containerWidth="standard"
+	currentSlug="stats"
+>
+	<GameStatsDashboard
+		client:load
+		gameId="futoshiki"
+		lang={currentLanguage}
+		hideTitle
+		showFastestRuns
+		hideWinLossMetrics
+		bucketLabels={{
+			easy: currentFutoshiki.difficulty.easy,
+			medium: currentFutoshiki.difficulty.medium,
+			hard: currentFutoshiki.difficulty.hard,
+			expert: currentFutoshiki.difficulty.expert,
+		}}
+		playHref={`/futoshiki/${currentLanguage}/game`}
+	/>
+</GameSubpageTemplate>

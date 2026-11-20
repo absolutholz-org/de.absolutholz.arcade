@@ -6,6 +6,7 @@ import { deBridges } from '../locales/de/bridges.js';
 import { deColorFlood } from '../locales/de/color-flood.js';
 import { deCommon } from '../locales/de/common.js';
 import { deDiceBingo } from '../locales/de/dice-bingo.js';
+import { deFutoshiki } from '../locales/de/futoshiki.js';
 import { deLiquidSort } from '../locales/de/liquid-sort.js';
 import { deMedals } from '../locales/de/medals.js';
 import { deMinesweeper } from '../locales/de/minesweeper.js';
@@ -24,6 +25,7 @@ import { enBridges } from '../locales/en/bridges.js';
 import { enColorFlood } from '../locales/en/color-flood.js';
 import { enCommon } from '../locales/en/common.js';
 import { enDiceBingo } from '../locales/en/dice-bingo.js';
+import { enFutoshiki } from '../locales/en/futoshiki.js';
 import { enLiquidSort } from '../locales/en/liquid-sort.js';
 import { enMedals } from '../locales/en/medals.js';
 import { enMinesweeper } from '../locales/en/minesweeper.js';
@@ -42,6 +44,7 @@ import { frBridges } from '../locales/fr/bridges.js';
 import { frColorFlood } from '../locales/fr/color-flood.js';
 import { frCommon } from '../locales/fr/common.js';
 import { frDiceBingo } from '../locales/fr/dice-bingo.js';
+import { frFutoshiki } from '../locales/fr/futoshiki.js';
 import { frLiquidSort } from '../locales/fr/liquid-sort.js';
 import { frMedals } from '../locales/fr/medals.js';
 import { frMinesweeper } from '../locales/fr/minesweeper.js';
@@ -60,6 +63,7 @@ import { ptBridges } from '../locales/pt/bridges.js';
 import { ptColorFlood } from '../locales/pt/color-flood.js';
 import { ptCommon } from '../locales/pt/common.js';
 import { ptDiceBingo } from '../locales/pt/dice-bingo.js';
+import { ptFutoshiki } from '../locales/pt/futoshiki.js';
 import { ptLiquidSort } from '../locales/pt/liquid-sort.js';
 import { ptMedals } from '../locales/pt/medals.js';
 import { ptMinesweeper } from '../locales/pt/minesweeper.js';
@@ -94,6 +98,7 @@ export const resources: TranslationResources = {
 		'dice-bingo': enDiceBingo,
 		pentominoes: enPentominoes,
 		tictactoe: enTicTacToe,
+		futoshiki: enFutoshiki,
 		medals: enMedals,
 		taxonomy: enTaxonomy,
 	},
@@ -114,6 +119,7 @@ export const resources: TranslationResources = {
 		'dice-bingo': deDiceBingo,
 		pentominoes: dePentominoes,
 		tictactoe: deTicTacToe,
+		futoshiki: deFutoshiki,
 		medals: deMedals,
 		taxonomy: deTaxonomy,
 	},
@@ -134,6 +140,7 @@ export const resources: TranslationResources = {
 		'dice-bingo': frDiceBingo,
 		pentominoes: frPentominoes,
 		tictactoe: frTicTacToe,
+		futoshiki: frFutoshiki,
 		medals: frMedals,
 		taxonomy: frTaxonomy,
 	},
@@ -154,6 +161,7 @@ export const resources: TranslationResources = {
 		'dice-bingo': ptDiceBingo,
 		pentominoes: ptPentominoes,
 		tictactoe: ptTicTacToe,
+		futoshiki: ptFutoshiki,
 		medals: ptMedals,
 		taxonomy: ptTaxonomy,
 	},
@@ -184,6 +192,7 @@ i18n.use(initReactI18next).init({
 		'dice-bingo',
 		'pentominoes',
 		'tictactoe',
+		'futoshiki',
 		'medals',
 		'taxonomy',
 	],
