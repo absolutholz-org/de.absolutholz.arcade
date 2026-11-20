@@ -3,6 +3,7 @@ import { initReactI18next } from 'react-i18next';
 import { SUPPORTED_LANGUAGES } from '../constants/languages.js';
 import { deAnagram } from '../locales/de/anagram.js';
 import { deBridges } from '../locales/de/bridges.js';
+import { deCodebreaker } from '../locales/de/codebreaker.js';
 import { deColorFlood } from '../locales/de/color-flood.js';
 import { deCommon } from '../locales/de/common.js';
 import { deDiceBingo } from '../locales/de/dice-bingo.js';
@@ -22,6 +23,7 @@ import { deTracks } from '../locales/de/tracks.js';
 import { deUntangle } from '../locales/de/untangle.js';
 import { enAnagram } from '../locales/en/anagram.js';
 import { enBridges } from '../locales/en/bridges.js';
+import { enCodebreaker } from '../locales/en/codebreaker.js';
 import { enColorFlood } from '../locales/en/color-flood.js';
 import { enCommon } from '../locales/en/common.js';
 import { enDiceBingo } from '../locales/en/dice-bingo.js';
@@ -41,6 +43,7 @@ import { enTracks } from '../locales/en/tracks.js';
 import { enUntangle } from '../locales/en/untangle.js';
 import { frAnagram } from '../locales/fr/anagram.js';
 import { frBridges } from '../locales/fr/bridges.js';
+import { frCodebreaker } from '../locales/fr/codebreaker.js';
 import { frColorFlood } from '../locales/fr/color-flood.js';
 import { frCommon } from '../locales/fr/common.js';
 import { frDiceBingo } from '../locales/fr/dice-bingo.js';
@@ -60,6 +63,7 @@ import { frTracks } from '../locales/fr/tracks.js';
 import { frUntangle } from '../locales/fr/untangle.js';
 import { ptAnagram } from '../locales/pt/anagram.js';
 import { ptBridges } from '../locales/pt/bridges.js';
+import { ptCodebreaker } from '../locales/pt/codebreaker.js';
 import { ptColorFlood } from '../locales/pt/color-flood.js';
 import { ptCommon } from '../locales/pt/common.js';
 import { ptDiceBingo } from '../locales/pt/dice-bingo.js';
@@ -99,6 +103,7 @@ export const resources: TranslationResources = {
 		pentominoes: enPentominoes,
 		tictactoe: enTicTacToe,
 		futoshiki: enFutoshiki,
+		codebreaker: enCodebreaker,
 		medals: enMedals,
 		taxonomy: enTaxonomy,
 	},
@@ -120,6 +125,7 @@ export const resources: TranslationResources = {
 		pentominoes: dePentominoes,
 		tictactoe: deTicTacToe,
 		futoshiki: deFutoshiki,
+		codebreaker: deCodebreaker,
 		medals: deMedals,
 		taxonomy: deTaxonomy,
 	},
@@ -141,6 +147,7 @@ export const resources: TranslationResources = {
 		pentominoes: frPentominoes,
 		tictactoe: frTicTacToe,
 		futoshiki: frFutoshiki,
+		codebreaker: frCodebreaker,
 		medals: frMedals,
 		taxonomy: frTaxonomy,
 	},
@@ -162,6 +169,7 @@ export const resources: TranslationResources = {
 		pentominoes: ptPentominoes,
 		tictactoe: ptTicTacToe,
 		futoshiki: ptFutoshiki,
+		codebreaker: ptCodebreaker,
 		medals: ptMedals,
 		taxonomy: ptTaxonomy,
 	},
@@ -193,6 +201,7 @@ i18n.use(initReactI18next).init({
 		'pentominoes',
 		'tictactoe',
 		'futoshiki',
+		'codebreaker',
 		'medals',
 		'taxonomy',
 	],

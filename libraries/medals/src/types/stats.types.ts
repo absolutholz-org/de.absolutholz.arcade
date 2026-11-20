@@ -142,6 +142,17 @@ export interface GameCustomStatsMap {
 	pentominoes: PentominoesCustomStats;
 	tictactoe: TicTacToeCustomStats;
 	futoshiki: FutoshikiCustomStats;
+	codebreaker: CodebreakerCustomStats;
+}
+
+export interface CodebreakerCustomStats {
+	readonly easyWins?: number;
+	readonly mediumWins?: number;
+	readonly hardWins?: number;
+	readonly hintFreeWins?: number;
+	readonly hardHintFreeWins?: number;
+	readonly bestGuessesHintFree?: number | null;
+	readonly fastestWinSeconds?: number | null;
 }
 
 export interface FutoshikiCustomStats {

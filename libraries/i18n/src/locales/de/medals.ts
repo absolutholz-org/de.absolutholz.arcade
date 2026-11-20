@@ -919,4 +919,34 @@ export const deMedals = {
 			desc: 'Halte eine Siegesserie: Bronze bei 3, Silber bei 7 und Gold bei 15 Siegen in Folge.',
 		},
 	},
+	codebreaker: {
+		first_crack: {
+			title: 'Erster Treffer',
+			desc: 'Knacke deinen ersten Geheimcode auf einer beliebigen Schwierigkeitsstufe.',
+		},
+		veteran: {
+			title: 'Codebreaker-Veteran',
+			desc: 'Geknackte Codes insgesamt: Bronze bei 5, Silber bei 25 und Gold bei 100.',
+		},
+		streak: {
+			title: 'Deduktions-Serie',
+			desc: 'Gewinne Codebreaker-Runden in Folge: Bronze bei 3, Silber bei 7 und Gold bei 15.',
+		},
+		pure_logic: {
+			title: 'Reine Logik',
+			desc: 'Knacke Codes ohne Hinweise: Bronze bei 3, Silber bei 10 und Gold bei 25.',
+		},
+		sharp_mind: {
+			title: 'Scharfer Verstand',
+			desc: 'Knacke einen Geheimcode in 4 oder weniger Versuchen ohne Hinweise.',
+		},
+		lightning: {
+			title: 'Blitz-Deduktion',
+			desc: 'Knacke einen beliebigen Geheimcode in unter 60 Sekunden.',
+		},
+		master_cracker: {
+			title: 'Meister-Knacker',
+			desc: 'Gewinne eine schwere Runde (5 Stifte, 8 Farben) ohne Hinweise.',
+		},
+	},
 } as const satisfies MedalsTranslationContract;

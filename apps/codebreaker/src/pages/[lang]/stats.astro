@@ -1,0 +1,53 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { GameStatsDashboard } from '@arcade/lib-ui/components/GameStatsDashboard';
+import GameSubpageTemplate from '@arcade/lib-ui/templates/GameSubpageTemplate/GameSubpageTemplate.astro';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const currentLanguage = lang as SupportedLanguageCode;
+const currentCodebreaker = resources[currentLanguage]?.codebreaker ?? resources.en.codebreaker;
+const currentCommon = resources[currentLanguage]?.common ?? resources.en.common;
+---
+
+<GameSubpageTemplate
+	title={currentCodebreaker.stats.title}
+	description={`${currentCodebreaker.title} ${currentCodebreaker.stats.title}`}
+	lang={currentLanguage}
+	breadcrumbItems={[
+		{ label: `${currentCommon.app.shortTitle} ${currentCommon.navigation.home}`, href: `/${currentLanguage}/`, isHome: true },
+		{ label: currentCodebreaker.title, href: `/codebreaker/${currentLanguage}/` },
+		{ label: currentCodebreaker.stats.title, isCurrent: true },
+	]}
+	primaryAction={{
+		label: currentCodebreaker.controls.newGame,
+		href: `/codebreaker/${currentLanguage}/game`,
+	}}
+	secondaryAction={{
+		label: currentCodebreaker.controls.backToLobby,
+		href: `/codebreaker/${currentLanguage}/`,
+	}}
+	containerWidth="standard"
+	currentSlug="stats"
+>
+	<GameStatsDashboard
+		client:load
+		gameId="codebreaker"
+		lang={currentLanguage}
+		hideTitle
+		showFastestRuns
+		bucketLabels={{
+			easy: currentCodebreaker.difficulty.easy,
+			medium: currentCodebreaker.difficulty.medium,
+			hard: currentCodebreaker.difficulty.hard,
+		}}
+		playHref={`/codebreaker/${currentLanguage}/game`}
+	/>
+</GameSubpageTemplate>

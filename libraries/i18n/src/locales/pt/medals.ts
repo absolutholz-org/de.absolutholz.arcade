@@ -919,4 +919,34 @@ export const ptMedals = {
 			desc: 'Mantenha uma sequência de vitórias: Bronze em 3, Prata em 7 e Ouro em 15 vitórias seguidas.',
 		},
 	},
+	codebreaker: {
+		first_crack: {
+			title: 'Primeiro Código',
+			desc: 'Decifre seu primeiro código secreto em qualquer dificuldade.',
+		},
+		veteran: {
+			title: 'Veterano Codebreaker',
+			desc: 'Códigos decifrados ao longo da carreira: Bronze em 5, Prata em 25 e Ouro em 100.',
+		},
+		streak: {
+			title: 'Sequência Lógica',
+			desc: 'Vença rodadas consecutivas de Codebreaker: Bronze em 3, Prata em 7 e Ouro em 15.',
+		},
+		pure_logic: {
+			title: 'Lógica Pura',
+			desc: 'Decifre códigos sem usar dicas: Bronze em 3, Prata em 10 e Ouro em 25.',
+		},
+		sharp_mind: {
+			title: 'Mente Afiada',
+			desc: 'Decifre um código secreto em 4 tentativas ou menos sem dicas.',
+		},
+		lightning: {
+			title: 'Dedução Relâmpago',
+			desc: 'Decifre qualquer código secreto em menos de 60 segundos.',
+		},
+		master_cracker: {
+			title: 'Mestre Decifrador',
+			desc: 'Vença uma rodada Difícil (5 pinos, 8 cores) sem usar nenhuma dica.',
+		},
+	},
 } as const satisfies MedalsTranslationContract;

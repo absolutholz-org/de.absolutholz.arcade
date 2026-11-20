@@ -148,6 +148,7 @@ const GAME_ID_LOOKUP = {
 	pentominoes: true,
 	tictactoe: true,
 	futoshiki: true,
+	codebreaker: true,
 } as const satisfies Readonly<Record<GameId, true>>;
 
 const PLAY_MODE_SET: ReadonlySet<string> = new Set(GAME_PLAY_MODES);

@@ -287,6 +287,15 @@ export interface MedalsSchema {
 		readonly speed_thinker: { readonly title: string; readonly desc: string };
 		readonly streak: { readonly title: string; readonly desc: string };
 	};
+	readonly codebreaker: {
+		readonly first_crack: { readonly title: string; readonly desc: string };
+		readonly veteran: { readonly title: string; readonly desc: string };
+		readonly streak: { readonly title: string; readonly desc: string };
+		readonly pure_logic: { readonly title: string; readonly desc: string };
+		readonly sharp_mind: { readonly title: string; readonly desc: string };
+		readonly lightning: { readonly title: string; readonly desc: string };
+		readonly master_cracker: { readonly title: string; readonly desc: string };
+	};
 }
 
 export type MedalsTranslationContract = MedalsSchema;

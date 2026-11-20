@@ -199,6 +199,16 @@ export function createInitialCustomStats<G extends GameId>(gameId: G): GameCusto
 				pureLogicWins: 0,
 				fastestMediumPlusSeconds: null,
 			} as unknown as GameCustomStatsMap[G];
+		case 'codebreaker':
+			return {
+				easyWins: 0,
+				mediumWins: 0,
+				hardWins: 0,
+				hintFreeWins: 0,
+				hardHintFreeWins: 0,
+				bestGuessesHintFree: null,
+				fastestWinSeconds: null,
+			} as unknown as GameCustomStatsMap[G];
 		default:
 			throw new Error(`createInitialCustomStats error: Unknown gameId "${String(gameId)}"`);
 	}

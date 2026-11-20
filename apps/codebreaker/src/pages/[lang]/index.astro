@@ -1,0 +1,28 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import BaseLayoutWithSiteHeaderAndSiteFooter from '@arcade/lib-ui/layouts/BaseLayoutWithSiteHeaderAndSiteFooter/BaseLayoutWithSiteHeaderAndSiteFooter.astro';
+import { CodebreakerLobby } from '../../components/CodebreakerLobby/CodebreakerLobby';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const currentLanguage = lang as SupportedLanguageCode;
+const currentCodebreaker = resources[currentLanguage]?.codebreaker ?? resources.en.codebreaker;
+---
+
+<BaseLayoutWithSiteHeaderAndSiteFooter
+	titleOptions={{
+		scope: currentCodebreaker.title,
+	}}
+	description={currentCodebreaker.description}
+	lang={currentLanguage}
+	currentSlug=""
+>
+	<CodebreakerLobby client:load lang={currentLanguage} />
+</BaseLayoutWithSiteHeaderAndSiteFooter>

@@ -919,4 +919,34 @@ export const frMedals = {
 			desc: 'Enchaînez les victoires : Bronze à 3, Argent à 7 et Or à 15 victoires consécutives.',
 		},
 	},
+	codebreaker: {
+		first_crack: {
+			title: 'Premier Déchiffrage',
+			desc: 'Déchiffrez votre premier code secret dans n’importe quelle difficulté.',
+		},
+		veteran: {
+			title: 'Vétéran Codebreaker',
+			desc: 'Codes secrets déchiffrés : Bronze à 5, Argent à 25 et Or à 100.',
+		},
+		streak: {
+			title: 'Série Logique',
+			desc: 'Enchaînez les victoires à Codebreaker : Bronze à 3, Argent à 7 et Or à 15.',
+		},
+		pure_logic: {
+			title: 'Logique Pure',
+			desc: 'Déchiffrez des codes sans indice : Bronze à 3, Argent à 10 et Or à 25.',
+		},
+		sharp_mind: {
+			title: 'Esprit Vif',
+			desc: 'Déchiffrez un code secret en 4 essais ou moins sans indice.',
+		},
+		lightning: {
+			title: 'Déduction Éclair',
+			desc: 'Déchiffrez n’importe quel code secret en moins de 60 secondes.',
+		},
+		master_cracker: {
+			title: 'Maître Décrypteur',
+			desc: 'Gagnez une partie Difficile (5 pions, 8 couleurs) sans aucun indice.',
+		},
+	},
 } as const satisfies MedalsTranslationContract;

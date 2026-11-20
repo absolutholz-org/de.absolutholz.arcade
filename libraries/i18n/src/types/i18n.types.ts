@@ -1,6 +1,7 @@
 import type { SUPPORTED_LANGUAGES } from '../constants/languages.js';
 import type { AnagramSchema, AnagramTranslationContract } from '../schemas/anagram.schema.js';
 import type { BridgesSchema, BridgesTranslationContract } from '../schemas/bridges.schema.js';
+import type { CodebreakerSchema, CodebreakerTranslationContract } from '../schemas/codebreaker.schema.js';
 import type { ColorFloodSchema, ColorFloodTranslationContract } from '../schemas/color-flood.schema.js';
 import type { CommonSchema, CommonTranslationContract } from '../schemas/common.schema.js';
 import type { DiceBingoSchema, DiceBingoTranslationContract } from '../schemas/dice-bingo.schema.js';
@@ -45,6 +46,7 @@ export type DiceBingoTranslationKey = LeafKeys<DiceBingoSchema> | `dice-bingo.${
 export type PentominoesTranslationKey = LeafKeys<PentominoesSchema> | `pentominoes.${LeafKeys<PentominoesSchema>}`;
 export type TicTacToeTranslationKey = LeafKeys<TicTacToeSchema> | `tictactoe.${LeafKeys<TicTacToeSchema>}`;
 export type FutoshikiTranslationKey = LeafKeys<FutoshikiSchema> | `futoshiki.${LeafKeys<FutoshikiSchema>}`;
+export type CodebreakerTranslationKey = LeafKeys<CodebreakerSchema> | `codebreaker.${LeafKeys<CodebreakerSchema>}`;
 export type MedalsTranslationKey = LeafKeys<MedalsSchema> | `medals.${LeafKeys<MedalsSchema>}`;
 export type TaxonomyTranslationKey = LeafKeys<TaxonomySchema> | `taxonomy.${LeafKeys<TaxonomySchema>}`;
 
@@ -66,6 +68,7 @@ export type TranslationKey =
 	| PentominoesTranslationKey
 	| TicTacToeTranslationKey
 	| FutoshikiTranslationKey
+	| CodebreakerTranslationKey
 	| MedalsTranslationKey
 	| TaxonomyTranslationKey;
 
@@ -97,6 +100,7 @@ export type TranslationResources = Record<
 		readonly pentominoes: PentominoesTranslationContract;
 		readonly tictactoe: TicTacToeTranslationContract;
 		readonly futoshiki: FutoshikiTranslationContract;
+		readonly codebreaker: CodebreakerTranslationContract;
 		readonly medals: MedalsTranslationContract;
 		readonly taxonomy: TaxonomyTranslationContract;
 	}

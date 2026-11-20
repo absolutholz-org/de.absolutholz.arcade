@@ -19,7 +19,8 @@ export type GameId =
 	| 'dice-bingo'
 	| 'pentominoes'
 	| 'tictactoe'
-	| 'futoshiki';
+	| 'futoshiki'
+	| 'codebreaker';
 
 /**
  * Canonical identifiers for standalone utility tools in the Arcade monorepo.

@@ -320,6 +320,25 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 			sessionLength: ['snack-under-3m', 'standard-5-10m', 'deep-15m-plus'],
 		},
 	},
+	codebreaker: {
+		id: 'codebreaker',
+		route: '/codebreaker',
+		assets: {
+			icon: '🔐',
+		},
+		i18nNamespace: 'codebreaker',
+		mode: 'singleplayer',
+		category: {
+			primary: 'logic-deduction',
+		},
+		tags: {
+			mechanics: ['deduction', 'color-matching', 'pattern-recognition'],
+			inputs: ['touch-optimized', 'keyboard-controls', 'tap-only', 'direct-typing'],
+			pacing: ['speedrun-timer', 'move-efficiency', 'turn-paced'],
+			modes: ['single-player', 'procedural-endless'],
+			sessionLength: ['snack-under-3m', 'standard-5-10m'],
+		},
+	},
 };
 
 /**

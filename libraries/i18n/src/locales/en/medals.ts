@@ -918,4 +918,34 @@ export const enMedals = {
 			desc: 'Maintain a winning streak: Bronze at 3, Silver at 7, and Gold at 15 consecutive wins.',
 		},
 	},
+	codebreaker: {
+		first_crack: {
+			title: 'First Crack',
+			desc: 'Crack your first secret code on any difficulty.',
+		},
+		veteran: {
+			title: 'Codebreaker Veteran',
+			desc: 'Crack secret codes across your career: Bronze at 5, Silver at 25, and Gold at 100.',
+		},
+		streak: {
+			title: 'Deduction Streak',
+			desc: 'Win consecutive Codebreaker rounds: Bronze at 3, Silver at 7, and Gold at 15.',
+		},
+		pure_logic: {
+			title: 'Pure Logic',
+			desc: 'Crack codes without using any hints: Bronze at 3, Silver at 10, and Gold at 25.',
+		},
+		sharp_mind: {
+			title: 'Sharp Mind',
+			desc: 'Crack a secret code in 4 or fewer guesses without hints.',
+		},
+		lightning: {
+			title: 'Lightning Deduction',
+			desc: 'Crack any secret code in under 60 seconds.',
+		},
+		master_cracker: {
+			title: 'Master Cracker',
+			desc: 'Win a Hard (5-peg, 8-color) round without using any hints.',
+		},
+	},
 } as const satisfies MedalsTranslationContract;
