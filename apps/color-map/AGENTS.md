@@ -1,0 +1,5 @@
+# @arcade/color-map — Local Agent Invariants
+
+- **Four-Color Map Engine (`src/engine/`):** Deterministic Mulberry32 seeded generation with organic flood-fill regions, strictly orthogonal adjacency (diagonal corners ignored), MRV + degree 4-coloring solver, and iterative clue sculpting verified for a unique solution (`countSolutions === 1`) across `easy` (12×12, 10–12 regions), `medium` (16×16, 16–18 regions), `hard` (24×24, 28–32 regions), and `expert` (32×32, 45–50 regions).
+- **Dual Input & Accessibility:** Supports both palette tap/click and classic drag-to-copy (drag colored region to copy, drag from outside border to erase, right-drag or pencil-mode drag for candidate dots). Pairs all 4 colors with distinct colorblind shape overlays (`●`, `▲`, `■`, `◆`), Forced Colors Mode fallbacks, roving `tabIndex` region buttons, and keyboard shortcuts (`Arrow` keys, `1–4`, `Shift+1–4`, `P`, `Backspace`/`Delete`/`0`, `Z`/`Y`, `Esc`).
+- **Namespaces:** i18n `color-map`; storage `createGameStorage('color-map')`; Linaria `rem` + `light-dark(oklch(...))` + `@arcade/lib-ui` theme tokens only.

@@ -1,0 +1,47 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { GameSettingsPanel } from '@arcade/lib-ui/components/GameSettingsPanel';
+import GameSubpageTemplate from '@arcade/lib-ui/templates/GameSubpageTemplate/GameSubpageTemplate.astro';
+import { COLOR_MAP_SETTINGS_CONFIG } from '../../config/settings';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const currentLanguage = lang as SupportedLanguageCode;
+const currentColorMap = resources[currentLanguage]?.['color-map'] ?? resources.en['color-map'];
+const currentCommon = resources[currentLanguage]?.common ?? resources.en.common;
+---
+
+<GameSubpageTemplate
+	title={currentColorMap.settings.title}
+	description={`${currentColorMap.title} - ${currentColorMap.settings.title}`}
+	lang={currentLanguage}
+	breadcrumbItems={[
+		{ label: `${currentCommon.app.shortTitle} ${currentCommon.navigation.home}`, href: `/${currentLanguage}/`, isHome: true },
+		{ label: currentColorMap.title, href: `/color-map/${currentLanguage}/` },
+		{ label: currentColorMap.settings.title, isCurrent: true },
+	]}
+	primaryAction={{
+		label: currentColorMap.controls.newGame,
+		href: `/color-map/${currentLanguage}/game`,
+	}}
+	secondaryAction={{
+		label: currentColorMap.controls.backToLobby,
+		href: `/color-map/${currentLanguage}/`,
+	}}
+	containerWidth="standard"
+	currentSlug="settings"
+>
+	<GameSettingsPanel
+		client:load
+		config={COLOR_MAP_SETTINGS_CONFIG}
+		lang={currentLanguage}
+		mode="detailed"
+	/>
+</GameSubpageTemplate>
