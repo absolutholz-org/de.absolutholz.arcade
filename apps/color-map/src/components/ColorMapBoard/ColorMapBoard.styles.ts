@@ -102,7 +102,7 @@ export const ConflictHatchPath = styled.path`
 
 export const InternalBorders = styled.path`
 	fill: none;
-	stroke: light-dark(oklch(0.22 0.02 260), oklch(0.12 0.02 260));
+	stroke: light-dark(oklch(0.22 0.02 260), oklch(0.82 0.02 260));
 	stroke-linecap: square;
 	stroke-linejoin: miter;
 	pointer-events: none;
