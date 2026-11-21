@@ -97,18 +97,6 @@ function UndeadGameInner({
 			}
 		>
 			<S.PlayfieldStack>
-				<MonsterPalette
-					inventory={game.board.inventory}
-					placedCounts={game.validation.placedCounts}
-					overLimit={game.validation.overLimit}
-					selectedMonster={game.selectedMonster}
-					isNotesMode={game.isNotesMode}
-					disabled={game.isPaused || game.isComplete}
-					onMonsterPress={(m) => game.handleMonsterInput(m)}
-					onToggleNotes={game.handleToggleNotes}
-					onErase={game.handleErase}
-				/>
-
 				<UndeadBoard
 					board={game.board}
 					rays={game.rays}
@@ -126,6 +114,18 @@ function UndeadGameInner({
 					onUndo={game.handleUndo}
 					onRedo={game.handleRedo}
 					onTogglePause={game.handleTogglePause}
+				/>
+
+				<MonsterPalette
+					inventory={game.board.inventory}
+					placedCounts={game.validation.placedCounts}
+					overLimit={game.validation.overLimit}
+					selectedMonster={game.selectedMonster}
+					isNotesMode={game.isNotesMode}
+					disabled={game.isPaused || game.isComplete}
+					onMonsterPress={(m) => game.handleMonsterInput(m)}
+					onToggleNotes={game.handleToggleNotes}
+					onErase={game.handleErase}
 				/>
 			</S.PlayfieldStack>
 

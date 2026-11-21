@@ -293,6 +293,19 @@ export function UndeadBoard({
 
 	return (
 		<>
+			{settings.showRayPreview && (
+				<S.RayLegend aria-label={t('aria.rayLegend')}>
+					<S.LegendItem>
+						<S.LegendSwatch data-kind="direct" aria-hidden="true" />
+						<span>{t('status.rayDirect')}</span>
+					</S.LegendItem>
+					<S.LegendItem>
+						<S.LegendSwatch data-kind="reflected" aria-hidden="true" />
+						<span>{t('status.rayReflected')}</span>
+					</S.LegendItem>
+				</S.RayLegend>
+			)}
+
 			<S.BoardFrame>
 				<S.OuterGrid data-size={size} data-paused={isPaused}>
 					{/* Top edge clues */}
@@ -424,19 +437,6 @@ export function UndeadBoard({
 					</S.InnerGrid>
 				</S.OuterGrid>
 			</S.BoardFrame>
-
-			{settings.showRayPreview && (
-				<S.RayLegend aria-label={t('aria.rayLegend')}>
-					<S.LegendItem>
-						<S.LegendSwatch data-kind="direct" aria-hidden="true" />
-						<span>{t('status.rayDirect')}</span>
-					</S.LegendItem>
-					<S.LegendItem>
-						<S.LegendSwatch data-kind="reflected" aria-hidden="true" />
-						<span>{t('status.rayReflected')}</span>
-					</S.LegendItem>
-				</S.RayLegend>
-			)}
 		</>
 	);
 }
