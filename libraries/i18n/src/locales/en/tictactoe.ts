@@ -67,6 +67,7 @@ export const enTicTacToe: TicTacToeTranslationContract = {
 		roomFull: 'This room already has two players.',
 		rematchRequestedByOpponent: '{{name}} wants a rematch!',
 		rematchWaitingForOpponent: 'Waiting for {{name}} to accept rematch...',
+		waitingForHostNewGame: 'Waiting for {{name}} to start a new game...',
 		acceptRematch: 'Accept Rematch',
 		nudgeOpponent: 'Share Turn Link',
 		enableNotifications: 'Enable Turn Alerts',
@@ -78,13 +79,15 @@ export const enTicTacToe: TicTacToeTranslationContract = {
 		boardLabel: 'Tic-Tac-Toe 3x3 game board',
 		cellLabel: 'Row {{row}}, Column {{col}}: {{mark}}',
 		emptyCell: 'Empty',
+		lastMoveBadge: 'Last',
+		lastMoveLabel: 'Last move',
 		playAgain: 'Play Again',
 		backToMenu: 'Back to Menu',
 		startingTurnInfo: 'Starting mark rotates each round.',
 		turnDialog: {
 			title: "{{name}}'s Turn ({{mark}})",
 			passDevice: 'Pass the device to {{name}}.',
-			waiting: 'Waiting for opponent to take their turn...',
+			waiting: 'Waiting for {{name}} to make their move...',
 			ok: 'Ready to Play',
 		},
 	},
@@ -121,6 +124,10 @@ export const enTicTacToe: TicTacToeTranslationContract = {
 		confirmTurnPass: {
 			label: 'Pass-and-Play Turn Dialog',
 			description: 'Display a modal dialog between turns to hand over the device.',
+		},
+		showLastMove: {
+			label: 'Highlight Last Move',
+			description: 'Show a badge on the most recently placed mark so you can see your opponent’s previous move.',
 		},
 	},
 };

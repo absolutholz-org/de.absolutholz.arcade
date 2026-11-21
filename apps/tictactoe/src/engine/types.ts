@@ -11,6 +11,7 @@ export interface TicTacToeState {
 	readonly winner: PlayerMark | 'draw' | null;
 	readonly winningLine: WinningLine | null;
 	readonly moveCount: number;
+	readonly lastMoveIndex?: number | null;
 	readonly isComplete: boolean;
 	readonly player1Name: string;
 	readonly player2Name: string;

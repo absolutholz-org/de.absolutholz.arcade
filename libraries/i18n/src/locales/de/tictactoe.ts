@@ -67,6 +67,7 @@ export const deTicTacToe: TicTacToeTranslationContract = {
 		roomFull: 'Dieser Raum hat bereits zwei Spieler.',
 		rematchRequestedByOpponent: '{{name}} möchte eine Revanche!',
 		rematchWaitingForOpponent: 'Warte auf Annahme durch {{name}}...',
+		waitingForHostNewGame: 'Warte darauf, dass {{name}} ein neues Spiel startet...',
 		acceptRematch: 'Revanche annehmen',
 		nudgeOpponent: 'Zug-Link teilen',
 		enableNotifications: 'Zug-Hinweise aktivieren',
@@ -78,13 +79,15 @@ export const deTicTacToe: TicTacToeTranslationContract = {
 		boardLabel: 'Tic-Tac-Toe 3x3 Spielfeld',
 		cellLabel: 'Zeile {{row}}, Spalte {{col}}: {{mark}}',
 		emptyCell: 'Leer',
+		lastMoveBadge: 'Letzter',
+		lastMoveLabel: 'Letzter Zug',
 		playAgain: 'Nochmal spielen',
 		backToMenu: 'Zurück zum Menü',
 		startingTurnInfo: 'Das Eröffnungszeichen wechselt nach jedem Durchgang.',
 		turnDialog: {
 			title: '{{name}} ist am Zug ({{mark}})',
 			passDevice: 'Gib das Gerät an {{name}} weiter.',
-			waiting: 'Warte auf den Zug des Gegners...',
+			waiting: 'Warte auf den Zug von {{name}}...',
 			ok: 'Bereit',
 		},
 	},
@@ -121,6 +124,11 @@ export const deTicTacToe: TicTacToeTranslationContract = {
 		confirmTurnPass: {
 			label: 'Zugbestätigungsdialog anzeigen',
 			description: 'Zeigt nach jedem Zug einen Bestätigungsdialog für das Weitergeben des Geräts an.',
+		},
+		showLastMove: {
+			label: 'Letzten Zug hervorheben',
+			description:
+				'Zeigt eine Markierung auf dem zuletzt gesetzten Feld an, damit der vorherige Zug sichtbar bleibt.',
 		},
 	},
 };

@@ -52,6 +52,7 @@ export function createInitialState(
 		winner: null,
 		winningLine: null,
 		moveCount: 0,
+		lastMoveIndex: null,
 		isComplete: false,
 		player1Name,
 		player2Name,
@@ -97,6 +98,7 @@ export function reduce(state: TicTacToeState, action: TicTacToeAction): TicTacTo
 				winner,
 				winningLine,
 				moveCount: state.moveCount + 1,
+				lastMoveIndex: index,
 				isComplete,
 				player1Wins: (state.player1Wins ?? 0) + (winner === 'X' ? 1 : 0),
 				player2Wins: (state.player2Wins ?? 0) + (winner === 'O' ? 1 : 0),
@@ -115,6 +117,7 @@ export function reduce(state: TicTacToeState, action: TicTacToeAction): TicTacTo
 				winner: null,
 				winningLine: null,
 				moveCount: 0,
+				lastMoveIndex: null,
 				isComplete: false,
 			};
 		}
@@ -137,6 +140,7 @@ export function reduce(state: TicTacToeState, action: TicTacToeAction): TicTacTo
 				winner: null,
 				winningLine: null,
 				moveCount: 0,
+				lastMoveIndex: null,
 				isComplete: false,
 			};
 		}

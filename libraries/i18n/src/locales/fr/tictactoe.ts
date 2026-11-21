@@ -67,6 +67,7 @@ export const frTicTacToe: TicTacToeTranslationContract = {
 		roomFull: 'Ce salon compte déjà deux joueurs.',
 		rematchRequestedByOpponent: '{{name}} demande une revanche !',
 		rematchWaitingForOpponent: 'En attente de {{name}} pour la revanche...',
+		waitingForHostNewGame: 'En attente que {{name}} lance une nouvelle partie...',
 		acceptRematch: 'Accepter la revanche',
 		nudgeOpponent: 'Partager le lien',
 		enableNotifications: 'Activer les alertes de tour',
@@ -78,13 +79,15 @@ export const frTicTacToe: TicTacToeTranslationContract = {
 		boardLabel: 'Plateau de morpion 3x3',
 		cellLabel: 'Ligne {{row}}, Colonne {{col}} : {{mark}}',
 		emptyCell: 'Vide',
+		lastMoveBadge: 'Dernier',
+		lastMoveLabel: 'Dernier coup',
 		playAgain: 'Rejouer',
 		backToMenu: 'Retour au menu',
 		startingTurnInfo: 'Le premier tour alterne à chaque manche.',
 		turnDialog: {
 			title: 'Tour de {{name}} ({{mark}})',
 			passDevice: 'Passez l’appareil à {{name}}.',
-			waiting: 'En attente du coup adverse...',
+			waiting: 'En attente du coup de {{name}}...',
 			ok: 'Prêt',
 		},
 	},
@@ -121,6 +124,10 @@ export const frTicTacToe: TicTacToeTranslationContract = {
 		confirmTurnPass: {
 			label: 'Confirmer le passage de tour',
 			description: 'Affiche un dialogue demandant de passer l’appareil après chaque coup.',
+		},
+		showLastMove: {
+			label: 'Indiquer le dernier coup',
+			description: 'Affiche un badge sur le dernier symbole placé pour repérer le coup précédent.',
 		},
 	},
 };

@@ -17,6 +17,7 @@ describe('Tic-Tac-Toe Engine - Reducer & Rules', () => {
 		assert.equal(state.winner, null);
 		assert.equal(state.winningLine, null);
 		assert.equal(state.moveCount, 0);
+		assert.equal(state.lastMoveIndex, null);
 		assert.equal(state.isComplete, false);
 		assert.equal(state.player1Name, 'Alice');
 		assert.equal(state.player2Name, 'Bob');
@@ -234,10 +235,32 @@ describe('Tic-Tac-Toe Engine - Reducer & Rules', () => {
 		it('resets board cleanly via RESET', () => {
 			let state = createInitialState();
 			state = reduce(state, { type: 'MAKE_MOVE', payload: { index: 4 } });
+			assert.equal(state.lastMoveIndex, 4);
 			state = reduce(state, { type: 'RESET', payload: { startingMark: 'X' } });
 			assert.equal(state.moveCount, 0);
+			assert.equal(state.lastMoveIndex, null);
 			assert.equal(state.currentTurn, 'X');
 			assert.ok(state.board.every((cell) => cell === null));
+		});
+
+		it('tracks lastMoveIndex across moves and clears it on RESTART and RESET_GAME', () => {
+			let state = createInitialState();
+			assert.equal(state.lastMoveIndex, null);
+
+			state = reduce(state, { type: 'MAKE_MOVE', payload: { index: 0 } });
+			assert.equal(state.lastMoveIndex, 0);
+
+			state = reduce(state, { type: 'MAKE_MOVE', payload: { index: 8 } });
+			assert.equal(state.lastMoveIndex, 8);
+
+			state = reduce(state, { type: 'RESTART' });
+			assert.equal(state.lastMoveIndex, null);
+
+			state = reduce(state, { type: 'MAKE_MOVE', payload: { index: 2 } });
+			assert.equal(state.lastMoveIndex, 2);
+
+			state = reduce(state, { type: 'RESET_GAME' });
+			assert.equal(state.lastMoveIndex, null);
 		});
 	});
 

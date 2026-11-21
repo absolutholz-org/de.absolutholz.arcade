@@ -67,6 +67,7 @@ export const ptTicTacToe: TicTacToeTranslationContract = {
 		roomFull: 'Esta sala já tem dois jogadores.',
 		rematchRequestedByOpponent: '{{name}} pediu uma desforra!',
 		rematchWaitingForOpponent: 'A aguardar que {{name}} aceite a desforra...',
+		waitingForHostNewGame: 'A aguardar que {{name}} inicie um novo jogo...',
 		acceptRematch: 'Aceitar Desforra',
 		nudgeOpponent: 'Partilhar Ligação',
 		enableNotifications: 'Ativar Alertas de Vez',
@@ -78,13 +79,15 @@ export const ptTicTacToe: TicTacToeTranslationContract = {
 		boardLabel: 'Tabuleiro de jogo da velha 3x3',
 		cellLabel: 'Linha {{row}}, Coluna {{col}}: {{mark}}',
 		emptyCell: 'Vazio',
+		lastMoveBadge: 'Última',
+		lastMoveLabel: 'Última jogada',
 		playAgain: 'Jogar Novamente',
 		backToMenu: 'Voltar ao Menu',
 		startingTurnInfo: 'A marca inicial alterna a cada partida.',
 		turnDialog: {
 			title: 'Vez de {{name}} ({{mark}})',
 			passDevice: 'Passe o dispositivo para {{name}}.',
-			waiting: 'A aguardar a jogada do adversário...',
+			waiting: 'A aguardar a jogada de {{name}}...',
 			ok: 'Pronto',
 		},
 	},
@@ -121,6 +124,10 @@ export const ptTicTacToe: TicTacToeTranslationContract = {
 		confirmTurnPass: {
 			label: 'Confirmar passagem de vez',
 			description: 'Exibe um diálogo para passar o dispositivo após cada jogada.',
+		},
+		showLastMove: {
+			label: 'Destacar Última Jogada',
+			description: 'Mostra um distintivo na marca colocada mais recentemente para indicar a jogada anterior.',
 		},
 	},
 };

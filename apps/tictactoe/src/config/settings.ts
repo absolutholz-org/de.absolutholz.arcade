@@ -4,12 +4,14 @@ export interface TicTacToeSettings extends Record<string, unknown> {
 	highlightWinningLine: boolean;
 	showCellCoordinates: boolean;
 	confirmTurnPass: boolean;
+	showLastMove: boolean;
 }
 
 export const DEFAULT_TICTACTOE_SETTINGS: TicTacToeSettings = {
 	highlightWinningLine: true,
 	showCellCoordinates: false,
 	confirmTurnPass: true,
+	showLastMove: true,
 };
 
 export const TICTACTOE_SETTINGS_CONFIG: GameSettingsConfig<TicTacToeSettings> = {
@@ -45,6 +47,16 @@ export const TICTACTOE_SETTINGS_CONFIG: GameSettingsConfig<TicTacToeSettings> = 
 			i18n: {
 				labelKey: 'tictactoe.settings.confirmTurnPass.label',
 				descriptionKey: 'tictactoe.settings.confirmTurnPass.description',
+			},
+		},
+		{
+			key: 'showLastMove',
+			control: 'boolean',
+			defaultValue: true,
+			availableInGame: true,
+			i18n: {
+				labelKey: 'tictactoe.settings.showLastMove.label',
+				descriptionKey: 'tictactoe.settings.showLastMove.description',
 			},
 		},
 	],

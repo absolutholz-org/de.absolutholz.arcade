@@ -65,6 +65,7 @@ export const tictactoeSchema = {
 		roomFull: 'online.roomFull',
 		rematchRequestedByOpponent: 'online.rematchRequestedByOpponent',
 		rematchWaitingForOpponent: 'online.rematchWaitingForOpponent',
+		waitingForHostNewGame: 'online.waitingForHostNewGame',
 		acceptRematch: 'online.acceptRematch',
 		nudgeOpponent: 'online.nudgeOpponent',
 		enableNotifications: 'online.enableNotifications',
@@ -76,6 +77,8 @@ export const tictactoeSchema = {
 		boardLabel: 'game.boardLabel',
 		cellLabel: 'game.cellLabel',
 		emptyCell: 'game.emptyCell',
+		lastMoveBadge: 'game.lastMoveBadge',
+		lastMoveLabel: 'game.lastMoveLabel',
 		playAgain: 'game.playAgain',
 		backToMenu: 'game.backToMenu',
 		startingTurnInfo: 'game.startingTurnInfo',
@@ -119,6 +122,10 @@ export const tictactoeSchema = {
 		confirmTurnPass: {
 			label: 'settings.confirmTurnPass.label',
 			description: 'settings.confirmTurnPass.description',
+		},
+		showLastMove: {
+			label: 'settings.showLastMove.label',
+			description: 'settings.showLastMove.description',
 		},
 	},
 } as const;

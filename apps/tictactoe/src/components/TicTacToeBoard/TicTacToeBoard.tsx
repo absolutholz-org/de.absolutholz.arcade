@@ -1,3 +1,4 @@
+import { Badge } from '@arcade/lib-ui/components/Badge';
 import { styled } from '@linaria/react';
 import { type KeyboardEvent, useCallback, useEffect, useRef } from 'react';
 import type { CellValue, WinningLine } from '../../engine/types.ts';
@@ -11,6 +12,10 @@ export interface TicTacToeBoardProps {
 	readonly disabled?: boolean;
 	readonly highlightWinningLine?: boolean;
 	readonly showCoordinates?: boolean;
+	readonly showLastMove?: boolean;
+	readonly lastMoveIndex?: number | null;
+	readonly lastMoveBadgeLabel?: string;
+	readonly lastMoveAriaLabel?: string;
 	readonly boardLabel?: string;
 }
 
@@ -83,6 +88,16 @@ const CellButton = styled.button`
 		cursor: default;
 	}
 
+	&[data-last-move="true"]:not([data-winning="true"]) {
+		border-color: var(--color-accent, light-dark(#2563eb, #60a5fa));
+		box-shadow: 0 0 0 1px var(--color-accent, light-dark(#2563eb, #60a5fa));
+
+		@media (forced-colors: active) {
+			border-color: Highlight;
+			outline: 2px solid Highlight;
+		}
+	}
+
 	&[data-winning="true"] {
 		background-color: light-dark(#fef3c7, #78350f);
 		border-color: light-dark(#d97706, #f59e0b);
@@ -124,6 +139,13 @@ const CoordinateHint = styled.span`
 	pointer-events: none;
 `;
 
+const LastMoveBadgeWrapper = styled.span`
+	position: absolute;
+	bottom: 0.25rem;
+	right: 0.25rem;
+	pointer-events: none;
+`;
+
 export function TicTacToeBoard({
 	board,
 	winningLine,
@@ -133,6 +155,10 @@ export function TicTacToeBoard({
 	disabled = false,
 	highlightWinningLine = true,
 	showCoordinates = false,
+	showLastMove = false,
+	lastMoveIndex = null,
+	lastMoveBadgeLabel = 'Last',
+	lastMoveAriaLabel = 'Last move',
 	boardLabel = 'Tic-Tac-Toe 3x3 game board',
 }: TicTacToeBoardProps) {
 	const cellRefs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -202,10 +228,12 @@ export function TicTacToeBoard({
 							const cellValue = board[index];
 							const isFocused = focusedIndex === index;
 							const winning = isWinningIndex(index);
+							const isLastMove = showLastMove && lastMoveIndex === index && cellValue !== null;
 							const cellCoord = `${row + 1},${col + 1}`;
-							const accessibleLabel = cellValue
+							const baseLabel = cellValue
 								? `Row ${row + 1}, Column ${col + 1}: ${cellValue}`
 								: `Row ${row + 1}, Column ${col + 1}: Empty`;
+							const accessibleLabel = isLastMove ? `${baseLabel}, ${lastMoveAriaLabel}` : baseLabel;
 
 							return (
 								// biome-ignore lint/a11y/useSemanticElements: Gridcell role required for WAI-ARIA grid pattern
@@ -218,6 +246,7 @@ export function TicTacToeBoard({
 										tabIndex={isFocused ? 0 : -1}
 										disabled={disabled || cellValue !== null}
 										data-winning={winning}
+										data-last-move={isLastMove ? 'true' : undefined}
 										aria-label={accessibleLabel}
 										aria-selected={isFocused}
 										onClick={() => onCellClick(index)}
@@ -226,6 +255,13 @@ export function TicTacToeBoard({
 									>
 										{showCoordinates && <CoordinateHint>{cellCoord}</CoordinateHint>}
 										{cellValue && <MarkText data-mark={cellValue}>{cellValue}</MarkText>}
+										{isLastMove && (
+											<LastMoveBadgeWrapper aria-hidden="true">
+												<Badge variant="subtle" tone="accent" size="sm">
+													{lastMoveBadgeLabel}
+												</Badge>
+											</LastMoveBadgeWrapper>
+										)}
 									</CellButton>
 								</GridCellWrapper>
 							);

@@ -44,7 +44,11 @@ import {
 	useState,
 } from 'react';
 import { TICTACTOE_MEDAL_DEFINITIONS } from '../../config/medals.ts';
-import { TICTACTOE_SETTINGS_CONFIG, type TicTacToeSettings } from '../../config/settings.ts';
+import {
+	DEFAULT_TICTACTOE_SETTINGS,
+	TICTACTOE_SETTINGS_CONFIG,
+	type TicTacToeSettings,
+} from '../../config/settings.ts';
 import { createInitialState, reduce } from '../../engine/reducer.ts';
 import {
 	clearActiveGame,
@@ -217,11 +221,7 @@ function GameInner({
 	const activeState: TicTacToeState = isOnlineMode ? (cloudRoom.room?.gameState ?? localState) : localState;
 
 	const [focusedIndex, setFocusedIndex] = useState<number>(4);
-	const [settings, setSettings] = useState<TicTacToeSettings>({
-		highlightWinningLine: true,
-		showCellCoordinates: false,
-		confirmTurnPass: true,
-	});
+	const [settings, setSettings] = useState<TicTacToeSettings>(DEFAULT_TICTACTOE_SETTINGS);
 
 	const [isRulesOpen, setIsRulesOpen] = useState(false);
 	const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -447,27 +447,26 @@ function GameInner({
 		],
 	);
 
-	// Play Again / Request or Accept Rematch (alternates starting turn)
+	// Play Again / Start New Round (host-only in online mode, alternates starting turn)
 	const handlePlayAgain = useCallback(() => {
+		if (isOnlineMode && role !== 'host') {
+			return;
+		}
+
 		setIsCompletionOpen(false);
 		setIsTurnDialogOpen(false);
 		startTimeRef.current = Date.now();
 		setFocusedIndex(4);
 
 		if (isOnlineMode) {
-			const rematchRequester = cloudRoom.room?.rematchRequestedBy;
-			if (rematchRequester && rematchRequester !== cloudRoom.myUid) {
-				const nextState = reduce(activeState, { type: 'RESET_GAME' });
-				const nextStarterRole: PlayerRole = nextState.startingMark === 'X' ? 'host' : 'guest';
-				void cloudRoom.acceptRematch(nextState, nextStarterRole);
-			} else {
-				void cloudRoom.requestRematch();
-			}
+			const nextState = reduce(activeState, { type: 'RESET_GAME' });
+			const nextStarterRole: PlayerRole = nextState.startingMark === 'X' ? 'host' : 'guest';
+			void cloudRoom.acceptRematch(nextState, nextStarterRole);
 			return;
 		}
 
 		setLocalState((prev) => reduce(prev, { type: 'RESTART' }));
-	}, [activeState, cloudRoom, isOnlineMode]);
+	}, [activeState, cloudRoom, isOnlineMode, role]);
 
 	// Back to Menu
 	const handleBackToMenu = useCallback(() => {
@@ -571,6 +570,7 @@ function GameInner({
 				: 'default';
 
 	const isBoardDisabled = activeState.isComplete || (isOnlineMode && (!isMyTurn || !isRoomActive));
+	const isOnlineWaiting = isOnlineMode && isRoomActive && !activeState.isComplete && !isMyTurn;
 	const rematchRequester = cloudRoom.room?.rematchRequestedBy;
 	const isRematchRequestedByOpponent = Boolean(
 		isOnlineMode && activeState.isComplete && rematchRequester && rematchRequester !== cloudRoom.myUid,
@@ -738,7 +738,11 @@ function GameInner({
 			toolbar={
 				<GameControlStrip
 					onRestart={handlePlayAgain}
-					canRestart={activeState.moveCount > 0 || activeState.isComplete}
+					canRestart={
+						isOnlineMode
+							? role === 'host' && activeState.isComplete
+							: activeState.moveCount > 0 || activeState.isComplete
+					}
 					onNewGame={handleBackToMenu}
 					canNewGame={true}
 					newGameLabel={t('controls.backToLobby')}
@@ -758,6 +762,10 @@ function GameInner({
 				disabled={isBoardDisabled}
 				highlightWinningLine={settings.highlightWinningLine}
 				showCoordinates={settings.showCellCoordinates}
+				showLastMove={settings.showLastMove}
+				lastMoveIndex={activeState.lastMoveIndex ?? null}
+				lastMoveBadgeLabel={t('game.lastMoveBadge')}
+				lastMoveAriaLabel={t('game.lastMoveLabel')}
 				boardLabel={t('game.boardLabel')}
 				onCellClick={handleCellClick}
 				onFocusChange={setFocusedIndex}
@@ -779,13 +787,18 @@ function GameInner({
 				/>
 			</GameSettingsDialog>
 
-			{/* Standard TurnDialog prompting player pass-and-play handoff (local mode only) */}
+			{/* Standard TurnDialog for online waiting state or local pass-and-play handoff */}
 			<TurnDialog
-				isOpen={!isOnlineMode && isTurnDialogOpen}
+				isOpen={isOnlineWaiting || (!isOnlineMode && isTurnDialogOpen)}
+				isWaiting={isOnlineWaiting}
 				playerName={activePlayerName}
 				playerMark={activeState.currentTurn}
 				title={t('game.turnDialog.title', { name: activePlayerName, mark: activeState.currentTurn })}
-				message={t('game.turnDialog.passDevice', { name: activePlayerName })}
+				message={
+					isOnlineWaiting
+						? t('game.turnDialog.waiting', { name: activePlayerName, mark: activeState.currentTurn })
+						: t('game.turnDialog.passDevice', { name: activePlayerName })
+				}
 				confirmText={t('game.turnDialog.ok')}
 				onConfirm={() => setIsTurnDialogOpen(false)}
 			/>
@@ -806,13 +819,19 @@ function GameInner({
 				}
 				elapsedSeconds={completedPlayTime}
 				movesCount={activeState.moveCount}
-				onPlayAgain={handlePlayAgain}
-				playAgainLabel={isRematchRequestedByOpponent ? t('online.acceptRematch') : t('victory.playAgain')}
+				onPlayAgain={!isOnlineMode || role === 'host' ? handlePlayAgain : undefined}
+				playAgainLabel={t('victory.playAgain')}
 				statsHref={`/tictactoe/${language}/stats`}
 				medalsHref={`/tictactoe/${language}/medals`}
 				onLobby={handleBackToMenu}
 				lobbyLabel={t('victory.backToMenu')}
-			/>
+			>
+				{isOnlineMode && role === 'guest' && (
+					<Text as="p" variant="small">
+						{t('online.waitingForHostNewGame', { name: activeState.player1Name })}
+					</Text>
+				)}
+			</VictoryDialog>
 
 			{/* Dedicated DefeatDialog when losing an online match */}
 			<DefeatDialog
@@ -822,24 +841,36 @@ function GameInner({
 				message={t('victory.youLoseMessage', { name: winnerName, mark: activeState.winner })}
 				elapsedSeconds={completedPlayTime}
 				movesCount={activeState.moveCount}
-				onPlayAgain={handlePlayAgain}
-				playAgainLabel={isRematchRequestedByOpponent ? t('online.acceptRematch') : t('victory.playAgain')}
+				onPlayAgain={!isOnlineMode || role === 'host' ? handlePlayAgain : undefined}
+				playAgainLabel={t('victory.playAgain')}
 				statsHref={`/tictactoe/${language}/stats`}
 				medalsHref={`/tictactoe/${language}/medals`}
 				onLobby={handleBackToMenu}
 				lobbyLabel={t('victory.backToMenu')}
-			/>
+			>
+				{isOnlineMode && role === 'guest' && (
+					<Text as="p" variant="small">
+						{t('online.waitingForHostNewGame', { name: activeState.player1Name })}
+					</Text>
+				)}
+			</DefeatDialog>
 
 			{/* Standard Dialog when the match ends in a draw */}
 			<Dialog
 				isOpen={isCompletionOpen && isDrawMatch}
 				title={t('victory.drawTitle')}
 				message={t('victory.drawDescription')}
-				confirmText={isRematchRequestedByOpponent ? t('online.acceptRematch') : t('victory.playAgain')}
+				confirmText={!isOnlineMode || role === 'host' ? t('victory.playAgain') : undefined}
 				cancelText={t('victory.backToMenu')}
-				onConfirm={handlePlayAgain}
+				onConfirm={!isOnlineMode || role === 'host' ? handlePlayAgain : undefined}
 				onCancel={handleBackToMenu}
-			/>
+			>
+				{isOnlineMode && role === 'guest' && (
+					<Text as="p" variant="small">
+						{t('online.waitingForHostNewGame', { name: activeState.player1Name })}
+					</Text>
+				)}
+			</Dialog>
 
 			{isOnlineMode && (
 				<ShareDialog
