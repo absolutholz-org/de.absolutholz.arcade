@@ -89,9 +89,11 @@ export function UndeadBoard({
 }: UndeadBoardProps): JSX.Element {
 	const { t } = useI18n('undead');
 	const [previewClueId, setPreviewClueId] = useState<string | null>(null);
+	const [pinnedClueId, setPinnedClueId] = useState<string | null>(null);
 	const cellRefs = useRef<Map<string, HTMLButtonElement>>(new Map());
 
-	const activeRay = settings.showRayPreview && previewClueId ? (rays[previewClueId] ?? null) : null;
+	const displayedClueId = previewClueId ?? pinnedClueId;
+	const activeRay = settings.showRayPreview && displayedClueId ? (rays[displayedClueId] ?? null) : null;
 
 	// Map each cell coordinate to its ray highlight state ('direct' | 'reflected' | 'both')
 	const cellRayHighlight = useMemo(() => {
@@ -235,9 +237,8 @@ export function UndeadBoard({
 		const clueId = getClueId(side, index);
 		const evalInfo = validation.clues[clueId];
 		const target = board.clues[side][index] ?? 0;
-		const isManualDone = completedClues.has(clueId);
-		const isAutoDone = settings.autoMarkCompletedClues && evalInfo?.status === 'satisfied';
-		const isDone = isManualDone || isAutoDone;
+		const isDone = evalInfo?.status === 'satisfied';
+		const isRayActive = displayedClueId === clueId;
 		const displayStatus =
 			settings.highlightErrors && evalInfo?.status === 'error'
 				? 'error'
@@ -270,16 +271,16 @@ export function UndeadBoard({
 				key={clueId}
 				type="button"
 				style={{ gridRow, gridColumn: gridCol }}
-				data-active-ray={previewClueId === clueId}
+				data-active-ray={isRayActive}
 				data-done={isDone}
 				data-clue-status={displayStatus}
-				aria-pressed={isManualDone}
+				aria-pressed={pinnedClueId === clueId}
 				aria-label={ariaParts.join(', ')}
 				onMouseEnter={() => setPreviewClueId(clueId)}
 				onMouseLeave={() => setPreviewClueId((prev) => (prev === clueId ? null : prev))}
 				onFocus={() => setPreviewClueId(clueId)}
 				onBlur={() => setPreviewClueId((prev) => (prev === clueId ? null : prev))}
-				onClick={() => onToggleClueDone(clueId)}
+				onClick={() => setPinnedClueId((prev) => (prev === clueId ? null : clueId))}
 			>
 				<span>{target}</span>
 				{settings.showClueProgress && evalInfo && (
