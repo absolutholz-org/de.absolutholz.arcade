@@ -20,7 +20,9 @@ export type GameId =
 	| 'pentominoes'
 	| 'tictactoe'
 	| 'futoshiki'
-	| 'codebreaker';
+	| 'codebreaker'
+	| 'undead'
+	| 'color-map';
 
 /**
  * Canonical identifiers for standalone utility tools in the Arcade monorepo.

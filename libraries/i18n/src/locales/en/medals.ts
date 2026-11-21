@@ -948,4 +948,56 @@ export const enMedals = {
 			desc: 'Win a Hard (5-peg, 8-color) round without using any hints.',
 		},
 	},
+	undead: {
+		first_sighting: {
+			title: 'First Sighting',
+			desc: 'Solve your very first Undead mirror puzzle on any difficulty.',
+		},
+		monster_hunter: {
+			title: 'Monster Hunter',
+			desc: 'Solve Undead puzzles across your career: Bronze at 5, Silver at 25, and Gold at 100.',
+		},
+		grid_mastery: {
+			title: 'Hall of Mirrors',
+			desc: 'Conquer larger grids: Bronze for 5×5 Medium, Silver for 6×6 Hard, and Gold for 7×7 Expert.',
+		},
+		clean_deduction: {
+			title: 'Clean Sightline',
+			desc: 'Solve puzzles without triggering any clue or count conflicts: Bronze at 1, Silver at 10, and Gold at 30.',
+		},
+		swift_tracker: {
+			title: 'Swift Tracker',
+			desc: 'Complete a Medium (5×5) or larger Undead puzzle in 2 minutes or less.',
+		},
+		streak: {
+			title: 'Unbroken Vigil',
+			desc: 'Maintain a winning streak: Bronze at 3, Silver at 7, and Gold at 15 consecutive wins.',
+		},
+	},
+	'color-map': {
+		first_atlas: {
+			title: 'First Atlas',
+			desc: 'Complete your first four-color map on any difficulty.',
+		},
+		cartographer: {
+			title: 'Master Cartographer',
+			desc: 'Solve maps across your career: Bronze at 5, Silver at 25, and Gold at 100.',
+		},
+		tier_mastery: {
+			title: 'Four-Color Explorer',
+			desc: 'Conquer Medium (Bronze), Hard (Silver), and Expert (Gold) maps.',
+		},
+		zero_conflict: {
+			title: 'Flawless Borders',
+			desc: 'Solve maps without triggering a single border conflict: Bronze at 1, Silver at 10, and Gold at 30.',
+		},
+		swift_mapper: {
+			title: 'Swift Cartographer',
+			desc: 'Solve a Medium, Hard, or Expert map in under 2 minutes.',
+		},
+		streak: {
+			title: 'Chromatic Streak',
+			desc: 'Solve maps in a row: Bronze at 3, Silver at 7, and Gold at 15.',
+		},
+	},
 } as const satisfies MedalsTranslationContract;

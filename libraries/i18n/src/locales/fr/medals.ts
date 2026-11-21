@@ -949,4 +949,56 @@ export const frMedals = {
 			desc: 'Gagnez une partie Difficile (5 pions, 8 couleurs) sans aucun indice.',
 		},
 	},
+	undead: {
+		first_sighting: {
+			title: 'Première Apparition',
+			desc: 'Résolvez votre toute première grille Undead dans n’importe quelle difficulté.',
+		},
+		monster_hunter: {
+			title: 'Chasseur de Monstres',
+			desc: 'Grilles Undead résolues : Bronze à 5, Argent à 25 et Or à 100.',
+		},
+		grid_mastery: {
+			title: 'Galerie des Glaces',
+			desc: 'Dominez les grandes grilles : Bronze en 5×5 Moyen, Argent en 6×6 Difficile et Or en 7×7 Expert.',
+		},
+		clean_deduction: {
+			title: 'Ligne de Vue Claire',
+			desc: 'Résolvez des grilles sans conflit d’indice ni de quota : Bronze à 1, Argent à 10 et Or à 30.',
+		},
+		swift_tracker: {
+			title: 'Pisteur Éclair',
+			desc: 'Terminez une grille Moyenne (5×5) ou plus grande en 2 minutes ou moins.',
+		},
+		streak: {
+			title: 'Veille Ininterrompue',
+			desc: 'Enchaînez les victoires : Bronze à 3, Argent à 7 et Or à 15 victoires consécutives.',
+		},
+	},
+	'color-map': {
+		first_atlas: {
+			title: 'Premier Atlas',
+			desc: 'Terminez votre première carte à quatre couleurs dans n’importe quelle difficulté.',
+		},
+		cartographer: {
+			title: 'Maître Cartographe',
+			desc: 'Cartes résolues au total : Bronze à 5, Argent à 25 et Or à 100.',
+		},
+		tier_mastery: {
+			title: 'Explorateur Chromatique',
+			desc: 'Maîtrisez Moyen (Bronze), Difficile (Argent) et Expert (Or).',
+		},
+		zero_conflict: {
+			title: 'Frontières Parfaites',
+			desc: 'Résolvez des cartes sans aucun conflit de frontière : Bronze à 1, Argent à 10 et Or à 30.',
+		},
+		swift_mapper: {
+			title: 'Cartographe Éclair',
+			desc: 'Résolvez une carte Moyen, Difficile ou Expert en moins de 2 minutes.',
+		},
+		streak: {
+			title: 'Série Chromatique',
+			desc: 'Enchaînez les cartes résolues : Bronze à 3, Argent à 7 et Or à 15.',
+		},
+	},
 } as const satisfies MedalsTranslationContract;

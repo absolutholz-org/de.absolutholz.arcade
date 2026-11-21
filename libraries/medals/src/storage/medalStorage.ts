@@ -209,6 +209,24 @@ export function createInitialCustomStats<G extends GameId>(gameId: G): GameCusto
 				bestGuessesHintFree: null,
 				fastestWinSeconds: null,
 			} as unknown as GameCustomStatsMap[G];
+		case 'color-map':
+			return {
+				easyWins: 0,
+				mediumWins: 0,
+				hardWins: 0,
+				expertWins: 0,
+				flawlessWins: 0,
+				fastestMediumPlusSeconds: null,
+			} as unknown as GameCustomStatsMap[G];
+		case 'undead':
+			return {
+				easyWins: 0,
+				mediumWins: 0,
+				hardWins: 0,
+				expertWins: 0,
+				flawlessWins: 0,
+				fastestMediumPlusSeconds: null,
+			} as unknown as GameCustomStatsMap[G];
 		default:
 			throw new Error(`createInitialCustomStats error: Unknown gameId "${String(gameId)}"`);
 	}

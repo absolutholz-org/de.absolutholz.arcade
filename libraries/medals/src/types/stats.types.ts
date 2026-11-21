@@ -143,6 +143,26 @@ export interface GameCustomStatsMap {
 	tictactoe: TicTacToeCustomStats;
 	futoshiki: FutoshikiCustomStats;
 	codebreaker: CodebreakerCustomStats;
+	undead: UndeadCustomStats;
+	'color-map': ColorMapCustomStats;
+}
+
+export interface ColorMapCustomStats {
+	readonly easyWins?: number;
+	readonly mediumWins?: number;
+	readonly hardWins?: number;
+	readonly expertWins?: number;
+	readonly flawlessWins?: number;
+	readonly fastestMediumPlusSeconds?: number | null;
+}
+
+export interface UndeadCustomStats {
+	readonly easyWins?: number;
+	readonly mediumWins?: number;
+	readonly hardWins?: number;
+	readonly expertWins?: number;
+	readonly flawlessWins?: number;
+	readonly fastestMediumPlusSeconds?: number | null;
 }
 
 export interface CodebreakerCustomStats {

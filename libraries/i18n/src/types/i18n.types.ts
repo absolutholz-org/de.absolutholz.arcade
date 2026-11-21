@@ -3,6 +3,7 @@ import type { AnagramSchema, AnagramTranslationContract } from '../schemas/anagr
 import type { BridgesSchema, BridgesTranslationContract } from '../schemas/bridges.schema.js';
 import type { CodebreakerSchema, CodebreakerTranslationContract } from '../schemas/codebreaker.schema.js';
 import type { ColorFloodSchema, ColorFloodTranslationContract } from '../schemas/color-flood.schema.js';
+import type { ColorMapSchema, ColorMapTranslationContract } from '../schemas/color-map.schema.js';
 import type { CommonSchema, CommonTranslationContract } from '../schemas/common.schema.js';
 import type { DiceBingoSchema, DiceBingoTranslationContract } from '../schemas/dice-bingo.schema.js';
 import type { FutoshikiSchema, FutoshikiTranslationContract } from '../schemas/futoshiki.schema.js';
@@ -18,6 +19,7 @@ import type { TaxonomySchema, TaxonomyTranslationContract } from '../schemas/tax
 import type { TentsSchema, TentsTranslationContract } from '../schemas/tents.schema.js';
 import type { TicTacToeSchema, TicTacToeTranslationContract } from '../schemas/tictactoe.schema.js';
 import type { TracksSchema, TracksTranslationContract } from '../schemas/tracks.schema.js';
+import type { UndeadSchema, UndeadTranslationContract } from '../schemas/undead.schema.js';
 import type { UntangleSchema, UntangleTranslationContract } from '../schemas/untangle.schema.js';
 
 export type SupportedLanguageCode = (typeof SUPPORTED_LANGUAGES)[number]['code'];
@@ -42,11 +44,13 @@ export type AnagramTranslationKey = LeafKeys<AnagramSchema>;
 export type UntangleTranslationKey = LeafKeys<UntangleSchema> | `untangle.${LeafKeys<UntangleSchema>}`;
 export type NetTranslationKey = LeafKeys<NetSchema> | `net.${LeafKeys<NetSchema>}`;
 export type ColorFloodTranslationKey = LeafKeys<ColorFloodSchema> | `color-flood.${LeafKeys<ColorFloodSchema>}`;
+export type ColorMapTranslationKey = LeafKeys<ColorMapSchema> | `color-map.${LeafKeys<ColorMapSchema>}`;
 export type DiceBingoTranslationKey = LeafKeys<DiceBingoSchema> | `dice-bingo.${LeafKeys<DiceBingoSchema>}`;
 export type PentominoesTranslationKey = LeafKeys<PentominoesSchema> | `pentominoes.${LeafKeys<PentominoesSchema>}`;
 export type TicTacToeTranslationKey = LeafKeys<TicTacToeSchema> | `tictactoe.${LeafKeys<TicTacToeSchema>}`;
 export type FutoshikiTranslationKey = LeafKeys<FutoshikiSchema> | `futoshiki.${LeafKeys<FutoshikiSchema>}`;
 export type CodebreakerTranslationKey = LeafKeys<CodebreakerSchema> | `codebreaker.${LeafKeys<CodebreakerSchema>}`;
+export type UndeadTranslationKey = LeafKeys<UndeadSchema> | `undead.${LeafKeys<UndeadSchema>}`;
 export type MedalsTranslationKey = LeafKeys<MedalsSchema> | `medals.${LeafKeys<MedalsSchema>}`;
 export type TaxonomyTranslationKey = LeafKeys<TaxonomySchema> | `taxonomy.${LeafKeys<TaxonomySchema>}`;
 
@@ -64,11 +68,13 @@ export type TranslationKey =
 	| UntangleTranslationKey
 	| NetTranslationKey
 	| ColorFloodTranslationKey
+	| ColorMapTranslationKey
 	| DiceBingoTranslationKey
 	| PentominoesTranslationKey
 	| TicTacToeTranslationKey
 	| FutoshikiTranslationKey
 	| CodebreakerTranslationKey
+	| UndeadTranslationKey
 	| MedalsTranslationKey
 	| TaxonomyTranslationKey;
 
@@ -96,11 +102,13 @@ export type TranslationResources = Record<
 		readonly untangle: UntangleTranslationContract;
 		readonly net: NetTranslationContract;
 		readonly 'color-flood': ColorFloodTranslationContract;
+		readonly 'color-map': ColorMapTranslationContract;
 		readonly 'dice-bingo': DiceBingoTranslationContract;
 		readonly pentominoes: PentominoesTranslationContract;
 		readonly tictactoe: TicTacToeTranslationContract;
 		readonly futoshiki: FutoshikiTranslationContract;
 		readonly codebreaker: CodebreakerTranslationContract;
+		readonly undead: UndeadTranslationContract;
 		readonly medals: MedalsTranslationContract;
 		readonly taxonomy: TaxonomyTranslationContract;
 	}

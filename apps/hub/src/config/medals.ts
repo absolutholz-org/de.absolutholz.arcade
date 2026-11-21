@@ -3,6 +3,7 @@ import { ANAGRAM_MEDAL_DEFINITIONS } from '../../../anagram/src/config/medals';
 import { BRIDGES_MEDAL_DEFINITIONS } from '../../../bridges/src/config/medals';
 import { CODEBREAKER_MEDAL_DEFINITIONS } from '../../../codebreaker/src/config/medals';
 import { COLOR_FLOOD_MEDAL_DEFINITIONS } from '../../../color-flood/src/config/medals';
+import { COLOR_MAP_MEDAL_DEFINITIONS } from '../../../color-map/src/config/medals';
 import { DICE_BINGO_MEDAL_DEFINITIONS } from '../../../dice-bingo/src/config/medals';
 import { FUTOSHIKI_MEDAL_DEFINITIONS } from '../../../futoshiki/src/config/medals';
 import { LIQUID_SORT_MEDAL_DEFINITIONS } from '../../../liquid-sort/src/config/medals';
@@ -15,6 +16,7 @@ import { SUDOKU_MEDAL_DEFINITIONS } from '../../../sudoku/src/config/medals';
 import { TENTS_MEDAL_DEFINITIONS } from '../../../tents/src/config/medals';
 import { TICTACTOE_MEDAL_DEFINITIONS } from '../../../tictactoe/src/config/medals';
 import { TRACKS_MEDAL_DEFINITIONS } from '../../../tracks/src/config/medals';
+import { UNDEAD_MEDAL_DEFINITIONS } from '../../../undead/src/config/medals';
 import { UNTANGLE_MEDAL_DEFINITIONS } from '../../../untangle/src/config/medals';
 
 export const HUB_MEDAL_DEFINITIONS: {
@@ -37,6 +39,8 @@ export const HUB_MEDAL_DEFINITIONS: {
 	tictactoe: TICTACTOE_MEDAL_DEFINITIONS,
 	futoshiki: FUTOSHIKI_MEDAL_DEFINITIONS,
 	codebreaker: CODEBREAKER_MEDAL_DEFINITIONS,
+	undead: UNDEAD_MEDAL_DEFINITIONS,
+	'color-map': COLOR_MAP_MEDAL_DEFINITIONS,
 };
 
 export function getHubMedalDefinitionsForGame<G extends GameId>(gameId: G): readonly AchievementDefinition<G>[] {

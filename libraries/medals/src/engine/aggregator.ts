@@ -736,6 +736,70 @@ export function updateCustomStats<G extends GameId>(
 			};
 		}
 
+		case 'color-map': {
+			const stats = (current as GameCustomStatsMap['color-map']) ?? {};
+			const difficulty = (result.roundContext?.difficulty as string | undefined) ?? result.levelKey;
+			const mistakesCount = Number(result.roundContext?.mistakesCount ?? 0);
+			const isFlawless = result.won && mistakesCount === 0;
+			const isMediumPlus = difficulty === 'medium' || difficulty === 'hard' || difficulty === 'expert';
+			const prevFastest = stats.fastestMediumPlusSeconds ?? null;
+			const nextFastest =
+				result.won && isMediumPlus && safeTime > 0
+					? prevFastest === null
+						? safeTime
+						: Math.min(prevFastest, safeTime)
+					: prevFastest;
+
+			if (result.won && isMediumPlus && safeTime > 0 && (prevFastest === null || safeTime < prevFastest)) {
+				isNewBestTime = true;
+			}
+
+			return {
+				updatedCustom: {
+					...stats,
+					easyWins: (stats.easyWins ?? 0) + (result.won && difficulty === 'easy' ? 1 : 0),
+					mediumWins: (stats.mediumWins ?? 0) + (result.won && difficulty === 'medium' ? 1 : 0),
+					hardWins: (stats.hardWins ?? 0) + (result.won && difficulty === 'hard' ? 1 : 0),
+					expertWins: (stats.expertWins ?? 0) + (result.won && difficulty === 'expert' ? 1 : 0),
+					flawlessWins: (stats.flawlessWins ?? 0) + (isFlawless ? 1 : 0),
+					fastestMediumPlusSeconds: nextFastest,
+				} as unknown as GameCustomStatsMap[G],
+				isNewBestTime,
+			};
+		}
+
+		case 'undead': {
+			const stats = (current as GameCustomStatsMap['undead']) ?? {};
+			const difficulty = (result.roundContext?.difficulty as string | undefined) ?? result.levelKey;
+			const mistakesCount = Number(result.roundContext?.mistakesCount ?? 0);
+			const isFlawless = result.won && mistakesCount === 0;
+			const isMediumPlus = difficulty === 'medium' || difficulty === 'hard' || difficulty === 'expert';
+			const prevFastest = stats.fastestMediumPlusSeconds ?? null;
+			const nextFastest =
+				result.won && isMediumPlus && safeTime > 0
+					? prevFastest === null
+						? safeTime
+						: Math.min(prevFastest, safeTime)
+					: prevFastest;
+
+			if (result.won && isMediumPlus && safeTime > 0 && (prevFastest === null || safeTime < prevFastest)) {
+				isNewBestTime = true;
+			}
+
+			return {
+				updatedCustom: {
+					...stats,
+					easyWins: (stats.easyWins ?? 0) + (result.won && difficulty === 'easy' ? 1 : 0),
+					mediumWins: (stats.mediumWins ?? 0) + (result.won && difficulty === 'medium' ? 1 : 0),
+					hardWins: (stats.hardWins ?? 0) + (result.won && difficulty === 'hard' ? 1 : 0),
+					expertWins: (stats.expertWins ?? 0) + (result.won && difficulty === 'expert' ? 1 : 0),
+					flawlessWins: (stats.flawlessWins ?? 0) + (isFlawless ? 1 : 0),
+					fastestMediumPlusSeconds: nextFastest,
+				} as unknown as GameCustomStatsMap[G],
+				isNewBestTime,
+			};
+		}
+
 		default:
 			return { updatedCustom: current, isNewBestTime: false };
 	}
@@ -1189,6 +1253,27 @@ export function mergeGameMedalState<G extends GameId>(
 			hardHintFreeWins: Math.max(localCustom.hardHintFreeWins ?? 0, remoteCustom.hardHintFreeWins ?? 0),
 			bestGuessesHintFree: minNullable(localCustom.bestGuessesHintFree, remoteCustom.bestGuessesHintFree),
 			fastestWinSeconds: minNullable(localCustom.fastestWinSeconds, remoteCustom.fastestWinSeconds),
+		} as unknown as GameCustomStatsMap[G];
+	} else if (local.gameId === 'undead') {
+		const localCustom = (local.customStats as GameCustomStatsMap['undead']) ?? {};
+		const remoteCustom = (remote.customStats as GameCustomStatsMap['undead']) ?? {};
+		const minNullable = (a: number | null | undefined, b: number | null | undefined): number | null => {
+			if (typeof a === 'number' && typeof b === 'number') {
+				return Math.min(a, b);
+			}
+			return typeof a === 'number' ? a : typeof b === 'number' ? b : null;
+		};
+
+		mergedCustom = {
+			easyWins: Math.max(localCustom.easyWins ?? 0, remoteCustom.easyWins ?? 0),
+			mediumWins: Math.max(localCustom.mediumWins ?? 0, remoteCustom.mediumWins ?? 0),
+			hardWins: Math.max(localCustom.hardWins ?? 0, remoteCustom.hardWins ?? 0),
+			expertWins: Math.max(localCustom.expertWins ?? 0, remoteCustom.expertWins ?? 0),
+			flawlessWins: Math.max(localCustom.flawlessWins ?? 0, remoteCustom.flawlessWins ?? 0),
+			fastestMediumPlusSeconds: minNullable(
+				localCustom.fastestMediumPlusSeconds,
+				remoteCustom.fastestMediumPlusSeconds,
+			),
 		} as unknown as GameCustomStatsMap[G];
 	}
 

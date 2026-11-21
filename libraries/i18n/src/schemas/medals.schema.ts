@@ -296,6 +296,22 @@ export interface MedalsSchema {
 		readonly lightning: { readonly title: string; readonly desc: string };
 		readonly master_cracker: { readonly title: string; readonly desc: string };
 	};
+	readonly undead: {
+		readonly first_sighting: { readonly title: string; readonly desc: string };
+		readonly monster_hunter: { readonly title: string; readonly desc: string };
+		readonly grid_mastery: { readonly title: string; readonly desc: string };
+		readonly clean_deduction: { readonly title: string; readonly desc: string };
+		readonly swift_tracker: { readonly title: string; readonly desc: string };
+		readonly streak: { readonly title: string; readonly desc: string };
+	};
+	readonly 'color-map': {
+		readonly first_atlas: { readonly title: string; readonly desc: string };
+		readonly cartographer: { readonly title: string; readonly desc: string };
+		readonly tier_mastery: { readonly title: string; readonly desc: string };
+		readonly zero_conflict: { readonly title: string; readonly desc: string };
+		readonly swift_mapper: { readonly title: string; readonly desc: string };
+		readonly streak: { readonly title: string; readonly desc: string };
+	};
 }
 
 export type MedalsTranslationContract = MedalsSchema;

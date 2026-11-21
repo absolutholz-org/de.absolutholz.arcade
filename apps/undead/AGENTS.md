@@ -1,0 +1,5 @@
+# @arcade/undead — Local Agent Invariants
+
+- **Puzzle Engine (`src/engine/`):** Guarantee strict unique solutions (`countSolutions === 1`) via deterministic constraint-propagation + MRV backtracking across `easy` (4×4), `medium` (5×5), `hard` (6×6), and `expert` (7×7). Raycasting evaluates visibility per traversal step (`/` reflects `N ↔ E` and `S ↔ W`; `\` reflects `N ↔ W` and `S ↔ E`; Ghost visible iff `hasReflected`, Vampire iff `!hasReflected`, Zombie always).
+- **Accessibility & Controls:** Outer `(N + 2) × (N + 2)` CSS Grid with CSS `subgrid` over a strict $N \times N$ WAI-ARIA `grid` with roving `tabIndex`, distinct SVG silhouettes per monster, solid vs dashed SVG ray preview on clue hover/focus, and Forced Colors Mode overrides. Keyboard: arrow keys move, `G`/`V`/`Z` place monster, `Shift+G/V/Z` or `N` or right-click for notes, `Backspace`/`Delete` clear, `U`/`R` undo/redo, `Esc`/`P` pause. Visually obscure board when paused.
+- **Namespaces:** i18n `undead`; storage `createGameStorage('undead')`.

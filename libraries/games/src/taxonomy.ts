@@ -149,6 +149,8 @@ const GAME_ID_LOOKUP = {
 	tictactoe: true,
 	futoshiki: true,
 	codebreaker: true,
+	undead: true,
+	'color-map': true,
 } as const satisfies Readonly<Record<GameId, true>>;
 
 const PLAY_MODE_SET: ReadonlySet<string> = new Set(GAME_PLAY_MODES);

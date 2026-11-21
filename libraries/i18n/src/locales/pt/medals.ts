@@ -949,4 +949,56 @@ export const ptMedals = {
 			desc: 'Vença uma rodada Difícil (5 pinos, 8 cores) sem usar nenhuma dica.',
 		},
 	},
+	undead: {
+		first_sighting: {
+			title: 'Primeiro Avistamento',
+			desc: 'Resolva o seu primeiro quebra-cabeça Undead em qualquer dificuldade.',
+		},
+		monster_hunter: {
+			title: 'Caçador de Monstros',
+			desc: 'Quebra-cabeças Undead resolvidos: Bronze em 5, Prata em 25 e Ouro em 100.',
+		},
+		grid_mastery: {
+			title: 'Salão dos Espelhos',
+			desc: 'Conquiste grades maiores: Bronze em 5×5 Médio, Prata em 6×6 Difícil e Ouro em 7×7 Especialista.',
+		},
+		clean_deduction: {
+			title: 'Linha de Visão Limpa',
+			desc: 'Resolva grades sem conflitos de pista ou limite: Bronze em 1, Prata em 10 e Ouro em 30.',
+		},
+		swift_tracker: {
+			title: 'Rastreador Veloz',
+			desc: 'Conclua uma grade Média (5×5) ou maior em 2 minutos ou menos.',
+		},
+		streak: {
+			title: 'Vigília Ininterrupta',
+			desc: 'Mantenha uma sequência de vitórias: Bronze em 3, Prata em 7 e Ouro em 15 vitórias seguidas.',
+		},
+	},
+	'color-map': {
+		first_atlas: {
+			title: 'Primeiro Atlas',
+			desc: 'Complete seu primeiro mapa de quatro cores em qualquer dificuldade.',
+		},
+		cartographer: {
+			title: 'Mestre Cartógrafo',
+			desc: 'Mapas resolvidos na carreira: Bronze em 5, Prata em 25 e Ouro em 100.',
+		},
+		tier_mastery: {
+			title: 'Explorador das Quatro Cores',
+			desc: 'Vença nos níveis Médio (Bronze), Difícil (Prata) e Especialista (Ouro).',
+		},
+		zero_conflict: {
+			title: 'Fronteiras Perfeitas',
+			desc: 'Resolva mapas sem gerar nenhum conflito de fronteira: Bronze em 1, Prata em 10 e Ouro em 30.',
+		},
+		swift_mapper: {
+			title: 'Cartógrafo Veloz',
+			desc: 'Resolva um mapa Médio, Difícil ou Especialista em menos de 2 minutos.',
+		},
+		streak: {
+			title: 'Sequência Cromática',
+			desc: 'Resolva mapas consecutivos: Bronze em 3, Prata em 7 e Ouro em 15.',
+		},
+	},
 } as const satisfies MedalsTranslationContract;

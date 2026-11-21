@@ -1,0 +1,55 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { GameStatsDashboard } from '@arcade/lib-ui/components/GameStatsDashboard';
+import GameSubpageTemplate from '@arcade/lib-ui/templates/GameSubpageTemplate/GameSubpageTemplate.astro';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const currentLanguage = lang as SupportedLanguageCode;
+const currentUndead = resources[currentLanguage]?.undead ?? resources.en.undead;
+const currentCommon = resources[currentLanguage]?.common ?? resources.en.common;
+---
+
+<GameSubpageTemplate
+	title={currentUndead.stats.title}
+	description={`${currentUndead.title} ${currentUndead.stats.title}`}
+	lang={currentLanguage}
+	breadcrumbItems={[
+		{ label: `${currentCommon.app.shortTitle} ${currentCommon.navigation.home}`, href: `/${currentLanguage}/`, isHome: true },
+		{ label: currentUndead.title, href: `/undead/${currentLanguage}/` },
+		{ label: currentUndead.stats.title, isCurrent: true },
+	]}
+	primaryAction={{
+		label: currentUndead.controls.newGame,
+		href: `/undead/${currentLanguage}/game`,
+	}}
+	secondaryAction={{
+		label: currentUndead.controls.backToLobby,
+		href: `/undead/${currentLanguage}/`,
+	}}
+	containerWidth="standard"
+	currentSlug="stats"
+>
+	<GameStatsDashboard
+		client:load
+		gameId="undead"
+		lang={currentLanguage}
+		hideTitle
+		showFastestRuns
+		hideWinLossMetrics
+		bucketLabels={{
+			easy: currentUndead.difficulty.easy,
+			medium: currentUndead.difficulty.medium,
+			hard: currentUndead.difficulty.hard,
+			expert: currentUndead.difficulty.expert,
+		}}
+		playHref={`/undead/${currentLanguage}/game`}
+	/>
+</GameSubpageTemplate>

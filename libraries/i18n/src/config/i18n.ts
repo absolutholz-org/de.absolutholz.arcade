@@ -5,6 +5,7 @@ import { deAnagram } from '../locales/de/anagram.js';
 import { deBridges } from '../locales/de/bridges.js';
 import { deCodebreaker } from '../locales/de/codebreaker.js';
 import { deColorFlood } from '../locales/de/color-flood.js';
+import { deColorMap } from '../locales/de/color-map.js';
 import { deCommon } from '../locales/de/common.js';
 import { deDiceBingo } from '../locales/de/dice-bingo.js';
 import { deFutoshiki } from '../locales/de/futoshiki.js';
@@ -20,11 +21,13 @@ import { deTaxonomy } from '../locales/de/taxonomy.js';
 import { deTents } from '../locales/de/tents.js';
 import { deTicTacToe } from '../locales/de/tictactoe.js';
 import { deTracks } from '../locales/de/tracks.js';
+import { deUndead } from '../locales/de/undead.js';
 import { deUntangle } from '../locales/de/untangle.js';
 import { enAnagram } from '../locales/en/anagram.js';
 import { enBridges } from '../locales/en/bridges.js';
 import { enCodebreaker } from '../locales/en/codebreaker.js';
 import { enColorFlood } from '../locales/en/color-flood.js';
+import { enColorMap } from '../locales/en/color-map.js';
 import { enCommon } from '../locales/en/common.js';
 import { enDiceBingo } from '../locales/en/dice-bingo.js';
 import { enFutoshiki } from '../locales/en/futoshiki.js';
@@ -40,11 +43,13 @@ import { enTaxonomy } from '../locales/en/taxonomy.js';
 import { enTents } from '../locales/en/tents.js';
 import { enTicTacToe } from '../locales/en/tictactoe.js';
 import { enTracks } from '../locales/en/tracks.js';
+import { enUndead } from '../locales/en/undead.js';
 import { enUntangle } from '../locales/en/untangle.js';
 import { frAnagram } from '../locales/fr/anagram.js';
 import { frBridges } from '../locales/fr/bridges.js';
 import { frCodebreaker } from '../locales/fr/codebreaker.js';
 import { frColorFlood } from '../locales/fr/color-flood.js';
+import { frColorMap } from '../locales/fr/color-map.js';
 import { frCommon } from '../locales/fr/common.js';
 import { frDiceBingo } from '../locales/fr/dice-bingo.js';
 import { frFutoshiki } from '../locales/fr/futoshiki.js';
@@ -60,11 +65,13 @@ import { frTaxonomy } from '../locales/fr/taxonomy.js';
 import { frTents } from '../locales/fr/tents.js';
 import { frTicTacToe } from '../locales/fr/tictactoe.js';
 import { frTracks } from '../locales/fr/tracks.js';
+import { frUndead } from '../locales/fr/undead.js';
 import { frUntangle } from '../locales/fr/untangle.js';
 import { ptAnagram } from '../locales/pt/anagram.js';
 import { ptBridges } from '../locales/pt/bridges.js';
 import { ptCodebreaker } from '../locales/pt/codebreaker.js';
 import { ptColorFlood } from '../locales/pt/color-flood.js';
+import { ptColorMap } from '../locales/pt/color-map.js';
 import { ptCommon } from '../locales/pt/common.js';
 import { ptDiceBingo } from '../locales/pt/dice-bingo.js';
 import { ptFutoshiki } from '../locales/pt/futoshiki.js';
@@ -80,6 +87,7 @@ import { ptTaxonomy } from '../locales/pt/taxonomy.js';
 import { ptTents } from '../locales/pt/tents.js';
 import { ptTicTacToe } from '../locales/pt/tictactoe.js';
 import { ptTracks } from '../locales/pt/tracks.js';
+import { ptUndead } from '../locales/pt/undead.js';
 import { ptUntangle } from '../locales/pt/untangle.js';
 import type { TranslationResources } from '../types/i18n.types.js';
 import { resolveInitialLanguage } from '../utils/detection.js';
@@ -99,11 +107,13 @@ export const resources: TranslationResources = {
 		untangle: enUntangle,
 		net: enNet,
 		'color-flood': enColorFlood,
+		'color-map': enColorMap,
 		'dice-bingo': enDiceBingo,
 		pentominoes: enPentominoes,
 		tictactoe: enTicTacToe,
 		futoshiki: enFutoshiki,
 		codebreaker: enCodebreaker,
+		undead: enUndead,
 		medals: enMedals,
 		taxonomy: enTaxonomy,
 	},
@@ -121,11 +131,13 @@ export const resources: TranslationResources = {
 		untangle: deUntangle,
 		net: deNet,
 		'color-flood': deColorFlood,
+		'color-map': deColorMap,
 		'dice-bingo': deDiceBingo,
 		pentominoes: dePentominoes,
 		tictactoe: deTicTacToe,
 		futoshiki: deFutoshiki,
 		codebreaker: deCodebreaker,
+		undead: deUndead,
 		medals: deMedals,
 		taxonomy: deTaxonomy,
 	},
@@ -143,11 +155,13 @@ export const resources: TranslationResources = {
 		untangle: frUntangle,
 		net: frNet,
 		'color-flood': frColorFlood,
+		'color-map': frColorMap,
 		'dice-bingo': frDiceBingo,
 		pentominoes: frPentominoes,
 		tictactoe: frTicTacToe,
 		futoshiki: frFutoshiki,
 		codebreaker: frCodebreaker,
+		undead: frUndead,
 		medals: frMedals,
 		taxonomy: frTaxonomy,
 	},
@@ -165,11 +179,13 @@ export const resources: TranslationResources = {
 		untangle: ptUntangle,
 		net: ptNet,
 		'color-flood': ptColorFlood,
+		'color-map': ptColorMap,
 		'dice-bingo': ptDiceBingo,
 		pentominoes: ptPentominoes,
 		tictactoe: ptTicTacToe,
 		futoshiki: ptFutoshiki,
 		codebreaker: ptCodebreaker,
+		undead: ptUndead,
 		medals: ptMedals,
 		taxonomy: ptTaxonomy,
 	},
@@ -197,11 +213,13 @@ i18n.use(initReactI18next).init({
 		'untangle',
 		'net',
 		'color-flood',
+		'color-map',
 		'dice-bingo',
 		'pentominoes',
 		'tictactoe',
 		'futoshiki',
 		'codebreaker',
+		'undead',
 		'medals',
 		'taxonomy',
 	],

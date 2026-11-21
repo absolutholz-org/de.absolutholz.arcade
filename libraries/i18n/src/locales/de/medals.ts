@@ -949,4 +949,56 @@ export const deMedals = {
 			desc: 'Gewinne eine schwere Runde (5 Stifte, 8 Farben) ohne Hinweise.',
 		},
 	},
+	undead: {
+		first_sighting: {
+			title: 'Erste Sichtung',
+			desc: 'Löse dein allererstes Undead-Spiegelrätsel auf einer beliebigen Stufe.',
+		},
+		monster_hunter: {
+			title: 'Monsterjäger',
+			desc: 'Gelöste Undead-Rätsel insgesamt: Bronze bei 5, Silber bei 25 und Gold bei 100.',
+		},
+		grid_mastery: {
+			title: 'Spiegelkabinett',
+			desc: 'Meistere größere Gitter: Bronze für 5×5 Mittel, Silber für 6×6 Schwer und Gold für 7×7 Experte.',
+		},
+		clean_deduction: {
+			title: 'Klare Sichtlinie',
+			desc: 'Löse Rätsel ohne Hinweis- oder Anzahlkonflikte: Bronze bei 1, Silber bei 10 und Gold bei 30.',
+		},
+		swift_tracker: {
+			title: 'Flinker Spurenleser',
+			desc: 'Löse ein mittleres (5×5) oder größeres Undead-Rätsel in höchstens 2 Minuten.',
+		},
+		streak: {
+			title: 'Ungebrochene Wache',
+			desc: 'Halte eine Siegesserie: Bronze bei 3, Silber bei 7 und Gold bei 15 Siegen in Folge.',
+		},
+	},
+	'color-map': {
+		first_atlas: {
+			title: 'Erster Atlas',
+			desc: 'Löse deine erste Vier-Farben-Karte auf einer beliebigen Schwierigkeitsstufe.',
+		},
+		cartographer: {
+			title: 'Meister-Kartograf',
+			desc: 'Gelöste Karten insgesamt: Bronze bei 5, Silber bei 25 und Gold bei 100.',
+		},
+		tier_mastery: {
+			title: 'Vier-Farben-Entdecker',
+			desc: 'Meistere Mittel (Bronze), Schwer (Silber) und Experte (Gold).',
+		},
+		zero_conflict: {
+			title: 'Makellose Grenzen',
+			desc: 'Löse Karten ohne einen einzigen Grenzkonflikt: Bronze bei 1, Silber bei 10 und Gold bei 30.',
+		},
+		swift_mapper: {
+			title: 'Flinker Kartograf',
+			desc: 'Löse eine Karte auf Mittel, Schwer oder Experte in unter 2 Minuten.',
+		},
+		streak: {
+			title: 'Farbserie',
+			desc: 'Löse Karten in Folge: Bronze bei 3, Silber bei 7 und Gold bei 15.',
+		},
+	},
 } as const satisfies MedalsTranslationContract;

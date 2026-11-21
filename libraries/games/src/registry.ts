@@ -339,6 +339,46 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 			sessionLength: ['snack-under-3m', 'standard-5-10m'],
 		},
 	},
+	undead: {
+		id: 'undead',
+		route: '/undead',
+		assets: {
+			icon: '👻',
+		},
+		i18nNamespace: 'undead',
+		mode: 'singleplayer',
+		category: {
+			primary: 'logic-deduction',
+			secondary: 'spatial-puzzle',
+		},
+		tags: {
+			mechanics: ['grid-based', 'deduction', 'pattern-recognition'],
+			inputs: ['touch-optimized', 'keyboard-controls', 'tap-only', 'dual-mode-toggle', 'direct-typing'],
+			pacing: ['speedrun-timer', 'undo-friendly'],
+			modes: ['single-player', 'procedural-endless'],
+			sessionLength: ['snack-under-3m', 'standard-5-10m', 'deep-15m-plus'],
+		},
+	},
+	'color-map': {
+		id: 'color-map',
+		route: '/color-map',
+		assets: {
+			icon: '🗺️',
+		},
+		i18nNamespace: 'color-map',
+		mode: 'singleplayer',
+		category: {
+			primary: 'logic-deduction',
+			secondary: 'spatial-puzzle',
+		},
+		tags: {
+			mechanics: ['grid-based', 'deduction', 'color-matching', 'graph-topology'],
+			inputs: ['touch-optimized', 'keyboard-controls', 'drag-and-drop', 'tap-only', 'dual-mode-toggle'],
+			pacing: ['speedrun-timer', 'undo-friendly'],
+			modes: ['single-player', 'procedural-endless'],
+			sessionLength: ['snack-under-3m', 'standard-5-10m', 'deep-15m-plus'],
+		},
+	},
 };
 
 /**
