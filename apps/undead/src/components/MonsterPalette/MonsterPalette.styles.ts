@@ -197,7 +197,7 @@ export const ModeButton = styled.button`
 	touch-action: manipulation;
 	transition: background-color 120ms ease, border-color 120ms ease;
 
-	&:hover:not(:disabled) {
+	&:hover:not(:disabled):not([data-active='true']) {
 		background-color: ${themeColor('container-1')};
 	}
 
@@ -205,6 +205,10 @@ export const ModeButton = styled.button`
 		background-color: color-mix(in oklab, ${themeColor('accent')} 18%, ${themeColor('surface')});
 		border-color: ${themeColor('accent')};
 		color: ${themeColor('accent')};
+
+		&:hover:not(:disabled) {
+			background-color: color-mix(in oklab, ${themeColor('accent')} 24%, ${themeColor('surface')});
+		}
 	}
 
 	&:disabled {

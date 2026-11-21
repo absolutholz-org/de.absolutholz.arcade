@@ -45,7 +45,7 @@ export const ActionButton = styled.button`
 		text-align: center;
 	}
 
-	&:hover:not(:disabled) {
+	&:hover:not(:disabled):not([data-active='true']) {
 		background-color: ${themeColor('container-2')};
 	}
 
@@ -61,6 +61,11 @@ export const ActionButton = styled.button`
 
 		> span {
 			color: ${themeColor('accent-contrast')};
+		}
+
+		&:hover:not(:disabled) {
+			background-color: ${themeColor('accent')};
+			filter: brightness(1.06);
 		}
 	}
 
