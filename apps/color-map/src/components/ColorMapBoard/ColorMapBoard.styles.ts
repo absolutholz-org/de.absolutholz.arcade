@@ -133,12 +133,8 @@ export const ConflictBorder = styled.path`
 	}
 `;
 
-export const ShapeText = styled.text`
-	text-anchor: middle;
-	dominant-baseline: central;
-	font-weight: 800;
+export const ShapeSymbol = styled.g`
 	pointer-events: none;
-	user-select: none;
 
 	&[data-color='0'] {
 		fill: light-dark(oklch(0.16 0.04 28), oklch(0.98 0.01 28));

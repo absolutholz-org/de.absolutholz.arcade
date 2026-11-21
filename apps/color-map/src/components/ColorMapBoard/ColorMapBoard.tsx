@@ -1,14 +1,7 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { type JSX, type KeyboardEvent, type PointerEvent, useMemo, useRef, useState } from 'react';
 import { buildRegionBorders, buildRegionFillPaths } from '../../engine/adjacency';
-import {
-	COLOR_SHAPES,
-	type ColorIndex,
-	type ColorMapPuzzle,
-	type ColorMapSettings,
-	type ConflictSummary,
-	type RegionInfo,
-} from '../../engine/types';
+import type { ColorIndex, ColorMapPuzzle, ColorMapSettings, ConflictSummary, RegionInfo } from '../../engine/types';
 import * as S from './ColorMapBoard.styles';
 
 export interface ColorMapBoardProps {
@@ -460,26 +453,41 @@ export function ColorMapBoard({
 						const fontSize = Math.max(0.55, Math.min(1.5, baseScale));
 
 						if (color !== null) {
+							const r = fontSize * 0.28;
 							return (
 								<g key={`region-marker-${region.id}`}>
 									{isLocked && (
 										<S.LockRing
 											cx={cx}
 											cy={cy}
-											r={fontSize * 0.68}
-											strokeWidth={Math.max(0.06, fontSize * 0.1)}
+											r={fontSize * 0.52}
+											strokeWidth={Math.max(0.06, fontSize * 0.09)}
 											data-color={String(color)}
 										/>
 									)}
 									{settings.showColorblindShapes && (
-										<S.ShapeText
-											x={cx}
-											y={cy}
-											fontSize={fontSize * 0.78}
-											data-color={String(color)}
-										>
-											{COLOR_SHAPES[color]}
-										</S.ShapeText>
+										<S.ShapeSymbol data-color={String(color)}>
+											{color === 0 && <circle cx={cx} cy={cy} r={r} />}
+											{color === 1 && (
+												<polygon
+													points={`${cx},${cy - r * 1.05} ${cx + r * 1.05},${cy + r * 0.85} ${cx - r * 1.05},${cy + r * 0.85}`}
+												/>
+											)}
+											{color === 2 && (
+												<rect
+													x={cx - r * 0.88}
+													y={cy - r * 0.88}
+													width={r * 1.76}
+													height={r * 1.76}
+													rx={r * 0.14}
+												/>
+											)}
+											{color === 3 && (
+												<polygon
+													points={`${cx},${cy - r * 1.12} ${cx + r * 1.12},${cy} ${cx},${cy + r * 1.12} ${cx - r * 1.12},${cy}`}
+												/>
+											)}
+										</S.ShapeSymbol>
 									)}
 								</g>
 							);
