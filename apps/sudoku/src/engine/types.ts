@@ -60,6 +60,8 @@ export type MoveAction =
 			prevNotes: boolean[];
 	  };
 
+import type { SudokuTokenMode } from '../config/tokens';
+
 export type KeypadLayoutMode = 'auto' | 'grid' | 'row';
 
 export interface GameSettings {
@@ -67,6 +69,7 @@ export interface GameSettings {
 	highlightPeerDigits: boolean;
 	highlightErrors: boolean;
 	autoClearNotes: boolean;
+	tokenMode: SudokuTokenMode;
 }
 
 export const DEFAULT_GAME_SETTINGS: GameSettings = {
@@ -74,6 +77,7 @@ export const DEFAULT_GAME_SETTINGS: GameSettings = {
 	highlightPeerDigits: true,
 	highlightErrors: true,
 	autoClearNotes: false,
+	tokenMode: 'numbers',
 };
 
 export interface GameSnapshot {

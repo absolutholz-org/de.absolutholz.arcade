@@ -51,6 +51,15 @@ export const ptSudoku = {
 			label: 'Limpeza automática de anotações',
 			description: 'Remove automaticamente as anotações correspondentes ao inserir um número.',
 		},
+		tokenMode: {
+			label: 'Símbolos de exibição',
+			description: 'Escolha se o tabuleiro exibe números, formas geométricas ou emojis.',
+			options: {
+				numbers: 'Números',
+				shapes: 'Formas',
+				emojis: 'Emojis',
+			},
+		},
 		colorScheme: 'Esquema de cores',
 		language: 'Idioma',
 	},

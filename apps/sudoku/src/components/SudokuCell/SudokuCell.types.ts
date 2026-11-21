@@ -1,3 +1,4 @@
+import type { SudokuTokenMode } from '../../config/tokens';
 import type { CellState } from '../../engine/types';
 
 export interface SudokuCellProps {
@@ -7,5 +8,6 @@ export interface SudokuCellProps {
 	isPeerDigit: boolean;
 	isInvalid: boolean;
 	activeDigit?: number | null;
+	tokenMode?: SudokuTokenMode;
 	onClick: () => void;
 }

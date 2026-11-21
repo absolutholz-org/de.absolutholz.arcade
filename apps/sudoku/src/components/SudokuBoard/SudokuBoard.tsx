@@ -62,6 +62,7 @@ export function SudokuBoard({ grid, activeCell, conflicts, settings, onSelectCel
 								isPeerDigit={isPeerDigit}
 								isInvalid={isInvalid}
 								activeDigit={activeCellValue}
+								tokenMode={settings.tokenMode}
 								onClick={() => onSelectCell(r, c)}
 							/>
 						);

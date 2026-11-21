@@ -51,6 +51,15 @@ export const deSudoku = {
 			label: 'Notizen automatisch entfernen',
 			description: 'Entfernt automatisch passende Notizen, sobald eine Zahl eingetragen wird.',
 		},
+		tokenMode: {
+			label: 'Anzeigesymbole',
+			description: 'Wähle, ob das Spielfeld Zahlen, geometrische Formen oder Emojis anzeigt.',
+			options: {
+				numbers: 'Zahlen',
+				shapes: 'Formen',
+				emojis: 'Emojis',
+			},
+		},
 		colorScheme: 'Farbschema',
 		language: 'Sprache',
 	},

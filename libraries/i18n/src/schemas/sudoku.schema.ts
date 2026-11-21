@@ -51,6 +51,15 @@ export const sudokuSchema = {
 			label: 'settings.autoClearNotes.label',
 			description: 'settings.autoClearNotes.description',
 		},
+		tokenMode: {
+			label: 'settings.tokenMode.label',
+			description: 'settings.tokenMode.description',
+			options: {
+				numbers: 'settings.tokenMode.options.numbers',
+				shapes: 'settings.tokenMode.options.shapes',
+				emojis: 'settings.tokenMode.options.emojis',
+			},
+		},
 		colorScheme: 'settings.colorScheme',
 		language: 'settings.language',
 	},

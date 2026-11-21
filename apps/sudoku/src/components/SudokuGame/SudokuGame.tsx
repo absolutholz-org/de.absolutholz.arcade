@@ -92,6 +92,7 @@ export function SudokuGame({ initialDifficulty = 'easy', lang, rulesContent }: S
 					digitCounts={game.digitCounts}
 					isNotesMode={game.isNotesMode}
 					layout="auto"
+					tokenMode={game.settings.tokenMode}
 					onDigitPress={game.handleDigitPress}
 					onToggleNotes={game.handleToggleNotes}
 					onErase={game.handleErase}

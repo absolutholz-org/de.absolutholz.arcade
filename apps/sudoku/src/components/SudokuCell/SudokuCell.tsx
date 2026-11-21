@@ -1,4 +1,6 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
+import { formatSudokuToken } from '../../config/tokens';
+import { shapeTokenColors } from '../../config/tokens.styles';
 import * as S from './SudokuCell.styles';
 import type { SudokuCellProps } from './SudokuCell.types';
 
@@ -9,6 +11,7 @@ export function SudokuCell({
 	isPeerDigit,
 	isInvalid,
 	activeDigit,
+	tokenMode = 'numbers',
 	onClick,
 }: SudokuCellProps) {
 	const { t } = useI18n('sudoku');
@@ -17,10 +20,10 @@ export function SudokuCell({
 
 	const ariaValue =
 		cell.value !== null
-			? cell.value.toString()
+			? formatSudokuToken(cell.value, tokenMode)
 			: hasNotes
 				? cell.notes
-						.map((active, i) => (active ? i + 1 : null))
+						.map((active, i) => (active ? formatSudokuToken(i + 1, tokenMode) : null))
 						.filter(Boolean)
 						.join(', ')
 				: t('aria.emptyCell');
@@ -46,16 +49,23 @@ export function SudokuCell({
 			aria-label={accessibleLabel}
 		>
 			{cell.value !== null ? (
-				<span>{cell.value}</span>
+				<span
+					className={tokenMode === 'shapes' ? shapeTokenColors : undefined}
+					data-shape-token={tokenMode === 'shapes' ? cell.value : undefined}
+				>
+					{formatSudokuToken(cell.value, tokenMode)}
+				</span>
 			) : hasNotes ? (
 				<div data-slot="notes">
 					{([1, 2, 3, 4, 5, 6, 7, 8, 9] as const).map((digit) => (
 						<span
 							key={digit}
+							className={tokenMode === 'shapes' ? shapeTokenColors : undefined}
+							data-shape-token={tokenMode === 'shapes' ? digit : undefined}
 							data-empty={!cell.notes[digit - 1] ? 'true' : undefined}
 							data-highlighted={activeDigit === digit ? 'true' : undefined}
 						>
-							{digit}
+							{formatSudokuToken(digit, tokenMode)}
 						</span>
 					))}
 				</div>

@@ -51,6 +51,15 @@ export const enSudoku = {
 			label: 'Auto-remove notes',
 			description: 'Automatically removes matching candidate notes when a digit is placed.',
 		},
+		tokenMode: {
+			label: 'Display symbols',
+			description: 'Choose whether the board displays numbers, geometric shapes, or emojis.',
+			options: {
+				numbers: 'Numbers',
+				shapes: 'Shapes',
+				emojis: 'Emojis',
+			},
+		},
 		colorScheme: 'Color Scheme',
 		language: 'Language',
 	},

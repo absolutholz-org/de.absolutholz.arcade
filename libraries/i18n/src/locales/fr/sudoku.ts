@@ -51,6 +51,15 @@ export const frSudoku = {
 			label: 'Suppression automatique des notes',
 			description: 'Supprime automatiquement les notes candidates associées lorsqu’un chiffre est validé.',
 		},
+		tokenMode: {
+			label: 'Symboles d’affichage',
+			description: 'Choisissez d’afficher des chiffres, des formes géométriques ou des émojis sur la grille.',
+			options: {
+				numbers: 'Chiffres',
+				shapes: 'Formes',
+				emojis: 'Émojis',
+			},
+		},
 		colorScheme: 'Thème de couleur',
 		language: 'Langue',
 	},

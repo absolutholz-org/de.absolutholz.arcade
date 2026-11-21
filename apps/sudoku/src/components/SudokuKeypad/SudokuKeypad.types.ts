@@ -1,3 +1,4 @@
+import type { SudokuTokenMode } from '../../config/tokens';
 import type { KeypadLayoutMode } from '../../engine/types';
 
 export interface SudokuKeypadProps {
@@ -6,6 +7,7 @@ export interface SudokuKeypadProps {
 	canUndo?: boolean;
 	canRedo?: boolean;
 	layout?: KeypadLayoutMode;
+	tokenMode?: SudokuTokenMode;
 	onDigitPress: (digit: number) => void;
 	onToggleNotes: () => void;
 	onErase: () => void;

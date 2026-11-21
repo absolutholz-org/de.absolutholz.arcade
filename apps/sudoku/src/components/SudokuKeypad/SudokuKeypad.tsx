@@ -1,6 +1,8 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { Icon } from '@arcade/lib-ui/components/Icon';
 import { Toolbar } from '@arcade/lib-ui/components/Toolbar';
+import { formatSudokuToken } from '../../config/tokens';
+import { shapeTokenColors } from '../../config/tokens.styles';
 import * as S from './SudokuKeypad.styles';
 import type { SudokuKeypadProps } from './SudokuKeypad.types';
 
@@ -12,6 +14,7 @@ export function SudokuKeypad({
 	canUndo,
 	canRedo,
 	layout = 'auto',
+	tokenMode = 'numbers',
 	onDigitPress,
 	onToggleNotes,
 	onErase,
@@ -29,6 +32,7 @@ export function SudokuKeypad({
 						const count = digitCounts[digit] || 0;
 						const isComplete = count >= 9;
 						const remaining = Math.max(0, 9 - count);
+						const token = formatSudokuToken(digit, tokenMode);
 
 						return (
 							<S.DigitButton
@@ -37,9 +41,14 @@ export function SudokuKeypad({
 								onClick={() => onDigitPress(digit)}
 								disabled={isComplete}
 								data-complete={isComplete ? 'true' : undefined}
-								aria-label={t('aria.keypadDigit', { digit })}
+								aria-label={t('aria.keypadDigit', { digit: token })}
 							>
-								<span>{digit}</span>
+								<span
+									className={tokenMode === 'shapes' ? shapeTokenColors : undefined}
+									data-shape-token={tokenMode === 'shapes' ? digit : undefined}
+								>
+									{token}
+								</span>
 								<span data-slot="count">{remaining}</span>
 							</S.DigitButton>
 						);
