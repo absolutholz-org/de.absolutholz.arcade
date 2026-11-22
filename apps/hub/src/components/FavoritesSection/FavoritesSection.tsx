@@ -70,12 +70,13 @@ function FavoritesSectionContent({ lang, className }: FavoritesSectionProps) {
 								as="a"
 								href={`${game.route}/${lang}/`}
 								density="compact"
+								aria-label={gameTitle}
+								title={gameTitle}
 								className={S.QuickLaunchItem}
 							>
 								<span className={S.QuickLaunchIcon} aria-hidden="true">
 									{game.assets.icon}
 								</span>
-								<span className={S.QuickLaunchTitle}>{gameTitle}</span>
 							</ClickableCard>
 							{isEditing && (
 								<Button

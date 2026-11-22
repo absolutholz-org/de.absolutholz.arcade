@@ -33,22 +33,14 @@ export const QuickLaunchItem = css`
 	height: auto;
 	flex-direction: row;
 	align-items: center;
+	justify-content: center;
 	min-height: 44px;
 	min-width: 44px;
-	padding: 0.625rem 1rem;
-	gap: 0.625rem;
-	white-space: nowrap;
+	padding: 0.625rem;
 `;
 
 export const QuickLaunchIcon = css`
 	font-size: 1.5rem;
 	line-height: 1;
 	flex-shrink: 0;
-`;
-
-export const QuickLaunchTitle = css`
-	font-size: 0.9375rem;
-	font-weight: 600;
-	line-height: 1.25;
-	color: var(--color-text-1);
 `;
