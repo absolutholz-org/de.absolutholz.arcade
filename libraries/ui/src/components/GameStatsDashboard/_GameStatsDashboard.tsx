@@ -54,6 +54,7 @@ function GameStatsDashboardContent({
 	playHref,
 	hideTitle = false,
 	showFastestRuns = false,
+	showTopScores = false,
 	hideWinLossMetrics = false,
 	className,
 }: GameStatsDashboardProps): JSX.Element {
@@ -121,6 +122,7 @@ function GameStatsDashboardContent({
 		activeBucketStats.totalPlayTimeSeconds > 0 ||
 		activeBucketStats.bestMoves != null ||
 		activeBucketStats.bestScore != null ||
+		activeBucketStats.bestCluster != null ||
 		activeBucketStats.flawlessWins > 0;
 
 	const secondaryMetricCards = (
@@ -145,8 +147,15 @@ function GameStatsDashboardContent({
 
 			{activeBucketStats.bestScore != null && (
 				<S.MetricCard>
-					<span data-slot="value">{activeBucketStats.bestScore}</span>
+					<span data-slot="value">{activeBucketStats.bestScore.toLocaleString()}</span>
 					<span data-slot="label">{t('stats.bestScore')}</span>
+				</S.MetricCard>
+			)}
+
+			{activeBucketStats.bestCluster != null && (
+				<S.MetricCard>
+					<span data-slot="value">{activeBucketStats.bestCluster}</span>
+					<span data-slot="label">{t('stats.largestCluster')}</span>
 				</S.MetricCard>
 			)}
 
@@ -247,6 +256,35 @@ function GameStatsDashboardContent({
 											{formatTime(entry.playTimeSeconds)}
 										</time>
 									</span>
+								</S.FastestRunRow>
+							);
+						})}
+					</S.FastestRunsList>
+				</S.FastestRunsSection>
+			)}
+
+			{showTopScores && activeBucketStats.topScores && activeBucketStats.topScores.length > 0 && (
+				<S.FastestRunsSection aria-label={t('stats.topScores')}>
+					<h3>{t('stats.topScores')}</h3>
+					<S.FastestRunsList>
+						{activeBucketStats.topScores.slice(0, 10).map((entry, index) => {
+							const rank = index + 1;
+							const dateText = new Intl.DateTimeFormat(lang, { dateStyle: 'medium' }).format(
+								new Date(entry.timestamp),
+							);
+							const bucketLabel =
+								activeTab === 'overall' && entry.bucketKey
+									? resolveBucketLabel(entry.bucketKey, bucketLabels, tGame)
+									: null;
+
+							return (
+								<S.FastestRunRow key={`${entry.timestamp}-${entry.score}-${rank}`} data-rank={rank}>
+									<span data-slot="meta">
+										<span data-slot="rank">#{rank}</span>
+										{bucketLabel && <span data-slot="bucket">{bucketLabel}</span>}
+										<span data-slot="date">{dateText}</span>
+									</span>
+									<span data-slot="time">{entry.score.toLocaleString()}</span>
 								</S.FastestRunRow>
 							);
 						})}

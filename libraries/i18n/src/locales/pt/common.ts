@@ -477,6 +477,8 @@ export const ptCommon = {
 		playNow: 'Jogar agora',
 		bucketSelectorAria: 'Selecionar nível de dificuldade',
 		fastestGames: 'Top 10 Jogos Mais Rápidos',
+		topScores: 'Top 10 Pontuações',
+		largestCluster: 'Maior Grupo',
 	},
 	share: {
 		share: 'Partilhar',

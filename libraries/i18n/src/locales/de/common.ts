@@ -482,6 +482,8 @@ export const deCommon = {
 		playNow: 'Jetzt spielen',
 		bucketSelectorAria: 'Schwierigkeitsstufe wählen',
 		fastestGames: 'Top 10 Schnellste Spiele',
+		topScores: 'Top 10 Bestwerte',
+		largestCluster: 'Größte Gruppe',
 	},
 	share: {
 		share: 'Teilen',

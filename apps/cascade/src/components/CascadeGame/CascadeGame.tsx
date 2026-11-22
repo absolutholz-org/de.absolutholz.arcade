@@ -89,10 +89,6 @@ function CascadeGameInner({
 
 	const victoryStats = [
 		{ label: t('victory.finalScore'), value: game.score.toLocaleString() },
-		{
-			label: game.isNewHighScore ? t('victory.newHighScore') : t('victory.highScore'),
-			value: game.highScore.toLocaleString(),
-		},
 		...(game.isPerfectClear
 			? [{ label: t('victory.perfectBonus'), value: `+${PERFECT_CLEAR_BONUS.toLocaleString()}` }]
 			: [{ label: t('victory.tilesRemaining'), value: game.remainingTiles }]),

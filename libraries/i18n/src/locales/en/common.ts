@@ -479,6 +479,8 @@ export const enCommon = {
 		playNow: 'Play Now',
 		bucketSelectorAria: 'Select difficulty bucket',
 		fastestGames: 'Top 10 Fastest Games',
+		topScores: 'Top 10 High Scores',
+		largestCluster: 'Largest Cluster',
 	},
 	share: {
 		share: 'Share',

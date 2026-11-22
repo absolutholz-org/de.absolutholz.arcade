@@ -18,6 +18,8 @@ export interface GameStatsDashboardProps {
 	readonly hideTitle?: boolean;
 	/** Whether to display the Top 10 Fastest Games list when recorded runs exist */
 	readonly showFastestRuns?: boolean;
+	/** Whether to display the Top 10 High Scores list when recorded scores exist */
+	readonly showTopScores?: boolean;
 	/** Whether to hide win-rate and streak cards (for puzzle games without a defeat state) */
 	readonly hideWinLossMetrics?: boolean;
 	/** Optional CSS class name */

@@ -96,6 +96,7 @@ export async function recordCascadeRoundStats(params: {
 			playTimeSeconds: params.playTimeSeconds,
 			moves: params.movesCount,
 			score: params.score,
+			bestCluster: params.maxClusterCleared,
 			isFlawless: params.isPerfectClear,
 			customMetrics: {
 				remainingTiles: params.remainingTiles,

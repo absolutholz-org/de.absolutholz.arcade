@@ -479,6 +479,8 @@ export const frCommon = {
 		playNow: 'Jouer maintenant',
 		bucketSelectorAria: 'Sélectionner la difficulté',
 		fastestGames: 'Top 10 des parties les plus rapides',
+		topScores: 'Top 10 des scores',
+		largestCluster: 'Plus grand groupe',
 	},
 	share: {
 		share: 'Partager',

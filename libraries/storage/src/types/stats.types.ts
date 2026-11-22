@@ -29,6 +29,15 @@ export interface FastestRunEntry {
 }
 
 /**
+ * Recorded entry for one of a player's top high scores.
+ */
+export interface TopScoreEntry {
+	readonly score: number;
+	readonly timestamp: number;
+	readonly bucketKey?: string;
+}
+
+/**
  * Statistics tracked within a specific difficulty bucket or overall.
  * Adheres to ADR 0008.
  */
@@ -42,8 +51,10 @@ export interface DifficultyBucketStats {
 	readonly totalPlayTimeSeconds: number;
 	readonly bestMoves?: number | null;
 	readonly bestScore?: number | null;
+	readonly bestCluster?: number | null;
 	readonly flawlessWins: number;
 	readonly fastestRuns?: readonly FastestRunEntry[];
+	readonly topScores?: readonly TopScoreEntry[];
 }
 
 /**
@@ -72,6 +83,7 @@ export interface RoundStatsInput<TCustomMetrics extends Record<string, number> =
 	readonly playTimeSeconds: number;
 	readonly moves?: number;
 	readonly score?: number;
+	readonly bestCluster?: number;
 	readonly isFlawless?: boolean;
 	readonly customMetrics?: TCustomMetrics;
 }

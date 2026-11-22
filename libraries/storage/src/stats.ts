@@ -13,6 +13,7 @@ import type {
 	GameId,
 	GameStats,
 	RoundStatsInput,
+	TopScoreEntry,
 } from './types/stats.types.js';
 import type { GameStorage, GameStorageOptions } from './types/storage.types.js';
 
@@ -36,6 +37,7 @@ export function createEmptyDifficultyBucketStats(): DifficultyBucketStats {
 		totalPlayTimeSeconds: 0,
 		bestMoves: null,
 		bestScore: null,
+		bestCluster: null,
 		flawlessWins: 0,
 	};
 }
@@ -76,6 +78,21 @@ function sortAndCapFastestRuns(entries: readonly FastestRunEntry[]): readonly Fa
 		.slice(0, MAX_FASTEST_RUNS);
 }
 
+function sortAndCapTopScores(entries: readonly TopScoreEntry[]): readonly TopScoreEntry[] {
+	const seen = new Set<string>();
+	const unique: TopScoreEntry[] = [];
+
+	for (const entry of entries) {
+		const key = `${entry.timestamp}:${entry.score}:${entry.bucketKey ?? ''}`;
+		if (!seen.has(key)) {
+			seen.add(key);
+			unique.push(entry);
+		}
+	}
+
+	return unique.sort((a, b) => b.score - a.score || a.timestamp - b.timestamp).slice(0, MAX_FASTEST_RUNS);
+}
+
 /**
  * Pure helper function to update a single DifficultyBucketStats instance with a round result.
  */
@@ -113,14 +130,34 @@ function updateBucketStats(
 					: input.score
 				: (current.bestScore ?? null);
 
+		const bestCluster =
+			input.bestCluster != null
+				? current.bestCluster != null
+					? Math.max(current.bestCluster, input.bestCluster)
+					: input.bestCluster
+				: (current.bestCluster ?? null);
+
 		const flawlessWins = current.flawlessWins + (input.isFlawless ? 1 : 0);
 
+		const now = Date.now();
 		const newRun: FastestRunEntry = {
 			playTimeSeconds: input.playTimeSeconds,
-			timestamp: Date.now(),
+			timestamp: now,
 			...(input.bucketKey?.trim() ? { bucketKey: input.bucketKey.trim() } : {}),
 		};
 		const fastestRuns = sortAndCapFastestRuns([...(current.fastestRuns ?? []), newRun]);
+
+		const topScores =
+			input.score != null
+				? sortAndCapTopScores([
+						...(current.topScores ?? []),
+						{
+							score: input.score,
+							timestamp: now,
+							...(input.bucketKey?.trim() ? { bucketKey: input.bucketKey.trim() } : {}),
+						},
+					])
+				: current.topScores;
 
 		return {
 			gamesPlayed,
@@ -132,8 +169,10 @@ function updateBucketStats(
 			totalPlayTimeSeconds,
 			bestMoves,
 			bestScore,
+			bestCluster,
 			flawlessWins,
 			fastestRuns,
+			...(topScores ? { topScores } : {}),
 		};
 	}
 
@@ -147,8 +186,10 @@ function updateBucketStats(
 		totalPlayTimeSeconds,
 		bestMoves: current.bestMoves ?? null,
 		bestScore: current.bestScore ?? null,
+		bestCluster: current.bestCluster ?? null,
 		flawlessWins: current.flawlessWins,
 		...(current.fastestRuns ? { fastestRuns: current.fastestRuns } : {}),
+		...(current.topScores ? { topScores: current.topScores } : {}),
 	};
 }
 
