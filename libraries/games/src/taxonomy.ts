@@ -151,6 +151,7 @@ const GAME_ID_LOOKUP = {
 	codebreaker: true,
 	undead: true,
 	'color-map': true,
+	cascade: true,
 } as const satisfies Readonly<Record<GameId, true>>;
 
 const PLAY_MODE_SET: ReadonlySet<string> = new Set(GAME_PLAY_MODES);

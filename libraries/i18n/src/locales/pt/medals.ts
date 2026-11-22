@@ -1001,4 +1001,30 @@ export const ptMedals = {
 			desc: 'Resolva mapas consecutivos: Bronze em 3, Prata em 7 e Ouro em 15.',
 		},
 	},
+	cascade: {
+		tile_clearer: {
+			title: 'Limpador de Peças',
+			desc: 'Conclua partidas de Cascata: Bronze em 1, Prata em 10 e Ouro em 50.',
+		},
+		score_chaser: {
+			title: 'Caçador de Pontos',
+			desc: 'Alcance uma pontuação alta em uma rodada: Bronze em 1.500, Prata em 3.500 e Ouro em 6.000.',
+		},
+		chain_reaction: {
+			title: 'Reação em Cadeia',
+			desc: 'Elimine um grupo enorme em uma jogada: Bronze em 10+, Prata em 20+ e Ouro em 35+ peças.',
+		},
+		perfect_clear: {
+			title: 'Limpeza Perfeita',
+			desc: 'Limpe 100% do tabuleiro sem deixar nenhuma peça.',
+		},
+		five_color_master: {
+			title: 'Estrategista das Quatro Cores',
+			desc: 'Faça 2.000 pontos ou mais em uma partida Difícil (15×10, 4 cores).',
+		},
+		no_looking_back: {
+			title: 'Sem Olhar Para Trás',
+			desc: 'Alcance uma Limpeza Perfeita sem usar Desfazer nenhuma vez.',
+		},
+	},
 } as const satisfies MedalsTranslationContract;

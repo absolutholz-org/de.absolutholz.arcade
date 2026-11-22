@@ -1000,4 +1000,30 @@ export const enMedals = {
 			desc: 'Solve maps in a row: Bronze at 3, Silver at 7, and Gold at 15.',
 		},
 	},
+	cascade: {
+		tile_clearer: {
+			title: 'Tile Clearer',
+			desc: 'Complete rounds of Cascade: Bronze at 1, Silver at 10, and Gold at 50.',
+		},
+		score_chaser: {
+			title: 'Score Chaser',
+			desc: 'Reach a single-round score milestone: Bronze at 1,500, Silver at 3,500, and Gold at 6,000.',
+		},
+		chain_reaction: {
+			title: 'Chain Reaction',
+			desc: 'Clear a massive connected cluster in one move: Bronze at 10+, Silver at 20+, and Gold at 35+ tiles.',
+		},
+		perfect_clear: {
+			title: 'Perfect Clear',
+			desc: 'Clear 100% of the board with zero tiles remaining.',
+		},
+		five_color_master: {
+			title: 'Four-Color Strategist',
+			desc: 'Score 2,000 or more points in a single Hard (15×10, 4 colors) round.',
+		},
+		no_looking_back: {
+			title: 'No Looking Back',
+			desc: 'Achieve a Perfect Clear without using Undo a single time.',
+		},
+	},
 } as const satisfies MedalsTranslationContract;

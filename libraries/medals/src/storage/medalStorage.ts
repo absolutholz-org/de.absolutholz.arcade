@@ -227,6 +227,14 @@ export function createInitialCustomStats<G extends GameId>(gameId: G): GameCusto
 				flawlessWins: 0,
 				fastestMediumPlusSeconds: null,
 			} as unknown as GameCustomStatsMap[G];
+		case 'cascade':
+			return {
+				bestScore: 0,
+				hardBestScore: 0,
+				maxClusterCleared: 0,
+				perfectClears: 0,
+				perfectClearsWithoutUndo: 0,
+			} as unknown as GameCustomStatsMap[G];
 		default:
 			throw new Error(`createInitialCustomStats error: Unknown gameId "${String(gameId)}"`);
 	}

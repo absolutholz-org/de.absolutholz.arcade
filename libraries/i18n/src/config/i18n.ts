@@ -3,6 +3,7 @@ import { initReactI18next } from 'react-i18next';
 import { SUPPORTED_LANGUAGES } from '../constants/languages.js';
 import { deAnagram } from '../locales/de/anagram.js';
 import { deBridges } from '../locales/de/bridges.js';
+import { deCascade } from '../locales/de/cascade.js';
 import { deCodebreaker } from '../locales/de/codebreaker.js';
 import { deColorFlood } from '../locales/de/color-flood.js';
 import { deColorMap } from '../locales/de/color-map.js';
@@ -25,6 +26,7 @@ import { deUndead } from '../locales/de/undead.js';
 import { deUntangle } from '../locales/de/untangle.js';
 import { enAnagram } from '../locales/en/anagram.js';
 import { enBridges } from '../locales/en/bridges.js';
+import { enCascade } from '../locales/en/cascade.js';
 import { enCodebreaker } from '../locales/en/codebreaker.js';
 import { enColorFlood } from '../locales/en/color-flood.js';
 import { enColorMap } from '../locales/en/color-map.js';
@@ -47,6 +49,7 @@ import { enUndead } from '../locales/en/undead.js';
 import { enUntangle } from '../locales/en/untangle.js';
 import { frAnagram } from '../locales/fr/anagram.js';
 import { frBridges } from '../locales/fr/bridges.js';
+import { frCascade } from '../locales/fr/cascade.js';
 import { frCodebreaker } from '../locales/fr/codebreaker.js';
 import { frColorFlood } from '../locales/fr/color-flood.js';
 import { frColorMap } from '../locales/fr/color-map.js';
@@ -69,6 +72,7 @@ import { frUndead } from '../locales/fr/undead.js';
 import { frUntangle } from '../locales/fr/untangle.js';
 import { ptAnagram } from '../locales/pt/anagram.js';
 import { ptBridges } from '../locales/pt/bridges.js';
+import { ptCascade } from '../locales/pt/cascade.js';
 import { ptCodebreaker } from '../locales/pt/codebreaker.js';
 import { ptColorFlood } from '../locales/pt/color-flood.js';
 import { ptColorMap } from '../locales/pt/color-map.js';
@@ -114,6 +118,7 @@ export const resources: TranslationResources = {
 		futoshiki: enFutoshiki,
 		codebreaker: enCodebreaker,
 		undead: enUndead,
+		cascade: enCascade,
 		medals: enMedals,
 		taxonomy: enTaxonomy,
 	},
@@ -138,6 +143,7 @@ export const resources: TranslationResources = {
 		futoshiki: deFutoshiki,
 		codebreaker: deCodebreaker,
 		undead: deUndead,
+		cascade: deCascade,
 		medals: deMedals,
 		taxonomy: deTaxonomy,
 	},
@@ -162,6 +168,7 @@ export const resources: TranslationResources = {
 		futoshiki: frFutoshiki,
 		codebreaker: frCodebreaker,
 		undead: frUndead,
+		cascade: frCascade,
 		medals: frMedals,
 		taxonomy: frTaxonomy,
 	},
@@ -186,6 +193,7 @@ export const resources: TranslationResources = {
 		futoshiki: ptFutoshiki,
 		codebreaker: ptCodebreaker,
 		undead: ptUndead,
+		cascade: ptCascade,
 		medals: ptMedals,
 		taxonomy: ptTaxonomy,
 	},
@@ -220,6 +228,7 @@ i18n.use(initReactI18next).init({
 		'futoshiki',
 		'codebreaker',
 		'undead',
+		'cascade',
 		'medals',
 		'taxonomy',
 	],

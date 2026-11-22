@@ -1,6 +1,7 @@
 import type { SUPPORTED_LANGUAGES } from '../constants/languages.js';
 import type { AnagramSchema, AnagramTranslationContract } from '../schemas/anagram.schema.js';
 import type { BridgesSchema, BridgesTranslationContract } from '../schemas/bridges.schema.js';
+import type { CascadeSchema, CascadeTranslationContract } from '../schemas/cascade.schema.js';
 import type { CodebreakerSchema, CodebreakerTranslationContract } from '../schemas/codebreaker.schema.js';
 import type { ColorFloodSchema, ColorFloodTranslationContract } from '../schemas/color-flood.schema.js';
 import type { ColorMapSchema, ColorMapTranslationContract } from '../schemas/color-map.schema.js';
@@ -51,6 +52,7 @@ export type TicTacToeTranslationKey = LeafKeys<TicTacToeSchema> | `tictactoe.${L
 export type FutoshikiTranslationKey = LeafKeys<FutoshikiSchema> | `futoshiki.${LeafKeys<FutoshikiSchema>}`;
 export type CodebreakerTranslationKey = LeafKeys<CodebreakerSchema> | `codebreaker.${LeafKeys<CodebreakerSchema>}`;
 export type UndeadTranslationKey = LeafKeys<UndeadSchema> | `undead.${LeafKeys<UndeadSchema>}`;
+export type CascadeTranslationKey = LeafKeys<CascadeSchema> | `cascade.${LeafKeys<CascadeSchema>}`;
 export type MedalsTranslationKey = LeafKeys<MedalsSchema> | `medals.${LeafKeys<MedalsSchema>}`;
 export type TaxonomyTranslationKey = LeafKeys<TaxonomySchema> | `taxonomy.${LeafKeys<TaxonomySchema>}`;
 
@@ -75,6 +77,7 @@ export type TranslationKey =
 	| FutoshikiTranslationKey
 	| CodebreakerTranslationKey
 	| UndeadTranslationKey
+	| CascadeTranslationKey
 	| MedalsTranslationKey
 	| TaxonomyTranslationKey;
 
@@ -109,6 +112,7 @@ export type TranslationResources = Record<
 		readonly futoshiki: FutoshikiTranslationContract;
 		readonly codebreaker: CodebreakerTranslationContract;
 		readonly undead: UndeadTranslationContract;
+		readonly cascade: CascadeTranslationContract;
 		readonly medals: MedalsTranslationContract;
 		readonly taxonomy: TaxonomyTranslationContract;
 	}

@@ -1,0 +1,49 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { GameMedalGrid } from '@arcade/lib-ui/components/GameMedalGrid';
+import GameSubpageTemplate from '@arcade/lib-ui/templates/GameSubpageTemplate/GameSubpageTemplate.astro';
+import { CASCADE_MEDAL_DEFINITIONS } from '../../config/medals';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const currentLanguage = lang as SupportedLanguageCode;
+const currentCascade = resources[currentLanguage]?.cascade ?? resources.en.cascade;
+const currentCommon = resources[currentLanguage]?.common ?? resources.en.common;
+const currentMedals = resources[currentLanguage]?.medals ?? resources.en.medals;
+---
+
+<GameSubpageTemplate
+	title={currentMedals.showcase.title}
+	description={`${currentCascade.title} - ${currentMedals.showcase.description}`}
+	lang={currentLanguage}
+	breadcrumbItems={[
+		{ label: `${currentCommon.app.shortTitle} ${currentCommon.navigation.home}`, href: `/${currentLanguage}/`, isHome: true },
+		{ label: currentCascade.title, href: `/cascade/${currentLanguage}/` },
+		{ label: currentMedals.showcase.title, isCurrent: true },
+	]}
+	primaryAction={{
+		label: currentCascade.controls.newGame,
+		href: `/cascade/${currentLanguage}/game`,
+	}}
+	secondaryAction={{
+		label: currentCascade.controls.backToLobby,
+		href: `/cascade/${currentLanguage}/`,
+	}}
+	containerWidth="wide"
+	currentSlug="medals"
+>
+	<GameMedalGrid
+		client:load
+		gameId="cascade"
+		definitions={CASCADE_MEDAL_DEFINITIONS}
+		lang={currentLanguage}
+		hideActions
+	/>
+</GameSubpageTemplate>

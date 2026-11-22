@@ -1,0 +1,55 @@
+---
+import { resources } from '@arcade/lib-i18n/config/i18n';
+import { SUPPORTED_LANGUAGES } from '@arcade/lib-i18n/constants/languages';
+import type { SupportedLanguageCode } from '@arcade/lib-i18n/types/i18n.types';
+import { GameStatsDashboard } from '@arcade/lib-ui/components/GameStatsDashboard';
+import GameSubpageTemplate from '@arcade/lib-ui/templates/GameSubpageTemplate/GameSubpageTemplate.astro';
+
+export function getStaticPaths() {
+	return SUPPORTED_LANGUAGES.map((item) => ({
+		params: { lang: item.code },
+	}));
+}
+
+const { lang } = Astro.params;
+const currentLanguage = lang as SupportedLanguageCode;
+const currentCascade = resources[currentLanguage]?.cascade ?? resources.en.cascade;
+const currentCommon = resources[currentLanguage]?.common ?? resources.en.common;
+---
+
+<GameSubpageTemplate
+	title={currentCascade.stats.title}
+	description={`${currentCascade.title} ${currentCascade.stats.title}`}
+	lang={currentLanguage}
+	breadcrumbItems={[
+		{ label: `${currentCommon.app.shortTitle} ${currentCommon.navigation.home}`, href: `/${currentLanguage}/`, isHome: true },
+		{ label: currentCascade.title, href: `/cascade/${currentLanguage}/` },
+		{ label: currentCascade.stats.title, isCurrent: true },
+	]}
+	primaryAction={{
+		label: currentCascade.controls.newGame,
+		href: `/cascade/${currentLanguage}/game`,
+	}}
+	secondaryAction={{
+		label: currentCascade.controls.backToLobby,
+		href: `/cascade/${currentLanguage}/`,
+	}}
+	containerWidth="standard"
+	currentSlug="stats"
+>
+	<GameStatsDashboard
+		client:load
+		gameId="cascade"
+		lang={currentLanguage}
+		hideTitle
+		hideWinLossMetrics
+		bucketLabels={{
+			beginner: currentCascade.difficulty.beginner,
+			easy: currentCascade.difficulty.easy,
+			normal: currentCascade.difficulty.normal,
+			hard: currentCascade.difficulty.hard,
+			expert: currentCascade.difficulty.expert,
+		}}
+		playHref={`/cascade/${currentLanguage}/game`}
+	/>
+</GameSubpageTemplate>

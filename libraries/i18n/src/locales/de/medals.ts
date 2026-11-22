@@ -1001,4 +1001,30 @@ export const deMedals = {
 			desc: 'Löse Karten in Folge: Bronze bei 3, Silber bei 7 und Gold bei 15.',
 		},
 	},
+	cascade: {
+		tile_clearer: {
+			title: 'Steinräumer',
+			desc: 'Beende Runden in Kaskade: Bronze bei 1, Silber bei 10 und Gold bei 50.',
+		},
+		score_chaser: {
+			title: 'Punktejäger',
+			desc: 'Erreiche eine hohe Rundenpunktzahl: Bronze bei 1.500, Silber bei 3.500 und Gold bei 6.000.',
+		},
+		chain_reaction: {
+			title: 'Kettenreaktion',
+			desc: 'Entferne eine riesige Gruppe in einem Zug: Bronze ab 10, Silber ab 20 und Gold ab 35 Steinen.',
+		},
+		perfect_clear: {
+			title: 'Perfekt geräumt',
+			desc: 'Räume 100 % des Spielfelds ab, ohne dass ein Stein übrig bleibt.',
+		},
+		five_color_master: {
+			title: 'Vier-Farben-Stratege',
+			desc: 'Erziele mindestens 2.000 Punkte in einer Runde auf Schwer (15×10, 4 Farben).',
+		},
+		no_looking_back: {
+			title: 'Kein Zurück',
+			desc: 'Schaffe eine perfekte Räumung, ohne ein einziges Mal Rückgängig zu nutzen.',
+		},
+	},
 } as const satisfies MedalsTranslationContract;

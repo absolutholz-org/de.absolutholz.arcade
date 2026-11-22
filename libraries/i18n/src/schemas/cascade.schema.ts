@@ -1,0 +1,113 @@
+import type { SchemaToTranslationContract } from './common.schema.js';
+
+export const cascadeSchema = {
+	title: 'title',
+	description: 'description',
+	difficulty: {
+		label: 'difficulty.label',
+		beginner: 'difficulty.beginner',
+		beginnerDesc: 'difficulty.beginnerDesc',
+		easy: 'difficulty.easy',
+		easyDesc: 'difficulty.easyDesc',
+		normal: 'difficulty.normal',
+		normalDesc: 'difficulty.normalDesc',
+		hard: 'difficulty.hard',
+		hardDesc: 'difficulty.hardDesc',
+		expert: 'difficulty.expert',
+		expertDesc: 'difficulty.expertDesc',
+	},
+	colors: {
+		c0: 'colors.c0',
+		c1: 'colors.c1',
+		c2: 'colors.c2',
+		c3: 'colors.c3',
+		c4: 'colors.c4',
+	},
+	shapes: {
+		s0: 'shapes.s0',
+		s1: 'shapes.s1',
+		s2: 'shapes.s2',
+		s3: 'shapes.s3',
+		s4: 'shapes.s4',
+	},
+	hud: {
+		score: 'hud.score',
+		highScore: 'hud.highScore',
+		tilesLeft: 'hud.tilesLeft',
+		potential: 'hud.potential',
+		potentialValue: 'hud.potentialValue',
+		megaChain: 'hud.megaChain',
+	},
+	controls: {
+		undo: 'controls.undo',
+		redo: 'controls.redo',
+		restart: 'controls.restart',
+		newGame: 'controls.newGame',
+		pause: 'controls.pause',
+		resume: 'controls.resume',
+		backToLobby: 'controls.backToLobby',
+	},
+	settings: {
+		title: 'settings.title',
+		showTileSymbols: {
+			label: 'settings.showTileSymbols.label',
+			description: 'settings.showTileSymbols.description',
+		},
+		showHoverPreview: {
+			label: 'settings.showHoverPreview.label',
+			description: 'settings.showHoverPreview.description',
+		},
+	},
+	status: {
+		paused: 'status.paused',
+		pausedDescription: 'status.pausedDescription',
+		resumed: 'status.resumed',
+		clusterSelected: 'status.clusterSelected',
+		clusterCleared: 'status.clusterCleared',
+		megaClusterCleared: 'status.megaClusterCleared',
+		isolatedTile: 'status.isolatedTile',
+		perfectClear: 'status.perfectClear',
+		noMovesLeft: 'status.noMovesLeft',
+		undone: 'status.undone',
+		redone: 'status.redone',
+	},
+	victory: {
+		perfectTitle: 'victory.perfectTitle',
+		gameOverTitle: 'victory.gameOverTitle',
+		perfectMessage: 'victory.perfectMessage',
+		gameOverMessage: 'victory.gameOverMessage',
+		finalScore: 'victory.finalScore',
+		highScore: 'victory.highScore',
+		newHighScore: 'victory.newHighScore',
+		perfectBonus: 'victory.perfectBonus',
+		tilesRemaining: 'victory.tilesRemaining',
+		largestCluster: 'victory.largestCluster',
+		moves: 'victory.moves',
+		playAgain: 'victory.playAgain',
+	},
+	stats: {
+		title: 'stats.title',
+		gamesPlayed: 'stats.gamesPlayed',
+		bestScore: 'stats.bestScore',
+		noStatsYet: 'stats.noStatsYet',
+	},
+	lobby: {
+		quickPlay: 'lobby.quickPlay',
+		quickPlayDesc: 'lobby.quickPlayDesc',
+		chooseDifficulty: 'lobby.chooseDifficulty',
+		resumeSubtitle: 'lobby.resumeSubtitle',
+		howToPlayTitle: 'lobby.howToPlayTitle',
+	},
+	aria: {
+		boardLabel: 'aria.boardLabel',
+		tileLabel: 'aria.tileLabel',
+		emptyCell: 'aria.emptyCell',
+		selectedState: 'aria.selectedState',
+		orphanState: 'aria.orphanState',
+		difficultySelector: 'aria.difficultySelector',
+	},
+} as const;
+
+export type CascadeSchema = typeof cascadeSchema;
+
+export type CascadeTranslationContract = SchemaToTranslationContract<CascadeSchema>;

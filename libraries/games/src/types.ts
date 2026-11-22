@@ -22,7 +22,8 @@ export type GameId =
 	| 'futoshiki'
 	| 'codebreaker'
 	| 'undead'
-	| 'color-map';
+	| 'color-map'
+	| 'cascade';
 
 /**
  * Canonical identifiers for standalone utility tools in the Arcade monorepo.

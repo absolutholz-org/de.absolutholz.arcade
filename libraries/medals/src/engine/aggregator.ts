@@ -768,6 +768,28 @@ export function updateCustomStats<G extends GameId>(
 			};
 		}
 
+		case 'cascade': {
+			const stats = (current as GameCustomStatsMap['cascade']) ?? {};
+			const difficulty = (result.roundContext?.difficulty as string | undefined) ?? result.levelKey;
+			const score = Number(result.roundContext?.score ?? 0);
+			const maxClusterCleared = Number(result.roundContext?.maxClusterCleared ?? 0);
+			const isPerfectClear = Boolean(result.roundContext?.isPerfectClear);
+			const undosUsed = Number(result.roundContext?.undosUsed ?? 0);
+
+			return {
+				updatedCustom: {
+					...stats,
+					bestScore: Math.max(stats.bestScore ?? 0, score),
+					hardBestScore: Math.max(stats.hardBestScore ?? 0, difficulty === 'hard' ? score : 0),
+					maxClusterCleared: Math.max(stats.maxClusterCleared ?? 0, maxClusterCleared),
+					perfectClears: (stats.perfectClears ?? 0) + (isPerfectClear ? 1 : 0),
+					perfectClearsWithoutUndo:
+						(stats.perfectClearsWithoutUndo ?? 0) + (isPerfectClear && undosUsed === 0 ? 1 : 0),
+				} as unknown as GameCustomStatsMap[G],
+				isNewBestTime: false,
+			};
+		}
+
 		case 'undead': {
 			const stats = (current as GameCustomStatsMap['undead']) ?? {};
 			const difficulty = (result.roundContext?.difficulty as string | undefined) ?? result.levelKey;
@@ -1273,6 +1295,20 @@ export function mergeGameMedalState<G extends GameId>(
 			fastestMediumPlusSeconds: minNullable(
 				localCustom.fastestMediumPlusSeconds,
 				remoteCustom.fastestMediumPlusSeconds,
+			),
+		} as unknown as GameCustomStatsMap[G];
+	} else if (local.gameId === 'cascade') {
+		const localCustom = (local.customStats as GameCustomStatsMap['cascade']) ?? {};
+		const remoteCustom = (remote.customStats as GameCustomStatsMap['cascade']) ?? {};
+
+		mergedCustom = {
+			bestScore: Math.max(localCustom.bestScore ?? 0, remoteCustom.bestScore ?? 0),
+			hardBestScore: Math.max(localCustom.hardBestScore ?? 0, remoteCustom.hardBestScore ?? 0),
+			maxClusterCleared: Math.max(localCustom.maxClusterCleared ?? 0, remoteCustom.maxClusterCleared ?? 0),
+			perfectClears: Math.max(localCustom.perfectClears ?? 0, remoteCustom.perfectClears ?? 0),
+			perfectClearsWithoutUndo: Math.max(
+				localCustom.perfectClearsWithoutUndo ?? 0,
+				remoteCustom.perfectClearsWithoutUndo ?? 0,
 			),
 		} as unknown as GameCustomStatsMap[G];
 	}

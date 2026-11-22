@@ -312,6 +312,14 @@ export interface MedalsSchema {
 		readonly swift_mapper: { readonly title: string; readonly desc: string };
 		readonly streak: { readonly title: string; readonly desc: string };
 	};
+	readonly cascade: {
+		readonly tile_clearer: { readonly title: string; readonly desc: string };
+		readonly score_chaser: { readonly title: string; readonly desc: string };
+		readonly chain_reaction: { readonly title: string; readonly desc: string };
+		readonly perfect_clear: { readonly title: string; readonly desc: string };
+		readonly five_color_master: { readonly title: string; readonly desc: string };
+		readonly no_looking_back: { readonly title: string; readonly desc: string };
+	};
 }
 
 export type MedalsTranslationContract = MedalsSchema;

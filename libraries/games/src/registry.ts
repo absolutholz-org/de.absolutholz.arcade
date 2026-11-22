@@ -379,6 +379,26 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 			sessionLength: ['snack-under-3m', 'standard-5-10m', 'deep-15m-plus'],
 		},
 	},
+	cascade: {
+		id: 'cascade',
+		route: '/cascade',
+		assets: {
+			icon: '💠',
+		},
+		i18nNamespace: 'cascade',
+		mode: 'singleplayer',
+		category: {
+			primary: 'casual-sorting',
+			secondary: 'spatial-puzzle',
+		},
+		tags: {
+			mechanics: ['grid-based', 'color-matching', 'pattern-recognition'],
+			inputs: ['touch-optimized', 'keyboard-controls', 'tap-only'],
+			pacing: ['zen-untimed', 'undo-friendly', 'move-efficiency'],
+			modes: ['single-player', 'procedural-endless'],
+			sessionLength: ['snack-under-3m', 'standard-5-10m'],
+		},
+	},
 };
 
 /**

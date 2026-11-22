@@ -1,0 +1,5 @@
+# @arcade/cascade — Local Agent Invariants
+
+- **Headless Engine (`src/engine/`):** Fixed 15×10 board (`BOARD_COLS = 15`, `BOARD_ROWS = 10`). Deterministic generation via Mulberry32 PRNG guaranteeing at least one valid move. 4-directional orthogonal flood-fill (`findCluster`); clusters require `size >= 2`. Scoring is `(n - 2)²` plus `+1,000` Perfect Clear bonus when `remainingTiles === 0`. Physics applies vertical gravity first, then shifts non-empty columns left.
+- **Accessibility & Colorblindness:** Pair each of the 5 OKLCH `light-dark()` tile colors with a distinct inner SVG geometric symbol (`Circle`, `Triangle`, `Square`, `Diamond`, `Star`). Implement WAI-ARIA 2D `role="grid"` with roving `tabIndex`, arrow keys, `Enter`/`Space` two-step select & clear, `Escape`, `Ctrl/Cmd+Z` Undo, `Ctrl/Cmd+Shift+Z` Redo, `P` Pause, `@media (forced-colors: active)`, and `<div aria-live="polite">`.
+- **Namespaces:** i18n `cascade`; storage `createGameStorage('cascade')` (`arcade::cascade::stats`, `arcade::cascade::activeGame`, `arcade::cascade::settings`); audio wired through `@arcade/lib-audio`.

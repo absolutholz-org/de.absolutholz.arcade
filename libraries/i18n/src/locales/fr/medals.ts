@@ -1001,4 +1001,30 @@ export const frMedals = {
 			desc: 'Enchaînez les cartes résolues : Bronze à 3, Argent à 7 et Or à 15.',
 		},
 	},
+	cascade: {
+		tile_clearer: {
+			title: 'Nettoyeur de Tuiles',
+			desc: 'Terminez des parties de Cascade : Bronze à 1, Argent à 10 et Or à 50.',
+		},
+		score_chaser: {
+			title: 'Chasseur de Score',
+			desc: 'Atteignez un score record en une partie : Bronze à 1 500, Argent à 3 500 et Or à 6 000.',
+		},
+		chain_reaction: {
+			title: 'Réaction en Chaîne',
+			desc: 'Éliminez un groupe massif en un seul coup : Bronze à 10+, Argent à 20+ et Or à 35+ tuiles.',
+		},
+		perfect_clear: {
+			title: 'Plateau Parfait',
+			desc: 'Videz 100 % du plateau sans aucune tuile restante.',
+		},
+		five_color_master: {
+			title: 'Stratège Quatre Couleurs',
+			desc: 'Marquez 2 000 points ou plus dans une partie Difficile (15×10, 4 couleurs).',
+		},
+		no_looking_back: {
+			title: 'Sans Retour',
+			desc: 'Réussissez un Plateau Parfait sans jamais utiliser Annuler.',
+		},
+	},
 } as const satisfies MedalsTranslationContract;

@@ -145,6 +145,15 @@ export interface GameCustomStatsMap {
 	codebreaker: CodebreakerCustomStats;
 	undead: UndeadCustomStats;
 	'color-map': ColorMapCustomStats;
+	cascade: CascadeCustomStats;
+}
+
+export interface CascadeCustomStats {
+	readonly bestScore?: number;
+	readonly hardBestScore?: number;
+	readonly maxClusterCleared?: number;
+	readonly perfectClears?: number;
+	readonly perfectClearsWithoutUndo?: number;
 }
 
 export interface ColorMapCustomStats {
