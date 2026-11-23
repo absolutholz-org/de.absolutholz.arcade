@@ -374,15 +374,6 @@ export function useTracksGame(initialDifficulty: DifficultyLevel = 'easy', initi
 		const levelKey = curPuzzle.difficulty;
 		const sizeKey = `${curPuzzle.size}x${curPuzzle.size}`;
 
-		void recordGameStats({
-			gameId: 'tracks',
-			won: false,
-			bucketKey: levelKey,
-			playTimeSeconds: Math.max(1, playTimeSeconds),
-			moves: movesRef.current,
-			isFlawless: false,
-		});
-
 		void recordGameResult(
 			{
 				gameId: 'tracks',

@@ -1027,4 +1027,30 @@ export const deMedals = {
 			desc: 'Schaffe eine perfekte Räumung, ohne ein einziges Mal Rückgängig zu nutzen.',
 		},
 	},
+	lasers: {
+		first_beam: {
+			title: 'Erstes Licht',
+			desc: 'Aktiviere alle Zielempfänger in deinem ersten Laser & Spiegel-Rätsel.',
+		},
+		optical_engineer: {
+			title: 'Optik-Ingenieur',
+			desc: 'Löse Laser & Spiegel-Rätsel in deiner Karriere: Bronze bei 5, Silber bei 25 und Gold bei 100.',
+		},
+		spectrum_master: {
+			title: 'Spektrum-Meister',
+			desc: 'Meistere Mittel (Bronze), Schwer (Silber) und Experte (Gold).',
+		},
+		par_precision: {
+			title: 'Par-Präzision',
+			desc: 'Löse Rätsel innerhalb des Par-Ziels und ohne Hinweise: Bronze bei 1, Silber bei 10 und Gold bei 30.',
+		},
+		pure_optics: {
+			title: 'Reine Optik',
+			desc: 'Löse Rätsel ohne einen einzigen Hinweis: Bronze bei 3, Silber bei 15 und Gold bei 40.',
+		},
+		light_speed: {
+			title: 'Lichtgeschwindigkeit',
+			desc: 'Löse ein mittleres, schweres oder Experten-Rätsel in unter 60 Sekunden.',
+		},
+	},
 } as const satisfies MedalsTranslationContract;

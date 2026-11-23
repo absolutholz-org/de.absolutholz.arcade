@@ -1026,4 +1026,30 @@ export const enMedals = {
 			desc: 'Achieve a Perfect Clear without using Undo a single time.',
 		},
 	},
+	lasers: {
+		first_beam: {
+			title: 'First Light',
+			desc: 'Power every target receiver in your first Laser & Mirrors puzzle.',
+		},
+		optical_engineer: {
+			title: 'Optical Engineer',
+			desc: 'Solve Laser & Mirrors puzzles across your career: Bronze at 5, Silver at 25, and Gold at 100.',
+		},
+		spectrum_master: {
+			title: 'Spectrum Master',
+			desc: 'Conquer Medium (Bronze), Hard (Silver), and Expert (Gold) optical grids.',
+		},
+		par_precision: {
+			title: 'Par Precision',
+			desc: 'Solve puzzles within the optimal par rotation count and zero hints: Bronze at 1, Silver at 10, and Gold at 30.',
+		},
+		pure_optics: {
+			title: 'Pure Optics',
+			desc: 'Solve puzzles without using any hints: Bronze at 3, Silver at 15, and Gold at 40.',
+		},
+		light_speed: {
+			title: 'Speed of Light',
+			desc: 'Solve a Medium, Hard, or Expert laser grid in under 60 seconds.',
+		},
+	},
 } as const satisfies MedalsTranslationContract;

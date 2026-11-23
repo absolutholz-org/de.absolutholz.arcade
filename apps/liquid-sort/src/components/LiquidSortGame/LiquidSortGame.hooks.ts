@@ -395,17 +395,6 @@ export function useLiquidSortGame(initialDifficulty: DifficultyLevel = 'easy', i
 	}, [history.present, isWon, isPaused, isDeadlockedState]);
 
 	const handleNextPuzzle = useCallback(() => {
-		if (isDeadlockedState && !isWon) {
-			void recordGameStats({
-				gameId: 'liquid-sort',
-				won: false,
-				bucketKey: difficulty,
-				playTimeSeconds: elapsedSeconds,
-				moves,
-				isFlawless: false,
-			});
-		}
-
 		const nextSeed = seed >= 1 && seed < 10 ? seed + 1 : Math.floor(Math.random() * 100000) + 1;
 		let nextBoard: Board;
 		let nextParMoves: number;
@@ -434,7 +423,7 @@ export function useLiquidSortGame(initialDifficulty: DifficultyLevel = 'easy', i
 		setMaxConsecutiveCompletions(0);
 		setUsedBufferTubes([]);
 		setHistory(createHistory(nextBoard));
-	}, [difficulty, seed, isDeadlockedState, isWon, elapsedSeconds, moves]);
+	}, [difficulty, seed]);
 
 	const handleOpenRules = useCallback(() => {
 		setRulesOpen(true);

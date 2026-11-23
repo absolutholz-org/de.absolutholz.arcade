@@ -22,7 +22,7 @@ const currentCommon = resources[currentLanguage]?.common ?? resources.en.common;
 	description={`${currentPentominoes.title} - ${currentCommon.stats.title}`}
 	lang={currentLanguage}
 	breadcrumbItems={[
-		{ label: currentCommon.app.title, href: `/${currentLanguage}/`, isHome: true },
+		{ label: `${currentCommon.app.shortTitle} ${currentCommon.navigation.home}`, href: `/${currentLanguage}/`, isHome: true },
 		{ label: currentPentominoes.title, href: `/pentominoes/${currentLanguage}/` },
 		{ label: currentCommon.stats.title, isCurrent: true },
 	]}
@@ -42,6 +42,8 @@ const currentCommon = resources[currentLanguage]?.common ?? resources.en.common;
 		gameId="pentominoes"
 		lang={currentLanguage}
 		hideTitle
+		showFastestRuns
+		hideWinLossMetrics
 		bucketLabels={{
 			easy: currentPentominoes.difficulty.easy,
 			medium: currentPentominoes.difficulty.medium,

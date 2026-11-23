@@ -22,7 +22,7 @@ const currentCommon = resources[currentLanguage]?.common ?? resources.en.common;
 	description={`${currentColorFlood.title} - ${currentCommon.stats.title}`}
 	lang={currentLanguage}
 	breadcrumbItems={[
-		{ label: currentCommon.app.title, href: `/${currentLanguage}/`, isHome: true },
+		{ label: `${currentCommon.app.shortTitle} ${currentCommon.navigation.home}`, href: `/${currentLanguage}/`, isHome: true },
 		{ label: currentColorFlood.title, href: `/color-flood/${currentLanguage}/` },
 		{ label: currentCommon.stats.title, isCurrent: true },
 	]}
@@ -42,6 +42,8 @@ const currentCommon = resources[currentLanguage]?.common ?? resources.en.common;
 		gameId="color-flood"
 		lang={currentLanguage}
 		hideTitle
+		showFewestMoves
+		showFastestRuns
 		bucketLabels={{
 			beginner: currentColorFlood.difficulty.beginner,
 			easy: currentColorFlood.difficulty.easy,

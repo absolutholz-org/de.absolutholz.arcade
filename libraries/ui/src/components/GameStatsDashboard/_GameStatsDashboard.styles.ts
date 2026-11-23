@@ -128,6 +128,20 @@ export const EmptyStateCard = styled.div`
 	}
 `;
 
+export const LeaderboardsGrid = styled.div`
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 1.5rem;
+	width: 100%;
+
+	&[data-multiple='true'] {
+		@media (min-width: 768px) {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			align-items: start;
+		}
+	}
+`;
+
 export const FastestRunsSection = styled.section`
 	display: flex;
 	flex-direction: column;
@@ -205,10 +219,19 @@ export const FastestRunRow = styled.li`
 	}
 
 	[data-slot='time'] {
+		display: inline-flex;
+		align-items: baseline;
+		gap: 0.5rem;
 		font-size: 1rem;
 		font-weight: 700;
 		color: ${themeColor('text-1')};
 		font-variant-numeric: tabular-nums;
 		white-space: nowrap;
+	}
+
+	[data-slot='subvalue'] {
+		font-size: 0.8125rem;
+		font-weight: 500;
+		color: ${themeColor('text-2')};
 	}
 `;

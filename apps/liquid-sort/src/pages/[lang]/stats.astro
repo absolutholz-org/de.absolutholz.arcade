@@ -22,7 +22,7 @@ const currentCommon = resources[currentLanguage]?.common ?? resources.en.common;
 	description={`${currentLiquidSort.title} - ${currentCommon.stats.title}`}
 	lang={currentLanguage}
 	breadcrumbItems={[
-		{ label: currentCommon.app.title, href: `/${currentLanguage}/`, isHome: true },
+		{ label: `${currentCommon.app.shortTitle} ${currentCommon.navigation.home}`, href: `/${currentLanguage}/`, isHome: true },
 		{ label: currentLiquidSort.title, href: `/liquid-sort/${currentLanguage}/` },
 		{ label: currentCommon.stats.title, isCurrent: true },
 	]}
@@ -42,6 +42,9 @@ const currentCommon = resources[currentLanguage]?.common ?? resources.en.common;
 		gameId="liquid-sort"
 		lang={currentLanguage}
 		hideTitle
+		showFewestMoves
+		showFastestRuns
+		hideWinLossMetrics
 		bucketLabels={{
 			easy: currentLiquidSort.difficulty.easy,
 			medium: currentLiquidSort.difficulty.medium,

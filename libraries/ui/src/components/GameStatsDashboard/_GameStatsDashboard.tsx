@@ -55,7 +55,10 @@ function GameStatsDashboardContent({
 	hideTitle = false,
 	showFastestRuns = false,
 	showTopScores = false,
+	showFewestMoves = false,
+	fewestMovesVariant = 'moves',
 	hideWinLossMetrics = false,
+	displayMode = 'standard',
 	className,
 }: GameStatsDashboardProps): JSX.Element {
 	const { t } = useI18n('common');
@@ -118,6 +121,10 @@ function GameStatsDashboardContent({
 	const bestTimeIso =
 		activeBucketStats.bestTimeSeconds !== null ? formatDurationIso(activeBucketStats.bestTimeSeconds) : undefined;
 
+	const isMatchDrawMode = displayMode === 'match-draw';
+	const bestMovesLabel = fewestMovesVariant === 'guesses' ? t('stats.bestGuesses') : t('stats.bestMoves');
+	const fewestMovesTitle = fewestMovesVariant === 'guesses' ? t('stats.fewestGuesses') : t('stats.fewestMoves');
+
 	const hasSecondaryMetrics =
 		activeBucketStats.totalPlayTimeSeconds > 0 ||
 		activeBucketStats.bestMoves != null ||
@@ -141,7 +148,7 @@ function GameStatsDashboardContent({
 			{activeBucketStats.bestMoves != null && (
 				<S.MetricCard>
 					<span data-slot="value">{activeBucketStats.bestMoves}</span>
-					<span data-slot="label">{t('stats.bestMoves')}</span>
+					<span data-slot="label">{bestMovesLabel}</span>
 				</S.MetricCard>
 			)}
 
@@ -168,6 +175,117 @@ function GameStatsDashboardContent({
 		</>
 	);
 
+	const leaderboards: JSX.Element[] = [];
+
+	if (showTopScores && activeBucketStats.topScores && activeBucketStats.topScores.length > 0) {
+		leaderboards.push(
+			<S.FastestRunsSection key="top-scores" aria-label={t('stats.topScores')}>
+				<h3>{t('stats.topScores')}</h3>
+				<S.FastestRunsList>
+					{activeBucketStats.topScores.slice(0, 10).map((entry, index) => {
+						const rank = index + 1;
+						const dateText = new Intl.DateTimeFormat(lang, { dateStyle: 'medium' }).format(
+							new Date(entry.timestamp),
+						);
+						const bucketLabel =
+							activeTab === 'overall' && entry.bucketKey
+								? resolveBucketLabel(entry.bucketKey, bucketLabels, tGame)
+								: null;
+
+						return (
+							<S.FastestRunRow key={`${entry.timestamp}-${entry.score}-${rank}`} data-rank={rank}>
+								<span data-slot="meta">
+									<span data-slot="rank">#{rank}</span>
+									{bucketLabel && <span data-slot="bucket">{bucketLabel}</span>}
+									<span data-slot="date">{dateText}</span>
+								</span>
+								<span data-slot="time">{entry.score.toLocaleString()}</span>
+							</S.FastestRunRow>
+						);
+					})}
+				</S.FastestRunsList>
+			</S.FastestRunsSection>,
+		);
+	}
+
+	if (showFewestMoves && activeBucketStats.fewestMoves && activeBucketStats.fewestMoves.length > 0) {
+		leaderboards.push(
+			<S.FastestRunsSection key="fewest-moves" aria-label={fewestMovesTitle}>
+				<h3>{fewestMovesTitle}</h3>
+				<S.FastestRunsList>
+					{activeBucketStats.fewestMoves.slice(0, 10).map((entry, index) => {
+						const rank = index + 1;
+						const dateText = new Intl.DateTimeFormat(lang, { dateStyle: 'medium' }).format(
+							new Date(entry.timestamp),
+						);
+						const bucketLabel =
+							activeTab === 'overall' && entry.bucketKey
+								? resolveBucketLabel(entry.bucketKey, bucketLabels, tGame)
+								: null;
+
+						return (
+							<S.FastestRunRow key={`${entry.timestamp}-${entry.moves}-${rank}`} data-rank={rank}>
+								<span data-slot="meta">
+									<span data-slot="rank">#{rank}</span>
+									{bucketLabel && <span data-slot="bucket">{bucketLabel}</span>}
+									<span data-slot="date">{dateText}</span>
+								</span>
+								<span data-slot="time">
+									<span>{entry.moves.toLocaleString()}</span>
+									{entry.playTimeSeconds != null && (
+										<span data-slot="subvalue">
+											<time dateTime={formatDurationIso(entry.playTimeSeconds)}>
+												{formatTime(entry.playTimeSeconds)}
+											</time>
+										</span>
+									)}
+								</span>
+							</S.FastestRunRow>
+						);
+					})}
+				</S.FastestRunsList>
+			</S.FastestRunsSection>,
+		);
+	}
+
+	if (showFastestRuns && activeBucketStats.fastestRuns && activeBucketStats.fastestRuns.length > 0) {
+		leaderboards.push(
+			<S.FastestRunsSection key="fastest-runs" aria-label={t('stats.fastestGames')}>
+				<h3>{t('stats.fastestGames')}</h3>
+				<S.FastestRunsList>
+					{activeBucketStats.fastestRuns.slice(0, 10).map((entry, index) => {
+						const rank = index + 1;
+						const dateText = new Intl.DateTimeFormat(lang, { dateStyle: 'medium' }).format(
+							new Date(entry.timestamp),
+						);
+						const bucketLabel =
+							activeTab === 'overall' && entry.bucketKey
+								? resolveBucketLabel(entry.bucketKey, bucketLabels, tGame)
+								: null;
+
+						return (
+							<S.FastestRunRow
+								key={`${entry.timestamp}-${entry.playTimeSeconds}-${rank}`}
+								data-rank={rank}
+							>
+								<span data-slot="meta">
+									<span data-slot="rank">#{rank}</span>
+									{bucketLabel && <span data-slot="bucket">{bucketLabel}</span>}
+									<span data-slot="date">{dateText}</span>
+								</span>
+								<span data-slot="time">
+									<time dateTime={formatDurationIso(entry.playTimeSeconds)}>
+										{formatTime(entry.playTimeSeconds)}
+									</time>
+								</span>
+							</S.FastestRunRow>
+						);
+					})}
+				</S.FastestRunsList>
+			</S.FastestRunsSection>,
+		);
+	}
+
 	return (
 		<S.Container className={className} aria-label={titleText}>
 			{!hideTitle && (
@@ -188,108 +306,81 @@ function GameStatsDashboardContent({
 				</S.SwitcherContainer>
 			)}
 
-			<S.MetricsGrid data-auto-fit={hideWinLossMetrics ? 'true' : undefined}>
-				<S.MetricCard>
-					<span data-slot="value">{activeBucketStats.gamesPlayed}</span>
-					<span data-slot="label">{t('stats.gamesPlayed')}</span>
-				</S.MetricCard>
+			{isMatchDrawMode ? (
+				<S.MetricsGrid data-auto-fit="true">
+					<S.MetricCard>
+						<span data-slot="value">{activeBucketStats.gamesPlayed}</span>
+						<span data-slot="label">{t('stats.matchesPlayed')}</span>
+					</S.MetricCard>
 
-				{!hideWinLossMetrics && (
-					<>
-						<S.MetricCard data-variant="highlight">
-							<span data-slot="value">{winRate}%</span>
-							<span data-slot="label">{t('stats.winRate')}</span>
-						</S.MetricCard>
+					<S.MetricCard data-variant="highlight">
+						<span data-slot="value">{activeBucketStats.gamesWon}</span>
+						<span data-slot="label">{t('stats.decisiveWins')}</span>
+					</S.MetricCard>
 
+					<S.MetricCard>
+						<span data-slot="value">{activeBucketStats.gamesLost}</span>
+						<span data-slot="label">{t('stats.draws')}</span>
+					</S.MetricCard>
+
+					{activeBucketStats.totalPlayTimeSeconds > 0 && (
 						<S.MetricCard>
-							<span data-slot="value">{activeBucketStats.currentStreak}</span>
-							<span data-slot="label">{t('stats.currentStreak')}</span>
+							<span data-slot="value">
+								<time dateTime={formatDurationIso(activeBucketStats.totalPlayTimeSeconds)}>
+									{formatTime(activeBucketStats.totalPlayTimeSeconds)}
+								</time>
+							</span>
+							<span data-slot="label">{t('stats.totalPlayTime')}</span>
 						</S.MetricCard>
-
+					)}
+				</S.MetricsGrid>
+			) : (
+				<>
+					<S.MetricsGrid data-auto-fit={hideWinLossMetrics ? 'true' : undefined}>
 						<S.MetricCard>
-							<span data-slot="value">{activeBucketStats.bestStreak}</span>
-							<span data-slot="label">{t('stats.bestStreak')}</span>
+							<span data-slot="value">{activeBucketStats.gamesPlayed}</span>
+							<span data-slot="label">{t('stats.gamesPlayed')}</span>
 						</S.MetricCard>
-					</>
-				)}
 
-				<S.MetricCard data-variant={hideWinLossMetrics ? 'highlight' : undefined}>
-					<span data-slot="value">
-						{bestTimeIso ? <time dateTime={bestTimeIso}>{bestTimeText}</time> : bestTimeText}
-					</span>
-					<span data-slot="label">{t('stats.bestTime')}</span>
-				</S.MetricCard>
+						{!hideWinLossMetrics && (
+							<>
+								<S.MetricCard data-variant="highlight">
+									<span data-slot="value">{winRate}%</span>
+									<span data-slot="label">{t('stats.winRate')}</span>
+								</S.MetricCard>
 
-				{hideWinLossMetrics && secondaryMetricCards}
-			</S.MetricsGrid>
+								<S.MetricCard>
+									<span data-slot="value">{activeBucketStats.currentStreak}</span>
+									<span data-slot="label">{t('stats.currentStreak')}</span>
+								</S.MetricCard>
 
-			{!hideWinLossMetrics && hasSecondaryMetrics && (
-				<S.SecondaryMetricsGrid>{secondaryMetricCards}</S.SecondaryMetricsGrid>
+								<S.MetricCard>
+									<span data-slot="value">{activeBucketStats.bestStreak}</span>
+									<span data-slot="label">{t('stats.bestStreak')}</span>
+								</S.MetricCard>
+							</>
+						)}
+
+						<S.MetricCard data-variant={hideWinLossMetrics ? 'highlight' : undefined}>
+							<span data-slot="value">
+								{bestTimeIso ? <time dateTime={bestTimeIso}>{bestTimeText}</time> : bestTimeText}
+							</span>
+							<span data-slot="label">{t('stats.bestTime')}</span>
+						</S.MetricCard>
+
+						{hideWinLossMetrics && secondaryMetricCards}
+					</S.MetricsGrid>
+
+					{!hideWinLossMetrics && hasSecondaryMetrics && (
+						<S.SecondaryMetricsGrid>{secondaryMetricCards}</S.SecondaryMetricsGrid>
+					)}
+				</>
 			)}
 
-			{showFastestRuns && activeBucketStats.fastestRuns && activeBucketStats.fastestRuns.length > 0 && (
-				<S.FastestRunsSection aria-label={t('stats.fastestGames')}>
-					<h3>{t('stats.fastestGames')}</h3>
-					<S.FastestRunsList>
-						{activeBucketStats.fastestRuns.slice(0, 10).map((entry, index) => {
-							const rank = index + 1;
-							const dateText = new Intl.DateTimeFormat(lang, { dateStyle: 'medium' }).format(
-								new Date(entry.timestamp),
-							);
-							const bucketLabel =
-								activeTab === 'overall' && entry.bucketKey
-									? resolveBucketLabel(entry.bucketKey, bucketLabels, tGame)
-									: null;
-
-							return (
-								<S.FastestRunRow
-									key={`${entry.timestamp}-${entry.playTimeSeconds}-${rank}`}
-									data-rank={rank}
-								>
-									<span data-slot="meta">
-										<span data-slot="rank">#{rank}</span>
-										{bucketLabel && <span data-slot="bucket">{bucketLabel}</span>}
-										<span data-slot="date">{dateText}</span>
-									</span>
-									<span data-slot="time">
-										<time dateTime={formatDurationIso(entry.playTimeSeconds)}>
-											{formatTime(entry.playTimeSeconds)}
-										</time>
-									</span>
-								</S.FastestRunRow>
-							);
-						})}
-					</S.FastestRunsList>
-				</S.FastestRunsSection>
-			)}
-
-			{showTopScores && activeBucketStats.topScores && activeBucketStats.topScores.length > 0 && (
-				<S.FastestRunsSection aria-label={t('stats.topScores')}>
-					<h3>{t('stats.topScores')}</h3>
-					<S.FastestRunsList>
-						{activeBucketStats.topScores.slice(0, 10).map((entry, index) => {
-							const rank = index + 1;
-							const dateText = new Intl.DateTimeFormat(lang, { dateStyle: 'medium' }).format(
-								new Date(entry.timestamp),
-							);
-							const bucketLabel =
-								activeTab === 'overall' && entry.bucketKey
-									? resolveBucketLabel(entry.bucketKey, bucketLabels, tGame)
-									: null;
-
-							return (
-								<S.FastestRunRow key={`${entry.timestamp}-${entry.score}-${rank}`} data-rank={rank}>
-									<span data-slot="meta">
-										<span data-slot="rank">#{rank}</span>
-										{bucketLabel && <span data-slot="bucket">{bucketLabel}</span>}
-										<span data-slot="date">{dateText}</span>
-									</span>
-									<span data-slot="time">{entry.score.toLocaleString()}</span>
-								</S.FastestRunRow>
-							);
-						})}
-					</S.FastestRunsList>
-				</S.FastestRunsSection>
+			{leaderboards.length > 0 && (
+				<S.LeaderboardsGrid data-multiple={leaderboards.length > 1 ? 'true' : undefined}>
+					{leaderboards}
+				</S.LeaderboardsGrid>
 			)}
 		</S.Container>
 	);

@@ -60,7 +60,6 @@ export async function recordPuzzleCompletion(
 		bucketKey: difficulty,
 		playTimeSeconds: elapsedSeconds,
 		moves: movesCount,
-		isFlawless: true,
 	});
 
 	return { isNewBestTime, isNewBestMoves };

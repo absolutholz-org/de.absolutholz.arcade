@@ -1,0 +1,5 @@
+# @arcade/lasers — Local Agent Invariants
+
+- **Headless Engine (`src/engine/`):** Zero React/DOM imports. Deterministic Mulberry32 PRNG (`prng.ts`), synchronous ray-tracer (`raytrace.ts`) with visited-state `(row, col, dir, colorMask)` infinite-loop guard and RGB bitmask additive color mixing (`red=1`, `green=2`, `blue=4`), and constructive generator (`generator.ts`) guaranteeing every puzzle across `easy` (5×5), `medium` (7×7), `hard` (8×8), and `expert` (9×9) is initially unsolved and 100% solvable.
+- **Accessibility & Colorblindness:** Pair every optical channel (`red`, `blue`, `green`, `magenta`, `yellow`, `cyan`, `white`) with a distinct geometric symbol (`●`, `▲`, `■`, `◆`, `★`, `✚`, `✦`) and beam dash accents. Implement WAI-ARIA 2D `role="grid"` with roving `tabIndex`, arrow keys, `Space`/`Enter` mirror rotation, `Ctrl/Cmd+Z` Undo, `Ctrl/Cmd+Shift+Z` Redo, `H` Hint, `P` Pause, `@media (forced-colors: active)`, and `<div aria-live="polite">`.
+- **Namespaces:** i18n `lasers`; storage `createGameStorage('lasers')` (`arcade::lasers::stats`, `arcade::lasers::activeGame`, `arcade::lasers::settings`); audio wired through `@arcade/lib-audio`.

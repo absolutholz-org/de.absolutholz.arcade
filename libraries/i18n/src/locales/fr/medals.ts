@@ -1027,4 +1027,30 @@ export const frMedals = {
 			desc: 'Réussissez un Plateau Parfait sans jamais utiliser Annuler.',
 		},
 	},
+	lasers: {
+		first_beam: {
+			title: 'Première Lumière',
+			desc: 'Alimentez toutes les cibles dans votre premier puzzle Lasers et Miroirs.',
+		},
+		optical_engineer: {
+			title: 'Ingénieur Optique',
+			desc: 'Résolvez des puzzles Lasers et Miroirs : Bronze à 5, Argent à 25 et Or à 100.',
+		},
+		spectrum_master: {
+			title: 'Maître du Spectre',
+			desc: 'Dominez les grilles Moyen (Bronze), Difficile (Argent) et Expert (Or).',
+		},
+		par_precision: {
+			title: 'Précision Par',
+			desc: 'Résolvez des puzzles dans le nombre de rotations Par et sans indice : Bronze à 1, Argent à 10 et Or à 30.',
+		},
+		pure_optics: {
+			title: 'Optique Pure',
+			desc: 'Résolvez des puzzles sans aucun indice : Bronze à 3, Argent à 15 et Or à 40.',
+		},
+		light_speed: {
+			title: 'Vitesse de la Lumière',
+			desc: 'Résolvez une grille Moyen, Difficile ou Expert en moins de 60 secondes.',
+		},
+	},
 } as const satisfies MedalsTranslationContract;

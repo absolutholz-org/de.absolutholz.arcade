@@ -151,9 +151,18 @@ function HubStatsDashboardContent({ lang }: HubStatsDashboardProps) {
 	};
 
 	const globalWinRate = useMemo(() => {
-		if (globalStats.totalGamesPlayed <= 0) return 0;
-		return Math.round((globalStats.totalGamesWon / globalStats.totalGamesPlayed) * 100);
-	}, [globalStats.totalGamesPlayed, globalStats.totalGamesWon]);
+		let winLossPlayed = 0;
+		let winLossWon = 0;
+		for (const game of ALL_GAMES) {
+			if (game.statsOutcomeModel !== 'win-loss') continue;
+			const stats = globalStats.games[game.id];
+			if (!stats) continue;
+			winLossPlayed += stats.totalPlayed;
+			winLossWon += stats.totalWon;
+		}
+		if (winLossPlayed <= 0) return 0;
+		return Math.round((winLossWon / winLossPlayed) * 100);
+	}, [globalStats.games]);
 
 	const formattedTotalTime = useMemo(() => {
 		return formatDuration(globalStats.totalPlayTimeMs);
@@ -237,9 +246,20 @@ function HubStatsDashboardContent({ lang }: HubStatsDashboardProps) {
 								const gameStats = globalStats.games[game.id];
 								const played = gameStats?.totalPlayed ?? 0;
 								const won = gameStats?.totalWon ?? 0;
+								const draws = Math.max(0, played - won);
 								const winRate = gameStats?.winRate ?? 0;
 								const streak = gameStats?.currentStreak ?? 0;
+								const totalTime = formatDuration(gameStats?.totalTimeMs ?? 0);
+								const bestTime = formatBestTime(gameStats?.bestTimeMs);
 								const title = getGameTitle(game.id, lang);
+								const outcomeModel = game.statsOutcomeModel;
+
+								const cardAriaLabel =
+									outcomeModel === 'win-loss'
+										? `${title}: ${played} ${t('stats.gamesPlayed')}, ${won} ${t('stats.gamesWon')}, ${played > 0 ? winRate : 0}% ${t('stats.winRate')}`
+										: outcomeModel === 'match-draw'
+											? `${title}: ${played} ${t('stats.matchesPlayed')}, ${won} ${t('stats.decisiveWins')}, ${draws} ${t('stats.draws')}`
+											: `${title}: ${played} ${t('stats.gamesCompleted')}, ${t('stats.bestTime')} ${bestTime}`;
 
 								return (
 									<ClickableCard
@@ -248,7 +268,7 @@ function HubStatsDashboardContent({ lang }: HubStatsDashboardProps) {
 										type="button"
 										className={S.CompactCard}
 										onClick={() => handleFilterChange(game.id)}
-										aria-label={`${title}: ${played} ${t('stats.gamesPlayed')}, ${won} ${t('stats.gamesWon')}, ${played > 0 ? winRate : 0}% ${t('stats.winRate')}`}
+										aria-label={cardAriaLabel}
 									>
 										<div className={S.CompactCardHeader}>
 											<span className={S.CompactGameIcon} aria-hidden="true">
@@ -258,24 +278,80 @@ function HubStatsDashboardContent({ lang }: HubStatsDashboardProps) {
 										</div>
 
 										<div className={S.CompactMetricsGrid}>
-											<div className={S.MetricItem}>
-												<span className={S.MetricLabel}>{t('stats.gamesPlayed')}</span>
-												<span className={S.MetricValue}>{played}</span>
-											</div>
-											<div className={S.MetricItem}>
-												<span className={S.MetricLabel}>{t('stats.gamesWon')}</span>
-												<span className={S.MetricValue}>{won}</span>
-											</div>
-											<div className={S.MetricItem}>
-												<span className={S.MetricLabel}>{t('stats.winRate')}</span>
-												<span className={S.MetricValue}>
-													{played > 0 ? `${winRate}%` : '—'}
-												</span>
-											</div>
-											<div className={S.MetricItem}>
-												<span className={S.MetricLabel}>{t('stats.currentStreak')}</span>
-												<span className={S.MetricValue}>{streak}</span>
-											</div>
+											{outcomeModel === 'win-loss' && (
+												<>
+													<div className={S.MetricItem}>
+														<span className={S.MetricLabel}>{t('stats.gamesPlayed')}</span>
+														<span className={S.MetricValue}>{played}</span>
+													</div>
+													<div className={S.MetricItem}>
+														<span className={S.MetricLabel}>{t('stats.gamesWon')}</span>
+														<span className={S.MetricValue}>{won}</span>
+													</div>
+													<div className={S.MetricItem}>
+														<span className={S.MetricLabel}>{t('stats.winRate')}</span>
+														<span className={S.MetricValue}>
+															{played > 0 ? `${winRate}%` : '—'}
+														</span>
+													</div>
+													<div className={S.MetricItem}>
+														<span className={S.MetricLabel}>
+															{t('stats.currentStreak')}
+														</span>
+														<span className={S.MetricValue}>{streak}</span>
+													</div>
+												</>
+											)}
+
+											{outcomeModel === 'no-loss' && (
+												<>
+													<div className={S.MetricItem}>
+														<span className={S.MetricLabel}>
+															{t('stats.gamesCompleted')}
+														</span>
+														<span className={S.MetricValue}>{played}</span>
+													</div>
+													<div className={S.MetricItem}>
+														<span className={S.MetricLabel}>{t('stats.bestTime')}</span>
+														<span className={S.MetricValue}>{bestTime}</span>
+													</div>
+													<div className={S.MetricItem}>
+														<span className={S.MetricLabel}>
+															{t('stats.totalPlayTime')}
+														</span>
+														<span className={S.MetricValue}>
+															{played > 0 ? totalTime : '—'}
+														</span>
+													</div>
+												</>
+											)}
+
+											{outcomeModel === 'match-draw' && (
+												<>
+													<div className={S.MetricItem}>
+														<span className={S.MetricLabel}>
+															{t('stats.matchesPlayed')}
+														</span>
+														<span className={S.MetricValue}>{played}</span>
+													</div>
+													<div className={S.MetricItem}>
+														<span className={S.MetricLabel}>{t('stats.decisiveWins')}</span>
+														<span className={S.MetricValue}>{won}</span>
+													</div>
+													<div className={S.MetricItem}>
+														<span className={S.MetricLabel}>{t('stats.draws')}</span>
+														<span className={S.MetricValue}>{draws}</span>
+													</div>
+													<div className={S.MetricItem}>
+														<span className={S.MetricLabel}>
+															{t('stats.totalPlayTime')}
+														</span>
+														<span className={S.MetricValue}>
+															{played > 0 ? totalTime : '—'}
+														</span>
+													</div>
+												</>
+											)}
 										</div>
 									</ClickableCard>
 								);
@@ -296,47 +372,92 @@ function HubStatsDashboardContent({ lang }: HubStatsDashboardProps) {
 						</div>
 
 						<div className={S.KpiGrid}>
-							{/* Played & Won (with Win Rate %) */}
-							<div
-								className={S.KpiCard}
-								aria-label={`${t('stats.gamesWon')}: ${selectedGameStats?.totalWon ?? 0} of ${selectedGameStats?.totalPlayed ?? 0}`}
-							>
-								<span className={S.KpiValue}>
-									{selectedGameStats?.totalWon ?? 0} / {selectedGameStats?.totalPlayed ?? 0}
-								</span>
-								<span className={S.KpiLabel}>
-									{t('stats.gamesWon')} / {t('stats.gamesPlayed')}
-								</span>
-								<span className={S.KpiSubline}>
-									{(selectedGameStats?.totalPlayed ?? 0) > 0
-										? `${selectedGameStats?.winRate ?? 0}% ${t('stats.winRate')}`
-										: `0% ${t('stats.winRate')}`}
-								</span>
-							</div>
+							{selectedGame.statsOutcomeModel === 'win-loss' && (
+								<>
+									{/* Played & Won (with Win Rate %) */}
+									<div
+										className={S.KpiCard}
+										aria-label={`${t('stats.gamesWon')}: ${selectedGameStats?.totalWon ?? 0} of ${selectedGameStats?.totalPlayed ?? 0}`}
+									>
+										<span className={S.KpiValue}>
+											{selectedGameStats?.totalWon ?? 0} / {selectedGameStats?.totalPlayed ?? 0}
+										</span>
+										<span className={S.KpiLabel}>
+											{t('stats.gamesWon')} / {t('stats.gamesPlayed')}
+										</span>
+										<span className={S.KpiSubline}>
+											{(selectedGameStats?.totalPlayed ?? 0) > 0
+												? `${selectedGameStats?.winRate ?? 0}% ${t('stats.winRate')}`
+												: `0% ${t('stats.winRate')}`}
+										</span>
+									</div>
 
-							{/* Current Streak & Max Streak */}
-							<div
-								className={S.KpiCard}
-								aria-label={`${t('stats.currentStreak')}: ${selectedGameStats?.currentStreak ?? 0}`}
-							>
-								<span className={S.KpiValue}>{selectedGameStats?.currentStreak ?? 0}</span>
-								<span className={S.KpiLabel}>{t('stats.currentStreak')}</span>
-								<span className={S.KpiSubline}>
-									{t('stats.bestStreak')}: {selectedGameStats?.maxStreak ?? 0}
-								</span>
-							</div>
+									{/* Current Streak & Max Streak */}
+									<div
+										className={S.KpiCard}
+										aria-label={`${t('stats.currentStreak')}: ${selectedGameStats?.currentStreak ?? 0}`}
+									>
+										<span className={S.KpiValue}>{selectedGameStats?.currentStreak ?? 0}</span>
+										<span className={S.KpiLabel}>{t('stats.currentStreak')}</span>
+										<span className={S.KpiSubline}>
+											{t('stats.bestStreak')}: {selectedGameStats?.maxStreak ?? 0}
+										</span>
+									</div>
+								</>
+							)}
 
-							{/* Best Time */}
-							<div
-								className={S.KpiCard}
-								aria-label={`${t('stats.bestTime')}: ${formatBestTime(selectedGameStats?.bestTimeMs)}`}
-							>
-								<span className={S.KpiValue}>{formatBestTime(selectedGameStats?.bestTimeMs)}</span>
-								<span className={S.KpiLabel}>{t('stats.bestTime')}</span>
-								<span className={S.KpiSubline}>
-									{(selectedGameStats?.totalPlayed ?? 0) > 0 ? t('stats.overall') : '—'}
-								</span>
-							</div>
+							{selectedGame.statsOutcomeModel === 'no-loss' && (
+								<div
+									className={S.KpiCard}
+									aria-label={`${t('stats.gamesCompleted')}: ${selectedGameStats?.totalPlayed ?? 0}`}
+								>
+									<span className={S.KpiValue}>{selectedGameStats?.totalPlayed ?? 0}</span>
+									<span className={S.KpiLabel}>{t('stats.gamesCompleted')}</span>
+									<span className={S.KpiSubline}>{t('stats.overall')}</span>
+								</div>
+							)}
+
+							{selectedGame.statsOutcomeModel === 'match-draw' && (
+								<>
+									<div
+										className={S.KpiCard}
+										aria-label={`${t('stats.matchesPlayed')}: ${selectedGameStats?.totalPlayed ?? 0}`}
+									>
+										<span className={S.KpiValue}>{selectedGameStats?.totalPlayed ?? 0}</span>
+										<span className={S.KpiLabel}>{t('stats.matchesPlayed')}</span>
+										<span className={S.KpiSubline}>{t('stats.overall')}</span>
+									</div>
+									<div
+										className={S.KpiCard}
+										aria-label={`${t('stats.decisiveWins')}: ${selectedGameStats?.totalWon ?? 0}`}
+									>
+										<span className={S.KpiValue}>{selectedGameStats?.totalWon ?? 0}</span>
+										<span className={S.KpiLabel}>{t('stats.decisiveWins')}</span>
+										<span className={S.KpiSubline}>
+											{t('stats.draws')}:{' '}
+											{Math.max(
+												0,
+												(selectedGameStats?.totalPlayed ?? 0) -
+													(selectedGameStats?.totalWon ?? 0),
+											)}
+										</span>
+									</div>
+								</>
+							)}
+
+							{/* Best Time (omitted for match-draw games) */}
+							{selectedGame.statsOutcomeModel !== 'match-draw' && (
+								<div
+									className={S.KpiCard}
+									aria-label={`${t('stats.bestTime')}: ${formatBestTime(selectedGameStats?.bestTimeMs)}`}
+								>
+									<span className={S.KpiValue}>{formatBestTime(selectedGameStats?.bestTimeMs)}</span>
+									<span className={S.KpiLabel}>{t('stats.bestTime')}</span>
+									<span className={S.KpiSubline}>
+										{(selectedGameStats?.totalPlayed ?? 0) > 0 ? t('stats.overall') : '—'}
+									</span>
+								</div>
+							)}
 
 							{/* Total Time Played */}
 							<div

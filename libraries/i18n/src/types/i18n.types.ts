@@ -8,6 +8,7 @@ import type { ColorMapSchema, ColorMapTranslationContract } from '../schemas/col
 import type { CommonSchema, CommonTranslationContract } from '../schemas/common.schema.js';
 import type { DiceBingoSchema, DiceBingoTranslationContract } from '../schemas/dice-bingo.schema.js';
 import type { FutoshikiSchema, FutoshikiTranslationContract } from '../schemas/futoshiki.schema.js';
+import type { LasersSchema, LasersTranslationContract } from '../schemas/lasers.schema.js';
 import type { LiquidSortSchema, LiquidSortTranslationContract } from '../schemas/liquid-sort.schema.js';
 import type { MedalsSchema, MedalsTranslationContract } from '../schemas/medals.schema.js';
 import type { MinesweeperSchema, MinesweeperTranslationContract } from '../schemas/minesweeper.schema.js';
@@ -53,6 +54,7 @@ export type FutoshikiTranslationKey = LeafKeys<FutoshikiSchema> | `futoshiki.${L
 export type CodebreakerTranslationKey = LeafKeys<CodebreakerSchema> | `codebreaker.${LeafKeys<CodebreakerSchema>}`;
 export type UndeadTranslationKey = LeafKeys<UndeadSchema> | `undead.${LeafKeys<UndeadSchema>}`;
 export type CascadeTranslationKey = LeafKeys<CascadeSchema> | `cascade.${LeafKeys<CascadeSchema>}`;
+export type LasersTranslationKey = LeafKeys<LasersSchema> | `lasers.${LeafKeys<LasersSchema>}`;
 export type MedalsTranslationKey = LeafKeys<MedalsSchema> | `medals.${LeafKeys<MedalsSchema>}`;
 export type TaxonomyTranslationKey = LeafKeys<TaxonomySchema> | `taxonomy.${LeafKeys<TaxonomySchema>}`;
 
@@ -78,6 +80,7 @@ export type TranslationKey =
 	| CodebreakerTranslationKey
 	| UndeadTranslationKey
 	| CascadeTranslationKey
+	| LasersTranslationKey
 	| MedalsTranslationKey
 	| TaxonomyTranslationKey;
 
@@ -113,6 +116,7 @@ export type TranslationResources = Record<
 		readonly codebreaker: CodebreakerTranslationContract;
 		readonly undead: UndeadTranslationContract;
 		readonly cascade: CascadeTranslationContract;
+		readonly lasers: LasersTranslationContract;
 		readonly medals: MedalsTranslationContract;
 		readonly taxonomy: TaxonomyTranslationContract;
 	}

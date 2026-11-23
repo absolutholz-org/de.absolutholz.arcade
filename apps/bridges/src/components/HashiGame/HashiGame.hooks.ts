@@ -275,15 +275,6 @@ export function useHashiGame(initialDifficulty: DifficultyLevel = 'easy', initia
 		const sizeKey = `${curBoard.width}x${curBoard.height}`;
 		const levelKey = curBoard.difficulty;
 
-		void recordGameStats({
-			gameId: 'bridges',
-			won: false,
-			bucketKey: levelKey,
-			playTimeSeconds: Math.max(1, safeSeconds),
-			moves: curBoard.bridges.length,
-			isFlawless: false,
-		});
-
 		void recordGameResult(
 			{
 				gameId: 'bridges',

@@ -7,6 +7,7 @@ import { COLOR_FLOOD_MEDAL_DEFINITIONS } from '../../../color-flood/src/config/m
 import { COLOR_MAP_MEDAL_DEFINITIONS } from '../../../color-map/src/config/medals';
 import { DICE_BINGO_MEDAL_DEFINITIONS } from '../../../dice-bingo/src/config/medals';
 import { FUTOSHIKI_MEDAL_DEFINITIONS } from '../../../futoshiki/src/config/medals';
+import { LASERS_MEDAL_DEFINITIONS } from '../../../lasers/src/config/medals';
 import { LIQUID_SORT_MEDAL_DEFINITIONS } from '../../../liquid-sort/src/config/medals';
 import { MINESWEEPER_MEDAL_DEFINITIONS } from '../../../minesweeper/src/config/medals';
 import { NET_MEDAL_DEFINITIONS } from '../../../net/src/config/medals';
@@ -43,6 +44,7 @@ export const HUB_MEDAL_DEFINITIONS: {
 	undead: UNDEAD_MEDAL_DEFINITIONS,
 	'color-map': COLOR_MAP_MEDAL_DEFINITIONS,
 	cascade: CASCADE_MEDAL_DEFINITIONS,
+	lasers: LASERS_MEDAL_DEFINITIONS,
 };
 
 export function getHubMedalDefinitionsForGame<G extends GameId>(gameId: G): readonly AchievementDefinition<G>[] {

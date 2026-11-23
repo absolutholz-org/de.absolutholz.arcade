@@ -320,6 +320,14 @@ export interface MedalsSchema {
 		readonly five_color_master: { readonly title: string; readonly desc: string };
 		readonly no_looking_back: { readonly title: string; readonly desc: string };
 	};
+	readonly lasers: {
+		readonly first_beam: { readonly title: string; readonly desc: string };
+		readonly optical_engineer: { readonly title: string; readonly desc: string };
+		readonly spectrum_master: { readonly title: string; readonly desc: string };
+		readonly par_precision: { readonly title: string; readonly desc: string };
+		readonly pure_optics: { readonly title: string; readonly desc: string };
+		readonly light_speed: { readonly title: string; readonly desc: string };
+	};
 }
 
 export type MedalsTranslationContract = MedalsSchema;

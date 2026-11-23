@@ -22,7 +22,7 @@ const currentCommon = resources[currentLanguage]?.common ?? resources.en.common;
 	description={`${currentDiceBingo.title} - ${currentCommon.stats.title}`}
 	lang={currentLanguage}
 	breadcrumbItems={[
-		{ label: currentCommon.app.title, href: `/${currentLanguage}/`, isHome: true },
+		{ label: `${currentCommon.app.shortTitle} ${currentCommon.navigation.home}`, href: `/${currentLanguage}/`, isHome: true },
 		{ label: currentDiceBingo.title, href: `/dice-bingo/${currentLanguage}/` },
 		{ label: currentCommon.stats.title, isCurrent: true },
 	]}
@@ -42,10 +42,13 @@ const currentCommon = resources[currentLanguage]?.common ?? resources.en.common;
 		gameId="dice-bingo"
 		lang={currentLanguage}
 		hideTitle
+		showTopScores
+		hideWinLossMetrics
 		bucketLabels={{
 			easy: currentDiceBingo.difficulty.easy,
 			medium: currentDiceBingo.difficulty.medium,
 			hard: currentDiceBingo.difficulty.hard,
 		}}
+		playHref={`/dice-bingo/${currentLanguage}/game`}
 	/>
 </GameSubpageTemplate>

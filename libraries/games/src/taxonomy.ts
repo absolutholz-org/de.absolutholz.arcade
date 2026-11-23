@@ -152,6 +152,7 @@ const GAME_ID_LOOKUP = {
 	undead: true,
 	'color-map': true,
 	cascade: true,
+	lasers: true,
 } as const satisfies Readonly<Record<GameId, true>>;
 
 const PLAY_MODE_SET: ReadonlySet<string> = new Set(GAME_PLAY_MODES);

@@ -10,6 +10,7 @@ import type { AggregatedGameStats } from './stats/types.js';
 import type {
 	DifficultyBucketStats,
 	FastestRunEntry,
+	FewestMovesEntry,
 	GameId,
 	GameStats,
 	RoundStatsInput,
@@ -93,12 +94,35 @@ function sortAndCapTopScores(entries: readonly TopScoreEntry[]): readonly TopSco
 	return unique.sort((a, b) => b.score - a.score || a.timestamp - b.timestamp).slice(0, MAX_FASTEST_RUNS);
 }
 
+function sortAndCapFewestMoves(entries: readonly FewestMovesEntry[]): readonly FewestMovesEntry[] {
+	const seen = new Set<string>();
+	const unique: FewestMovesEntry[] = [];
+
+	for (const entry of entries) {
+		const key = `${entry.timestamp}:${entry.moves}:${entry.playTimeSeconds ?? ''}:${entry.bucketKey ?? ''}`;
+		if (!seen.has(key)) {
+			seen.add(key);
+			unique.push(entry);
+		}
+	}
+
+	return unique
+		.sort(
+			(a, b) =>
+				a.moves - b.moves ||
+				(a.playTimeSeconds ?? Number.POSITIVE_INFINITY) - (b.playTimeSeconds ?? Number.POSITIVE_INFINITY) ||
+				a.timestamp - b.timestamp,
+		)
+		.slice(0, MAX_FASTEST_RUNS);
+}
+
 /**
  * Pure helper function to update a single DifficultyBucketStats instance with a round result.
  */
 function updateBucketStats(
 	prevBucket: DifficultyBucketStats | undefined,
 	input: RoundStatsInput,
+	now: number,
 ): DifficultyBucketStats {
 	const current = prevBucket ?? createEmptyDifficultyBucketStats();
 
@@ -139,7 +163,6 @@ function updateBucketStats(
 
 		const flawlessWins = current.flawlessWins + (input.isFlawless ? 1 : 0);
 
-		const now = Date.now();
 		const newRun: FastestRunEntry = {
 			playTimeSeconds: input.playTimeSeconds,
 			timestamp: now,
@@ -159,6 +182,19 @@ function updateBucketStats(
 					])
 				: current.topScores;
 
+		const fewestMoves =
+			input.moves != null
+				? sortAndCapFewestMoves([
+						...(current.fewestMoves ?? []),
+						{
+							moves: input.moves,
+							playTimeSeconds: input.playTimeSeconds,
+							timestamp: now,
+							...(input.bucketKey?.trim() ? { bucketKey: input.bucketKey.trim() } : {}),
+						},
+					])
+				: current.fewestMoves;
+
 		return {
 			gamesPlayed,
 			gamesWon,
@@ -173,6 +209,7 @@ function updateBucketStats(
 			flawlessWins,
 			fastestRuns,
 			...(topScores ? { topScores } : {}),
+			...(fewestMoves ? { fewestMoves } : {}),
 		};
 	}
 
@@ -190,6 +227,7 @@ function updateBucketStats(
 		flawlessWins: current.flawlessWins,
 		...(current.fastestRuns ? { fastestRuns: current.fastestRuns } : {}),
 		...(current.topScores ? { topScores: current.topScores } : {}),
+		...(current.fewestMoves ? { fewestMoves: current.fewestMoves } : {}),
 	};
 }
 
@@ -203,7 +241,8 @@ export function updateStatsWithRound<
 	prevStats: GameStats<TBucketKey, TCustomMetrics>,
 	input: RoundStatsInput<TCustomMetrics>,
 ): GameStats<TBucketKey, TCustomMetrics> {
-	const nextOverall = updateBucketStats(prevStats.overall, input);
+	const now = Date.now();
+	const nextOverall = updateBucketStats(prevStats.overall, input, now);
 
 	const nextByBucket: Partial<Record<TBucketKey, DifficultyBucketStats>> = {
 		...prevStats.byBucket,
@@ -211,7 +250,7 @@ export function updateStatsWithRound<
 
 	if (input.bucketKey !== undefined && input.bucketKey.trim().length > 0) {
 		const key = input.bucketKey.trim() as TBucketKey;
-		nextByBucket[key] = updateBucketStats(prevStats.byBucket?.[key], input);
+		nextByBucket[key] = updateBucketStats(prevStats.byBucket?.[key], input, now);
 	}
 
 	const nextLifetimeMetrics: Record<string, number> = {
@@ -331,6 +370,8 @@ function mergeBucketStats(
 	preferRemoteCurrentStreak: boolean,
 ): DifficultyBucketStats {
 	const mergedRuns = sortAndCapFastestRuns([...(local.fastestRuns ?? []), ...(remote.fastestRuns ?? [])]);
+	const mergedTopScores = sortAndCapTopScores([...(local.topScores ?? []), ...(remote.topScores ?? [])]);
+	const mergedFewestMoves = sortAndCapFewestMoves([...(local.fewestMoves ?? []), ...(remote.fewestMoves ?? [])]);
 
 	return {
 		gamesPlayed: Math.max(local.gamesPlayed ?? 0, remote.gamesPlayed ?? 0),
@@ -342,8 +383,11 @@ function mergeBucketStats(
 		totalPlayTimeSeconds: Math.max(local.totalPlayTimeSeconds ?? 0, remote.totalPlayTimeSeconds ?? 0),
 		bestMoves: minNullable(local.bestMoves, remote.bestMoves),
 		bestScore: maxNullable(local.bestScore, remote.bestScore),
+		bestCluster: maxNullable(local.bestCluster, remote.bestCluster),
 		flawlessWins: Math.max(local.flawlessWins ?? 0, remote.flawlessWins ?? 0),
 		...(mergedRuns.length > 0 ? { fastestRuns: mergedRuns } : {}),
+		...(mergedTopScores.length > 0 ? { topScores: mergedTopScores } : {}),
+		...(mergedFewestMoves.length > 0 ? { fewestMoves: mergedFewestMoves } : {}),
 	};
 }
 

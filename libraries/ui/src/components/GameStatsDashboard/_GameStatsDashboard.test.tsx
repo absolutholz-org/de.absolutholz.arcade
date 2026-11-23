@@ -194,4 +194,60 @@ describe('GameStatsDashboard', () => {
 		expect(container.textContent).toContain('Gespielt');
 		expect(container.textContent).toContain('Beste Serie');
 	});
+
+	it('renders dual leaderboards (Fewest Guesses and Fastest Games) side-by-side', () => {
+		const dualStats: GameStats = {
+			...MOCK_POPULATED_STATS,
+			gameId: 'codebreaker',
+			overall: {
+				...MOCK_POPULATED_STATS.overall,
+				fastestRuns: [{ playTimeSeconds: 45, timestamp: 1700000000000, bucketKey: 'medium' }],
+				fewestMoves: [{ moves: 3, playTimeSeconds: 45, timestamp: 1700000000000, bucketKey: 'medium' }],
+			},
+		};
+
+		const { container } = render(
+			<GameStatsDashboard
+				gameId="codebreaker"
+				lang="en"
+				stats={dualStats}
+				showFewestMoves
+				fewestMovesVariant="guesses"
+				showFastestRuns
+			/>,
+		);
+
+		expect(container.textContent).toContain('Top 10 Fewest Guesses');
+		expect(container.textContent).toContain('Top 10 Fastest Games');
+		expect(container.textContent).toContain('Fewest Guesses');
+		const multiGrid = container.querySelector('[data-multiple="true"]');
+		expect(multiGrid).not.toBeNull();
+	});
+
+	it('renders match-draw mode for Tic-Tac-Toe without win rate or streaks', () => {
+		const tttStats: GameStats = {
+			...MOCK_POPULATED_STATS,
+			gameId: 'tictactoe',
+			overall: {
+				...MOCK_POPULATED_STATS.overall,
+				gamesPlayed: 12,
+				gamesWon: 7,
+				gamesLost: 5,
+				totalPlayTimeSeconds: 180,
+			},
+		};
+
+		const { container } = render(
+			<GameStatsDashboard gameId="tictactoe" lang="en" stats={tttStats} displayMode="match-draw" />,
+		);
+
+		expect(container.textContent).toContain('Matches Played');
+		expect(container.textContent).toContain('12');
+		expect(container.textContent).toContain('Decisive Wins');
+		expect(container.textContent).toContain('7');
+		expect(container.textContent).toContain('Draws');
+		expect(container.textContent).toContain('5');
+		expect(container.textContent).not.toContain('Win Rate');
+		expect(container.textContent).not.toContain('Current Streak');
+	});
 });

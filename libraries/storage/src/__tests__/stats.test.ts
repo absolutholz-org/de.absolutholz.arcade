@@ -5,6 +5,7 @@ import {
 	createEmptyGameStats,
 	createGameStorage,
 	getGameStats,
+	mergeGameStats,
 	recordGameStats,
 	updateStatsWithRound,
 } from '../createGameStorage.js';
@@ -25,6 +26,7 @@ describe('Game Statistics Contract & Reducer', () => {
 				totalPlayTimeSeconds: 0,
 				bestMoves: null,
 				bestScore: null,
+				bestCluster: null,
 				flawlessWins: 0,
 			});
 		});
@@ -375,6 +377,87 @@ describe('Game Statistics Contract & Reducer', () => {
 				50, 60, 75, 85, 95, 110, 150, 180, 200, 240,
 			]);
 			expect(stats.overall.fastestRuns?.[0]?.bucketKey).toBe('easy');
+		});
+
+		it('tracks and caps top 10 fewestMoves runs sorted by moves then time', () => {
+			let stats = createEmptyGameStats('codebreaker');
+			const runs = [
+				{ moves: 8, time: 40 },
+				{ moves: 4, time: 30 },
+				{ moves: 6, time: 25 },
+				{ moves: 4, time: 20 },
+				{ moves: 9, time: 50 },
+				{ moves: 5, time: 22 },
+				{ moves: 7, time: 35 },
+				{ moves: 3, time: 18 },
+				{ moves: 10, time: 60 },
+				{ moves: 6, time: 28 },
+				{ moves: 2, time: 15 },
+				{ moves: 11, time: 70 },
+			];
+
+			for (const run of runs) {
+				stats = updateStatsWithRound(stats, {
+					gameId: 'codebreaker',
+					won: true,
+					bucketKey: 'medium',
+					playTimeSeconds: run.time,
+					moves: run.moves,
+				});
+			}
+
+			// Loss should not enter fewestMoves
+			stats = updateStatsWithRound(stats, {
+				gameId: 'codebreaker',
+				won: false,
+				bucketKey: 'medium',
+				playTimeSeconds: 5,
+				moves: 1,
+			});
+
+			expect(stats.overall.fewestMoves?.map((r) => [r.moves, r.playTimeSeconds])).toEqual([
+				[2, 15],
+				[3, 18],
+				[4, 20],
+				[4, 30],
+				[5, 22],
+				[6, 25],
+				[6, 28],
+				[7, 35],
+				[8, 40],
+				[9, 50],
+			]);
+			expect(stats.byBucket.medium?.fewestMoves).toHaveLength(10);
+		});
+
+		it('preserves topScores, fewestMoves, and bestCluster when merging local and remote stats', () => {
+			const local = updateStatsWithRound(createEmptyGameStats('cascade'), {
+				gameId: 'cascade',
+				won: true,
+				bucketKey: 'normal',
+				playTimeSeconds: 90,
+				moves: 25,
+				score: 4200,
+				bestCluster: 14,
+			});
+
+			const remote = updateStatsWithRound(createEmptyGameStats('cascade'), {
+				gameId: 'cascade',
+				won: true,
+				bucketKey: 'normal',
+				playTimeSeconds: 80,
+				moves: 18,
+				score: 5100,
+				bestCluster: 19,
+			});
+
+			const merged = mergeGameStats(local, remote);
+			expect(merged.overall.bestScore).toBe(5100);
+			expect(merged.overall.bestCluster).toBe(19);
+			expect(merged.overall.topScores?.map((s) => s.score)).toEqual([5100, 4200]);
+			expect(merged.overall.fewestMoves?.map((m) => m.moves)).toEqual([18, 25]);
+			expect(merged.byBucket.normal?.bestCluster).toBe(19);
+			expect(merged.byBucket.normal?.topScores?.map((s) => s.score)).toEqual([5100, 4200]);
 		});
 	});
 });

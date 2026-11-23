@@ -790,6 +790,42 @@ export function updateCustomStats<G extends GameId>(
 			};
 		}
 
+		case 'lasers': {
+			const stats = (current as GameCustomStatsMap['lasers']) ?? {};
+			const difficulty = (result.roundContext?.difficulty as string | undefined) ?? result.levelKey;
+			const hintsUsed = Number(result.roundContext?.hintsUsed ?? 0);
+			const movesCount = Number(result.roundContext?.movesCount ?? 0);
+			const parMoves = Number(result.roundContext?.parMoves ?? 0);
+			const isHintFree = result.won && hintsUsed === 0;
+			const isParWin = result.won && hintsUsed === 0 && parMoves > 0 && movesCount > 0 && movesCount <= parMoves;
+			const isMediumPlus = difficulty === 'medium' || difficulty === 'hard' || difficulty === 'expert';
+			const prevFastest = stats.fastestMediumPlusSeconds ?? null;
+			const nextFastest =
+				result.won && isMediumPlus && safeTime > 0
+					? prevFastest === null
+						? safeTime
+						: Math.min(prevFastest, safeTime)
+					: prevFastest;
+
+			if (result.won && isMediumPlus && safeTime > 0 && (prevFastest === null || safeTime < prevFastest)) {
+				isNewBestTime = true;
+			}
+
+			return {
+				updatedCustom: {
+					...stats,
+					easyWins: (stats.easyWins ?? 0) + (result.won && difficulty === 'easy' ? 1 : 0),
+					mediumWins: (stats.mediumWins ?? 0) + (result.won && difficulty === 'medium' ? 1 : 0),
+					hardWins: (stats.hardWins ?? 0) + (result.won && difficulty === 'hard' ? 1 : 0),
+					expertWins: (stats.expertWins ?? 0) + (result.won && difficulty === 'expert' ? 1 : 0),
+					parWins: (stats.parWins ?? 0) + (isParWin ? 1 : 0),
+					hintFreeWins: (stats.hintFreeWins ?? 0) + (isHintFree ? 1 : 0),
+					fastestMediumPlusSeconds: nextFastest,
+				} as unknown as GameCustomStatsMap[G],
+				isNewBestTime,
+			};
+		}
+
 		case 'undead': {
 			const stats = (current as GameCustomStatsMap['undead']) ?? {};
 			const difficulty = (result.roundContext?.difficulty as string | undefined) ?? result.levelKey;

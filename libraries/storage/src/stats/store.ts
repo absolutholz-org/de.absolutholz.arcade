@@ -20,6 +20,12 @@ export const DEFAULT_REGISTERED_GAMES: readonly string[] = [
 	'dice-bingo',
 	'pentominoes',
 	'tictactoe',
+	'futoshiki',
+	'codebreaker',
+	'undead',
+	'color-map',
+	'cascade',
+	'lasers',
 ];
 
 /**

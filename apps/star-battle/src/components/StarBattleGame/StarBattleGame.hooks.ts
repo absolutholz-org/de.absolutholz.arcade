@@ -138,15 +138,6 @@ export function useStarBattleGame(initialDifficulty: Difficulty = 'easy', initia
 			const levelKey = curPuzzle.difficulty;
 			const sizeKey = `${curPuzzle.size}x${curPuzzle.size}`;
 
-			void recordGameStats({
-				gameId: 'star-battle',
-				won: false,
-				bucketKey: levelKey,
-				playTimeSeconds: finalSeconds,
-				moves: historyRef.current.length,
-				isFlawless: false,
-			});
-
 			void recordGameResult(
 				{
 					gameId: 'star-battle',

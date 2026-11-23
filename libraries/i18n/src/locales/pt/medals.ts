@@ -1027,4 +1027,30 @@ export const ptMedals = {
 			desc: 'Alcance uma Limpeza Perfeita sem usar Desfazer nenhuma vez.',
 		},
 	},
+	lasers: {
+		first_beam: {
+			title: 'Primeira Luz',
+			desc: 'Ative todos os receptores alvo no seu primeiro puzzle Lasers e Espelhos.',
+		},
+		optical_engineer: {
+			title: 'Engenheiro Óptico',
+			desc: 'Resolva puzzles de Lasers e Espelhos na carreira: Bronze em 5, Prata em 25 e Ouro em 100.',
+		},
+		spectrum_master: {
+			title: 'Mestre do Espectro',
+			desc: 'Domine as grades Médio (Bronze), Difícil (Prata) e Especialista (Ouro).',
+		},
+		par_precision: {
+			title: 'Precisão Par',
+			desc: 'Resolva puzzles dentro da meta Par de rotações e sem dicas: Bronze em 1, Prata em 10 e Ouro em 30.',
+		},
+		pure_optics: {
+			title: 'Óptica Pura',
+			desc: 'Resolva puzzles sem usar nenhuma dica: Bronze em 3, Prata em 15 e Ouro em 40.',
+		},
+		light_speed: {
+			title: 'Velocidade da Luz',
+			desc: 'Resolva uma grade Médio, Difícil ou Especialista em menos de 60 segundos.',
+		},
+	},
 } as const satisfies MedalsTranslationContract;

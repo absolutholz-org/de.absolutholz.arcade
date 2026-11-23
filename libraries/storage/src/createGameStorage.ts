@@ -85,9 +85,11 @@ export function createGameStorage(appName: string, options?: GameStorageOptions)
 export type {
 	DifficultyBucketStats,
 	FastestRunEntry,
+	FewestMovesEntry,
 	GameId,
 	GameStats,
 	RoundStatsInput,
+	TopScoreEntry,
 } from './types/stats.types.js';
 export {
 	GAME_STATS_STORAGE_KEY,

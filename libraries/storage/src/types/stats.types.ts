@@ -17,6 +17,12 @@ export type GameId =
 	| 'dice-bingo'
 	| 'pentominoes'
 	| 'tictactoe'
+	| 'futoshiki'
+	| 'codebreaker'
+	| 'undead'
+	| 'color-map'
+	| 'cascade'
+	| 'lasers'
 	| (string & {});
 
 /**
@@ -33,6 +39,16 @@ export interface FastestRunEntry {
  */
 export interface TopScoreEntry {
 	readonly score: number;
+	readonly timestamp: number;
+	readonly bucketKey?: string;
+}
+
+/**
+ * Recorded entry for one of a player's most move-efficient completed runs.
+ */
+export interface FewestMovesEntry {
+	readonly moves: number;
+	readonly playTimeSeconds?: number;
 	readonly timestamp: number;
 	readonly bucketKey?: string;
 }
@@ -55,6 +71,7 @@ export interface DifficultyBucketStats {
 	readonly flawlessWins: number;
 	readonly fastestRuns?: readonly FastestRunEntry[];
 	readonly topScores?: readonly TopScoreEntry[];
+	readonly fewestMoves?: readonly FewestMovesEntry[];
 }
 
 /**

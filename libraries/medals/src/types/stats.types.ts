@@ -146,6 +146,17 @@ export interface GameCustomStatsMap {
 	undead: UndeadCustomStats;
 	'color-map': ColorMapCustomStats;
 	cascade: CascadeCustomStats;
+	lasers: LasersCustomStats;
+}
+
+export interface LasersCustomStats {
+	readonly easyWins?: number;
+	readonly mediumWins?: number;
+	readonly hardWins?: number;
+	readonly expertWins?: number;
+	readonly parWins?: number;
+	readonly hintFreeWins?: number;
+	readonly fastestMediumPlusSeconds?: number | null;
 }
 
 export interface CascadeCustomStats {

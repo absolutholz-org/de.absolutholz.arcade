@@ -13,6 +13,7 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 		},
 		i18nNamespace: 'sudoku',
 		mode: 'singleplayer',
+		statsOutcomeModel: 'no-loss',
 		category: {
 			primary: 'logic-deduction',
 		},
@@ -32,6 +33,7 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 		},
 		i18nNamespace: 'minesweeper',
 		mode: 'singleplayer',
+		statsOutcomeModel: 'win-loss',
 		category: {
 			primary: 'logic-deduction',
 		},
@@ -51,6 +53,7 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 		},
 		i18nNamespace: 'nonogram',
 		mode: 'singleplayer',
+		statsOutcomeModel: 'win-loss',
 		category: {
 			primary: 'logic-deduction',
 			secondary: 'spatial-puzzle',
@@ -71,6 +74,7 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 		},
 		i18nNamespace: 'star-battle',
 		mode: 'singleplayer',
+		statsOutcomeModel: 'no-loss',
 		category: {
 			primary: 'logic-deduction',
 		},
@@ -90,6 +94,7 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 		},
 		i18nNamespace: 'bridges',
 		mode: 'singleplayer',
+		statsOutcomeModel: 'no-loss',
 		category: {
 			primary: 'logic-deduction',
 			secondary: 'spatial-puzzle',
@@ -110,6 +115,7 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 		},
 		i18nNamespace: 'tracks',
 		mode: 'singleplayer',
+		statsOutcomeModel: 'no-loss',
 		category: {
 			primary: 'logic-deduction',
 			secondary: 'spatial-puzzle',
@@ -130,6 +136,7 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 		},
 		i18nNamespace: 'tents',
 		mode: 'singleplayer',
+		statsOutcomeModel: 'no-loss',
 		category: {
 			primary: 'logic-deduction',
 		},
@@ -149,6 +156,7 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 		},
 		i18nNamespace: 'anagram',
 		mode: 'singleplayer',
+		statsOutcomeModel: 'win-loss',
 		category: {
 			primary: 'word-trivia',
 		},
@@ -168,6 +176,7 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 		},
 		i18nNamespace: 'liquid-sort',
 		mode: 'singleplayer',
+		statsOutcomeModel: 'no-loss',
 		category: {
 			primary: 'casual-sorting',
 			secondary: 'logic-deduction',
@@ -188,6 +197,7 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 		},
 		i18nNamespace: 'untangle',
 		mode: 'singleplayer',
+		statsOutcomeModel: 'no-loss',
 		category: {
 			primary: 'spatial-puzzle',
 			secondary: 'casual-sorting',
@@ -208,6 +218,7 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 		},
 		i18nNamespace: 'net',
 		mode: 'singleplayer',
+		statsOutcomeModel: 'no-loss',
 		category: {
 			primary: 'logic-deduction',
 			secondary: 'spatial-puzzle',
@@ -228,6 +239,7 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 		},
 		i18nNamespace: 'color-flood',
 		mode: 'singleplayer',
+		statsOutcomeModel: 'win-loss',
 		category: {
 			primary: 'casual-sorting',
 			secondary: 'spatial-puzzle',
@@ -248,6 +260,7 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 		},
 		i18nNamespace: 'dice-bingo',
 		mode: 'singleplayer',
+		statsOutcomeModel: 'no-loss',
 		category: {
 			primary: 'card-board',
 			secondary: 'casual-sorting',
@@ -268,6 +281,7 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 		},
 		i18nNamespace: 'pentominoes',
 		mode: 'singleplayer',
+		statsOutcomeModel: 'no-loss',
 		category: {
 			primary: 'spatial-puzzle',
 			secondary: 'logic-deduction',
@@ -288,6 +302,7 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 		},
 		i18nNamespace: 'tictactoe',
 		mode: 'multiplayer',
+		statsOutcomeModel: 'match-draw',
 		players: { min: 2, max: 2 },
 		category: {
 			primary: 'card-board',
@@ -309,6 +324,7 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 		},
 		i18nNamespace: 'futoshiki',
 		mode: 'singleplayer',
+		statsOutcomeModel: 'no-loss',
 		category: {
 			primary: 'logic-deduction',
 		},
@@ -328,6 +344,7 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 		},
 		i18nNamespace: 'codebreaker',
 		mode: 'singleplayer',
+		statsOutcomeModel: 'win-loss',
 		category: {
 			primary: 'logic-deduction',
 		},
@@ -347,6 +364,7 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 		},
 		i18nNamespace: 'undead',
 		mode: 'singleplayer',
+		statsOutcomeModel: 'no-loss',
 		category: {
 			primary: 'logic-deduction',
 			secondary: 'spatial-puzzle',
@@ -367,6 +385,7 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 		},
 		i18nNamespace: 'color-map',
 		mode: 'singleplayer',
+		statsOutcomeModel: 'no-loss',
 		category: {
 			primary: 'logic-deduction',
 			secondary: 'spatial-puzzle',
@@ -387,6 +406,7 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 		},
 		i18nNamespace: 'cascade',
 		mode: 'singleplayer',
+		statsOutcomeModel: 'no-loss',
 		category: {
 			primary: 'casual-sorting',
 			secondary: 'spatial-puzzle',
@@ -395,6 +415,27 @@ export const GAME_REGISTRY: Readonly<Record<GameId, GameMetadata>> = {
 			mechanics: ['grid-based', 'color-matching', 'pattern-recognition'],
 			inputs: ['touch-optimized', 'keyboard-controls', 'tap-only'],
 			pacing: ['zen-untimed', 'undo-friendly', 'move-efficiency'],
+			modes: ['single-player', 'procedural-endless'],
+			sessionLength: ['snack-under-3m', 'standard-5-10m'],
+		},
+	},
+	lasers: {
+		id: 'lasers',
+		route: '/lasers',
+		assets: {
+			icon: '🔦',
+		},
+		i18nNamespace: 'lasers',
+		mode: 'singleplayer',
+		statsOutcomeModel: 'no-loss',
+		category: {
+			primary: 'spatial-puzzle',
+			secondary: 'logic-deduction',
+		},
+		tags: {
+			mechanics: ['grid-based', 'pathfinding', 'tile-rotation', 'color-matching', 'deduction'],
+			inputs: ['touch-optimized', 'keyboard-controls', 'tap-only'],
+			pacing: ['zen-untimed', 'speedrun-timer', 'undo-friendly', 'move-efficiency'],
 			modes: ['single-player', 'procedural-endless'],
 			sessionLength: ['snack-under-3m', 'standard-5-10m'],
 		},

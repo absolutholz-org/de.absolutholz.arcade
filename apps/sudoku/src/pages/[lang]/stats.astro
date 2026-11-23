@@ -22,7 +22,7 @@ const currentCommon = resources[currentLanguage]?.common ?? resources.en.common;
 	description={`${currentSudoku.title} ${currentSudoku.stats.title}`}
 	lang={currentLanguage}
 	breadcrumbItems={[
-		{ label: currentCommon.app.title, href: `/${currentLanguage}/`, isHome: true },
+		{ label: `${currentCommon.app.shortTitle} ${currentCommon.navigation.home}`, href: `/${currentLanguage}/`, isHome: true },
 		{ label: currentSudoku.title, href: `/sudoku/${currentLanguage}/` },
 		{ label: currentSudoku.stats.title, isCurrent: true },
 	]}

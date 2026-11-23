@@ -10,6 +10,7 @@ import { deColorMap } from '../locales/de/color-map.js';
 import { deCommon } from '../locales/de/common.js';
 import { deDiceBingo } from '../locales/de/dice-bingo.js';
 import { deFutoshiki } from '../locales/de/futoshiki.js';
+import { deLasers } from '../locales/de/lasers.js';
 import { deLiquidSort } from '../locales/de/liquid-sort.js';
 import { deMedals } from '../locales/de/medals.js';
 import { deMinesweeper } from '../locales/de/minesweeper.js';
@@ -33,6 +34,7 @@ import { enColorMap } from '../locales/en/color-map.js';
 import { enCommon } from '../locales/en/common.js';
 import { enDiceBingo } from '../locales/en/dice-bingo.js';
 import { enFutoshiki } from '../locales/en/futoshiki.js';
+import { enLasers } from '../locales/en/lasers.js';
 import { enLiquidSort } from '../locales/en/liquid-sort.js';
 import { enMedals } from '../locales/en/medals.js';
 import { enMinesweeper } from '../locales/en/minesweeper.js';
@@ -56,6 +58,7 @@ import { frColorMap } from '../locales/fr/color-map.js';
 import { frCommon } from '../locales/fr/common.js';
 import { frDiceBingo } from '../locales/fr/dice-bingo.js';
 import { frFutoshiki } from '../locales/fr/futoshiki.js';
+import { frLasers } from '../locales/fr/lasers.js';
 import { frLiquidSort } from '../locales/fr/liquid-sort.js';
 import { frMedals } from '../locales/fr/medals.js';
 import { frMinesweeper } from '../locales/fr/minesweeper.js';
@@ -79,6 +82,7 @@ import { ptColorMap } from '../locales/pt/color-map.js';
 import { ptCommon } from '../locales/pt/common.js';
 import { ptDiceBingo } from '../locales/pt/dice-bingo.js';
 import { ptFutoshiki } from '../locales/pt/futoshiki.js';
+import { ptLasers } from '../locales/pt/lasers.js';
 import { ptLiquidSort } from '../locales/pt/liquid-sort.js';
 import { ptMedals } from '../locales/pt/medals.js';
 import { ptMinesweeper } from '../locales/pt/minesweeper.js';
@@ -119,6 +123,7 @@ export const resources: TranslationResources = {
 		codebreaker: enCodebreaker,
 		undead: enUndead,
 		cascade: enCascade,
+		lasers: enLasers,
 		medals: enMedals,
 		taxonomy: enTaxonomy,
 	},
@@ -144,6 +149,7 @@ export const resources: TranslationResources = {
 		codebreaker: deCodebreaker,
 		undead: deUndead,
 		cascade: deCascade,
+		lasers: deLasers,
 		medals: deMedals,
 		taxonomy: deTaxonomy,
 	},
@@ -169,6 +175,7 @@ export const resources: TranslationResources = {
 		codebreaker: frCodebreaker,
 		undead: frUndead,
 		cascade: frCascade,
+		lasers: frLasers,
 		medals: frMedals,
 		taxonomy: frTaxonomy,
 	},
@@ -194,6 +201,7 @@ export const resources: TranslationResources = {
 		codebreaker: ptCodebreaker,
 		undead: ptUndead,
 		cascade: ptCascade,
+		lasers: ptLasers,
 		medals: ptMedals,
 		taxonomy: ptTaxonomy,
 	},
@@ -229,6 +237,7 @@ i18n.use(initReactI18next).init({
 		'codebreaker',
 		'undead',
 		'cascade',
+		'lasers',
 		'medals',
 		'taxonomy',
 	],

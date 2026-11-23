@@ -23,7 +23,8 @@ export type GameId =
 	| 'codebreaker'
 	| 'undead'
 	| 'color-map'
-	| 'cascade';
+	| 'cascade'
+	| 'lasers';
 
 /**
  * Canonical identifiers for standalone utility tools in the Arcade monorepo.
@@ -86,7 +87,19 @@ export interface GameMetadata {
 	 * Multi-faceted gameplay, input/accessibility, pacing, mode, and session-length tags.
 	 */
 	readonly tags: TaxonomyTags;
+	/**
+	 * Outcome model governing how statistics and streaks are displayed for this game.
+	 * - `'win-loss'`: Game has a genuine rule-based defeat condition (shows Win Rate & Streaks).
+	 * - `'no-loss'`: Pure puzzle or score-chasing game without a defeat state (hides Win Rate & Streaks).
+	 * - `'match-draw'`: Pass-and-play or duel match where non-wins are draws (shows Matches, Decisive Wins, Draws).
+	 */
+	readonly statsOutcomeModel: GameStatsOutcomeModel;
 }
+
+/**
+ * Outcome model governing statistics display semantics for a game.
+ */
+export type GameStatsOutcomeModel = 'win-loss' | 'no-loss' | 'match-draw';
 
 /**
  * Supported game play modes.

@@ -57,9 +57,13 @@ export function getStaticPaths() {
 - Declare game-specific options via `GameSettingsConfig` from `@arcade/lib-games` in `src/config/settings.ts`.
 - Surface controls via `<GameSettingsPanel />` from `@arcade/lib-ui`: `mode="compact"` in-game `<Dialog>`, `mode="detailed"` on `/[lang]/settings.astro`.
 
-### C. Statistics Contract (`arcade::[gameId]::stats`)
-- Persist round telemetry via `@arcade/lib-storage` using `recordGameStats(gameId, roundResult)`.
-- Surface historical metrics via `<GameStatsDashboard gameId={gameId} />` from `@arcade/lib-ui` on `/[lang]/stats.astro`.
+### C. Statistics & Leaderboards Contract (`arcade::[gameId]::stats`)
+- Declare `statsOutcomeModel` (`'win-loss' | 'no-loss' | 'match-draw'`) on the game's `GameMetadata` entry in `libraries/games/src/registry.ts` and register the `gameId` in `DEFAULT_REGISTERED_GAMES` (`libraries/storage/src/stats/store.ts`).
+- Persist round telemetry via `@arcade/lib-storage` using `recordGameStats(roundResult)` only (never call `recordGameSession()` separately alongside `recordGameStats()`). Only pass metrics that are genuinely meaningful for the game; never hardcode `isFlawless: true`, and never record abandon/surrender as `won: false` on `'no-loss'` games.
+- Surface historical metrics via `<GameStatsDashboard client:load gameId={gameId} lang={currentLanguage} hideTitle playHref={`/${gameId}/${currentLanguage}/game`} ... />` inside `GameSubpageTemplate` on `/[lang]/stats.astro`:
+  - Pass `hideWinLossMetrics` for `'no-loss'` games, `displayMode="match-draw"` for `'match-draw'` games, and leave win/loss metrics visible for `'win-loss'` games.
+  - Enable 0, 1, or multiple Top 10 leaderboards (`showFastestRuns`, `showTopScores`, `showFewestMoves`, optional `fewestMovesVariant="guesses"`) matching the game's core loop.
+- **Mandatory Clarification Rule:** When planning a new game or revising an existing one, if anything is unclear about which statistics are meaningful to track, whether the game has a true defeat state, or which Top 10 leaderboard(s) should be displayed, **ask the user before implementing.**
 
 ### D. Consolidated Medals Showcase (`/[lang]/medals.astro`)
 - Never maintain bespoke per-game `[Game]MedalGrid` components or inline custom threshold branching.

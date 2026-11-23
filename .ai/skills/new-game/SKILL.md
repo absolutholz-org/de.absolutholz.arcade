@@ -76,9 +76,15 @@ Before generating or modifying code:
     - Complete roster of medals (standalone and progressive 3-tier ladders).
     - Milestone targets, unlock criteria, and tier thresholds (`bronze`, `silver`, `gold`).
     - Metric keys tracked in `roundContext` and `customStats`.
-5. **Settings, Statistics & UI Component Mapping (ADR 0008):**
+5. **Settings, Statistics & Top 10 Leaderboards (ADR 0008):**
     - Declarative settings schema (`src/config/settings.ts` implementing `GameSettingsConfig` from `@arcade/lib-games`) distinguishing `availableInGame` compact toggles from standalone `/settings` fields.
-    - Statistics & telemetry schema (`arcade::[gameId]::stats` persisted via `recordGameStats(gameId, roundResult)` from `@arcade/lib-storage`).
+    - **Outcome Model (`statsOutcomeModel`):** Explicitly classify the game in `@arcade/lib-games` as:
+      - `'win-loss'` — genuine rule-based defeat condition (shows Win Rate & Streaks).
+      - `'no-loss'` — pure logic/spatial puzzle or score-chasing run with no defeat state (`hideWinLossMetrics` on `GameStatsDashboard`; never record surrenders/abandons as `won: false` in `recordGameStats`).
+      - `'match-draw'` — pass-and-play or duel match where non-wins are draws (`displayMode="match-draw"` on `GameStatsDashboard`).
+    - **Relevant Telemetry (`arcade::[gameId]::stats`):** Specify only the fields that are meaningful for the game (`playTimeSeconds`, `moves`, `score`, `bestCluster`, `isFlawless`, `customMetrics`). Never hardcode `isFlawless: true` or pass meaningless fields.
+    - **Top 10 Leaderboard(s):** Specify which Top 10 list(s) fit the game — **none**, **one**, or **multiple** — from `showFastestRuns`, `showTopScores`, and `showFewestMoves` (with `fewestMovesVariant="guesses"` when applicable).
+    - **Mandatory Clarification Rule:** If anything is unclear or subjective about whether the game has a true loss condition, which statistics make sense to track, or which Top 10 leaderboard(s) (if any) should be shown, **you MUST ask the user directly before finalizing the specification or writing code.**
     - Active game session snapshot structure and level progress map structure.
     - Catalog of specific `@arcade/lib-ui` components targeted for reuse (`GameLayout`, `GameHeader`, `GameSettingsPanel`, `GameStatsDashboard`, `GameMedalGrid`, `MarkdownContent`, `Dialog`, `PauseOverlay`, `VictoryDialog`).
 
@@ -106,8 +112,9 @@ Implement the core game engine under `apps/[gameId]/src/engine/` before touching
 
 Register the game in the prerequisite shared monorepo packages:
 
-1. **Type Declaration (`@arcade/lib-games`):**
+1. **Type Declaration (`@arcade/lib-games` & `@arcade/lib-storage`):**
     - Add the new `gameId` to the `GameId` type union in `libraries/games/src/types.ts` and `GAME_ID_LOOKUP` in `libraries/games/src/taxonomy.ts`.
+    - Add the new `gameId` to `GameId` in `libraries/storage/src/types/stats.types.ts` and `DEFAULT_REGISTERED_GAMES` in `libraries/storage/src/stats/store.ts` so cloud reconciliation and global stats include it.
     - _Note:_ Do **not** add the game to `GAME_REGISTRY` or `ALL_GAMES` yet. Doing so prematurely would cause the pre-rendered hub (`apps/hub`) to render cards linking to an unbuilt route.
 2. **Localization Dictionaries (`@arcade/lib-i18n`):**
     - Add the game namespace with localized titles, descriptions, instructions, difficulty labels, and medal strings across all supported language files.
@@ -137,7 +144,7 @@ Construct the application shell and React canvas in `apps/[gameId]/`:
     - `src/pages/[lang]/game.astro`: Gameplay page wrapped in `GameLayout`, mounting `[Game]Game` with `client:only="react"`. Must pre-render `src/content/pages/[lang]/rules.md` server-side and inject it into the React root via `<MarkdownContent slot="rulesContent">` for the in-game Rules `<Dialog>` (triggered via `GameHeader`).
     - `src/pages/[lang]/rules.astro`: Standalone how-to-play page authoring prose in `src/content/pages/[lang]/rules.md` and rendering via `MarkdownPageTemplate`.
     - `src/pages/[lang]/settings.astro`: Standalone explanatory settings page rendering `<GameSettingsPanel mode="detailed" />` from `@arcade/lib-ui` (while the in-game settings `<Dialog>` renders `<GameSettingsPanel mode="compact" />`).
-    - `src/pages/[lang]/stats.astro`: Standalone historical statistics & high scores page rendering `<GameStatsDashboard gameId={gameId} />` from `@arcade/lib-ui`.
+    - `src/pages/[lang]/stats.astro`: Standalone historical statistics & high scores page wrapped in `GameSubpageTemplate` (canonical home breadcrumb `${currentCommon.app.shortTitle} ${currentCommon.navigation.home}`), rendering `<GameStatsDashboard client:load gameId={gameId} lang={currentLanguage} hideTitle playHref={`/${gameId}/${currentLanguage}/game`} ... />` with the approved `hideWinLossMetrics` / `displayMode` and Top 10 leaderboard props (`showFastestRuns`, `showTopScores`, `showFewestMoves`, `fewestMovesVariant`).
     - `src/pages/[lang]/medals.astro`: Standalone medals showcase rendering `<GameMedalGrid gameId={gameId} lang={lang} />` directly from `@arcade/lib-ui` (never create duplicate `[Game]MedalGrid` components or custom threshold logic).
 2. **Layout Chrome & User Identity:**
     - Wrap views in `PageLayout.astro` or `BaseLayout.astro`.
@@ -160,7 +167,8 @@ Construct the application shell and React canvas in `apps/[gameId]/`:
         - `VictoryDialog` defaults `primaryAction` to `'nextPuzzle'` when `hasNextPuzzle && onNextPuzzle` is present and `'playAgain'` otherwise; set `primaryAction="playAgain"` only if replaying the current mode is the primary loop.
         - Never duplicate Stats/Medals links in `secondaryActions`; reserve `secondaryActions` strictly for game-specific auxiliary actions.
 4. **Result Recording, Telemetry & Medal Toasts (ADR 0008):**
-    - Call `recordGameStats(gameId, roundResult)` from `@arcade/lib-storage` to persist normalized bucket and lifetime telemetry under `arcade::[gameId]::stats`.
+    - Call `recordGameStats(roundResult)` from `@arcade/lib-storage` to persist normalized bucket and lifetime telemetry under `arcade::[gameId]::stats` (never also call `recordGameSession()` directly, as `recordGameStats` already updates the cross-game Hub session mirror).
+    - Only pass telemetry fields that are genuinely tracked for the game; never hardcode `isFlawless: true`, and never record abandon/surrender as `won: false` on `no-loss` games.
     - Call `recordGameResult({ gameId, won, playTimeSeconds, levelKey, sizeKey, roundContext })` from `@arcade/lib-medals` upon round victory or defeat.
     - Ensure `BaseLayout` / `GameLayout` is present so `MedalToastListener` catches the `medalUnlocked` event and displays achievement notifications.
 5. **App Documentation & Local Agent Profile:**

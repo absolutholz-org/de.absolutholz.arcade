@@ -20,8 +20,14 @@ export interface GameStatsDashboardProps {
 	readonly showFastestRuns?: boolean;
 	/** Whether to display the Top 10 High Scores list when recorded scores exist */
 	readonly showTopScores?: boolean;
+	/** Whether to display the Top 10 Fewest Moves / Guesses list when recorded runs exist */
+	readonly showFewestMoves?: boolean;
+	/** Label variant for move-based metrics and leaderboard headings ('moves' | 'guesses') */
+	readonly fewestMovesVariant?: 'moves' | 'guesses';
 	/** Whether to hide win-rate and streak cards (for puzzle games without a defeat state) */
 	readonly hideWinLossMetrics?: boolean;
+	/** Display mode for primary KPI cards ('standard' | 'match-draw' for pass-and-play games like Tic-Tac-Toe) */
+	readonly displayMode?: 'standard' | 'match-draw';
 	/** Optional CSS class name */
 	readonly className?: string;
 }
