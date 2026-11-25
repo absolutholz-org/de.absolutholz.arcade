@@ -92,6 +92,8 @@ export const frTents = {
 		board: 'Grille de jeu Tents {{size}} sur {{size}}',
 		instructions:
 			'Utilisez les flèches pour naviguer. Appuyez sur Espace ou Entrée pour basculer l’état, T pour tente, G pour herbe, H pour indice, Z pour annuler, Y pour rétablir et Échap pour mettre en pause.',
+		rowCluesToolbar: 'Nombre de tentes par ligne',
+		colCluesToolbar: 'Nombre de tentes par colonne',
 		rowClue: 'Ligne {{index}} requiert {{target}} tentes, actuellement {{current}} placées',
 		colClue: 'Colonne {{index}} requiert {{target}} tentes, actuellement {{current}} placées',
 		cell: 'Ligne {{row}}, Colonne {{col}}',

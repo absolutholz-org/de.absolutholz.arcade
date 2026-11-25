@@ -92,6 +92,8 @@ export const ptTents = {
 		board: 'Grade de quebra-cabeça Tents {{size}} por {{size}}',
 		instructions:
 			'Use as setas para navegar. Pressione Espaço ou Enter para alternar o estado, T para barraca, G para grama, H para dica, Z para desfazer, Y para refazer e Esc para pausar.',
+		rowCluesToolbar: 'Contagem de barracas por linha',
+		colCluesToolbar: 'Contagem de barracas por coluna',
 		rowClue: 'Linha {{index}} requer {{target}} barracas, atualmente {{current}} colocadas',
 		colClue: 'Coluna {{index}} requer {{target}} barracas, atualmente {{current}} colocadas',
 		cell: 'Linha {{row}}, Coluna {{col}}',

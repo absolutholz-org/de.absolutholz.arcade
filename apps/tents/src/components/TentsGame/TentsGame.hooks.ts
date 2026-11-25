@@ -340,36 +340,14 @@ export function useTentsGame(initialDifficulty: DifficultyLevel = 'easy', initia
 		[],
 	);
 
-	// Cell click handler
-	const handleCellClick = useCallback(
-		(row: number, col: number) => {
-			if (isComplete || isPaused) return;
-			const cell = board.grid[row]?.[col];
-			if (!cell || cell.fixed === 'tree') return;
-
+	/**
+	 * Applies a player mark transition to a cell, including violation checks,
+	 * audio/haptic feedback, speed-medal tracking, and auto-grass helper.
+	 */
+	const applyCellTransition = useCallback(
+		(row: number, col: number, nextMark: PlayerMark) => {
 			setFocusedCell({ row, col });
 
-			let nextMark: PlayerMark = 'none';
-
-			if (inputMode === 'tent') {
-				if (cell.mark === 'none') {
-					nextMark = 'tent';
-				} else if (cell.mark === 'tent') {
-					nextMark = 'grass';
-				} else {
-					nextMark = 'none';
-				}
-			} else {
-				if (cell.mark === 'none') {
-					nextMark = 'grass';
-				} else if (cell.mark === 'grass') {
-					nextMark = 'none';
-				} else {
-					nextMark = 'grass';
-				}
-			}
-
-			// Check if this move violates touching tent or line overflow
 			if (nextMark === 'tent') {
 				let hasViolation = false;
 				for (let r = 0; r < board.size; r++) {
@@ -432,7 +410,39 @@ export function useTentsGame(initialDifficulty: DifficultyLevel = 'easy', initia
 				setBoard(nextHist.present);
 			}
 		},
-		[board, history, inputMode, isComplete, isPaused, settings.autoGrass, applyAutoGrass],
+		[board, history, settings.autoGrass, applyAutoGrass],
+	);
+
+	// Cell click handler
+	const handleCellClick = useCallback(
+		(row: number, col: number) => {
+			if (isComplete || isPaused) return;
+			const cell = board.grid[row]?.[col];
+			if (!cell || cell.fixed === 'tree') return;
+
+			let nextMark: PlayerMark = 'none';
+
+			if (inputMode === 'tent') {
+				if (cell.mark === 'none') {
+					nextMark = 'tent';
+				} else if (cell.mark === 'tent') {
+					nextMark = 'grass';
+				} else {
+					nextMark = 'none';
+				}
+			} else {
+				if (cell.mark === 'none') {
+					nextMark = 'grass';
+				} else if (cell.mark === 'grass') {
+					nextMark = 'none';
+				} else {
+					nextMark = 'grass';
+				}
+			}
+
+			applyCellTransition(row, col, nextMark);
+		},
+		[board.grid, inputMode, isComplete, isPaused, applyCellTransition],
 	);
 
 	// Context menu (right click) toggles grass
@@ -577,9 +587,7 @@ export function useTentsGame(initialDifficulty: DifficultyLevel = 'easy', initia
 					else if (cell.mark === 'tent') nextMark = 'grass';
 					else nextMark = 'none';
 
-					const nextHist = setCellMark(history, cur.row, cur.col, nextMark);
-					setHistory(nextHist);
-					setBoard(nextHist.present);
+					applyCellTransition(cur.row, cur.col, nextMark);
 				}
 			} else if (e.key.toLowerCase() === 't') {
 				e.preventDefault();
@@ -589,9 +597,7 @@ export function useTentsGame(initialDifficulty: DifficultyLevel = 'easy', initia
 				const cell = board.grid[cur.row]?.[cur.col];
 				if (cell && cell.fixed !== 'tree') {
 					const nextMark: PlayerMark = cell.mark === 'grass' ? 'none' : 'grass';
-					const nextHist = setCellMark(history, cur.row, cur.col, nextMark);
-					setHistory(nextHist);
-					setBoard(nextHist.present);
+					applyCellTransition(cur.row, cur.col, nextMark);
 				}
 			} else if (e.key === 'Backspace' || e.key === 'Delete') {
 				e.preventDefault();
@@ -620,6 +626,7 @@ export function useTentsGame(initialDifficulty: DifficultyLevel = 'easy', initia
 			}
 		},
 		[
+			applyCellTransition,
 			board.grid,
 			board.size,
 			focusedCell,

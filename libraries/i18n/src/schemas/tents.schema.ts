@@ -91,6 +91,8 @@ export const tentsSchema = {
 	aria: {
 		board: 'aria.board',
 		instructions: 'aria.instructions',
+		rowCluesToolbar: 'aria.rowCluesToolbar',
+		colCluesToolbar: 'aria.colCluesToolbar',
 		rowClue: 'aria.rowClue',
 		colClue: 'aria.colClue',
 		cell: 'aria.cell',

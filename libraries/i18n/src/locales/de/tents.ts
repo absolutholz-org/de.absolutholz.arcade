@@ -92,6 +92,8 @@ export const deTents = {
 		board: 'Tents Rätselraster {{size}} mal {{size}}',
 		instructions:
 			'Pfeiltasten zum Navigieren nutzen. Leertaste oder Eingabe zum Umschalten, T für Zelt, G für Gras, H für Hinweis, Z für Rückgängig, Y für Wiederholen und Escape zum Pausieren.',
+		rowCluesToolbar: 'Zeltanzahl je Zeile',
+		colCluesToolbar: 'Zeltanzahl je Spalte',
 		rowClue: 'Zeile {{index}} benötigt {{target}} Zelte, aktuell {{current}} platziert',
 		colClue: 'Spalte {{index}} benötigt {{target}} Zelte, aktuell {{current}} platziert',
 		cell: 'Zeile {{row}}, Spalte {{col}}',

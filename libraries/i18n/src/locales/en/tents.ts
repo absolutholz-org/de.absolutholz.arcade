@@ -92,6 +92,8 @@ export const enTents = {
 		board: 'Tents puzzle grid {{size}} by {{size}}',
 		instructions:
 			'Use arrow keys to navigate cells. Press Space or Enter to cycle cell states, T for tent, G for grass, H for hint, Z to undo, Y to redo, and Escape to pause.',
+		rowCluesToolbar: 'Row tent counts',
+		colCluesToolbar: 'Column tent counts',
 		rowClue: 'Row {{index}} requires {{target}} tents, currently {{current}} placed',
 		colClue: 'Column {{index}} requires {{target}} tents, currently {{current}} placed',
 		cell: 'Row {{row}}, Column {{col}}',
