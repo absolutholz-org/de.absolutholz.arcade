@@ -85,11 +85,6 @@ function renderCellGraphic(
 						/>
 						<polygon points="66,30 94,50 66,70" fill="currentColor" />
 					</g>
-					{showColorSymbols && (
-						<S.SymbolText x="46" y="50">
-							{symbol}
-						</S.SymbolText>
-					)}
 				</S.ChannelFill>
 			</S.CellGraphic>
 		);
@@ -413,6 +408,38 @@ export function LasersBoard({
 							</g>
 						);
 					})}
+					{showColorSymbols &&
+						grid.flatMap((row, r) =>
+							row.map((cell, c) => {
+								if (cell.kind !== 'emitter' || !cell.color || !cell.direction) return null;
+								const offset =
+									cell.direction === 'E'
+										? { dx: -8, dy: 0 }
+										: cell.direction === 'W'
+											? { dx: 8, dy: 0 }
+											: cell.direction === 'S'
+												? { dx: 0, dy: -8 }
+												: { dx: 0, dy: 8 };
+								const cx = c * 100 + 50 + offset.dx;
+								const cy = r * 100 + 50 + offset.dy;
+								return (
+									<g key={`emitter-symbol-${cx}-${cy}`}>
+										<circle
+											cx={cx}
+											cy={cy}
+											r="17"
+											fill="var(--surface, #ffffff)"
+											stroke="CanvasText"
+											strokeWidth="2"
+											strokeOpacity="0.35"
+										/>
+										<S.SymbolText x={cx} y={cy} data-unlit="true">
+											{COLOR_SYMBOLS[cell.color]}
+										</S.SymbolText>
+									</g>
+								);
+							}),
+						)}
 				</S.BeamOverlay>
 
 				{/* biome-ignore lint/a11y/useSemanticElements: Laser & Mirrors is an interactive 2D grid widget adhering to WAI-ARIA Grid pattern */}
