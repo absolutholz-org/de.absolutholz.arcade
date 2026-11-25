@@ -60,6 +60,18 @@ const statusContrast: Partial<Theme> = {
 	'status-info': 'light-dark(oklch(0.76 0.14 245), oklch(0.76 0.14 245))',
 };
 
+const medalBase: Partial<Theme> = {
+	'medal-gold': 'light-dark(oklch(0.58 0.16 80), oklch(0.82 0.16 86))',
+	'medal-silver': 'light-dark(oklch(0.52 0.03 255), oklch(0.76 0.03 255))',
+	'medal-bronze': 'light-dark(oklch(0.48 0.14 48), oklch(0.72 0.14 48))',
+};
+
+const medalContrast: Partial<Theme> = {
+	'medal-gold': 'light-dark(oklch(0.82 0.16 86), oklch(0.82 0.16 86))',
+	'medal-silver': 'light-dark(oklch(0.76 0.03 255), oklch(0.76 0.03 255))',
+	'medal-bronze': 'light-dark(oklch(0.72 0.14 48), oklch(0.72 0.14 48))',
+};
+
 const themesetBase: Themeset = {
 	primary: {
 		surface: 'light-dark(oklch(0.98 0.005 250), oklch(0.12 0.015 250))',
@@ -74,6 +86,7 @@ const themesetBase: Themeset = {
 		'accent-secondary-contrast': 'light-dark(oklch(0.98 0.01 280), oklch(0.05 0.01 280))',
 		...rainbowBase,
 		...statusBase,
+		...medalBase,
 	},
 	secondary: {
 		surface: 'light-dark(oklch(0.98 0.005 280), oklch(0.12 0.015 280))',
@@ -88,6 +101,7 @@ const themesetBase: Themeset = {
 		'accent-secondary-contrast': 'light-dark(oklch(0.05 0.01 250), oklch(0.05 0.01 250))',
 		...rainbowBase,
 		...statusBase,
+		...medalBase,
 	},
 	contrast: {
 		surface: 'light-dark(oklch(0.15 0.015 250), oklch(0.05 0 0))',
@@ -102,6 +116,7 @@ const themesetBase: Themeset = {
 		'accent-secondary-contrast': 'light-dark(oklch(0.98 0.01 280), oklch(0.05 0.01 280))',
 		...rainbowContrast,
 		...statusContrast,
+		...medalContrast,
 	},
 	accent: {
 		surface: 'light-dark(oklch(0.94 0.03 250), oklch(0.1 0.04 250))',
@@ -116,6 +131,7 @@ const themesetBase: Themeset = {
 		'accent-secondary-contrast': 'light-dark(oklch(0.98 0.01 280), oklch(0.05 0.01 280))',
 		...rainbowBase,
 		...statusBase,
+		...medalBase,
 	},
 };
 

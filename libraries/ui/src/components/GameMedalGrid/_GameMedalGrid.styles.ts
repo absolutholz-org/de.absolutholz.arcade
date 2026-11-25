@@ -33,18 +33,18 @@ export const TrophyCard = styled.div`
 	gap: 0.25rem;
 
 	&[data-tier='gold'] {
-		border-color: oklch(0.795 0.184 86.047);
-		background: color-mix(in oklch, oklch(0.795 0.184 86.047) 8%, ${themeColor('surface')});
+		border-color: ${themeColor('medal-gold')};
+		background: color-mix(in oklch, ${themeColor('medal-gold')} 8%, ${themeColor('surface')});
 	}
 
 	&[data-tier='silver'] {
-		border-color: oklch(0.704 0.04 256.788);
-		background: color-mix(in oklch, oklch(0.704 0.04 256.788) 8%, ${themeColor('surface')});
+		border-color: ${themeColor('medal-silver')};
+		background: color-mix(in oklch, ${themeColor('medal-silver')} 8%, ${themeColor('surface')});
 	}
 
 	&[data-tier='bronze'] {
-		border-color: oklch(0.555 0.163 48.998);
-		background: color-mix(in oklch, oklch(0.555 0.163 48.998) 8%, ${themeColor('surface')});
+		border-color: ${themeColor('medal-bronze')};
+		background: color-mix(in oklch, ${themeColor('medal-bronze')} 8%, ${themeColor('surface')});
 	}
 
 	[data-slot='count'] {

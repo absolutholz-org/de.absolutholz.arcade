@@ -73,5 +73,8 @@ export function getThemeMapping(themeName: keyof Themeset): Record<string, strin
 		'--color-status-warning': `var(--theme-${themeName}-status-warning)`,
 		'--color-status-danger': `var(--theme-${themeName}-status-danger)`,
 		'--color-status-info': `var(--theme-${themeName}-status-info)`,
+		'--color-medal-gold': `var(--theme-${themeName}-medal-gold)`,
+		'--color-medal-silver': `var(--theme-${themeName}-medal-silver)`,
+		'--color-medal-bronze': `var(--theme-${themeName}-medal-bronze)`,
 	};
 }

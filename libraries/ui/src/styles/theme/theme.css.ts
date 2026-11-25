@@ -30,6 +30,9 @@ export const themeVars = {
 	'status-warning': 'var(--color-status-warning)',
 	'status-danger': 'var(--color-status-danger)',
 	'status-info': 'var(--color-status-info)',
+	'medal-gold': 'var(--color-medal-gold)',
+	'medal-silver': 'var(--color-medal-silver)',
+	'medal-bronze': 'var(--color-medal-bronze)',
 } as const;
 
 export type ThemeVars = typeof themeVars;

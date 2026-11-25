@@ -31,18 +31,18 @@ export const Card = styled.article`
 		}
 
 		&[data-tier='gold'] {
-			border-color: oklch(0.795 0.184 86.047);
-			background: color-mix(in oklch, oklch(0.795 0.184 86.047) 6%, ${themeColor('surface')});
+			border-color: ${themeColor('medal-gold')};
+			background: color-mix(in oklch, ${themeColor('medal-gold')} 6%, ${themeColor('surface')});
 		}
 
 		&[data-tier='silver'] {
-			border-color: oklch(0.704 0.04 256.788);
-			background: color-mix(in oklch, oklch(0.704 0.04 256.788) 6%, ${themeColor('surface')});
+			border-color: ${themeColor('medal-silver')};
+			background: color-mix(in oklch, ${themeColor('medal-silver')} 6%, ${themeColor('surface')});
 		}
 
 		&[data-tier='bronze'] {
-			border-color: oklch(0.555 0.163 48.998);
-			background: color-mix(in oklch, oklch(0.555 0.163 48.998) 6%, ${themeColor('surface')});
+			border-color: ${themeColor('medal-bronze')};
+			background: color-mix(in oklch, ${themeColor('medal-bronze')} 6%, ${themeColor('surface')});
 		}
 	}
 `;
@@ -92,15 +92,15 @@ export const TierBadge = styled.span`
 	color: ${themeColor('text-2')};
 
 	&[data-tier='gold'] {
-		color: light-dark(oklch(0.58 0.16 70), oklch(0.82 0.16 80));
+		color: ${themeColor('medal-gold')};
 	}
 
 	&[data-tier='silver'] {
-		color: light-dark(oklch(0.52 0.03 255), oklch(0.76 0.03 255));
+		color: ${themeColor('medal-silver')};
 	}
 
 	&[data-tier='bronze'] {
-		color: light-dark(oklch(0.48 0.14 48), oklch(0.72 0.14 48));
+		color: ${themeColor('medal-bronze')};
 	}
 `;
 
@@ -181,15 +181,15 @@ export const StepSegmentFill = styled.div`
 	transition: width 300ms ease;
 
 	&[data-tier='bronze'] {
-		background: #cd7f32;
+		background: ${themeColor('medal-bronze')};
 	}
 
 	&[data-tier='silver'] {
-		background: #94a3b8;
+		background: ${themeColor('medal-silver')};
 	}
 
 	&[data-tier='gold'] {
-		background: #f59e0b;
+		background: ${themeColor('medal-gold')};
 	}
 `;
 

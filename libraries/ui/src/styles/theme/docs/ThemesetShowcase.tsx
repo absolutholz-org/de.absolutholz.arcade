@@ -102,6 +102,9 @@ const COLOR_SLOTS = [
 	{ name: 'status-warning', variable: '--color-status-warning' },
 	{ name: 'status-danger', variable: '--color-status-danger' },
 	{ name: 'status-info', variable: '--color-status-info' },
+	{ name: 'medal-gold', variable: '--color-medal-gold' },
+	{ name: 'medal-silver', variable: '--color-medal-silver' },
+	{ name: 'medal-bronze', variable: '--color-medal-bronze' },
 ] as const;
 
 const SCHEMES = [

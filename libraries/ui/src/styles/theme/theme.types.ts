@@ -25,6 +25,9 @@ export type Theme = {
 	'status-warning'?: string;
 	'status-danger'?: string;
 	'status-info'?: string;
+	'medal-gold'?: string;
+	'medal-silver'?: string;
+	'medal-bronze'?: string;
 };
 
 export type ThemeColorKey = keyof Required<Theme>;
