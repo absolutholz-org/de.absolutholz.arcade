@@ -1,3 +1,4 @@
+import { themeColor } from '@arcade/lib-ui/styles/theme/theme.utils';
 import { styled } from '@linaria/react';
 import type { JSX } from 'react';
 import type { ColorIndex, Grid } from '../../engine/types.ts';
@@ -18,8 +19,8 @@ const BoardFrame = styled.section`
 	margin: 0 auto;
 	aspect-ratio: 1 / 1;
 	padding: 0.5rem;
-	background: var(--color-flood-board-bg, light-dark(oklch(0.96 0.01 260), oklch(0.2 0.02 260)));
-	border: 2px solid var(--color-flood-board-border, light-dark(oklch(0.84 0.02 260), oklch(0.35 0.03 260)));
+	background: ${themeColor('container-1')};
+	border: 2px solid ${themeColor('container-2')};
 	border-radius: 0.75rem;
 	box-shadow: light-dark(0 0.25rem 0.75rem rgba(0, 0, 0, 0.08), 0 0.25rem 1rem rgba(0, 0, 0, 0.3));
 `;
@@ -29,7 +30,7 @@ const BoardGrid = styled.div`
 	width: 100%;
 	height: 100%;
 	gap: 1px;
-	background: var(--color-flood-cell-border, light-dark(oklch(0.88 0.01 260), oklch(0.25 0.02 260)));
+	background: ${themeColor('container-2')};
 	border-radius: 0.375rem;
 	overflow: hidden;
 
@@ -60,29 +61,16 @@ const CellDiv = styled.div`
 	user-select: none;
 	transition: background-color 0.15s ease-out;
 
-	&[data-color='0'] {
-		background-color: var(--color-flood-color-0);
-		color: var(--color-flood-color-0-fg);
-	}
-	&[data-color='1'] {
-		background-color: var(--color-flood-color-1);
-		color: var(--color-flood-color-1-fg);
-	}
-	&[data-color='2'] {
-		background-color: var(--color-flood-color-2);
-		color: var(--color-flood-color-2-fg);
-	}
-	&[data-color='3'] {
-		background-color: var(--color-flood-color-3);
-		color: var(--color-flood-color-3-fg);
-	}
-	&[data-color='4'] {
-		background-color: var(--color-flood-color-4);
-		color: var(--color-flood-color-4-fg);
-	}
-	&[data-color='5'] {
-		background-color: var(--color-flood-color-5);
-		color: var(--color-flood-color-5-fg);
+	&[data-color='0'] { --flood-color: ${themeColor('rainbow-1')}; }
+	&[data-color='1'] { --flood-color: ${themeColor('rainbow-4')}; }
+	&[data-color='2'] { --flood-color: ${themeColor('rainbow-3')}; }
+	&[data-color='3'] { --flood-color: ${themeColor('rainbow-6')}; }
+	&[data-color='4'] { --flood-color: ${themeColor('rainbow-2')}; }
+	&[data-color='5'] { --flood-color: ${themeColor('rainbow-5')}; }
+
+	&[data-color] {
+		background-color: var(--flood-color);
+		color: oklch(from var(--flood-color) clamp(0.12, (0.62 - l) * 100, 0.98) 0.02 h);
 	}
 
 	&[data-flooded='true'] {

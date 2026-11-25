@@ -55,29 +55,16 @@ const ColorButton = styled.button`
 	box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.2);
 	transition: transform 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
 
-	&[data-color='0'] {
-		background-color: var(--color-flood-color-0);
-		color: var(--color-flood-color-0-fg);
-	}
-	&[data-color='1'] {
-		background-color: var(--color-flood-color-1);
-		color: var(--color-flood-color-1-fg);
-	}
-	&[data-color='2'] {
-		background-color: var(--color-flood-color-2);
-		color: var(--color-flood-color-2-fg);
-	}
-	&[data-color='3'] {
-		background-color: var(--color-flood-color-3);
-		color: var(--color-flood-color-3-fg);
-	}
-	&[data-color='4'] {
-		background-color: var(--color-flood-color-4);
-		color: var(--color-flood-color-4-fg);
-	}
-	&[data-color='5'] {
-		background-color: var(--color-flood-color-5);
-		color: var(--color-flood-color-5-fg);
+	&[data-color='0'] { --flood-color: ${themeColor('rainbow-1')}; }
+	&[data-color='1'] { --flood-color: ${themeColor('rainbow-4')}; }
+	&[data-color='2'] { --flood-color: ${themeColor('rainbow-3')}; }
+	&[data-color='3'] { --flood-color: ${themeColor('rainbow-6')}; }
+	&[data-color='4'] { --flood-color: ${themeColor('rainbow-2')}; }
+	&[data-color='5'] { --flood-color: ${themeColor('rainbow-5')}; }
+
+	&[data-color] {
+		background-color: var(--flood-color);
+		color: oklch(from var(--flood-color) clamp(0.12, (0.62 - l) * 100, 0.98) 0.02 h);
 	}
 
 	&:hover:not(:disabled) {
@@ -93,7 +80,7 @@ const ColorButton = styled.button`
 	&[data-current='true'] {
 		opacity: 0.35;
 		cursor: not-allowed;
-		border-color: var(--color-flood-board-border, oklch(0.5 0.03 260));
+		border-color: ${themeColor('container-2')};
 		transform: none;
 	}
 
