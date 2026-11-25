@@ -1,3 +1,4 @@
+import { themeColor } from '@arcade/lib-ui/styles/theme/theme.utils';
 import { css } from '@linaria/core';
 
 export const settingsContent = css`
@@ -27,5 +28,5 @@ export const settingTitle = css`
 
 export const settingDesc = css`
 	font-size: 0.8125rem;
-	color: var(--color-text-subtle, light-dark(#6c757d, #adb5bd));
+	color: ${themeColor('text-2')};
 `;

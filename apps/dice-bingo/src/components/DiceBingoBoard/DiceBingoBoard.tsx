@@ -1,3 +1,4 @@
+import { themeColor } from '@arcade/lib-ui/styles/theme/theme.utils';
 import { styled } from '@linaria/react';
 import { type KeyboardEvent, useCallback, useEffect, useRef } from 'react';
 import type { Board, GridCoord } from '../../engine/types.ts';
@@ -24,7 +25,7 @@ const GridContainer = styled.div`
 	max-width: 26rem;
 	margin: 0 auto;
 	padding: 0.5rem;
-	background-color: light-dark(rgba(0, 0, 0, 0.04), rgba(255, 255, 255, 0.04));
+	background-color: ${themeColor('container-1')};
 	border-radius: 0.75rem;
 	user-select: none;
 `;
@@ -46,9 +47,9 @@ const CellButton = styled.button`
 	justify-content: center;
 	font-size: 1.25rem;
 	font-weight: 700;
-	color: light-dark(#1e293b, #f8fafc);
-	background-color: light-dark(#ffffff, #1e293b);
-	border: 2px solid light-dark(#cbd5e1, #334155);
+	color: ${themeColor('text-1')};
+	background-color: ${themeColor('surface')};
+	border: 2px solid ${themeColor('container-2')};
 	border-radius: 0.5rem;
 	padding: 0;
 	cursor: pointer;
@@ -56,33 +57,33 @@ const CellButton = styled.button`
 	outline: none;
 
 	&:focus-visible {
-		outline: 3px solid light-dark(#2563eb, #60a5fa);
+		outline: 3px solid ${themeColor('accent')};
 		outline-offset: 2px;
 		z-index: 2;
 	}
 
 	&[data-placing='true']:hover:not([data-obstacle='true']):not([data-filled='true']) {
-		background-color: light-dark(#dbeafe, #1e3a8a);
-		border-color: light-dark(#3b82f6, #60a5fa);
+		background-color: color-mix(in oklch, ${themeColor('accent')} 18%, ${themeColor('surface')});
+		border-color: ${themeColor('accent')};
 		transform: scale(1.04);
 	}
 
 	&[data-highlighted='true'] {
-		border-color: light-dark(#60a5fa, #3b82f6);
-		background-color: light-dark(#eff6ff, rgba(59, 130, 246, 0.15));
+		border-color: ${themeColor('accent')};
+		background-color: color-mix(in oklch, ${themeColor('accent')} 10%, ${themeColor('surface')});
 	}
 
 	&[data-obstacle='true'] {
-		background-color: light-dark(#94a3b8, #475569);
-		border-color: light-dark(#64748b, #334155);
-		color: light-dark(#475569, #94a3b8);
+		background-color: ${themeColor('container-2')};
+		border-color: ${themeColor('text-3')};
+		color: ${themeColor('text-2')};
 		cursor: not-allowed;
 		opacity: 0.7;
 	}
 
 	&[data-filled='true'] {
-		background-color: light-dark(#f1f5f9, #0f172a);
-		border-color: light-dark(#94a3b8, #475569);
+		background-color: ${themeColor('container-1')};
+		border-color: ${themeColor('container-2')};
 		font-size: 1.35rem;
 	}
 `;
@@ -95,7 +96,7 @@ const ObstacleIcon = styled.span`
 const GhostPreview = styled.span`
 	opacity: 0.45;
 	font-weight: 600;
-	color: light-dark(#2563eb, #93c5fd);
+	color: ${themeColor('accent')};
 `;
 
 export function DiceBingoBoard({

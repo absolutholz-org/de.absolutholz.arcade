@@ -1,4 +1,5 @@
 import { Badge } from '@arcade/lib-ui/components/Badge';
+import { themeColor } from '@arcade/lib-ui/styles/theme/theme.utils';
 import { styled } from '@linaria/react';
 import { type KeyboardEvent, useCallback, useEffect, useRef } from 'react';
 import type { CellValue, WinningLine } from '../../engine/types.ts';
@@ -37,9 +38,9 @@ const GridContainer = styled.div`
 	width: 100%;
 	aspect-ratio: 1 / 1;
 	padding: 0.75rem;
-	background-color: light-dark(rgba(0, 0, 0, 0.04), rgba(255, 255, 255, 0.05));
+	background-color: ${themeColor('container-1')};
 	border-radius: 1rem;
-	border: 1px solid light-dark(rgba(0, 0, 0, 0.08), rgba(255, 255, 255, 0.1));
+	border: 1px solid ${themeColor('container-2')};
 `;
 
 const GridRow = styled.div`
@@ -64,8 +65,8 @@ const CellButton = styled.button`
 	align-items: center;
 	justify-content: center;
 	font-family: inherit;
-	background-color: light-dark(#ffffff, #1e293b);
-	border: 2px solid light-dark(#cbd5e1, #334155);
+	background-color: ${themeColor('surface')};
+	border: 2px solid ${themeColor('container-2')};
 	border-radius: 0.75rem;
 	padding: 0;
 	cursor: pointer;
@@ -73,13 +74,13 @@ const CellButton = styled.button`
 	outline: none;
 
 	&:hover:not(:disabled) {
-		background-color: light-dark(#f8fafc, #334155);
-		border-color: light-dark(#94a3b8, #64748b);
+		background-color: ${themeColor('container-1')};
+		border-color: ${themeColor('text-3')};
 		transform: scale(1.02);
 	}
 
 	&:focus-visible {
-		outline: 3px solid light-dark(#2563eb, #60a5fa);
+		outline: 3px solid ${themeColor('accent')};
 		outline-offset: 3px;
 		z-index: 2;
 	}
@@ -89,8 +90,8 @@ const CellButton = styled.button`
 	}
 
 	&[data-last-move="true"]:not([data-winning="true"]) {
-		border-color: var(--color-accent, light-dark(#2563eb, #60a5fa));
-		box-shadow: 0 0 0 1px var(--color-accent, light-dark(#2563eb, #60a5fa));
+		border-color: ${themeColor('accent')};
+		box-shadow: 0 0 0 1px ${themeColor('accent')};
 
 		@media (forced-colors: active) {
 			border-color: Highlight;
@@ -99,9 +100,9 @@ const CellButton = styled.button`
 	}
 
 	&[data-winning="true"] {
-		background-color: light-dark(#fef3c7, #78350f);
-		border-color: light-dark(#d97706, #f59e0b);
-		box-shadow: 0 0 12px light-dark(rgba(217, 119, 6, 0.35), rgba(245, 158, 11, 0.45));
+		background-color: color-mix(in oklch, ${themeColor('status-warning')} 18%, ${themeColor('surface')});
+		border-color: ${themeColor('status-warning')};
+		box-shadow: 0 0 12px oklch(from ${themeColor('status-warning')} l c h / 0.35);
 		animation: pulse-winning 1.2s infinite alternate ease-in-out;
 	}
 
@@ -121,11 +122,11 @@ const MarkText = styled.span`
 	line-height: 1;
 
 	&[data-mark="X"] {
-		color: light-dark(#2563eb, #60a5fa);
+		color: ${themeColor('rainbow-2')};
 	}
 
 	&[data-mark="O"] {
-		color: light-dark(#ea580c, #fb923c);
+		color: ${themeColor('rainbow-7')};
 	}
 `;
 
@@ -135,7 +136,7 @@ const CoordinateHint = styled.span`
 	left: 0.35rem;
 	font-size: 0.65rem;
 	font-weight: 600;
-	color: light-dark(#94a3b8, #64748b);
+	color: ${themeColor('text-3')};
 	pointer-events: none;
 `;
 

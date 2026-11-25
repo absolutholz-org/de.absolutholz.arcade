@@ -1,3 +1,4 @@
+import { themeColor } from '@arcade/lib-ui/styles/theme/theme.utils';
 import { css } from '@linaria/core';
 
 export const boardWrapper = css`
@@ -19,7 +20,7 @@ export const rackContainer = css`
 	gap: 1.5rem 0.75rem;
 	padding: 1.75rem 1.25rem 1.25rem;
 	border-radius: 1.25rem;
-	background: var(--color-surface-container, light-dark(#f1f3f5, #212529));
+	background: ${themeColor('container-1')};
 	box-shadow: inset 0 0.125rem 0.375rem rgba(0, 0, 0, 0.05);
 
 	@media (min-width: 640px) {

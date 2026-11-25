@@ -32,18 +32,18 @@ export const TrophyCard = css`
 	gap: 0.25rem;
 
 	&[data-tier='gold'] {
-		border-color: #eab308;
-		background: color-mix(in srgb, #eab308 8%, var(--color-surface, #ffffff));
+		border-color: oklch(0.795 0.184 86.047);
+		background: color-mix(in oklch, oklch(0.795 0.184 86.047) 8%, ${themeColor('surface')});
 	}
 
 	&[data-tier='silver'] {
-		border-color: #94a3b8;
-		background: color-mix(in srgb, #94a3b8 8%, var(--color-surface, #ffffff));
+		border-color: oklch(0.704 0.04 256.788);
+		background: color-mix(in oklch, oklch(0.704 0.04 256.788) 8%, ${themeColor('surface')});
 	}
 
 	&[data-tier='bronze'] {
-		border-color: #b45309;
-		background: color-mix(in srgb, #b45309 8%, var(--color-surface, #ffffff));
+		border-color: oklch(0.555 0.163 48.998);
+		background: color-mix(in oklch, oklch(0.555 0.163 48.998) 8%, ${themeColor('surface')});
 	}
 `;
 

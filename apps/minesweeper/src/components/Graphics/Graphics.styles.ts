@@ -1,3 +1,4 @@
+import { themeColor } from '@arcade/lib-ui/styles/theme/theme.utils';
 import { css } from '@linaria/core';
 
 export const graphicContainer = css`
@@ -24,8 +25,8 @@ export const sizeField = css`
 	width: 1rem;
 	height: 1rem;
 	border-radius: 0.1875rem;
-	background: var(--color-container-3, #d1d5db);
-	border: 1px solid var(--color-border, #9ca3af);
+	background: ${themeColor('container-2')};
+	border: 1px solid ${themeColor('text-3')};
 `;
 
 export const difficultyGrid = css`
@@ -43,7 +44,7 @@ export const difficultyRow = css`
 export const difficultyMine = css`
 	width: 1rem;
 	height: 1rem;
-	color: var(--color-text-1, #1f2937);
+	color: ${themeColor('text-1')};
 	display: flex;
 	align-items: center;
 	justify-content: center;

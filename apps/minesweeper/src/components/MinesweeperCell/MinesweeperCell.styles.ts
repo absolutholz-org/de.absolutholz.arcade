@@ -1,3 +1,4 @@
+import { themeColor } from '@arcade/lib-ui/styles/theme/theme.utils';
 import { styled } from '@linaria/react';
 
 export const CellButton = styled.button`
@@ -18,7 +19,7 @@ export const CellButton = styled.button`
 	transition: background-color 150ms ease, box-shadow 150ms ease, transform 100ms ease;
 
 	&:focus-visible {
-		outline: 3px solid var(--color-interactive-primary, #6366f1);
+		outline: 3px solid ${themeColor('accent')};
 		outline-offset: 2px;
 		z-index: 2;
 	}
@@ -29,71 +30,71 @@ export const CellButton = styled.button`
 
 	/* Unexplored state - tactile 3D button */
 	&.unexplored {
-		background: var(--color-container-2, #e5e7eb);
-		color: var(--color-text-1, #111827);
+		background: ${themeColor('container-2')};
+		color: ${themeColor('text-1')};
 		box-shadow:
-			inset 1px 1px 0 rgba(255, 255, 255, 0.6),
-			inset -1px -1px 0 rgba(0, 0, 0, 0.2),
-			0 2px 4px rgba(0, 0, 0, 0.1);
+			inset 1px 1px 0 oklch(1 0 0 / 0.35),
+			inset -1px -1px 0 oklch(0 0 0 / 0.2),
+			0 2px 4px oklch(0 0 0 / 0.1);
 
 		&:hover:not([disabled]) {
-			background: var(--color-container-3, #d1d5db);
+			background: color-mix(in oklch, ${themeColor('container-2')} 88%, ${themeColor('text-1')});
 		}
 
 		&:active:not([disabled]) {
 			transform: scale(0.96);
-			box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.25);
+			box-shadow: inset 1px 1px 2px oklch(0 0 0 / 0.25);
 		}
 	}
 
 	/* Revealed state - flat inset */
 	&.revealed {
-		background: var(--color-surface, #ffffff);
-		border: 1px solid var(--color-container-2, #e5e7eb);
-		box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.06);
+		background: ${themeColor('surface')};
+		border: 1px solid ${themeColor('container-2')};
+		box-shadow: inset 0 1px 2px oklch(0 0 0 / 0.06);
 		cursor: default;
 
-		&.number-1 { color: #1976d2; }
-		&.number-2 { color: #388e3c; }
-		&.number-3 { color: #d32f2f; }
-		&.number-4 { color: #303f9f; }
-		&.number-5 { color: #7b1fa2; }
-		&.number-6 { color: #00796b; }
-		&.number-7 { color: #512da8; }
-		&.number-8 { color: #e65100; }
+		&.number-1 { color: ${themeColor('rainbow-2')}; }
+		&.number-2 { color: ${themeColor('rainbow-3')}; }
+		&.number-3 { color: ${themeColor('rainbow-1')}; }
+		&.number-4 { color: ${themeColor('rainbow-10')}; }
+		&.number-5 { color: ${themeColor('rainbow-5')}; }
+		&.number-6 { color: ${themeColor('rainbow-6')}; }
+		&.number-7 { color: ${themeColor('rainbow-8')}; }
+		&.number-8 { color: ${themeColor('rainbow-7')}; }
 	}
 
 	/* Flagged state */
 	&.flagged {
-		background: var(--color-container-2, #e5e7eb);
-		color: var(--color-accent, #ef4444);
+		background: ${themeColor('container-2')};
+		color: ${themeColor('accent')};
 		box-shadow:
-			inset 1px 1px 0 rgba(255, 255, 255, 0.6),
-			inset -1px -1px 0 rgba(0, 0, 0, 0.2);
+			inset 1px 1px 0 oklch(1 0 0 / 0.35),
+			inset -1px -1px 0 oklch(0 0 0 / 0.2);
 	}
 
 	/* Questioned state */
 	&.questioned {
-		background: var(--color-container-2, #e5e7eb);
-		color: var(--color-text-2, #4b5563);
+		background: ${themeColor('container-2')};
+		color: ${themeColor('text-2')};
 		box-shadow:
-			inset 1px 1px 0 rgba(255, 255, 255, 0.6),
-			inset -1px -1px 0 rgba(0, 0, 0, 0.2);
+			inset 1px 1px 0 oklch(1 0 0 / 0.35),
+			inset -1px -1px 0 oklch(0 0 0 / 0.2);
 	}
 
 	/* Detonated state - explosive red/orange gradient */
 	&.detonated {
-		background: radial-gradient(circle, #fde047 20%, #f97316 60%, #dc2626 100%);
-		color: #ffffff;
-		box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+		background: radial-gradient(circle, ${themeColor('rainbow-4')} 20%, ${themeColor('rainbow-7')} 60%, ${themeColor('status-danger')} 100%);
+		color: oklch(from ${themeColor('status-danger')} clamp(0.12, (0.62 - l) * 100, 0.98) 0.02 h);
+		box-shadow: inset 0 2px 4px oklch(0 0 0 / 0.4);
 		animation: detonate-pulse 300ms ease-out;
 	}
 
 	/* Revealed mine on game over */
 	&.revealed-mine {
-		background: var(--color-container-3, #fecaca);
-		color: #991b1b;
-		border: 1px solid #f87171;
+		background: color-mix(in oklch, ${themeColor('status-danger')} 16%, ${themeColor('surface')});
+		color: ${themeColor('status-danger')};
+		border: 1px solid color-mix(in oklch, ${themeColor('status-danger')} 55%, ${themeColor('surface')});
 	}
 
 	@keyframes detonate-pulse {

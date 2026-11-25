@@ -4,19 +4,6 @@ import { isTubeComplete } from '../../engine/validator.js';
 import * as S from './LiquidSortTube.styles.js';
 import type { LiquidSortTubeProps } from './LiquidSortTube.types.js';
 
-const COLOR_MAP: Record<number, string> = {
-	0: 'var(--color-ws-0, #e03131)', // Ruby Red
-	1: 'var(--color-ws-1, #1971c2)', // Cobalt Blue
-	2: 'var(--color-ws-2, #2f9e44)', // Emerald Green
-	3: 'var(--color-ws-3, #f59f00)', // Amber Yellow
-	4: 'var(--color-ws-4, #7950f2)', // Amethyst Violet
-	5: 'var(--color-ws-5, #f76707)', // Coral Orange
-	6: 'var(--color-ws-6, #0c8599)', // Cyan Teal
-	7: 'var(--color-ws-7, #d6336c)', // Magenta Pink
-	8: 'var(--color-ws-8, #74b816)', // Lime Green
-	9: 'var(--color-ws-9, #364fc7)', // Navy Indigo
-};
-
 function renderSvgPattern(colorId: number): JSX.Element {
 	const patternType = colorId % 5;
 	if (patternType === 0) {
@@ -100,7 +87,6 @@ export function LiquidSortTube({
 						className={S.segment}
 						data-color={colorId}
 						data-fluid={fluidAnimations ? 'true' : 'false'}
-						style={{ backgroundColor: COLOR_MAP[colorId] ?? '#868e96', color: '#ffffff' }}
 					>
 						{showPatterns && renderSvgPattern(colorId)}
 					</div>

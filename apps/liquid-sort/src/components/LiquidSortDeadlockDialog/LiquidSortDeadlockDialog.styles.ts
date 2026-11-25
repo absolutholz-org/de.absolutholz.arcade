@@ -1,3 +1,4 @@
+import { themeColor } from '@arcade/lib-ui/styles/theme/theme.utils';
 import { css } from '@linaria/core';
 
 export const deadlockContent = css`
@@ -10,7 +11,7 @@ export const deadlockContent = css`
 export const deadlockDescription = css`
 	font-size: 0.9375rem;
 	line-height: 1.5;
-	color: var(--color-text-subtle, light-dark(#495057, #ced4da));
+	color: ${themeColor('text-2')};
 	margin: 0;
 `;
 
