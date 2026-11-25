@@ -86,6 +86,18 @@ const COLOR_SLOTS = [
 	{ name: 'text-1', variable: '--color-text-1' },
 	{ name: 'text-2', variable: '--color-text-2' },
 	{ name: 'text-3', variable: '--color-text-3' },
+	{ name: 'rainbow-1', variable: '--color-rainbow-1' },
+	{ name: 'rainbow-2', variable: '--color-rainbow-2' },
+	{ name: 'rainbow-3', variable: '--color-rainbow-3' },
+	{ name: 'rainbow-4', variable: '--color-rainbow-4' },
+	{ name: 'rainbow-5', variable: '--color-rainbow-5' },
+	{ name: 'rainbow-6', variable: '--color-rainbow-6' },
+	{ name: 'rainbow-7', variable: '--color-rainbow-7' },
+	{ name: 'rainbow-8', variable: '--color-rainbow-8' },
+	{ name: 'rainbow-9', variable: '--color-rainbow-9' },
+	{ name: 'rainbow-10', variable: '--color-rainbow-10' },
+	{ name: 'rainbow-11', variable: '--color-rainbow-11' },
+	{ name: 'rainbow-12', variable: '--color-rainbow-12' },
 ] as const;
 
 const SCHEMES = [
@@ -193,6 +205,9 @@ export function ThemesetShowcase({ themeset }: ThemesetShowcaseProps) {
 													(activeThemeset.props as Record<string, string>)[
 														tokenPropertyKey
 													] || '';
+												if (!rawValue) {
+													return null;
+												}
 												const parsed = parseLightDark(rawValue);
 												const displayValue = scheme === 'light' ? parsed.light : parsed.dark;
 

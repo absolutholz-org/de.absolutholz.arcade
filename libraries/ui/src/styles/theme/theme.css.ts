@@ -14,6 +14,18 @@ export const themeVars = {
 	'accent-contrast': 'var(--color-accent-contrast)',
 	'accent-secondary': 'var(--color-accent-secondary)',
 	'accent-secondary-contrast': 'var(--color-accent-secondary-contrast)',
+	'rainbow-1': 'var(--color-rainbow-1)',
+	'rainbow-2': 'var(--color-rainbow-2)',
+	'rainbow-3': 'var(--color-rainbow-3)',
+	'rainbow-4': 'var(--color-rainbow-4)',
+	'rainbow-5': 'var(--color-rainbow-5)',
+	'rainbow-6': 'var(--color-rainbow-6)',
+	'rainbow-7': 'var(--color-rainbow-7)',
+	'rainbow-8': 'var(--color-rainbow-8)',
+	'rainbow-9': 'var(--color-rainbow-9)',
+	'rainbow-10': 'var(--color-rainbow-10)',
+	'rainbow-11': 'var(--color-rainbow-11)',
+	'rainbow-12': 'var(--color-rainbow-12)',
 } as const;
 
 export type ThemeVars = typeof themeVars;

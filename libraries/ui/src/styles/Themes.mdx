@@ -69,3 +69,22 @@ The utility accepts keys defined in the `Theme` contract:
 - `text-3`: Tertiary placeholder/accented text.
 - `accent`: Active focus, outline, or highlight color.
 - `accent-contrast`: Foreground text color when overlaying elements styled with `accent`.
+- `rainbow-1` … `rainbow-12`: 12 accessible categorical game colors ordered by perceptual separation (`1–4`, `1–6`, `1–8`, `1–12`), each meeting ≥ 4.5:1 WCAG AA contrast against `surface` and `container-1`.
+
+### 3. Deriving Rainbow Variants & Contrast in CSS
+
+Rather than maintaining separate `-contrast`, `-subtle`, or `-border` variables for every rainbow slot, derive variants directly in CSS using `oklch(from ...)` and `color-mix(in oklch, ...)`:
+
+```typescript
+const bg = themeColor('rainbow-1');
+
+// 1. Contrasting foreground ink (text/icons on top of a solid rainbow fill)
+//    Light mode rainbow L <= 0.62 -> 0.98 (off-white); Dark mode L > 0.62 -> 0.12 (dark ink)
+const ink = `oklch(from ${bg} clamp(0.12, (0.62 - l) * 100, 0.98) 0.02 h)`;
+
+// 2. Subtle surface tint (safe behind text-1)
+const subtle = `color-mix(in oklch, ${bg} 18%, ${themeColor('surface')})`;
+
+// 3. Border / darker emphasis
+const border = `oklch(from ${bg} calc(l - 0.12) c h)`;
+```

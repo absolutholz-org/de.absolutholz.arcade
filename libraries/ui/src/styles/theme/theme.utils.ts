@@ -57,5 +57,17 @@ export function getThemeMapping(themeName: keyof Themeset): Record<string, strin
 		'--color-accent-contrast': `var(--theme-${themeName}-accent-contrast)`,
 		'--color-accent-secondary': `var(--theme-${themeName}-accent-secondary)`,
 		'--color-accent-secondary-contrast': `var(--theme-${themeName}-accent-secondary-contrast)`,
+		'--color-rainbow-1': `var(--theme-${themeName}-rainbow-1)`,
+		'--color-rainbow-2': `var(--theme-${themeName}-rainbow-2)`,
+		'--color-rainbow-3': `var(--theme-${themeName}-rainbow-3)`,
+		'--color-rainbow-4': `var(--theme-${themeName}-rainbow-4)`,
+		'--color-rainbow-5': `var(--theme-${themeName}-rainbow-5)`,
+		'--color-rainbow-6': `var(--theme-${themeName}-rainbow-6)`,
+		'--color-rainbow-7': `var(--theme-${themeName}-rainbow-7)`,
+		'--color-rainbow-8': `var(--theme-${themeName}-rainbow-8)`,
+		'--color-rainbow-9': `var(--theme-${themeName}-rainbow-9)`,
+		'--color-rainbow-10': `var(--theme-${themeName}-rainbow-10)`,
+		'--color-rainbow-11': `var(--theme-${themeName}-rainbow-11)`,
+		'--color-rainbow-12': `var(--theme-${themeName}-rainbow-12)`,
 	};
 }

@@ -1,5 +1,43 @@
-import type { Themeset } from './theme.types.js';
+import type { Theme, Themeset } from './theme.types.js';
 import { themesetToCssProperties, themesetToCssString } from './theme.utils.js';
+
+/**
+ * 12-color accessible rainbow palette ordered by perceptual separation (4 -> 6 -> 8 -> 12).
+ * All values are sRGB-gamut-safe OKLCH coordinates with >= 4.5:1 contrast against surface/container-1.
+ */
+const rainbowBase: Partial<Theme> = {
+	'rainbow-1': 'light-dark(oklch(0.52 0.21 25), oklch(0.7 0.19 25))',
+	'rainbow-2': 'light-dark(oklch(0.5 0.16 255), oklch(0.72 0.14 255))',
+	'rainbow-3': 'light-dark(oklch(0.5 0.14 148), oklch(0.74 0.17 148))',
+	'rainbow-4': 'light-dark(oklch(0.52 0.1 85), oklch(0.78 0.15 85))',
+	'rainbow-5': 'light-dark(oklch(0.5 0.2 300), oklch(0.72 0.17 300))',
+	'rainbow-6': 'light-dark(oklch(0.49 0.08 195), oklch(0.75 0.12 195))',
+	'rainbow-7': 'light-dark(oklch(0.52 0.13 52), oklch(0.74 0.17 52))',
+	'rainbow-8': 'light-dark(oklch(0.51 0.2 345), oklch(0.73 0.2 345))',
+	'rainbow-9': 'light-dark(oklch(0.5 0.12 122), oklch(0.77 0.15 122))',
+	'rainbow-10': 'light-dark(oklch(0.48 0.2 275), oklch(0.7 0.15 275))',
+	'rainbow-11': 'light-dark(oklch(0.5 0.2 5), oklch(0.71 0.19 5))',
+	'rainbow-12': 'light-dark(oklch(0.49 0.09 225), oklch(0.74 0.14 225))',
+};
+
+/**
+ * Contrast theme uses dark surfaces in both light and dark color schemes,
+ * so rainbow tokens use high-lightness coordinates in both modes.
+ */
+const rainbowContrast: Partial<Theme> = {
+	'rainbow-1': 'light-dark(oklch(0.7 0.19 25), oklch(0.7 0.19 25))',
+	'rainbow-2': 'light-dark(oklch(0.72 0.14 255), oklch(0.72 0.14 255))',
+	'rainbow-3': 'light-dark(oklch(0.74 0.17 148), oklch(0.74 0.17 148))',
+	'rainbow-4': 'light-dark(oklch(0.78 0.15 85), oklch(0.78 0.15 85))',
+	'rainbow-5': 'light-dark(oklch(0.72 0.17 300), oklch(0.72 0.17 300))',
+	'rainbow-6': 'light-dark(oklch(0.75 0.12 195), oklch(0.75 0.12 195))',
+	'rainbow-7': 'light-dark(oklch(0.74 0.17 52), oklch(0.74 0.17 52))',
+	'rainbow-8': 'light-dark(oklch(0.73 0.2 345), oklch(0.73 0.2 345))',
+	'rainbow-9': 'light-dark(oklch(0.77 0.15 122), oklch(0.77 0.15 122))',
+	'rainbow-10': 'light-dark(oklch(0.7 0.15 275), oklch(0.7 0.15 275))',
+	'rainbow-11': 'light-dark(oklch(0.71 0.19 5), oklch(0.71 0.19 5))',
+	'rainbow-12': 'light-dark(oklch(0.74 0.14 225), oklch(0.74 0.14 225))',
+};
 
 const themesetBase: Themeset = {
 	primary: {
@@ -13,6 +51,7 @@ const themesetBase: Themeset = {
 		'accent-contrast': 'light-dark(oklch(0.98 0.01 250), oklch(0.05 0.01 250))',
 		'accent-secondary': 'light-dark(oklch(0.55 0.18 280), oklch(0.68 0.16 280))',
 		'accent-secondary-contrast': 'light-dark(oklch(0.98 0.01 280), oklch(0.05 0.01 280))',
+		...rainbowBase,
 	},
 	secondary: {
 		surface: 'light-dark(oklch(0.98 0.005 280), oklch(0.12 0.015 280))',
@@ -25,6 +64,7 @@ const themesetBase: Themeset = {
 		'accent-contrast': 'light-dark(oklch(0.98 0.01 280), oklch(0.05 0.01 280))',
 		'accent-secondary': 'light-dark(oklch(0.6 0.18 250), oklch(0.7 0.16 250))',
 		'accent-secondary-contrast': 'light-dark(oklch(0.05 0.01 250), oklch(0.05 0.01 250))',
+		...rainbowBase,
 	},
 	contrast: {
 		surface: 'light-dark(oklch(0.15 0.015 250), oklch(0.05 0 0))',
@@ -37,6 +77,7 @@ const themesetBase: Themeset = {
 		'accent-contrast': 'light-dark(oklch(0.05 0.01 250), oklch(0.05 0.01 260))',
 		'accent-secondary': 'light-dark(oklch(0.55 0.18 280), oklch(0.68 0.16 280))',
 		'accent-secondary-contrast': 'light-dark(oklch(0.98 0.01 280), oklch(0.05 0.01 280))',
+		...rainbowContrast,
 	},
 	accent: {
 		surface: 'light-dark(oklch(0.94 0.03 250), oklch(0.1 0.04 250))',
@@ -49,6 +90,7 @@ const themesetBase: Themeset = {
 		'accent-contrast': 'light-dark(oklch(0.98 0.01 250), oklch(0.05 0.01 250))',
 		'accent-secondary': 'light-dark(oklch(0.55 0.18 280), oklch(0.68 0.16 280))',
 		'accent-secondary-contrast': 'light-dark(oklch(0.98 0.01 280), oklch(0.05 0.01 280))',
+		...rainbowBase,
 	},
 };
 

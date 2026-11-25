@@ -9,6 +9,18 @@ export type Theme = {
 	'accent-contrast'?: string;
 	'accent-secondary'?: string;
 	'accent-secondary-contrast'?: string;
+	'rainbow-1'?: string;
+	'rainbow-2'?: string;
+	'rainbow-3'?: string;
+	'rainbow-4'?: string;
+	'rainbow-5'?: string;
+	'rainbow-6'?: string;
+	'rainbow-7'?: string;
+	'rainbow-8'?: string;
+	'rainbow-9'?: string;
+	'rainbow-10'?: string;
+	'rainbow-11'?: string;
+	'rainbow-12'?: string;
 };
 
 export type ThemeColorKey = keyof Required<Theme>;
