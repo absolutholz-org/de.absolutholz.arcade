@@ -28,7 +28,7 @@ export function Logo<C extends ElementType = 'span'>({ as, size = 'md', label }:
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				viewBox="0 -960 960 960"
-				fill="#ffffff"
+				fill="oklch(0.98 0 0)"
 				aria-hidden="true"
 				focusable="false"
 			>

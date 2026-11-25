@@ -165,12 +165,12 @@ export const ClueButton = styled.button`
 	transition: background-color 120ms ease, border-color 120ms ease, opacity 120ms ease, color 120ms ease;
 
 	&:hover {
-		background-color: color-mix(in oklab, ${themeColor('accent')} 14%, ${themeColor('surface')});
+		background-color: color-mix(in oklch, ${themeColor('accent')} 14%, ${themeColor('surface')});
 		border-color: ${themeColor('accent')};
 	}
 
 	&[data-active-ray='true'] {
-		background-color: color-mix(in oklab, ${themeColor('accent')} 20%, ${themeColor('surface')});
+		background-color: color-mix(in oklch, ${themeColor('accent')} 20%, ${themeColor('surface')});
 		border-color: ${themeColor('accent')};
 		color: ${themeColor('accent')};
 	}
@@ -185,9 +185,9 @@ export const ClueButton = styled.button`
 	}
 
 	&[data-clue-status='error'] {
-		background-color: color-mix(in oklab, var(--color-danger, ${themeColor('accent')}) 16%, ${themeColor('surface')});
-		border-color: var(--color-danger, ${themeColor('accent')});
-		color: var(--color-danger, ${themeColor('accent')});
+		background-color: color-mix(in oklch, ${themeColor('status-danger')} 16%, ${themeColor('surface')});
+		border-color: ${themeColor('status-danger')};
+		color: ${themeColor('status-danger')};
 		opacity: 1;
 	}
 

@@ -428,7 +428,7 @@ export function LasersBoard({
 											cx={cx}
 											cy={cy}
 											r="17"
-											fill="var(--surface, #ffffff)"
+											fill="var(--color-surface)"
 											stroke="CanvasText"
 											strokeWidth="2"
 											strokeOpacity="0.35"

@@ -1,3 +1,4 @@
+import { themeColor } from '@arcade/lib-ui/styles/theme/theme.utils';
 import { css } from '@linaria/core';
 
 export const WidgetContainer = css`
@@ -44,7 +45,7 @@ export const BannerTitle = css`
 	font-weight: 700;
 	line-height: 1.3;
 	margin: 0;
-	color: var(--color-text-1, #0f172a);
+	color: ${themeColor('text-1')};
 `;
 
 export const MedalsTally = css`
@@ -53,7 +54,7 @@ export const MedalsTally = css`
 	gap: 0.75rem;
 	font-size: 0.875rem;
 	font-weight: 600;
-	color: var(--color-text-2, #475569);
+	color: ${themeColor('text-2')};
 	flex-wrap: wrap;
 `;
 

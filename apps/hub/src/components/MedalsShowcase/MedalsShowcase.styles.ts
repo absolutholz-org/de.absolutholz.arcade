@@ -1,3 +1,4 @@
+import { themeColor } from '@arcade/lib-ui/styles/theme/theme.utils';
 import { css } from '@linaria/core';
 
 export const ShowcaseContainer = css`
@@ -25,24 +26,24 @@ export const TrophyCard = css`
 	justify-content: center;
 	padding: 1rem;
 	border-radius: 0.75rem;
-	border: 1px solid var(--color-container-2);
-	background: var(--color-surface);
+	border: 1px solid ${themeColor('container-2')};
+	background: ${themeColor('surface')};
 	text-align: center;
 	gap: 0.25rem;
 
 	&[data-tier='gold'] {
-		border-color: #eab308;
-		background: color-mix(in srgb, #eab308 8%, var(--color-surface));
+		border-color: oklch(0.795 0.184 86.047);
+		background: color-mix(in oklch, oklch(0.795 0.184 86.047) 8%, ${themeColor('surface')});
 	}
 
 	&[data-tier='silver'] {
-		border-color: #94a3b8;
-		background: color-mix(in srgb, #94a3b8 8%, var(--color-surface));
+		border-color: oklch(0.704 0.04 256.788);
+		background: color-mix(in oklch, oklch(0.704 0.04 256.788) 8%, ${themeColor('surface')});
 	}
 
 	&[data-tier='bronze'] {
-		border-color: #b45309;
-		background: color-mix(in srgb, #b45309 8%, var(--color-surface));
+		border-color: oklch(0.555 0.163 48.998);
+		background: color-mix(in oklch, oklch(0.555 0.163 48.998) 8%, ${themeColor('surface')});
 	}
 `;
 
@@ -55,7 +56,7 @@ export const TrophyCount = css`
 export const TrophyLabel = css`
 	font-size: 0.8125rem;
 	font-weight: 500;
-	color: var(--color-text-2);
+	color: ${themeColor('text-2')};
 	text-transform: capitalize;
 `;
 
@@ -69,7 +70,7 @@ export const MedalsGrid = css`
 export const EmptyState = css`
 	padding: 3rem 1rem;
 	text-align: center;
-	color: var(--color-text-2);
+	color: ${themeColor('text-2')};
 	font-size: 1rem;
 	grid-column: 1 / -1;
 `;

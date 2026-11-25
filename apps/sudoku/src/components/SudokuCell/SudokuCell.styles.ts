@@ -43,7 +43,7 @@ export const CellButton = styled.button`
 
 	/* Peer cell highlighting (soft light tint on row, column, and block) */
 	&[data-peer-cell='true'] {
-		background-color: color-mix(in srgb, ${themeColor('accent')} 14%, ${themeColor('surface')});
+		background-color: color-mix(in oklch, ${themeColor('accent')} 14%, ${themeColor('surface')});
 	}
 
 	/* Peer digit highlighting (matching numbers across the board) */

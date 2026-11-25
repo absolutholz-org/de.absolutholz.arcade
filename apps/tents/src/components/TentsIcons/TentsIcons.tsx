@@ -30,7 +30,7 @@ export function TentIcon({ className }: { className?: string }): JSX.Element {
 		>
 			<path d="M12 3 2 19h20L12 3Z" opacity="0.85" />
 			<path d="M12 3 7 19h10L12 3Z" />
-			<line x1="12" y1="3" x2="12" y2="19" stroke="var(--color-surface, #ffffff)" strokeWidth="1.5" />
+			<line x1="12" y1="3" x2="12" y2="19" stroke="var(--color-surface)" strokeWidth="1.5" />
 		</svg>
 	);
 }

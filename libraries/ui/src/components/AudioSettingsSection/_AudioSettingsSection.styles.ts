@@ -1,4 +1,5 @@
 import { styled } from '@linaria/react';
+import { themeColor } from '../../styles/theme/theme.utils';
 
 export const AudioSettingsContainer = styled.div`
 	display: flex;
@@ -26,11 +27,11 @@ export const AudioSettingTitle = styled.h2`
 	font-size: 1.25rem;
 	font-weight: 700;
 	margin: 0;
-	color: var(--color-text-1);
+	color: ${themeColor('text-1')};
 `;
 
 export const AudioSettingDescription = styled.p`
-	color: var(--color-text-2, var(--color-text-muted, #4b5563));
+	color: ${themeColor('text-2')};
 	font-size: 0.95rem;
 	margin: 0;
 `;

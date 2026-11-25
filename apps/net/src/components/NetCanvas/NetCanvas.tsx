@@ -103,7 +103,7 @@ export function NetCanvas({
 
 		const cableCoreColor = isEnergized ? themeColor('accent') : themeColor('text-3');
 		const cableBgColor = isEnergized
-			? `color-mix(in srgb, ${themeColor('accent')} 30%, ${themeColor('surface')})`
+			? `color-mix(in oklch, ${themeColor('accent')} 30%, ${themeColor('surface')})`
 			: themeColor('container-2');
 		const centerAccentColor = isEnergized ? themeColor('accent') : themeColor('text-3');
 
@@ -264,8 +264,8 @@ export function NetCanvas({
 							rx="2"
 							fill={
 								isEnergized
-									? `color-mix(in srgb, ${themeColor('accent')} 25%, transparent)`
-									: `color-mix(in srgb, ${themeColor('container-2')} 40%, transparent)`
+									? `oklch(from ${themeColor('accent')} l c h / 0.25)`
+									: `oklch(from ${themeColor('container-2')} l c h / 0.4)`
 							}
 						/>
 						<line x1="50" y1="56" x2="50" y2="65" stroke={cableCoreColor} strokeWidth="4" />

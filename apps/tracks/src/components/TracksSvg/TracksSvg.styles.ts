@@ -182,6 +182,6 @@ export const LocomotiveSvg = styled.svg`
 	}
 
 	.loco-lamp {
-		fill: #facc15;
+		fill: ${themeColor('rainbow-4')};
 	}
 `;

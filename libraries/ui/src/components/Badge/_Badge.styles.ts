@@ -139,9 +139,9 @@ export const Badge = styled.span`
 	/* Tone: accent (use color-mix in oklab to avoid low-chroma oklch hue artifacts) */
 	&[data-tone='accent'] {
 		&[data-variant='subtle'] {
-			--badge-bg: color-mix(in oklab, ${themeColor('accent')} 14%, ${themeColor('surface')});
+			--badge-bg: color-mix(in oklch, ${themeColor('accent')} 14%, ${themeColor('surface')});
 			--badge-fg: ${themeColor('accent')};
-			--badge-border: color-mix(in oklab, ${themeColor('accent')} 42%, ${themeColor('container-2')});
+			--badge-border: color-mix(in oklch, ${themeColor('accent')} 42%, ${themeColor('container-2')});
 		}
 
 		&[data-variant='solid'] {
@@ -161,9 +161,9 @@ export const Badge = styled.span`
 	/* Tone: accent-secondary */
 	&[data-tone='accent-secondary'] {
 		&[data-variant='subtle'] {
-			--badge-bg: color-mix(in oklab, ${themeColor('accent-secondary')} 14%, ${themeColor('surface')});
+			--badge-bg: color-mix(in oklch, ${themeColor('accent-secondary')} 14%, ${themeColor('surface')});
 			--badge-fg: ${themeColor('accent-secondary')};
-			--badge-border: color-mix(in oklab, ${themeColor('accent-secondary')} 42%, ${themeColor('container-2')});
+			--badge-border: color-mix(in oklch, ${themeColor('accent-secondary')} 42%, ${themeColor('container-2')});
 		}
 
 		&[data-variant='solid'] {

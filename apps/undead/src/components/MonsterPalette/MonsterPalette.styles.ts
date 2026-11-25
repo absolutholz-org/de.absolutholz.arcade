@@ -60,7 +60,7 @@ export const MonsterButton = styled.button`
 	transition: background-color 120ms ease, border-color 120ms ease, transform 80ms ease;
 
 	&:hover:not(:disabled) {
-		background-color: color-mix(in oklab, var(--monster-color) 10%, ${themeColor('surface')});
+		background-color: color-mix(in oklch, var(--monster-color) 10%, ${themeColor('surface')});
 		border-color: var(--monster-color);
 	}
 
@@ -69,7 +69,7 @@ export const MonsterButton = styled.button`
 	}
 
 	&[data-selected='true'] {
-		background-color: color-mix(in oklab, var(--monster-color) 16%, ${themeColor('surface')});
+		background-color: color-mix(in oklch, var(--monster-color) 16%, ${themeColor('surface')});
 		border-color: var(--monster-color);
 		box-shadow: inset 0 0 0 1px var(--monster-color);
 	}
@@ -79,8 +79,8 @@ export const MonsterButton = styled.button`
 	}
 
 	&[data-over-limit='true'] {
-		border-color: var(--color-danger, ${themeColor('accent')});
-		background-color: color-mix(in oklab, var(--color-danger, ${themeColor('accent')}) 12%, ${themeColor('surface')});
+		border-color: ${themeColor('status-danger')};
+		background-color: color-mix(in oklch, ${themeColor('status-danger')} 12%, ${themeColor('surface')});
 	}
 
 	&:disabled {
@@ -143,7 +143,7 @@ export const CountRow = styled.span`
 	color: ${themeColor('text-2')};
 
 	&[data-over-limit='true'] {
-		color: var(--color-danger, ${themeColor('accent')});
+		color: ${themeColor('status-danger')};
 		font-weight: 800;
 	}
 `;
@@ -202,12 +202,12 @@ export const ModeButton = styled.button`
 	}
 
 	&[data-active='true'] {
-		background-color: color-mix(in oklab, ${themeColor('accent')} 18%, ${themeColor('surface')});
+		background-color: color-mix(in oklch, ${themeColor('accent')} 18%, ${themeColor('surface')});
 		border-color: ${themeColor('accent')};
 		color: ${themeColor('accent')};
 
 		&:hover:not(:disabled) {
-			background-color: color-mix(in oklab, ${themeColor('accent')} 24%, ${themeColor('surface')});
+			background-color: color-mix(in oklch, ${themeColor('accent')} 24%, ${themeColor('surface')});
 		}
 	}
 

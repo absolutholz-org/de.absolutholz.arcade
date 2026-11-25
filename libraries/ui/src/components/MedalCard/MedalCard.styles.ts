@@ -31,18 +31,18 @@ export const Card = styled.article`
 		}
 
 		&[data-tier='gold'] {
-			border-color: #f59e0b;
-			background: color-mix(in srgb, #f59e0b 6%, ${themeColor('surface')});
+			border-color: oklch(0.795 0.184 86.047);
+			background: color-mix(in oklch, oklch(0.795 0.184 86.047) 6%, ${themeColor('surface')});
 		}
 
 		&[data-tier='silver'] {
-			border-color: #94a3b8;
-			background: color-mix(in srgb, #94a3b8 6%, ${themeColor('surface')});
+			border-color: oklch(0.704 0.04 256.788);
+			background: color-mix(in oklch, oklch(0.704 0.04 256.788) 6%, ${themeColor('surface')});
 		}
 
 		&[data-tier='bronze'] {
-			border-color: #cd7f32;
-			background: color-mix(in srgb, #cd7f32 6%, ${themeColor('surface')});
+			border-color: oklch(0.555 0.163 48.998);
+			background: color-mix(in oklch, oklch(0.555 0.163 48.998) 6%, ${themeColor('surface')});
 		}
 	}
 `;
@@ -92,15 +92,15 @@ export const TierBadge = styled.span`
 	color: ${themeColor('text-2')};
 
 	&[data-tier='gold'] {
-		color: #d97706;
+		color: light-dark(oklch(0.58 0.16 70), oklch(0.82 0.16 80));
 	}
 
 	&[data-tier='silver'] {
-		color: #64748b;
+		color: light-dark(oklch(0.52 0.03 255), oklch(0.76 0.03 255));
 	}
 
 	&[data-tier='bronze'] {
-		color: #b45309;
+		color: light-dark(oklch(0.48 0.14 48), oklch(0.72 0.14 48));
 	}
 `;
 
@@ -132,7 +132,7 @@ export const Footer = styled.div`
 export const UnlockedDate = styled.span`
 	font-size: 0.75rem;
 	font-weight: 600;
-	color: var(--color-success, #16a34a);
+	color: ${themeColor('status-success')};
 	display: inline-flex;
 	align-items: center;
 	gap: 0.25rem;

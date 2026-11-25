@@ -11,7 +11,7 @@ export const CellButton = styled.button`
 	justify-content: center;
 	border-style: solid;
 	border-width: 1px;
-	border-color: color-mix(in srgb, ${themeColor('text-1')} 16%, transparent);
+	border-color: oklch(from ${themeColor('text-1')} l c h / 0.16);
 	color: ${themeColor('text-1')};
 	padding: 0;
 	margin: 0;

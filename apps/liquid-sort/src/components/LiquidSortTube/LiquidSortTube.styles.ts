@@ -80,7 +80,7 @@ export const tubeBody = css`
 	flex-direction: column-reverse;
 	align-items: stretch;
 	justify-content: flex-start;
-	background: color-mix(in oklch, ${themeColor('container-1')} 80%, transparent);
+	background: oklch(from ${themeColor('container-1')} l c h / 0.8);
 	border: 0.1875rem solid ${themeColor('text-2')};
 	border-top: none;
 	border-radius: 0 0 9999px 9999px;

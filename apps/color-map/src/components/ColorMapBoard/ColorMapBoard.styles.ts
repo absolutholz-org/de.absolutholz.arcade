@@ -124,7 +124,7 @@ export const OuterBorder = styled.rect`
 
 export const ConflictBorder = styled.path`
 	fill: none;
-	stroke: var(--color-danger, light-dark(oklch(0.52 0.22 25), oklch(0.72 0.2 25)));
+	stroke: ${themeColor('status-danger')};
 	stroke-linecap: round;
 	pointer-events: none;
 
@@ -267,7 +267,7 @@ export const RegionFocusAnchor = styled.button`
 	&:focus-visible {
 		pointer-events: auto;
 		border-color: ${themeColor('accent')};
-		background-color: color-mix(in oklab, ${themeColor('accent')} 18%, transparent);
+		background-color: color-mix(in oklch, ${themeColor('accent')} 18%, transparent);
 	}
 
 	${focusVisibleRing}

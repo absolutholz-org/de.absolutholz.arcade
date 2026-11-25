@@ -69,7 +69,7 @@ export const tileButton = css`
 	}
 
 	&[data-root='true'] {
-		box-shadow: 0 0 8px color-mix(in srgb, ${themeColor('accent')} 40%, transparent);
+		box-shadow: 0 0 8px oklch(from ${themeColor('accent')} l c h / 0.4);
 	}
 
 	&:disabled {

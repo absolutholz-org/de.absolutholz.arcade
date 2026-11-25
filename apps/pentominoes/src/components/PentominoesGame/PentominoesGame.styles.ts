@@ -1,3 +1,4 @@
+import { themeColor } from '@arcade/lib-ui/styles/theme/theme.utils';
 import { css } from '@linaria/core';
 import { styled } from '@linaria/react';
 
@@ -21,8 +22,8 @@ export const BoardSection = styled.section`
 	width: 100%;
 	min-width: 0;
 	container-type: inline-size;
-	background: var(--color-surface-elevated, light-dark(oklch(0.97 0.01 260), oklch(0.19 0.02 260)));
-	border: 1px solid var(--color-border-subtle, light-dark(oklch(0.86 0.02 260), oklch(0.3 0.02 260)));
+	background: ${themeColor('container-1')};
+	border: 1px solid ${themeColor('container-2')};
 	border-radius: 1rem;
 `;
 
@@ -116,7 +117,7 @@ export const ColCoordBadge = styled.span`
 	font-weight: 700;
 	line-height: 1;
 	text-align: center;
-	color: var(--color-text-secondary, light-dark(oklch(0.45 0.02 260), oklch(0.72 0.02 260)));
+	color: ${themeColor('text-2')};
 	user-select: none;
 `;
 
@@ -130,7 +131,7 @@ export const RowCoordBadge = styled.span`
 	font-weight: 700;
 	line-height: 1;
 	text-align: center;
-	color: var(--color-text-secondary, light-dark(oklch(0.45 0.02 260), oklch(0.72 0.02 260)));
+	color: ${themeColor('text-2')};
 	user-select: none;
 `;
 
@@ -268,8 +269,8 @@ export const TraySection = styled.section`
 	gap: 1rem;
 	width: 100%;
 	min-width: 0;
-	background: var(--color-surface-elevated, light-dark(oklch(0.97 0.01 260), oklch(0.19 0.02 260)));
-	border: 1px solid var(--color-border-subtle, light-dark(oklch(0.86 0.02 260), oklch(0.3 0.02 260)));
+	background: ${themeColor('container-1')};
+	border: 1px solid ${themeColor('container-2')};
 	border-radius: 1rem;
 	padding: 0.75rem;
 
@@ -347,7 +348,7 @@ export const TrayPieceLabel = styled.span`
 export const KeyboardHelpText = styled.p`
 	margin: 0;
 	font-size: 0.8125rem;
-	color: var(--color-text-secondary, light-dark(oklch(0.45 0.02 260), oklch(0.72 0.02 260)));
+	color: ${themeColor('text-2')};
 	text-align: center;
 `;
 

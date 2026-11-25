@@ -379,7 +379,7 @@ export function ColorMapBoard({
 								y1="0"
 								x2="0"
 								y2={Math.max(0.45, gridSize * 0.03)}
-								stroke="var(--color-danger, oklch(0.45 0.22 25))"
+								stroke="var(--color-status-danger)"
 								strokeWidth={Math.max(0.1, gridSize * 0.008)}
 								strokeOpacity="0.65"
 							/>

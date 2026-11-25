@@ -125,7 +125,7 @@ export const ScrollHintLeft = styled.div`
 	align-items: center;
 	justify-content: flex-start;
 	padding-left: 0.125rem;
-	color: #ffffff;
+	color: ${themeColor('text-1')};
 	z-index: 5;
 
 	&[data-visible='true'] {
@@ -155,7 +155,7 @@ export const ScrollHintRight = styled.div`
 	align-items: center;
 	justify-content: flex-end;
 	padding-right: 0.125rem;
-	color: #ffffff;
+	color: ${themeColor('text-1')};
 	z-index: 5;
 
 	&[data-visible='true'] {

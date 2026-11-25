@@ -1,10 +1,11 @@
 import { styled } from '@linaria/react';
 import { space } from '../../styles/spacing';
+import { themeColor } from '../../styles/theme/theme.utils';
 
 export const SkipLink = styled.a`
-	background: var(--color-accent);
+	background: ${themeColor('accent')};
 	border-radius: var(--radius-sm);
-	color: #ffffff;
+	color: ${themeColor('accent-contrast')};
 	font-weight: 600;
 	left: ${space('md')};
 	padding: ${space('xs')} ${space('md')};
@@ -15,7 +16,7 @@ export const SkipLink = styled.a`
 
 	&:focus {
 		top: ${space('md')};
-		outline: 2px solid #ffffff;
+		outline: 2px solid ${themeColor('accent-contrast')};
 		outline-offset: 2px;
 	}
 `;
