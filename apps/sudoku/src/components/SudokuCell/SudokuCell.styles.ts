@@ -81,16 +81,16 @@ export const CellButton = styled.button`
 
 	/* Error / duplicate conflict */
 	&[data-invalid='true'] {
-		background-color: color-mix(in srgb, #ef4444 20%, ${themeColor('surface')}) !important;
-		color: #ef4444 !important;
+		background-color: color-mix(in oklch, ${themeColor('status-danger')} 20%, ${themeColor('surface')}) !important;
+		color: ${themeColor('status-danger')} !important;
 
 		> span {
-			color: #ef4444 !important;
+			color: ${themeColor('status-danger')} !important;
 		}
 	}
 
 	&[data-invalid='true'][data-active='true'] {
-		box-shadow: 0 0 0 2px #ef4444, 0 4px 16px rgba(239, 68, 68, 0.25);
+		box-shadow: 0 0 0 2px ${themeColor('status-danger')}, 0 4px 16px oklch(from ${themeColor('status-danger')} l c h / 0.25);
 	}
 
 	/* Focus state for keyboard navigation */

@@ -26,6 +26,10 @@ export const themeVars = {
 	'rainbow-10': 'var(--color-rainbow-10)',
 	'rainbow-11': 'var(--color-rainbow-11)',
 	'rainbow-12': 'var(--color-rainbow-12)',
+	'status-success': 'var(--color-status-success)',
+	'status-warning': 'var(--color-status-warning)',
+	'status-danger': 'var(--color-status-danger)',
+	'status-info': 'var(--color-status-info)',
 } as const;
 
 export type ThemeVars = typeof themeVars;

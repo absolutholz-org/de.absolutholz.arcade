@@ -228,11 +228,7 @@ export function NetCanvas({
 							cx="37"
 							cy="56"
 							r="3"
-							fill={
-								isEnergized
-									? 'light-dark(oklch(0.55 0.18 145), oklch(0.7 0.18 145))'
-									: themeColor('text-3')
-							}
+							fill={isEnergized ? themeColor('status-success') : themeColor('text-3')}
 						/>
 						<circle
 							cx="47"
@@ -244,11 +240,7 @@ export function NetCanvas({
 							cx="57"
 							cy="56"
 							r="3"
-							fill={
-								isEnergized
-									? 'light-dark(oklch(0.65 0.18 75), oklch(0.78 0.18 75))'
-									: themeColor('text-3')
-							}
+							fill={isEnergized ? themeColor('status-warning') : themeColor('text-3')}
 						/>
 					</g>
 				) : ports === 1 ? (

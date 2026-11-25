@@ -57,11 +57,11 @@ export const TileSvg = styled.svg`
 
 	&[data-error='true'] {
 		.track-rail {
-			stroke: #dc2626;
+			stroke: ${themeColor('status-danger')};
 		}
 
 		.track-sleeper {
-			stroke: #ef4444;
+			stroke: ${themeColor('status-danger')};
 		}
 	}
 `;
@@ -80,7 +80,7 @@ export const MarkerSvg = styled.svg`
 	}
 
 	&[data-error='true'] .cross-line {
-		stroke: #dc2626;
+		stroke: ${themeColor('status-danger')};
 	}
 
 	.candidate-guide {

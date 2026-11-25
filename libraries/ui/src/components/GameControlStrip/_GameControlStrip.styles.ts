@@ -111,7 +111,7 @@ export const ActionButton = styled.button`
 		border-color: ${themeColor('container-2')};
 
 		&:hover:not(:disabled) {
-			border-color: light-dark(oklch(0.55 0.22 25), oklch(0.68 0.22 25));
+			border-color: ${themeColor('status-danger')};
 			background-color: ${themeColor('container-2')};
 		}
 	}

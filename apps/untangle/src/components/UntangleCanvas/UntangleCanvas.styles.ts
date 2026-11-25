@@ -26,7 +26,7 @@ export const EdgeLine = styled.line`
 	stroke-linecap: round;
 	transition: stroke 120ms ease, opacity 120ms ease;
 	pointer-events: none;
-	stroke: light-dark(oklch(0.55 0.18 145), oklch(0.7 0.18 145));
+	stroke: ${themeColor('status-success')};
 	stroke-width: 3.5;
 	stroke-dasharray: none;
 	opacity: 0.78;
@@ -38,14 +38,14 @@ export const EdgeLine = styled.line`
 	}
 
 	&[data-intersecting='true'] {
-		stroke: light-dark(oklch(0.55 0.22 25), oklch(0.68 0.22 25));
+		stroke: ${themeColor('status-danger')};
 		stroke-width: 4.5;
 		stroke-dasharray: 10 6;
 		opacity: 0.92;
 	}
 
 	&[data-intersecting='true'][data-connected='true'] {
-		stroke: light-dark(oklch(0.55 0.22 25), oklch(0.68 0.22 25));
+		stroke: ${themeColor('status-danger')};
 		stroke-width: 5.5;
 		stroke-dasharray: 10 6;
 		opacity: 1;
@@ -90,14 +90,14 @@ export const FocusRing = styled.circle`
 `;
 
 export const VertexCircle = styled.circle`
-	fill: light-dark(oklch(0.4 0.14 145), oklch(0.38 0.13 145));
-	stroke: light-dark(${themeColor('surface')}, oklch(0.78 0.17 145));
+	fill: oklch(from ${themeColor('status-success')} calc(l - 0.15) c h);
+	stroke: light-dark(${themeColor('surface')}, ${themeColor('status-success')});
 	stroke-width: 4;
 	transition: fill 120ms ease, stroke 120ms ease, transform 120ms ease;
 
 	&[data-has-crossings='true'] {
-		fill: light-dark(oklch(0.43 0.19 25), oklch(0.4 0.17 25));
-		stroke: light-dark(${themeColor('surface')}, oklch(0.76 0.18 25));
+		fill: oklch(from ${themeColor('status-danger')} calc(l - 0.15) c h);
+		stroke: light-dark(${themeColor('surface')}, ${themeColor('status-danger')});
 	}
 
 	&[data-selected='true'],

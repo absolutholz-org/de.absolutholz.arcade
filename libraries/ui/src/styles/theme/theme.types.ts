@@ -21,6 +21,10 @@ export type Theme = {
 	'rainbow-10'?: string;
 	'rainbow-11'?: string;
 	'rainbow-12'?: string;
+	'status-success'?: string;
+	'status-warning'?: string;
+	'status-danger'?: string;
+	'status-info'?: string;
 };
 
 export type ThemeColorKey = keyof Required<Theme>;

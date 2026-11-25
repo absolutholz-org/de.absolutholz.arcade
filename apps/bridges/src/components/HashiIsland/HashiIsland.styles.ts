@@ -22,7 +22,7 @@ export const IslandGroup = styled.g`
 	}
 
 	&[data-state='overflow'] circle.island-circle {
-		stroke: #ef4444;
+		stroke: ${themeColor('status-danger')};
 		fill: ${themeColor('container-1')};
 	}
 `;

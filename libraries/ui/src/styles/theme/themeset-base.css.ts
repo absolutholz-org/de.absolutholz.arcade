@@ -39,6 +39,27 @@ const rainbowContrast: Partial<Theme> = {
 	'rainbow-12': 'light-dark(oklch(0.74 0.14 225), oklch(0.74 0.14 225))',
 };
 
+/**
+ * Semantic status tokens using OKLCH and native light-dark() (BASE-11).
+ */
+const statusBase: Partial<Theme> = {
+	'status-success': 'light-dark(oklch(0.42 0.14 148), oklch(0.76 0.15 148))',
+	'status-warning': 'light-dark(oklch(0.44 0.12 75), oklch(0.82 0.14 78))',
+	'status-danger': 'light-dark(oklch(0.46 0.19 25), oklch(0.76 0.17 25))',
+	'status-info': 'light-dark(oklch(0.44 0.14 245), oklch(0.76 0.14 245))',
+};
+
+/**
+ * Contrast theme uses dark surfaces in both light and dark color schemes,
+ * so status tokens use dark-surface-friendly coordinates in both modes.
+ */
+const statusContrast: Partial<Theme> = {
+	'status-success': 'light-dark(oklch(0.76 0.15 148), oklch(0.76 0.15 148))',
+	'status-warning': 'light-dark(oklch(0.82 0.14 78), oklch(0.82 0.14 78))',
+	'status-danger': 'light-dark(oklch(0.76 0.17 25), oklch(0.76 0.17 25))',
+	'status-info': 'light-dark(oklch(0.76 0.14 245), oklch(0.76 0.14 245))',
+};
+
 const themesetBase: Themeset = {
 	primary: {
 		surface: 'light-dark(oklch(0.98 0.005 250), oklch(0.12 0.015 250))',
@@ -52,6 +73,7 @@ const themesetBase: Themeset = {
 		'accent-secondary': 'light-dark(oklch(0.55 0.18 280), oklch(0.68 0.16 280))',
 		'accent-secondary-contrast': 'light-dark(oklch(0.98 0.01 280), oklch(0.05 0.01 280))',
 		...rainbowBase,
+		...statusBase,
 	},
 	secondary: {
 		surface: 'light-dark(oklch(0.98 0.005 280), oklch(0.12 0.015 280))',
@@ -65,6 +87,7 @@ const themesetBase: Themeset = {
 		'accent-secondary': 'light-dark(oklch(0.6 0.18 250), oklch(0.7 0.16 250))',
 		'accent-secondary-contrast': 'light-dark(oklch(0.05 0.01 250), oklch(0.05 0.01 250))',
 		...rainbowBase,
+		...statusBase,
 	},
 	contrast: {
 		surface: 'light-dark(oklch(0.15 0.015 250), oklch(0.05 0 0))',
@@ -78,6 +101,7 @@ const themesetBase: Themeset = {
 		'accent-secondary': 'light-dark(oklch(0.55 0.18 280), oklch(0.68 0.16 280))',
 		'accent-secondary-contrast': 'light-dark(oklch(0.98 0.01 280), oklch(0.05 0.01 280))',
 		...rainbowContrast,
+		...statusContrast,
 	},
 	accent: {
 		surface: 'light-dark(oklch(0.94 0.03 250), oklch(0.1 0.04 250))',
@@ -91,6 +115,7 @@ const themesetBase: Themeset = {
 		'accent-secondary': 'light-dark(oklch(0.55 0.18 280), oklch(0.68 0.16 280))',
 		'accent-secondary-contrast': 'light-dark(oklch(0.98 0.01 280), oklch(0.05 0.01 280))',
 		...rainbowBase,
+		...statusBase,
 	},
 };
 

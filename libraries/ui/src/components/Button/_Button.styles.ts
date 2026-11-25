@@ -175,11 +175,11 @@ export const Button = styled.button`
 
 		/* Toggle state (e.g. aria-pressed) */
 		&[aria-pressed='true'] {
-			color: light-dark(oklch(0.55 0.22 25), oklch(0.68 0.22 25));
+			color: ${themeColor('status-danger')};
 
 			&:hover:not(:disabled):not([aria-disabled='true']) {
-				background-color: light-dark(oklch(0.55 0.22 25 / 0.1), oklch(0.68 0.22 25 / 0.15));
-				color: light-dark(oklch(0.5 0.24 25), oklch(0.72 0.22 25));
+				background-color: oklch(from ${themeColor('status-danger')} l c h / 0.12);
+				color: oklch(from ${themeColor('status-danger')} calc(l - 0.04) c h);
 			}
 		}
 	}

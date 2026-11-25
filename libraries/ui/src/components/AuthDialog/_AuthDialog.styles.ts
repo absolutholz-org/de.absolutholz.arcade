@@ -12,9 +12,9 @@ export const AuthDialogContainer = styled.div`
 		border-radius: ${radiusScale.md};
 		font-size: 0.875rem;
 		margin-bottom: 1rem;
-		color: light-dark(oklch(0.55 0.22 25), oklch(0.68 0.22 25));
-		background-color: light-dark(oklch(0.55 0.22 25 / 0.1), oklch(0.68 0.22 25 / 0.15));
-		border: 1px solid light-dark(oklch(0.55 0.22 25 / 0.25), oklch(0.68 0.22 25 / 0.3));
+		color: ${themeColor('status-danger')};
+		background-color: color-mix(in oklch, ${themeColor('status-danger')} 12%, ${themeColor('surface')});
+		border: 1px solid color-mix(in oklch, ${themeColor('status-danger')} 30%, ${themeColor('surface')});
 	}
 
 	[data-slot='success-banner'] {
@@ -23,9 +23,9 @@ export const AuthDialogContainer = styled.div`
 		font-size: 0.875rem;
 		margin-bottom: 1rem;
 		display: block;
-		color: light-dark(oklch(0.5 0.18 145), oklch(0.7 0.18 145));
-		background-color: light-dark(oklch(0.5 0.18 145 / 0.1), oklch(0.7 0.18 145 / 0.15));
-		border: 1px solid light-dark(oklch(0.5 0.18 145 / 0.25), oklch(0.7 0.18 145 / 0.3));
+		color: ${themeColor('status-success')};
+		background-color: color-mix(in oklch, ${themeColor('status-success')} 12%, ${themeColor('surface')});
+		border: 1px solid color-mix(in oklch, ${themeColor('status-success')} 30%, ${themeColor('surface')});
 	}
 
 	[data-slot='success-state'] {

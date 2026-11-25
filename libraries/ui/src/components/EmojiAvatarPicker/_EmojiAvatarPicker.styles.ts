@@ -103,7 +103,7 @@ export const CustomSection = styled.div`
 
 	> [data-slot='custom-error'] {
 		font-size: 0.75rem;
-		color: light-dark(oklch(0.55 0.22 25), oklch(0.72 0.2 25));
+		color: ${themeColor('status-danger')};
 	}
 `;
 
@@ -120,6 +120,6 @@ export const CustomInput = styled.input`
 	${focusVisibleRing}
 
 	&[data-invalid='true'] {
-		border-color: light-dark(oklch(0.55 0.22 25), oklch(0.72 0.2 25));
+		border-color: ${themeColor('status-danger')};
 	}
 `;

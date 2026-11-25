@@ -69,5 +69,9 @@ export function getThemeMapping(themeName: keyof Themeset): Record<string, strin
 		'--color-rainbow-10': `var(--theme-${themeName}-rainbow-10)`,
 		'--color-rainbow-11': `var(--theme-${themeName}-rainbow-11)`,
 		'--color-rainbow-12': `var(--theme-${themeName}-rainbow-12)`,
+		'--color-status-success': `var(--theme-${themeName}-status-success)`,
+		'--color-status-warning': `var(--theme-${themeName}-status-warning)`,
+		'--color-status-danger': `var(--theme-${themeName}-status-danger)`,
+		'--color-status-info': `var(--theme-${themeName}-status-info)`,
 	};
 }

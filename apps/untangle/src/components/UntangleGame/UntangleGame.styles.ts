@@ -23,11 +23,11 @@ export const statusMetric = css`
   color: ${themeColor('text-1')};
 
   &[data-intersecting='true'] {
-    color: light-dark(oklch(0.55 0.22 25), oklch(0.68 0.22 25));
+    color: ${themeColor('status-danger')};
   }
 
   &[data-solved='true'] {
-    color: light-dark(oklch(0.55 0.18 145), oklch(0.7 0.18 145));
+    color: ${themeColor('status-success')};
   }
 `;
 

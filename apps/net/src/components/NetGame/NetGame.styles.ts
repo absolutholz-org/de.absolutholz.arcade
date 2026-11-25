@@ -22,7 +22,7 @@ export const statusMetric = css`
 	color: ${themeColor('text-1')};
 
 	&[data-solved='true'] {
-		color: light-dark(oklch(0.55 0.18 145), oklch(0.7 0.18 145));
+		color: ${themeColor('status-success')};
 	}
 `;
 

@@ -22,19 +22,19 @@ export const Banner_Container = styled.div`
 	padding: ${space('sm')} ${space('md')};
 
 	&[data-variant='success'] {
-		--banner-accent-color: light-dark(oklch(0.55 0.18 145), oklch(0.7 0.18 145));
+		--banner-accent-color: ${themeColor('status-success')};
 	}
 
 	&[data-variant='info'] {
-		--banner-accent-color: light-dark(oklch(0.55 0.18 245), oklch(0.7 0.18 245));
+		--banner-accent-color: ${themeColor('status-info')};
 	}
 
 	&[data-variant='warning'] {
-		--banner-accent-color: light-dark(oklch(0.65 0.18 75), oklch(0.78 0.18 75));
+		--banner-accent-color: ${themeColor('status-warning')};
 	}
 
 	&[data-variant='danger'] {
-		--banner-accent-color: light-dark(oklch(0.55 0.22 25), oklch(0.68 0.22 25));
+		--banner-accent-color: ${themeColor('status-danger')};
 	}
 
 	@container (min-width: 40em) {

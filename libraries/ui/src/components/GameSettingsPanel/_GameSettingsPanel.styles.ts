@@ -24,8 +24,8 @@ export const Section = styled.section`
 
 	&[data-variant='danger'] {
 		border-radius: ${radiusScale.lg};
-		border: 1px solid light-dark(oklch(0.85 0.1 25), oklch(0.35 0.1 25));
-		background: light-dark(oklch(0.98 0.02 25), oklch(0.15 0.03 25));
+		border: 1px solid color-mix(in oklch, ${themeColor('status-danger')} 45%, ${themeColor('surface')});
+		background: color-mix(in oklch, ${themeColor('status-danger')} 10%, ${themeColor('surface')});
 		padding: 1.25rem;
 	}
 `;
@@ -181,9 +181,9 @@ export const DangerButton = styled.button`
 	font-size: 0.875rem;
 	font-weight: 600;
 	border-radius: ${radiusScale.md};
-	border: 1px solid light-dark(oklch(0.6 0.22 25), oklch(0.68 0.2 25));
-	background: light-dark(oklch(0.6 0.22 25), oklch(0.65 0.2 25));
-	color: #ffffff;
+	border: 1px solid ${themeColor('status-danger')};
+	background: ${themeColor('status-danger')};
+	color: oklch(from ${themeColor('status-danger')} clamp(0.12, (0.62 - l) * 100, 0.98) 0.02 h);
 	cursor: pointer;
 	min-height: 2.5rem;
 	min-width: 24px;
@@ -191,11 +191,11 @@ export const DangerButton = styled.button`
 	transition: background-color 120ms ease, opacity 120ms ease;
 
 	&:hover:not(:disabled) {
-		background: light-dark(oklch(0.55 0.24 25), oklch(0.7 0.22 25));
+		background: oklch(from ${themeColor('status-danger')} calc(l - 0.05) c h);
 	}
 
 	&:focus-visible {
-		outline: 2px solid light-dark(oklch(0.6 0.22 25), oklch(0.68 0.2 25));
+		outline: 2px solid ${themeColor('status-danger')};
 		outline-offset: 2px;
 	}
 

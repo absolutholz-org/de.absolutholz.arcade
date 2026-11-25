@@ -48,9 +48,9 @@ export const ProfileRoot = styled.main`
 		border-radius: ${radiusScale.md};
 		font-size: 0.875rem;
 		line-height: 1.4;
-		color: light-dark(oklch(0.45 0.18 145), oklch(0.75 0.18 145));
-		background-color: light-dark(oklch(0.95 0.05 145 / 0.2), oklch(0.25 0.08 145 / 0.4));
-		border: 1px solid light-dark(oklch(0.45 0.18 145 / 0.3), oklch(0.75 0.18 145 / 0.4));
+		color: ${themeColor('status-success')};
+		background-color: color-mix(in oklch, ${themeColor('status-success')} 12%, ${themeColor('surface')});
+		border: 1px solid color-mix(in oklch, ${themeColor('status-success')} 35%, ${themeColor('surface')});
 	}
 
 	> [data-slot='error-banner'] {
@@ -58,9 +58,9 @@ export const ProfileRoot = styled.main`
 		border-radius: ${radiusScale.md};
 		font-size: 0.875rem;
 		line-height: 1.4;
-		color: light-dark(oklch(0.55 0.22 25), oklch(0.72 0.2 25));
-		background-color: light-dark(oklch(0.95 0.05 25 / 0.2), oklch(0.25 0.08 25 / 0.4));
-		border: 1px solid light-dark(oklch(0.55 0.22 25 / 0.3), oklch(0.72 0.2 25 / 0.4));
+		color: ${themeColor('status-danger')};
+		background-color: color-mix(in oklch, ${themeColor('status-danger')} 12%, ${themeColor('surface')});
+		border: 1px solid color-mix(in oklch, ${themeColor('status-danger')} 35%, ${themeColor('surface')});
 	}
 `;
 
@@ -134,7 +134,7 @@ export const ProfileSection = styled.section`
 					color: ${themeColor('text-2')};
 
 					> [data-slot='error-text'] {
-						color: light-dark(oklch(0.55 0.22 25), oklch(0.72 0.2 25));
+						color: ${themeColor('status-danger')};
 						font-weight: 500;
 					}
 

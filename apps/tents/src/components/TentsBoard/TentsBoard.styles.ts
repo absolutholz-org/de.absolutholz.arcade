@@ -117,25 +117,25 @@ export const ClueButton = styled.button`
 
 	&[data-status='satisfied'] {
 		background-color: ${themeColor('surface')};
-		border-color: light-dark(oklch(0.55 0.18 145), oklch(0.7 0.18 145));
-		color: light-dark(oklch(0.45 0.18 145), oklch(0.75 0.18 145));
+		border-color: ${themeColor('status-success')};
+		color: ${themeColor('status-success')};
 
 		.clue-target {
 			text-decoration: line-through;
 		}
 
 		.clue-current {
-			color: light-dark(oklch(0.45 0.18 145), oklch(0.75 0.18 145));
+			color: ${themeColor('status-success')};
 		}
 	}
 
 	&[data-status='overflow'] {
 		background-color: ${themeColor('surface')};
-		border-color: light-dark(oklch(0.55 0.22 25), oklch(0.68 0.22 25));
-		color: light-dark(oklch(0.55 0.22 25), oklch(0.68 0.22 25));
+		border-color: ${themeColor('status-danger')};
+		color: ${themeColor('status-danger')};
 
 		.clue-current {
-			color: light-dark(oklch(0.55 0.22 25), oklch(0.68 0.22 25));
+			color: ${themeColor('status-danger')};
 		}
 	}
 
@@ -225,8 +225,8 @@ export const CellButton = styled.button`
 	}
 
 	&[data-error='true'] {
-		background-color: rgba(239, 68, 68, 0.16);
-		color: light-dark(oklch(0.55 0.22 25), oklch(0.68 0.22 25));
+		background-color: color-mix(in oklch, ${themeColor('status-danger')} 16%, ${themeColor('surface')});
+		color: ${themeColor('status-danger')};
 	}
 
 	&[data-focused='true'] {

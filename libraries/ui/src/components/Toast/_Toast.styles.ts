@@ -84,15 +84,15 @@ export const Toast_Item = styled.div`
 	transition: opacity 160ms ease, transform 160ms ease;
 
 	&[data-variant='info'] {
-		--toast-accent-color: light-dark(oklch(0.55 0.18 245), oklch(0.7 0.18 245));
+		--toast-accent-color: ${themeColor('status-info')};
 	}
 
 	&[data-variant='success'] {
-		--toast-accent-color: light-dark(oklch(0.55 0.18 145), oklch(0.7 0.18 145));
+		--toast-accent-color: ${themeColor('status-success')};
 	}
 
 	&[data-variant='warning'] {
-		--toast-accent-color: light-dark(oklch(0.65 0.18 75), oklch(0.78 0.18 75));
+		--toast-accent-color: ${themeColor('status-warning')};
 	}
 
 	&[data-variant='achievement'] {

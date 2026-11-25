@@ -98,6 +98,10 @@ const COLOR_SLOTS = [
 	{ name: 'rainbow-10', variable: '--color-rainbow-10' },
 	{ name: 'rainbow-11', variable: '--color-rainbow-11' },
 	{ name: 'rainbow-12', variable: '--color-rainbow-12' },
+	{ name: 'status-success', variable: '--color-status-success' },
+	{ name: 'status-warning', variable: '--color-status-warning' },
+	{ name: 'status-danger', variable: '--color-status-danger' },
+	{ name: 'status-info', variable: '--color-status-info' },
 ] as const;
 
 const SCHEMES = [

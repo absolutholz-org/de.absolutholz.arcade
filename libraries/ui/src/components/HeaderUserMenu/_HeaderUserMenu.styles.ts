@@ -46,9 +46,9 @@ export const MenuContainer = styled.div`
 		padding: 0.5rem 0.75rem;
 		font-size: 0.8125rem;
 		border-radius: 0.375rem;
-		color: light-dark(oklch(0.55 0.22 25), oklch(0.68 0.22 25));
-		background-color: light-dark(oklch(0.55 0.22 25 / 0.1), oklch(0.68 0.22 25 / 0.15));
-		border: 1px solid light-dark(oklch(0.55 0.22 25 / 0.25), oklch(0.68 0.22 25 / 0.3));
+		color: ${themeColor('status-danger')};
+		background-color: color-mix(in oklch, ${themeColor('status-danger')} 12%, ${themeColor('surface')});
+		border: 1px solid color-mix(in oklch, ${themeColor('status-danger')} 30%, ${themeColor('surface')});
 	}
 
 	.menu-nav-list {

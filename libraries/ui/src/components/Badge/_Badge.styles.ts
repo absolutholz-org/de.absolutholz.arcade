@@ -1,7 +1,6 @@
 import { styled } from '@linaria/react';
 import { focusVisibleRing } from '../../styles/focus.css';
 import { radiusScale } from '../../styles/radius/radius.constants';
-import { statusVars } from '../../styles/theme/status-tokens';
 import { themeColor } from '../../styles/theme/theme.utils';
 
 export const Badge = styled.span`
@@ -183,89 +182,45 @@ export const Badge = styled.span`
 
 	/* Tone: success */
 	&[data-tone='success'] {
-		&[data-variant='subtle'] {
-			--badge-bg: ${statusVars['success-subtle']};
-			--badge-fg: ${statusVars.success};
-			--badge-border: ${statusVars['success-border']};
-		}
-
-		&[data-variant='solid'] {
-			--badge-bg: ${statusVars.success};
-			--badge-fg: ${statusVars['success-contrast']};
-			--badge-border: ${statusVars.success};
-		}
-
-		&[data-variant='outline'],
-		&[data-variant='dashed'] {
-			--badge-bg: transparent;
-			--badge-fg: ${statusVars.success};
-			--badge-border: ${statusVars.success};
-		}
+		--badge-tone: ${themeColor('status-success')};
 	}
 
 	/* Tone: warning */
 	&[data-tone='warning'] {
-		&[data-variant='subtle'] {
-			--badge-bg: ${statusVars['warning-subtle']};
-			--badge-fg: ${statusVars.warning};
-			--badge-border: ${statusVars['warning-border']};
-		}
-
-		&[data-variant='solid'] {
-			--badge-bg: ${statusVars.warning};
-			--badge-fg: ${statusVars['warning-contrast']};
-			--badge-border: ${statusVars.warning};
-		}
-
-		&[data-variant='outline'],
-		&[data-variant='dashed'] {
-			--badge-bg: transparent;
-			--badge-fg: ${statusVars.warning};
-			--badge-border: ${statusVars.warning};
-		}
+		--badge-tone: ${themeColor('status-warning')};
 	}
 
 	/* Tone: danger */
 	&[data-tone='danger'] {
-		&[data-variant='subtle'] {
-			--badge-bg: ${statusVars['danger-subtle']};
-			--badge-fg: ${statusVars.danger};
-			--badge-border: ${statusVars['danger-border']};
-		}
-
-		&[data-variant='solid'] {
-			--badge-bg: ${statusVars.danger};
-			--badge-fg: ${statusVars['danger-contrast']};
-			--badge-border: ${statusVars.danger};
-		}
-
-		&[data-variant='outline'],
-		&[data-variant='dashed'] {
-			--badge-bg: transparent;
-			--badge-fg: ${statusVars.danger};
-			--badge-border: ${statusVars.danger};
-		}
+		--badge-tone: ${themeColor('status-danger')};
 	}
 
 	/* Tone: info */
 	&[data-tone='info'] {
+		--badge-tone: ${themeColor('status-info')};
+	}
+
+	&[data-tone='success'],
+	&[data-tone='warning'],
+	&[data-tone='danger'],
+	&[data-tone='info'] {
 		&[data-variant='subtle'] {
-			--badge-bg: ${statusVars['info-subtle']};
-			--badge-fg: ${statusVars.info};
-			--badge-border: ${statusVars['info-border']};
+			--badge-bg: color-mix(in oklch, var(--badge-tone) 12%, ${themeColor('surface')});
+			--badge-fg: var(--badge-tone);
+			--badge-border: color-mix(in oklch, var(--badge-tone) 55%, ${themeColor('surface')});
 		}
 
 		&[data-variant='solid'] {
-			--badge-bg: ${statusVars.info};
-			--badge-fg: ${statusVars['info-contrast']};
-			--badge-border: ${statusVars.info};
+			--badge-bg: var(--badge-tone);
+			--badge-fg: oklch(from var(--badge-tone) clamp(0.12, (0.62 - l) * 100, 0.98) 0.02 h);
+			--badge-border: var(--badge-tone);
 		}
 
 		&[data-variant='outline'],
 		&[data-variant='dashed'] {
 			--badge-bg: transparent;
-			--badge-fg: ${statusVars.info};
-			--badge-border: ${statusVars.info};
+			--badge-fg: var(--badge-tone);
+			--badge-border: var(--badge-tone);
 		}
 	}
 

@@ -22,11 +22,11 @@ export const GameStatusStrip = styled.div`
 
 		&[data-state='warning'],
 		&[data-state='danger'] {
-			color: light-dark(oklch(0.5 0.2 25), oklch(0.72 0.18 25));
+			color: ${themeColor('status-danger')};
 		}
 
 		&[data-state='solved'] {
-			color: light-dark(oklch(0.55 0.18 145), oklch(0.7 0.18 145));
+			color: ${themeColor('status-success')};
 		}
 	}
 `;

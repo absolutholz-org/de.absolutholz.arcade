@@ -41,7 +41,7 @@ export const TextField = styled.div`
 		user-select: none;
 
 		> [data-slot='required'] {
-			color: light-dark(oklch(0.55 0.22 25), oklch(0.72 0.2 25));
+			color: ${themeColor('status-danger')};
 		}
 	}
 
@@ -129,11 +129,11 @@ export const TextField = styled.div`
 	/* Validation Error state */
 	&[data-invalid='true'] {
 		> [data-slot='input-wrapper'] {
-			border-color: light-dark(oklch(0.55 0.22 25), oklch(0.72 0.2 25));
+			border-color: ${themeColor('status-danger')};
 
 			&:has(input:focus-visible) {
-				outline-color: light-dark(oklch(0.55 0.22 25), oklch(0.72 0.2 25));
-				border-color: light-dark(oklch(0.55 0.22 25), oklch(0.72 0.2 25));
+				outline-color: ${themeColor('status-danger')};
+				border-color: ${themeColor('status-danger')};
 			}
 		}
 	}
@@ -143,7 +143,7 @@ export const TextField = styled.div`
 		font-size: 0.8125rem;
 		line-height: 1.3;
 		font-weight: 500;
-		color: light-dark(oklch(0.55 0.22 25), oklch(0.72 0.2 25));
+		color: ${themeColor('status-danger')};
 	}
 
 	/* Helper text slot */
