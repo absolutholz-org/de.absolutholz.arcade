@@ -1,6 +1,7 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import type { TranslationKey } from '@arcade/lib-i18n/types/i18n.types';
 import { VictoryDialog as SharedVictoryDialog } from '@arcade/lib-ui/components/VictoryDialog';
+import { themeColor } from '@arcade/lib-ui/styles/theme/theme.utils';
 import type { CSSProperties, JSX } from 'react';
 import type { NonogramPuzzle } from '../../engine/types';
 import * as S from './VictoryDialog.styles';
@@ -37,7 +38,7 @@ export function VictoryDialog({
 	const previewVars: CSSProperties = {
 		'--preview-cols': puzzle.width,
 		'--preview-rows': puzzle.height,
-		'--art-color': puzzle.color,
+		'--art-color': themeColor(puzzle.color),
 	} as CSSProperties;
 
 	return (

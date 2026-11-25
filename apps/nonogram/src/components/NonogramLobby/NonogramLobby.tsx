@@ -5,6 +5,7 @@ import { GameSelectionCard } from '@arcade/lib-ui/components/GameSelectionCard';
 import { SegmentedControl, type SegmentedControlItem } from '@arcade/lib-ui/components/SegmentedControl';
 import { formatTime } from '@arcade/lib-ui/components/Timer';
 import { GameLandingTemplate } from '@arcade/lib-ui/layouts/GameLandingTemplate';
+import { themeColor } from '@arcade/lib-ui/styles/theme/theme.utils';
 import type { CSSProperties, JSX } from 'react';
 import { useEffect, useState } from 'react';
 import { PUZZLES_BY_DIFFICULTY, getDefaultPuzzle, getPuzzleById } from '../../engine/puzzles';
@@ -132,7 +133,7 @@ function LobbyContent(): JSX.Element {
 						const thumbVars: CSSProperties = {
 							'--thumb-cols': puz.width,
 							'--thumb-rows': puz.height,
-							'--thumb-color': puz.color,
+							'--thumb-color': themeColor(puz.color),
 						} as CSSProperties;
 
 						return (

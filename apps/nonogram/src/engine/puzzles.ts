@@ -1,3 +1,4 @@
+import type { ThemeColorKey } from '@arcade/lib-ui/styles/theme/theme.types';
 import { computeClues } from './clues.ts';
 import type { DifficultyId, NonogramPuzzle } from './types.ts';
 
@@ -7,7 +8,7 @@ interface RawPuzzleDefinition {
 	difficulty: DifficultyId;
 	width: number;
 	height: number;
-	color: string;
+	color: ThemeColorKey;
 	grid: number[];
 }
 
@@ -18,7 +19,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'easy',
 		width: 5,
 		height: 5,
-		color: '#e11d48',
+		color: 'rainbow-11',
 		grid: [0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0],
 	},
 	{
@@ -27,7 +28,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'easy',
 		width: 5,
 		height: 5,
-		color: '#eab308',
+		color: 'rainbow-4',
 		grid: [1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0],
 	},
 	{
@@ -36,7 +37,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'easy',
 		width: 5,
 		height: 5,
-		color: '#16a34a',
+		color: 'rainbow-3',
 		grid: [0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
 	},
 	{
@@ -45,7 +46,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'easy',
 		width: 5,
 		height: 5,
-		color: '#0284c7',
+		color: 'rainbow-12',
 		grid: [0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1],
 	},
 	{
@@ -54,7 +55,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'easy',
 		width: 5,
 		height: 5,
-		color: '#f97316',
+		color: 'rainbow-7',
 		grid: [0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0],
 	},
 	{
@@ -63,7 +64,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'easy',
 		width: 5,
 		height: 5,
-		color: '#38bdf8',
+		color: 'rainbow-12',
 		grid: [0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0],
 	},
 	{
@@ -72,7 +73,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'easy',
 		width: 5,
 		height: 5,
-		color: '#a855f7',
+		color: 'rainbow-5',
 		grid: [0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0],
 	},
 	{
@@ -81,7 +82,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'easy',
 		width: 5,
 		height: 5,
-		color: '#facc15',
+		color: 'rainbow-4',
 		grid: [0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0],
 	},
 	{
@@ -90,7 +91,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'easy',
 		width: 5,
 		height: 5,
-		color: '#fbbf24',
+		color: 'rainbow-4',
 		grid: [0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0],
 	},
 	{
@@ -99,7 +100,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'easy',
 		width: 5,
 		height: 5,
-		color: '#94a3b8',
+		color: 'text-2',
 		grid: [0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0],
 	},
 	{
@@ -108,7 +109,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'easy',
 		width: 5,
 		height: 5,
-		color: '#10b981',
+		color: 'rainbow-3',
 		grid: [0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1],
 	},
 	{
@@ -117,7 +118,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'easy',
 		width: 5,
 		height: 5,
-		color: '#ef4444',
+		color: 'rainbow-1',
 		grid: [0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1],
 	},
 	{
@@ -126,7 +127,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'easy',
 		width: 5,
 		height: 5,
-		color: '#06b6d4',
+		color: 'rainbow-6',
 		grid: [0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0],
 	},
 	{
@@ -135,7 +136,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'easy',
 		width: 5,
 		height: 5,
-		color: '#84cc16',
+		color: 'rainbow-9',
 		grid: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0],
 	},
 	{
@@ -144,7 +145,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'easy',
 		width: 5,
 		height: 5,
-		color: '#ec4899',
+		color: 'rainbow-8',
 		grid: [0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0],
 	},
 	{
@@ -153,7 +154,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'easy',
 		width: 5,
 		height: 5,
-		color: '#6366f1',
+		color: 'rainbow-10',
 		grid: [0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0],
 	},
 	{
@@ -162,7 +163,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'easy',
 		width: 5,
 		height: 5,
-		color: '#14b8a6',
+		color: 'rainbow-6',
 		grid: [0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0],
 	},
 	{
@@ -171,7 +172,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'easy',
 		width: 5,
 		height: 5,
-		color: '#f59e0b',
+		color: 'rainbow-4',
 		grid: [0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0],
 	},
 	{
@@ -180,7 +181,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'easy',
 		width: 5,
 		height: 5,
-		color: '#8b5cf6',
+		color: 'rainbow-5',
 		grid: [0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0],
 	},
 	{
@@ -189,7 +190,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'easy',
 		width: 5,
 		height: 5,
-		color: '#3b82f6',
+		color: 'rainbow-2',
 		grid: [0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0],
 	},
 	{
@@ -198,7 +199,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'easy',
 		width: 5,
 		height: 5,
-		color: '#d97706',
+		color: 'rainbow-4',
 		grid: [0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0],
 	},
 	{
@@ -207,7 +208,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'easy',
 		width: 5,
 		height: 5,
-		color: '#e11d48',
+		color: 'rainbow-11',
 		grid: [0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
 	},
 	{
@@ -216,7 +217,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'easy',
 		width: 5,
 		height: 5,
-		color: '#eab308',
+		color: 'rainbow-4',
 		grid: [0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0],
 	},
 	{
@@ -225,7 +226,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'easy',
 		width: 5,
 		height: 5,
-		color: '#16a34a',
+		color: 'rainbow-3',
 		grid: [0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0],
 	},
 	{
@@ -234,7 +235,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'easy',
 		width: 5,
 		height: 5,
-		color: '#0284c7',
+		color: 'rainbow-12',
 		grid: [0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
 	},
 	{
@@ -243,7 +244,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'easy',
 		width: 5,
 		height: 5,
-		color: '#f97316',
+		color: 'rainbow-7',
 		grid: [0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1],
 	},
 	{
@@ -252,7 +253,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'easy',
 		width: 5,
 		height: 5,
-		color: '#eab308',
+		color: 'rainbow-4',
 		grid: [1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1],
 	},
 	{
@@ -261,7 +262,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'easy',
 		width: 5,
 		height: 5,
-		color: '#a855f7',
+		color: 'rainbow-5',
 		grid: [1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 0, 0, 1],
 	},
 	{
@@ -270,7 +271,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'medium',
 		width: 10,
 		height: 10,
-		color: '#e11d48',
+		color: 'rainbow-11',
 		grid: [
 			0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1,
 			0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0,
@@ -283,7 +284,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'medium',
 		width: 10,
 		height: 10,
-		color: '#eab308',
+		color: 'rainbow-4',
 		grid: [
 			0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1,
 			1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0,
@@ -296,7 +297,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'medium',
 		width: 10,
 		height: 10,
-		color: '#16a34a',
+		color: 'rainbow-3',
 		grid: [
 			0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1,
 			0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -309,7 +310,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'medium',
 		width: 10,
 		height: 10,
-		color: '#0284c7',
+		color: 'rainbow-12',
 		grid: [
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1,
 			0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -322,7 +323,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'medium',
 		width: 10,
 		height: 10,
-		color: '#f97316',
+		color: 'rainbow-7',
 		grid: [
 			1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1,
 			0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1,
@@ -335,7 +336,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'medium',
 		width: 10,
 		height: 10,
-		color: '#38bdf8',
+		color: 'rainbow-12',
 		grid: [
 			0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1,
 			0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1,
@@ -348,7 +349,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'medium',
 		width: 10,
 		height: 10,
-		color: '#a855f7',
+		color: 'rainbow-5',
 		grid: [
 			0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1,
 			1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0,
@@ -361,7 +362,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'medium',
 		width: 10,
 		height: 10,
-		color: '#facc15',
+		color: 'rainbow-4',
 		grid: [
 			0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0,
 			0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1,
@@ -374,7 +375,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'medium',
 		width: 10,
 		height: 10,
-		color: '#fbbf24',
+		color: 'rainbow-4',
 		grid: [
 			0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1,
 			1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1,
@@ -387,7 +388,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'medium',
 		width: 10,
 		height: 10,
-		color: '#94a3b8',
+		color: 'text-2',
 		grid: [
 			0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1,
 			1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0,
@@ -400,7 +401,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'medium',
 		width: 10,
 		height: 10,
-		color: '#10b981',
+		color: 'rainbow-3',
 		grid: [
 			0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1,
 			0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0,
@@ -413,7 +414,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'medium',
 		width: 10,
 		height: 10,
-		color: '#ef4444',
+		color: 'rainbow-1',
 		grid: [
 			0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1,
 			0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1,
@@ -426,7 +427,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'medium',
 		width: 10,
 		height: 10,
-		color: '#06b6d4',
+		color: 'rainbow-6',
 		grid: [
 			0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1,
 			1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0,
@@ -439,7 +440,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'medium',
 		width: 10,
 		height: 10,
-		color: '#84cc16',
+		color: 'rainbow-9',
 		grid: [
 			1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 			1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0,
@@ -452,7 +453,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'medium',
 		width: 10,
 		height: 10,
-		color: '#ec4899',
+		color: 'rainbow-8',
 		grid: [
 			0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1,
 			1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1,
@@ -465,7 +466,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'medium',
 		width: 10,
 		height: 10,
-		color: '#6366f1',
+		color: 'rainbow-10',
 		grid: [
 			0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
 			0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0,
@@ -478,7 +479,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'medium',
 		width: 10,
 		height: 10,
-		color: '#14b8a6',
+		color: 'rainbow-6',
 		grid: [
 			1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1,
 			1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
@@ -491,7 +492,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'medium',
 		width: 10,
 		height: 10,
-		color: '#f59e0b',
+		color: 'rainbow-4',
 		grid: [
 			0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1,
 			0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0,
@@ -504,7 +505,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'medium',
 		width: 10,
 		height: 10,
-		color: '#8b5cf6',
+		color: 'rainbow-5',
 		grid: [
 			0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1,
 			1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1,
@@ -517,7 +518,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'medium',
 		width: 10,
 		height: 10,
-		color: '#3b82f6',
+		color: 'rainbow-2',
 		grid: [
 			0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0,
 			0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0,
@@ -530,7 +531,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'medium',
 		width: 10,
 		height: 10,
-		color: '#d97706',
+		color: 'rainbow-4',
 		grid: [
 			0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1,
 			0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0,
@@ -543,7 +544,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'medium',
 		width: 10,
 		height: 10,
-		color: '#e11d48',
+		color: 'rainbow-11',
 		grid: [
 			1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0,
 			0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0,
@@ -556,7 +557,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'medium',
 		width: 10,
 		height: 10,
-		color: '#eab308',
+		color: 'rainbow-4',
 		grid: [
 			0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1,
 			1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0,
@@ -569,7 +570,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'medium',
 		width: 10,
 		height: 10,
-		color: '#16a34a',
+		color: 'rainbow-3',
 		grid: [
 			0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 			1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0,
@@ -582,7 +583,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'medium',
 		width: 10,
 		height: 10,
-		color: '#0284c7',
+		color: 'rainbow-12',
 		grid: [
 			0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 1, 1,
 			1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1,
@@ -595,7 +596,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'medium',
 		width: 10,
 		height: 10,
-		color: '#f97316',
+		color: 'rainbow-7',
 		grid: [
 			0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1,
 			1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1,
@@ -608,7 +609,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'medium',
 		width: 10,
 		height: 10,
-		color: '#38bdf8',
+		color: 'rainbow-12',
 		grid: [
 			0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1,
 			1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1,
@@ -621,7 +622,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'medium',
 		width: 10,
 		height: 10,
-		color: '#a855f7',
+		color: 'rainbow-5',
 		grid: [
 			0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1,
 			1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0,
@@ -634,7 +635,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'hard',
 		width: 15,
 		height: 15,
-		color: '#e11d48',
+		color: 'rainbow-11',
 		grid: [
 			1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1, 1,
 			1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -651,7 +652,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'hard',
 		width: 15,
 		height: 15,
-		color: '#eab308',
+		color: 'rainbow-4',
 		grid: [
 			0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 			1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0,
@@ -668,7 +669,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'hard',
 		width: 15,
 		height: 15,
-		color: '#16a34a',
+		color: 'rainbow-3',
 		grid: [
 			0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1,
 			0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1,
@@ -685,7 +686,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'hard',
 		width: 15,
 		height: 15,
-		color: '#0284c7',
+		color: 'rainbow-12',
 		grid: [
 			0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1,
 			1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0,
@@ -702,7 +703,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'hard',
 		width: 15,
 		height: 15,
-		color: '#f97316',
+		color: 'rainbow-7',
 		grid: [
 			1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 			1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1,
@@ -719,7 +720,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'hard',
 		width: 15,
 		height: 15,
-		color: '#38bdf8',
+		color: 'rainbow-12',
 		grid: [
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 			0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,
@@ -736,7 +737,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'hard',
 		width: 15,
 		height: 15,
-		color: '#a855f7',
+		color: 'rainbow-5',
 		grid: [
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 			1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1,
@@ -753,7 +754,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'hard',
 		width: 15,
 		height: 15,
-		color: '#facc15',
+		color: 'rainbow-4',
 		grid: [
 			0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
 			1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1,
@@ -770,7 +771,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'hard',
 		width: 15,
 		height: 15,
-		color: '#fbbf24',
+		color: 'rainbow-4',
 		grid: [
 			0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
 			1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0,
@@ -787,7 +788,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'hard',
 		width: 15,
 		height: 15,
-		color: '#94a3b8',
+		color: 'text-2',
 		grid: [
 			0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1,
 			1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1,
@@ -804,7 +805,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'hard',
 		width: 15,
 		height: 15,
-		color: '#10b981',
+		color: 'rainbow-3',
 		grid: [
 			0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 			1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0,
@@ -821,7 +822,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'hard',
 		width: 15,
 		height: 15,
-		color: '#ef4444',
+		color: 'rainbow-1',
 		grid: [
 			1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1,
 			1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0,
@@ -838,7 +839,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'hard',
 		width: 15,
 		height: 15,
-		color: '#06b6d4',
+		color: 'rainbow-6',
 		grid: [
 			0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1,
 			1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -855,7 +856,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'hard',
 		width: 15,
 		height: 15,
-		color: '#84cc16',
+		color: 'rainbow-9',
 		grid: [
 			1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1,
 			1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -872,7 +873,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'hard',
 		width: 15,
 		height: 15,
-		color: '#ec4899',
+		color: 'rainbow-8',
 		grid: [
 			0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
 			1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,
@@ -889,7 +890,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'hard',
 		width: 15,
 		height: 15,
-		color: '#6366f1',
+		color: 'rainbow-10',
 		grid: [
 			0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0,
 			0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0,
@@ -906,7 +907,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'hard',
 		width: 15,
 		height: 15,
-		color: '#14b8a6',
+		color: 'rainbow-6',
 		grid: [
 			0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
 			1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -923,7 +924,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'hard',
 		width: 15,
 		height: 15,
-		color: '#f59e0b',
+		color: 'rainbow-4',
 		grid: [
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0,
 			0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0,
@@ -940,7 +941,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'hard',
 		width: 15,
 		height: 15,
-		color: '#8b5cf6',
+		color: 'rainbow-5',
 		grid: [
 			0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1,
 			1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -957,7 +958,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'hard',
 		width: 15,
 		height: 15,
-		color: '#3b82f6',
+		color: 'rainbow-2',
 		grid: [
 			1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1,
 			1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0,
@@ -974,7 +975,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'hard',
 		width: 15,
 		height: 15,
-		color: '#d97706',
+		color: 'rainbow-4',
 		grid: [
 			0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1,
 			1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -991,7 +992,7 @@ const RAW_PUZZLES: RawPuzzleDefinition[] = [
 		difficulty: 'hard',
 		width: 15,
 		height: 15,
-		color: '#e11d48',
+		color: 'rainbow-11',
 		grid: [
 			0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 			1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,

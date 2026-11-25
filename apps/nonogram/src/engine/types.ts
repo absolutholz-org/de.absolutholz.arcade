@@ -1,3 +1,5 @@
+import type { ThemeColorKey } from '@arcade/lib-ui/styles/theme/theme.types';
+
 export type DifficultyId = 'easy' | 'medium' | 'hard';
 
 export type CellState = 'empty' | 'filled' | 'crossed';
@@ -19,7 +21,7 @@ export interface NonogramPuzzle {
 	difficulty: DifficultyId;
 	width: number;
 	height: number;
-	color: string;
+	color: ThemeColorKey;
 	grid: number[];
 	rowClues: number[][];
 	colClues: number[][];

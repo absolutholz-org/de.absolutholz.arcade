@@ -1,4 +1,5 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
+import { themeColor } from '@arcade/lib-ui/styles/theme/theme.utils';
 import type { CSSProperties, JSX, KeyboardEvent, PointerEvent } from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { isLineCompleted } from '../../engine/clues';
@@ -342,7 +343,7 @@ export function NonogramBoard({
 	const cssVars: CSSProperties = {
 		'--cols': width,
 		'--rows': height,
-		'--art-color': puzzle.color,
+		'--art-color': themeColor(puzzle.color),
 	} as CSSProperties;
 
 	return (
