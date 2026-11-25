@@ -1,6 +1,6 @@
 import { playMedalChime, playRegression, playVictoryFanfare, triggerHaptic } from '@arcade/lib-audio';
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Badge } from '../Badge';
 import { Button } from '../Button';
 import { Confetti } from '../Confetti';
@@ -9,6 +9,8 @@ import { Divider } from '../Divider';
 import { Timer } from '../Timer';
 import * as S from './_VictoryDialog.styles';
 import type { VictoryDialogProps } from './_VictoryDialog.types';
+
+const VICTORY_DIALOG_DELAY_MS = 2000;
 
 function formatStatLabel(label?: string, fallback = ''): string {
 	if (!label) {
@@ -78,6 +80,19 @@ export function VictoryDialog({
 	const isNextPuzzlePrimary = showNextPuzzle && (primaryAction !== 'playAgain' || !showPlayAgain);
 	const hasFooterLinks = Boolean(statsHref || medalsHref || lobbyHref || onLobby);
 
+	const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+	useEffect(() => {
+		if (!isOpen) {
+			setIsDialogOpen(false);
+			return;
+		}
+		const timer = setTimeout(() => {
+			setIsDialogOpen(true);
+		}, VICTORY_DIALOG_DELAY_MS);
+		return () => clearTimeout(timer);
+	}, [isOpen]);
+
 	const prevIsOpenRef = useRef(false);
 	useEffect(() => {
 		if (isOpen && !prevIsOpenRef.current) {
@@ -105,7 +120,7 @@ export function VictoryDialog({
 			{isOpen && shouldShowConfetti && <Confetti />}
 			<Dialog
 				id={id}
-				isOpen={isOpen}
+				isOpen={isDialogOpen}
 				onCancel={onClose}
 				title={resolvedTitle}
 				message={message}
