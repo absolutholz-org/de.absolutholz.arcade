@@ -105,7 +105,7 @@ export const Header = styled.span`
 
 export const Card = styled.label`
 	background-color: ${themeColor('container-1')};
-	border: 1px solid var(--color-container-2);
+	border: 1px solid ${themeColor('container-2')};
 	border-radius: ${radiusScale.md};
 	color: ${themeColor('text-1')};
 	cursor: pointer;

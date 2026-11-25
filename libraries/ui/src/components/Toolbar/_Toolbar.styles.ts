@@ -80,17 +80,17 @@ export const Toolbar = styled.div`
 	/* Visual Surface Variants */
 	&[data-variant='default'] {
 		background-color: ${themeColor('container-1')};
-		border: 1px solid var(--color-container-2);
+		border: 1px solid ${themeColor('container-2')};
 	}
 
 	&[data-variant='outline'] {
 		background-color: transparent;
-		border: 1px solid var(--color-container-2);
+		border: 1px solid ${themeColor('container-2')};
 	}
 
 	&[data-variant='elevated'] {
 		background-color: ${themeColor('surface')};
-		border: 1px solid var(--color-container-2);
+		border: 1px solid ${themeColor('container-2')};
 		box-shadow: 0 4px 12px oklch(0% 0 0 / 0.1);
 	}
 
@@ -103,7 +103,7 @@ export const Toolbar = styled.div`
 	> hr,
 	> [role='separator'] {
 		border: 0;
-		background-color: var(--color-container-2);
+		background-color: ${themeColor('container-2')};
 		flex-shrink: 0;
 		align-self: center;
 	}

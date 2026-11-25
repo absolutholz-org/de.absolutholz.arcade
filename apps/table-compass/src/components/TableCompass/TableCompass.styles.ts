@@ -1,3 +1,4 @@
+import { themeColor } from '@arcade/lib-ui/styles/theme/theme.utils';
 import { css } from '@linaria/core';
 
 export const ToolHeader = css`
@@ -18,8 +19,8 @@ export const MainCard = css`
 	width: 100%;
 	margin: 0;
 	padding: 1.5rem;
-	background-color: var(--color-surface);
-	border: 1px solid var(--color-container-2);
+	background-color: ${themeColor('surface')};
+	border: 1px solid ${themeColor('container-2')};
 	border-radius: 1rem;
 	box-shadow: 0 0.25rem 1rem -0.125rem oklch(0 0 0 / 0.08);
 `;
@@ -29,8 +30,8 @@ export const Arena = css`
 	width: min(100%, 34rem);
 	margin-inline: auto;
 	height: clamp(18rem, 50svh, 28rem);
-	background: var(--color-container-1);
-	border: 0.125rem dashed var(--color-container-2);
+	background: ${themeColor('container-1')};
+	border: 0.125rem dashed ${themeColor('container-2')};
 	border-radius: 1.5rem;
 	overflow: hidden;
 	touch-action: none;
@@ -43,7 +44,7 @@ export const Arena = css`
 	box-shadow: inset 0 0.125rem 0.5rem oklch(0 0 0 / 0.05);
 
 	&:focus-visible {
-		outline: 0.1875rem solid var(--color-accent);
+		outline: 0.1875rem solid ${themeColor('accent')};
 		outline-offset: 0.25rem;
 	}
 `;
@@ -52,13 +53,13 @@ export const ArenaHint = css`
 	text-align: center;
 	padding: 1.25rem;
 	pointer-events: none;
-	color: var(--color-text-2);
+	color: ${themeColor('text-2')};
 
 	h3 {
 		margin: 0 0 0.5rem;
 		font-size: 1.15rem;
 		font-weight: 700;
-		color: var(--color-text-1);
+		color: ${themeColor('text-1')};
 	}
 
 	p {
@@ -92,14 +93,14 @@ export const TouchBadge = css`
 	width: 2rem;
 	height: 2rem;
 	border-radius: 50%;
-	background: var(--color-surface);
-	color: var(--color-text-1);
+	background: ${themeColor('surface')};
+	color: ${themeColor('text-1')};
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	font-weight: 800;
 	font-size: 0.95rem;
-	border: 0.125rem solid var(--color-text-1);
+	border: 0.125rem solid ${themeColor('text-1')};
 	box-shadow: 0 0.125rem 0.375rem oklch(0 0 0 / 0.15);
 `;
 
@@ -122,8 +123,8 @@ export const CountdownCircle = css`
 export const FallbackSection = css`
 	width: min(100%, 34rem);
 	margin-inline: auto;
-	background: var(--color-surface);
-	border: 0.0625rem solid var(--color-container-2);
+	background: ${themeColor('surface')};
+	border: 0.0625rem solid ${themeColor('container-2')};
 	border-radius: 1rem;
 	padding: 1rem;
 `;
@@ -136,7 +137,7 @@ export const DividerWrap = css`
 export const FallbackLabel = css`
 	font-size: 0.9rem;
 	font-weight: 600;
-	color: var(--color-text-2);
+	color: ${themeColor('text-2')};
 `;
 
 export const CompassBoard = css`
@@ -145,8 +146,8 @@ export const CompassBoard = css`
 	margin-inline: auto;
 	aspect-ratio: 1 / 1;
 	border-radius: 50%;
-	background: var(--color-container-1);
-	border: 0.125rem solid var(--color-container-2);
+	background: ${themeColor('container-1')};
+	border: 0.125rem solid ${themeColor('container-2')};
 	box-shadow: inset 0 0.125rem 0.75rem oklch(0 0 0 / 0.05), 0 0.5rem 1.5rem oklch(0 0 0 / 0.06);
 	display: flex;
 	align-items: center;
@@ -177,8 +178,8 @@ export const CompassDial = css`
 	width: 36%;
 	height: 36%;
 	border-radius: 50%;
-	background: var(--color-surface);
-	border: 0.15rem solid var(--color-container-2);
+	background: ${themeColor('surface')};
+	border: 0.15rem solid ${themeColor('container-2')};
 	box-shadow: 0 0.25rem 1rem oklch(0 0 0 / 0.12);
 	display: flex;
 	align-items: center;
@@ -199,7 +200,7 @@ export const CompassDial = css`
 	}
 
 	&:focus-visible {
-		outline: 0.1875rem solid var(--color-accent);
+		outline: 0.1875rem solid ${themeColor('accent')};
 		outline-offset: 0.25rem;
 	}
 
@@ -221,7 +222,7 @@ export const DialTurnNumber = css`
 	display: block;
 	font-size: clamp(0.85rem, 3vw, 1.1rem);
 	font-weight: 800;
-	color: var(--color-text-1);
+	color: ${themeColor('text-1')};
 	line-height: 1.15;
 `;
 
@@ -241,8 +242,8 @@ export const SeatNode = css`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background: var(--color-surface);
-	border: 0.15rem solid var(--color-container-2);
+	background: ${themeColor('surface')};
+	border: 0.15rem solid ${themeColor('container-2')};
 	box-shadow: 0 0.1875rem 0.5rem oklch(0 0 0 / 0.12);
 	transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
 	z-index: 2;
@@ -250,7 +251,7 @@ export const SeatNode = css`
 	&[data-active='true'] {
 		transform: translate(-50%, -50%) scale(1.2);
 		border-width: 0.22rem;
-		box-shadow: 0 0 0 0.3rem color-mix(in oklch, var(--color-accent) 22%, transparent),
+		box-shadow: 0 0 0 0.3rem color-mix(in oklch, ${themeColor('accent')} 22%, transparent),
 			0 0.375rem 1rem oklch(0 0 0 / 0.22);
 		z-index: 4;
 	}
@@ -275,15 +276,15 @@ export const SeatRankBadge = css`
 	min-width: 1.15rem;
 	height: 1.15rem;
 	border-radius: 9999px;
-	background: var(--color-accent);
-	color: var(--color-accent-contrast);
+	background: ${themeColor('accent')};
+	color: ${themeColor('accent-contrast')};
 	font-size: 0.625rem;
 	font-weight: 800;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	padding: 0 0.2rem;
-	border: 0.1rem solid var(--color-surface);
+	border: 0.1rem solid ${themeColor('surface')};
 `;
 
 export const CompassToolbar = css`
@@ -312,7 +313,7 @@ export const SectionHeading = css`
 	margin: 0 0 0.5rem;
 	font-size: 0.95rem;
 	font-weight: 700;
-	color: var(--color-text-2);
+	color: ${themeColor('text-2')};
 `;
 
 export const TurnQueueGrid = css`
@@ -330,8 +331,8 @@ export const TurnQueueItem = css`
 	gap: 0.5rem;
 	padding: 0.5rem 0.75rem;
 	border-radius: 0.75rem;
-	background: var(--color-surface);
-	border: 0.125rem solid var(--color-container-2);
+	background: ${themeColor('surface')};
+	border: 0.125rem solid ${themeColor('container-2')};
 	transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 	min-width: 0;
 
@@ -349,13 +350,13 @@ export const TurnQueueBadge = css`
 	justify-content: center;
 	font-size: 0.95rem;
 	flex-shrink: 0;
-	background: var(--color-container-1);
+	background: ${themeColor('container-1')};
 `;
 
 export const TurnQueueName = css`
 	font-size: 0.875rem;
 	font-weight: 700;
-	color: var(--color-text-1);
+	color: ${themeColor('text-1')};
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -368,7 +369,7 @@ export const TurnQueueRank = css`
 	font-weight: 800;
 	padding: 0.125rem 0.4rem;
 	border-radius: 9999px;
-	color: var(--color-surface);
+	color: ${themeColor('surface')};
 	flex-shrink: 0;
 `;
 
@@ -395,8 +396,8 @@ export const HistorySection = css`
 	gap: 0.625rem;
 	width: 100%;
 	padding: 1rem 1.25rem;
-	background-color: var(--color-surface);
-	border: 1px solid var(--color-container-2);
+	background-color: ${themeColor('surface')};
+	border: 1px solid ${themeColor('container-2')};
 	border-radius: 0.875rem;
 `;
 
@@ -410,7 +411,7 @@ export const HistoryHeader = css`
 export const HistoryTitle = css`
 	font-size: 0.875rem;
 	font-weight: 600;
-	color: var(--color-text-2);
+	color: ${themeColor('text-2')};
 	margin: 0;
 `;
 
@@ -426,10 +427,10 @@ export const HistoryStrip = css`
 export const HistoryTurnNumber = css`
 	font-size: 0.75rem;
 	font-weight: 800;
-	color: var(--color-text-2);
+	color: ${themeColor('text-2')};
 `;
 
 export const EmptyHistory = css`
 	font-size: 0.875rem;
-	color: var(--color-text-2);
+	color: ${themeColor('text-2')};
 `;

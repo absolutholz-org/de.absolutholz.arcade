@@ -1,3 +1,4 @@
+import { themeColor } from '@arcade/lib-ui/styles/theme/theme.utils';
 import { css } from '@linaria/core';
 
 export const Container = css`
@@ -29,8 +30,8 @@ export const HistorySection = css`
 	gap: 0.625rem;
 	width: 100%;
 	padding: 1rem 1.25rem;
-	background-color: var(--color-surface);
-	border: 1px solid var(--color-container-2);
+	background-color: ${themeColor('surface')};
+	border: 1px solid ${themeColor('container-2')};
 	border-radius: 0.875rem;
 `;
 
@@ -44,7 +45,7 @@ export const HistoryHeader = css`
 export const HistoryTitle = css`
 	font-size: 0.875rem;
 	font-weight: 600;
-	color: var(--color-text-2);
+	color: ${themeColor('text-2')};
 	margin: 0;
 `;
 
@@ -59,5 +60,5 @@ export const HistoryStrip = css`
 
 export const EmptyHistory = css`
 	font-size: 0.875rem;
-	color: var(--color-text-2);
+	color: ${themeColor('text-2')};
 `;

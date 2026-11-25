@@ -1,10 +1,11 @@
 import { styled } from '@linaria/react';
 import { space } from '../../styles/spacing';
+import { themeColor } from '../../styles/theme/theme.utils';
 
 export const SiteFooter = styled.footer`
-	background-color: var(--color-surface);
-	border-top: 1px solid var(--color-container-2);
-	color: var(--color-text-1);
+	background-color: ${themeColor('surface')};
+	border-top: 1px solid ${themeColor('container-2')};
+	color: ${themeColor('text-1')};
 	margin-top: ${space('2xl')};
 	padding-top: ${space('lg')};
 	padding-bottom: calc(${space('lg')} + env(safe-area-inset-bottom, 0px));
@@ -41,23 +42,23 @@ export const SiteFooter = styled.footer`
 	/* Brand & Actions Column (pure block flow, no flex column) */
 	.site-footer-brand-link {
 		align-items: center;
-		color: var(--color-text-1);
+		color: ${themeColor('text-1')};
 		display: inline-flex;
 		gap: ${space('xs')};
 		text-decoration: none;
 
 		&:hover .site-footer-brand-title {
-			color: var(--color-accent);
+			color: ${themeColor('accent')};
 		}
 
 		&:focus-visible {
-			outline: 2px solid var(--color-accent);
+			outline: 2px solid ${themeColor('accent')};
 			outline-offset: 2px;
 		}
 	}
 
 	.site-footer-brand-title {
-		color: var(--color-text-1);
+		color: ${themeColor('text-1')};
 		font-size: var(--font-size-h3);
 		font-weight: 700;
 		line-height: var(--line-height-h3);
@@ -65,7 +66,7 @@ export const SiteFooter = styled.footer`
 	}
 
 	.site-footer-tagline {
-		color: var(--color-text-2);
+		color: ${themeColor('text-2')};
 		font-size: var(--font-size-small);
 		line-height: var(--line-height-small);
 		margin: ${space('2xs')} 0 ${space('xs')};
@@ -85,7 +86,7 @@ export const SiteFooter = styled.footer`
 
 	/* Column Navigation Headings */
 	.site-footer-heading {
-		color: var(--color-text-2);
+		color: ${themeColor('text-2')};
 		font-size: var(--font-size-small);
 		font-weight: 700;
 		letter-spacing: 0.06em;
@@ -116,7 +117,7 @@ export const SiteFooter = styled.footer`
 	.site-footer-link {
 		align-items: center;
 		border-radius: var(--radius-sm);
-		color: var(--color-text-1);
+		color: ${themeColor('text-1')};
 		display: inline-flex;
 		font-size: var(--font-size-small);
 		gap: ${space('3xs')};
@@ -125,12 +126,12 @@ export const SiteFooter = styled.footer`
 		text-decoration: none;
 
 		&:hover {
-			color: var(--color-accent);
+			color: ${themeColor('accent')};
 			text-decoration: underline;
 		}
 
 		&:focus-visible {
-			outline: 2px solid var(--color-accent);
+			outline: 2px solid ${themeColor('accent')};
 			outline-offset: 2px;
 		}
 	}
@@ -145,7 +146,7 @@ export const SiteFooter = styled.footer`
 	/* Tier 2: Legal & Utility Bar (Sub-Footer) */
 	.site-footer-subfooter {
 		align-items: center;
-		border-top: 1px solid var(--color-container-2);
+		border-top: 1px solid ${themeColor('container-2')};
 		display: flex;
 		flex-direction: column;
 		gap: ${space('sm')};
@@ -164,7 +165,7 @@ export const SiteFooter = styled.footer`
 
 	.site-footer-identity {
 		align-items: center;
-		color: var(--color-text-2);
+		color: ${themeColor('text-2')};
 		display: flex;
 		flex-wrap: wrap;
 		font-size: var(--font-size-small);

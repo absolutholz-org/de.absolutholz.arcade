@@ -1,12 +1,13 @@
 import { styled } from '@linaria/react';
 import { space } from '../../styles/spacing';
+import { themeColor } from '../../styles/theme/theme.utils';
 
 export const SiteHeader = styled.header`
 	width: 100%;
 
 	&[data-variant='standard'] {
 		align-items: center;
-		border-bottom: 1px solid var(--color-container-2);
+		border-bottom: 1px solid ${themeColor('container-2')};
 		display: flex;
 		height: calc(4rem + env(safe-area-inset-top, 0px));
 		min-height: calc(4rem + env(safe-area-inset-top, 0px));
@@ -52,7 +53,7 @@ export const SiteHeader = styled.header`
 	.header-brand-link {
 		align-items: center;
 		border-radius: var(--radius-sm);
-		color: var(--color-text-1);
+		color: ${themeColor('text-1')};
 		display: inline-flex;
 		gap: ${space('sm')};
 		text-decoration: none;
@@ -61,7 +62,7 @@ export const SiteHeader = styled.header`
 			text-decoration: none;
 
 			.header-app-title {
-				color: var(--color-accent);
+				color: ${themeColor('accent')};
 			}
 		}
 	}
@@ -80,11 +81,11 @@ export const SiteHeader = styled.header`
 
 	.header-app-title-link {
 		align-items: center;
-		color: var(--color-text-1);
+		color: ${themeColor('text-1')};
 		display: inline-flex;
 
 		&:hover .header-app-title {
-			color: var(--color-accent);
+			color: ${themeColor('accent')};
 		}
 	}
 

@@ -1,4 +1,5 @@
 import { styled } from '@linaria/react';
+import { themeColor } from '../../styles/theme/theme.utils';
 
 export const ConsentBannerRoot = styled.aside`
 	position: fixed;
@@ -8,9 +9,9 @@ export const ConsentBannerRoot = styled.aside`
 	margin: 0 auto;
 	max-width: 48rem;
 	z-index: 1000;
-	background-color: var(--color-surface);
-	color: var(--color-text-1);
-	border: 1px solid var(--color-container-2);
+	background-color: ${themeColor('surface')};
+	color: ${themeColor('text-1')};
+	border: 1px solid ${themeColor('container-2')};
 	border-radius: var(--radius-lg, 0.75rem);
 	box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.25), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
 	padding: 1.25rem;
@@ -36,14 +37,14 @@ export const ConsentBannerTitle = styled.h2`
 	font-weight: 700;
 	margin: 0;
 	line-height: 1.4;
-	color: var(--color-text-1);
+	color: ${themeColor('text-1')};
 `;
 
 export const ConsentBannerDescription = styled.p`
 	font-size: 0.875rem;
 	margin: 0;
 	line-height: 1.5;
-	color: var(--color-text-2);
+	color: ${themeColor('text-2')};
 `;
 
 export const ConsentBannerActions = styled.div`

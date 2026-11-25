@@ -1,3 +1,4 @@
+import { themeColor } from '@arcade/lib-ui/styles/theme/theme.utils';
 import { css } from '@linaria/core';
 
 export const Section = css`
@@ -18,8 +19,8 @@ export const EmptyState = css`
 	grid-column: 1 / -1;
 	padding: 3rem 1.5rem;
 	text-align: center;
-	color: var(--color-text-2);
+	color: ${themeColor('text-2')};
 	border-radius: var(--radius-lg, 0.75rem);
-	border: 1px dashed var(--color-container-2);
-	background: var(--color-surface);
+	border: 1px dashed ${themeColor('container-2')};
+	background: ${themeColor('surface')};
 `;

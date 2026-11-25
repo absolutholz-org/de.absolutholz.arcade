@@ -70,53 +70,56 @@ export const CellButton = styled.button`
 		opacity: 0.9;
 	}
 
-	/* Region palette using accessible light-dark OKLCH + high-contrast overlay pattern */
+	/* Region palette using accessible rainbow tints + high-contrast overlay pattern */
+	&[data-region] {
+		background-color: color-mix(in oklch, var(--region-color) 14%, ${themeColor('surface')});
+	}
 	&[data-region='0'] {
-		background-color: light-dark(oklch(0.93 0.05 25), oklch(0.24 0.05 25));
+		--region-color: ${themeColor('rainbow-1')};
 		--cell-pattern: var(--pattern-diagonal-forward);
 	}
 	&[data-region='1'] {
-		background-color: light-dark(oklch(0.93 0.05 65), oklch(0.24 0.05 65));
+		--region-color: ${themeColor('rainbow-7')};
 		--cell-pattern: var(--pattern-diagonal-reverse);
 	}
 	&[data-region='2'] {
-		background-color: light-dark(oklch(0.94 0.05 100), oklch(0.25 0.05 100));
+		--region-color: ${themeColor('rainbow-4')};
 		--cell-pattern: var(--pattern-horizontal-stripes);
 	}
 	&[data-region='3'] {
-		background-color: light-dark(oklch(0.93 0.05 140), oklch(0.24 0.05 140));
+		--region-color: ${themeColor('rainbow-3')};
 		--cell-pattern: var(--pattern-vertical-stripes);
 	}
 	&[data-region='4'] {
-		background-color: light-dark(oklch(0.93 0.05 175), oklch(0.24 0.05 175));
+		--region-color: ${themeColor('rainbow-6')};
 		--cell-pattern: var(--pattern-cross-hatch);
 	}
 	&[data-region='5'] {
-		background-color: light-dark(oklch(0.93 0.05 215), oklch(0.24 0.05 215));
+		--region-color: ${themeColor('rainbow-12')};
 		--cell-pattern: var(--pattern-fine-dots);
 	}
 	&[data-region='6'] {
-		background-color: light-dark(oklch(0.93 0.05 255), oklch(0.24 0.05 255));
+		--region-color: ${themeColor('rainbow-2')};
 		--cell-pattern: var(--pattern-checker-dots);
 	}
 	&[data-region='7'] {
-		background-color: light-dark(oklch(0.93 0.05 295), oklch(0.24 0.05 295));
+		--region-color: ${themeColor('rainbow-5')};
 		--cell-pattern: var(--pattern-cross-diagonal);
 	}
 	&[data-region='8'] {
-		background-color: light-dark(oklch(0.93 0.05 330), oklch(0.24 0.05 330));
+		--region-color: ${themeColor('rainbow-8')};
 		--cell-pattern: var(--pattern-chevron);
 	}
 	&[data-region='9'] {
-		background-color: light-dark(oklch(0.93 0.04 45), oklch(0.24 0.04 45));
+		--region-color: ${themeColor('rainbow-9')};
 		--cell-pattern: var(--pattern-diamond-mesh);
 	}
 	&[data-region='10'] {
-		background-color: light-dark(oklch(0.93 0.04 195), oklch(0.24 0.04 195));
+		--region-color: ${themeColor('rainbow-10')};
 		--cell-pattern: var(--pattern-brick);
 	}
 	&[data-region='11'] {
-		background-color: light-dark(oklch(0.93 0.04 280), oklch(0.24 0.04 280));
+		--region-color: ${themeColor('rainbow-11')};
 		--cell-pattern: var(--pattern-solid);
 	}
 

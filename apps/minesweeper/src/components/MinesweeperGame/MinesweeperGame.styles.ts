@@ -32,13 +32,13 @@ export const statusMetric = css`
 	gap: var(--space-2xs);
 	font-size: var(--font-size-md);
 	font-weight: var(--font-weight-medium);
-	color: var(--color-text-1);
+	color: ${themeColor('text-1')};
 	font-variant-numeric: tabular-nums;
 
 	svg {
 		width: 1.125em;
 		height: 1.125em;
-		color: var(--color-text-2);
+		color: ${themeColor('text-2')};
 	}
 `;
 

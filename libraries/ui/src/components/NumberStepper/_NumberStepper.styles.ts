@@ -1,12 +1,13 @@
 import { css } from '@linaria/core';
+import { themeColor } from '../../styles/theme/theme.utils';
 
 export const Container = css`
 	display: inline-flex;
 	align-items: center;
 	gap: 0.25rem;
 	padding: 0.25rem;
-	background-color: var(--color-container-1);
-	border: 1px solid var(--color-container-2);
+	background-color: ${themeColor('container-1')};
+	border: 1px solid ${themeColor('container-2')};
 	border-radius: 0.625rem;
 
 	&[data-disabled='true'] {
@@ -24,7 +25,7 @@ export const Input = css`
 	font-size: 1rem;
 	font-weight: 700;
 	font-variant-numeric: tabular-nums;
-	color: var(--color-text-1);
+	color: ${themeColor('text-1')};
 	appearance: textfield;
 	-moz-appearance: textfield;
 
@@ -35,7 +36,7 @@ export const Input = css`
 	}
 
 	&:focus-visible {
-		outline: 2px solid var(--color-accent);
+		outline: 2px solid ${themeColor('accent')};
 		outline-offset: 2px;
 		border-radius: 0.375rem;
 	}

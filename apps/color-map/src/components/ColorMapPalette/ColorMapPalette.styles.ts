@@ -55,24 +55,14 @@ export const ColorSwatchButton = styled.button`
 	touch-action: manipulation;
 	transition: transform 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
 
-	&[data-color='0'] {
-		background-color: light-dark(oklch(0.66 0.19 28), oklch(0.56 0.19 28));
-		color: light-dark(oklch(0.16 0.04 28), oklch(0.98 0.01 28));
-	}
+	&[data-color='0'] { --swatch-color: ${themeColor('rainbow-1')}; }
+	&[data-color='1'] { --swatch-color: ${themeColor('rainbow-4')}; }
+	&[data-color='2'] { --swatch-color: ${themeColor('rainbow-3')}; }
+	&[data-color='3'] { --swatch-color: ${themeColor('rainbow-2')}; }
 
-	&[data-color='1'] {
-		background-color: light-dark(oklch(0.84 0.16 88), oklch(0.76 0.16 88));
-		color: oklch(0.18 0.04 88);
-	}
-
-	&[data-color='2'] {
-		background-color: light-dark(oklch(0.70 0.15 162), oklch(0.55 0.15 162));
-		color: light-dark(oklch(0.14 0.04 162), oklch(0.98 0.01 162));
-	}
-
-	&[data-color='3'] {
-		background-color: light-dark(oklch(0.55 0.18 255), oklch(0.52 0.18 255));
-		color: oklch(0.98 0.01 255);
+	&[data-color] {
+		background-color: var(--swatch-color);
+		color: oklch(from var(--swatch-color) clamp(0.12, (0.62 - l) * 100, 0.98) 0.02 h);
 	}
 
 	&[data-selected='true'] {

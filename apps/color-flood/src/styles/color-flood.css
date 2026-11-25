@@ -1,19 +1,19 @@
 :root {
-	--color-flood-color-0: oklch(0.65 0.22 25);
-	--color-flood-color-1: oklch(0.8 0.18 85);
-	--color-flood-color-2: oklch(0.7 0.17 145);
-	--color-flood-color-3: oklch(0.72 0.15 200);
-	--color-flood-color-4: oklch(0.6 0.2 265);
-	--color-flood-color-5: oklch(0.65 0.22 325);
+	--color-flood-color-0: var(--color-rainbow-1);
+	--color-flood-color-1: var(--color-rainbow-4);
+	--color-flood-color-2: var(--color-rainbow-3);
+	--color-flood-color-3: var(--color-rainbow-6);
+	--color-flood-color-4: var(--color-rainbow-2);
+	--color-flood-color-5: var(--color-rainbow-5);
 
-	--color-flood-color-0-fg: oklch(0.15 0.05 25);
-	--color-flood-color-1-fg: oklch(0.15 0.05 85);
-	--color-flood-color-2-fg: oklch(0.15 0.05 145);
-	--color-flood-color-3-fg: oklch(0.15 0.05 200);
-	--color-flood-color-4-fg: oklch(0.98 0.02 265);
-	--color-flood-color-5-fg: oklch(0.98 0.02 325);
+	--color-flood-color-0-fg: oklch(from var(--color-flood-color-0) clamp(0.12, (0.62 - l) * 100, 0.98) 0.02 h);
+	--color-flood-color-1-fg: oklch(from var(--color-flood-color-1) clamp(0.12, (0.62 - l) * 100, 0.98) 0.02 h);
+	--color-flood-color-2-fg: oklch(from var(--color-flood-color-2) clamp(0.12, (0.62 - l) * 100, 0.98) 0.02 h);
+	--color-flood-color-3-fg: oklch(from var(--color-flood-color-3) clamp(0.12, (0.62 - l) * 100, 0.98) 0.02 h);
+	--color-flood-color-4-fg: oklch(from var(--color-flood-color-4) clamp(0.12, (0.62 - l) * 100, 0.98) 0.02 h);
+	--color-flood-color-5-fg: oklch(from var(--color-flood-color-5) clamp(0.12, (0.62 - l) * 100, 0.98) 0.02 h);
 
-	--color-flood-board-bg: light-dark(oklch(0.96 0.01 260), oklch(0.2 0.02 260));
-	--color-flood-board-border: light-dark(oklch(0.84 0.02 260), oklch(0.35 0.03 260));
-	--color-flood-cell-border: light-dark(oklch(0.88 0.01 260), oklch(0.25 0.02 260));
+	--color-flood-board-bg: var(--color-container-1);
+	--color-flood-board-border: var(--color-container-2);
+	--color-flood-cell-border: var(--color-container-2);
 }

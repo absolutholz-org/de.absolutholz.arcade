@@ -107,7 +107,7 @@ const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? 
 		flex-direction: column;
 		align-items: center;
 		gap: 1rem;
-		border-color: var(--color-status-warning, #f59e0b);
+		border-color: var(--color-status-warning);
 	}
 
 	.offline-icon {
@@ -138,8 +138,8 @@ const currentTranslations = resources[lang as SupportedLanguageCode]?.common ?? 
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		background: var(--color-action-primary, #2563eb);
-		color: #ffffff;
+		background: var(--color-accent);
+		color: var(--color-accent-contrast);
 		padding: 0.75rem 1.5rem;
 		border-radius: var(--radius-md);
 		text-decoration: none;

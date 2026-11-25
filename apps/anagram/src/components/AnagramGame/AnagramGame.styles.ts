@@ -1,3 +1,4 @@
+import { themeColor } from '@arcade/lib-ui/styles/theme/theme.utils';
 import { css } from '@linaria/core';
 
 export const boardArea = css`
@@ -31,6 +32,6 @@ export const statusMetric = css`
 	gap: var(--space-2xs);
 	font-size: var(--font-size-md);
 	font-weight: var(--font-weight-medium);
-	color: var(--color-text-1);
+	color: ${themeColor('text-1')};
 	font-variant-numeric: tabular-nums;
 `;

@@ -40,16 +40,16 @@ export const BoardFrame = styled.div`
 	}
 
 	/* Colorblind-safe vibrant OKLCH palette with light-dark() adaptation */
-	--cascade-tile-0: light-dark(oklch(62% 0.21 25), oklch(66% 0.2 25));
-	--cascade-tile-0-border: light-dark(oklch(48% 0.19 25), oklch(78% 0.15 25));
-	--cascade-tile-1: light-dark(oklch(56% 0.2 255), oklch(65% 0.18 255));
-	--cascade-tile-1-border: light-dark(oklch(42% 0.18 255), oklch(78% 0.14 255));
-	--cascade-tile-2: light-dark(oklch(58% 0.18 152), oklch(66% 0.17 152));
-	--cascade-tile-2-border: light-dark(oklch(44% 0.16 152), oklch(79% 0.13 152));
-	--cascade-tile-3: light-dark(oklch(72% 0.17 78), oklch(75% 0.16 78));
-	--cascade-tile-3-border: light-dark(oklch(54% 0.15 78), oklch(85% 0.12 78));
-	--cascade-tile-4: light-dark(oklch(58% 0.2 308), oklch(67% 0.19 308));
-	--cascade-tile-4-border: light-dark(oklch(44% 0.18 308), oklch(80% 0.14 308));
+	--cascade-tile-0: ${themeColor('rainbow-1')};
+	--cascade-tile-0-border: oklch(from ${themeColor('rainbow-1')} calc(l - 0.12) c h);
+	--cascade-tile-1: ${themeColor('rainbow-2')};
+	--cascade-tile-1-border: oklch(from ${themeColor('rainbow-2')} calc(l - 0.12) c h);
+	--cascade-tile-2: ${themeColor('rainbow-3')};
+	--cascade-tile-2-border: oklch(from ${themeColor('rainbow-3')} calc(l - 0.12) c h);
+	--cascade-tile-3: ${themeColor('rainbow-4')};
+	--cascade-tile-3-border: oklch(from ${themeColor('rainbow-4')} calc(l - 0.12) c h);
+	--cascade-tile-4: ${themeColor('rainbow-5')};
+	--cascade-tile-4-border: oklch(from ${themeColor('rainbow-5')} calc(l - 0.12) c h);
 
 	@media (min-width: 640px) {
 		padding: 0.75rem;

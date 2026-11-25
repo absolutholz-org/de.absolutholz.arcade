@@ -1,4 +1,5 @@
 import { styled } from '@linaria/react';
+import { themeColor } from '../../styles/theme/theme.utils';
 
 const BaseDivider = styled.div`
 	width: 100%;
@@ -12,7 +13,7 @@ const BaseDivider = styled.div`
 
 export const Divider = styled(BaseDivider)`
 	border: 0;
-	border-top: 1px solid var(--color-container-2);
+	border-top: 1px solid ${themeColor('container-2')};
 	height: 0;
 `;
 
@@ -23,13 +24,13 @@ export const Labeled = styled(BaseDivider)`
 
 	&::before,
 	&::after {
-		border-top: 1px solid var(--color-container-2);
+		border-top: 1px solid ${themeColor('container-2')};
 		content: '';
 		flex: 1;
 	}
 
 	> span {
-		color: var(--color-text-2);
+		color: ${themeColor('text-2')};
 		display: inline-flex;
 		font-size: var(--font-size-small);
 		line-height: var(--line-height-small);

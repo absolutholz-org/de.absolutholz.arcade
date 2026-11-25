@@ -1,3 +1,5 @@
+import { themeColor } from '@arcade/lib-ui/styles/theme/theme.utils';
+
 export type ShapeKey =
 	| 'tools.table-compass.shapes.circle'
 	| 'tools.table-compass.shapes.square'
@@ -22,8 +24,8 @@ export const PLAYER_CONFIGS: readonly PlayerConfig[] = [
 	{
 		id: 1,
 		defaultNameKey: 'Player 1',
-		color: 'oklch(0.65 0.22 25)',
-		bgLight: 'oklch(0.65 0.22 25 / 0.18)',
+		color: themeColor('rainbow-1'),
+		bgLight: `oklch(from ${themeColor('rainbow-1')} l c h / 0.18)`,
 		shape: 'circle',
 		icon: '●',
 		shapeKey: 'tools.table-compass.shapes.circle',
@@ -31,8 +33,8 @@ export const PLAYER_CONFIGS: readonly PlayerConfig[] = [
 	{
 		id: 2,
 		defaultNameKey: 'Player 2',
-		color: 'oklch(0.72 0.18 65)',
-		bgLight: 'oklch(0.72 0.18 65 / 0.18)',
+		color: themeColor('rainbow-7'),
+		bgLight: `oklch(from ${themeColor('rainbow-7')} l c h / 0.18)`,
 		shape: 'square',
 		icon: '■',
 		shapeKey: 'tools.table-compass.shapes.square',
@@ -40,8 +42,8 @@ export const PLAYER_CONFIGS: readonly PlayerConfig[] = [
 	{
 		id: 3,
 		defaultNameKey: 'Player 3',
-		color: 'oklch(0.80 0.18 95)',
-		bgLight: 'oklch(0.80 0.18 95 / 0.18)',
+		color: themeColor('rainbow-4'),
+		bgLight: `oklch(from ${themeColor('rainbow-4')} l c h / 0.18)`,
 		shape: 'triangle',
 		icon: '▲',
 		shapeKey: 'tools.table-compass.shapes.triangle',
@@ -49,8 +51,8 @@ export const PLAYER_CONFIGS: readonly PlayerConfig[] = [
 	{
 		id: 4,
 		defaultNameKey: 'Player 4',
-		color: 'oklch(0.70 0.20 145)',
-		bgLight: 'oklch(0.70 0.20 145 / 0.18)',
+		color: themeColor('rainbow-3'),
+		bgLight: `oklch(from ${themeColor('rainbow-3')} l c h / 0.18)`,
 		shape: 'diamond',
 		icon: '◆',
 		shapeKey: 'tools.table-compass.shapes.diamond',
@@ -58,8 +60,8 @@ export const PLAYER_CONFIGS: readonly PlayerConfig[] = [
 	{
 		id: 5,
 		defaultNameKey: 'Player 5',
-		color: 'oklch(0.72 0.16 200)',
-		bgLight: 'oklch(0.72 0.16 200 / 0.18)',
+		color: themeColor('rainbow-6'),
+		bgLight: `oklch(from ${themeColor('rainbow-6')} l c h / 0.18)`,
 		shape: 'star',
 		icon: '★',
 		shapeKey: 'tools.table-compass.shapes.star',
@@ -67,8 +69,8 @@ export const PLAYER_CONFIGS: readonly PlayerConfig[] = [
 	{
 		id: 6,
 		defaultNameKey: 'Player 6',
-		color: 'oklch(0.65 0.18 250)',
-		bgLight: 'oklch(0.65 0.18 250 / 0.18)',
+		color: themeColor('rainbow-2'),
+		bgLight: `oklch(from ${themeColor('rainbow-2')} l c h / 0.18)`,
 		shape: 'pentagon',
 		icon: '⬟',
 		shapeKey: 'tools.table-compass.shapes.pentagon',
@@ -76,8 +78,8 @@ export const PLAYER_CONFIGS: readonly PlayerConfig[] = [
 	{
 		id: 7,
 		defaultNameKey: 'Player 7',
-		color: 'oklch(0.65 0.22 300)',
-		bgLight: 'oklch(0.65 0.22 300 / 0.18)',
+		color: themeColor('rainbow-5'),
+		bgLight: `oklch(from ${themeColor('rainbow-5')} l c h / 0.18)`,
 		shape: 'hexagon',
 		icon: '⬢',
 		shapeKey: 'tools.table-compass.shapes.hexagon',
@@ -85,8 +87,8 @@ export const PLAYER_CONFIGS: readonly PlayerConfig[] = [
 	{
 		id: 8,
 		defaultNameKey: 'Player 8',
-		color: 'oklch(0.68 0.22 350)',
-		bgLight: 'oklch(0.68 0.22 350 / 0.18)',
+		color: themeColor('rainbow-8'),
+		bgLight: `oklch(from ${themeColor('rainbow-8')} l c h / 0.18)`,
 		shape: 'cross',
 		icon: '✚',
 		shapeKey: 'tools.table-compass.shapes.cross',

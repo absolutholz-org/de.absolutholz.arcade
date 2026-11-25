@@ -1,4 +1,5 @@
 import { styled } from '@linaria/react';
+import { themeColor } from '../../styles/theme/theme.utils';
 
 export const Header = styled.header`
 	--game-header-height: 3.5rem;
@@ -6,8 +7,8 @@ export const Header = styled.header`
 	padding-top: env(safe-area-inset-top, 0px);
 	height: calc(var(--game-header-height) + env(safe-area-inset-top, 0px));
 	min-height: calc(var(--game-header-height) + env(safe-area-inset-top, 0px));
-	border-bottom: 1px solid var(--color-container-2);
-	background-color: var(--color-surface);
+	border-bottom: 1px solid ${themeColor('container-2')};
+	background-color: ${themeColor('surface')};
 
 	&[data-has-border='false'] {
 		border-bottom: none;
@@ -60,7 +61,7 @@ export const Header = styled.header`
 			white-space: nowrap;
 			font-size: var(--font-size-sm, 0.875rem);
 			font-weight: 600;
-			color: var(--color-text-1);
+			color: ${themeColor('text-1')};
 			line-height: 1.2;
 		}
 	}

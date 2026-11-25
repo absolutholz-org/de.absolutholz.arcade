@@ -139,7 +139,7 @@ export const MarkdownContent = styled.article`
 
 	& th {
 		border-bottom: 2px solid ${themeColor('container-2')};
-		color: var(--color-text-1);
+		color: ${themeColor('text-1')};
 		font-weight: 700;
 	}
 

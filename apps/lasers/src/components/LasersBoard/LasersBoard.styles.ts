@@ -18,14 +18,14 @@ export const BoardFrame = styled.div`
 	user-select: none;
 	touch-action: manipulation;
 
-	/* Optical beam channel OKLCH palette with light-dark() contrast adaptation */
-	--laser-red: light-dark(oklch(55% 0.24 25), oklch(68% 0.23 25));
-	--laser-green: light-dark(oklch(52% 0.2 148), oklch(72% 0.21 148));
-	--laser-blue: light-dark(oklch(50% 0.22 258), oklch(68% 0.2 258));
-	--laser-yellow: light-dark(oklch(62% 0.19 88), oklch(82% 0.18 92));
-	--laser-magenta: light-dark(oklch(54% 0.24 328), oklch(70% 0.23 328));
-	--laser-cyan: light-dark(oklch(52% 0.17 205), oklch(74% 0.17 205));
-	--laser-white: light-dark(oklch(38% 0.02 250), oklch(96% 0.01 250));
+	/* Optical beam channel palette mapped to accessible rainbow + text-1 tokens */
+	--laser-red: ${themeColor('rainbow-1')};
+	--laser-green: ${themeColor('rainbow-3')};
+	--laser-blue: ${themeColor('rainbow-2')};
+	--laser-yellow: ${themeColor('rainbow-4')};
+	--laser-magenta: ${themeColor('rainbow-8')};
+	--laser-cyan: ${themeColor('rainbow-6')};
+	--laser-white: ${themeColor('text-1')};
 
 	@media (min-width: 640px) {
 		padding: 0.625rem;

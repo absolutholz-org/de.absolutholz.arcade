@@ -99,7 +99,7 @@ export const RayOverlaySvg = styled.svg`
 	display: block;
 
 	.ray-direct {
-		stroke: light-dark(oklch(58% 0.19 52), oklch(78% 0.17 65));
+		stroke: ${themeColor('rainbow-7')};
 		stroke-width: 7;
 		stroke-linecap: round;
 		stroke-linejoin: round;
@@ -107,7 +107,7 @@ export const RayOverlaySvg = styled.svg`
 	}
 
 	.ray-reflected {
-		stroke: light-dark(oklch(48% 0.16 250), oklch(76% 0.15 225));
+		stroke: ${themeColor('rainbow-2')};
 		stroke-width: 7;
 		stroke-dasharray: 14 10;
 		stroke-linecap: round;
@@ -116,11 +116,11 @@ export const RayOverlaySvg = styled.svg`
 	}
 
 	.ray-node-direct {
-		fill: light-dark(oklch(58% 0.19 52), oklch(78% 0.17 65));
+		fill: ${themeColor('rainbow-7')};
 	}
 
 	.ray-node-reflected {
-		fill: light-dark(oklch(48% 0.16 250), oklch(76% 0.15 225));
+		fill: ${themeColor('rainbow-2')};
 	}
 
 	@media (forced-colors: active) {
@@ -181,7 +181,7 @@ export const ClueButton = styled.button`
 	}
 
 	&[data-clue-status='satisfied'] {
-		color: light-dark(oklch(40% 0.14 148), oklch(76% 0.14 148));
+		color: ${themeColor('status-success')};
 	}
 
 	&[data-clue-status='error'] {
@@ -242,7 +242,7 @@ export const CellButton = styled.button`
 	&[data-ray='direct'] {
 		background-color: color-mix(
 			in oklab,
-			light-dark(oklch(62% 0.18 55), oklch(74% 0.15 65)) 18%,
+			${themeColor('rainbow-7')} 18%,
 			${themeColor('surface')}
 		);
 	}
@@ -250,7 +250,7 @@ export const CellButton = styled.button`
 	&[data-ray='reflected'] {
 		background-color: color-mix(
 			in oklab,
-			light-dark(oklch(52% 0.15 245), oklch(72% 0.14 225)) 18%,
+			${themeColor('rainbow-2')} 18%,
 			${themeColor('surface')}
 		);
 	}
@@ -258,7 +258,7 @@ export const CellButton = styled.button`
 	&[data-ray='both'] {
 		background-color: color-mix(
 			in oklab,
-			light-dark(oklch(55% 0.17 305), oklch(74% 0.15 305)) 20%,
+			${themeColor('rainbow-5')} 20%,
 			${themeColor('surface')}
 		);
 	}
@@ -292,15 +292,15 @@ export const CellMonsterWrap = styled.span`
 	z-index: 1;
 
 	&[data-monster='ghost'] {
-		color: light-dark(oklch(44% 0.14 235), oklch(78% 0.12 225));
+		color: ${themeColor('rainbow-12')};
 	}
 
 	&[data-monster='vampire'] {
-		color: light-dark(oklch(46% 0.19 20), oklch(72% 0.17 20));
+		color: ${themeColor('rainbow-1')};
 	}
 
 	&[data-monster='zombie'] {
-		color: light-dark(oklch(42% 0.14 148), oklch(75% 0.14 148));
+		color: ${themeColor('rainbow-3')};
 	}
 
 	> svg {
@@ -346,15 +346,15 @@ export const NotePip = styled.span`
 	opacity: 0.85;
 
 	&[data-monster='ghost'] {
-		color: light-dark(oklch(44% 0.14 235), oklch(78% 0.12 225));
+		color: ${themeColor('rainbow-12')};
 	}
 
 	&[data-monster='vampire'] {
-		color: light-dark(oklch(46% 0.19 20), oklch(72% 0.17 20));
+		color: ${themeColor('rainbow-1')};
 	}
 
 	&[data-monster='zombie'] {
-		color: light-dark(oklch(42% 0.14 148), oklch(75% 0.14 148));
+		color: ${themeColor('rainbow-3')};
 	}
 
 	> svg {
@@ -388,11 +388,11 @@ export const LegendSwatch = styled.span`
 	height: 0;
 
 	&[data-kind='direct'] {
-		border-top: 3px solid light-dark(oklch(58% 0.19 52), oklch(78% 0.17 65));
+		border-top: 3px solid ${themeColor('rainbow-7')};
 	}
 
 	&[data-kind='reflected'] {
-		border-top: 3px dashed light-dark(oklch(48% 0.16 250), oklch(76% 0.15 225));
+		border-top: 3px dashed ${themeColor('rainbow-2')};
 	}
 
 	@media (forced-colors: active) {

@@ -4,6 +4,7 @@ import { Button } from '@arcade/lib-ui/components/Button';
 import { Icon } from '@arcade/lib-ui/components/Icon';
 import { Stack } from '@arcade/lib-ui/components/Stack';
 import { Toolbar } from '@arcade/lib-ui/components/Toolbar';
+import { themeColor } from '@arcade/lib-ui/styles/theme/theme.utils';
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import * as S from './TableCompass.styles';
 import type { CompassHistoryEntry, Direction, Seat } from './TableCompass.types';
@@ -87,7 +88,7 @@ export function CompassView({
 							cy="100"
 							r="78"
 							fill="none"
-							stroke="var(--color-container-2)"
+							stroke={themeColor('container-2')}
 							strokeWidth="2"
 						/>
 						{/* Inner Direction Ring */}
@@ -96,7 +97,7 @@ export function CompassView({
 							cy="100"
 							r="54"
 							fill="none"
-							stroke="var(--color-container-2)"
+							stroke={themeColor('container-2')}
 							strokeWidth="1.5"
 							strokeDasharray="4 6"
 						/>
@@ -109,7 +110,7 @@ export function CompassView({
 											: 'M 103.5,42 L 96.5,46 L 103.5,50'
 									}
 									fill="none"
-									stroke="var(--color-surface)"
+									stroke={themeColor('surface')}
 									strokeWidth="4.5"
 									strokeLinecap="round"
 									strokeLinejoin="round"
@@ -121,7 +122,7 @@ export function CompassView({
 											: 'M 103.5,42 L 96.5,46 L 103.5,50'
 									}
 									fill="none"
-									stroke="var(--color-accent)"
+									stroke={themeColor('accent')}
 									strokeWidth="2.5"
 									strokeLinecap="round"
 									strokeLinejoin="round"
@@ -140,7 +141,7 @@ export function CompassView({
 							<polygon
 								points="100,26 111,62 100,55 89,62"
 								fill={activeConfig.color}
-								stroke="var(--color-surface)"
+								stroke={themeColor('surface')}
 								strokeWidth="2.5"
 								strokeLinejoin="round"
 								paintOrder="stroke"
@@ -148,8 +149,8 @@ export function CompassView({
 							/>
 							<polygon
 								points="100,160 106,138 100,143 94,138"
-								fill="var(--color-text-3)"
-								stroke="var(--color-surface)"
+								fill={themeColor('text-3')}
+								stroke={themeColor('surface')}
 								strokeWidth="2"
 								strokeLinejoin="round"
 								paintOrder="stroke"

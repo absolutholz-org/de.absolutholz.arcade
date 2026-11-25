@@ -1,3 +1,4 @@
+import { themeColor } from '@arcade/lib-ui/styles/theme/theme.utils';
 import { styled } from '@linaria/react';
 
 export const FormContainer = styled.section`
@@ -20,7 +21,7 @@ export const OrDivider = styled.div`
 	align-items: center;
 	gap: var(--space-sm);
 	width: 100%;
-	color: var(--color-text-muted);
+	color: ${themeColor('text-2')};
 	font-size: var(--text-sm, 0.875rem);
 	text-transform: uppercase;
 	letter-spacing: 0.05em;
@@ -30,7 +31,7 @@ export const OrDivider = styled.div`
 		content: '';
 		flex: 1;
 		height: 1px;
-		background-color: var(--color-border-subtle, var(--color-border, currentColor));
+		background-color: ${themeColor('container-2')};
 		opacity: 0.35;
 	}
 `;

@@ -129,9 +129,9 @@ export const CellButton = styled.button`
 	}
 
 	&[data-error='true'] {
-		background-color: color-mix(in oklch, var(--color-danger, ${themeColor('accent')}) 16%, ${themeColor('surface')});
-		border-color: var(--color-danger, ${themeColor('accent')});
-		color: var(--color-danger, ${themeColor('text-1')});
+		background-color: color-mix(in oklch, ${themeColor('status-danger')} 16%, ${themeColor('surface')});
+		border-color: ${themeColor('status-danger')};
+		color: ${themeColor('status-danger')};
 	}
 
 	&:hover:not(:disabled) {
@@ -187,7 +187,7 @@ export const ConflictCornerDot = styled.span`
 	width: 0.375rem;
 	height: 0.375rem;
 	border-radius: 50%;
-	background-color: var(--color-danger, currentColor);
+	background-color: ${themeColor('status-danger')};
 	pointer-events: none;
 
 	@media (forced-colors: active) {
@@ -248,7 +248,7 @@ export const InequalitySlot = styled.span`
 	pointer-events: none;
 
 	&[data-violated='true'] {
-		color: var(--color-danger, ${themeColor('accent')});
+		color: ${themeColor('status-danger')};
 	}
 
 	@media (forced-colors: active) {

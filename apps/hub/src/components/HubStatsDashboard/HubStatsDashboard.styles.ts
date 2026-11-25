@@ -1,3 +1,4 @@
+import { themeColor } from '@arcade/lib-ui/styles/theme/theme.utils';
 import { css } from '@linaria/core';
 
 export const Container = css`
@@ -33,15 +34,15 @@ export const KpiCard = css`
 	justify-content: center;
 	padding: 1rem;
 	border-radius: var(--radius-md, 0.75rem);
-	border: 1px solid var(--color-container-2);
-	background: var(--color-surface);
+	border: 1px solid ${themeColor('container-2')};
+	background: ${themeColor('surface')};
 	text-align: center;
 	gap: 0.25rem;
 	min-height: 5.5rem;
 	transition: border-color 150ms ease, box-shadow 150ms ease;
 
 	&:hover {
-		border-color: var(--color-accent);
+		border-color: ${themeColor('accent')};
 	}
 `;
 
@@ -49,7 +50,7 @@ export const KpiValue = css`
 	font-size: 1.5rem;
 	font-weight: 700;
 	line-height: 1.2;
-	color: var(--color-text-1);
+	color: ${themeColor('text-1')};
 	font-variant-numeric: tabular-nums;
 
 	@media (min-width: 640px) {
@@ -60,7 +61,7 @@ export const KpiValue = css`
 export const KpiLabel = css`
 	font-size: 0.8125rem;
 	font-weight: 500;
-	color: var(--color-text-2);
+	color: ${themeColor('text-2')};
 	text-transform: uppercase;
 	letter-spacing: 0.03em;
 `;
@@ -68,7 +69,7 @@ export const KpiLabel = css`
 export const KpiSubline = css`
 	font-size: 0.8125rem;
 	font-weight: 600;
-	color: var(--color-accent);
+	color: ${themeColor('accent')};
 	margin-top: 0.125rem;
 `;
 
@@ -87,7 +88,7 @@ export const SectionHeader = css`
 	h2 {
 		font-size: 1.125rem;
 		font-weight: 700;
-		color: var(--color-text-1);
+		color: ${themeColor('text-1')};
 		margin: 0;
 	}
 `;
@@ -136,7 +137,7 @@ export const CompactGameIcon = css`
 export const CompactGameTitle = css`
 	font-size: 1.0625rem;
 	font-weight: 600;
-	color: var(--color-text-1);
+	color: ${themeColor('text-1')};
 	line-height: 1.2;
 `;
 
@@ -146,7 +147,7 @@ export const CompactMetricsGrid = css`
 	gap: 0.375rem;
 	width: 100%;
 	padding-top: 0.5rem;
-	border-top: 1px solid var(--color-container-2);
+	border-top: 1px solid ${themeColor('container-2')};
 `;
 
 export const MetricItem = css`
@@ -158,7 +159,7 @@ export const MetricItem = css`
 export const MetricLabel = css`
 	font-size: 0.6875rem;
 	font-weight: 500;
-	color: var(--color-text-2);
+	color: ${themeColor('text-2')};
 	text-transform: uppercase;
 	letter-spacing: 0.02em;
 `;
@@ -166,7 +167,7 @@ export const MetricLabel = css`
 export const MetricValue = css`
 	font-size: 0.9375rem;
 	font-weight: 600;
-	color: var(--color-text-1);
+	color: ${themeColor('text-1')};
 	font-variant-numeric: tabular-nums;
 `;
 
@@ -176,8 +177,8 @@ export const GameHeaderBanner = css`
 	gap: 0.875rem;
 	padding: 1rem 1.25rem;
 	border-radius: var(--radius-md, 0.75rem);
-	background: var(--color-container-1);
-	border: 1px solid var(--color-container-2);
+	background: ${themeColor('container-1')};
+	border: 1px solid ${themeColor('container-2')};
 `;
 
 export const GameHeaderIcon = css`
@@ -197,7 +198,7 @@ export const GameHeaderContent = css`
 export const GameHeaderTitle = css`
 	font-size: 1.25rem;
 	font-weight: 700;
-	color: var(--color-text-1);
+	color: ${themeColor('text-1')};
 	margin: 0;
 	line-height: 1.2;
 `;
@@ -205,7 +206,7 @@ export const GameHeaderTitle = css`
 export const GameHeaderSubtitle = css`
 	font-size: 0.8125rem;
 	font-weight: 500;
-	color: var(--color-text-2);
+	color: ${themeColor('text-2')};
 	text-transform: uppercase;
 	letter-spacing: 0.03em;
 `;

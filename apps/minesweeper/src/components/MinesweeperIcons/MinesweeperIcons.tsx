@@ -27,7 +27,7 @@ export function FlagIcon({ className }: { className?: string }): JSX.Element {
 			aria-hidden="true"
 			className={className}
 		>
-			<path d="M19 9l-8 5V4l4 2.5z" fill="var(--color-accent, var(--color-interactive-primary, currentColor))" />
+			<path d="M19 9l-8 5V4l4 2.5z" fill="var(--color-accent)" />
 			<path d="M7 12V3h2v18H7z" fill="currentColor" />
 		</svg>
 	);

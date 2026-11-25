@@ -29,15 +29,15 @@ export const MonsterButton = styled.button`
 	--monster-color: ${themeColor('text-1')};
 
 	&[data-monster='ghost'] {
-		--monster-color: light-dark(oklch(44% 0.14 235), oklch(78% 0.12 225));
+		--monster-color: ${themeColor('rainbow-12')};
 	}
 
 	&[data-monster='vampire'] {
-		--monster-color: light-dark(oklch(46% 0.19 20), oklch(72% 0.17 20));
+		--monster-color: ${themeColor('rainbow-1')};
 	}
 
 	&[data-monster='zombie'] {
-		--monster-color: light-dark(oklch(42% 0.14 148), oklch(75% 0.14 148));
+		--monster-color: ${themeColor('rainbow-3')};
 	}
 
 	position: relative;

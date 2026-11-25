@@ -1,3 +1,4 @@
+import { themeColor } from '@arcade/lib-ui/styles/theme/theme.utils';
 import { css } from '@linaria/core';
 import type { JSX } from 'react';
 import { getPieceDefinition, getTransformedShape } from '../../engine/pieces.ts';
@@ -11,55 +12,31 @@ const previewSvgClass = css`
 `;
 
 const cellRectClass = css`
-	stroke: light-dark(oklch(0.22 0.02 260 / 0.85), oklch(0.95 0.01 260 / 0.85));
+	stroke: oklch(from ${themeColor('text-1')} l c h / 0.85);
 	stroke-width: 1.25;
 	rx: 2px;
 	ry: 2px;
 
-	&[data-color='0'] {
-		fill: light-dark(oklch(0.62 0.19 25), oklch(0.66 0.19 25));
-	}
-	&[data-color='1'] {
-		fill: light-dark(oklch(0.66 0.16 55), oklch(0.7 0.16 55));
-	}
-	&[data-color='2'] {
-		fill: light-dark(oklch(0.75 0.16 85), oklch(0.78 0.16 85));
-	}
-	&[data-color='3'] {
-		fill: light-dark(oklch(0.65 0.17 135), oklch(0.69 0.17 135));
-	}
-	&[data-color='4'] {
-		fill: light-dark(oklch(0.62 0.15 165), oklch(0.67 0.15 165));
-	}
-	&[data-color='5'] {
-		fill: light-dark(oklch(0.63 0.14 195), oklch(0.68 0.14 195));
-	}
-	&[data-color='6'] {
-		fill: light-dark(oklch(0.58 0.17 230), oklch(0.65 0.17 230));
-	}
-	&[data-color='7'] {
-		fill: light-dark(oklch(0.55 0.19 260), oklch(0.64 0.18 260));
-	}
-	&[data-color='8'] {
-		fill: light-dark(oklch(0.58 0.2 290), oklch(0.66 0.19 290));
-	}
-	&[data-color='9'] {
-		fill: light-dark(oklch(0.6 0.2 320), oklch(0.68 0.19 320));
-	}
-	&[data-color='10'] {
-		fill: light-dark(oklch(0.62 0.19 350), oklch(0.68 0.18 350));
-	}
-	&[data-color='11'] {
-		fill: light-dark(oklch(0.64 0.14 110), oklch(0.7 0.14 110));
-	}
+	&[data-color='0'] { fill: ${themeColor('rainbow-1')}; }
+	&[data-color='1'] { fill: ${themeColor('rainbow-7')}; }
+	&[data-color='2'] { fill: ${themeColor('rainbow-4')}; }
+	&[data-color='3'] { fill: ${themeColor('rainbow-3')}; }
+	&[data-color='4'] { fill: ${themeColor('rainbow-6')}; }
+	&[data-color='5'] { fill: ${themeColor('rainbow-12')}; }
+	&[data-color='6'] { fill: ${themeColor('rainbow-2')}; }
+	&[data-color='7'] { fill: ${themeColor('rainbow-10')}; }
+	&[data-color='8'] { fill: ${themeColor('rainbow-5')}; }
+	&[data-color='9'] { fill: ${themeColor('rainbow-8')}; }
+	&[data-color='10'] { fill: ${themeColor('rainbow-11')}; }
+	&[data-color='11'] { fill: ${themeColor('rainbow-9')}; }
 `;
 
 const labelTextClass = css`
 	font-size: 7px;
 	font-weight: 800;
-	fill: light-dark(oklch(0.14 0.02 260), oklch(0.98 0.01 260));
+	fill: ${themeColor('text-1')};
 	paint-order: stroke;
-	stroke: light-dark(oklch(0.98 0.01 260 / 0.9), oklch(0.15 0.02 260 / 0.9));
+	stroke: oklch(from ${themeColor('surface')} l c h / 0.9);
 	stroke-width: 2px;
 	text-anchor: middle;
 	dominant-baseline: central;

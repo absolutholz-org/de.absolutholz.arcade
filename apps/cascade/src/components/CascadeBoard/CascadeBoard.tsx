@@ -37,13 +37,18 @@ export interface CascadeBoardProps {
 	readonly onTogglePause: () => void;
 }
 
-const PARTICLE_COLORS: Readonly<Record<TileColor, string>> = {
-	0: '#e85d4a',
-	1: '#3b78e7',
-	2: '#2da86a',
-	3: '#e5a934',
-	4: '#9b5de5',
+const PARTICLE_CSS_VARS: Readonly<Record<TileColor, string>> = {
+	0: '--color-rainbow-1',
+	1: '--color-rainbow-2',
+	2: '--color-rainbow-3',
+	3: '--color-rainbow-4',
+	4: '--color-rainbow-5',
 };
+
+function resolveParticleColor(color: TileColor): string {
+	const styles = getComputedStyle(document.documentElement);
+	return styles.getPropertyValue(PARTICLE_CSS_VARS[color]).trim() || styles.getPropertyValue('--color-accent').trim();
+}
 
 function renderTileShape(color: TileColor, shapeName: string): JSX.Element {
 	return (
@@ -218,7 +223,7 @@ export function CascadeBoard({
 		for (const tile of lastBurst.tiles) {
 			const cx = (tile.col + 0.5) * cellW;
 			const cy = (tile.row + 0.5) * cellH;
-			const color = PARTICLE_COLORS[tile.color];
+			const color = resolveParticleColor(tile.color);
 
 			for (let i = 0; i < particlesPerTile; i += 1) {
 				const angle = (Math.PI * 2 * i) / particlesPerTile + Math.random() * 0.6;

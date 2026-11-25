@@ -1,6 +1,7 @@
 import { styled } from '@linaria/react';
 import { radiusScale } from '../../styles/radius/radius.constants';
 import { space } from '../../styles/spacing';
+import { themeColor } from '../../styles/theme/theme.utils';
 
 export const SwatchRow = styled.span`
 	align-items: center;
@@ -9,7 +10,7 @@ export const SwatchRow = styled.span`
 `;
 
 export const Swatch = styled.span`
-	border: 1px solid var(--color-container-2);
+	border: 1px solid ${themeColor('container-2')};
 	border-radius: ${radiusScale.pill};
 	display: inline-block;
 	flex-shrink: 0;
@@ -17,18 +18,18 @@ export const Swatch = styled.span`
 	width: 1.5rem;
 
 	&[data-type='surface'] {
-		background-color: var(--color-surface);
+		background-color: ${themeColor('surface')};
 	}
 
 	&[data-type='container'] {
-		background-color: var(--color-container-1);
+		background-color: ${themeColor('container-1')};
 	}
 
 	&[data-type='accent'] {
-		background-color: var(--color-accent);
+		background-color: ${themeColor('accent')};
 	}
 
 	&[data-type='accent-secondary'] {
-		background-color: var(--color-accent-secondary);
+		background-color: ${themeColor('accent-secondary')};
 	}
 `;

@@ -62,21 +62,10 @@ export const RegionPath = styled.path`
 		fill: ${themeColor('surface')};
 	}
 
-	&[data-color='0'] {
-		fill: light-dark(oklch(0.66 0.19 28), oklch(0.56 0.19 28));
-	}
-
-	&[data-color='1'] {
-		fill: light-dark(oklch(0.84 0.16 88), oklch(0.76 0.16 88));
-	}
-
-	&[data-color='2'] {
-		fill: light-dark(oklch(0.70 0.15 162), oklch(0.55 0.15 162));
-	}
-
-	&[data-color='3'] {
-		fill: light-dark(oklch(0.55 0.18 255), oklch(0.52 0.18 255));
-	}
+	&[data-color='0'] { fill: ${themeColor('rainbow-1')}; }
+	&[data-color='1'] { fill: ${themeColor('rainbow-4')}; }
+	&[data-color='2'] { fill: ${themeColor('rainbow-3')}; }
+	&[data-color='3'] { fill: ${themeColor('rainbow-2')}; }
 
 	&[data-drop-target='true'] {
 		opacity: 0.78;
@@ -102,7 +91,7 @@ export const ConflictHatchPath = styled.path`
 
 export const InternalBorders = styled.path`
 	fill: none;
-	stroke: light-dark(oklch(0.22 0.02 260), oklch(0.82 0.02 260));
+	stroke: ${themeColor('text-1')};
 	stroke-linecap: square;
 	stroke-linejoin: miter;
 	pointer-events: none;
@@ -114,7 +103,7 @@ export const InternalBorders = styled.path`
 
 export const OuterBorder = styled.rect`
 	fill: none;
-	stroke: light-dark(oklch(0.22 0.02 260), oklch(0.88 0.02 260));
+	stroke: ${themeColor('text-1')};
 	pointer-events: none;
 
 	@media (forced-colors: active) {
@@ -136,20 +125,13 @@ export const ConflictBorder = styled.path`
 export const ShapeSymbol = styled.g`
 	pointer-events: none;
 
-	&[data-color='0'] {
-		fill: light-dark(oklch(0.16 0.04 28), oklch(0.98 0.01 28));
-	}
+	&[data-color='0'] { --sym-color: ${themeColor('rainbow-1')}; }
+	&[data-color='1'] { --sym-color: ${themeColor('rainbow-4')}; }
+	&[data-color='2'] { --sym-color: ${themeColor('rainbow-3')}; }
+	&[data-color='3'] { --sym-color: ${themeColor('rainbow-2')}; }
 
-	&[data-color='1'] {
-		fill: oklch(0.18 0.04 88);
-	}
-
-	&[data-color='2'] {
-		fill: light-dark(oklch(0.14 0.04 162), oklch(0.98 0.01 162));
-	}
-
-	&[data-color='3'] {
-		fill: oklch(0.98 0.01 255);
+	&[data-color] {
+		fill: oklch(from var(--sym-color) clamp(0.12, (0.62 - l) * 100, 0.98) 0.02 h);
 	}
 
 	@media (forced-colors: active) {
@@ -162,20 +144,13 @@ export const LockRing = styled.circle`
 	stroke-dasharray: 0.16 0.12;
 	pointer-events: none;
 
-	&[data-color='0'] {
-		stroke: light-dark(oklch(0.16 0.04 28 / 0.72), oklch(0.98 0.01 28 / 0.75));
-	}
+	&[data-color='0'] { --ring-color: ${themeColor('rainbow-1')}; }
+	&[data-color='1'] { --ring-color: ${themeColor('rainbow-4')}; }
+	&[data-color='2'] { --ring-color: ${themeColor('rainbow-3')}; }
+	&[data-color='3'] { --ring-color: ${themeColor('rainbow-2')}; }
 
-	&[data-color='1'] {
-		stroke: oklch(0.18 0.04 88 / 0.72);
-	}
-
-	&[data-color='2'] {
-		stroke: light-dark(oklch(0.14 0.04 162 / 0.72), oklch(0.98 0.01 162 / 0.75));
-	}
-
-	&[data-color='3'] {
-		stroke: oklch(0.98 0.01 255 / 0.78);
+	&[data-color] {
+		stroke: oklch(from var(--ring-color) clamp(0.12, (0.62 - l) * 100, 0.98) 0.02 h / 0.75);
 	}
 
 	@media (forced-colors: active) {
@@ -184,24 +159,13 @@ export const LockRing = styled.circle`
 `;
 
 export const CandidateDot = styled.circle`
-	stroke: light-dark(oklch(0.2 0.02 260), oklch(0.95 0.01 260));
+	stroke: ${themeColor('text-1')};
 	pointer-events: none;
 
-	&[data-color='0'] {
-		fill: light-dark(oklch(0.66 0.19 28), oklch(0.62 0.19 28));
-	}
-
-	&[data-color='1'] {
-		fill: light-dark(oklch(0.84 0.16 88), oklch(0.78 0.16 88));
-	}
-
-	&[data-color='2'] {
-		fill: light-dark(oklch(0.70 0.15 162), oklch(0.62 0.15 162));
-	}
-
-	&[data-color='3'] {
-		fill: light-dark(oklch(0.55 0.18 255), oklch(0.62 0.18 255));
-	}
+	&[data-color='0'] { fill: ${themeColor('rainbow-1')}; }
+	&[data-color='1'] { fill: ${themeColor('rainbow-4')}; }
+	&[data-color='2'] { fill: ${themeColor('rainbow-3')}; }
+	&[data-color='3'] { fill: ${themeColor('rainbow-2')}; }
 
 	@media (forced-colors: active) {
 		fill: CanvasText;

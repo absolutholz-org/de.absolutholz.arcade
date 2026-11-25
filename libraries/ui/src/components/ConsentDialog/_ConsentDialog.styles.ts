@@ -1,4 +1,5 @@
 import { styled } from '@linaria/react';
+import { themeColor } from '../../styles/theme/theme.utils';
 
 export const DialogBody = styled.div`
 	display: flex;
@@ -11,20 +12,20 @@ export const TierBadgeContainer = styled.div`
 	align-items: center;
 	justify-content: space-between;
 	padding: 0.75rem 1rem;
-	background-color: var(--color-container-1);
-	border: 1px solid var(--color-container-2);
+	background-color: ${themeColor('container-1')};
+	border: 1px solid ${themeColor('container-2')};
 	border-radius: var(--radius-md, 0.5rem);
 	font-size: 0.875rem;
 
 	> span:first-child {
-		color: var(--color-text-2);
+		color: ${themeColor('text-2')};
 		font-weight: 500;
 	}
 `;
 
 export const TierBadge = styled.span`
 	font-weight: 700;
-	color: var(--color-accent);
+	color: ${themeColor('accent')};
 `;
 
 export const PreferenceCard = styled.div`
@@ -32,7 +33,7 @@ export const PreferenceCard = styled.div`
 	flex-direction: column;
 	gap: 0.5rem;
 	padding: 1rem;
-	border: 1px solid var(--color-container-2);
+	border: 1px solid ${themeColor('container-2')};
 	border-radius: var(--radius-md, 0.5rem);
 `;
 
@@ -47,30 +48,30 @@ export const CardTitle = styled.h3`
 	font-size: 0.9375rem;
 	font-weight: 600;
 	margin: 0;
-	color: var(--color-text-1);
+	color: ${themeColor('text-1')};
 `;
 
 export const CardDescription = styled.p`
 	font-size: 0.8125rem;
 	line-height: 1.45;
 	margin: 0;
-	color: var(--color-text-2);
+	color: ${themeColor('text-2')};
 `;
 
 export const CardHint = styled.span`
 	display: block;
 	font-size: 0.75rem;
 	font-weight: 600;
-	color: var(--color-accent);
+	color: ${themeColor('accent')};
 	margin-top: 0.25rem;
 `;
 
 export const WarningBox = styled.div`
 	padding: 1rem;
-	background-color: var(--color-container-1);
-	border: 1px solid var(--color-accent);
+	background-color: ${themeColor('container-1')};
+	border: 1px solid ${themeColor('accent')};
 	border-radius: var(--radius-md, 0.5rem);
-	color: var(--color-text-1);
+	color: ${themeColor('text-1')};
 	font-size: 0.875rem;
 	line-height: 1.45;
 	display: flex;
