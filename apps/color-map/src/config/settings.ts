@@ -4,7 +4,7 @@ import { type ColorMapSettings, DEFAULT_COLOR_MAP_SETTINGS } from '../engine/typ
 export const COLOR_MAP_SETTINGS_CONFIG: GameSettingsConfig<ColorMapSettings> = {
 	gameId: 'color-map',
 	defaults: DEFAULT_COLOR_MAP_SETTINGS,
-	wakeLock: { supported: true, defaultEnabled: true },
+	wakeLock: { supported: true, defaultEnabled: false },
 	fields: [
 		{
 			key: 'highlightConflicts',

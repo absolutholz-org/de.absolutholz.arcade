@@ -12,7 +12,7 @@ export const DEFAULT_ANAGRAM_SETTINGS: AnagramSettings = {
 export const ANAGRAM_SETTINGS_CONFIG: GameSettingsConfig<AnagramSettings> = {
 	gameId: 'anagram',
 	defaults: DEFAULT_ANAGRAM_SETTINGS,
-	wakeLock: { supported: true, defaultEnabled: true },
+	wakeLock: { supported: true, defaultEnabled: false },
 	fields: [
 		{
 			key: 'vocabLanguage',

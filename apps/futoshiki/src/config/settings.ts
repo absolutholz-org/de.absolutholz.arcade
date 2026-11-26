@@ -4,7 +4,7 @@ import { DEFAULT_FUTOSHIKI_SETTINGS, type FutoshikiSettings } from '../engine/ty
 export const FUTOSHIKI_SETTINGS_CONFIG: GameSettingsConfig<FutoshikiSettings> = {
 	gameId: 'futoshiki',
 	defaults: DEFAULT_FUTOSHIKI_SETTINGS,
-	wakeLock: { supported: true, defaultEnabled: true },
+	wakeLock: { supported: true, defaultEnabled: false },
 	fields: [
 		{
 			key: 'highlightPeerCells',

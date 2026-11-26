@@ -15,7 +15,7 @@ export const DEFAULT_MINESWEEPER_SETTINGS: MinesweeperSettings = {
 export const MINESWEEPER_SETTINGS_CONFIG: GameSettingsConfig<MinesweeperSettings> = {
 	gameId: 'minesweeper',
 	defaults: DEFAULT_MINESWEEPER_SETTINGS,
-	wakeLock: { supported: true, defaultEnabled: true },
+	wakeLock: { supported: true, defaultEnabled: false },
 	fields: [
 		{
 			key: 'firstClickSafe',

@@ -15,6 +15,7 @@ import { GameSettingsDialog } from '@arcade/lib-ui/components/GameSettingsDialog
 import { GameSettingsPanel } from '@arcade/lib-ui/components/GameSettingsPanel';
 import { GameStatusStrip } from '@arcade/lib-ui/components/GameStatusStrip';
 import { PauseDialog } from '@arcade/lib-ui/components/PauseDialog';
+import { useGameWakeLock } from '@arcade/lib-ui/hooks/useGameWakeLock';
 import { GameLayout } from '@arcade/lib-ui/layouts/GameLayout';
 import { styled } from '@linaria/react';
 import { type JSX, type ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -113,6 +114,7 @@ function GameContent({
 	const [isRulesOpen, setIsRulesOpen] = useState(false);
 	const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 	const [isPaused, setIsPaused] = useState(false);
+	const wakeLock = useGameWakeLock(DICE_BINGO_SETTINGS_CONFIG, !isPaused && !snapshot.isComplete, settings);
 	const [isVictoryOpen, setIsVictoryOpen] = useState(false);
 	const [isNewBestScore, setIsNewBestScore] = useState(false);
 	const [completedPlayTime, setCompletedPlayTime] = useState<number>(0);
@@ -474,6 +476,7 @@ function GameContent({
 						void saveSettings(newSettings as DiceBingoSettings);
 					}}
 					mode="compact"
+					wakeLockActive={wakeLock.isActive}
 				/>
 			</GameSettingsDialog>
 

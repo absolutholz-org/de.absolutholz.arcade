@@ -15,7 +15,7 @@ export const DEFAULT_DICE_BINGO_SETTINGS: DiceBingoSettings = {
 export const DICE_BINGO_SETTINGS_CONFIG: GameSettingsConfig<DiceBingoSettings> = {
 	gameId: 'dice-bingo',
 	defaults: DEFAULT_DICE_BINGO_SETTINGS,
-	wakeLock: { supported: false, defaultEnabled: false },
+	wakeLock: { supported: true, defaultEnabled: false },
 	fields: [
 		{
 			key: 'confirmRestart',

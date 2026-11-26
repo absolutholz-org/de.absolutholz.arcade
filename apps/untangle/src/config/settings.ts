@@ -7,7 +7,7 @@ export { DEFAULT_UNTANGLE_SETTINGS };
 export const UNTANGLE_SETTINGS_CONFIG: GameSettingsConfig<UntangleSettings> = {
 	gameId: 'untangle',
 	defaults: DEFAULT_UNTANGLE_SETTINGS,
-	wakeLock: { supported: true, defaultEnabled: true },
+	wakeLock: { supported: true, defaultEnabled: false },
 	fields: [
 		{
 			key: 'casualMode',

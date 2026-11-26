@@ -13,7 +13,7 @@ export const DEFAULT_LIQUID_SORT_SETTINGS: LiquidSortSettings = {
 export const LIQUID_SORT_SETTINGS_CONFIG: GameSettingsConfig<LiquidSortSettings> = {
 	gameId: 'liquid-sort',
 	defaults: DEFAULT_LIQUID_SORT_SETTINGS,
-	wakeLock: { supported: false, defaultEnabled: false },
+	wakeLock: { supported: true, defaultEnabled: false },
 	fields: [
 		{
 			key: 'colorblindPatterns',

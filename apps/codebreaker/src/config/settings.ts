@@ -4,7 +4,7 @@ import { type CodebreakerSettings, DEFAULT_CODEBREAKER_SETTINGS } from '../engin
 export const CODEBREAKER_SETTINGS_CONFIG: GameSettingsConfig<CodebreakerSettings> = {
 	gameId: 'codebreaker',
 	defaults: DEFAULT_CODEBREAKER_SETTINGS,
-	wakeLock: { supported: true, defaultEnabled: true },
+	wakeLock: { supported: true, defaultEnabled: false },
 	fields: [
 		{
 			key: 'showColorShapes',

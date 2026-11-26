@@ -11,7 +11,7 @@ export const DEFAULT_NONOGRAM_SETTINGS: NonogramSettings = {
 export const NONOGRAM_SETTINGS_CONFIG: GameSettingsConfig<NonogramSettings> = {
 	gameId: 'nonogram',
 	defaults: DEFAULT_NONOGRAM_SETTINGS,
-	wakeLock: { supported: true, defaultEnabled: true },
+	wakeLock: { supported: true, defaultEnabled: false },
 	fields: [
 		{
 			key: 'autoCross',

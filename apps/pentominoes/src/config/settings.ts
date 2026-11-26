@@ -17,7 +17,7 @@ export const DEFAULT_PENTOMINOES_SETTINGS: PentominoesSettings = {
 export const PENTOMINOES_SETTINGS_CONFIG: GameSettingsConfig<PentominoesSettings> = {
 	gameId: 'pentominoes',
 	defaults: DEFAULT_PENTOMINOES_SETTINGS,
-	wakeLock: { supported: true, defaultEnabled: true },
+	wakeLock: { supported: true, defaultEnabled: false },
 	fields: [
 		{
 			key: 'showPieceLabels',

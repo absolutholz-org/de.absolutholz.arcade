@@ -4,7 +4,7 @@ import { DEFAULT_UNDEAD_SETTINGS, type UndeadSettings } from '../engine/types';
 export const UNDEAD_SETTINGS_CONFIG: GameSettingsConfig<UndeadSettings> = {
 	gameId: 'undead',
 	defaults: DEFAULT_UNDEAD_SETTINGS,
-	wakeLock: { supported: true, defaultEnabled: true },
+	wakeLock: { supported: true, defaultEnabled: false },
 	fields: [
 		{
 			key: 'highlightErrors',

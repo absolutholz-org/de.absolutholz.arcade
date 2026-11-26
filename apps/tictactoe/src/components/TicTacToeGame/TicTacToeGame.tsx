@@ -31,6 +31,7 @@ import { TextField } from '@arcade/lib-ui/components/TextField';
 import { TurnDialog } from '@arcade/lib-ui/components/TurnDialog';
 import { DefeatDialog, VictoryDialog } from '@arcade/lib-ui/components/VictoryDialog';
 import { VisuallyHidden } from '@arcade/lib-ui/components/VisuallyHidden';
+import { useGameWakeLock } from '@arcade/lib-ui/hooks/useGameWakeLock';
 import { GameLayout } from '@arcade/lib-ui/layouts/GameLayout';
 import {
 	type ChangeEvent,
@@ -222,6 +223,7 @@ function GameInner({
 
 	const [focusedIndex, setFocusedIndex] = useState<number>(4);
 	const [settings, setSettings] = useState<TicTacToeSettings>(DEFAULT_TICTACTOE_SETTINGS);
+	const wakeLock = useGameWakeLock(TICTACTOE_SETTINGS_CONFIG, !activeState.isComplete, settings);
 
 	const [isRulesOpen, setIsRulesOpen] = useState(false);
 	const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -784,6 +786,7 @@ function GameInner({
 						setSettings(newSettings as TicTacToeSettings);
 						void saveSettings(newSettings as TicTacToeSettings);
 					}}
+					wakeLockActive={wakeLock.isActive}
 				/>
 			</GameSettingsDialog>
 

@@ -11,6 +11,7 @@ import { GameSettingsDialog } from '@arcade/lib-ui/components/GameSettingsDialog
 import { GameSettingsPanel } from '@arcade/lib-ui/components/GameSettingsPanel';
 import { GameStatusStrip } from '@arcade/lib-ui/components/GameStatusStrip';
 import { PauseDialog } from '@arcade/lib-ui/components/PauseDialog';
+import { useGameWakeLock } from '@arcade/lib-ui/hooks/useGameWakeLock';
 import { GameLayout } from '@arcade/lib-ui/layouts/GameLayout';
 import { styled } from '@linaria/react';
 import { type JSX, type ReactNode, useCallback, useEffect, useRef, useState } from 'react';
@@ -84,6 +85,11 @@ function ColorFloodGameInner({
 	const [settings, setSettings] = useState<ColorFloodSettings>(DEFAULT_COLOR_FLOOD_SETTINGS);
 	const [elapsedSeconds, setElapsedSeconds] = useState(0);
 	const [isPaused, setIsPaused] = useState(false);
+	const wakeLock = useGameWakeLock(
+		COLOR_FLOOD_SETTINGS_CONFIG,
+		!isPaused && !boardState.isWon && !boardState.isLost,
+		settings,
+	);
 	const [isRulesOpen, setIsRulesOpen] = useState(false);
 	const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 	const [isGameOverOpen, setIsGameOverOpen] = useState(false);
@@ -433,6 +439,7 @@ function ColorFloodGameInner({
 					lang={activeLang}
 					onSettingsChange={handleSettingChange}
 					mode="compact"
+					wakeLockActive={wakeLock.isActive}
 				/>
 			</GameSettingsDialog>
 		</GameLayout>
