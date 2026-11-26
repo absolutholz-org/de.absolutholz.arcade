@@ -19,7 +19,7 @@ This skill defines **project-specific** accessibility constraints beyond baselin
 - Components in `@arcade/lib-ui` and game canvases must remain operable and clearly bounded in Windows High Contrast / Forced Colors Mode.
 - Provide explicit `@media (forced-colors: active)` rules using CSS system color keywords (`buttonborder`, `highlight`, `mark`, `canvas`, `canvastext`) for borders, focus outlines, and invalid/selected states where background-only styling would be stripped.
 
-## 3. OKLCH `light-dark()` Tokens & Non-Color Game Cues
+## 3. Contrast Ratios & Non-Color Game Cues
 
-- Author theme colors using OKLCH CSS custom properties and `light-dark()` tokens (never raw hex codes) maintaining `>= 4.5:1` text contrast and `>= 3:1` UI/graphical contrast.
+- Theme tokens authored in `themeset-*.css.ts` (consumed via `themeColor()` per [`linaria-styling`](/.ai/skills/linaria-styling/SKILL.md#3-theme-variables--color-token-consumption)) must maintain `>= 4.5:1` text contrast and `>= 3:1` UI/graphical contrast across light and dark schemes.
 - Puzzle and game states (e.g., color-sorting layers, intersecting graph edges, energized wires, region boundaries) must never rely on color alone—pair color with distinct geometric symbols, SVG patterns, letter badges, or `stroke-dasharray` styles.

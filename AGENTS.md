@@ -3,6 +3,7 @@
 ## 1. Non-Negotiable Global Invariants
 
 - **Stack:** `pnpm` workspaces (never manually edit `node_modules/`), `Biome` (never ESLint/Prettier), `Linaria` with `rem` units and static `data-*` selectors (never Tailwind, inline `style={{}}`, or `${({ $prop }) => ...}`), `Astro` (SSG) + `React` (`client:only="react"` for games).
+- **Colors & Theming:** Never introduce raw colors; consume theme tokens strictly via `themeColor()` and derive variants in OKLCH CSS (see [`linaria-styling`](/.ai/skills/linaria-styling/SKILL.md#3-theme-variables--color-token-consumption)).
 - **Validation & Builds:** Never run `pnpm build` / `pnpm -r build` during dev. Validate with package-scoped `pnpm --filter <pkg> typecheck`, `pnpm biome check <path>`, and targeted test files (`--reporter=dot`).
 - **Git Safety:** Local commits only (never `git push`). Never use `--no-verify`. Never auto-commit without explicit user approval in the active prompt.
 - **DRY, Minimal Exports & Native Web (`browserslist` SSOT):** Audit shared `libraries/*` before writing utilities (propose new abstractions to the user first). Export only symbols imported elsewhere. Treat [`.browserslistrc`](/.browserslistrc) as the single source of truth for feature support: prefer native HTML, CSS, and Web APIs supported by those targets (`Popover`, `<dialog>`, `light-dark()`, `oklch()`) over third-party libraries or polyfills.
