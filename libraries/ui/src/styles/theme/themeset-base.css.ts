@@ -3,21 +3,21 @@ import { themesetToCssProperties, themesetToCssString } from './theme.utils.js';
 
 /**
  * 12-color accessible rainbow palette ordered by perceptual separation (4 -> 6 -> 8 -> 12).
- * All values are sRGB-gamut-safe OKLCH coordinates with >= 4.5:1 contrast against surface/container-1.
+ * All values are sRGB-gamut-safe OKLCH coordinates tuned for vibrant graphical gameplay elements.
  */
 const rainbowBase: Partial<Theme> = {
-	'rainbow-1': 'light-dark(oklch(0.52 0.21 25), oklch(0.7 0.19 25))',
-	'rainbow-2': 'light-dark(oklch(0.5 0.16 255), oklch(0.72 0.14 255))',
-	'rainbow-3': 'light-dark(oklch(0.5 0.14 148), oklch(0.74 0.17 148))',
-	'rainbow-4': 'light-dark(oklch(0.52 0.1 85), oklch(0.78 0.15 85))',
-	'rainbow-5': 'light-dark(oklch(0.5 0.2 300), oklch(0.72 0.17 300))',
-	'rainbow-6': 'light-dark(oklch(0.49 0.08 195), oklch(0.75 0.12 195))',
-	'rainbow-7': 'light-dark(oklch(0.52 0.13 52), oklch(0.74 0.17 52))',
-	'rainbow-8': 'light-dark(oklch(0.51 0.2 345), oklch(0.73 0.2 345))',
-	'rainbow-9': 'light-dark(oklch(0.5 0.12 122), oklch(0.77 0.15 122))',
-	'rainbow-10': 'light-dark(oklch(0.48 0.2 275), oklch(0.7 0.15 275))',
-	'rainbow-11': 'light-dark(oklch(0.5 0.2 5), oklch(0.71 0.19 5))',
-	'rainbow-12': 'light-dark(oklch(0.49 0.09 225), oklch(0.74 0.14 225))',
+	'rainbow-1': 'light-dark(oklch(0.6 0.22 25), oklch(0.7 0.19 25))',
+	'rainbow-2': 'light-dark(oklch(0.6 0.19 255), oklch(0.72 0.14 255))',
+	'rainbow-3': 'light-dark(oklch(0.6 0.19 156), oklch(0.67 0.17 156))',
+	'rainbow-4': 'light-dark(oklch(0.8 0.17 85), oklch(0.78 0.15 85))',
+	'rainbow-5': 'light-dark(oklch(0.64 0.22 314), oklch(0.76 0.19 314))',
+	'rainbow-6': 'light-dark(oklch(0.68 0.14 195), oklch(0.75 0.12 195))',
+	'rainbow-7': 'light-dark(oklch(0.7 0.19 52), oklch(0.74 0.17 52))',
+	'rainbow-8': 'light-dark(oklch(0.64 0.22 345), oklch(0.73 0.2 345))',
+	'rainbow-9': 'light-dark(oklch(0.76 0.19 118), oklch(0.83 0.16 118))',
+	'rainbow-10': 'light-dark(oklch(0.48 0.22 268), oklch(0.6 0.19 268))',
+	'rainbow-11': 'light-dark(oklch(0.6 0.22 5), oklch(0.71 0.19 5))',
+	'rainbow-12': 'light-dark(oklch(0.66 0.16 225), oklch(0.74 0.14 225))',
 };
 
 /**
@@ -27,14 +27,14 @@ const rainbowBase: Partial<Theme> = {
 const rainbowContrast: Partial<Theme> = {
 	'rainbow-1': 'light-dark(oklch(0.7 0.19 25), oklch(0.7 0.19 25))',
 	'rainbow-2': 'light-dark(oklch(0.72 0.14 255), oklch(0.72 0.14 255))',
-	'rainbow-3': 'light-dark(oklch(0.74 0.17 148), oklch(0.74 0.17 148))',
+	'rainbow-3': 'light-dark(oklch(0.67 0.17 156), oklch(0.67 0.17 156))',
 	'rainbow-4': 'light-dark(oklch(0.78 0.15 85), oklch(0.78 0.15 85))',
-	'rainbow-5': 'light-dark(oklch(0.72 0.17 300), oklch(0.72 0.17 300))',
+	'rainbow-5': 'light-dark(oklch(0.76 0.19 314), oklch(0.76 0.19 314))',
 	'rainbow-6': 'light-dark(oklch(0.75 0.12 195), oklch(0.75 0.12 195))',
 	'rainbow-7': 'light-dark(oklch(0.74 0.17 52), oklch(0.74 0.17 52))',
 	'rainbow-8': 'light-dark(oklch(0.73 0.2 345), oklch(0.73 0.2 345))',
-	'rainbow-9': 'light-dark(oklch(0.77 0.15 122), oklch(0.77 0.15 122))',
-	'rainbow-10': 'light-dark(oklch(0.7 0.15 275), oklch(0.7 0.15 275))',
+	'rainbow-9': 'light-dark(oklch(0.83 0.16 118), oklch(0.83 0.16 118))',
+	'rainbow-10': 'light-dark(oklch(0.6 0.19 268), oklch(0.6 0.19 268))',
 	'rainbow-11': 'light-dark(oklch(0.71 0.19 5), oklch(0.71 0.19 5))',
 	'rainbow-12': 'light-dark(oklch(0.74 0.14 225), oklch(0.74 0.14 225))',
 };
