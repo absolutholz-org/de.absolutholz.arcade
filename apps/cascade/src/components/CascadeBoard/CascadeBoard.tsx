@@ -23,6 +23,7 @@ export interface CascadeBoardProps {
 	readonly orphanTiles: readonly CellCoord[];
 	readonly previewPoints: number;
 	readonly showTileSymbols: boolean;
+	readonly showTileShapes: boolean;
 	readonly showHoverPreview: boolean;
 	readonly isPaused: boolean;
 	readonly isGameOver: boolean;
@@ -50,7 +51,29 @@ function resolveParticleColor(color: TileColor): string {
 	return styles.getPropertyValue(PARTICLE_CSS_VARS[color]).trim() || styles.getPropertyValue('--color-accent').trim();
 }
 
-function renderTileShape(color: TileColor, shapeName: string): JSX.Element {
+function renderTileGeometry(color: TileColor): JSX.Element {
+	switch (color) {
+		case 0:
+			return <circle cx="12" cy="12" r="10.5" />;
+		case 1:
+			return <path d="M10.6 2.2a1.6 1.6 0 0 1 2.8 0l9 16.5A1.6 1.6 0 0 1 21 21H3a1.6 1.6 0 0 1-1.4-2.3Z" />;
+		case 2:
+			return <rect x="1.5" y="1.5" width="21" height="21" rx="4.5" />;
+		case 3:
+			return (
+				<path d="M10.8 1.5a1.7 1.7 0 0 1 2.4 0l9.3 9.3a1.7 1.7 0 0 1 0 2.4l-9.3 9.3a1.7 1.7 0 0 1-2.4 0L1.5 13.2a1.7 1.7 0 0 1 0-2.4Z" />
+			);
+		case 4:
+			return (
+				<path
+					d="M12 1.2l3.2 6.6 7.3 1-5.3 5.1 1.3 7.2L12 17.6l-6.5 3.5 1.3-7.2L1.5 8.8l7.3-1Z"
+					strokeLinejoin="round"
+				/>
+			);
+	}
+}
+
+function renderTileSymbol(color: TileColor, shapeName: string): JSX.Element {
 	return (
 		<S.TileSymbol viewBox="0 0 24 24" aria-hidden="true">
 			<title>{shapeName}</title>
@@ -62,6 +85,15 @@ function renderTileShape(color: TileColor, shapeName: string): JSX.Element {
 				<polygon points="12,3.5 14.5,9 20.5,9.5 16,13.5 17.5,19.5 12,16.2 6.5,19.5 8,13.5 3.5,9.5 9.5,9" />
 			)}
 		</S.TileSymbol>
+	);
+}
+
+function renderTileShapeSilhouette(color: TileColor, shapeName: string): JSX.Element {
+	return (
+		<S.TileShapeSvg viewBox="0 0 24 24" aria-hidden="true">
+			<title>{shapeName}</title>
+			{renderTileGeometry(color)}
+		</S.TileShapeSvg>
 	);
 }
 
@@ -84,6 +116,7 @@ export function CascadeBoard({
 	orphanTiles,
 	previewPoints,
 	showTileSymbols,
+	showTileShapes,
 	showHoverPreview,
 	isPaused,
 	isGameOver,
@@ -391,6 +424,7 @@ export function CascadeBoard({
 										tabIndex={isFocused ? 0 : -1}
 										data-empty={tile ? 'false' : 'true'}
 										data-color={tile ? String(tile.color) : undefined}
+										data-tile-style={tile && showTileShapes ? 'shapes' : undefined}
 										data-selected={isSelected ? 'true' : 'false'}
 										data-hovered={isHovered ? 'true' : 'false'}
 										data-orphan={isOrphan ? 'true' : 'false'}
@@ -411,7 +445,8 @@ export function CascadeBoard({
 										}}
 										onKeyDown={(e) => handleKeyDown(e, r, c)}
 									>
-										{tile && showTileSymbols && renderTileShape(tile.color, shapeName)}
+										{tile && showTileShapes && renderTileShapeSilhouette(tile.color, shapeName)}
+										{tile && showTileSymbols && renderTileSymbol(tile.color, shapeName)}
 									</S.CellButton>
 								);
 							})}

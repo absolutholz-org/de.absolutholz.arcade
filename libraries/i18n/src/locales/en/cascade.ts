@@ -50,9 +50,12 @@ export const enCascade = {
 	settings: {
 		title: 'Settings',
 		showTileSymbols: {
-			label: 'Tile Geometric Symbols',
-			description:
-				'Display distinct inner shapes (Circle, Triangle, Square, Diamond, Star) on tiles for colorblind accessibility.',
+			label: 'Tile Symbols',
+			description: 'Show distinct geometric symbols inside tiles for colorblind accessibility.',
+		},
+		showTileShapes: {
+			label: 'Unique Tile Shapes',
+			description: 'Give each color its own outer shape (Circle, Triangle, Square, Diamond, Star).',
 		},
 		showHoverPreview: {
 			label: 'Hover Cluster Preview',

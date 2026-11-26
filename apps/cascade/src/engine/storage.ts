@@ -38,8 +38,30 @@ export async function clearActiveGame(): Promise<void> {
 
 export async function loadSettings(): Promise<CascadeSettings> {
 	try {
-		const saved = await storage.get<CascadeSettings>(SETTINGS_KEY);
-		return saved ? { ...DEFAULT_CASCADE_SETTINGS, ...saved } : DEFAULT_CASCADE_SETTINGS;
+		const saved = await storage.get<Partial<CascadeSettings> & { tileStyle?: 'classic' | 'symbols' | 'shapes' }>(
+			SETTINGS_KEY,
+		);
+		if (!saved) return DEFAULT_CASCADE_SETTINGS;
+		let showTileSymbols = DEFAULT_CASCADE_SETTINGS.showTileSymbols;
+		let showTileShapes = DEFAULT_CASCADE_SETTINGS.showTileShapes;
+		if (typeof saved.showTileSymbols === 'boolean') {
+			showTileSymbols = saved.showTileSymbols;
+		} else if (saved.tileStyle) {
+			showTileSymbols = saved.tileStyle === 'symbols';
+		}
+		if (typeof saved.showTileShapes === 'boolean') {
+			showTileShapes = saved.showTileShapes;
+		} else if (saved.tileStyle) {
+			showTileShapes = saved.tileStyle === 'shapes';
+		}
+		return {
+			showTileSymbols,
+			showTileShapes,
+			showHoverPreview:
+				typeof saved.showHoverPreview === 'boolean'
+					? saved.showHoverPreview
+					: DEFAULT_CASCADE_SETTINGS.showHoverPreview,
+		};
 	} catch {
 		return DEFAULT_CASCADE_SETTINGS;
 	}

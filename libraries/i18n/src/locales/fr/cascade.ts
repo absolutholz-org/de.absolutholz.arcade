@@ -50,9 +50,13 @@ export const frCascade = {
 	settings: {
 		title: 'Paramètres',
 		showTileSymbols: {
-			label: 'Symboles géométriques',
+			label: 'Symboles des tuiles',
+			description: 'Affiche des symboles géométriques distincts à l’intérieur des tuiles pour l’accessibilité.',
+		},
+		showTileShapes: {
+			label: 'Formes de tuiles uniques',
 			description:
-				'Affiche des formes distinctes (Cercle, Triangle, Carré, Losange, Étoile) sur les tuiles pour les daltoniens.',
+				'Donne à chaque couleur sa propre forme extérieure (Cercle, Triangle, Carré, Losange, Étoile).',
 		},
 		showHoverPreview: {
 			label: 'Aperçu au survol',

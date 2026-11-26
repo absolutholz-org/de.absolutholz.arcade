@@ -57,6 +57,7 @@ export const FieldList = styled.fieldset`
 	flex-direction: column;
 	gap: 1rem;
 	width: 100%;
+	min-width: 0;
 	border: none;
 	padding: 0;
 	margin: 0;

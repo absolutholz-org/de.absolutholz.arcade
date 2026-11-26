@@ -17,6 +17,16 @@ export const CASCADE_SETTINGS_CONFIG: GameSettingsConfig<CascadeSettings> = {
 			},
 		},
 		{
+			key: 'showTileShapes',
+			control: 'boolean',
+			defaultValue: false,
+			availableInGame: true,
+			i18n: {
+				labelKey: 'cascade.settings.showTileShapes.label',
+				descriptionKey: 'cascade.settings.showTileShapes.description',
+			},
+		},
+		{
 			key: 'showHoverPreview',
 			control: 'boolean',
 			defaultValue: false,

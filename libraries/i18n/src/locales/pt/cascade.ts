@@ -50,9 +50,12 @@ export const ptCascade = {
 	settings: {
 		title: 'Configurações',
 		showTileSymbols: {
-			label: 'Símbolos geométricos',
-			description:
-				'Exibe formas distintas (Círculo, Triângulo, Quadrado, Losango, Estrela) nas peças para acessibilidade.',
+			label: 'Símbolos das peças',
+			description: 'Exibe símbolos geométricos distintos dentro das peças para acessibilidade.',
+		},
+		showTileShapes: {
+			label: 'Formas únicas de peças',
+			description: 'Dá a cada cor sua própria forma externa (Círculo, Triângulo, Quadrado, Losango, Estrela).',
 		},
 		showHoverPreview: {
 			label: 'Prévia ao passar o cursor',

@@ -153,6 +153,7 @@ function CascadeGameInner({
 					orphanTiles={game.orphanTiles}
 					previewPoints={game.previewPoints}
 					showTileSymbols={game.settings.showTileSymbols}
+					showTileShapes={game.settings.showTileShapes}
 					showHoverPreview={game.settings.showHoverPreview}
 					isPaused={game.isPaused}
 					isGameOver={game.isGameOver}

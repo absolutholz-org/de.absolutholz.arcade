@@ -53,6 +53,10 @@ export const cascadeSchema = {
 			label: 'settings.showTileSymbols.label',
 			description: 'settings.showTileSymbols.description',
 		},
+		showTileShapes: {
+			label: 'settings.showTileShapes.label',
+			description: 'settings.showTileShapes.description',
+		},
 		showHoverPreview: {
 			label: 'settings.showHoverPreview.label',
 			description: 'settings.showHoverPreview.description',

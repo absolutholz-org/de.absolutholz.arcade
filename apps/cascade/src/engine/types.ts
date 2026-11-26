@@ -79,10 +79,12 @@ export interface GameSnapshot {
 
 export interface CascadeSettings extends Record<string, unknown> {
 	showTileSymbols: boolean;
+	showTileShapes: boolean;
 	showHoverPreview: boolean;
 }
 
 export const DEFAULT_CASCADE_SETTINGS: CascadeSettings = {
 	showTileSymbols: true,
+	showTileShapes: false,
 	showHoverPreview: false,
 };

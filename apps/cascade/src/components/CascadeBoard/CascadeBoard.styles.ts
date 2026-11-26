@@ -252,6 +252,51 @@ export const CellButton = styled.button`
 		}
 	}
 
+	&[data-tile-style='shapes'][data-empty='false'] {
+		background-color: transparent;
+		border-color: transparent;
+		box-shadow: none;
+		--tile-shape-fill: transparent;
+		--tile-shape-stroke: transparent;
+
+		&[data-color='0'] {
+			--tile-shape-fill: var(--cascade-tile-0);
+			--tile-shape-stroke: var(--cascade-tile-0-border);
+		}
+		&[data-color='1'] {
+			--tile-shape-fill: var(--cascade-tile-1);
+			--tile-shape-stroke: var(--cascade-tile-1-border);
+		}
+		&[data-color='2'] {
+			--tile-shape-fill: var(--cascade-tile-2);
+			--tile-shape-stroke: var(--cascade-tile-2-border);
+		}
+		&[data-color='3'] {
+			--tile-shape-fill: var(--cascade-tile-3);
+			--tile-shape-stroke: var(--cascade-tile-3-border);
+		}
+		&[data-color='4'] {
+			--tile-shape-fill: var(--cascade-tile-4);
+			--tile-shape-stroke: var(--cascade-tile-4-border);
+		}
+
+		&[data-hovered='true'] {
+			box-shadow: none;
+			filter: brightness(1.1) drop-shadow(0 0 2px oklch(100% 0 0 / 0.75));
+		}
+
+		&[data-selected='true'] {
+			box-shadow:
+				0 0 0 2px ${themeColor('surface')},
+				0 0 0 4px ${themeColor('text-1')};
+		}
+
+		&[data-orphan='true'] {
+			border-color: transparent;
+			box-shadow: none;
+		}
+	}
+
 	@media (prefers-reduced-motion: reduce) {
 		transition: none;
 		&[data-orphan='true'] {
@@ -265,17 +310,30 @@ export const CellButton = styled.button`
 			background-color: ButtonFace;
 			color: ButtonText;
 		}
+		&[data-tile-style='shapes'][data-empty='false'] {
+			border: none;
+			background-color: transparent;
+		}
 		&[data-selected='true'] {
 			border: 3px solid Highlight;
+			outline: 2px solid Highlight;
+		}
+		&[data-tile-style='shapes'][data-selected='true'] {
+			border: none;
 			outline: 2px solid Highlight;
 		}
 		&[data-orphan='true'] {
 			border: 2px dashed Mark;
 		}
+		&[data-tile-style='shapes'][data-orphan='true'] {
+			border: none;
+		}
 	}
 `;
 
 export const TileSymbol = styled.svg`
+	position: relative;
+	z-index: 1;
 	width: 56%;
 	height: 56%;
 	pointer-events: none;
@@ -283,9 +341,49 @@ export const TileSymbol = styled.svg`
 	stroke: oklch(0% 0 0 / 0.24);
 	stroke-width: 1.5;
 
+	[data-tile-style='shapes'] & {
+		width: 44%;
+		height: 44%;
+	}
+
 	@media (forced-colors: active) {
 		fill: ButtonText;
 		stroke: none;
+	}
+`;
+
+export const TileShapeSvg = styled.svg`
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+	fill: var(--tile-shape-fill);
+	stroke: var(--tile-shape-stroke);
+	stroke-width: 1.5;
+	filter: drop-shadow(0 1px 0 oklch(0% 0 0 / 0.22));
+
+	[data-orphan='true'] & {
+		stroke: ${themeColor('text-1')};
+		stroke-dasharray: 3 2;
+		stroke-width: 1.75;
+	}
+
+	@media (forced-colors: active) {
+		fill: ButtonFace;
+		stroke: ButtonText;
+		stroke-width: 2;
+		filter: none;
+
+		[data-selected='true'] & {
+			stroke: Highlight;
+			stroke-width: 2.5;
+		}
+
+		[data-orphan='true'] & {
+			stroke: Mark;
+			stroke-dasharray: 3 2;
+		}
 	}
 `;
 

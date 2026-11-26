@@ -50,9 +50,12 @@ export const deCascade = {
 	settings: {
 		title: 'Einstellungen',
 		showTileSymbols: {
-			label: 'Geometrische Steinsymbole',
-			description:
-				'Zeigt eindeutige Formen (Kreis, Dreieck, Quadrat, Raute, Stern) auf den Steinen für farbenblinde Spieler.',
+			label: 'Steinsymbole',
+			description: 'Zeigt eindeutige geometrische Symbole auf den Steinen für bessere Erkennbarkeit.',
+		},
+		showTileShapes: {
+			label: 'Eindeutige Steinformen',
+			description: 'Gibt jeder Farbe eine eigene äußere Form (Kreis, Dreieck, Quadrat, Raute, Stern).',
 		},
 		showHoverPreview: {
 			label: 'Gruppenvorschau beim Zeigen',
