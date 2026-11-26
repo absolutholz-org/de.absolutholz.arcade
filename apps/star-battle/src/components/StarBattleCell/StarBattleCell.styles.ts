@@ -57,74 +57,45 @@ export const CellButton = styled.button`
 		border-right-color: ${themeColor('text-1')};
 	}
 
-	/* Pattern background fade layer with smooth radial edge vignette */
-	&::before {
-		content: '';
+	/* Region palette: subtle alpha over surface so all 12 hues stay true while X marks and Stars pop */
+	&[data-region] {
+		background-color: oklch(from var(--region-color, ${themeColor('surface')}) l c h / 0.26);
+	}
+	&[data-region='0'] { --region-color: ${themeColor('rainbow-1')}; }
+	&[data-region='1'] { --region-color: ${themeColor('rainbow-2')}; }
+	&[data-region='2'] { --region-color: ${themeColor('rainbow-3')}; }
+	&[data-region='3'] { --region-color: ${themeColor('rainbow-4')}; }
+	&[data-region='4'] { --region-color: ${themeColor('rainbow-5')}; }
+	&[data-region='5'] { --region-color: ${themeColor('rainbow-6')}; }
+	&[data-region='6'] { --region-color: ${themeColor('rainbow-7')}; }
+	&[data-region='7'] { --region-color: ${themeColor('rainbow-8')}; }
+	&[data-region='8'] { --region-color: ${themeColor('rainbow-9')}; }
+	&[data-region='9'] { --region-color: ${themeColor('rainbow-10')}; }
+	&[data-region='10'] { --region-color: ${themeColor('rainbow-11')}; }
+	&[data-region='11'] { --region-color: ${themeColor('rainbow-12')}; }
+
+	& svg[data-pattern='true'] {
 		position: absolute;
 		inset: 0;
-		background-image: var(--cell-pattern, none);
-		-webkit-mask-image: radial-gradient(circle at center, black 28%, rgba(0, 0, 0, 0.45) 62%, transparent 90%);
-		mask-image: radial-gradient(circle at center, black 28%, rgba(0, 0, 0, 0.45) 62%, transparent 90%);
+		width: 100%;
+		height: 100%;
+		color: ${themeColor('text-1')};
+		opacity: 0.24;
 		pointer-events: none;
 		z-index: 0;
-		opacity: 0.9;
 	}
 
-	/* Region palette using accessible rainbow tints + high-contrast overlay pattern */
-	&[data-region] {
-		background-color: color-mix(in oklch, var(--region-color) 14%, ${themeColor('surface')});
+	/* Dim optional region pattern under X marks and hide it behind Stars so placed tokens stay crisp */
+	&[data-state='mark'] svg[data-pattern='true'] {
+		opacity: 0.12;
 	}
-	&[data-region='0'] {
-		--region-color: ${themeColor('rainbow-1')};
-		--cell-pattern: var(--pattern-diagonal-forward);
-	}
-	&[data-region='1'] {
-		--region-color: ${themeColor('rainbow-7')};
-		--cell-pattern: var(--pattern-diagonal-reverse);
-	}
-	&[data-region='2'] {
-		--region-color: ${themeColor('rainbow-4')};
-		--cell-pattern: var(--pattern-horizontal-stripes);
-	}
-	&[data-region='3'] {
-		--region-color: ${themeColor('rainbow-3')};
-		--cell-pattern: var(--pattern-vertical-stripes);
-	}
-	&[data-region='4'] {
-		--region-color: ${themeColor('rainbow-6')};
-		--cell-pattern: var(--pattern-cross-hatch);
-	}
-	&[data-region='5'] {
-		--region-color: ${themeColor('rainbow-12')};
-		--cell-pattern: var(--pattern-fine-dots);
-	}
-	&[data-region='6'] {
-		--region-color: ${themeColor('rainbow-2')};
-		--cell-pattern: var(--pattern-checker-dots);
-	}
-	&[data-region='7'] {
-		--region-color: ${themeColor('rainbow-5')};
-		--cell-pattern: var(--pattern-cross-diagonal);
-	}
-	&[data-region='8'] {
-		--region-color: ${themeColor('rainbow-8')};
-		--cell-pattern: var(--pattern-chevron);
-	}
-	&[data-region='9'] {
-		--region-color: ${themeColor('rainbow-9')};
-		--cell-pattern: var(--pattern-diamond-mesh);
-	}
-	&[data-region='10'] {
-		--region-color: ${themeColor('rainbow-10')};
-		--cell-pattern: var(--pattern-brick);
-	}
-	&[data-region='11'] {
-		--region-color: ${themeColor('rainbow-11')};
-		--cell-pattern: var(--pattern-solid);
+
+	&[data-state='token'] svg[data-pattern='true'] {
+		opacity: 0;
 	}
 
 	/* Base icon scaling and placement */
-	& svg {
+	& svg:not([data-pattern='true']) {
 		display: block;
 		aspect-ratio: 1 / 1;
 		flex-shrink: 0;
@@ -145,7 +116,7 @@ export const CellButton = styled.button`
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		& svg {
+		& svg:not([data-pattern='true']) {
 			animation: none;
 		}
 	}
@@ -156,26 +127,42 @@ export const CellButton = styled.button`
 	}
 
 	&[data-state='mark'] {
-		color: light-dark(oklch(0.28 0.02 250), oklch(0.96 0.01 250));
+		color: ${themeColor('text-1')};
 		z-index: 1;
 
-		& svg {
+		& svg:not([data-pattern='true']) {
 			width: clamp(1.125rem, 58%, 2.5rem);
 			height: clamp(1.125rem, 58%, 2.5rem);
 			opacity: 0.92;
-			filter: drop-shadow(0 1px 1px light-dark(rgba(255, 255, 255, 0.65), rgba(0, 0, 0, 0.75)));
+			filter: drop-shadow(0 1px 1px oklch(from ${themeColor('surface')} l c h / 0.65));
 		}
 	}
 
 	&[data-state='token'] {
-		color: light-dark(oklch(0.62 0.2 68), oklch(0.86 0.18 78));
+		color: light-dark(oklch(0.68 0.2 76), oklch(0.86 0.18 82));
 		z-index: 2;
 
-		& svg {
+		&::after {
+			content: '';
+			position: absolute;
+			inset: 8%;
+			border-radius: 9999px;
+			background: radial-gradient(
+				circle,
+				oklch(from ${themeColor('surface')} l c h / 0.88) 0%,
+				oklch(from ${themeColor('surface')} l c h / 0.55) 55%,
+				transparent 75%
+			);
+			pointer-events: none;
+			z-index: 0;
+		}
+
+		& svg:not([data-pattern='true']) {
 			width: clamp(1.125rem, 62%, 2.75rem);
 			height: clamp(1.125rem, 62%, 2.75rem);
-			filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4))
-				drop-shadow(0 0 1px light-dark(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.8)));
+			z-index: 1;
+			filter: drop-shadow(0 0 1.5px oklch(0.12 0.01 250 / 0.95))
+				drop-shadow(0 1px 2px oklch(0.12 0.01 250 / 0.7));
 		}
 	}
 

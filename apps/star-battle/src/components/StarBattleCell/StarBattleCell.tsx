@@ -4,6 +4,109 @@ import { StarIcon, XMarkIcon } from '../StarBattleIcons';
 import * as S from './StarBattleCell.styles';
 import type { StarBattleCellProps } from './StarBattleCell.types';
 
+function renderRegionPattern(region: number): JSX.Element {
+	const patternType = region % 12;
+	switch (patternType) {
+		case 0:
+			// Diagonal stripes (\)
+			return (
+				<svg viewBox="0 0 40 40" aria-hidden="true" data-pattern="true">
+					<line x1="0" y1="0" x2="40" y2="40" stroke="currentColor" strokeWidth="3" />
+					<line x1="20" y1="0" x2="40" y2="20" stroke="currentColor" strokeWidth="3" />
+					<line x1="0" y1="20" x2="20" y2="40" stroke="currentColor" strokeWidth="3" />
+				</svg>
+			);
+		case 1:
+			// Three solid dots
+			return (
+				<svg viewBox="0 0 40 40" aria-hidden="true" data-pattern="true">
+					<circle cx="10" cy="12" r="3.5" fill="currentColor" />
+					<circle cx="30" cy="12" r="3.5" fill="currentColor" />
+					<circle cx="20" cy="28" r="3.5" fill="currentColor" />
+				</svg>
+			);
+		case 2:
+			// Horizontal stripes (=)
+			return (
+				<svg viewBox="0 0 40 40" aria-hidden="true" data-pattern="true">
+					<line x1="0" y1="13" x2="40" y2="13" stroke="currentColor" strokeWidth="3" />
+					<line x1="0" y1="27" x2="40" y2="27" stroke="currentColor" strokeWidth="3" />
+				</svg>
+			);
+		case 3:
+			// Two diagonal solid squares
+			return (
+				<svg viewBox="0 0 40 40" aria-hidden="true" data-pattern="true">
+					<rect x="8" y="8" width="9" height="9" fill="currentColor" />
+					<rect x="23" y="23" width="9" height="9" fill="currentColor" />
+				</svg>
+			);
+		case 4:
+			// Wavy line (~)
+			return (
+				<svg viewBox="0 0 40 40" aria-hidden="true" data-pattern="true">
+					<path d="M0 20 Q 10 8, 20 20 T 40 20" fill="none" stroke="currentColor" strokeWidth="3.5" />
+				</svg>
+			);
+		case 5:
+			// Reverse diagonal stripes (/)
+			return (
+				<svg viewBox="0 0 40 40" aria-hidden="true" data-pattern="true">
+					<line x1="40" y1="0" x2="0" y2="40" stroke="currentColor" strokeWidth="3" />
+					<line x1="20" y1="0" x2="0" y2="20" stroke="currentColor" strokeWidth="3" />
+					<line x1="40" y1="20" x2="20" y2="40" stroke="currentColor" strokeWidth="3" />
+				</svg>
+			);
+		case 6:
+			// Hollow ring
+			return (
+				<svg viewBox="0 0 40 40" aria-hidden="true" data-pattern="true">
+					<circle cx="20" cy="20" r="10" fill="none" stroke="currentColor" strokeWidth="3.5" />
+				</svg>
+			);
+		case 7:
+			// Vertical stripes (|||)
+			return (
+				<svg viewBox="0 0 40 40" aria-hidden="true" data-pattern="true">
+					<line x1="10" y1="0" x2="10" y2="40" stroke="currentColor" strokeWidth="3" />
+					<line x1="20" y1="0" x2="20" y2="40" stroke="currentColor" strokeWidth="3" />
+					<line x1="30" y1="0" x2="30" y2="40" stroke="currentColor" strokeWidth="3" />
+				</svg>
+			);
+		case 8:
+			// Hollow triangle
+			return (
+				<svg viewBox="0 0 40 40" aria-hidden="true" data-pattern="true">
+					<polygon points="20,7 33,31 7,31" fill="none" stroke="currentColor" strokeWidth="3.5" />
+				</svg>
+			);
+		case 9:
+			// Hollow diamond
+			return (
+				<svg viewBox="0 0 40 40" aria-hidden="true" data-pattern="true">
+					<polygon points="20,6 34,20 20,34 6,20" fill="none" stroke="currentColor" strokeWidth="3.5" />
+				</svg>
+			);
+		case 10:
+			// Four corner dots (keeps center clear for X/Star)
+			return (
+				<svg viewBox="0 0 40 40" aria-hidden="true" data-pattern="true">
+					<circle cx="9" cy="9" r="2.8" fill="currentColor" />
+					<circle cx="31" cy="9" r="2.8" fill="currentColor" />
+					<circle cx="9" cy="31" r="2.8" fill="currentColor" />
+					<circle cx="31" cy="31" r="2.8" fill="currentColor" />
+				</svg>
+			);
+		default:
+			// Chevron (^)
+			return (
+				<svg viewBox="0 0 40 40" aria-hidden="true" data-pattern="true">
+					<polyline points="8,26 20,12 32,26" fill="none" stroke="currentColor" strokeWidth="3.5" />
+				</svg>
+			);
+	}
+}
+
 export function StarBattleCell({
 	row,
 	col,
@@ -11,6 +114,7 @@ export function StarBattleCell({
 	state,
 	conflict,
 	isFocused = false,
+	showPatterns = false,
 	borderTop,
 	borderBottom,
 	borderLeft,
@@ -93,6 +197,7 @@ export function StarBattleCell({
 			onPointerEnter={handlePointerEnter}
 			onPointerUp={onPointerUp}
 		>
+			{showPatterns && renderRegionPattern(region)}
 			{state === 'token' ? <StarIcon /> : state === 'mark' ? <XMarkIcon /> : null}
 		</S.CellButton>
 	);

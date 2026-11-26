@@ -51,6 +51,10 @@ export const starBattleSchema = {
 			label: 'settings.autoCross.label',
 			description: 'settings.autoCross.description',
 		},
+		colorblindPatterns: {
+			label: 'settings.colorblindPatterns.label',
+			description: 'settings.colorblindPatterns.description',
+		},
 		colorScheme: 'settings.colorScheme',
 		language: 'settings.language',
 	},

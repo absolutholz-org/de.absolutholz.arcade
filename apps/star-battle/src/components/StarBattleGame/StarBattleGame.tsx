@@ -104,6 +104,7 @@ export function StarBattleGame({
 				conflicts={game.conflicts}
 				focusedCell={game.focusedCell}
 				inputMode={game.inputMode}
+				showPatterns={game.settings.colorblindPatterns}
 				onCellClick={game.handleCellClick}
 				onCellDoubleClick={game.handleCellDoubleClick}
 				onCellContextMenu={game.handleCellContextMenu}

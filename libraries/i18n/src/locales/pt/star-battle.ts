@@ -51,6 +51,10 @@ export const ptStarBattle = {
 			label: 'Assistente Auto-Cruz',
 			description: 'Coloca automaticamente marcas X em volta das estrelas posicionadas.',
 		},
+		colorblindPatterns: {
+			label: 'Sobreposição de padrões',
+			description: 'Exibe padrões geométricos sutis nas regiões coloridas.',
+		},
 		colorScheme: 'Aparência',
 		language: 'Idioma',
 	},

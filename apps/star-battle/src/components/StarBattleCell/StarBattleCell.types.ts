@@ -8,6 +8,7 @@ export interface StarBattleCellProps {
 	state: CellState;
 	conflict?: CellConflict;
 	isFocused?: boolean;
+	showPatterns?: boolean;
 	borderTop: 'thick' | 'thin';
 	borderBottom: 'thick' | 'thin';
 	borderLeft: 'thick' | 'thin';

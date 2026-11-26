@@ -59,11 +59,13 @@ export type MoveAction =
 
 export interface GameSettings {
 	autoCross: boolean;
+	colorblindPatterns: boolean;
 	defaultMode: InputMode;
 }
 
 export const DEFAULT_SETTINGS: GameSettings = {
 	autoCross: true,
+	colorblindPatterns: false,
 	defaultMode: 'mark',
 };
 

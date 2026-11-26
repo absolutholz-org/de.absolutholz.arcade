@@ -52,6 +52,10 @@ export const frStarBattle = {
 			label: 'Assistant Croix Auto',
 			description: 'Place automatiquement des marques X autour des étoiles posées.',
 		},
+		colorblindPatterns: {
+			label: 'Motifs superposés',
+			description: 'Affiche des motifs géométriques discrets sur les zones colorées.',
+		},
 		colorScheme: 'Apparence',
 		language: 'Langue',
 	},

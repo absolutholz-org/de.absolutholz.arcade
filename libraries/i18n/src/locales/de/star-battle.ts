@@ -52,6 +52,10 @@ export const deStarBattle = {
 			label: 'Auto-Kreuz Assistent',
 			description: 'Platziert beim Setzen eines Sterns automatisch X-Markierungen um den Stern herum.',
 		},
+		colorblindPatterns: {
+			label: 'Muster-Überlagerung',
+			description: 'Zeigt dezente geometrische Muster auf farbigen Zonen an.',
+		},
 		colorScheme: 'Erscheinungsbild',
 		language: 'Sprache',
 	},

@@ -51,6 +51,10 @@ export const enStarBattle = {
 			label: 'Auto-Cross Helper',
 			description: 'Automatically places X marks around placed stars (row, column, and adjacent cells).',
 		},
+		colorblindPatterns: {
+			label: 'Pattern Overlay',
+			description: 'Display subtle geometric patterns across colored regions.',
+		},
 		colorScheme: 'Appearance',
 		language: 'Language',
 	},

@@ -8,6 +8,7 @@ export interface StarBattleBoardProps {
 	conflicts: Map<string, CellConflict>;
 	focusedCell: CellCoord | null;
 	inputMode: InputMode;
+	showPatterns?: boolean;
 	onCellClick: (row: number, col: number) => void;
 	onCellDoubleClick: (row: number, col: number) => void;
 	onCellContextMenu: (row: number, col: number, e: MouseEvent) => void;

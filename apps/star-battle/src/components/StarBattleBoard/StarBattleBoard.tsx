@@ -10,6 +10,7 @@ export function StarBattleBoard({
 	board,
 	conflicts,
 	focusedCell,
+	showPatterns = false,
 	onCellClick,
 	onCellDoubleClick,
 	onCellContextMenu,
@@ -82,6 +83,7 @@ export function StarBattleBoard({
 									state={state}
 									conflict={conflict}
 									isFocused={isFocused}
+									showPatterns={showPatterns}
 									borderTop={borderTop}
 									borderBottom={borderBottom}
 									borderLeft={borderLeft}
