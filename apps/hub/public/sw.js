@@ -1,5 +1,6 @@
 // Root Service Worker for absolutholz Arcade Monorepo
 const CORE_CACHE_NAME = 'arcade-core-v2';
+const THEMES_CACHE_NAME = 'arcade-themes-v1';
 const GAME_CACHE_PREFIX = 'arcade-game-';
 const SUPPORTED_LOCALES = ['en', 'de', 'fr', 'pt'];
 const KNOWN_GAMES = ['sudoku', 'minesweeper', 'nonogram', 'star-battle', 'bridges', 'tracks'];
@@ -58,7 +59,11 @@ self.addEventListener('activate', (event) => {
 			caches.keys().then((keys) => {
 				return Promise.all(
 					keys
-						.filter((key) => key.startsWith('arcade-core-') && key !== CORE_CACHE_NAME)
+						.filter(
+							(key) =>
+								(key.startsWith('arcade-core-') && key !== CORE_CACHE_NAME) ||
+								(key.startsWith('arcade-themes-') && key !== THEMES_CACHE_NAME),
+						)
 						.map((key) => caches.delete(key)),
 				);
 			}),
@@ -77,6 +82,26 @@ self.addEventListener('fetch', (event) => {
 
 	// Only handle same-origin requests
 	if (url.origin !== self.location.origin) {
+		return;
+	}
+
+	// 0. Lazy-loaded themeset stylesheets (runtime Stale-While-Revalidate)
+	if (url.pathname.startsWith('/themes/') && url.pathname.endsWith('.css')) {
+		event.respondWith(
+			caches.open(THEMES_CACHE_NAME).then(async (cache) => {
+				const cached = await cache.match(request, { ignoreSearch: true });
+				const networkPromise = fetch(request)
+					.then((response) => {
+						if (response.ok) {
+							cache.put(request, response.clone());
+						}
+						return response;
+					})
+					.catch(() => cached);
+
+				return cached || networkPromise;
+			}),
+		);
 		return;
 	}
 

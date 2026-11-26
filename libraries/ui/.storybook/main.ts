@@ -40,6 +40,40 @@ const config: StorybookConfig = {
 					presets: ['@babel/preset-typescript', '@babel/preset-react'],
 				},
 			}),
+			{
+				name: 'storybook-arcade-themes',
+				configureServer(server) {
+					server.middlewares.use(async (req, res, next) => {
+						const rawUrl = req.url?.split('?')[0];
+						if (!rawUrl || !rawUrl.startsWith('/themes/') || !rawUrl.endsWith('.css')) {
+							next();
+							return;
+						}
+						const fileName = rawUrl.slice('/themes/'.length, -'.css'.length);
+						if (!fileName || fileName.includes('/')) {
+							next();
+							return;
+						}
+						try {
+							const mod = await server.ssrLoadModule('/src/styles/themes.ts');
+							const css =
+								fileName === 'preview'
+									? mod.buildThemesPreviewStylesheet()
+									: mod.buildThemesetStylesheet(fileName);
+							if (!css) {
+								next();
+								return;
+							}
+							res.statusCode = 200;
+							res.setHeader('Content-Type', 'text/css; charset=utf-8');
+							res.setHeader('Cache-Control', 'no-cache');
+							res.end(css);
+						} catch {
+							next();
+						}
+					});
+				},
+			},
 		);
 		return config;
 	},

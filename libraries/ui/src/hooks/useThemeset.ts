@@ -4,8 +4,56 @@ import { DEFAULT_THEMESET_ID, THEMESET_IDS, type ThemesetId } from '../styles/th
 import { syncMetaThemeColor } from '../utils/themeColor';
 
 const THEMESET_CHANGE_EVENT = 'arcade:themeset-change';
+const THEMESET_LINK_ID = 'arcade-themeset-css';
 
 let memoryThemeset: ThemesetId | null = null;
+let pendingThemesetRequest = 0;
+
+function applyThemesetToDocument(themeset: ThemesetId): void {
+	if (typeof document === 'undefined') {
+		return;
+	}
+
+	const root = document.documentElement;
+	const requestId = ++pendingThemesetRequest;
+
+	if (themeset === DEFAULT_THEMESET_ID) {
+		root.removeAttribute('data-themeset');
+		document.getElementById(THEMESET_LINK_ID)?.remove();
+		syncMetaThemeColor();
+		return;
+	}
+
+	const targetHref = `/themes/${encodeURIComponent(themeset)}.css`;
+	const existingLink = document.getElementById(THEMESET_LINK_ID) as HTMLLinkElement | null;
+
+	if (existingLink && existingLink.getAttribute('href') === targetHref && existingLink.sheet) {
+		root.setAttribute('data-themeset', themeset);
+		syncMetaThemeColor();
+		return;
+	}
+
+	const nextLink = document.createElement('link');
+	nextLink.rel = 'stylesheet';
+	nextLink.href = targetHref;
+
+	const finalize = () => {
+		if (requestId !== pendingThemesetRequest) {
+			nextLink.remove();
+			return;
+		}
+		if (existingLink && existingLink !== nextLink) {
+			existingLink.remove();
+		}
+		nextLink.id = THEMESET_LINK_ID;
+		root.setAttribute('data-themeset', themeset);
+		syncMetaThemeColor();
+	};
+
+	nextLink.addEventListener('load', finalize, { once: true });
+	nextLink.addEventListener('error', finalize, { once: true });
+	document.head.appendChild(nextLink);
+}
 
 function getThemesetSnapshot(): ThemesetId {
 	if (typeof window === 'undefined') {
@@ -40,16 +88,9 @@ function subscribeThemeset(callback: () => void): () => void {
 	const handleStorage = (event: StorageEvent) => {
 		if (event.key === STORAGE_KEYS.THEMESET) {
 			const next = event.newValue as ThemesetId | null;
-			if (typeof document !== 'undefined') {
-				const root = document.documentElement;
-				if (next && (THEMESET_IDS as readonly string[]).includes(next) && next !== DEFAULT_THEMESET_ID) {
-					root.setAttribute('data-themeset', next);
-				} else {
-					root.removeAttribute('data-themeset');
-				}
-				syncMetaThemeColor();
-			}
-			memoryThemeset = next && (THEMESET_IDS as readonly string[]).includes(next) ? next : DEFAULT_THEMESET_ID;
+			const resolved = next && (THEMESET_IDS as readonly string[]).includes(next) ? next : DEFAULT_THEMESET_ID;
+			memoryThemeset = resolved;
+			applyThemesetToDocument(resolved);
 			callback();
 		}
 	};
@@ -73,7 +114,7 @@ function subscribeThemeset(callback: () => void): () => void {
 
 /**
  * Hook to read and update the active themeset with localStorage persistence
- * conforming strictly to ADR 012 key namespacing and SSR hydration safety.
+ * and lazy stylesheet loading conforming to ADR 012 key namespacing and SSR safety.
  */
 export function useThemeset() {
 	const themeset = useSyncExternalStore(subscribeThemeset, getThemesetSnapshot, getServerSnapshot);
@@ -81,23 +122,20 @@ export function useThemeset() {
 	const setThemeset = useCallback((nextThemeset: ThemesetId) => {
 		if (typeof document !== 'undefined') {
 			memoryThemeset = nextThemeset;
-			const root = document.documentElement;
 			if (nextThemeset === DEFAULT_THEMESET_ID) {
-				root.removeAttribute('data-themeset');
 				try {
 					localStorage.removeItem(STORAGE_KEYS.THEMESET);
 				} catch {
 					// Ignore storage access restrictions
 				}
 			} else {
-				root.setAttribute('data-themeset', nextThemeset);
 				try {
 					localStorage.setItem(STORAGE_KEYS.THEMESET, nextThemeset);
 				} catch {
 					// Ignore storage access restrictions
 				}
 			}
-			syncMetaThemeColor();
+			applyThemesetToDocument(nextThemeset);
 			window.dispatchEvent(new CustomEvent(THEMESET_CHANGE_EVENT, { detail: nextThemeset }));
 		}
 	}, []);

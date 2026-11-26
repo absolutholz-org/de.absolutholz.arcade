@@ -7,15 +7,6 @@ import { reset } from './reset/reset.css';
 import { spacingCssTokensCompact, spacingCssTokensExpanded } from './spacing';
 import { getThemeMapping } from './theme/theme.utils';
 import { themesetBaseCss } from './theme/themeset-base.css';
-import { themesetBuckeyePrideCss } from './theme/themeset-buckeye-pride.css';
-import { themesetChristmasCss } from './theme/themeset-christmas.css';
-import { themesetClevelandGridironCss } from './theme/themeset-cleveland-gridiron.css';
-import { themesetEasterCss } from './theme/themeset-easter.css';
-import { themesetFastFoodFunCss } from './theme/themeset-fast-food-fun.css';
-import { themesetGermanyCss } from './theme/themeset-germany.css';
-import { themesetHalloweenCss } from './theme/themeset-halloween.css';
-import { themesetJuly4thCss } from './theme/themeset-july4th.css';
-import { themesetStPatricksCss } from './theme/themeset-stpatricks.css';
 
 /**
  * Global zero-runtime CSS block compiled via Linaria.
@@ -53,42 +44,6 @@ export const globalStyles = css`
 			${Object.entries(getThemeMapping('primary'))
 				.map(([key, val]) => `${key}: ${val};`)
 				.join('\n')}
-		}
-
-		[data-themeset='cleveland-gridiron'] {
-			${themesetClevelandGridironCss}
-		}
-
-		[data-themeset='christmas'] {
-			${themesetChristmasCss}
-		}
-
-		[data-themeset='easter'] {
-			${themesetEasterCss}
-		}
-
-		[data-themeset='germany'] {
-			${themesetGermanyCss}
-		}
-
-		[data-themeset='july4th'] {
-			${themesetJuly4thCss}
-		}
-
-		[data-themeset='fast-food-fun'] {
-			${themesetFastFoodFunCss}
-		}
-
-		[data-themeset='buckeye-pride'] {
-			${themesetBuckeyePrideCss}
-		}
-
-		[data-themeset='stpatricks'] {
-			${themesetStPatricksCss}
-		}
-
-		[data-themeset='halloween'] {
-			${themesetHalloweenCss}
 		}
 
 		/* Two-dimensional media query constraint for expanding desktop tokens */

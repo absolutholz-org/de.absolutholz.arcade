@@ -61,15 +61,6 @@ const currentCommon = resources[currentLanguage]?.common ?? resources.en.common;
 		<script is:inline>
 			(() => {
 				try {
-					const storedTheme = localStorage.getItem("arcade::ui::themeset");
-					if (storedTheme && storedTheme !== "base") {
-						document.documentElement.dataset.themeset = storedTheme;
-					}
-					const storedScheme = localStorage.getItem("arcade::ui::scheme");
-					if (storedScheme && storedScheme !== "system") {
-						document.documentElement.style.colorScheme = storedScheme;
-					}
-
 					const syncMetaThemeColor = () => {
 						const metaTheme = document.getElementById("meta-theme-color");
 						if (!metaTheme) return;
@@ -78,6 +69,23 @@ const currentCommon = resources[currentLanguage]?.common ?? resources.en.common;
 							metaTheme.setAttribute("content", surfaceBg);
 						}
 					};
+
+					const storedTheme = localStorage.getItem("arcade::ui::themeset");
+					if (storedTheme && storedTheme !== "base") {
+						if (!document.getElementById("arcade-themeset-css")) {
+							const link = document.createElement("link");
+							link.id = "arcade-themeset-css";
+							link.rel = "stylesheet";
+							link.href = `/themes/${encodeURIComponent(storedTheme)}.css`;
+							link.addEventListener("load", syncMetaThemeColor, { once: true });
+							document.head.appendChild(link);
+						}
+						document.documentElement.dataset.themeset = storedTheme;
+					}
+					const storedScheme = localStorage.getItem("arcade::ui::scheme");
+					if (storedScheme && storedScheme !== "system") {
+						document.documentElement.style.colorScheme = storedScheme;
+					}
 
 					syncMetaThemeColor();
 					if (document.readyState === "loading") {

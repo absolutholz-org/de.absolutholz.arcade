@@ -7,13 +7,19 @@ import browserslist from 'browserslist';
 import browserslistToEsbuild from 'browserslist-to-esbuild';
 import { browserslistToTargets } from 'lightningcss';
 import { vitePluginArcadeManifest } from './plugins/vitePluginArcadeManifest.js';
+import { type ThemesModule, vitePluginArcadeThemes } from './plugins/vitePluginArcadeThemes.js';
 
 type VitePluginOption = NonNullable<NonNullable<AstroUserConfig['vite']>['plugins']>[number];
 
-export function createBaseConfig(overrides: AstroUserConfig = {}): AstroUserConfig {
+export interface ArcadeBaseConfigOptions extends AstroUserConfig {
+	themes?: ThemesModule;
+}
+
+export function createBaseConfig(overrides: ArcadeBaseConfigOptions = {}): AstroUserConfig {
 	const rootEnvDir = fileURLToPath(new URL('../../../', import.meta.url));
 	const browserList = browserslist(undefined, { path: rootEnvDir });
-	const { vite: overrideVite, ...restOverrides } = overrides;
+	const lightningTargets = browserslistToTargets(browserList);
+	const { vite: overrideVite, themes, ...restOverrides } = overrides;
 	const wywPlugin = typeof wyw === 'function' ? wyw : (wyw as unknown as { default: typeof wyw }).default;
 
 	return {
@@ -35,7 +41,7 @@ export function createBaseConfig(overrides: AstroUserConfig = {}): AstroUserConf
 			css: {
 				transformer: 'lightningcss',
 				lightningcss: {
-					targets: browserslistToTargets(browserList),
+					targets: lightningTargets,
 					...(overrideVite?.css?.lightningcss || {}),
 				},
 				...(overrideVite?.css || {}),
@@ -56,6 +62,7 @@ export function createBaseConfig(overrides: AstroUserConfig = {}): AstroUserConf
 					},
 				}) as VitePluginOption,
 				vitePluginArcadeManifest({ base: restOverrides.base }) as VitePluginOption,
+				vitePluginArcadeThemes({ themes, targets: lightningTargets }) as VitePluginOption,
 				...(overrideVite?.plugins || []),
 			],
 		},
@@ -68,3 +75,5 @@ export type {
 	ArcadeManifestAsset,
 	ArcadeManifestOptions,
 } from './plugins/vitePluginArcadeManifest.js';
+export { vitePluginArcadeThemes } from './plugins/vitePluginArcadeThemes.js';
+export type { ArcadeThemesPluginOptions, ThemesModule } from './plugins/vitePluginArcadeThemes.js';

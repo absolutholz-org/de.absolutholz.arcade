@@ -1,10 +1,13 @@
 import { useI18n } from '@arcade/lib-i18n/hooks/useI18n';
 import { I18nProvider } from '@arcade/lib-i18n/provider/I18nProvider';
+import { useEffect } from 'react';
 import { useThemeset } from '../../hooks/useThemeset';
 import { THEMESET_IDS, type ThemesetId } from '../../styles/theme/theme.constants';
 import { RadioCardGroup, RadioCardOption } from '../RadioCardGroup';
 import * as S from './_ThemeSelector.styles';
 import type { ThemeSelectorProps } from './_ThemeSelector.types';
+
+const THEMES_PREVIEW_LINK_ID = 'arcade-themes-preview-css';
 
 function ThemeSelectorInner({
 	className,
@@ -15,6 +18,17 @@ function ThemeSelectorInner({
 }) {
 	const { t, language } = useI18n('common');
 	const [activeThemeset, setActiveThemeset] = useThemeset();
+
+	useEffect(() => {
+		if (typeof document === 'undefined' || document.getElementById(THEMES_PREVIEW_LINK_ID)) {
+			return;
+		}
+		const link = document.createElement('link');
+		link.id = THEMES_PREVIEW_LINK_ID;
+		link.rel = 'stylesheet';
+		link.href = '/themes/preview.css';
+		document.head.appendChild(link);
+	}, []);
 
 	return (
 		<RadioCardGroup
@@ -33,7 +47,7 @@ function ThemeSelectorInner({
 					checked={activeThemeset === id}
 					onChange={() => setActiveThemeset(id)}
 					preview={
-						<S.SwatchRow data-themeset={id} aria-hidden="true">
+						<S.SwatchRow data-themeset={id} data-themeset-swatch aria-hidden="true">
 							<S.Swatch data-type="surface" />
 							<S.Swatch data-type="container" />
 							<S.Swatch data-type="accent" />
